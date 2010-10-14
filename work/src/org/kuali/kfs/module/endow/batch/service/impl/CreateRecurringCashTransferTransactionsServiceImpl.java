@@ -105,12 +105,13 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             
             KualiDecimal totalSourceTransaction = KualiDecimal.ZERO;
             KualiDecimal totalTargetTransaction = KualiDecimal.ZERO;
-            
+            KualiDecimal cashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
             
             if (sourceTransactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
                 // calculate when ECT
                 CashTransferDocument cashTransferDoc = createCashTransferDocument(sourceKemid, transferNumber);
                 List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = endowmentRecurringCashTransfer.getKemidTarget();
+                
                 
                 for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets){
                     KualiDecimal transactionAmount = KualiDecimal.ZERO;
@@ -126,20 +127,20 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                             
                         }
                         transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent().divide(new KualiDecimal(100)));
+                        
+                        // from spec, total of source and target are same, but totalTargetTransaction will be useful for implementing total part.
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())){
-                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        transactionAmount = totalCashEquivalents.multiply(kemidTarget.getTargetPercent().divide(new KualiDecimal(100)));
+                        transactionAmount = cashEquivalents.multiply(kemidTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())){
-                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        transactionAmount = totalCashEquivalents.subtract(kemidTarget.getTargetAmount());
+                        transactionAmount = cashEquivalents.subtract(kemidTarget.getTargetAmount());
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                     }
@@ -149,7 +150,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         totalTargetTransaction = totalTargetTransaction.subtract(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.subtract(transactionAmount);
                     }
-                    
                 }
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
                 boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
@@ -187,15 +187,13 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())){
-                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        transactionAmount = totalCashEquivalents.multiply(glTarget.getTargetPercent().divide(new KualiDecimal(100)));
+                        transactionAmount = cashEquivalents.multiply(glTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())){
-                        KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        transactionAmount = totalCashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
+                        transactionAmount = cashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                     }
@@ -211,7 +209,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
                 boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
                 //boolean allowNegativeBalanceInd = true;
-                if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
+                if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(cashEquivalents) ){
                     // report exception
                 } else {
                     // add source... line
@@ -350,13 +348,15 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private boolean addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount, String sourceKemid, String transferNumber) {
         boolean rulesPassed = true;
         EndowmentTargetTransactionLine transactionLine = new EndowmentTargetTransactionLine();
+        // set all necessary fields
         transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
         transactionLine.setKemid(endowmentRecurringCashTransferKEMIDTarget.getTargetKemid());
         transactionLine.setEtranCode(endowmentRecurringCashTransferKEMIDTarget.getTargetEtranCode());
         transactionLine.setTransactionLineDescription(endowmentRecurringCashTransferKEMIDTarget.getTargetLineDescription());
         transactionLine.setTransactionIPIndicatorCode(endowmentRecurringCashTransferKEMIDTarget.getTargetIncomeOrPrincipal());
         transactionLine.setTransactionAmount(totalAmount);
-
+        
+        // check rules
         rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME, cashTransferDoc, transactionLine));
 
         if (rulesPassed) {
@@ -368,7 +368,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         }
         else {
             // report to error
-            
             writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
                     sourceKemid, endowmentRecurringCashTransferKEMIDTarget.getTransferNumber(), 
                     endowmentRecurringCashTransferKEMIDTarget.getTargetSequenceNumber().toString());
@@ -380,12 +379,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private boolean addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount, String sourceKemid, String transferNumber){ 
         boolean rulesPassed = true;
         TargetEndowmentAccountingLine endowmentAccountingLine = new TargetEndowmentAccountingLine();
+        // set all necessary fields
         endowmentAccountingLine.setChartOfAccountsCode(endowmentRecurringCashTransferGLTarget.getTargetChartOfAccountsCode());
         endowmentAccountingLine.setAccountNumber(endowmentRecurringCashTransferGLTarget.getTargetAccountsNumber());
         endowmentAccountingLine.setFinancialObjectCode(endowmentRecurringCashTransferGLTarget.getTargetFinancialObjectCode());
         endowmentAccountingLine.setAmount(totalAmount);
         //number.setScale(digit, BigDecimal.ROUND_HALF_UP)
         
+        // check rules
         rulesPassed = kualiRuleService.applyRules(new AddEndowmentAccountingLineEvent(EndowConstants.NEW_TARGET_ACC_LINE_PROPERTY_NAME, endowmentToGLTransferOfFundsDocument, endowmentAccountingLine));
         
         if (rulesPassed) {

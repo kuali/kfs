@@ -123,6 +123,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, kemidTarget.getTargetUseEtranCode());
                         // if transactionArchives exist, then calculate total income and total percent of same etran code in target
                         if (transactionArchiveList.size() > 0) {
+                            // need to change name...like cashIncrease..
                             totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
                             
                         }
@@ -140,7 +141,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())){
-                        transactionAmount = cashEquivalents.subtract(kemidTarget.getTargetAmount());
+                        transactionAmount = kemidTarget.getTargetAmount();
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                     }
@@ -154,11 +155,11 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
                 boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
                 //boolean allowNegativeBalanceInd = true;
-                if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(totalTargetTransaction) ){
+                if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(cashEquivalents) ){
                     // report exception 
                     // constants??
                     writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
-                            sourceKemid, transferNumber, "", "calculated source total is less than the total available cash equivalents");
+                            sourceKemid, transferNumber, "", "calculated source total is not less than the total available cash equivalents");
 
                 } else {
                     // add source line
@@ -197,7 +198,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())){
-                        transactionAmount = cashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
+                        transactionAmount = glTarget.getTargetFdocLineAmount();
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                     }
@@ -366,10 +367,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
         if (rulesPassed) {
             cashTransferDoc.addTargetTransactionLine(transactionLine);
-            writeTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
-                    cashTransferDoc.getDocumentNumber(), transferNumber, sourceKemid, 
-                    new Integer(cashTransferDoc.getTargetTransactionLines().size()).toString(), 
-                    totalAmount);
         }
         else {
             // report to error
@@ -396,12 +393,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         
         if (rulesPassed) {
             endowmentToGLTransferOfFundsDocument.addTargetAccountingLine(endowmentAccountingLine);
-            
-            writeTotalReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
-                    endowmentToGLTransferOfFundsDocument.getDocumentNumber(), transferNumber, sourceKemid, 
-                    new Integer(endowmentToGLTransferOfFundsDocument.getTargetAccountingLines().size()).toString(), 
-                    totalAmount);
-
         } else {
             // report to error
             writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 

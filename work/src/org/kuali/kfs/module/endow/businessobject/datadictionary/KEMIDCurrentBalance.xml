@@ -261,9 +261,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition"
               p:attributeName="kemidObj.purposeCode" /> 
         <bean parent="FieldDefinition"
-              p:attributeName="kemidObj.close" />              
+              p:attributeName="kemidObj.close"
+              p:defaultValue="N" />              
         <bean parent="FieldDefinition"
-              p:attributeName="balanceDate" />                                     
+              p:attributeName="balanceDate"
+              p:readOnly="true" />                                     
       </list>
     </property>
     <property name="resultFields" >

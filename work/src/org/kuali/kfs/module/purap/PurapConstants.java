@@ -47,6 +47,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String PURAP_NAMESPACE = "KFS-PURAP";
     
     public static final KualiDecimal HUNDRED = new KualiDecimal(100);
+    
 
     public static final String B2B_PUNCHBACK_METHOD_TO_CALL = "returnFromShopping";
 
@@ -186,7 +187,7 @@ public class PurapConstants extends JSTLConstants {
     public static final String PAYMENT_HISTORY_TAB_ERRORS = "";
     public static final String PAYMENT_INFO_ERRORS = "document.paymentInfo";
     public static final String PAYMENT_INFO_TAB_ERRORS = "document.paymentInfo*,document.purchaseOrderBeginDate,document.purchaseOrderEndDate,document.finalPaymentAmount,document.initialPaymentAmount,document.recurringPaymentAmount";
-    public static final String CAPITAL_ASSET_TAB_ERRORS = "document.purchasingCapitalAsset*,newPurchasingItemCapitalAssetLine*";
+    public static final String CAPITAL_ASSET_TAB_ERRORS = "document.purchasingCapitalAsset*,newPurchasingItemCapitalAssetLine*,newPurchasingCapitalAssetLocationLine*";
     public static final String SPLIT_PURCHASE_ORDER_TAB_ERRORS = "document.splitPurchaseOrder";
     public static final String ASSIGN_SENSITIVE_DATA_TAB_ERRORS = "document.assignSensitiveData";
     public static final String STIPULATIONS_TAB_ERRORS = "document.purchaseOrderVendorStipulation*,newPurchaseOrderVendorStipulationLine*";

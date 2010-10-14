@@ -39,6 +39,7 @@ public class PurapPropertyConstants {
     public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
     public static final String ITEM_COMMODITY_CODE = "purchasingCommodityCode";
     public static final String NEW_PURCHASING_ITEM_LINE = "newPurchasingItemLine";
+    public static final String NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE = "newPurchasingCapitalAssetLocationLine";
     public static final String NEW_LINE_ITEM_RECEIVING_ITEM_LINE = "newLineItemReceivingItemLine";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE_CODE = "capitalAssetTransactionTypeCode";
@@ -105,6 +106,7 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
     public static final String CAPITAL_ASSET_TRANSACTION_TYPE_CODE = "capitalAssetTransactionTypeCode";
     public static final String PURCHASING_CAPITAL_ASSET_ITEMS = "purchasingCapitalAssetItems";
+    public static final String PURCHASING_CAPITAL_ASSET_LOCATION = "purchasingCapitalAssetItems";
     public static final String PURCHASING_CAPITAL_ASSET_SYSTEMS = "purchasingCapitalAssetSystems";
     public static final String PURCHASING_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
     public static final String CAPITAL_ASSET_LOCATIONS = "capitalAssetLocations";

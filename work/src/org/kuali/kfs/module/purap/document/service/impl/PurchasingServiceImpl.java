@@ -36,6 +36,7 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -197,29 +198,20 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                 (StringUtils.isEmpty(location.getCapitalAssetLine1Address()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCityName()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCountryCode()) )) { 
-            String missingFields = "";
-            if (StringUtils.isEmpty(location.getCapitalAssetLine1Address())) {
-                missingFields += "Address";
-            }
-            if (StringUtils.isEmpty(location.getCapitalAssetCityName())) {
-                if (!StringUtils.isEmpty(missingFields)) {
-                    missingFields += ", ";
+                String missingFields = "";
+                if (StringUtils.isEmpty(location.getCapitalAssetLine1Address())) {
+                    missingFields = "Address";
+                    addErrorToCapitalAssetLocation(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1,missingFields);
                 }
-                missingFields += "City";
-            }
-            if (StringUtils.isEmpty(location.getCapitalAssetCountryCode())) {
-                if (!StringUtils.isEmpty(missingFields)) {
-                    missingFields += ", ";
+                if (StringUtils.isEmpty(location.getCapitalAssetCityName())) {
+                    missingFields = "City";
+                    addErrorToCapitalAssetLocation(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CITY,missingFields);
                 }
-                missingFields += "Country";
-            }
-            // add error!
-            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS, missingFields);
-            GlobalVariables.getMessageMap().clearErrorPath();
-            GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.CAPITAL_ASSET_TAB_ERRORS);
-            postalCodeValidationService.validateAddress(location.getCapitalAssetCountryCode(), location.getCapitalAssetStateCode(), location.getCapitalAssetPostalCode(), PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_STATE, PurapConstants.CAPITAL_ASSET_TAB_ERRORS + "." + PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
-            GlobalVariables.getMessageMap().clearErrorPath();
-            return false;
+                if (StringUtils.isEmpty(location.getCapitalAssetCountryCode())) {
+                   missingFields = "Country";
+                   addErrorToCapitalAssetLocation(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_COUNTRY,missingFields);
+                }
+                return false;
         }
         return true;
     }
@@ -235,12 +227,17 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, location.getBuildingCode(), location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER,location.getBuildingCode(),location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
                 valid &= false;
             }
             else if (!room.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
-                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                //GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
                 valid &= false;
             }
         }else if (StringUtils.isBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())){
@@ -250,12 +247,17 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS, location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER_FOR_CAMPUS,location.getBuildingRoomNumber(), location.getCampusCode());
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
                 valid &= false;
             }
             else if (!room.isActive()) {
                 String label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Room.class.getName()).getAttributeDefinition(KFSPropertyConstants.BUILDING_ROOM_NUMBER).getLabel();
-                GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, RiceKeyConstants.ERROR_INACTIVE, label);
+                GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+                //GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, RiceKeyConstants.ERROR_INACTIVE, label);
                 valid &= false;
             }
         }
@@ -270,6 +272,13 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     public DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
+    
+    public void addErrorToCapitalAssetLocation(String path, String field) {
+        
+        GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+        GlobalVariables.getMessageMap().putError(path,PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS,field);
+        GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
+   }
     
     
 }

@@ -154,8 +154,12 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
                 boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
                 //boolean allowNegativeBalanceInd = true;
-                if (totalSourceTransaction.isLessEqual(totalTargetTransaction) &&  !allowNegativeBalanceInd){
-                    // report exception
+                if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(totalTargetTransaction) ){
+                    // report exception 
+                    // constants??
+                    writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
+                            sourceKemid, transferNumber, "", "calculated source total is less than the total available cash equivalents");
+
                 } else {
                     // add source line
                     addSourceTransactionLineForCashTransferDoc(endowmentRecurringCashTransfer, cashTransferDoc, totalSourceTransaction);
@@ -211,6 +215,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 //boolean allowNegativeBalanceInd = true;
                 if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(cashEquivalents) ){
                     // report exception
+                    writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, sourceKemid, transferNumber, "calculated source total is less than the total available cash equivalents");
                 } else {
                     // add source... line
                     addSourceTransactionLineForGLTransferOfFundsDocument(endowmentRecurringCashTransfer, gLTransferOfFundsDocument, totalSourceTransaction);

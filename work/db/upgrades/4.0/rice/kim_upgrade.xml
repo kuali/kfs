@@ -52,7 +52,18 @@
 		</update>
 	</changeSet>
 	
-	<!-- Role Perm -->
+	<!-- remote old permissions and their related data -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_DELETE_REMOVED_PERMS">
+		<delete tableName="KRIM_ROLE_PERM_T">
+			<where>PERM_ID IN ( '203', '204', '68' )</where>
+		</delete>
+		<delete tableName="KRIM_PERM_ATTR_DATA_T">
+			<where>PERM_ID IN ( '203', '204', '68' )</where>
+		</delete>
+		<delete tableName="KRIM_PERM_T">
+			<where>PERM_ID IN ( '203', '204', '68' )</where>
+		</delete>
+	</changeSet>
 	
 	<!-- Perm Attr -->
 

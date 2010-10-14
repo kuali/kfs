@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 public class AvailableCashUpdateStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AvailableCashUpdateStep.class);
 
-    private AvailableCashUpdateService availableCashUpdateService;
+    protected AvailableCashUpdateService availableCashUpdateService;
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)

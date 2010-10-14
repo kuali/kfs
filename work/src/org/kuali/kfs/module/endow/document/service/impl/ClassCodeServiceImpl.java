@@ -27,8 +27,7 @@ import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ClassCodeServiceImpl implements ClassCodeService {
-
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.ClassCodeService#getByPrimaryKey(java.lang.String)
@@ -76,7 +75,7 @@ public class ClassCodeServiceImpl implements ClassCodeService {
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

@@ -38,8 +38,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * 
  */
 public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
-    private HoldingTaxLotDao holdingTaxLotDao;
-    private BusinessObjectService businessObjectService;
+    protected HoldingTaxLotDao holdingTaxLotDao;
+    protected BusinessObjectService businessObjectService;
     protected SecurityService securityService;
     protected ClassCodeService classCodeService;
     protected KEMService kEMService;
@@ -263,7 +263,7 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
@@ -281,7 +281,7 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
      * 
      * @return holdingTaxLotDao
      */
-    public HoldingTaxLotDao getHoldingTaxLotDao() {
+    protected HoldingTaxLotDao getHoldingTaxLotDao() {
         return holdingTaxLotDao;
     }
 

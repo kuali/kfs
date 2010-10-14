@@ -75,14 +75,10 @@
               p:name="cost"
               p:unconditionallyReadOnly="true" />                                                                                                    
         <bean parent="MaintainableFieldDefinition"
-              p:name="currentAccrual"
-              p:required="true" />
+              p:name="currentAccrual" />
         <bean parent="MaintainableFieldDefinition"
               p:name="priorAccrual"
-              p:unconditionallyReadOnly="true" />               
-        <bean parent="MaintainableFieldDefinition"
-              p:name="foreignTaxWithheld"
-              p:required="true" />  
+              p:unconditionallyReadOnly="true" />                
         <bean parent="MaintainableFieldDefinition"
               p:name="lastTransactionDate"
               p:unconditionallyReadOnly="true" />               

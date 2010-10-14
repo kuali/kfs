@@ -64,7 +64,7 @@
 				<value>rollProcessDateJob</value>	
 				<value>updateHistoryCashJob</value>
 				<value>updateHoldingHistoryJob</value>
-				<value>rollFrequencyDatesJob</value>
+                <value>rollFrequencyDatesJob</value> 
 				<value>accrualProcessingJob</value>
 				<value>holdingHisgtoryMarketValueUpdateJob</value>
 				<value>pooledFundControlTransactionsJob</value>
@@ -74,7 +74,7 @@
                 <value>createIncomeDistributionJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
                 <value>processFeeTransactionsJob</value>
-                <value>updateCorpusJob</value>
+                <value>updateCorpusJob</value>               
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -549,8 +549,8 @@
 		</property>	
 	</bean>
 	
-	
-	<bean id="rollFrequencyDatesJob" parent="unscheduledJobDescriptor">
+	<!-- rollFrequencyDatesJob -->
+	<bean id="rollFrequencyDatesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="rollFrequencyDatesStep" />
@@ -685,12 +685,17 @@
 	</bean>	
 		
 	<!-- pooledFundControlTransactionsJob -->
-	<bean id="pooledFundControlTransactionsJob" parent="unscheduledJobDescriptor">
+	<bean id="pooledFundControlTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pooledFundControlTransactionsStep" />
 			</list>
 		</property>
+		        <property name="dependencies">
+            <map>
+                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 		
 	<bean id="pooledFundControlTransactionsStep" class="org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep" parent="wrappedStep">

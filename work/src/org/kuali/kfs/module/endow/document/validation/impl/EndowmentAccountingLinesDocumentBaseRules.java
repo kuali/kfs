@@ -119,7 +119,29 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
         isValid &= validateSubObjectCode(accountingLine, index);
         isValid &= validateProjectCode(accountingLine, index);
 
+        isValid &= validateTransactionAmount(accountingLine, index);
+
         return isValid;
+    }
+
+
+    /**
+     * Validates the transaction amount for the given accounting line.
+     * 
+     * @param accountingLine
+     * @param index
+     * @return true if valid, false otherwise
+     */
+    private boolean validateTransactionAmount(EndowmentAccountingLine accountingLine, int index) {
+        boolean isValid = true;
+
+        if (accountingLine.getAmount().isLessEqual(KualiDecimal.ZERO)) {
+            putFieldError(getAcctLineErrorPrefix(accountingLine, index) + EndowPropertyConstants.ENDOWMENT_ACCOUNTING_LINE_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_ACCT_LINE_AMT_INVALID);
+            isValid = false;
+        }
+
+        return isValid;
+
     }
 
 
@@ -562,13 +584,13 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             endowmentAccountingLinesDocumentBase = (EndowmentAccountingLinesDocumentBase) document;
 
             // check that the document is not out of balance
-            validateGLTotalAmountMatchesKEMTotalAmount(endowmentAccountingLinesDocumentBase);
+            isValid &= validateGLTotalAmountMatchesKEMTotalAmount(endowmentAccountingLinesDocumentBase);
 
             // validate source Accounting lines
             if (endowmentAccountingLinesDocumentBase.getSourceAccountingLines() != null) {
                 for (int i = 0; i < endowmentAccountingLinesDocumentBase.getSourceAccountingLines().size(); i++) {
                     EndowmentAccountingLine accountingLine = endowmentAccountingLinesDocumentBase.getSourceAccountingLines().get(i);
-                    validateAccountingLine(endowmentAccountingLinesDocumentBase, accountingLine, i);
+                    isValid &= validateAccountingLine(endowmentAccountingLinesDocumentBase, accountingLine, i);
                 }
             }
 
@@ -576,14 +598,15 @@ public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransact
             if (endowmentAccountingLinesDocumentBase.getTargetAccountingLines() != null) {
                 for (int i = 0; i < endowmentAccountingLinesDocumentBase.getTargetAccountingLines().size(); i++) {
                     EndowmentAccountingLine accountingLine = endowmentAccountingLinesDocumentBase.getTargetAccountingLines().get(i);
-                    validateAccountingLine(endowmentAccountingLinesDocumentBase, accountingLine, i);
+                    isValid &= validateAccountingLine(endowmentAccountingLinesDocumentBase, accountingLine, i);
                 }
             }
 
         }
 
-        return GlobalVariables.getMessageMap().getErrorCount() == 0;
+        return isValid;
     }
+
 
     /**
      * Validates that the total amount in the FROM section equals the total amount in the To section.

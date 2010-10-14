@@ -177,7 +177,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_KEMID_INACTIVE = "error.document.transactionLine.kemid.inactive";
         public static final String ERROR_TRANSACTION_LINE_KEMID_NO_TRAN_CODE = "error.document.transactionLine.kemid.notran.code";
         public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_ZERO = "error.document.transactionLine.amount.greaterthan.zero";
-        public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_EQUAL_ZERO = "error.document.transactionLine.amount.greaterthanEqual.zero";        
+        public static final String ERROR_TRANSACTION_LINE_AMOUNT_GREATER_THAN_EQUAL_ZERO = "error.document.transactionLine.amount.greaterthanEqual.zero";
         public static final String ERROR_TRANSACTION_LINE_AMOUNT_LESS_THAN_ZERO = "error.document.transactionLine.amount.lessthan.zero";
         public static final String ERROR_TRANSACTION_UNITS_GREATER_THAN_ZERO = "error.document.transactionLine.units.greaterthan.zero";
         public static final String ERROR_TRANSACTION_UNITS_LESS_THAN_ZERO = "error.document.transactionLine.units.lessthan.zero";
@@ -258,6 +258,7 @@ public class EndowKeyConstants {
         public static final String ERROR_ACCT_LINE_ACCT_NBR_INVALID = "error.accountingLine.accountNumber.invalid";
         public static final String ERROR_ACCT_LINE_ACCT_NBR_INACTIVE = "error.accountingLine.account.inactive";
         public static final String ERROR_ACCT_LINE_ACCT_NBR_EXPIRED = "error.accountingLine.account.expired";
+        public static final String ERROR_ACCT_LINE_AMT_INVALID = "error.accountingLine.amount.invalid";
     }
 
     public static class HoldingHistoryValueAdjustmentConstants {
@@ -294,8 +295,8 @@ public class EndowKeyConstants {
         public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED = "error.document.total.percent.cannot.exceed";
         public static final String ERROR_DOCUMENT_TOTAL_PERCENT_CANNOT_EXCEED_SPECIFIED_ETRAN = "error.document.total.percent.cannot.exceed.specified.etran";
         public static final String ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE = "error.document.etran.code.invalid.type";
-        
+
     }
-    
+
 
 }

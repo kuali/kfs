@@ -17,14 +17,11 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
@@ -32,15 +29,13 @@ import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
-
-import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedGrandTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedSubTotalLine;
-
-import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDetailTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
@@ -52,6 +47,7 @@ import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.TransactionArchiveService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,10 +63,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,20 +92,20 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
     protected ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
     
-    private EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
-    private FeeProcessingTotalsProcessedReportHeader processFeeTransactionsTotalProcessedReportHeader;
-    private FeeProcessingWaivedAndAccruedReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader;    
+    protected EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader;
+    protected FeeProcessingTotalsProcessedReportHeader processFeeTransactionsTotalProcessedReportHeader;
+    protected FeeProcessingWaivedAndAccruedReportHeader processFeeTransactionsWaivedAndAccruedFeesReportHeader;    
     
-    private EndowmentExceptionReportHeader processFeeTransactionsRowValues;
-    private EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
+    protected EndowmentExceptionReportHeader processFeeTransactionsRowValues;
+    protected EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason;    
     
-    private FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine;
-    private FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine;
-    private FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine;
+    protected FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine;
+    protected FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine;
+    protected FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine;
 
-    private FeeProcessingTotalsProcessedDetailTotalLine feeProcessingTotalsProcessedDetailTotalLine;
-    private FeeProcessingTotalsProcessedSubTotalLine feeProcessingTotalsProcessedSubTotalLine;
-    private FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
+    protected FeeProcessingTotalsProcessedDetailTotalLine feeProcessingTotalsProcessedDetailTotalLine;
+    protected FeeProcessingTotalsProcessedSubTotalLine feeProcessingTotalsProcessedSubTotalLine;
+    protected FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
     
     //the properties to hold count, total amounts and fee etc.
     private long totalNumberOfRecords = 0;
@@ -123,7 +116,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     private BigDecimal totalHoldingUnits = new BigDecimal("0");
     
     //properties to help in writing subtotals and grand totals lines.
-    
     //lines generated
     private int totalProcessedLinesGeneratedSubTotal = 0;
     private int totalProcessedLinesGeneratedGrandTotal = 0;
@@ -796,21 +788,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         else {
             LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Kemid: " + endowmentSourceTransactionLine.getKemid());
+            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, endowmentSourceTransactionLine.getKemid());
+            --lineNumber;
             
-            ++lineNumber;
-            
-            processFeeTransactionsRowValues.setColumnHeading1(feeMethodCode);
-            processFeeTransactionsRowValues.setColumnHeading2(endowmentSourceTransactionLine.getKemid());
-            processFeeTransactionsRowValues.setColumnHeading3(feeToBeCharged.toString());
-            processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsRowValues);
-            
-            List<String> errorMessages = extractGlobalVariableErrors();
-            for (String errorMessage : errorMessages) {
-                processFeeTransactionsExceptionReportsWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
-            }
-
-            processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
-            GlobalVariables.clear();
             return false;
         }
         
@@ -818,46 +798,22 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * Extracts errors for error report writing.
-     * 
-     * @return a list of error messages
+     * extracts the error messages in the global variables for this session id and writes as exception report
      */
-    protected List<String> extractGlobalVariableErrors() {
-        List<String> result = new ArrayList<String>();
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-
-        Set<String> errorKeys = errorMap.keySet();
-        List<ErrorMessage> errorMessages = null;
-        Object[] messageParams;
-        String errorKeyString;
-        String errorString;
-
-        for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
-            for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
-                messageParams = errorMessage.getMessageParameters();
-
-                // MessageFormat.format only seems to replace one
-                // per pass, so I just keep beating on it until all are gone.
-                if (StringUtils.isBlank(errorKeyString)) {
-                    errorString = errorMessage.getErrorKey();
-                }
-                else {
-                    errorString = errorKeyString;
-                }
-                System.out.println(errorString);
-                while (errorString.matches("^.*\\{\\d\\}.*$")) {
-                    errorString = MessageFormat.format(errorString, messageParams);
-                }
-                result.add(errorString);
-            }
+    protected void wrtieExceptionMessagaeFromGlobalVariables(String feeMethodCode, String kemid) {
+        processFeeTransactionsRowValues.setColumnHeading1(feeMethodCode);
+        processFeeTransactionsRowValues.setColumnHeading2(kemid);
+        processFeeTransactionsRowValues.setColumnHeading3(feeToBeCharged.toString());
+        processFeeTransactionsExceptionReportsWriterService.writeTableRow(processFeeTransactionsRowValues);
+        
+     //   List<String> errorMessages = extractGlobalVariableErrors();
+        List<String> errorMessages =  GloabalVariablesExtractHelper.extractGlobalVariableErrors();
+        
+        for (String errorMessage : errorMessages) {
+            processFeeTransactionsExceptionReportsWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
         }
 
-        // clear the stuff out of global vars, as we need to reformat it and put it back
-        GlobalVariables.clear();
-        return result;
+        processFeeTransactionsExceptionReportsWriterService.writeNewLines(1);
     }
     
     /**
@@ -1308,7 +1264,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the feeProcessingWaivedAndAccruedDetailTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedDetailTotalLine.
      */
-    public FeeProcessingWaivedAndAccruedDetailTotalLine getFeeProcessingWaivedAndAccruedDetailTotalLine() {
+    protected FeeProcessingWaivedAndAccruedDetailTotalLine getFeeProcessingWaivedAndAccruedDetailTotalLine() {
         return feeProcessingWaivedAndAccruedDetailTotalLine;
     }
 
@@ -1324,7 +1280,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the feeProcessingWaivedAndAccruedSubTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedSubTotalLine.
      */
-    public FeeProcessingWaivedAndAccruedSubTotalLine getFeeProcessingWaivedAndAccruedSubTotalLine() {
+    protected FeeProcessingWaivedAndAccruedSubTotalLine getFeeProcessingWaivedAndAccruedSubTotalLine() {
         return feeProcessingWaivedAndAccruedSubTotalLine;
     }
 
@@ -1340,7 +1296,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Gets the feeProcessingWaivedAndAccruedGrandTotalLine attribute. 
      * @return Returns the feeProcessingWaivedAndAccruedGrandTotalLine.
      */
-    public FeeProcessingWaivedAndAccruedGrandTotalLine getFeeProcessingWaivedAndAccruedGrandTotalLine() {
+    protected FeeProcessingWaivedAndAccruedGrandTotalLine getFeeProcessingWaivedAndAccruedGrandTotalLine() {
         return feeProcessingWaivedAndAccruedGrandTotalLine;
     }
 

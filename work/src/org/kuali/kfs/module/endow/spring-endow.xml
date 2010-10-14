@@ -1068,8 +1068,7 @@
         <property name="dependencies">
 			<map>
 				<entry key="createAccrualTransactionsJob" value="hardDependency" />
-				<entry key="createGainLossTransactionsJob" value="hardDependency" />
-				<entry key="createIncomeDistributionJob" value="hardDependency" />  
+				<entry key="pooledFundControlTransactionsJob" value="hardDependency" />
 			</map>
 		</property>
     </bean>

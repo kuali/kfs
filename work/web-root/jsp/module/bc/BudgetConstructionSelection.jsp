@@ -39,6 +39,7 @@
 <%-- hack to get around ojb retrieve problems when account key is bad, don't show the info fields --%>
 <c:catch var="e">
 	<c:set var="showTheDetail" value="${!empty KualiForm.budgetConstructionHeader.account.subFundGroupCode}" scope="page" />
+	
 </c:catch>
 <c:if test="${e!=null}">
 	<c:set var="showTheDetail" value="false" scope="page" />
@@ -48,7 +49,12 @@
 	htmlFormAction="budgetBudgetConstructionSelection" renderMultipart="true"
 	docTitle="Budget Construction Selection"
     transactionalDocument="false">
-
+  
+   <strong><h2>
+	<a href="${ConfigProperties.externalizable.help.url}default.htm?turl=WordDocuments%2Fbudgetconstructionselection.htm" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
+	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="[Help] Upload" alt="[Help] Upload" hspace=5 border=0  align="middle"></a>
+  </h2></strong>
+	</br>
 <%--	<sys:hiddenDocumentFields /> --%>
 
 	<kul:errors keyMatch="${BCConstants.BUDGET_CONSTRUCTION_SELECTION_ERRORS}" errorTitle="Errors found in Search Criteria:" />

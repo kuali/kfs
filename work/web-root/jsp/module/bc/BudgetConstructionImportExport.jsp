@@ -25,6 +25,11 @@
         var excludeSubmitRestriction = true;
 
     </script>     
+    <strong><h2>
+	 <a href="${ConfigProperties.externalizable.help.url}default.htm?turl=WordDocuments%2Frequestimporttool.htm" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
+	                                        <img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="[Help] Upload" alt="[Help] Upload" hspace=5 border=0  align="middle"></a>
+  </h2></strong>
+	</br>
       
     <!-- kul:tab tabTitle="Select File to Import" defaultOpen="false" tabErrorKey="${EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS}"-->
     	<!-- div class="tab-container" align=center-->

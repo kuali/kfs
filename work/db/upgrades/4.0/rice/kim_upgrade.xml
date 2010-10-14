@@ -1,0 +1,62 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">	
+	
+	<!-- Add a needed KIM type/attribute relationship -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_TYP_ATTR_T_QUAL_RESOLVER">
+		<preConditions onFail="MARK_RAN">
+			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ID = '7' AND KIM_ATTR_DEFN_ID = '46'</sqlCheck>
+		</preConditions>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFS-7-46" />			
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_ATTR_DEFN_ID" value="46" />
+			<column name="SORT_CD" value="e" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Fix the namespace on a couple of permissions -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_PERM_T_FIX_NAMESPACE">
+		<update tableName="KRIM_PERM_T">
+			<column name="NMSPC_CD" value="KR-SYS" />
+			<where>PERM_ID IN ( '156', '146' )</where>
+		</update>
+	</changeSet>
+
+	<!-- Update the description of these permissions to remove "KFS" since they are global Kuali permissions -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_PERM_T_FIX_KFS_IN_DESC">
+		<update tableName="KRIM_PERM_T">
+			<column name="DESC_TXT" value="Authorizes users to take the Approve action on documents routed to them." />
+			<where>PERM_ID = '170'</where>
+		</update>
+		<update tableName="KRIM_PERM_T">
+			<column name="DESC_TXT" value="Authorizes users to take the FYI action on documents routed to them." />
+			<where>PERM_ID = '172'</where>
+		</update>
+		<update tableName="KRIM_PERM_T">
+			<column name="DESC_TXT" value="Authorizes users to take the Acknowledge action on documents routed to them." />
+			<where>PERM_ID = '173'</where>
+		</update>
+	</changeSet>
+
+	<changeSet author="kfs" id="KFS_4.0_KRIM_PERM_T_FIX_B2B_PERM_DESC">
+		<update tableName="KRIM_PERM_T">
+			<column name="DESC_TXT" value="Authorizes users to take the Shop Catalogs (or B2B) action." />
+			<where>PERM_ID = '257'</where>
+		</update>
+	</changeSet>
+	
+	<!-- Role Perm -->
+	
+	<!-- Perm Attr -->
+
+	<!-- Perm -->
+
+</databaseChangeLog>   
+      

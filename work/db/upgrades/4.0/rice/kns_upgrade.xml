@@ -1,0 +1,108 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">	
+	<!-- Ensure that all KFS namespaces have the KFS application namespace code. -->
+	<changeSet author="kfs" id="KFS_4.0_UPDATE_KRNS_NMSPC_T">
+		<update tableName="KRNS_NMSPC_T">
+			<column name="APPL_NMSPC_CD" value="KFS" />
+			<where>NMSPC_CD LIKE 'KFS%'</where>
+		</update>
+    </changeSet>
+    
+    <!-- Fix the name of the KR-NS namespace -->
+	<changeSet author="kfs" id="KFS_4.0_KRNS_NMSPC_T_FIX_NS_NAME">
+		<update tableName="KRNS_NMSPC_T">
+			<column name="NM" value="Kuali Nervous System" />
+			<where>NMSPC_CD = 'KR-NS'</where>
+		</update>
+    </changeSet>
+    
+
+
+	<!-- Add the endowment namespace code -->
+	<changeSet author="kfs" id="KFS_4.0_KRNS_NMSPC_T_ADD_ENDOW">
+		<insert tableName="KRNS_NMSPC_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Endowment" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+    </changeSet>
+
+	<!-- Add the standard components for the KFS-ENDOW namespace -->    
+	<changeSet author="kfs" id="KFS_4.0_KRNS_PARM_DTL_TYP_T_ADD_ENDOW">
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="All" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="All" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Batch" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Batch" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Document" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Lookup" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Lookup" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+	
+	<!-- Update the types to match the base Rice distribution -->
+	<changeSet author="kfs" id="KFS_4.0_KRNS_PARM_TYP_T_MATCH_RICE">
+		<preConditions onFail="MARK_RAN">
+			<and>
+				<sqlCheck expectedResult="0">SELECT COUNT(*) FROM KRNS_PARM_TYP_T WHERE PARM_TYP_CD = 'AUTH'</sqlCheck>
+				<sqlCheck expectedResult="0">SELECT COUNT(*) FROM KRNS_PARM_TYP_T WHERE PARM_TYP_CD = 'HELP'</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="KRNS_PARM_TYP_T">
+			<column name="PARM_TYP_CD" value="AUTH" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Authorization" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_TYP_T">
+			<column name="PARM_TYP_CD" value="HELP" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Help" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<update tableName="KRNS_PARM_TYP_T">
+			<column name="NM" value="Config" />
+			<where>PARM_TYP_CD = 'CONFG'</where>
+		</update>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+</databaseChangeLog>   
+      

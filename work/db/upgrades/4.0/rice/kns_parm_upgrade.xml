@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">	
+	<!-- Ensure that all KFS namespaces have the KFS application namespace code. -->
+
+	<!-- Remove no-longer-used parameters -->
+	<changeSet author="kfs" id="KFS_4.0_KRNS_PARM_T_DELETE_REMOVED_PARMS">
+		<delete tableName="KRNS_PARM_T">
+			<where>NMSPC_CD = 'KFS-FP' AND PARM_DTL_TYP_CD = 'DisbursementVoucher' AND NM = 'TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW'</where>
+		</update>
+    </changeSet>
+    
+</databaseChangeLog>   
+      

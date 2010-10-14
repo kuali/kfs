@@ -33,13 +33,18 @@ var universityFiscalYearSuffix =".universityFiscalYear";
  * @return the chart code field value
  */
 function getChartCode(coaCodeFieldName) {
-	// retrieve from input elements first
-	var coaCode = document.getElementById(coaCodeFieldName);
-	//alert('getElementById coaCode = ' + coaCode);
+	// retrieve chart code html element using coaCodeFieldName as id
+	var coaCodeField = document.getElementById(coaCodeFieldName);
+	//alert('getElementById coaCodeField = ' + coaCodeField);
+	var coaCode = null;
 	
-	// if that returns null, it means chart code is readOnly and we need to retrieve from html elements	
-	if (coaCode == null) {
-		// when readOnly, chart code is rendered with an id ending in ".div" 
+	if ( coaCodeField != null ) {
+		// if that element id exists, then chart code field is a select drop down list
+		coaCode = coaCodeField.value;
+		//alert('field value coaCode = ' + coaCode);
+	}
+	else {
+		// otherwise chart code field is readOnly and its id is coaCodeFieldName+".div" 
 		coaCode = DWRUtil.getValue(coaCodeFieldName + '.div');
 		//alert('DWR getValue coaCode = ' + coaCode);
 		

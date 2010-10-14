@@ -114,7 +114,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
-            KualiDecimal totalAmount = new KualiDecimal(0);
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
             List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames);
             // get the total of security cost
@@ -141,7 +141,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
-            KualiDecimal totalAmount = new KualiDecimal(0);
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
             List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames);
             // get the total of security long term and short term gain and loss
@@ -171,7 +171,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();
         
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
-            KualiDecimal totalAmount = new KualiDecimal(0);
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl.getPooledSecurityID(), documentTypeNames);
             for (TransactionArchive transactionArchive : transactionArchiveRecords) {
                 totalAmount = totalAmount.add(new KualiDecimal(transactionArchive.getIncomeCashAmount())).add(new KualiDecimal(transactionArchive.getPrincipalCashAmount()));
@@ -230,7 +230,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }
         }
         
-        // reports
+        // report
         generateReport(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, cashIncreaseDocument, pooledFundControl, incomePrincipalIndicator, errorMessage);
         
         return result;
@@ -280,7 +280,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }
         }
         
-        // reports
+        // report
         generateReport(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, cashDecreaseDocument, pooledFundControl, incomePrincipalIndicator, errorMessage);
         
         return result;
@@ -305,9 +305,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        //endowmentTargetTransactionLine.setKemid("037A014184");  
         endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
-        //endowmentTargetTransactionLine.setEtranCode("75720"); 
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         endowmentTargetTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
@@ -336,9 +334,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        //endowmentSourceTransactionLine.setKemid("037A014184");  
         endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
-        //endowmentSourceTransactionLine.setEtranCode("75720"); 
         endowmentSourceTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         endowmentSourceTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
@@ -350,7 +346,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     
     /**
      * Submits the document 
-     * @param <T>
+     * @param <T extends EndowmentSecurityDetailsDocumentBase>
      * @param cashDocument
      * @param paramNoRouteInd
      */
@@ -368,7 +364,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 LOG.info("Trying to save the document that failed to route ...");
                 documentService.saveDocument(cashDocument);
             } catch (WorkflowException wfe2) {
-                LOG.error("submitCashDocument() Routing Error: Document# " + cashDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe2.getMessage());
+                LOG.error("submitCashDocument() Saving Error: Document# " + cashDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe2.getMessage());
             }            
         } catch (Exception e) {
             errorMessage = "submitCashDocument() Runtime Error: Document# " + cashDocument.getDocumentHeader().getDocumentNumber() + " : " + e.getMessage(); 
@@ -448,7 +444,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     }
     
     /**
-     * check if it is blanket approval
+     * check if it is no route 
      * @return boolean
      */
     public boolean isNoRoute(String paramNoRouteInd) {        

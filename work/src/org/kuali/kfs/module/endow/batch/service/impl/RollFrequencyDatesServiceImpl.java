@@ -21,18 +21,15 @@ import java.util.List;
 import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
-import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
-import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
-import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
-import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,8 +68,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         // update Fee Next Process Dates
         updateFeeProcessDates();
         
-        // update Next Process Dates
-        updateProcessDates();
+        // update Recurring Cash Transfer Next Process Dates
+        updateRecurringCashTransferProcessDates();
         
         LOG.info("The batch Roll Frequncy Dates was finished.");
         
@@ -93,14 +90,17 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode);
                     if (nextDate != null) {
                         security.setIncomeNextPayDate(nextDate);
-                        businessObjectService.save(security);
-                        counter++;
+                        if (updateBusinessObject(security)) {
+                            counter++;
+                        } else {
+                            LOG.error("Failed to update Security " + security.getId());
+                        }
                     }
                 }
             }
         }
         generateReport("END_SEC_T", counter, true);
-        LOG.info("Total Security Income Next Pay Dates updated: " + counter); 
+        LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter); 
     }
     
     /**
@@ -117,14 +117,17 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
                     if (nextDate != null) {
                         tickler.setNextDueDate(nextDate);
-                        businessObjectService.save(tickler);
-                        counter++;
+                        if (updateBusinessObject(tickler)) {
+                            counter++;
+                        } else {
+                            LOG.error("Failed to update Tickler " + tickler.getNumber());
+                        }
                     }
                 }
             }
         }
         generateReport("END_TKLR_T", counter, false);
-        LOG.info("Total Tickler Next Due Dates updated: " + counter);
+        LOG.info("Total Tickler Next Due Dates updated in END_TKLR_T: " + counter);
     }
     
     /**
@@ -142,20 +145,23 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     if (nextDate != null) {
                         feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                         feeMethod.setFeeNextProcessDate(nextDate);
-                        businessObjectService.save(feeMethod);
-                        counter++;
+                        if (updateBusinessObject(feeMethod)) {
+                            counter++;
+                        } else {
+                            LOG.error("Failed to update FeeMethod " + feeMethod.getCode());
+                        }
                     }
                 }
             }
         }
         generateReport("END_FEE_MTHD_T", counter, false);
-        LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated: " + counter);
+        LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated in END_FEE_MTHD_T: " + counter);
     }
     
     /**
      * This method updates the next process dates in EndowmentRecurringCashTransfer
      */
-    protected void updateProcessDates() {
+    protected void updateRecurringCashTransferProcessDates() {
         
         int counter = 0;
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
@@ -167,16 +173,25 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     if (nextDate != null) {
                         recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                         recurringCashTransfer.setNextProcessDate(nextDate);
-                        businessObjectService.save(recurringCashTransfer);
-                        counter++;
+                        if (updateBusinessObject(recurringCashTransfer)) {
+                            counter++;
+                        } else {
+                            LOG.error("Failed to update EndowmentRecurringCashTransfer " + recurringCashTransfer.getTransferNumber());
+                        }
                     }
                 }
             }
         }
         generateReport("END_REC_CSH_XFR_T", counter, false);
-        LOG.info("Total Next Process Dates and Last Process Dates updated: " + counter);
+        LOG.info("Total Next Process Dates and Last Process Dates updated in END_REC_CSH_XFR_T: " + counter);
     }
 
+    /**
+     * Generates the statistic report for updated tables 
+     * @param tableName
+     * @param counter
+     * @param isFirstReport
+     */
     protected void generateReport(String tableName, int counter, boolean isFirstReport) {
         
         try {
@@ -191,6 +206,23 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
             LOG.error("Failed to generate the statistic report: " + e.getMessage());
             rollFrequencyDatesReportWriterService.writeFormattedMessageLine("Failed to generate the statistic report: " + e.getMessage());
         }
+    }
+    
+    /**
+     * Updates business object
+     * @param businessObject
+     * @return boolean
+     */
+    protected boolean updateBusinessObject(PersistableBusinessObject businessObject) {
+    
+        boolean result = true;
+        try {
+            businessObjectService.save(businessObject);
+        } catch (IllegalArgumentException e) {
+            result = false;
+        }
+        
+        return result;
     }
     
     /**

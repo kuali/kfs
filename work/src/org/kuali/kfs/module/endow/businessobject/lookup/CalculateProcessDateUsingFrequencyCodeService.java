@@ -37,13 +37,12 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      */
     public Date calculateProcessDate(String frequencyCode) {
         
-    //    Date processDate = dateTimeService.getCurrentSqlDate();
         Date processDate = kemService.getCurrentDate();
         
         String frequencyType = frequencyCode.substring(0, 1);
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
-            return processDate;
+            return calculateNextDate(processDate);
         }
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
@@ -88,6 +87,18 @@ public class CalculateProcessDateUsingFrequencyCodeService {
         this.kemService = kemService;
     }
 
+    /**
+     * Calculates the next date 
+     * @param currentDate
+     * @return
+     */
+    protected Date calculateNextDate(Date currentDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, 1);
+        return new java.sql.Date(calendar.getTimeInMillis());        
+    }
+    
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date

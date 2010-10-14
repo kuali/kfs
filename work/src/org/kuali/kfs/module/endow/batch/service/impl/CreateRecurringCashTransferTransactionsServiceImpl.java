@@ -106,13 +106,14 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             KualiDecimal totalSourceTransaction = KualiDecimal.ZERO;
             KualiDecimal totalTargetTransaction = KualiDecimal.ZERO;
             
+            
             if (sourceTransactionType.equals(EndowConstants.ENDOWMENT_CASH_TRANSFER_TRANSACTION_TYPE)){
                 // calculate when ECT
                 CashTransferDocument cashTransferDoc = createCashTransferDocument(sourceKemid, transferNumber);
                 List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = endowmentRecurringCashTransfer.getKemidTarget();
                 
                 for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets){
-                    
+                    KualiDecimal transactionAmount = KualiDecimal.ZERO;
                     // check if it is calculation scenario 1
                     if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetUseEtranCode())){
                         // retrieves transactionArchives and calculated source cash
@@ -124,30 +125,31 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                             totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
                             
                         }
-                        KualiDecimal transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent());
+                        transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                        // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())){
                         KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        KualiDecimal transactionAmount = totalCashEquivalents.multiply(kemidTarget.getTargetPercent());
+                        transactionAmount = totalCashEquivalents.multiply(kemidTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                        // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())){
                         KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        KualiDecimal transactionAmount = totalCashEquivalents.subtract(kemidTarget.getTargetAmount());
+                        transactionAmount = totalCashEquivalents.subtract(kemidTarget.getTargetAmount());
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                        // add target line
-                        addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                     }
+                    // add target line
+                    boolean addTransactionLine = addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
+                    if (!addTransactionLine) {
+                        totalTargetTransaction = totalTargetTransaction.subtract(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.subtract(transactionAmount);
+                    }
+                    
                 }
                 // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route  
                 boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowConstants.EndowmentSystemParameter.ALLOW_NEGATIVE_BALANCE_IND);
@@ -161,15 +163,13 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 }
                 
                 
-                // write report with  CashTransferDocument
-                
             } else {
                 // calculate when EGLT
                 EndowmentToGLTransferOfFundsDocument gLTransferOfFundsDocument = createEndowmentToGLTransferOfFundsDocument(sourceKemid, transferNumber);
                 List<EndowmentRecurringCashTransferGLTarget> glTargets = endowmentRecurringCashTransfer.getGlTarget();
                 
                 for (EndowmentRecurringCashTransferGLTarget glTarget : glTargets){
-                    
+                    KualiDecimal transactionAmount = KualiDecimal.ZERO;
                     // check if it is calculation scenario 1
                     if (ObjectUtils.isNotNull(glTarget.getTargetPercent()) && ObjectUtils.isNotNull(glTarget.getTargetUseEtranCode())){
                         // retrieves transactionArchives and calculated source cash
@@ -181,29 +181,30 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                             totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
                             
                         }
-                        KualiDecimal transactionAmount = totalCashIncomeEtranCode.multiply(glTarget.getTargetPercent());
+                        transactionAmount = totalCashIncomeEtranCode.multiply(glTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                        // add target line
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
                     
                         // check if it is calculation scenario 2
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())){
                         KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        KualiDecimal transactionAmount = totalCashEquivalents.multiply(glTarget.getTargetPercent());
+                        transactionAmount = totalCashEquivalents.multiply(glTarget.getTargetPercent().divide(new KualiDecimal(100)));
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                        // add target line                            
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
                         
                         // check if it is calculation scenario 3
                     } else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())){
                         KualiDecimal totalCashEquivalents = calculateTotalCashEquivalents(endowmentRecurringCashTransfer);
-                        KualiDecimal transactionAmount = totalCashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
+                        transactionAmount = totalCashEquivalents.subtract(glTarget.getTargetFdocLineAmount());
                         totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
                         totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                        // add target line
-                        addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
+                    }
+                    
+                    // add target line
+                    boolean addTransactionLine = addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
+                    if (!addTransactionLine) {
+                        totalTargetTransaction = totalTargetTransaction.subtract(transactionAmount);
+                        totalSourceTransaction = totalSourceTransaction.subtract(transactionAmount);
                     }
                 }
                 
@@ -346,7 +347,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         }
     }
 
-    private void addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount, String sourceKemid, String transferNumber) {
+    private boolean addKemidTargetTransactionLine(EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget, CashTransferDocument cashTransferDoc, KualiDecimal totalAmount, String sourceKemid, String transferNumber) {
         boolean rulesPassed = true;
         EndowmentTargetTransactionLine transactionLine = new EndowmentTargetTransactionLine();
         transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
@@ -372,9 +373,11 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     sourceKemid, endowmentRecurringCashTransferKEMIDTarget.getTransferNumber(), 
                     endowmentRecurringCashTransferKEMIDTarget.getTargetSequenceNumber().toString());
         }
+        
+        return rulesPassed;
     }
     
-    private void addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount, String sourceKemid, String transferNumber){ 
+    private boolean addGlTransactionLine(EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget, EndowmentToGLTransferOfFundsDocument endowmentToGLTransferOfFundsDocument, KualiDecimal totalAmount, String sourceKemid, String transferNumber){ 
         boolean rulesPassed = true;
         TargetEndowmentAccountingLine endowmentAccountingLine = new TargetEndowmentAccountingLine();
         endowmentAccountingLine.setChartOfAccountsCode(endowmentRecurringCashTransferGLTarget.getTargetChartOfAccountsCode());
@@ -400,6 +403,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     endowmentRecurringCashTransferGLTarget.getTargetSequenceNumber().toString());
 
         }
+        
+        return rulesPassed;
     }
     
     private CashTransferDocument createCashTransferDocument(String sourceKemid, String transferNumber) {

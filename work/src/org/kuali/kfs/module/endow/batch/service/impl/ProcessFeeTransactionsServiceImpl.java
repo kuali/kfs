@@ -338,7 +338,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         // case: FEE_RT_DEF_CD = V for value...
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_VALUE)) {
             HashMap<String, BigDecimal> incomeAndPrincipalValues = transactionArchiveDao.getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(feeMethod);
-              
             transactionIncomeAmount = incomeAndPrincipalValues.get(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_CASH_AMOUNT);
             transacationPrincipalAmount = incomeAndPrincipalValues.get(EndowPropertyConstants.TRANSACTION_ARCHIVE_PRINCIPAL_CASH_AMOUNT);
         }
@@ -361,39 +360,55 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      *         total holding market value for all selected records.
      */
     protected void processBalanceFeeType(FeeMethod feeMethod) {
-        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
-
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_COUNT)) {
             //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || 
-                feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) { 
-                totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod);
-            }
-            
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
-                totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingUnits(feeMethod);
-            }
-            
-            totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_INCOME_RATE);
+            performFeeRateDefintionForCountCalculations(feeMethod);
         }
         
-        //if FEE_RATE_DEFINITION_CODE_FOR_COUNT = "V"
+        //if FEE_RATE_DEFINITION_CODE = "V"
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_VALUE)) {
-            //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
-            
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
-                feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
-                totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);
-            }
-            
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
-                totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingMarketValue(feeMethod);
-            }
-            
-            totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_INCOME_RATE);
+            performFeeRateDefintionForValueCalculations(feeMethod);
         }
     }
     
+    /**
+     * performs calculations when Fee Rate Definition Code is C
+     */
+    protected void performFeeRateDefintionForCountCalculations(FeeMethod feeMethod) {
+        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
+        
+        //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || 
+            feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) { 
+            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod);
+        }
+        
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
+            totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingUnits(feeMethod);
+        }
+        
+        totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_MARKET_VALUE);
+    }
+    
+    /**
+     * performs calculations when Fee Rate Definition Code is C
+     */
+    protected void performFeeRateDefintionForValueCalculations(FeeMethod feeMethod) {
+        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
+        
+        //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
+            feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
+            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);
+        }
+        
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
+            totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingMarketValue(feeMethod);
+        }
+        
+        totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_MARKET_VALUE);
+    }
+
     /**
      * Performs the calculations to get the fee amount to be charged against the selected kemids
      * @param feeMethod 
@@ -674,6 +689,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         boolean success = true;
         
+        cashDecreaseDocument.setNoRouteIndicator(true);            
+        
         if (feeMethod.getFeePostPendingIndicator()) {
             success = submitCashDecreaseDocument(cashDecreaseDocument);
         }
@@ -846,11 +863,9 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected boolean submitCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
         boolean approved = true;
         
-        cashDecreaseDocument.setNoRouteIndicator(true);
-        
         try {
             Note approveNote = noteService.createNote(new Note(), cashDecreaseDocument.getDocumentHeader());
-            approveNote.setNoteText("Submitted the document as a 'No Route'.");
+            approveNote.setNoteText("Saved the document as a 'No Route'.");
 
             Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
             approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
@@ -879,10 +894,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected boolean routeCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
         boolean routed = true;
         
-        cashDecreaseDocument.setNoRouteIndicator(true);            
-        
         try {
-            documentService.routeDocument(cashDecreaseDocument, "Submitted the document for routing.", null);
+            documentService.superUserApproveDocument(cashDecreaseDocument, "Submitted the document for routing.");
         }
         catch (WorkflowException wfe) {
             try {

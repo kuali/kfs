@@ -130,6 +130,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             }
         }   
     }
+    
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of gain/loss for transaction type EAD
      */
@@ -388,36 +389,41 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         
         try {
             if (errorMessage.isEmpty()) {
+                // generate totals processed for each document created successfully
                 if (totalReportLine == null) {
-                    totalReportLine = new TransactionDocumentTotalReportLine(documentType, cashDocument.getDocumentNumber(), pooledFundControl.getPooledSecurityID());                
+                    totalReportLine = new TransactionDocumentTotalReportLine(documentType, cashDocument.getDocumentNumber(), pooledFundControl.getPooledSecurityID());
+                    pooledFundControlTransactionsTotalReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Totals Processed");
+                    pooledFundControlTransactionsTotalReportWriterService.writeNewLines(1);
+                    pooledFundControlTransactionsTotalReportWriterService.writeTableHeader(totalReportLine);                
                 }    
-                if (cashDocument.getTargetTransactionLine(0).getTransactionIPIndicatorCode().equalsIgnoreCase(incomePrincipalIndicator)) {
-                    totalReportLine.addPrincipalAmount(cashDocument.getTargetPrincipalTotal());
-                    totalReportLine.addPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits());
+                if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(incomePrincipalIndicator)) {
+                    totalReportLine.setPrincipalAmount(cashDocument.getTargetPrincipalTotal());
+                    totalReportLine.setPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits());
                 } else {
-                    totalReportLine.addIncomeAmount(cashDocument.getTargetIncomeTotal());
-                    totalReportLine.addIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
+                    totalReportLine.setIncomeAmount(cashDocument.getTargetIncomeTotal());
+                    totalReportLine.setIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
                 }
                 
-                pooledFundControlTransactionsTotalReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Totals Processed");
-                pooledFundControlTransactionsTotalReportWriterService.writeNewLines(1);
-                pooledFundControlTransactionsTotalReportWriterService.writeTableHeader(totalReportLine);                
                 pooledFundControlTransactionsTotalReportWriterService.writeTableRow(totalReportLine);
                 
             } else {
+                // generate exception report for each document failed during process   
                 if (exceptionReportLine == null) {
                     exceptionReportLine = new TransactionDocumentExceptionReportLine(documentType, pooledFundControl.getFundKEMID());
+                    pooledFundControlTransactionsExceptionReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Exception Report");
+                    pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
+                    pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);      
                 }    
-                exceptionReportLine.setIncomeAmount(cashDocument.getTargetIncomeTotal());
-                exceptionReportLine.setIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
-                exceptionReportLine.setPrincipalAmount(cashDocument.getTargetPrincipalTotal());
-                exceptionReportLine.setPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits());
+                if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(incomePrincipalIndicator)) {
+                    exceptionReportLine.setPrincipalAmount(cashDocument.getTargetPrincipalTotal());
+                    exceptionReportLine.setPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits());    
+                } else {
+                    exceptionReportLine.setIncomeAmount(cashDocument.getTargetIncomeTotal());
+                    exceptionReportLine.setIncomeUnits(cashDocument.getTargetIncomeTotalUnits());    
+                }
                 
-                pooledFundControlTransactionsExceptionReportWriterService.writeSubTitle("<pooledFundControlTransactionsJob> Exception Report");
-                pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
-                pooledFundControlTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);      
                 pooledFundControlTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
-                pooledFundControlTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason: Failed to create %s", documentType);
+                pooledFundControlTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason: Failed to create %s - " + errorMessage, documentType);
                 pooledFundControlTransactionsExceptionReportWriterService.writeNewLines(1);
             }
         } catch (Exception e) {

@@ -519,6 +519,9 @@ public class PosterServiceImpl implements PosterService {
                     KualiDecimal distributionAmount = KualiDecimal.ZERO;
 
                     if (shouldIgnoreExpenditureTransaction(et)) {
+                        // Delete expenditure record
+                        expenditureTransactionDao.delete(et);
+                        reportExpendTranDeleted++;
                         continue;
                     }
                     

@@ -167,7 +167,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         boolean success = true;
         
-    //    writeReportHeaders();
+        writeReportHeaders();
         
         if (!updateKemidFeeWaivedYearToDateAmount()) {
             writeTableRowAndTableReason("Reason: unable to update update Waiver Fee Year To Date column to Zero.");

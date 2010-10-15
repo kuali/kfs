@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Winston' id='5880-1-1' failOnError='true'>
-    <comment> KFS Development      * KFS Development     *Remove ICR Exclusion from KulDBA for Jira 5428 </comment>
-    <delete tableName='CA_ICR_EXCL_TYPE_T'>
-      <where>ACCT_ICR_TYP_CD = "10"</where>
-    </delete>
-  </changeSet>
-</databaseChangeLog>

@@ -20,6 +20,8 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
+import org.kuali.rice.ksb.messaging.MessageFetcher;
+import org.kuali.rice.ksb.service.KSBServiceLocator;
 
 public class WebApplicationInitListener extends JstlConstantsInitListener implements ServletContextListener {
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
@@ -27,10 +29,13 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
     private static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
     private static Logger LOG;
 
+    @SuppressWarnings("unchecked")
     public void contextInitialized(ServletContextEvent sce) {
         Log4jConfigurer.configureLogging(true);
         LOG = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
+        MessageFetcher messageFetcher = new MessageFetcher((Integer)null); 
+        KSBServiceLocator.getThreadPool().execute(messageFetcher); 
         for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
                 Class jstlConstantsClass = Class.forName(jstlConstantsClassname);

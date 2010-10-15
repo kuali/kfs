@@ -220,6 +220,17 @@
 		<property name="cas.datasource.url" value="${datasource.url}" />
 		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
 
+	   <if>
+		   <equals arg1="true" arg2="${is.clustered}" casesensitive="false" trim="true" />
+		   <then>
+			   <property name="distributable.tag" value="&lt;distributable /&gt;"/>
+		   </then>
+		   <else>
+			   <property name="distributable.tag" value=""/>
+		   </else>
+	   </if>
+               
+
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
 	    	<and>

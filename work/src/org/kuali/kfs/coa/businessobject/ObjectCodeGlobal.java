@@ -786,7 +786,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         old.setFinObjMandatoryTrnfrelimCd(update(finObjMandatoryTrnfrOrElimCd, old.getFinObjMandatoryTrnfrelimCd()));
         old.setFinancialFederalFundedCode(update(financialFederalFundedCode, old.getFinancialFederalFundedCode()));
         old.setNextYearFinancialObjectCode(update(nextYearFinancialObjectCode, old.getNextYearFinancialObjectCode()));
-
+        old.setReportsToFinancialObjectCode(update(reportsToFinancialObjectCode, old.getReportsToFinancialObjectCode()));
     }
 
 

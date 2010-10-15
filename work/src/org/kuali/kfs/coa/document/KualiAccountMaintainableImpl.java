@@ -39,7 +39,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
     private static final Logger LOG = Logger.getLogger(KualiAccountMaintainableImpl.class);
-
+    private static final String ACCOUNT_GUIDE_LINE_PROPERTY = "accountGuideline";
+    
     /**
      * Automatically deactivates {@link SubAccount}s after saving the {@link Account}
      * 
@@ -138,5 +139,40 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
 
+    }
+
+    @Override
+    protected void refreshReferences(String referencesToRefresh) {        
+        //make call to super
+        super.refreshReferences( removeReferenceFromString(referencesToRefresh, ACCOUNT_GUIDE_LINE_PROPERTY) );
+    }
+    
+    /**
+     * Removes a named reference from a referencesToRefresh string
+     */
+    protected String removeReferenceFromString(String referencesToRefresh, String referenceToRemove){
+        String newReference = referencesToRefresh;
+        
+        if(ObjectUtils.isNotNull(newReference)){
+            int index = newReference.indexOf(referenceToRemove);        
+            if(index != -1){  
+                //remove from beginning
+                if(index == 0){
+                    
+                    String suffix = "";
+                    //add comma at end since there is more after this word
+                    if(newReference.length() != referenceToRemove.length()){
+                        suffix = ",";
+                    }                    
+                    newReference = referencesToRefresh.replaceAll(ACCOUNT_GUIDE_LINE_PROPERTY + suffix, "");
+                    
+                }else{
+                    //removing from middle to end... either way, comma will be in front
+                    newReference = referencesToRefresh.replaceAll("," + ACCOUNT_GUIDE_LINE_PROPERTY, "");
+                }
+            }
+        }
+        
+        return newReference;
     }
 }

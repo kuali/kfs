@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
+	${distributable.tag}
+	
     <!--  FILTER DEFINITIONS -->
 	${authentication.filter.definition}
 	<filter>
@@ -63,9 +64,12 @@
 		<listener-class>org.kuali.kfs.sys.context.WebApplicationInitListener</listener-class>
 	</listener>
 	<listener>
-    	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+	    	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
   	</listener>
-  
+	<listener> 
+		<listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class> 
+	</listener> 
+
     <!-- SERVLET DEFINITIONS -->
 
 	<servlet>

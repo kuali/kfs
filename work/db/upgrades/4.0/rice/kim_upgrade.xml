@@ -10,14 +10,14 @@
 		<insert tableName="KRIM_TYP_ATTR_T">
 			<column name="KIM_TYP_ATTR_ID" value="KFS-7-46" />			
 			<column name="KIM_TYP_ID" value="7" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="KIM_ATTR_DEFN_ID" value="46" />
 			<column name="SORT_CD" value="e" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="UUID" />
+			<replace replace="SYS_GUID()" with="UUID" />
 		</modifySql>
 	</changeSet>
 
@@ -52,7 +52,7 @@
 		</update>
 	</changeSet>
 	
-	<!-- remote old permissions and their related data -->
+	<!-- remove old permissions and their related data -->
 	<changeSet author="kfs" id="KFS_4.0_KRIM_DELETE_REMOVED_PERMS">
 		<delete tableName="KRIM_ROLE_PERM_T">
 			<where>PERM_ID IN ( '203', '204', '68' )</where>
@@ -64,10 +64,179 @@
 			<where>PERM_ID IN ( '203', '204', '68' )</where>
 		</delete>
 	</changeSet>
-	
-	<!-- Perm Attr -->
 
-	<!-- Perm -->
+	<!-- fix the document type on a couple of permissions -->
+	<changeSet author="kfs" id="KFS_4.0_CHANGE_PERM_DOC">
+		<update tableName="KRIM_PERM_T">
+			<column name="ATTR_VAL" value="RiceDocument" />
+			<where>PERM_ID IN ( '146', '156' )</where>
+		</update>
+	</changeSet>
+	
+
+	<!-- Remove some role permission assignments -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_DELETE_REMOVED_ROLE_PERMS">
+		<delete tableName="KRIM_ROLE_PERM_T">
+			<where>ROLE_PERM_ID IN ( '553', '717' )</where>
+		</delete>
+	</changeSet>
+	
+	<!--  add new permissions and assignments in 4.0 -->
+	<changeSet author="kfs" id="KFS_4.0_NEW_PERMS">
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="1100" />			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="3" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Administer Routing for Document" />
+			<column name="DESC_TXT" value="Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node)." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="1101" />			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="2" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Copy Document" />
+			<column name="DESC_TXT" value="Allows access to the Copy button on KFS Financial System Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="1102" />			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="10" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Initiate Document" />
+			<column name="DESC_TXT" value="Authorizes the initiation of the the Organization Options" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="1103" />			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="51" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Add Message to Route Log" />
+			<column name="DESC_TXT" value="Allows user to enter a message on the route log" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<!--  Attribute Data -->
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFS10000" />			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="1100" />			
+			<column name="KIM_TYP_ID" value="3" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="KFST" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFS10001" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="1101" />			
+			<column name="KIM_TYP_ID" value="3" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFS10002" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="1102" />	
+			<column name="KIM_TYP_ID" value="3" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="OOPT" />
+		</insert>
+		<!--  Permission/Role Assignments -->
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1106" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="62" />
+			<column name="PERM_ID" value="1100" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1107" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="55" />
+			<column name="PERM_ID" value="1100" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1108" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="95" />
+			<column name="PERM_ID" value="1101" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1109" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="31" />
+			<column name="PERM_ID" value="1102" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1004" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="49" />
+			<column name="PERM_ID" value="306" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1110" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="31" />
+			<column name="PERM_ID" value="248" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS1111" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="59" />
+			<column name="PERM_ID" value="1103" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+
+	<!--  delete unnecessary responsibility entries -->
+	<changeSet author="kfs" id="KFS_4.0_KRIM_DELETE_REMOVED_RESPS">
+		<delete tableName="KRIM_ROLE_RSP_T">
+			<where>RSP_ID IN ( '121', '122' )</where>
+		</delete>
+		<delete tableName="KRIM_RSP_T">
+			<where>RSP_ID IN ( '121', '122' )</where>
+		</delete>
+	</changeSet>
+	
+	<!--  update some baseline role assignments -->
+	<changeSet author="kfs" id="KFS_4.0_CHANGE_PERM_DOC">
+		<!-- grant these permissions to any authenticated person - were locked down based on KFS needs, not central rice -->
+		<update tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_ID" value="1" />
+			<where>PERM_ID IN ( '146', '156', '149' ) AND ROLE_ID IN ( '83', '63', '95' )</where>
+		</update>
+		<!--  ensire that, by default, any document opener can add a note -->
+		<update tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_ID" value="83" />
+			<where>PERM_ID = '259' AND role_id = '61'</where>
+		</update>
+	</changeSet>
 
 </databaseChangeLog>   
       

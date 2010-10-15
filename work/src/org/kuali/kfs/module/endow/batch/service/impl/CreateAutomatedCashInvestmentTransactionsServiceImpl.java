@@ -34,6 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep;
+import org.kuali.kfs.module.endow.batch.reporter.ReportStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
@@ -48,9 +49,11 @@ import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
+import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
@@ -77,6 +80,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateAutomatedCashInvestmentTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Automated Cash Investment Transactions Batch Process.";
     
+    private Map<String, ReportStatistics> statistics = new HashMap<String, ReportStatistics>();
+    
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
@@ -89,18 +94,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private KEMIDService kemidService;
     private KEMService kemService;
     private PooledFundControlService pooledFundControlService;
-    
-    /**
-     * 
-     * Initialize the report document headers.
-     *
-     */
-    private void writeHeaders() { 
-        createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
-        createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
-        createAutomatedCashInvestmentExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
-        createAutomatedCashInvestmentProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
-    }
     
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService#createACITransactions()
@@ -122,6 +115,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             processAssetDecreaseDocs(new ArrayList<KEMID>(incomeKemids), aciModel, true);
         }
         
+        writeStatistics();
         LOG.info("Finished \"Create Automated Cash Investments Transactions\" batch job!");
         
         return true;        
@@ -876,10 +870,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return Collection of CashSweepModel business objects
      */
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
-        
-        // REMOVE WHEN DONE TESTING!
-        boolean OVERRIDE = false;
-        
+
         //
         // Get all the CashSweepModel BOs, and initialize a new list to contain
         // the filtered cash sweep models whose frequency matches current date.
@@ -898,7 +889,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         //
         for (AutomatedCashInvestmentModel aciModel : allAciModels) {
             Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(aciModel.getAciFrequencyCode());
-            if (freqDate.equals(currentDate) || OVERRIDE) {
+            if (freqDate.equals(currentDate)) {
                 aciModels.add(aciModel);
             }
         }
@@ -911,6 +902,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * 
      * @return a list of error messages
      */
+    @SuppressWarnings("deprecation")
     protected List<String> extractGlobalVariableErrors() {
         List<String> result = new ArrayList<String>();
 
@@ -975,7 +967,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 createAutomatedCashInvestmentProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
-
+        updatePostingStats(assetIncreaseDoc);
+        
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
     }
@@ -1005,7 +998,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 createAutomatedCashInvestmentProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
-
+        updatePostingStats(assetDecreaseDoc);
+        
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
     }
@@ -1036,7 +1030,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 createAutomatedCashInvestmentExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
-
+        updateErrorStats(assetDecreaseDoc);
+        
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportValues);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
     }
@@ -1067,6 +1062,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 createAutomatedCashInvestmentExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
+        updateErrorStats(assetIncreaseDoc);
         
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportValues);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
@@ -1083,6 +1079,105 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         createAutomatedCashInvestmentExceptionReportReason.setColumnHeading2(reasonMessage);
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportReason);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * Initialize the report document headers.
+     *
+     */
+    private void writeHeaders() { 
+        createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
+        createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
+        createAutomatedCashInvestmentExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
+        createAutomatedCashInvestmentProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param numberOfTransLines
+     */
+    private void updatePostingStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
+        
+        String documentTypeName = "";
+        ReportStatistics stats  = null;
+        int numberOfTransLines  = 0;
+        
+        if (assetDocument instanceof AssetIncreaseDocument) {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
+            stats = statistics.get(documentTypeName);
+            numberOfTransLines = assetDocument.getTargetTransactionLines().size();
+        }
+        else {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
+            stats = statistics.get(documentTypeName);
+            numberOfTransLines = assetDocument.getSourceTransactionLines().size();
+        }
+       
+        // If null, create and add a new one.
+        if (stats == null) {
+            stats = new ReportStatistics();
+            statistics.put(documentTypeName, stats);
+        }
+        
+        stats.incrementNumberOfDocuments();
+        stats.addNumberOfTransactionLines(numberOfTransLines);
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetDocument
+     */
+    private void updateErrorStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
+        String documentTypeName = "";
+        ReportStatistics stats  = null;
+        
+        if (assetDocument instanceof AssetIncreaseDocument) {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
+            stats = statistics.get(documentTypeName);
+        }
+        else {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
+            stats = statistics.get(documentTypeName);
+        }
+        
+        // If null, create and add a new one.
+        if (stats == null) {
+            stats = new ReportStatistics();
+            statistics.put(documentTypeName, stats);
+        }
+        
+        stats.incrementNumberOfErrors();
+    }
+    
+    /**
+     * 
+     * Write out the statistics.
+     *
+     */
+    private void writeStatistics() {
+        
+        for (Map.Entry<String, ReportStatistics> entry : statistics.entrySet()) {
+            
+            ReportStatistics stats = entry.getValue();
+            
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("", "");
+            
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("", "");
+        }
+        
     }
     
     /**

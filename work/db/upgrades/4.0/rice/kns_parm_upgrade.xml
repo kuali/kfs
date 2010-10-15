@@ -42,10 +42,35 @@
     </changeSet>
 
 	<!-- Remove no-longer-used parameters -->
+    <changeSet author="kfs" id="KFS_40_DELETE_OLD_PARMS">
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-LD' AND PARM_DTL_TYP_CD = 'LaborPosterStep' AND PARM_NM = 'SENT_TO_POSTER_OBJECT_CODES'</where>
+    	</delete>
+    </changeSet>
     
-    <!-- parameter updates -->
+    <!-- Fix some parameter values where the value needs to be an HTML hyperlink instead of just an URL -->
+    <changeSet author="kfs" id="KFS_40_FIX_PARM_URLS">
+    	<update tableName="KRNS_PARM_T">
+    		<column name="TXT" value="&lt;a href=&quot;http://kuali.org/&quot;&gt;&quot;http://kuali.org/&quot;&lt;/a&gt;" />
+    		<where>NMSPC_CD = 'KFS-FP' AND PARM_DTL_TYP_CD = 'ProcurementCard' AND PARM_NM = 'DISPUTE_URL'</where>
+    	</update>
+    	<update tableName="KRNS_PARM_T">
+    		<column name="TXT" value="&lt;a href=&quot;http://kuali.org/&quot;&gt;&quot;http://kuali.org/&quot;&lt;/a&gt;" />
+    		<where>NMSPC_CD = 'KFS-PURAP' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'PDF_STATUS_INQUIRY_URL'</where>
+    	</update>
+    </changeSet>
+
+	<!-- fix the descriptions on parameters which are misleading -->
+    <changeSet author="kfs" id="KFS_40_FIX_PARM_DESC">
+    	<update tableName="KRNS_PARM_T">
+    		<column name="PARM_DESC_TXT" value="Object levels that, when associated with Contract &amp; Grant accounts on a Purchase Order, will not force the PO to route to a C&amp;G workgroup for approval. Format of list is chart 1=object level 1, object level 2;chart 2=object level 3,object level 4,object level 5" />
+    		<where>NMSPC_CD = 'KFS-PURAP' AND PARM_DTL_TYP_CD = 'PurchaseOrder' AND PARM_NM = 'NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART'</where>
+    	</update>
+    	<update tableName="KRNS_PARM_T">
+    		<column name="PARM_DESC_TXT" value="The number of ElectronicPaymentClaim summaries which should appear on a single note attached to a claiming document." />
+    		<where>NMSPC_CD = 'KFS-SYS' AND PARM_DTL_TYP_CD = 'ElectronicPaymentClaim' AND PARM_NM = 'ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE'</where>
+    	</update>
+    </changeSet>
     
-    
-    <!-- CSV load for new parameters -->
 </databaseChangeLog>   
       

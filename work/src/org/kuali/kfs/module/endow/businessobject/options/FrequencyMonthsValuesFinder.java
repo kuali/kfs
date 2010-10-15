@@ -38,6 +38,7 @@ public class FrequencyMonthsValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.FEBRUARY, "February"));
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.MARCH, "March"));
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.APRIL, "April"));
+        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.MAY, "May"));
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.JUNE, "June"));
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.JULY, "July"));
         labels.add(new KeyLabelPair(EndowConstants.FrequencyMonths.AUGUST, "August"));

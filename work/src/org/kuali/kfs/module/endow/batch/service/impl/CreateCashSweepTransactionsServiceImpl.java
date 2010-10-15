@@ -23,12 +23,15 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
+import org.kuali.kfs.module.endow.batch.reporter.ReportStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
@@ -44,6 +47,7 @@ import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportL
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
@@ -68,6 +72,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
     
+    private Map<String, ReportStatistics> statistics = new HashMap<String, ReportStatistics>();
+    
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
@@ -78,18 +84,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private DocumentService documentService;
     private KEMIDService kemidService;
     private KEMService kemService;
-    
-    /**
-     * 
-     * Initialize the report document headers.
-     *
-     */
-    private void writeHeaders() {
-        createCashSweepExceptionReportWriterService.writeNewLines(1);
-        createCashSweepProcessedReportWriterService.writeNewLines(1);
-        createCashSweepExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
-        createCashSweepProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
-    }
     
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService#createCashSweepTransactions()
@@ -107,6 +101,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             processPrincipalSweepSale(cashSweepModel);
         }
         
+        writeStatistics();
         LOG.info("Finished \"Create Cash Sweep Transactions\" batch job!");
         
         return true;
@@ -696,6 +691,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * 
      * @return a list of error messages
      */
+    @SuppressWarnings("deprecation")
     protected List<String> extractGlobalVariableErrors() {
         List<String> result = new ArrayList<String>();
 
@@ -760,7 +756,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 createCashSweepProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
-
+        updatePostingStats(assetIncreaseDoc);
+        
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
         createCashSweepProcessedReportWriterService.writeNewLines(1);
     }
@@ -790,7 +787,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 createCashSweepProcessedReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
-
+        updatePostingStats(assetDecreaseDoc);
+        
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
         createCashSweepProcessedReportWriterService.writeNewLines(1);
     }
@@ -821,6 +819,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 createCashSweepExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
+        updateErrorStats(assetIncreaseDoc);
         
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
@@ -852,6 +851,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 createCashSweepExceptionReportValues.addPrincipalUnits(tranLine.getTransactionUnits());
             }
         }
+        updateErrorStats(assetDecreaseDoc);
         
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
@@ -869,6 +869,105 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportReason);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * 
+     * Initialize the report document headers.
+     *
+     */
+    private void writeHeaders() {
+        createCashSweepExceptionReportWriterService.writeNewLines(1);
+        createCashSweepProcessedReportWriterService.writeNewLines(1);
+        createCashSweepExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
+        createCashSweepProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param numberOfTransLines
+     */
+    private void updatePostingStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
+        
+        String documentTypeName = "";
+        ReportStatistics stats  = null;
+        int numberOfTransLines  = 0;
+        
+        if (assetDocument instanceof AssetIncreaseDocument) {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
+            stats = statistics.get(documentTypeName);
+            numberOfTransLines = assetDocument.getTargetTransactionLines().size();
+        }
+        else {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
+            stats = statistics.get(documentTypeName);
+            numberOfTransLines = assetDocument.getSourceTransactionLines().size();
+        }
+       
+        // If null, create and add a new one.
+        if (stats == null) {
+            stats = new ReportStatistics();
+            statistics.put(documentTypeName, stats);
+        }
+        
+        stats.incrementNumberOfDocuments();
+        stats.addNumberOfTransactionLines(numberOfTransLines);
+    }
+    
+    /**
+     * 
+     * This method...
+     *
+     * @param assetDocument
+     */
+    private void updateErrorStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
+        String documentTypeName = "";
+        ReportStatistics stats  = null;
+        
+        if (assetDocument instanceof AssetIncreaseDocument) {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
+            stats = statistics.get(documentTypeName);
+        }
+        else {
+            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
+            stats = statistics.get(documentTypeName);
+        }
+        
+        // If null, create and add a new one.
+        if (stats == null) {
+            stats = new ReportStatistics();
+            statistics.put(documentTypeName, stats);
+        }
+        
+        stats.incrementNumberOfErrors();
+    }
+    
+    /**
+     * 
+     * Write out the statistics.
+     *
+     */
+    private void writeStatistics() {
+        
+        for (Map.Entry<String, ReportStatistics> entry : statistics.entrySet()) {
+            
+            ReportStatistics stats = entry.getValue();
+            
+            createCashSweepProcessedReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
+            createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
+            createCashSweepProcessedReportWriterService.writeStatisticLine("", "");
+            
+            createCashSweepExceptionReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
+            createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
+            createCashSweepExceptionReportWriterService.writeStatisticLine("", "");
+        }
+        
     }
     
     /**

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,7 +63,6 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
 
     public Map<String, Class> listCollectionAccountFields(PersistableBusinessObject bo) {
         Map<String, Class> accountFields = new HashMap<String, Class>(); 
-        String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
         Iterator<Map.Entry<String, Class>> collObjs = listCollectionObjectTypes(bo).entrySet().iterator();
         
         while (collObjs.hasNext()) {
@@ -73,6 +73,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             // if the reference object is of Account or Account-involved BO class (including all subclasses) 
             if (accountClasses.contains(accountCollType)) {
                 // exclude non-maintainable account collection
+                String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableCollection(docTypeName, accountCollName) == null)
                     continue;
                 
@@ -111,8 +112,6 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
     
     public Map<String, Class> listReferenceAccountFields(PersistableBusinessObject bo) {
         Map<String, Class> accountFields = new HashMap<String, Class>();       
-        String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
-        List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
         
         while (refObjs.hasNext()) {
@@ -135,10 +134,12 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 
                 // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
                 // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
                 if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
                     continue;
                 
                 // exclude non-maintainable account field
+                String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, coaCodeName) == null ||
                     maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, acctNumName) == null)
                     continue;
@@ -153,8 +154,6 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
     
     public Map<String, String> listChartCodeAccountNumberPairs(PersistableBusinessObject bo) {
         Map<String, String> chartAccountPairs = new HashMap<String, String>();       
-        String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
-        List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
         
         while (refObjs.hasNext()) {
@@ -177,10 +176,12 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 
                 // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
                 // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
                 if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
                     continue;
                 
                 // exclude non-maintainable account field
+                String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, coaCodeName) == null ||
                     maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, acctNumName) == null)
                     continue;
@@ -195,8 +196,6 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
     
     public Map<String, String> listAccountNumberChartCodePairs(PersistableBusinessObject bo) {
         Map<String, String> accountChartPairs = new HashMap<String, String>(); 
-        String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
-        List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
         
         while (refObjs.hasNext()) {
@@ -219,10 +218,12 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 
                 // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
                 // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
                 if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
                     continue;
                 
                 // exclude non-maintainable account field
+                String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, coaCodeName) == null ||
                     maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, acctNumName) == null)
                     continue;
@@ -233,6 +234,19 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         }
         
         return accountChartPairs;
+    }
+    
+    /** Need to stop this method from running for objects which are not bound 
+     * into the ORM layer (OJB).  In this case, we can just return an empty list.
+     * 
+     * @see org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl#listReferenceObjectFields(org.kuali.rice.kns.bo.PersistableBusinessObject)
+     */
+    @Override
+    public Map<String, Class> listReferenceObjectFields(PersistableBusinessObject bo) {
+        if ( isPersistable(bo.getClass() ) ) {
+            return super.listReferenceObjectFields(bo);
+        }
+        return Collections.emptyMap();
     }
 
     public Set<String> listChartOfAccountsCodeNames(PersistableBusinessObject bo) {;

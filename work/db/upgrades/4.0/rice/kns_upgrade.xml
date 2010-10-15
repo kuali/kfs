@@ -23,7 +23,7 @@
 	<changeSet author="kfs" id="KFS_4.0_KRNS_NMSPC_T_ADD_ENDOW">
 		<insert tableName="KRNS_NMSPC_T">
 			<column name="NMSPC_CD" value="KFS-ENDOW" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Endowment" />
 			<column name="ACTV_IND" value="Y" />
@@ -39,7 +39,7 @@
 		<insert tableName="KRNS_PARM_DTL_TYP_T">
 			<column name="NMSPC_CD" value="KFS-ENDOW" />
 			<column name="PARM_DTL_TYP_CD" value="All" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="All" />
 			<column name="ACTV_IND" value="Y" />
@@ -47,7 +47,7 @@
 		<insert tableName="KRNS_PARM_DTL_TYP_T">
 			<column name="NMSPC_CD" value="KFS-ENDOW" />
 			<column name="PARM_DTL_TYP_CD" value="Batch" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Batch" />
 			<column name="ACTV_IND" value="Y" />
@@ -55,7 +55,7 @@
 		<insert tableName="KRNS_PARM_DTL_TYP_T">
 			<column name="NMSPC_CD" value="KFS-ENDOW" />
 			<column name="PARM_DTL_TYP_CD" value="Document" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Document" />
 			<column name="ACTV_IND" value="Y" />
@@ -63,7 +63,7 @@
 		<insert tableName="KRNS_PARM_DTL_TYP_T">
 			<column name="NMSPC_CD" value="KFS-ENDOW" />
 			<column name="PARM_DTL_TYP_CD" value="Lookup" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Lookup" />
 			<column name="ACTV_IND" value="Y" />
@@ -83,14 +83,14 @@
 		</preConditions>
 		<insert tableName="KRNS_PARM_TYP_T">
 			<column name="PARM_TYP_CD" value="AUTH" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Authorization" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRNS_PARM_TYP_T">
 			<column name="PARM_TYP_CD" value="HELP" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NM" value="Help" />
 			<column name="ACTV_IND" value="Y" />

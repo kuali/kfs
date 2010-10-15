@@ -1,0 +1,29 @@
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	<!-- New Ledger-Only Document Types -->
+    <documentType>
+      <name>ACLO</name>
+      <parent>FSLO</parent>
+      <label>Annual Closing</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+    <documentType>
+      <name>BCBB</name>
+      <parent>FSLO</parent>
+      <label>Undefined</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths />
+    </documentType>
+
+    <documentType>
+      <name>AACD</name>
+      <parent>FSSM</parent>
+      <label>Default KC Account Creation</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

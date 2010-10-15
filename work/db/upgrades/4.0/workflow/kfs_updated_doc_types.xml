@@ -1,0 +1,41 @@
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+	<!-- Add the maintenance doc document handler URL to KFS since removed 
+		 from KualiDocument in the baseline Rice distribution. -->
+    <documentType>
+      <name>KFS</name>
+      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+    </documentType>
+
+	<!-- Remove the route paths to ensure that they inherit from the parent.  In 3.0.1 they were
+		 defined as the same as the parent, but that stopped them from inheriting when an institution
+		 attempted to customize a parent document's workflow. -->
+    <documentType>
+      <name>VNSM</name>
+    </documentType>
+    <documentType>
+      <name>CGSM</name>
+    </documentType>
+    <documentType>
+      <name>PRSM</name>
+    </documentType>
+
+	<!-- Add help URLs -->
+    <documentType>
+      <name>BC</name>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm</helpDefinitionURL>
+    </documentType>
+    <documentType>
+      <name>PVEN</name>
+      <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendor2.htm</helpDefinitionURL>
+    </documentType>
+
+	<!-- Update the label on these documents -->
+    <documentType>
+      <name>RA</name>
+      <label>Research Administration</label>
+    </documentType>
+
+  </documentTypes>
+</data>

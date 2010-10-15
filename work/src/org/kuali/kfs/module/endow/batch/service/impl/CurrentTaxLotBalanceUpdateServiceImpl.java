@@ -69,10 +69,6 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
 
                 String securityId = currentTaxLotBalance.getSecurityId();
 
-                if ( holdingTaxLot.getKemid().equals("099PLTF021")) {
-                    String kemid =  holdingTaxLot.getKemid();
-                }
-                
                 currentTaxLotBalance.setHoldingMarketValue(currentTaxLotService.getHoldingMarketValue(holdingTaxLot, securityId));
                 currentTaxLotBalance.setSecurityUnitVal(currentTaxLotService.getCurrentTaxLotBalanceSecurityUnitValue(securityId));
                 currentTaxLotBalance.setAnnualEstimatedIncome(currentTaxLotService.getNextTwelveMonthsEstimatedValue(holdingTaxLot, securityId));

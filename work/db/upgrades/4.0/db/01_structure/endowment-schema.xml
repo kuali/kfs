@@ -643,13 +643,13 @@
             <column defaultValueNumeric="0.0" name="FEE_RT_1" type="NUMBER(9,4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1.0E17" name="FEE_BRK_1" type="NUMBER(19,2)">
+            <column defaultValueNumeric="10000000000" name="FEE_BRK_1" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="FEE_RT_2" type="NUMBER(9,4)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueNumeric="1.0E17" name="FEE_BRK_2" type="NUMBER(19,2)">
+            <column defaultValueNumeric="10000000000" name="FEE_BRK_2" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="FEE_RT_3" type="NUMBER(9,4)">

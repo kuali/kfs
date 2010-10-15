@@ -46,10 +46,8 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    //set noRouteIndicator = false by default to make sure when a user initiates 
-    //the eDoc manually through UI, it goes through the routing path defined in 
-    //the workflow xml file.
-    private boolean noRouteIndicator = false;
+
+    private boolean noRouteIndicator;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.
@@ -57,6 +55,11 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public EndowmentTransactionalDocumentBase() {
         super();
         this.transactionPosted = false;
+        
+        //set noRouteIndicator = false by default to make sure when a user initiates 
+        //the eDoc manually through UI, it goes through the routing path defined in 
+        //the workflow xml file.
+        this.noRouteIndicator= false;
         this.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
         initializeSourceTypeObj();        
     }
@@ -232,7 +235,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(this.CHECK_IF_ROUTE_SPLIT))
-            return noRouteIndicator;
+            return this.noRouteIndicator;
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 

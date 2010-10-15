@@ -38,7 +38,7 @@ public class BudgetConstructionRequestImportForm extends BudgetConstructionImpor
         super();
         this.budgetConstructionRequestImport = new BudgetConstructionRequestImport();
         setFileType(BCConstants.RequestImportFileType.ANNUAL.toString());
-        this.setTitle("BC Request Import Tool");
+        this.setTitle("Budget Construction Request Import Tool");
         this.setReportMode("requestImport");
     }
     

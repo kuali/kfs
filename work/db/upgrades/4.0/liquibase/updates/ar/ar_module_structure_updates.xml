@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet id="KFS_40_AR_ORG_OPTION_T_COUNTRY_CODE_COL" author="kfs">
+		<addColumn tableName="AR_ORG_OPTION_T">
+			<column name="org_postal_cntry_cd" type="varchar2(2)" />
+		</addColumn>
+
+		<update tableName="AR_ORG_OPTION_T">
+			<column name="org_postal_cntry_cd" value="US" />
+		</update>
+		<rollback>
+			<dropColumn tableName="AR_ORG_OPTION_T" columnName="org_postal_cntry_cd"/>
+		</rollback>
+	</changeSet>
+
+</databaseChangeLog>

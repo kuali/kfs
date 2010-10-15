@@ -155,6 +155,11 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-log.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-standard-1.1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

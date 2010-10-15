@@ -261,10 +261,13 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 HoldingTaxLot holdingTaxLot = findHoldingTaxLotRecord(kemid, securityId, regCode, piCode, holdingLotNumber);
                 
                 // Get new lot indicator.
-                boolean isNewLot = taxLotLine.isNewLotIndicator();
+                boolean isNewLot = taxLotLine.isNewLotIndicator(); // TODO: WHAT??
                 
                 // If we find an existing one, then modify it.
                 if (holdingTaxLot != null && !isNewLot) {
+                    
+                    holdingTaxLot.getSecurity().getClassCode().isTaxLotIndicator();
+                    
                     holdingTaxLot.setUnits(holdingTaxLot.getUnits().add(taxLotLine.getLotUnits()));
                     holdingTaxLot.setCost(holdingTaxLot.getCost().add(taxLotLine.getLotHoldingCost()));
                     
@@ -723,10 +726,16 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             Map<String, List<TransactioneDocPostingDocumentTotalReportLine>> postingStats, 
             TransactioneDocPostingDocumentTotalReportLine eDocTotalReportLine) {
         
+        // Get the document name.
+        String documentName = eDocTotalReportLine.getDocumentName();
+        
         // Get the table value by key (document name).  If the value is null, create it.
-        List<TransactioneDocPostingDocumentTotalReportLine> reportLine = postingStats.get(eDocTotalReportLine.getDocumentName());
+        List<TransactioneDocPostingDocumentTotalReportLine> reportLine = postingStats.get(documentName);
         if (reportLine == null) {
             reportLine = new ArrayList<TransactioneDocPostingDocumentTotalReportLine>();
+
+            // Add it back to the hash map.
+            postingStats.put(documentName, reportLine);
         }
         
         // Update the table value.

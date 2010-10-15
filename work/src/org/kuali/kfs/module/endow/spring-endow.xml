@@ -955,6 +955,7 @@
         <property name="title" value="CREATE CASH SWEEP JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="genericExceptionReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
@@ -1045,6 +1046,7 @@
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
+                <entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="genericExceptionReportHeader"/>
                 <entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
             </map>
         </property>
@@ -1953,6 +1955,18 @@
                 <entry key="columnHeading2" value="Security Id"/>
                 <entry key="columnHeading3" value="KEMID"/>
                 <entry key="columnHeading4" value="Transaction Amount"/>
+            </map>
+        </property>
+        <property name="columnCount" value="4" />
+    </bean>
+    <bean id="genericExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.EndowmentProcessedReportHeader" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map>
+                <entry key="columnHeading1" value=""/>
+                <entry key="columnHeading2" value=""/>
+                <entry key="columnHeading3" value=""/>
+                <entry key="columnHeading4" value=""/>
             </map>
         </property>
         <property name="columnCount" value="4" />

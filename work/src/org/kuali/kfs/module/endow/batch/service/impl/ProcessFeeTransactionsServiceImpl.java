@@ -109,11 +109,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     
     //the properties to hold count, total amounts and fee etc.
     private long totalNumberOfRecords = 0;
-    private BigDecimal totalAmountCalculated = new BigDecimal("0");
-    private BigDecimal feeToBeCharged = new BigDecimal("0");    
-    private BigDecimal transactionIncomeAmount = new BigDecimal("0");
-    private BigDecimal transacationPrincipalAmount = new BigDecimal("0");
-    private BigDecimal totalHoldingUnits = new BigDecimal("0");
+    private BigDecimal totalAmountCalculated = BigDecimal.ZERO;
+    private BigDecimal feeToBeCharged = BigDecimal.ZERO;    
+    private BigDecimal transactionIncomeAmount = BigDecimal.ZERO;
+    private BigDecimal transacationPrincipalAmount = BigDecimal.ZERO;
+    private BigDecimal totalHoldingUnits = BigDecimal.ZERO;
     
     //properties to help in writing subtotals and grand totals lines.
     //lines generated
@@ -121,16 +121,16 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     private int totalProcessedLinesGeneratedGrandTotal = 0;
     
     //income, principal subtotals at the eDoc level
-    private BigDecimal totalProcessedIncomeAmountSubTotalEDoc = new BigDecimal("0"); 
-    private BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountSubTotalEDoc = BigDecimal.ZERO; 
+    private BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = BigDecimal.ZERO; 
     
     //income, principal subtotals at the fee method level
-    private BigDecimal totalProcessedIncomeAmountSubTotal = new BigDecimal("0"); 
-    private BigDecimal totalProcessedPrincipalAmountSubTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountSubTotal = BigDecimal.ZERO; 
+    private BigDecimal totalProcessedPrincipalAmountSubTotal = BigDecimal.ZERO; 
     
     //income, principal subtotals at the grand total level
-    private BigDecimal totalProcessedIncomeAmountGrandTotal = new BigDecimal("0"); 
-    private BigDecimal totalProcessedPrincipalAmountGrandTotal = new BigDecimal("0"); 
+    private BigDecimal totalProcessedIncomeAmountGrandTotal = BigDecimal.ZERO; 
+    private BigDecimal totalProcessedPrincipalAmountGrandTotal = BigDecimal.ZERO; 
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -167,7 +167,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         boolean success = true;
         
-        writeReportHeaders();
+    //    writeReportHeaders();
         
         if (!updateKemidFeeWaivedYearToDateAmount()) {
             writeTableRowAndTableReason("Reason: unable to update update Waiver Fee Year To Date column to Zero.");
@@ -229,6 +229,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         boolean success = true;
         
         java.util.Date currentDate = kemService.getCurrentDate();
+        int maxNumberOfTransactionLinesPerDocument = kemService.getMaxNumberOfTransactionLinesPerDocument();
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
         for (FeeMethod feeMethod : feeMethods) {
@@ -247,7 +248,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             if (feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS) ||
                 feeTypeCode.equals(EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES)) {    
                 performCalculationsForKemId(feeMethod);
-                success &= generateCashDecreaseDocument(feeMethod, kemService.getMaxNumberOfTransactionLinesPerDocument());
+                success &= generateCashDecreaseDocument(feeMethod, maxNumberOfTransactionLinesPerDocument);
             }
         }
         
@@ -268,8 +269,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         LOG.info("generateWaivedAndAccruedReport() started"); 
         
         boolean success = true;
-        KualiDecimal accruedFeeGrandTotal = new KualiDecimal("0");
-        KualiDecimal waivedFeeGrandTotal = new KualiDecimal("0");
+        KualiDecimal accruedFeeGrandTotal = KualiDecimal.ZERO;
+        KualiDecimal waivedFeeGrandTotal = KualiDecimal.ZERO;
         
         Date currentDate = kemService.getCurrentDate();
         
@@ -280,8 +281,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         
         for (FeeMethod feeMethod : feeMethods) {
-            KualiDecimal accruedFeeSubTotal = new KualiDecimal("0");
-            KualiDecimal waivedFeeSubTotal = new KualiDecimal("0");
+            KualiDecimal accruedFeeSubTotal = KualiDecimal.ZERO;
+            KualiDecimal waivedFeeSubTotal = KualiDecimal.ZERO;
             
             Collection<KemidFee> kemidFeeRecords = kemidFeeService.getAllKemidForFeeMethodCode(feeMethod.getCode());
             
@@ -571,6 +572,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                 if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, ++lineNumber, maxNumberOfTransacationLines)) {
                     //write out the exception for this kemid but keep continuing....
                   //  writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to add the transaction line to the document.");
+                    --lineNumber;
                 }
             }
             else {
@@ -588,7 +590,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                         }
 
                         setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
-                        lineNumber = 1;
+                        lineNumber = 0;
                     }
                     else {
                         //write out exception since can not submit the document....
@@ -714,7 +716,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         try {
             newCashDecreaseDocument = (CashDecreaseDocument) documentService.getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(documentType));     
         } catch (WorkflowException wfe) {
-            LOG.info("Failed to initialize CashIncreaseDocument");            
+            LOG.info("Failed to initialize CashDecreaseDocument");            
             return null;
         }
         
@@ -782,7 +784,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
             setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod.getName());
             
-            lineNumber = 1;
+            lineNumber = 0;
             endowmentSourceTransactionLine = createEndowmentSourceTransactionLine(lineNumber, feeMethod, kemidFee, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, feeAmountForPrincipal);
             return addTransactionLineToDocument(cashDecreaseDocument, endowmentSourceTransactionLine, ++lineNumber, feeMethod.getCode());
         }

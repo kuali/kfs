@@ -29,7 +29,7 @@ public class EndowConstants extends JSTLConstants {
 
     public static final int NUMBER_OF_MONTHS_REMAINING = 6;
     public static final int NUMBER_OF_DAYS_IN_YEAR = 365;
-    public static final int MAXIMUM_NUMBER_OF_LINES_PER_EDOC = 100;
+    public static final int MAXIMUM_NUMBER_OF_LINES_PER_EDOC = 1000;
 
     public static final int SHORT_VS_LONG_TERM_PERIOD = 12;
 

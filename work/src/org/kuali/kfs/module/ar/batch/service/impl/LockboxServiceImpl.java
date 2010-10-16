@@ -45,9 +45,9 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -355,6 +355,7 @@ public class LockboxServiceImpl implements LockboxService {
                 //  Save and approve the payapp doc
                 LOG.info("   attempting to blanketApprove the PayApp Doc.");
                 try {
+                    
                     documentService.blanketApproveDocument(payAppDoc, "Automatically approved by Lockbox batch job.", null);
                 }
                 catch (Exception e) {
@@ -448,7 +449,9 @@ public class LockboxServiceImpl implements LockboxService {
         //  route without business rules 
         LOG.info("   attempting to route without business rules the PayApp Doc.");
         try {
-            payAppDoc.getDocumentHeader().getWorkflowDocument().routeDocument(annotation);
+           payAppDoc.getDocumentHeader().getWorkflowDocument().routeDocument(annotation);
+            final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
+            searchableAttributeProcessingService.indexDocument(new Long(payAppDoc.getDocumentNumber()));
         }
         catch (Exception e) {
             LOG.error("A Exception was thrown while trying to route (without business rules) PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);

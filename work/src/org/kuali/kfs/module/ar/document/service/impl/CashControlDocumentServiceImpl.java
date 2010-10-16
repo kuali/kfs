@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kns.exception.InfrastructureException;
@@ -112,7 +113,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 //        doc.getNonAppliedHolding().setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         doc.setNonAppliedHolding(null);
         
-        documentService.saveDocument(doc);
+         documentService.saveDocument(doc);       
         final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
         workflowDocumentActions.indexDocument(new Long(doc.getDocumentNumber()));
         
@@ -138,10 +139,17 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
         
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
+        doc.populateDocumentForRouting();
+        doc.prepareForSave();
+        documentService.prepareWorkflowDocument(doc);
+ 
         documentService.saveDocument(cashControlDocument);
         final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
         workflowDocumentActions.indexDocument(new Long(cashControlDocument.getDocumentNumber()));
-
+  
+        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
+        searchableAttributeProcessingService.indexDocument(new Long(doc.getDocumentNumber()));
+  
     }
 
     /**

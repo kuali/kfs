@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="kfs" id="KFS_40_PDP_ADD_SORT_FIELD_TO_PMT_GRP">
+		<modifyColumn tableName="PDP_PMT_GRP_T">
+			<column name="PMT_SORT_ORD_VAL" type="VARCHAR2(150)" />
+		</modifyColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="Bob" id="5975-1-1" failOnError="true">
+		<comment>These changes are required to handle the changes that will be made to PayeeACHAccount.xml, PaymentGroup.xml, ProcessSummary.xml and ACHPayee.xml. </comment>
+		<modifyColumn tableName="PDP_ACH_BNK_T">
+			<column name="bnk_nm" type="VARCHAR2(40)" />
+		</modifyColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	<changeSet author="Bob" id="5975-1-2" failOnError="true">
+		<comment>These changes are required to handle the changes that will be made to PayeeACHAccount.xml, PaymentGroup.xml, ProcessSummary.xml and ACHPayee.xml. </comment>
+		<modifyColumn tableName="PDP_PAYEE_ACH_ACCT_T">
+			<column name="PAYEE_EMAIL_ADDR" type="VARCHAR2(200)" />
+		</modifyColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	<changeSet author="Bob" id="5975-1-3" failOnError="true">
+		<comment>These changes are required to handle the changes that will be made to PayeeACHAccount.xml, PaymentGroup.xml, ProcessSummary.xml and ACHPayee.xml. </comment>
+		<modifyColumn tableName="PDP_PMT_GRP_T">
+			<column name="ADV_EMAIL_ADDR" type="VARCHAR2(200)" />
+		</modifyColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+
+</databaseChangeLog>

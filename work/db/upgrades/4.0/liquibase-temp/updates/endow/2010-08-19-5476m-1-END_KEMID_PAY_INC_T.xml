@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-  <changeSet author='Daniela' id='5476m-1-1' failOnError='false'>
-    <comment>remove the PAY_INC_AMT field from END_KEMID_PAY_INC_T table</comment>
-    <dropColumn tableName='END_KEMID_PAY_INC_T' columnName='PAY_INC_AMT' />
-  </changeSet>
-</databaseChangeLog>

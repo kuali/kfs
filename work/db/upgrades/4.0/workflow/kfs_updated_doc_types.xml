@@ -25,6 +25,8 @@
     <documentType>
       <name>BC</name>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm</helpDefinitionURL>
+      <postProcessorName />
+      <routePaths />
     </documentType>
     <documentType>
       <name>PVEN</name>

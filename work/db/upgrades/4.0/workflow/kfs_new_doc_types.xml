@@ -12,7 +12,7 @@
     <documentType>
       <name>BCBB</name>
       <parent>FSLO</parent>
-      <label>Undefined</label>
+      <label>BudgetConstructionBeginningBalanceDocument</label>
       <active>true</active>
       <routingVersion>2</routingVersion>
       <routePaths />

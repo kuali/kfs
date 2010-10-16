@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+
 	<changeSet author="Muddu" id="5693-1-1" failOnError="true">
 		<comment>Need to add a column for Exception Attached to FP_DV_DOC_T Table.</comment>
 		<addColumn tableName="FP_DV_DOC_T">
@@ -28,5 +29,4 @@
 			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>
 	</changeSet>
-
 </databaseChangeLog>

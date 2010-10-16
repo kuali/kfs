@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+
+	<changeSet id="KFS_40_PURAP_ADD_PREQ_ELEC_INV_REJECT_DOC"
+		author="kfs">
+		<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
+			<column name="preq_id" type="NUMBER(9,0)" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="David" id="KFS_40_PURAP_ADD_ACTIVE_ELEC_INV">
+		<comment>Needs to add a new column to AP_ELCTRNC_INV_MAP_T</comment>
+		<addColumn tableName="AP_ELCTRNC_INV_MAP_T">
+			<column name="DOBJ_MAINT_CD_ACTV_IND" type="VARCHAR2(1)" />
+		</addColumn>
+		<update tableName="AP_ELCTRNC_INV_MAP_T">
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+		</update>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="varchar2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+
+
+
+</databaseChangeLog>

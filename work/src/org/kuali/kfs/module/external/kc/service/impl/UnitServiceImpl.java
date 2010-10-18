@@ -56,13 +56,15 @@ public class UnitServiceImpl implements UnitService {
 
     public List<UnitDTO> lookupUnits(Map <String,String>searchCriteria) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
-        
+
         for (String key : searchCriteria.keySet()) {
             String val = searchCriteria.get(key);
-            HashMapElement hashMapElement = new HashMapElement();
-            hashMapElement.setKey(key);
-            hashMapElement.setValue(val); 
-            hashMapList.add(hashMapElement);
+            if ( KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+                HashMapElement hashMapElement = new HashMapElement();
+                hashMapElement.setKey(key);
+                hashMapElement.setValue(val); 
+                hashMapList.add(hashMapElement);
+            }
         }
         InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  

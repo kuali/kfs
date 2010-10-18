@@ -60,6 +60,7 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
         try {
            UnitService unitService = SpringContext.getBean(UnitService.class);
            unitList = unitService.lookupUnits(parameters);
+           if (unitList == null) return Collections.EMPTY_LIST;
            return unitList;
             /*
             UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));

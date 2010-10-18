@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,8 @@ import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 
 
 public interface UnitService {
-
+    public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");
+    
     UnitDTO getUnit(String unitNumber);
 
     List lookupUnits(Map<String, String> searchCriteria);

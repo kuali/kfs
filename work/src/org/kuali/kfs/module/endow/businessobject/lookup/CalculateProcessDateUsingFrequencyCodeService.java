@@ -184,8 +184,9 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @return next processing date
      */
     protected Date calculateNextProcessDate(String month, String dayOfMonth) {
-        Calendar calendar = setCaledarWithMonth(month);
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(kemService.getCurrentDate());
+        calendar = setCaledarWithMonth(month);        
         setCalendarWithDays(calendar, dayOfMonth);
         
         return new java.sql.Date(calendar.getTimeInMillis());

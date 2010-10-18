@@ -118,7 +118,8 @@
               p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="incomePayFrequency"
-              p:webUILeaveFieldFunction="loadFreqCodeDesc" />  
+              p:webUILeaveFieldFunction="loadFreqCodeDesc" 
+              p:lookupReadOnly="true" />  
         <bean parent="MaintainableFieldDefinition"
               p:name="frequencyCode.name" 
               p:unconditionallyReadOnly="true" />              

@@ -17,10 +17,13 @@ package org.kuali.kfs.module.endow.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -38,6 +41,15 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         Security security = (Security) document.getNewMaintainableObject().getBusinessObject();
+        String incomePayFrequencyCode = security.getIncomePayFrequency();
+        
+        if (StringUtils.isNotEmpty(incomePayFrequencyCode)) {
+            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
+            security.setIncomeNextPayDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(incomePayFrequencyCode));
+        }
+        else {
+            security.setIncomeNextPayDate(null);
+        }
 
         // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted
         // fields

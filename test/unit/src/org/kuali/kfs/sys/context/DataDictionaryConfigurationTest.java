@@ -31,12 +31,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javassist.tools.reflect.Reflection;
+
 import javax.sql.DataSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -140,11 +143,10 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME)
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass().getName())) {
-                List<Class<?>> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
                     // Class implements Inactivateable but active field not used on Lookup.
-                    if(iList.contains(Class.forName(INACTIVATEABLE_INTERFACE_CLASS))){
+                    if(Class.forName(INACTIVATEABLE_INTERFACE_CLASS).isAssignableFrom(businessObjectEntry.getBusinessObjectClass())) {
                         if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
                             if ( lookupDefinition.getLookupField(ACTIVE_FIELD_NAME) != null ) {

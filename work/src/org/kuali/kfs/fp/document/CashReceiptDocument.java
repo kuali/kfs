@@ -656,7 +656,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * Initializes the campus location code based on kfs user role chart org
      * 
      */
-    protected void initializeCampusLocationCode(){
+    public void initializeCampusLocationCode(){
         
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);

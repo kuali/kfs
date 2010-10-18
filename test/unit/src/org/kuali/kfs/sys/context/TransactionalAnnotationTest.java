@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
-import org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
@@ -45,14 +44,14 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionalAnnotationTest.class);
 
     Map<Class<? extends Object>, Boolean> seenClasses = new HashMap<Class<? extends Object>, Boolean>();
-    List<Class<? extends Object>> excludedClasses = new ArrayList<Class<? extends Object>>();
+    List<String> excludedClasses = new ArrayList<String>();
     Map<String, String> doubleAnnotatedTransactionalServices;
     Map<String, String> nonAnnotatedTransactionalServices;
     Map<String, Class<? extends Object>> incorrectlyAnnotatedTransactionalServices;
 
     {
-        excludedClasses.add( SubFundGroupServiceImpl.class );
-        excludedClasses.add( SensitiveDataServiceImpl.class );
+        excludedClasses.add( "org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl" );
+        excludedClasses.add( "org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl" );
     }
     
     public void setUp() throws Exception {
@@ -146,7 +145,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
 
     private boolean isExcludedClass( Class<? extends Object> beanClass ) {
         return beanClass.getName().startsWith("org.kuali.rice") 
-                || excludedClasses.contains(beanClass);
+                || excludedClasses.contains(beanClass.getName());
     }
     
     private boolean isClassAnnotated(String beanName, Class<? extends Object> beanClass) {

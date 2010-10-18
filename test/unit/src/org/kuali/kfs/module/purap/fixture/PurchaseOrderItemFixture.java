@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.module.purap.fixture;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.fixture.CommodityCodeFixture;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Fixture class for Purchase Order Item.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.fixture;
+package org.kuali.kfs.vnd.fixture;
 
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 

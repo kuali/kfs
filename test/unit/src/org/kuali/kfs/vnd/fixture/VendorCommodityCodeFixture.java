@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.vnd.fixture;
 
-import org.kuali.kfs.module.purap.fixture.CommodityCodeFixture;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 

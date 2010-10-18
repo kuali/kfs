@@ -21,13 +21,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.module.purap.identity.PurapKimAttributes;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
@@ -36,32 +32,13 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
 
 /**
  * Test of various KFS application roles.
  */
 @ConfigureContext
-public class KFSApplicationRoleTest extends KualiTestBase {
-    
-    public static final String STRAIGHT_COMMODITY_USER = "season";
-    public static final String WILDCARD_COMMODITY_USER = "cdbookma";
-    public static final String BAD_WILDCARD_COMMODITY_USER = "fwillhit";
-    public static final String COMMODITY_CAMPUS = "BL";
-    public static final String COMMODITY_CODE = "1113";
-    public static final String PURAP_NAMESPACE = "KFS-PURAP";
-    public static final String COMMODITY_REVIEWER_ROLE_NAME = "Commodity Reviewer";
-    
-    public void testCommodityReviewRoleTypeService() {
-        AttributeSet roleQualifiers = new AttributeSet();
-        roleQualifiers.put(KfsKimAttributes.CAMPUS_CODE, COMMODITY_CAMPUS);
-        roleQualifiers.put(KfsKimAttributes.PURCHASING_COMMODITY_CODE, COMMODITY_CODE);
+public class KFSApplicationRoleTest extends RoleTestBase {
         
-        assertUserIsRoleMember(getPrincipalIdByName(STRAIGHT_COMMODITY_USER), PURAP_NAMESPACE, COMMODITY_REVIEWER_ROLE_NAME, roleQualifiers);
-        assertUserIsRoleMember(getPrincipalIdByName(WILDCARD_COMMODITY_USER), PURAP_NAMESPACE, COMMODITY_REVIEWER_ROLE_NAME, roleQualifiers);
-        assertUserIsNotRoleMember(getPrincipalIdByName(BAD_WILDCARD_COMMODITY_USER), PURAP_NAMESPACE, COMMODITY_REVIEWER_ROLE_NAME, roleQualifiers);
-    }
-    
     public static final String KFS_PRINCIPAL_NAME = "khuntley";
     public static final String NON_KFS_PRINCIPAL_NAME = "bcoffee";
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
@@ -136,25 +113,7 @@ public class KFSApplicationRoleTest extends KualiTestBase {
         roleQualifications.put(KfsKimAttributes.ACCOUNT_NUMBER, ACCOUNT_DERIVED_AWARD_ACCOUNT);
         assertUserIsRoleMember(getPrincipalIdByName(ACCOUNT_DERIVED_AWARD_PROJECT_DIRECTOR), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME, roleQualifications);
     }
-    
-    public static final String SENSITIVE_DATA_1 = "ANIM";
-    public static final String SENSITIVE_DATA_2 = "RADI";
-    public static final String SENSITIVE_DATA_3 = "ANIM;RADI";
-    public static final String SENSITIVE_DATA_REVIEWER = "bhhallow";
-    public static final String SENSITIVE_DATA_ROLE_NAME = "Sensitive Data Viewer";
-    
-    public AttributeSet buildRoleQualificationForSensitiveData(String sensitiveDataCode) {
-        AttributeSet roleQualification = new AttributeSet();
-        roleQualification.put(PurapKimAttributes.SENSITIVE_DATA_CODE, sensitiveDataCode);
-        return roleQualification;
-    }
-    
-    public void testSensitiveDataRoleTypeService() {
-        assertUserIsRoleMember(getPrincipalIdByName(SENSITIVE_DATA_REVIEWER), PURAP_NAMESPACE, SENSITIVE_DATA_ROLE_NAME, buildRoleQualificationForSensitiveData(SENSITIVE_DATA_1));
-        assertUserIsNotRoleMember(getPrincipalIdByName(SENSITIVE_DATA_REVIEWER), PURAP_NAMESPACE, SENSITIVE_DATA_ROLE_NAME, buildRoleQualificationForSensitiveData(SENSITIVE_DATA_2));
-        assertUserIsRoleMember(getPrincipalIdByName(SENSITIVE_DATA_REVIEWER), PURAP_NAMESPACE, SENSITIVE_DATA_ROLE_NAME, buildRoleQualificationForSensitiveData(SENSITIVE_DATA_3));
-    }
-    
+        
     public static final String ORG_HIERARCHY_ORG_1_CHART = "BL";
     public static final String ORG_HIERARCHY_ORG_1_ORG = "BL";
     public static final String ORG_HIERARCHY_ORG_2_CHART = "BL";
@@ -223,50 +182,6 @@ public class KFSApplicationRoleTest extends KualiTestBase {
         assertUserIsRoleMember(getPrincipalIdByName(ACCOUNTING_ORG_HIERARCHY_MEMBER), KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_ORG_HIERARCHY_ROLE_NAME, buildAccountingOrganizationHierarchyReviewRoleQualifiers(ACCOUNTING_ORG_HIERARCHY_LOWER_LEVEL_CHART, ACCOUNTING_ORG_HIERARCHY_LOWER_LEVEL_ORG, ACCOUNTING_ORG_HIERARCHY_DOC_TYPE, ACCOUNTING_ORG_HIERARCHY_ENOUGH_AMOUNT));
         assertUserIsNotRoleMember(getPrincipalIdByName(ACCOUNTING_ORG_HIERARCHY_MEMBER), KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_ORG_HIERARCHY_ROLE_NAME, buildAccountingOrganizationHierarchyReviewRoleQualifiers(ACCOUNTING_ORG_HIERARCHY_TOO_HIGH_CHART, ACCOUNTING_ORG_HIERARCHY_TOO_HIGH_ORG, ACCOUNTING_ORG_HIERARCHY_DOC_TYPE, ACCOUNTING_ORG_HIERARCHY_ENOUGH_AMOUNT));
         assertUserIsNotRoleMember(getPrincipalIdByName(ACCOUNTING_ORG_HIERARCHY_MEMBER), KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_ORG_HIERARCHY_ROLE_NAME, buildAccountingOrganizationHierarchyReviewRoleQualifiers(ACCOUNTING_ORG_HIERARCHY_HIGHER_LEVEL_CHART, ACCOUNTING_ORG_HIERARCHY_HIGHER_LEVEL_ORG, ACCOUNTING_ORG_HIERARCHY_DOC_TYPE, ACCOUNTING_ORG_HIERARCHY_NOT_QUITE_ENOUGH_AMOUNT));
-    }
-    
-    private void assertUserIsRoleMember(String principalId, String roleNamespace, String roleName, AttributeSet roleQualifications) {
-        final Collection<RoleMembershipInfo> roleMembers = getRoleMembers(roleNamespace, roleName, roleQualifications);
-        
-        int memberCount = 0;
-        for (RoleMembershipInfo roleMember : roleMembers) {
-            if (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
-                memberCount += 1;
-            }
-        }
-        assertTrue("Principal "+SpringContext.getBean(PersonService.class).getPerson(principalId).getName()+" not found in role: "+roleNamespace+" "+roleName, memberCount > 0);
-    }
-    
-    private void assertUserIsNotRoleMember(String principalId, String roleNamespace, String roleName, AttributeSet roleQualifications) {
-        final Collection<RoleMembershipInfo> roleMembers = getRoleMembers(roleNamespace, roleName, roleQualifications);
-        
-        int memberCount = 0;
-        for (RoleMembershipInfo roleMember : roleMembers) {
-            if (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)) {
-                memberCount += 1;
-            }
-        }
-        assertTrue("Principal "+SpringContext.getBean(PersonService.class).getPerson(principalId).getName()+" found in role: "+roleNamespace+" "+roleName, memberCount == 0);
-    }
-    
-    private void assertUserIsSingleMemberInRole(String principalId, String roleNamespace, String roleName, AttributeSet roleQualifications) {
-        final Collection<RoleMembershipInfo> roleMembers = getRoleMembers(roleNamespace, roleName, roleQualifications);
-        
-        assertTrue("Only one role member returned", roleMembers.size() == 1);
-        
-        final RoleMembershipInfo roleMember = roleMembers.iterator().next();
-        roleMembers.iterator().hasNext(); // wind the iterator out, just in case
-        assertTrue("Role member "+roleMember.getMemberId()+" does not match expected principal id: "+principalId, (roleMember.getMemberTypeCode().equals("P") && roleMember.getMemberId().equals(principalId)));
-    }
-    
-    private Collection<RoleMembershipInfo> getRoleMembers(String roleNamespace, String roleName, AttributeSet roleQualifications) {
-        final RoleManagementService roleManagementService = SpringContext.getBean(RoleManagementService.class);
-        final KimRoleInfo roleInfo = roleManagementService.getRoleByName(roleNamespace, roleName);
-        return roleManagementService.getRoleMembers(Arrays.asList(new String[] { roleInfo.getRoleId() }), roleQualifications);
-    }
-    
-    private String getPrincipalIdByName(String principalName) {
-        return SpringContext.getBean(PersonService.class).getPersonByPrincipalName(principalName).getPrincipalId();
     }
     
 }

@@ -30,13 +30,6 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportEarnPaygroup;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportPosition;
-import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
-import org.kuali.kfs.module.ld.businessobject.LaborObject;
-import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -45,8 +38,28 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public enum FiscalYearMakerFixture {
 
-    OPTIONS(SystemOptions.class), ORGANIZATION_REVERSION_DETAIL(OrganizationReversionDetail.class, ObjectCode.class, OrganizationReversion.class), ORGANIZATION_REVERSION(OrganizationReversion.class), SUB_OBJECT_CODE(SubObjectCode.class, ObjectCode.class), OBJECT_CODE(ObjectCode.class), LABOR_OBJECT(LaborObject.class, ObjectCode.class), OFFSET_DEFINITION(OffsetDefinition.class, ObjectCode.class), BENEFITS_CALCULATION(BenefitsCalculation.class), POSITION_OBJECT_BENEFIT(PositionObjectBenefit.class, BenefitsCalculation.class), ACCOUNTING_PERIOD(AccountingPeriod.class), INDIRECT_COST_RECOVERY_RATE_DETAIL(IndirectCostRecoveryRateDetail.class), WIRE_CHARGE(WireCharge.class, ObjectCode.class), EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP(EffortCertificationReportEarnPaygroup.class), EFFORT_CERTIFICATION_REPORT_POSITION(EffortCertificationReportPosition.class, EffortCertificationReportDefinition.class), EFFORT_CERTIFICATION_REPORT_DEFINITION(EffortCertificationReportDefinition.class,
-            AccountingPeriod.class), SYSTEM_INFORMATION(SystemInformation.class, ObjectCode.class, SubObjectCode.class), UNIVERSITY_DATE(UniversityDate.class), OPTIONS1(SystemOptions.class, ObjectCode.class), OBJECT_CODE1(ObjectCode.class, LaborObject.class), LABOR_OBJECT1(LaborObject.class, SubObjectCode.class), WIRE_CHARGE1(WireCharge.class, ObjectCode.class, WireCharge.class), MISSING_PARENT_FYM(ObjectCode.class, Account.class);
+    OPTIONS(SystemOptions.class), 
+    ORGANIZATION_REVERSION_DETAIL(OrganizationReversionDetail.class, ObjectCode.class, OrganizationReversion.class), 
+    ORGANIZATION_REVERSION(OrganizationReversion.class), 
+    SUB_OBJECT_CODE(SubObjectCode.class, ObjectCode.class), 
+    OBJECT_CODE(ObjectCode.class), 
+//    LABOR_OBJECT(LaborObject.class, ObjectCode.class), 
+    OFFSET_DEFINITION(OffsetDefinition.class, ObjectCode.class), 
+//    BENEFITS_CALCULATION(BenefitsCalculation.class), 
+//    POSITION_OBJECT_BENEFIT(PositionObjectBenefit.class, BenefitsCalculation.class), 
+    ACCOUNTING_PERIOD(AccountingPeriod.class), 
+    INDIRECT_COST_RECOVERY_RATE_DETAIL(IndirectCostRecoveryRateDetail.class), 
+    WIRE_CHARGE(WireCharge.class, ObjectCode.class), 
+//    EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP(EffortCertificationReportEarnPaygroup.class), 
+//    EFFORT_CERTIFICATION_REPORT_POSITION(EffortCertificationReportPosition.class, EffortCertificationReportDefinition.class), 
+//    EFFORT_CERTIFICATION_REPORT_DEFINITION(EffortCertificationReportDefinition.class, AccountingPeriod.class), 
+//    SYSTEM_INFORMATION(SystemInformation.class, ObjectCode.class, SubObjectCode.class), 
+    UNIVERSITY_DATE(UniversityDate.class), 
+    OPTIONS1(SystemOptions.class, ObjectCode.class), 
+//    OBJECT_CODE1(ObjectCode.class, LaborObject.class), 
+//    LABOR_OBJECT1(LaborObject.class, SubObjectCode.class), 
+    WIRE_CHARGE1(WireCharge.class, ObjectCode.class, WireCharge.class), 
+    MISSING_PARENT_FYM(ObjectCode.class, Account.class);
 
     public Class<? extends PersistableBusinessObject> businessObjectClass;
     public Set<Class<? extends PersistableBusinessObject>> parentClasses;
@@ -75,17 +88,17 @@ public enum FiscalYearMakerFixture {
         fiscalYearMakers.add(ORGANIZATION_REVERSION.createFiscalYearMaker());
         fiscalYearMakers.add(SUB_OBJECT_CODE.createFiscalYearMaker());
         fiscalYearMakers.add(OBJECT_CODE.createFiscalYearMaker());
-        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
+//        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
         fiscalYearMakers.add(OFFSET_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
-        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
+//        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
         fiscalYearMakers.add(ACCOUNTING_PERIOD.createFiscalYearMaker());
         fiscalYearMakers.add(INDIRECT_COST_RECOVERY_RATE_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(WIRE_CHARGE.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
         fiscalYearMakers.add(UNIVERSITY_DATE.createFiscalYearMaker());
 
         return fiscalYearMakers;
@@ -100,17 +113,17 @@ public enum FiscalYearMakerFixture {
         fiscalYearMakers.add(ORGANIZATION_REVERSION_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(ORGANIZATION_REVERSION.createFiscalYearMaker());
         fiscalYearMakers.add(SUB_OBJECT_CODE.createFiscalYearMaker());
-        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
+//        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
         fiscalYearMakers.add(OFFSET_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
-        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
+//        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
         fiscalYearMakers.add(ACCOUNTING_PERIOD.createFiscalYearMaker());
         fiscalYearMakers.add(INDIRECT_COST_RECOVERY_RATE_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(WIRE_CHARGE.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
         fiscalYearMakers.add(UNIVERSITY_DATE.createFiscalYearMaker());
 
         return fiscalYearMakers;
@@ -126,7 +139,7 @@ public enum FiscalYearMakerFixture {
         fiscalYearMaker.setBusinessObjectClass(null);
 
         fiscalYearMakers.add(fiscalYearMaker);
-        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
 
         return fiscalYearMakers;
     }
@@ -139,7 +152,7 @@ public enum FiscalYearMakerFixture {
 
         fiscalYearMakers.add(OPTIONS.createFiscalYearMaker());
         fiscalYearMakers.add(OBJECT_CODE.createFiscalYearMaker());
-        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
         fiscalYearMakers.add(ACCOUNTING_PERIOD.createFiscalYearMaker());
         fiscalYearMakers.add(OBJECT_CODE.createFiscalYearMaker());
 
@@ -157,17 +170,17 @@ public enum FiscalYearMakerFixture {
         fiscalYearMakers.add(ORGANIZATION_REVERSION.createFiscalYearMaker());
         fiscalYearMakers.add(SUB_OBJECT_CODE.createFiscalYearMaker());
         fiscalYearMakers.add(OBJECT_CODE.createFiscalYearMaker());
-        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
+//        fiscalYearMakers.add(LABOR_OBJECT.createFiscalYearMaker());
         fiscalYearMakers.add(OFFSET_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
-        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
+//        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
         fiscalYearMakers.add(ACCOUNTING_PERIOD.createFiscalYearMaker());
         fiscalYearMakers.add(INDIRECT_COST_RECOVERY_RATE_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(WIRE_CHARGE.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
         fiscalYearMakers.add(UNIVERSITY_DATE.createFiscalYearMaker());
 
         return fiscalYearMakers;
@@ -183,18 +196,18 @@ public enum FiscalYearMakerFixture {
         fiscalYearMakers.add(ORGANIZATION_REVERSION_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(ORGANIZATION_REVERSION.createFiscalYearMaker());
         fiscalYearMakers.add(SUB_OBJECT_CODE.createFiscalYearMaker());
-        fiscalYearMakers.add(OBJECT_CODE1.createFiscalYearMaker());
-        fiscalYearMakers.add(LABOR_OBJECT1.createFiscalYearMaker());
+//        fiscalYearMakers.add(OBJECT_CODE1.createFiscalYearMaker());
+//        fiscalYearMakers.add(LABOR_OBJECT1.createFiscalYearMaker());
         fiscalYearMakers.add(OFFSET_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
-        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
+//        fiscalYearMakers.add(BENEFITS_CALCULATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(POSITION_OBJECT_BENEFIT.createFiscalYearMaker());
         fiscalYearMakers.add(ACCOUNTING_PERIOD.createFiscalYearMaker());
         fiscalYearMakers.add(INDIRECT_COST_RECOVERY_RATE_DETAIL.createFiscalYearMaker());
         fiscalYearMakers.add(WIRE_CHARGE1.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
-        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
-        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_EARN_PAYGROUP.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_POSITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(EFFORT_CERTIFICATION_REPORT_DEFINITION.createFiscalYearMaker());
+//        fiscalYearMakers.add(SYSTEM_INFORMATION.createFiscalYearMaker());
         fiscalYearMakers.add(UNIVERSITY_DATE.createFiscalYearMaker());
 
         return fiscalYearMakers;

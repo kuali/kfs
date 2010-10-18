@@ -39,8 +39,6 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
-import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
@@ -87,7 +85,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             throw (e);
         }
         // Using HashSet since duplicate objects would otherwise be returned
-        HashSet<DocumentEntry> documentEntries = new HashSet(dataDictionary.getDocumentEntries().values());
+        HashSet<DocumentEntry> documentEntries = new HashSet<DocumentEntry>(dataDictionary.getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String name = documentEntry.getDocumentTypeName();
@@ -129,23 +127,20 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
 }
 
-    private final static Class[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new Class[] { Account.class, BudgetConstructionPosition.class, PendingBudgetConstructionAppointmentFunding.class };
+    private final static String[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new String[] { "org.kuali.kfs.coa.businessobject.Account", "org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition", "org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding" };
     // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the
     // active-derived Closed? indicator instead (KFSMI-1393)
 
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
-        List<Class> noActiveFieldClassList = new ArrayList<Class>();
-        
-        List<Class> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
-        
-        List<Class> notImplementInactivateableList = new ArrayList<Class>();
-        
-        List<Class> defaultValueWrongList = new ArrayList<Class>();
+        List<Class<?>> noActiveFieldClassList = new ArrayList<Class<?>>();
+        List<String> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
+        List<Class<?>> notImplementInactivateableList = new ArrayList<Class<?>>();
+        List<Class<?>> defaultValueWrongList = new ArrayList<Class<?>>();
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME)
-                    && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass())) {
-                List iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
+                    && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass().getName())) {
+                List<Class<?>> iList = Arrays.asList(businessObjectEntry.getBusinessObjectClass().getInterfaces());
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
                     // Class implements Inactivateable but active field not used on Lookup.
@@ -177,11 +172,11 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         if (defaultValueWrongList.size()!=0) errorString=errorString+"Wrong default value: "+formatErrorStringGroupByModule(defaultValueWrongList);
         assertEquals(errorString, 0, noActiveFieldClassList.size()+notImplementInactivateableList.size()+defaultValueWrongList.size());
     }
-    private String formatErrorStringGroupByModule(List<Class> failedList){
-        Map<String,Set> listMap = new HashMap();
+    private String formatErrorStringGroupByModule(List<Class<?>> failedList){
+        Map<String,Set<String>> listMap = new HashMap<String, Set<String>>();
         String module = null;
         String itemName = null;
-        for (Class item :failedList){
+        for (Class<?> item :failedList){
             itemName=item.getName();
             module = itemName.substring(0, itemName.lastIndexOf('.'));
             if (!listMap.keySet().contains(module)){
@@ -200,7 +195,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     }
 
     public void testAllBusinessObjectsHaveObjectLabel() throws Exception {
-        List<Class> noObjectLabelClassList = new ArrayList<Class>();
+        List<Class<?>> noObjectLabelClassList = new ArrayList<Class<?>>();
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if (StringUtils.isBlank(businessObjectEntry.getObjectLabel())) {
                 noObjectLabelClassList.add(businessObjectEntry.getBusinessObjectClass());

@@ -19,6 +19,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
+import org.kuali.kfs.vnd.fixture.CommodityCodeFixture;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public enum RequisitionItemFixture {

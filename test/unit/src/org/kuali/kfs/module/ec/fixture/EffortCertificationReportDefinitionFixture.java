@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.fixture;
+package org.kuali.kfs.module.ec.fixture;
 
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.THREE;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FIVE;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SIX;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN;
 import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.EIGHT;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR;
 import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.NINE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN;
 import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TEN;
-import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ELEVEN;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.THREE;
 import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE;
+import static org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO;
 
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants;
 import org.kuali.kfs.module.ec.EffortCertificationTestConstants.EffortCertificationFiscalPeriod;

@@ -620,7 +620,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // matches the current date to the list 'cashSweepModels'.
         //
         for (CashSweepModel cashSweepModel : allCashSweepModels) {
-            Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(cashSweepModel.getCashSweepFrequencyCode());
+      //      Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(cashSweepModel.getCashSweepFrequencyCode());
+            Date freqDate = cashSweepModel.getCashSweepNextDueDate();
             if (freqDate.equals(currentDate)) {
                 cashSweepModels.add(cashSweepModel);
             }

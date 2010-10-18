@@ -121,9 +121,6 @@
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
     </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.SensitiveDataValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
 
   <bean id="CommodityCode-active" parent="CommodityCode-active-parentBean"/>

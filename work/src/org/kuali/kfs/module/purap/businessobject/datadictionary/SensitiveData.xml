@@ -141,4 +141,20 @@
       </list>
     </property>
   </bean>
+  
+  
+  <!--  Overriding this here since we can't have a reference to this class in the baseline code -->  
+  <bean id="CommodityCode-sensitiveDataCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData" p:sourceAttributeName="sensitiveDataCode"> 
+    <property name="name" value="sensitiveDataCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Sensitive Data"/>
+    <property name="shortLabel" value="Sensitive Data"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.SensitiveDataValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
 </beans>

@@ -603,6 +603,14 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         tranArchive.setDescription(lineDoc.getDocumentHeader().getDocumentDescription());
         tranArchive.setPostedDate(kemService.getCurrentDate());
         
+        // If the line type code is F(Decrease), then all the transaction amounts need to be
+        // negative.
+        if (tranLine.getTransactionLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE)) {
+            tranArchive.setCorpusAmount(tranArchive.getCorpusAmount().negate());
+            tranArchive.setIncomeCashAmount(tranArchive.getIncomeCashAmount().negate());
+            tranArchive.setPrincipalCashAmount(tranArchive.getPrincipalCashAmount().negate());
+        }
+        
         return tranArchive;
     }
     

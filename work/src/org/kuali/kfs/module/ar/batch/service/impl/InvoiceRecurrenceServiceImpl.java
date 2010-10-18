@@ -145,6 +145,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                 //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
+                invoiceRecurrence.setDocumentLastCreateDate(currentDate);
             }
 
             /* if nextProcessDate is greater than currentDate BUT less than or equal to endDate */
@@ -161,6 +162,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
                     //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                     getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
+                    invoiceRecurrence.setDocumentLastCreateDate(currentDate);
                 }
             }
             
@@ -182,6 +184,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 adHocRouteRecipients.add(buildFyiPersonRecipient(initiator));
                 //adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(newMaintDoc, null, adHocRouteRecipients);
+                invoiceRecurrence.setDocumentLastCreateDate(currentDate);
             }
         }
         return true;

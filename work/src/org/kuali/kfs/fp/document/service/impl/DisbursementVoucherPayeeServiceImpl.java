@@ -134,16 +134,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
     
     /**
-     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isTaxReviewRequired(String)
-     */
-    public boolean isTaxReviewRequired(String payeeTaxControlCode) {
-        ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        List<String> taxControlCodes = paramService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM);
-        
-        return taxControlCodes != null && taxControlCodes.contains(payeeTaxControlCode);
-    }
-
-    /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isPayeeIndividualVendor(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
     public boolean isPayeeIndividualVendor(DisbursementPayee payee) {

@@ -189,7 +189,6 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
-    public static final String TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM = "TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
 
     public static final String TAX_TYPE_SSN = "1";

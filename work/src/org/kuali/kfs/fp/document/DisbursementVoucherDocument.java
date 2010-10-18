@@ -1668,21 +1668,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return title;
         }
         
-        Object[] indicators = new String[4];        
+        Object[] indicators = new String[3];        
         indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
         indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
         
-        DisbursementVoucherPayeeService payeeService = SpringContext.getBean(DisbursementVoucherPayeeService.class);
-        boolean isTaxReviewRequired = payeeService.isTaxReviewRequired(this.disbVchrPayeeTaxControlCode);
-        indicators[2] = isTaxReviewRequired ? AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
-        
         DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
-        isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
-        indicators[3] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
+        boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
+        indicators[2] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
         
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " [{0}:{1}:{2}:{3}]";
+                String titlePattern = title + " [{0}:{1}:{2}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }

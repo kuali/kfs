@@ -24,10 +24,12 @@ import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is a Financial System specific Document Service class to allow for the {@link #findByDocumentHeaderStatusCode(Class, String)} method.
  */
+@Transactional
 public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocumentService {
     private FinancialSystemDocumentDao financialSystemDocumentDao;
     private DocumentService documentService;

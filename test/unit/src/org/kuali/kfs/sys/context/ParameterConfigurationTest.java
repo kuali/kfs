@@ -20,13 +20,16 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kns.bo.Namespace;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.bo.ParameterDetailType;
 import org.kuali.rice.kns.rules.ParameterRule;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterServerService;
 
 @ConfigureContext(shouldCommitTransactions=true)
@@ -47,6 +50,11 @@ public class ParameterConfigurationTest extends KualiTestBase {
         int failCount = 0;
         System.out.println("Starting Component Validation");
         for (Parameter param : params) {
+            // skip unimplemented modules
+            if ( SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(param.getParameterNamespaceCode())
+                    instanceof UnimplementedKfsModuleServiceImpl ) {
+                continue;
+            }
             try{
                if (!paramRule.checkComponent(param)) {
                if (param.getParameterNamespaceCode().startsWith("KR"))continue;

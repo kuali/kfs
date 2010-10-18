@@ -132,6 +132,10 @@
     <bean id="purapModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
+
+    <bean id="kcModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+        <property name="moduleConfiguration" ref="kcExternalModuleConfiguration" />
+    </bean>
     
    <bean id="kcExternalModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
         <property name="namespaceCode" value="KFS-KC" />

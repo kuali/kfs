@@ -184,7 +184,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 adHocRouteRecipients.add(buildFyiPersonRecipient(initiator));
                 //adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(newMaintDoc, null, adHocRouteRecipients);
-                invoiceRecurrence.setDocumentLastCreateDate(currentDate);
+                newInvoiceRecurrence.setDocumentLastCreateDate(currentDate);
             }
         }
         return true;

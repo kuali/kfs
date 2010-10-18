@@ -310,7 +310,9 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, false);
         
         // Create the correct transaction line based on if it's a source or target type.
-        EndowmentTransactionLine transactionLine = createIncomeTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true);
+        EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true)
+                :createIncomeTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true);
+        
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
    
         if (rulesPassed) {
@@ -326,7 +328,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
     }
     
-
+    /**
+     * 
+     * This method...
+     *
+     * @param assetIncreaseDoc
+     * @param kemid
+     * @param cashLimit
+     * @param currentCash
+     * @param isIncome
+     */
     private void addTransactionLineForAssetIncrease(
             AssetIncreaseDocument assetIncreaseDoc,
             KEMID kemid,
@@ -338,7 +349,9 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, true);
         
         // Create the correct transaction line based on if it's a source or target type.
-        EndowmentTransactionLine transactionLine = createIncomeTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false);
+        EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false)
+                :createIncomeTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false);
+        
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
         
         if (rulesPassed) {
@@ -421,7 +434,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     
-    private EndowmentTransactionLine createPrincipalTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
+    private EndowmentTransactionLine createPrincipleTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
         if (isSource) {

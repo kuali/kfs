@@ -43,6 +43,7 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.SecurityDocumentPresentationController" />
     <property name="webScriptFiles" >
       <list>
+        <value>../dwr/interface/CalculateProcessDateUsingFrequencyCodeService.js</value>
         <value>../dwr/interface/FrequencyCodeService.js</value>
         <value>../dwr/interface/SubClassCodeService.js</value>
         <value>../scripts/module/endow/security.js</value>

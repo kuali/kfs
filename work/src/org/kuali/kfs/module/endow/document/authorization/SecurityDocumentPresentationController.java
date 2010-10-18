@@ -37,7 +37,6 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
      */
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
-
         Set<String> fields = super.getConditionallyHiddenPropertyNames(businessObject);
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         Security security = (Security) document.getNewMaintainableObject().getBusinessObject();
@@ -46,9 +45,6 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         if (StringUtils.isNotEmpty(incomePayFrequencyCode)) {
             CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
             security.setIncomeNextPayDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(incomePayFrequencyCode));
-        }
-        else {
-            security.setIncomeNextPayDate(null);
         }
 
         // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted

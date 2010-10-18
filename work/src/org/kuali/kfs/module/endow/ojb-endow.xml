@@ -892,6 +892,7 @@
 	<field-descriptor name="principleSweepInvestment" column="PRIN_SWEEP_SEC_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="principleSweepRegistrationCode" column="PRIN_SWEEP_REGIS_CD" jdbc-type="VARCHAR"/>	
 	<field-descriptor name="cashSweepFrequencyCode" column="CSH_SWEEP_FREQ" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cashSweepNextDueDate" column="CSH_SWEEP_NXT_DUE_DT" jdbc-type="DATE"/>	
 	<field-descriptor name="dateOfLastSweepModelChange" column="CSH_SWEEP_MDL_DT" jdbc-type="DATE"/>	
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
@@ -1778,6 +1779,7 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	
 	<!-- Sequence numbers for source & target line numbers -->
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
@@ -1824,7 +1826,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>	
+
 	<!-- Sequence numbers for source & target line numbers -->
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -1870,7 +1873,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -1935,7 +1939,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2001,7 +2006,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2046,7 +2052,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2091,7 +2098,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2145,7 +2153,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2212,7 +2221,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2258,7 +2268,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2347,6 +2358,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2503,7 +2516,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2561,7 +2575,8 @@
 	<field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	
+	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		
 	<!-- Sequence numbers for source & target line numbers -->
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />
@@ -2810,7 +2825,8 @@
     <field-descriptor name="transactionSubTypeCode" column="TRAN_SUB_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="transactionSourceTypeCode" column="TRAN_SRC_TYP_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="transactionPosted" column="TRAN_PSTD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-    
+ 	<field-descriptor name="noRouteIndicator" column="NO_ROUTE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+ 	   
     <!-- Sequence numbers for source & target line numbers -->
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_SRC_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_TAR_LN_NBR" jdbc-type="INTEGER" />

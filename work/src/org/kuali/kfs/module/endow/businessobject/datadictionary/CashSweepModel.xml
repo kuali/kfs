@@ -32,6 +32,7 @@
         <ref bean="CashSweepModel-principleRegistrationCode.name"/>
         <ref bean="CashSweepModel-cashSweepFrequencyCode" />                
         <ref bean="CashSweepModel-cashSweepFrequencyCodeObj.name" />
+        <ref bean="CashSweepModel-cashSweepNextDueDate" />
         <ref bean="CashSweepModel-dateOfLastSweepModelChange" />
         <ref bean="CashSweepModel-active" />        
         <ref bean="CashSweepModel-incomePooledFundControl.pooledSecurityIDAndDescription" />
@@ -212,6 +213,13 @@
     <property name="name" value="cashSweepFrequencyCodeObj.name" />
     <property name="label" value="Cash Sweep Frequency Code Description" />
   </bean>       
+  
+  <bean id="CashSweepModel-cashSweepNextDueDate" parent="CashSweepModel-cashSweepNextDueDate-parentBean" />
+
+  <bean id="CashSweepModel-cashSweepNextDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="cashSweepNextDueDate" />
+    <property name="label" value="Cash Sweep Next Due Date" />
+  </bean> 
         
   <bean id="CashSweepModel-dateOfLastSweepModelChange" parent="CashSweepModel-dateOfLastSweepModelChange-parentBean" />
 
@@ -309,6 +317,8 @@
              		p:attributeName="principleRegistrationCode.codeAndDescription" />
         	  <bean parent="FieldDefinition"
              		p:attributeName="cashSweepFrequencyCodeObj.codeAndDescription" />   
+              <bean parent="FieldDefinition"
+             		p:attributeName="cashSweepNextDueDate" />  
               <bean parent="FieldDefinition"
              		p:attributeName="dateOfLastSweepModelChange" />                             
               <bean parent="FieldDefinition"

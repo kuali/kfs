@@ -35,7 +35,8 @@ public class CashSweepModel extends PersistableBusinessObjectBase implements Ina
     private String principleSweepInvestment;
     private String principleSweepRegistrationCode;
     private String cashSweepFrequencyCode;
-    private Date dateOfLastSweepModelChange;
+    private Date cashSweepNextDueDate;
+    private Date dateOfLastSweepModelChange;    
     private boolean active;
     
     private PooledFundControl incomePooledFundControl;
@@ -208,6 +209,23 @@ public class CashSweepModel extends PersistableBusinessObjectBase implements Ina
     }
  
     /**
+     * Gets the cashSweepNextDueDate
+     * 
+     * @return cashSweepNextDueDate
+     */
+    public Date getCashSweepNextDueDate() {
+        return cashSweepNextDueDate;
+    }
+    /**
+     * Sets the cashSweepNextDueDate
+     * 
+     * @param cashSweepNextDueDate
+     */
+    public void setCashSweepNextDueDate(Date cashSweepNextDueDate) {
+        this.cashSweepNextDueDate = cashSweepNextDueDate;
+    }
+    
+    /**
      * Gets the dateOfLastSweepModelChange
      * 
      * @return dateOfLastSweepModelChange
@@ -307,7 +325,7 @@ public class CashSweepModel extends PersistableBusinessObjectBase implements Ina
      */
     public void setCashSweepFrequencyCodeObj(FrequencyCode cashSweepFrequencyCodeObj) {
         this.cashSweepFrequencyCodeObj = cashSweepFrequencyCodeObj;
-    }   
+    }  
     
     /**
      * Gets the cashSweepFrequencyCode 

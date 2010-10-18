@@ -190,7 +190,7 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode" p:noLookup="true"/>
         <bean parent="FieldDefinition" p:attributeName="customerFileCreateTimestamp"/>

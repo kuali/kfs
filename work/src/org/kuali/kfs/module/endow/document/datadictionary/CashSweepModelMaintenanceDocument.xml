@@ -45,6 +45,7 @@
     <property name="documentTypeName" value="CashSweepModelMaintenanceDocument" />
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.endow.document.validation.impl.CashSweepModelPreRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.CashSweepModelDocumentPresentationController" />    	
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/RegistrationCodeService.js</value>

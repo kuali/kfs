@@ -59,9 +59,6 @@ public class KFSApplicationRoleTest extends RoleTestBase {
     public static final String ACCOUNT_DERIVED_DELEGATE_SECONDARY_ACCOUNT_NUMBER = "9019995";
     public static final String ACCOUNT_DERIVED_DELEGATE_PRINCIPAL = "rmunroe";
     
-    public static final String ACCOUNT_DERIVED_AWARD_CHART = "BL";
-    public static final String ACCOUNT_DERIVED_AWARD_ACCOUNT = "4831498";
-    public static final String ACCOUNT_DERIVED_AWARD_PROJECT_DIRECTOR = "ahlers";
     
     
     public void testAccountDerivedRoleTypeService() {
@@ -107,11 +104,6 @@ public class KFSApplicationRoleTest extends RoleTestBase {
             delegateIds.add(delegate.getMemberId());
         }
         assertTrue("Fiscal Officer delegates does not contain primary delegate", delegateIds.contains(delegatePrincipalId));
-        
-        // 5. test award secondary director
-        roleQualifications.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, ACCOUNT_DERIVED_AWARD_CHART);
-        roleQualifications.put(KfsKimAttributes.ACCOUNT_NUMBER, ACCOUNT_DERIVED_AWARD_ACCOUNT);
-        assertUserIsRoleMember(getPrincipalIdByName(ACCOUNT_DERIVED_AWARD_PROJECT_DIRECTOR), KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.AWARD_SECONDARY_DIRECTOR_KIM_ROLE_NAME, roleQualifications);
     }
         
     public static final String ORG_HIERARCHY_ORG_1_CHART = "BL";

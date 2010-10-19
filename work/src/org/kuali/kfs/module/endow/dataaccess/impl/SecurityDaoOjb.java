@@ -45,6 +45,7 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY);
+        criteria.addEqualTo(EndowPropertyConstants.SECURITY_ACTIVE_INDICATOR, "Y");
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }
 

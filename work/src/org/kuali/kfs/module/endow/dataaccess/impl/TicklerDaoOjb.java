@@ -35,7 +35,8 @@ public class TicklerDaoOjb extends PlatformAwareDaoBaseOjb implements TicklerDao
     public List<Tickler> getTicklerWithNextPayDateEqualToCurrentDate() {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.TICKLER_NEXT_DUE_DATE, kemService.getCurrentDate());
-        criteria.addNotNull(EndowPropertyConstants.TICKLER_FREQUENCY);
+        criteria.addNotNull(EndowPropertyConstants.TICKLER_FREQUENCY_CODE);
+        criteria.addEqualTo(EndowPropertyConstants.TICKLER_ACTIVE_INDICATOR, "Y");
         return (List<Tickler>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Tickler.class, criteria));
     }
 

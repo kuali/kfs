@@ -36,6 +36,7 @@ public class FeeMethodDaoOjb extends PlatformAwareDaoBaseOjb implements FeeMetho
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, kemService.getCurrentDate());
         criteria.addNotNull(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);
+        criteria.addEqualTo(EndowPropertyConstants.KUALICODEBASE_ACTIVE_INDICATOR, "Y");
         return (List<FeeMethod>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(FeeMethod.class, criteria));
     }
 

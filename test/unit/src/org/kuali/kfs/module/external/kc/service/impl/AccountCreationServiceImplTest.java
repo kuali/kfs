@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -48,7 +49,7 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         super.setUp();
 
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        accountCreationServiceImpl = (AccountCreationServiceImpl) SpringContext.getService("kcMockAccountCreationService");
+        accountCreationServiceImpl = (AccountCreationServiceImpl) ProxyUtils.getTargetIfProxied( SpringContext.getService("kcMockAccountCreationService") );
     }
     
     /**

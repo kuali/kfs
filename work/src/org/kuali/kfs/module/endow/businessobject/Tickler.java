@@ -29,8 +29,7 @@ import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class Tickler extends PersistableBusinessObjectBase
-{
+public class Tickler extends PersistableBusinessObjectBase implements Inactivateable {
     
     private String number;
     private String typeCode;

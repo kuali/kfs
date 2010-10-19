@@ -20,10 +20,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.defaultvalue.NextTransferNumberFinder;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase {
+public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase implements Inactivateable {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentRecurringCashTransfer.class);
     

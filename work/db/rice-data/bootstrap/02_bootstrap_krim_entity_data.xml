@@ -4,16 +4,16 @@
 
 	<!--  Just loads the "KFS" user -->		
 	<changeSet author="kfs" id="KRIM_ENTITY_T">
-		<loadData tableName="KRIM_ENTITY_T" file="bootstrap-data/krim_entity_t.csv" />
+		<loadData tableName="KRIM_ENTITY_T" file="krim_entity_t.csv" />
     </changeSet>
 	<changeSet author="kfs" id="KRIM_PRNCPL_T">
-		<loadData tableName="KRIM_PRNCPL_T" file="bootstrap-data/krim_prncpl_t.csv" />
+		<loadData tableName="KRIM_PRNCPL_T" file="krim_prncpl_t.csv" />
     </changeSet>
 	<changeSet author="kfs" id="KRIM_ENTITY_ENT_TYP_T">
-		<loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="bootstrap-data/krim_entity_ent_typ_t.csv" />
+		<loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="krim_entity_ent_typ_t.csv" />
     </changeSet>
 	<changeSet author="kfs" id="KRIM_ENTITY_NM_T">
-		<loadData tableName="KRIM_ENTITY_NM_T" file="bootstrap-data/krim_entity_nm_t.csv" />
+		<loadData tableName="KRIM_ENTITY_NM_T" file="krim_entity_nm_t.csv" />
     </changeSet>
 
 </databaseChangeLog>   

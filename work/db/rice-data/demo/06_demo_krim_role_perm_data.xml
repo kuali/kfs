@@ -3,22 +3,22 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 		
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_ROLE_MBR_T">
-		<loadData tableName="KRIM_ROLE_MBR_T" file="demo-data/krim_role_mbr_t.csv" />
+		<loadData tableName="KRIM_ROLE_MBR_T" file="krim_role_mbr_t.csv" />
     </changeSet>
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_ROLE_MBR_ATTR_DATA_T">
-		<loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="demo-data/krim_role_mbr_attr_data_t.csv" />
+		<loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="krim_role_mbr_attr_data_t.csv" />
     </changeSet>
 
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_DLGN_MBR_T">
-		<loadData tableName="KRIM_DLGN_MBR_T" file="demo-data/krim_dlgn_mbr_t.csv" />
+		<loadData tableName="KRIM_DLGN_MBR_T" file="krim_dlgn_mbr_t.csv" />
     </changeSet>
     
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_DLGN_MBR_ATTR_DATA_T">
-		<loadData tableName="KRIM_DLGN_MBR_ATTR_DATA_T" file="demo-data/krim_dlgn_mbr_attr_data_t.csv"/>
+		<loadData tableName="KRIM_DLGN_MBR_ATTR_DATA_T" file="krim_dlgn_mbr_attr_data_t.csv"/>
     </changeSet>
 
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_ROLE_RSP_ACTN_T">
-		<loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="demo-data/krim_role_rsp_actn_t.csv" />
+		<loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="krim_role_rsp_actn_t.csv" />
     </changeSet>
 
 </databaseChangeLog>   

@@ -580,14 +580,14 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
             tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
         }
-        else {
-            // The document type wasn't Corpus Adjust, so set the Income and Principle amounts.
-            if (tranArchive.getIncomePrincipalIndicatorCode().equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+        // The document type wasn't Corpus Adjust, so set the Income and Principle amounts.
+        else if (tranArchive.getIncomePrincipalIndicatorCode().equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
                 tranArchive.setIncomeCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
-            }
-            else {
-                tranArchive.setPrincipalCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
-            }
+                tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+        }
+        else {
+            tranArchive.setPrincipalCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
+            tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
         }
         
         tranArchive.setLineDescription(tranLine.getTransactionLineDescription());

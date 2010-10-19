@@ -33,8 +33,9 @@
         <ref bean="AutomatedCashInvestmentModel-investment4SecurityID" />
         <ref bean="AutomatedCashInvestmentModel-investment4.pooledFundDescription" />       
         <ref bean="AutomatedCashInvestmentModel-investment4Percent" />  
-        <ref bean="AutomatedCashInvestmentModel-aciFrequencyCode" />                
+        <ref bean="AutomatedCashInvestmentModel-aciFrequencyCode" />                     
         <ref bean="AutomatedCashInvestmentModel-aciFrequencyCodeObj.name" />
+        <ref bean="AutomatedCashInvestmentModel-aciNextDueDate" />
         <ref bean="AutomatedCashInvestmentModel-dateOfLastACIModelChange" />
         <ref bean="AutomatedCashInvestmentModel-active" />        
         <ref bean="AutomatedCashInvestmentModel-investment1.pooledSecurityIDAndDescription" />
@@ -269,7 +270,14 @@
     <property name="name" value="aciFrequencyCodeObj.name" />
     <property name="label" value="ACI Frequency Code Description" />
   </bean>       
-        
+
+  <bean id="AutomatedCashInvestmentModel-aciNextDueDate" parent="AutomatedCashInvestmentModel-aciNextDueDate-parentBean" />
+
+  <bean id="AutomatedCashInvestmentModel-aciNextDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="aciNextDueDate" />
+    <property name="label" value="ACI Next Due Date" />
+  </bean> 
+          
   <bean id="AutomatedCashInvestmentModel-dateOfLastACIModelChange" parent="AutomatedCashInvestmentModel-dateOfLastACIModelChange-parentBean" />
 
   <bean id="AutomatedCashInvestmentModel-dateOfLastACIModelChange-parentBean" abstract="true" parent="GenericAttributes-genericDate">
@@ -373,6 +381,8 @@
               		p:attributeName="investment4Percent" />              		
         	  <bean parent="FieldDefinition"
              		p:attributeName="aciFrequencyCodeObj.codeAndDescription" />   
+              <bean parent="FieldDefinition"
+             		p:attributeName="aciNextDueDate" />               		
               <bean parent="FieldDefinition"
              		p:attributeName="dateOfLastACIModelChange" />                             
               <bean parent="FieldDefinition"

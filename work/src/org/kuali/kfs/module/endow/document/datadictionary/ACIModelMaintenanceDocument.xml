@@ -122,7 +122,9 @@
               p:lookupReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="aciFrequencyCodeObj.name"
-              p:unconditionallyReadOnly="true" />                 
+              p:unconditionallyReadOnly="true" />   
+        <bean parent="MaintainableFieldDefinition"
+              p:name="aciNextDueDate" />                            
         <bean parent="MaintainableFieldDefinition"
               p:name="active"
               p:defaultValue="true" />              

@@ -929,6 +929,7 @@
 	<field-descriptor name="investment4SecurityID" column="ACI_POOL4_SEC_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment4Percent" column="ACI_POOL4_PCT" jdbc-type="DECIMAL" />	
 	<field-descriptor name="aciFrequencyCode" column="ACI_FREQ" jdbc-type="VARCHAR"/>
+	<field-descriptor name="aciNextDueDate" column="ACI_NXT_DUE_DT" jdbc-type="DATE"/>	
 	<field-descriptor name="dateOfLastACIModelChange" column="ACI_MDL_DT" jdbc-type="DATE"/>	
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 

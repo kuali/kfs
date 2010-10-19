@@ -888,7 +888,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         // matches the current date to the list 'cashSweepModels'.
         //
         for (AutomatedCashInvestmentModel aciModel : allAciModels) {
-            Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(aciModel.getAciFrequencyCode());
+ //         Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(aciModel.getAciFrequencyCode());
+            Date freqDate = aciModel.getAciNextDueDate();
             if (freqDate.equals(currentDate)) {
                 aciModels.add(aciModel);
             }

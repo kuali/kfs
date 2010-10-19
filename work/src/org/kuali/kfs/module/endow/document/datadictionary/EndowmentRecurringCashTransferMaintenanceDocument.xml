@@ -24,6 +24,7 @@
     <property name="documentTypeName" value="RecurringCashTransferMaintenanceDocument" />
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.EndowmentRecurringCashTransferTransactionRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.EndowmentRecurringCashTransferMaintenanceDocumentPresentationController" />    	
     <property name="workflowAttributes">
     	<ref bean="EndowmentRecurringCashTransferMaintenanceDocument-workflowAttributes" />
     </property>    

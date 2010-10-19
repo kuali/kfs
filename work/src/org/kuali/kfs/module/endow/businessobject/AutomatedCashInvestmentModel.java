@@ -357,22 +357,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the nextDueDate attribute. 
-     * @return Returns the nextDueDate.
-     */
-    public Date getNextDueDate() {
-        return nextDueDate;
-    }
-
-    /**
-     * Sets the nextDueDate attribute value.
-     * @param nextDueDate The nextDueDate to set.
-     */
-    public void setNextDueDate(Date nextDueDate) {
-        this.nextDueDate = nextDueDate;
-    }
-
-    /**
      * Gets the investment1 Pooled Fund Control
      * 
      * @return investment1

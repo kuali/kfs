@@ -271,6 +271,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
+        } catch ( ValidationException ex ) {
+            fail( "Business Rules Failed: " + GlobalVariables.getMessageMap() );
         }
     }
 

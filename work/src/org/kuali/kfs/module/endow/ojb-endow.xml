@@ -920,8 +920,7 @@
 	<field-descriptor name="aciModelName" column="ACI_MDL_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="ipIndicator" column="ACI_HLDG_IP_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment1SecurityID" column="ACI_POOL1_SEC_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="investment1Percent" column="ACI_POOL1_PCT" jdbc-type="DECIMAL"/> <!-- conversion="org.kuali.rice.kns.util.OjbKualiPercentFieldConversion"/>
--->
+	<field-descriptor name="investment1Percent" column="ACI_POOL1_PCT" jdbc-type="DECIMAL"/> <!-- conversion="org.kuali.rice.kns.util.OjbKualiPercentFieldConversion"/> -->
 	<field-descriptor name="investment2SecurityID" column="ACI_POOL2_SEC_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="investment2Percent" column="ACI_POOL2_PCT" jdbc-type="DECIMAL" />
 	<field-descriptor name="investment3SecurityID" column="ACI_POOL3_SEC_ID" jdbc-type="VARCHAR"/>

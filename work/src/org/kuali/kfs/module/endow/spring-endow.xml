@@ -96,6 +96,18 @@
 				<ref bean="avilableCashUpdateStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />
+                <entry key="createAccrualTransactionsJob" value="hardDependency" />
+                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
+                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="createGainLossTransactionsJob" value="hardDependency" />
+                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
+                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	<bean id="avilableCashUpdateStep" class="org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep" parent="step">
 		<property name="availableCashUpdateService">
@@ -330,6 +342,19 @@
 				<ref bean="currentTaxLotBalanceUpdateStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />
+                <entry key="createAccrualTransactionsJob" value="hardDependency" />
+                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
+                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="createGainLossTransactionsJob" value="hardDependency" />
+                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
+                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+                <entry key="holdingHisgtoryMarketValueUpdateJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
     
 	<bean id="currentTaxLotBalanceUpdateStep" class="org.kuali.kfs.module.endow.batch.CurrentTaxLotBalanceUpdateStep" parent="step">
@@ -529,6 +554,12 @@
 				<ref bean="updateHoldingHistoryStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+                <entry key="updateHistoryCashJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	
 	<bean id="updateHoldingHistoryStep" class="org.kuali.kfs.module.endow.batch.UpdateHoldingHistoryStep" parent="step">
@@ -2015,7 +2046,7 @@
 			<ref bean="securityDao" />
 		</property>		
 	</bean>
-	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoOjb">
+	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoJdbc">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

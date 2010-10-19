@@ -570,8 +570,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         for (KemidFee kemidFee : kemidFeeRecords) {
             if (lineNumber <= maxNumberOfTransacationLines) {
                 if (!createTransactionLines(cashDecreaseDocument, feeMethod, kemidFee, ++lineNumber, maxNumberOfTransacationLines)) {
-                    //write out the exception for this kemid but keep continuing....
-                  //  writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to add the transaction line to the document.");
+                    //did not add the line so reduce the number of lines generated....
                     --lineNumber;
                 }
             }
@@ -595,11 +594,13 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
                     else {
                         //write out exception since can not submit the document....
                         writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: Unable to submit or route the document.");
+                        writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: The document did not pass the rule validations during routing.");
                     }
                 }
                 else {
                     // document rules did not pass the validations.  so write exception report....
                     writeExceptionReportLine(feeMethodCode, kemidFee.getKemid(), "Reason: The document did not pass the rule validations during routing.");
+                    wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, kemidFee.getKemid());
                 }
             }
         }
@@ -613,12 +614,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             else {
                 //write out exception since can not submit the document....
                 writeExceptionReportLine(feeMethodCode, null, "Reason: Unable to submit or route the document.");
+                wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
             }
                 
         }
         else {
             // document rules did not pass the validations.  so write exception report....
             writeExceptionReportLine(feeMethodCode, null, "Reason: The document did not pass the rule validations during routing.");
+            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
         }
         
         writeTotalsProcessedSubTotalsLine(feeMethodCode);
@@ -897,7 +900,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         boolean routed = true;
         
         try {
-            documentService.superUserApproveDocument(cashDecreaseDocument, "Submitted the document for routing.");
+            documentService.routeDocument(cashDecreaseDocument, "Submitted the document for routing.", null);
         }
         catch (WorkflowException wfe) {
             try {

@@ -24,8 +24,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.dao.DataAccessException;
 
-public class KemidFeeDaoOjb extends PlatformAwareDaoBaseJdbc implements KemidFeeDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidFeeDaoOjb.class);
+public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFeeDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidFeeDaoJdbc.class);
     
     protected BusinessObjectService businessObjectService;
     protected KEMService kemService;

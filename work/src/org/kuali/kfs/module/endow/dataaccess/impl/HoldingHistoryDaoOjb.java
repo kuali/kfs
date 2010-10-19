@@ -184,19 +184,21 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         Date lastProcessDate = feeMethod.getFeeLastProcessDate();
         Date mostRecentDate = monthEndDateService.getMostRecentDate();
         
+        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
+        
         Collection <HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod);
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
             Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
 
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
                 totalHoldingUnits.add(holdingHistory.getUnits());    
             }
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
                 totalHoldingUnits.add(holdingHistory.getUnits());    
             }
         }
         
-        if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS)) {
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS)) {
             totalHoldingUnits = KEMCalculationRoundingHelper.divide(totalHoldingUnits, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
         }
         
@@ -212,26 +214,26 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         Date lastProcessDate = feeMethod.getFeeLastProcessDate();
         Date mostRecentDate = monthEndDateService.getMostRecentDate();
         
+        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
+        
         Collection <HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod);
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
             Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
                 totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
-            if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (monthEndDate.compareTo(mostRecentDate) > 0)) {
+            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (monthEndDate.compareTo(mostRecentDate) > 0)) {
                 totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
         }
         
-        if (feeMethod.getFeeBalanceTypeCode().equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE)) {
+        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE)) {
             totalHoldingMarkteValue = KEMCalculationRoundingHelper.divide(totalHoldingMarkteValue, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
         }
         
         return totalHoldingMarkteValue;
     }
 
-    
-    
     /**
      * This method gets the businessObjectService.
      * 

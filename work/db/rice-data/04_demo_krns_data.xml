@@ -1,12 +1,12 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-	<changeSet author="kfs" id="KFS_LOAD_KRNS_PARM_T">
+	<changeSet context="demo" author="kfs" id="KFS_LOAD_KRNS_PARM_T">
 		<!-- need to clear out the bootstrap data -->
 		<delete tableName="KRNS_PARM_T">
 			<where>APPL_NMSPC_CD = 'KFS'</where>
 		</delete>
-		<loadData tableName="KRNS_PARM_T" file="krns_parm_t.csv">
+		<loadData tableName="KRNS_PARM_T" file="demo/krns_parm_t.csv">
 			<column header="NMSPC_CD" type="string" />
 			<column header="OBJ_ID" type="string" />
 			<column header="PARM_DTL_TYP_CD" type="string" />
@@ -18,9 +18,9 @@
 			<column header="APPL_NMSPC_CD" type="string" />
 		</loadData>
     </changeSet>
-	<changeSet author="kfs" id="KFS_LOAD_KRNS_CAMPUS_T">
+	<changeSet context="demo" author="kfs" id="KFS_LOAD_KRNS_CAMPUS_T">
 	    <delete tableName="KRNS_CAMPUS_T" />
-		<loadData tableName="KRNS_CAMPUS_T" file="krns_campus_t.csv" />
+		<loadData tableName="KRNS_CAMPUS_T" file="demo/krns_campus_t.csv" />
     </changeSet>
 
 </databaseChangeLog>   

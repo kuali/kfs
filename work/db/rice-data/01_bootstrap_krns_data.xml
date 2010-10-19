@@ -1,8 +1,8 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">	
-	<changeSet author="kfs" id="KFS_LOAD_KRNS_NMSPC_T">
-		<loadData tableName="KRNS_NMSPC_T" file="krns_nmspc_t.csv">
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_NMSPC_T">
+		<loadData tableName="KRNS_NMSPC_T" file="bootstrap/krns_nmspc_t.csv">
 			<column header="NMSPC_CD" type="string" />
 			<column header="NM" type="string" />
 			<column header="ACTV_IND" type="string" />
@@ -14,8 +14,8 @@
 			</delete>
 		</rollback>
     </changeSet>
-	<changeSet author="kfs" id="KFS_LOAD_KRNS_PARM_DTL_TYP_T">
-		<loadData tableName="KRNS_PARM_DTL_TYP_T" file="krns_parm_dtl_typ_t.csv">
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_PARM_DTL_TYP_T">
+		<loadData tableName="KRNS_PARM_DTL_TYP_T" file="bootstrap/krns_parm_dtl_typ_t.csv">
 			<column header="NMSPC_CD" type="string" />
 			<column header="OBJ_ID" type="string" />
 			<column header="PARM_DTL_TYP_CD" type="string" />
@@ -28,8 +28,8 @@
 			</delete>
 		</rollback>
     </changeSet>
-	<changeSet author="kfs" id="KFS_LOAD_KRNS_PARM_T">
-		<loadData tableName="KRNS_PARM_T" file="krns_parm_t.csv">
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_PARM_T">
+		<loadData tableName="KRNS_PARM_T" file="bootstrap/krns_parm_t.csv">
 			<column header="NMSPC_CD" type="string" />
 			<column header="OBJ_ID" type="string" />
 			<column header="PARM_DTL_TYP_CD" type="string" />
@@ -46,8 +46,8 @@
 			</delete>
 		</rollback>
     </changeSet>
-	<changeSet author="kfs" id="KFS_LOAD_KR_COUNTY_T">
-		<loadData tableName="KR_COUNTY_T" file="kr_county_t.csv">
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KR_COUNTY_T">
+		<loadData tableName="KR_COUNTY_T" file="bootstrap/kr_county_t.csv">
 			<column header="COUNTY_CD" type="string" />
 			<column header="STATE_CD" type="string" />
 			<column header="POSTAL_CNTRY_CD" type="string" />
@@ -59,8 +59,8 @@
 			<delete tableName="KR_COUNTY_T" />
 		</rollback>
     </changeSet>
-	<changeSet author="kfs" id="KFS_LOAD_KR_POSTAL_CODE_T">
-		<loadData tableName="KR_POSTAL_CODE_T" file="kr_postal_code_t.csv" />
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KR_POSTAL_CODE_T">
+		<loadData tableName="KR_POSTAL_CODE_T" file="bootstrap/kr_postal_code_t.csv" />
 		<rollback>
 			<delete tableName="KR_POSTAL_CODE_T" />
 		</rollback>

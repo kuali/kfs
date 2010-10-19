@@ -186,7 +186,28 @@ DECLARE
 	, 'SH_ACCT_PERIOD_T'
 	, 'SH_UNIV_DATE_T'
 	, 'SH_UOM_T'
-	);
+	, 'END_ACRL_MTHD_T'
+	, 'END_CAE_CD_T'
+	, 'END_CLS_CD_TYP_T'
+	, 'END_DONR_LBL_SEL_T'
+	, 'END_ETRAN_TYP_CD_T'
+	, 'END_FEE_BAL_TYP_CD_T'
+	, 'END_FEE_BASE_CD_T'
+	, 'END_FEE_RT_DEF_CD_T'
+	, 'END_FEE_TYP_CD_T'
+	, 'END_FREQ_CD_T'
+	, 'END_IP_IND_T'
+	, 'END_PMT_TYP_CD_T'
+	, 'END_SEC_VLTN_MTHD_T'
+	, 'END_TRAN_TYP_CD_T'
+	, 'END_TRAN_SUB_TYP_T'
+	, 'END_TRAN_SRC_TYP_T'
+	, 'END_SEC_RPT_GRP_T'
+	, 'END_AGRMNT_SPCL_INSTRC_CD_T'
+	, 'END_AGRMNT_STAT_CD_T'
+	, 'END_TRAN_RESTR_CD_T'
+	, 'END_TYP_RESTR_CD_T'
+);
 BEGIN
   FOR rec IN tables_to_empty LOOP
     dbms_output.put_line( 'Truncated Table: '||rec.table_name );
@@ -195,6 +216,7 @@ BEGIN
 END;
 /
 
+/* Inserting some really base data to keep the system happy. */
 INSERT INTO CA_CHART_T
 ("FIN_COA_CD",OBJ_ID,"FIN_COA_DESC","FIN_COA_ACTIVE_CD","RPTS_TO_FIN_COA_CD")
 VALUES
@@ -410,6 +432,31 @@ UPDATE pur_contr_mgr_t
 COMMIT
 /
 
+/* Endowment */
+
+-- Only the CSHEQ record is required to be kept
+DELETE FROM END_SEC_RPT_GRP_T
+	WHERE SEC_RPT_GRP != 'CSHEQ' 
+/
+--    Only the record 0, None
+DELETE FROM END_AGRMNT_SPCL_INSTRC_CD_T   
+	WHERE AGRMNT_SPCL_INSTRC_CD != 0
+/
+
+--   3 records : COMP, NONE, PEND
+DELETE FROM END_AGRMNT_STAT_CD_T
+	WHERE AGRMNT_STAT_CD NOT IN ( 'COMP', 'NONE', 'PEND' )
+/
+--  3 records: NDISB, NONE, NTRAN
+DELETE FROM END_TRAN_RESTR_CD_T
+	WHERE TRAN_RESTR_CD NOT IN ( 'NDISB', 'NONE', 'NTRAN' )
+/
+--  4 records: U, NA, P, T
+DELETE FROM END_TYP_RESTR_CD_T
+	WHERE TYP_RESTR_CD NOT IN ( 'U', 'NA', 'P', 'T' )
+/
+COMMIT
+/
 
 /*  Contracts & Grants  */
 /* No demo to bootstrap changes */

@@ -29,6 +29,7 @@ import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -641,8 +642,20 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
         this.rschObjectCodeDescription = rschObjectCodeDescription;
     }
 
+    protected static ModuleService budgetCategoryModuleService;
+    
+    protected ModuleService getBudgetCategoryModuleService() {
+        if ( budgetCategoryModuleService == null ) {
+            budgetCategoryModuleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(BudgetCategory.class);
+        }
+        return budgetCategoryModuleService;
+    }
+    
     public BudgetCategory getBudgetCategoryDTO() {
-        return budgetCategoryDTO = (BudgetCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(BudgetCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
+        if ( getBudgetCategoryModuleService() != null ) {
+            budgetCategoryDTO = getBudgetCategoryModuleService().retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
+        }
+        return budgetCategoryDTO;
     }
 
     public void setBudgetCategoryDTO(BudgetCategory budgetCategoryDTO) {

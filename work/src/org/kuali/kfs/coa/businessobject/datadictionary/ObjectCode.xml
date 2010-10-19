@@ -61,13 +61,13 @@
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialObjectType"/>
       </list>
     </property>
-    <!-- property name="relationships">
+    <property name="relationships">
     	<list>
         	<dd:relationship objectAttribute="budgetCategoryDTO">
         		<dd:primitiveAttribute source="rschBudgetCategoryCode" target="budgetCategoryCode"/>
         	</dd:relationship>
         </list>
-    </property -->        
+    </property>        
   </bean>
 
 <!-- Attribute Definitions -->

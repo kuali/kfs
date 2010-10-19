@@ -68,7 +68,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public final static String INACTIVATEABLE_INTERFACE_CLASS = Inactivateable.class.getName();
     public final static String ACTIVE_FIELD_NAME = "active";
     
-    public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
+    public void testAllDataDictionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         HashSet<String> workflowDocumentTypeNames = new HashSet<String>();
         DataSource mySource = SpringContext.getBean(DataSource.class);
         Connection dbCon = null;
@@ -131,19 +131,29 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
 }
 
-    private final static String[] INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new String[] { "org.kuali.kfs.coa.businessobject.Account", "org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition", "org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding" };
-    // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the
-    // active-derived Closed? indicator instead (KFSMI-1393)
-
+    private final static List<String> INACTIVATEABLE_LOOKUP_IGNORE_CLASSES = new ArrayList<String>();
+    static {
+        // org.kuali.kfs.coa.businessobject.Account is excepted from testActiveFieldExistInLookupAndResultSection because it uses the active-derived Closed? indicator instead (KFSMI-1393)
+        INACTIVATEABLE_LOOKUP_IGNORE_CLASSES.add( "org.kuali.kfs.coa.businessobject.Account" );
+        INACTIVATEABLE_LOOKUP_IGNORE_CLASSES.add( "org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition" );
+        INACTIVATEABLE_LOOKUP_IGNORE_CLASSES.add( "org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding" );
+    }
+    private static final List<String> INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES = new ArrayList<String>();
+    static {
+        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.pdp.businessobject" );
+        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.external.kc.businessobject" );
+        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.endow.businessobject" );        
+    }
+    
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         List<Class<?>> noActiveFieldClassList = new ArrayList<Class<?>>();
-        List<String> ignoreClasses = Arrays.asList(INACTIVATEABLE_LOOKUP_IGNORE_CLASSES);
         List<Class<?>> notImplementInactivateableList = new ArrayList<Class<?>>();
         List<Class<?>> defaultValueWrongList = new ArrayList<Class<?>>();
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME_PREFIX)
-                    && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass().getName())) {
+                    && !INACTIVATEABLE_LOOKUP_IGNORE_CLASSES.contains(businessObjectEntry.getBusinessObjectClass().getName())
+                    && !INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.contains(businessObjectEntry.getBusinessObjectClass().getPackage().getName()) ) {
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
                     // Class implements Inactivateable but active field not used on Lookup.

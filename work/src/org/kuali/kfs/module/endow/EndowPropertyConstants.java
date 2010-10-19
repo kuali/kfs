@@ -85,6 +85,7 @@ public class EndowPropertyConstants {
     public static final String SECURITY_SUBCLASS_CODE_REF = "subclassCode";
     public static final String SECURITY_FREQUENCY_CODE_REF = "frequencyCode";
     public static final String SECURITY_VALUE_BY_MARKET = "securityValueByMarket";
+    public static final String SECURITY_ACTIVE_INDICATOR = "active";
 
     public static final String REPORTING_GROUP_DESC = "classCode.reportingGroup.securityReportingGrpDesc";
     public static final String ACCRUAL_METHOD_DESC = "classCode.accrualMethod.accrualMethodDesc";
@@ -298,6 +299,7 @@ public class EndowPropertyConstants {
 
     // Cash Sweep Model
     public static final String CASH_SWEEP_MODEL_ID = "cashSweepModelID";
+    public static final String CASH_SWEEP_ACTIVE_INDICATOR = "active";
 
     // Automated Cash Investment Model
     public static final String ACI_MODEL_ID = "aciModelID";
@@ -305,6 +307,7 @@ public class EndowPropertyConstants {
     public static final String INVESTMENT_2_PERCENT = "investment2Percent";
     public static final String INVESTMENT_3_PERCENT = "investment3Percent";
     public static final String INVESTMENT_4_PERCENT = "investment4Percent";
+    public static final String ACI_ACTIVE_INDICATOR = "active";
 
     // PurposeCode
     public static final String PURPOSE_INCOME_CAE_CD = "incomeCAECode";
@@ -531,7 +534,7 @@ public class EndowPropertyConstants {
     public static final String TICKLER_DETAIL = "detail";
     public static final String TICKLER_ENTRY_DETAIL = "entryDate";
     public static final String TICKLER_TERMINATION_DATE = "terminationDate";
-    public static final String TICKLER_ACTIVE = "active";
+    public static final String TICKLER_ACTIVE_INDICATOR = "active";
     public static final String TICKLER_OBJECT_ID = "objectId";
     public static final String TICKLER_VERSION_NUMBER = "versionNumber";
     public static final String TICKLER_SECURITIES = "securities";
@@ -660,7 +663,7 @@ public class EndowPropertyConstants {
 
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_KEMID_TARGET = "kemidTarget";
     public static final String ENDOWMENT_RECURRING_CASH_TRANSF_GL_TARGET = "glTarget";
-
+    public static final String ENDOWMENT_RECURRING_CASH_TRANSF_ACTIVE_INDICATOR = "active";
 
     public static class ColumnNames {
 

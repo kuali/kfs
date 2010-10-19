@@ -380,7 +380,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return the corrected name
      */
     protected String replaceCollectionElementsWithPlurals(String name) {
-        return name.replaceAll("\\[\\d+\\]", "s");
+        String temp = name.replaceAll("\\[\\d+\\]", "s");
+        // now - need to check if the property name ends with a double "s", which is incorrect
+        if ( temp.endsWith( "ss" ) ) {
+            temp = StringUtils.chop(temp);
+        }
+        return temp;
     }
 
     /**

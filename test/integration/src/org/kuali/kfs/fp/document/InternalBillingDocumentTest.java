@@ -190,6 +190,10 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * This method...
+     * @throws Exception
+     */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testApprove_deleteAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
@@ -241,7 +245,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         routeDocument(original, SpringContext.getBean(DocumentService.class));
         docId = original.getDocumentNumber();
 
-        // switch user to AHORNICK, update sourceAccountingLine for accounts
+        // switch user to RORENFRO, update sourceAccountingLine for accounts
         // controlled by this user
         // (and delete update targetAccountingLine, for balance)
         changeCurrentUser(getTestUserName());

@@ -26,23 +26,18 @@ import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 
 @ConfigureContext(session = khuntley)
-public class AccountCreationServiceTest extends KualiTestBase 
-{
-    private AccountCreationService accountCreationService;
-    private AccountParametersDTO accountParameters;
+public class AccountCreationServiceTest extends KualiTestBase {
+    protected AccountParametersDTO accountParameters;
     
     /**
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception { 
-    
-        // Initialize service objects.
-        accountCreationService = SpringContext.getBean(AccountCreationService.class);
-        
+    protected void setUp() throws Exception {         
         // Initialize objects.
         accountParameters = new AccountParametersDTO();
         accountParameters.setUnit("BL");
@@ -87,7 +82,7 @@ public class AccountCreationServiceTest extends KualiTestBase
         accountParameters.setEffectiveDate(new java.sql.Date(cal.getTime().getTime()) );
         
         accountParameters.setOffCampusIndicator(false);
-        accountParameters.setPrincipalId("6162502038"); //khuntley
+        accountParameters.setPrincipalId(UserNameFixture.khuntley.getPerson().getPrincipalId());
                 
         super.setUp();
     }
@@ -106,30 +101,24 @@ public class AccountCreationServiceTest extends KualiTestBase
      */
     public void testCreateAccountServiceLocally() { 
  
-        AccountCreationStatusDTO creationStatus = accountCreationService.createAccount(accountParameters);
+        AccountCreationStatusDTO creationStatus = SpringContext.getBean(AccountCreationService.class).createAccount(accountParameters);
     
         System.out.println("++++++++++++++++++++++++++++++++++ account number: " + creationStatus.getAccountNumber()); 
         
-        assertTrue(creationStatus.getStatus().equals("success"));
+        assertEquals( "Unsucessful account creation: " + creationStatus.getErrorMessages(), "success", creationStatus.getStatus() );
     }
 
     
     /**
      * This method tests the service using KSB, but without SOAP 
      */
-    public void testCreateAccountServiceWithKSB() {
+    public void testCreateAccountServiceWithKSB() throws Exception {
         
-        try {                        
-            AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceSOAP"));  
-            //AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService("{KFS}accountCreationServiceSOAP"); // error
-            
-            AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);   
-            System.out.println("++++++++++++++++++++++++++++++++++ account number: " + creationStatus.getAccountNumber());
-            assertTrue(creationStatus.getStatus().equals("success"));
-            
-        } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
-        }
+        AccountCreationService accountService = (AccountCreationService) GlobalResourceLoader.getService(new QName("KFS", "accountCreationServiceSOAP"));  
+        
+        AccountCreationStatusDTO creationStatus = accountService.createAccount(accountParameters);   
+        System.out.println("++++++++++++++++++++++++++++++++++ account number: " + creationStatus.getAccountNumber());
+        assertEquals( "Unsucessful account creation: " + creationStatus.getErrorMessages(), "success", creationStatus.getStatus() );
     }
 
     

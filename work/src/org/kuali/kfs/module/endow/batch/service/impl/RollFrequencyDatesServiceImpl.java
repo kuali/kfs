@@ -199,7 +199,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                 String frequencyCode = aci.getAciFrequencyCode();           
                 Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
-                    aci.setNextDueDate(nextDate);
+                    aci.setAciNextDueDate(nextDate);
                     if (updateBusinessObject(aci)) {
                         counter++;
                     } else {

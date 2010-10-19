@@ -9,14 +9,12 @@
 		<loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="demo-data/krim_role_mbr_attr_data_t.csv" />
     </changeSet>
 
-	<changeSet author="kfs" id="KFS_LOAD_KRIM_DLGN_T">
-		<loadData tableName="KRIM_DLGN_T" file="demo-data/krim_dlgn_t.csv" />
-    </changeSet>
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_DLGN_MBR_T">
 		<loadData tableName="KRIM_DLGN_MBR_T" file="demo-data/krim_dlgn_mbr_t.csv" />
     </changeSet>
+    
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_DLGN_MBR_ATTR_DATA_T">
-		<loadUpdateData tableName="KRIM_DLGN_MBR_ATTR_DATA_T" file="demo-data/krim_dlgn_mbr_attr_data_t.csv" primaryKey="ATTR_DATA_ID" />
+		<loadData tableName="KRIM_DLGN_MBR_ATTR_DATA_T" file="demo-data/krim_dlgn_mbr_attr_data_t.csv" primaryKey="ATTR_DATA_ID" />
     </changeSet>
 
 	<changeSet author="kfs" id="KFS_LOAD_KRIM_ROLE_RSP_ACTN_T">

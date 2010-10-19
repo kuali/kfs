@@ -622,13 +622,19 @@
 		</property>	
 		<property name="recurringCashTransferDao">
 			<ref bean="recurringCashTransferDao" />
+		</property>
+		<property name="automatedCashInvestmentModelDao">
+			<ref bean="automatedCashInvestmentModelDao" />
+		</property>
+		<property name="cashSweepModelDao">
+			<ref bean="cashSweepModelDao" />
 		</property>			
 	</bean>	
 	
     <bean id="rollFrequencyDatesReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="rollFrequencyDatesReport-"/>
-        <property name="title" value="Roll Frequency Dates"/>
+        <property name="title" value="ROLL FREQUENCY DATES BATCH REPORT"/>
 	</bean>
 			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">
@@ -642,7 +648,19 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+
+	<bean id="automatedCashInvestmentModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.AutomatedCashInvestmentModelDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
 	
+		<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb">
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+	</bean>
+		
 	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>
@@ -769,7 +787,7 @@
 	<bean id="pooledFundControlTransactionsTotalReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="pooledFundControlTransactionsTotalReport-"/>
-        <property name="title" value="Pooled Fund Control Transactions"/>
+        <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
 	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine" value="transactionDocumentTotalReportLineHelper"/>
@@ -780,7 +798,7 @@
 	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
 		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReport-"/>
-        <property name="title" value="Pooled Fund Control Transactions"/>
+        <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
 	        	<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>

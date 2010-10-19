@@ -309,7 +309,7 @@ public class EndowPropertyConstants {
     public static final String INVESTMENT_2_PERCENT = "investment2Percent";
     public static final String INVESTMENT_3_PERCENT = "investment3Percent";
     public static final String INVESTMENT_4_PERCENT = "investment4Percent";
-    public static final String ACI_MODEL_NEXT_DUE_DATE = "nextDueDate";
+    public static final String ACI_MODEL_NEXT_DUE_DATE = "aciNextDueDate";
     public static final String ACI_MODEL_FREQUENCY_CDOE = "aciFrequencyCode";
     public static final String ACI_MODEL_ACTIVE_INDICATOR = "active";
 

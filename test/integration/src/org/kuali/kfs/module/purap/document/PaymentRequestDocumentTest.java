@@ -162,6 +162,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
 
         final String docId = paymentRequestDocument.getDocumentNumber();
         final String poDocId = paymentRequestDocument.getPurchaseOrderDocument().getDocumentNumber();
+        Thread.sleep(5000);  // attempt to make sure any other async processing on this document is done
         AccountingDocumentTestUtils.routeDocument(paymentRequestDocument, documentService);
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);                       
 

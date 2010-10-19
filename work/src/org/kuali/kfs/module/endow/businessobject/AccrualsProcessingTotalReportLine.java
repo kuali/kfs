@@ -120,7 +120,7 @@ public class AccrualsProcessingTotalReportLine extends TransientBusinessObjectBa
     }
 
     /**
-     * This method...
+     * Adds given accrual amount to the total accrual amount for reporting.
      * 
      * @param accrualAmount
      */

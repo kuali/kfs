@@ -61,6 +61,10 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         super.tearDown();
     }
     
+    public void testDummyTest() {
+        // just here to keep jUnit from complaining
+    }
+    
     /**
      * This method will create a CgDocument for the document type ACCT.  Successful if there are no error messages
      */

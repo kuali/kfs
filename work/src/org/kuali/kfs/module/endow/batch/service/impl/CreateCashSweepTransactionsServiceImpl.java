@@ -71,9 +71,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
-    
-    private Map<String, ReportStatistics> statistics = new HashMap<String, ReportStatistics>();
-    
+
+    private Map<String, ReportStatistics> statistics = new HashMap<String, ReportStatistics>();    
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
@@ -107,6 +106,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         return true;
     }
     
+    /**
+     * Process all the principle cash sweep models for sales.
+     *
+     * @param cashSweepModel
+     */
     protected void processPrincipalSweepSale(CashSweepModel cashSweepModel) {
         LOG.info("Entering \"processPrincipalSweepSale\".");
         
@@ -126,8 +130,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Process all the principle cash sweep models for purchases.
      * 
-     * This method...
      * @param cashSweepModel
      */
     protected void processPrincipalSweepPurchases(CashSweepModel cashSweepModel) {
@@ -149,8 +153,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Process all the income cash sweep models for sales.
      * 
-     * This method...
      * @param cashSweepModel
      */
     protected void processIncomeSweepSales(CashSweepModel cashSweepModel) {
@@ -172,8 +176,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
 
     /**
+     * Process all the income cash sweep models for purchases.
      * 
-     * This method...
      * @param cashSweepModel
      */
     protected void processIncomeSweepPurchases(CashSweepModel cashSweepModel) {
@@ -194,7 +198,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         LOG.info("Leaving \"processIncomeSweepPurchases\".");
     }
     
-
+    /**
+     * 
+     * Creates asset decrease documents with transaction lines and routes it.
+     *
+     * @param cashSweepModelId
+     * @param sweepRegistraionCode
+     * @param sweepSecurityId
+     * @param cashLimit
+     * @param isIncome
+     */
     private void processAssetDecreaseDocuments(
             Integer cashSweepModelId, 
             String sweepRegistraionCode,
@@ -218,7 +231,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
             if (currentCash != null && currentCash.compareTo(cashLimit) < 0) {
                 
-                // If this is null that means we need to create a new eDoc.
+                // If this is null that means we need to create a new eDoc for
+                // the first time.
                 if (assetDecreaseDoc == null) {
                     assetDecreaseDoc = createAssetDecrease(sweepSecurityId, sweepRegistraionCode);
                 }
@@ -230,23 +244,33 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
                 if (i != 0 && i%maxNumberOfTransactionLines == 0) {
-                    // Validate and route the document.
+                    // Validate and route the document.  Then create a new doc.
                     routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
-                    assetDecreaseDoc = null;
+                    assetDecreaseDoc = createAssetDecrease(sweepSecurityId, sweepRegistraionCode);
                 }
             }
         }
         
         // Verify that we don't need to do any clean-up.  There could still be
         // some let over transaction lines, less than the max amount that need
-        // to still be processed on the current eDoc.
+        // to still be processed on the current eDoc.  This also prevents from
+        // routing an asset decrease document with no transaction lines.
         if (assetDecreaseDoc != null && !assetDecreaseDoc.getSourceTransactionLines().isEmpty()) {
             // Validate and route the document.
             routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
         }
     }
     
-
+    /**
+     * 
+     * Creates asset increase documents with transaction lines and routes it.
+     *
+     * @param cashSweepModelId
+     * @param sweepRegistraionCode
+     * @param sweepSecurityId
+     * @param cashLimit
+     * @param isIncome
+     */
     private void processAssetIncreaseDocuments(
             Integer cashSweepModelId, 
             String sweepRegistraionCode,
@@ -270,7 +294,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
             if (currentCash != null && currentCash.compareTo(cashLimit) > 0) {
                 
-                // If this is null that means we need to create a new eDoc.
+                // If this is null that means we need to create a new eDoc for 
+                // the first time.
                 if (assetIncreaseDoc == null) {
                     assetIncreaseDoc = createAssetIncrease(sweepSecurityId, sweepRegistraionCode);
                 }
@@ -282,23 +307,33 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 // per eDoc.  If so, validate, and submit the current eDoc and start
                 // another eDoc.
                 if (i != 0 && i%maxNumberOfTransactionLines == 0) {
-                    // Validate and route the document.
+                    // Validate and route the document.  Then create a new doc.
                     routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
-                    assetIncreaseDoc = null;
+                    assetIncreaseDoc = createAssetIncrease(sweepSecurityId, sweepRegistraionCode);
                 }
             }
         }
         
         // Verify that we don't need to do any clean-up.  There could still be
         // some let over transaction lines, less than the max amount that need
-        // to still be processed on the current eDoc.
+        // to still be processed on the current eDoc.  This also prevents from
+        // routing an asset decrease document with no transaction lines.
         if (assetIncreaseDoc != null && !assetIncreaseDoc.getTargetTransactionLines().isEmpty()) {
             // Validate and route the document.
             routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
         }
     }
     
- 
+    /**
+     * 
+     * This method...
+     *
+     * @param assetDecreaseDoc
+     * @param kemid
+     * @param cashLimit
+     * @param currentCash
+     * @param isIncome
+     */
     private void addTransactionLineForAssetDecrease(
             AssetDecreaseDocument assetDecreaseDoc,
             KEMID kemid,
@@ -313,8 +348,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true)
                 :createIncomeTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true);
         
+        // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
    
+        // If the validation passes, add the transaction line to the document; otherwise,
+        // write the error messages to the error report.
         if (rulesPassed) {
             assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
         }
@@ -352,8 +390,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false)
                 :createIncomeTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false);
         
+        // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
         
+        // If the validation passes, add the transaction line to the document; otherwise,
+        // write the error messages to the error report.
         if (rulesPassed) {
             assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
         }
@@ -368,8 +409,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Validates and routes the asset decrease document.
      * 
-     * This method...
      * @param assetDecreaseDoc
      * @param balh
      */
@@ -401,8 +442,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Validates and routes the asset increase document.
      * 
-     * This method...
      * @param assetIncreaseDoc
      */
     private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
@@ -433,7 +474,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
     }
     
-    
+    /**
+     * 
+     * Creates and returns a new principle transaction line.
+     *
+     * @param docNumber
+     * @param kemid
+     * @param amount
+     * @param isSource
+     * @return
+     */
     private EndowmentTransactionLine createPrincipleTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
@@ -456,7 +506,16 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         return transactionLine;
     }
     
-    
+    /**
+     * 
+     * Creates and returns a new income transaction line.
+     *
+     * @param docNumber
+     * @param kemid
+     * @param amount
+     * @param isSource
+     * @return
+     */
     private EndowmentTransactionLine createIncomeTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
         
         EndowmentTransactionLine transactionLine = null;
@@ -480,8 +539,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Creates and returns a new asset increase document.
      * 
-     * This method...
      * @param securityId
      * @param registrationCode
      * @return
@@ -516,8 +575,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Creates and returns a new asset decrease document.
      * 
-     * This method...
      * @param securityId
      * @param registrationCode
      * @return
@@ -553,8 +612,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Gets the current principle cash for the specified KEMID.
      * 
-     * This method...
      * @param kemid
      * @return
      */
@@ -569,8 +628,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      }
 
     /**
+     * Gets the current income cash for the specified KEMID.
      * 
-     * This method...
      * @param kemid
      * @return
      */
@@ -584,8 +643,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
+     * Determines the cash available.
      * 
-     * This method...
      * @param cashLimit
      * @param currentCash
      * @return

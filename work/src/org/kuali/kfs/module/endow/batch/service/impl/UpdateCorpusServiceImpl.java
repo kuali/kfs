@@ -30,7 +30,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class UpdateCorpusServiceImpl implements UpdateCorpusService {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpdateCorpusServiceImpl.class);

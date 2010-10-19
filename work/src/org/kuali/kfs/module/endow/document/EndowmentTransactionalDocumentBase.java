@@ -37,17 +37,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
     protected static final String CHECK_IF_ROUTE_SPLIT = "CheckIfNoRoute";
-    private String transactionSubTypeCode;
-    private String transactionSourceTypeCode;
-    private boolean transactionPosted;
+    protected String transactionSubTypeCode;
+    protected String transactionSourceTypeCode;
+    protected boolean transactionPosted;
 
-    private EndowmentTransactionSubType transactionSubType;
-    private EndowmentTransactionSourceType transactionSourceType;
+    protected EndowmentTransactionSubType transactionSubType;
+    protected EndowmentTransactionSourceType transactionSourceType;
     
-    private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
+    protected static transient BusinessObjectService businessObjectService;
+    protected static transient DateTimeService dateTimeService;
 
-    private boolean noRouteIndicator;
+    protected boolean noRouteIndicator;
 
     /**
      * Constructs a EndowmentTransactionalDocumentBase.java.
@@ -78,10 +78,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      * This method fills source type code for UI on Initial request.
      */
     protected void initializeSourceTypeObj() {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("code", this.getTransactionSourceTypeCode());
-        EndowmentTransactionSourceType endowmentTransactionSourceType = (EndowmentTransactionSourceType) businessObjectService.findByPrimaryKey(EndowmentTransactionSourceType.class, primaryKeys);
+        EndowmentTransactionSourceType endowmentTransactionSourceType = getBusinessObjectService().findBySinglePrimaryKey(EndowmentTransactionSourceType.class, this.getTransactionSourceTypeCode());
         this.setTransactionSourceType(endowmentTransactionSourceType);
     }
 
@@ -89,10 +86,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      * This method fills sub type code for UI on Initial request.
      */
     protected void initializeSubType() {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("code", this.getTransactionSubTypeCode());
-        EndowmentTransactionSubType endowmentTransactionSubType = (EndowmentTransactionSubType) businessObjectService.findByPrimaryKey(EndowmentTransactionSubType.class, primaryKeys);
+        EndowmentTransactionSubType endowmentTransactionSubType = getBusinessObjectService().findBySinglePrimaryKey(EndowmentTransactionSubType.class, this.getTransactionSubTypeCode());
         setTransactionSubType(endowmentTransactionSubType);
     }
 
@@ -212,12 +206,9 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
           
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
-            dateTimeService = SpringContext.getBean(DateTimeService.class);
-            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-
             String documentId = getDocumentHeader().getDocumentNumber();
             String documentType = getDocumentHeader().getWorkflowDocument().getDocumentType();
-            Date approvedDate =  dateTimeService.getCurrentSqlDate();
+            Date approvedDate =  getDateTimeService().getCurrentSqlDate();
         
             //persist documentId, documentType and the approved date to END_PENDING_TRAN_DOC_T 
             PendingTransactionDocumentEntry entry = new PendingTransactionDocumentEntry();
@@ -225,7 +216,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             entry.setDocumentType(documentType);
             entry.setApprovedDate(approvedDate);
             
-            businessObjectService.save(entry);    
+            getBusinessObjectService().save(entry);    
         }
     }   
     
@@ -239,7 +230,19 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
 
-    
+    protected BusinessObjectService getBusinessObjectService() {
+        if ( businessObjectService == null ) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        if ( dateTimeService == null ) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
     
 
 }

@@ -33,7 +33,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class PooledFundValueServiceImpl implements PooledFundValueService {
     private BusinessObjectService businessObjectService;
     private PooledFundValueDao pooledFundValueDao;

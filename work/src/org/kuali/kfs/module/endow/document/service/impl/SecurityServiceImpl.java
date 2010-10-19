@@ -31,13 +31,16 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides service for Security maintenance
  */
+@NonTransactional
 public class SecurityServiceImpl implements SecurityService {
 
     private KEMService kemService;

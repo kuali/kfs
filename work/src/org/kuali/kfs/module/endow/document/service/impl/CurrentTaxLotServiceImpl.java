@@ -44,10 +44,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation to provide services for CurrentTaxLotBalance business object.
  */
+@Transactional
 public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     private BusinessObjectService businessObjectService;
     protected SecurityService securityService;

@@ -40,7 +40,7 @@ public class TicklerServiceImpl implements TicklerService {
         Map<String, String> criteria = new HashMap<String, String>();
 
         criteria.put(EndowPropertyConstants.TICKLER_SECURITIES + "." + EndowPropertyConstants.TICKLER_SECURITYID, securityId);
-        criteria.put(EndowPropertyConstants.TICKLER_ACTIVE, Boolean.TRUE.toString());
+        criteria.put(EndowPropertyConstants.TICKLER_ACTIVE_INDICATOR, Boolean.TRUE.toString());
 
         result = (List<Tickler>) businessObjectService.findMatchingOrderBy(Tickler.class, criteria, EndowPropertyConstants.TICKLER_ENTRY_DETAIL, true);
 

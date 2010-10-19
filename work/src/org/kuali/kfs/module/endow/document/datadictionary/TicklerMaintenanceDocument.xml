@@ -63,7 +63,7 @@
     	<property name="maintainableItems">
       		<list>
 				<bean parent="MaintainableFieldDefinition" p:name="typeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:lookupReadOnly="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="nextDueDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="detail" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="entryDate" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />

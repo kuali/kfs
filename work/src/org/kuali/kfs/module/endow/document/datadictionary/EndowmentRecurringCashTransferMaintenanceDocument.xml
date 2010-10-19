@@ -72,7 +72,7 @@
 		<bean parent="MaintainableFieldDefinition" p:name="sourceEtranCode" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="sourceLineDescription" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="sourceIncomeOrPrincipal" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:required="true" p:lookupReadOnly="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="nextProcessDate" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="lastProcessDate" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

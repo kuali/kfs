@@ -118,7 +118,8 @@
         <bean parent="MaintainableFieldDefinition"
               p:name="aciFrequencyCode"
               p:required="true"
-              p:webUILeaveFieldFunction="loadACIFrequencyCodeDesc"/>
+              p:webUILeaveFieldFunction="loadACIFrequencyCodeDesc" 
+              p:lookupReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="aciFrequencyCodeObj.name"
               p:unconditionallyReadOnly="true" />                 

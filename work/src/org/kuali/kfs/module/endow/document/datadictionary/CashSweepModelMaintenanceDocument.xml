@@ -115,7 +115,8 @@
          <bean parent="MaintainableFieldDefinition"
               p:name="cashSweepFrequencyCode"
               p:required="true"
-              p:webUILeaveFieldFunction="loadCashSweepFrequencyCodeDesc"/>
+              p:webUILeaveFieldFunction="loadCashSweepFrequencyCodeDesc"
+              p:lookupReadOnly="true" />
         <bean parent="MaintainableFieldDefinition"
               p:name="cashSweepFrequencyCodeObj.name"
               p:unconditionallyReadOnly="true" /> 

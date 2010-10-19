@@ -105,14 +105,16 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         
         for (AutomatedCashInvestmentModel aciModel : getAutomatedCashInvestmentModelMatchingCurrentDate()) {
             
-            Collection<KEMID> principleKemids = kemidService.getByPrincipleAciId(aciModel.getAciModelID());
-            Collection<KEMID> incomeKemids    = kemidService.getByIncomeAciId(aciModel.getAciModelID());
+            List<KEMID> principleKemids = new ArrayList<KEMID>(kemidService.getByPrincipleAciId(aciModel.getAciModelID()));
+            List<KEMID> incomeKemids    = new ArrayList<KEMID>(kemidService.getByIncomeAciId(aciModel.getAciModelID()));
             
-            processAssetIncreaseDocs(new ArrayList<KEMID>(principleKemids), aciModel, false);
-            processAssetIncreaseDocs(new ArrayList<KEMID>(incomeKemids), aciModel, true);
+            // Process for increase documents.
+            processAssetIncreaseDocs(principleKemids, aciModel, false);
+            processAssetIncreaseDocs(incomeKemids, aciModel, true);
             
-            processAssetDecreaseDocs(new ArrayList<KEMID>(principleKemids), aciModel, false);
-            processAssetDecreaseDocs(new ArrayList<KEMID>(incomeKemids), aciModel, true);
+            // Process for decrease documents.
+            processAssetDecreaseDocs(principleKemids, aciModel, false);
+            processAssetDecreaseDocs(incomeKemids, aciModel, true);
         }
         
         writeStatistics();
@@ -123,7 +125,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * 
-     * This method...
+     * Process all the asset increase documents for income and principle types.
      *
      * @param kemid
      * @param aciModel
@@ -170,7 +172,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * 
-     * This method...
+     * Process all the asset decrease documents for income and principle types.
      *
      * @param kemids
      * @param aciModel
@@ -250,7 +252,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * 
-     * This method...
+     * Helper method for processing the cash investments for asset decrease documents.
      *
      * @param aciModel
      * @param isIncome
@@ -267,22 +269,23 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         if (invPercent.compareTo(BigDecimal.ZERO) != 0) {
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
             String invSecurityId       = getInvSecurityId(aciModel, inv);
+            
+            // Initialize the asset decrease doc if null.
+            if (assetDecreaseDoc == null) {
+                assetDecreaseDoc = createAssetDecrease(invSecurityId, invRegistrationCode);
+            }
 
-              if (assetDecreaseDoc == null) {
-                  assetDecreaseDoc = createAssetDecrease(invSecurityId, invRegistrationCode);
-              }
-            
-              // Create, validate, and add the transaction line to the eDoc.
-             addTransactionLineForAssetDecrease(assetDecreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
-            
-              // Check to see if we've reached our max number of transaction lines
-              // per eDoc.  If so, validate, and submit the current eDoc and start
-              // another eDoc.
-              if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
-                  // Validate and route the document.
-                  routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
-                  assetDecreaseDoc = null;
-             }
+            // Create, validate, and add the transaction line to the eDoc.
+            addTransactionLineForAssetDecrease(assetDecreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
+
+            // Check to see if we've reached our max number of transaction lines
+            // per eDoc.  If so, validate, and submit the current eDoc and start
+            // another eDoc.
+            if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
+                // Validate and route the document.
+                routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
+                assetDecreaseDoc = createAssetDecrease(invSecurityId, invRegistrationCode);
+            }
         }
         
         return assetDecreaseDoc;
@@ -290,7 +293,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Helper method for processing the cash investments for asset increase documents.
      *
      * @param aciModel
      * @param isIncome
@@ -308,29 +311,30 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
             String invSecurityId       = getInvSecurityId(aciModel, inv);
 
-              if (assetIncreaseDoc == null) {
-                  assetIncreaseDoc = createAssetIncrease(invSecurityId, invRegistrationCode);
-              }
-            
-              // Create, validate, and add the transaction line to the eDoc.
-             addTransactionLineForAssetIncrease(assetIncreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
-            
-              // Check to see if we've reached our max number of transaction lines
-              // per eDoc.  If so, validate, and submit the current eDoc and start
-              // another eDoc.
-              if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
-                  // Validate and route the document.
-                  routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
-                  assetIncreaseDoc = null;
-             }
+            // Initialize the asset increase doc if null.
+            if (assetIncreaseDoc == null) {
+                assetIncreaseDoc = createAssetIncrease(invSecurityId, invRegistrationCode);
+            }
+
+            // Create, validate, and add the transaction line to the eDoc.
+            addTransactionLineForAssetIncrease(assetIncreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
+
+            // Check to see if we've reached our max number of transaction lines
+            // per eDoc.  If so, validate, and submit the current eDoc and start
+            // another eDoc.
+            if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
+                // Validate and route the document.
+                routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
+                assetIncreaseDoc = createAssetIncrease(invSecurityId, invRegistrationCode);
+            }
         }
         
         return assetIncreaseDoc;
     }
     
     /**
+     * Validates the asset decrease document and routes it.
      * 
-     * This method...
      *
      * @param assetDecreaseDoc
      * @param isIncome
@@ -363,8 +367,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
     
     /**
+     * Validates the asset increase document and routes it.
      * 
-     * This method...
      * @param assetIncreaseDoc
      */
     private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
@@ -396,7 +400,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Creates a new transaction line, validates, and adds it to the asset
+     * decrease document.
      *
      * @param assetDecreaseDoc
      * @param aciModel
@@ -410,8 +415,11 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), true);
+        
+        // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
         
+        // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
             assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
         }
@@ -427,7 +435,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Creates a new transaction line, validates, and adds it to the asset
+     * increase document.
      *
      * @param assetIncreaseDoc
      * @param aciModel
@@ -438,8 +447,11 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), false);
+        
+        // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
         
+        // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
             assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
         }
@@ -455,7 +467,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Creates a new transaction line.
      *
      * @param kemid
      * @param etranCode
@@ -486,7 +498,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Get the registration code for the specified investment.
      *
      * @param aciModel
      * @param inv
@@ -514,8 +526,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
     
     /**
-     * 
-     * This method...
+     * Get the security id from the specified investment.
      *
      * @param aciModel
      * @param inv
@@ -544,7 +555,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Gets the correct sale offset code for the specified investment.
      *
      * @param aciModel
      * @param inv
@@ -572,7 +583,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Calculates the unite amount for the specified investment.
      *
      * @param aciModel
      * @param cashEquivalent
@@ -612,27 +623,29 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 break;
         }
         
-        try {
-            invCashNeeded = new BigDecimal(invPercent.multiply(cashEquivalent).doubleValue());
-            invUnits      = invCashNeeded.divide(invUnitValue, 5, RoundingMode.HALF_UP);
+        if (invPercent != null) {
+            try {
+                invCashNeeded = new BigDecimal(invPercent.multiply(cashEquivalent).doubleValue());
+                invUnits      = invCashNeeded.divide(invUnitValue, 5, RoundingMode.HALF_UP);
+
+                if (!allowsFractions) {
+                    // Round the units down.
+                    invUnits = invUnits.setScale(0, BigDecimal.ROUND_DOWN);
+                }
+                invAmount = (invUnits.multiply(invUnitValue)).setScale(2, BigDecimal.ROUND_HALF_UP);
+            }
+            catch (ArithmeticException ex) {
+                writeExceptionTableReason("Caught ArithmeticException while calculating units.");
+                LOG.error("Caught exception while calculating units.", ex);
+            }
         }
-        catch (ArithmeticException ex) {
-            writeExceptionTableReason("Caught ArithmeticException while calculating units.");
-            LOG.error("Caught exception while calculating units.", ex);
-        }
-        
-        if (!allowsFractions) {
-            // Round the units down.
-            invUnits = invUnits.setScale(0, BigDecimal.ROUND_DOWN);
-        }
-        invAmount = (invUnits.multiply(invUnitValue)).setScale(2, BigDecimal.ROUND_HALF_UP);
-        
+
         return (new UnitAmountAssociation(invAmount, invUnits));
     }
     
     /**
+     * Get the max number of transaction lines allowed per document.
      * 
-     * This method...
      * @return
      */
     private int getMaxNumberOfTransactionLines() {

@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
@@ -60,11 +61,11 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
     
-    public final static String KFS_PACKAGE_NAME = "org.kuali.kfs";
+    public final static String KFS_PACKAGE_NAME_PREFIX = "org.kuali.kfs";
     public final static String BUSINESS_OBJECT_PATH_QUALIFIER = "businessobject/datadictionary";
     public final static String DOCUMENT_PATH_QUALIFIER = "document/datadictionary";
-    public final static String RICE_PACKAGE_NAME = "org.kuali.rice";
-    public final static String INACTIVATEABLE_INTERFACE_CLASS = "org.kuali.rice.kns.bo.Inactivateable";
+    public final static String RICE_PACKAGE_NAME_PREFIX = "org.kuali.rice";
+    public final static String INACTIVATEABLE_INTERFACE_CLASS = Inactivateable.class.getName();
     public final static String ACTIVE_FIELD_NAME = "active";
     
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
@@ -141,7 +142,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<Class<?>> defaultValueWrongList = new ArrayList<Class<?>>();
         
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
-            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME)
+            if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME_PREFIX)
                     && !ignoreClasses.contains(businessObjectEntry.getBusinessObjectClass().getName())) {
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
@@ -225,7 +226,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         URL pathRoot = new Account().getClass().getProtectionDomain().getCodeSource().getLocation();
         for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             String boName=businessObjectEntry.getBusinessObjectClass().getName();
-            if(boName.startsWith(KFS_PACKAGE_NAME)) { 
+            if(boName.startsWith(KFS_PACKAGE_NAME_PREFIX)) { 
                 boName=pathRoot+boName.replace(".", "/")+".xml";
                 boName = boName.substring(0,boName.substring(0,boName.lastIndexOf('/')).lastIndexOf('/')+1)+BUSINESS_OBJECT_PATH_QUALIFIER+boName.substring(boName.lastIndexOf('/'));                
                 boName = boName.substring(boName.indexOf(':')+1);
@@ -263,83 +264,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         if (exceptionReport.size()!=0){
             errorString = errorString + "This test is sensitive to the file system structure.  Unless the path to the file ends with \"businessobject/datadictionary/BO.xml\" the DD file wll not be found!\nThese files were not found: \n";
-            for (String node:exceptionReport){
-                errorString = errorString + node+"\n";
-            }
-        }
-        
-        assertEquals(errorString, 0, descriptionReport.size()+summaryReport.size()+exceptionReport.size());
-    }
-    
-    /**
-     * check if the document data dictionaries still have summary or description property for beans. If so, report errors.
-     * <beans>
-     * ...
-     *    <bean id= ... >
-     *      ....
-     *      <property name="summary" value="The name of the parameter Component." />
-     *      ...
-     *    </bean>
-     *     ...
-     * </beans>
-     */
-    public void testAllDocumentsHaveNoSummaryOrDescriptionProperty() throws Exception {
-        Set <String> summaryReport = new HashSet<String>();
-        Set <String> descriptionReport = new HashSet<String>();
-        Set <String> exceptionReport = new HashSet<String>();
-        Set <String> dummyDocuments = new HashSet<String>();
-        dummyDocuments.add("org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase");
-        dummyDocuments.add("org.kuali.kfs.module.cam.document.AssetForSearching");
-        dummyDocuments.add("org.kuali.kfs.module.purap.document.ReceivingDocumentForSearching");
-        dummyDocuments.add("org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument");
-        dummyDocuments.add("org.kuali.kfs.module.cam.businessobject.AssetForSearching");//Apparently this is a special case
-
-        URL pathRoot = new Account().getClass().getProtectionDomain().getCodeSource().getLocation();
-        Collection <DocumentEntry> documentEntries = dataDictionary.getDocumentEntries().values();
-        for(DocumentEntry documentEntry:documentEntries){
-            String documentName=documentEntry.getDocumentClass().getName();
-            if(documentName.startsWith(KFS_PACKAGE_NAME)) { 
-                String baseDocumentName = documentName;
-                documentName=pathRoot+documentName.replace(".", "/")+".xml";
-                documentName = documentName.substring(0,documentName.substring(0,documentName.lastIndexOf('/')).lastIndexOf('/')+1)+DOCUMENT_PATH_QUALIFIER+documentName.substring(documentName.lastIndexOf('/'));                
-                documentName = documentName.substring(documentName.indexOf(':')+1);
-                XPath xpath = XPathFactory.newInstance().newXPath();
-                Boolean summaryNodes=false;
-                Boolean descriptionNodes=false;
-                try{
-                    InputSource summarySource  = new InputSource(new FileInputStream(documentName));
-                    summaryNodes = (Boolean)xpath.evaluate("//*[@name='summary']", summarySource, XPathConstants.BOOLEAN );
-                    InputSource descriptionSource  = new InputSource(new FileInputStream(documentName));
-                    descriptionNodes = (Boolean)xpath.evaluate("//*[@name='description']", descriptionSource, XPathConstants.BOOLEAN );
-                }catch (FileNotFoundException fnfe){
-                    //don't worry about dummy documents, they don't have an xml file
-                    if (!dummyDocuments.contains(baseDocumentName)){
-                    exceptionReport.add(baseDocumentName);
-                    }
-                }
-                if (summaryNodes){
-                    summaryReport.add(baseDocumentName);
-                }
-                if (descriptionNodes){
-                    descriptionReport.add(baseDocumentName);
-                }
-            }
-        }
-        String errorString = "";
-        if (summaryReport.size()!=0){
-            errorString = "These documents have a summary properrty: \n";
-            for (String node :summaryReport){
-                errorString = errorString + node+"\n";
-            }
-        }
-        if (descriptionReport.size()!=0){
-            errorString = errorString + "These documents have a description property: \n";
-            for (String node :descriptionReport){
-                errorString = errorString +node+"\n";
-            }
-        }
-        if (exceptionReport.size()!=0){
-            errorString = errorString + "This test is sensitive to the file system structure.  Unless the path to the file ends with \"document/datadictionary/BO.xml\" the DD file wll not be found!\nThese files were not found: \n";
             for (String node:exceptionReport){
                 errorString = errorString + node+"\n";
             }

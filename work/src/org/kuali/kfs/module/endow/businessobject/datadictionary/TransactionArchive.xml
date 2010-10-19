@@ -20,7 +20,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="attributes" >
       <list>
         <ref bean="TransactionArchive-transactionArchiveViewer" />
-        <ref bean="TransactionArchive-documentNumber" />
+        <ref bean="TransactionArchive-documentHeader.documentNumber" />
         <ref bean="TransactionArchive-kemid" />
         <ref bean="TransactionArchive-typeCode" />
         <ref bean="TransactionArchive-etranCode" />
@@ -53,6 +53,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="TransactionArchive-etranCodeResults" />
         <ref bean="TransactionArchive-securityResults" />
         <ref bean="TransactionArchive-codeAndDescription" />
+        <ref bean="TransactionArchive-documentTypeResults" />
       </list>
     </property>
   </bean>
@@ -244,8 +245,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Posted Date" />
   </bean>
   
-  <bean id="TransactionArchive-documentNumber" parent="TransactionArchive-documentNumber-parentBean" />
-  <bean id="TransactionArchive-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  <bean id="TransactionArchive-documentHeader.documentNumber" parent="TransactionArchive-documentHeader.documentNumber-parentBean" />
+  <bean id="TransactionArchive-documentHeader.documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="documentNumber" />
   </bean>
 
@@ -297,6 +298,20 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="forceUppercase" value="true" />
     <property name="label" value="Security ID" />
     <property name="shortLabel" value="Security ID" />
+    <property name="maxLength" value="129" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="130" />
+    </property>
+  </bean>
+  
+  <bean id="TransactionArchive-documentTypeResults" parent="TransactionArchive-documentTypeResults-parentBean" />
+  <bean id="TransactionArchive-documentTypeResults-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentTypeResults" />
+    <property name="forceUppercase" value="true" />
+    <property name="label" value="Transaction Document Type" />
+    <property name="shortLabel" value="Document Type" />
     <property name="maxLength" value="129" />
     <property name="required" value="true" />
     <property name="control" >
@@ -535,6 +550,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               p:attributeName="documentNumber" />
         <bean parent="FieldDefinition"
               p:attributeName="kemidResults" />
+        <bean parent="FieldDefinition"
+              p:attributeName="documentTypeResults" />
         <bean parent="FieldDefinition"
               p:attributeName="postedDate" />
         <bean parent="FieldDefinition"

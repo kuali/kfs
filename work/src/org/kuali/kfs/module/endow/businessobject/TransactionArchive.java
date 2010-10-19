@@ -24,6 +24,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -56,7 +60,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     // Reference objects:
     protected List<TransactionArchiveSecurity> archiveSecurities;
     protected EndowmentTransactionCode etranObj;
-//  protected TransactionTypeCode typeCodeObj;
+    protected DocumentHeader documentHeader;
     protected KEMID kemidObj;
     
     // Transient members:
@@ -90,43 +94,28 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * @return
      */
     public String getKemidResults() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         if (ObjectUtils.isNotNull(kemidObj)) {
-            result += "[" + kemid + "," + " ,";
-            result += kemidObj.getShortTitle() + "]";
+            result.append("[" + kemid + "," + " ,");
+            result.append(kemidObj.getShortTitle() + "]");
         }
         
-        return result;
+        return result.toString();
     }
-    
-    /**
-     * 
-     * This method returns a multi-line field.
-     * @return
-     */
- /*   public String getTransactionTypeResults() {
-        String result = "";
-        if (ObjectUtils.isNotNull(typeCodeObj)) {
-            result += "[" + typeCode + "," + " ,";
-            result += typeCodeObj.getDescription() + "]";
-        }
-        
-        return result;
-    }
- */   
+      
     /**
      * 
      * This method returns a multi-line field.
      * @return
      */
     public String getEtranCodeResults() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         if (ObjectUtils.isNotNull(etranObj)) {
-            result += "[" + etranCode + "," + " ,";
-            result += etranObj.getName() + "]";
+            result.append("[" + etranCode + "," + " ,");
+            result.append(etranObj.getName() + "]");
         }
         
-        return result;
+        return result.toString();
     }
     
     /**
@@ -135,17 +124,54 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * @return
      */
     public String getSecurityResults() {
-        String result = "";
-        
+        StringBuilder result = new StringBuilder();
         TransactionArchiveSecurity archiveSecurity = getArchiveSecurity();
         if (ObjectUtils.isNotNull(archiveSecurity)) {
-            result += "[" + archiveSecurity.getSecurityId() + "," + " ,";
-            result += archiveSecurity.getSecurity().getDescription() + "]";
+            result.append("[" + archiveSecurity.getSecurityId() + "," + " ,");
+            result.append(archiveSecurity.getSecurity().getDescription() + "]");
         }
         
-        return result;
+        return result.toString();
     }
     
+    /**
+     * 
+     * Data for the transaction document type results column.
+     *
+     * @return
+     */
+    public String getDocumentTypeResults() {
+        
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        DocumentType documentType = documentTypeService.findByName(typeCode);
+        
+        StringBuilder result = new StringBuilder();
+        result.append("[" + typeCode + "," + " ,");
+        
+        if (documentType != null) {
+            result.append(documentType.getLabel());
+        }
+        result.append("]");
+        
+        return result.toString();
+    }
+    
+    /**
+     * Gets the documentHeader attribute. 
+     * @return Returns the documentHeader.
+     */
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    /**
+     * Sets the documentHeader attribute value.
+     * @param documentHeader The documentHeader to set.
+     */
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }
+
     /**
      * 
      * This method...
@@ -170,23 +196,6 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public void setEtranObj(EndowmentTransactionCode etranObj) {
         this.etranObj = etranObj;
     }
-
-    /**
-     * Gets the typeCodeObj attribute. 
-     * @return Returns the typeCodeObj.
-     */
- /*   public TransactionTypeCode getTypeCodeObj() {
-        return typeCodeObj;
-    }
-*/
-    /**
-     * Sets the typeCodeObj attribute value.
-     * @param typeCodeObj The typeCodeObj to set.
-     */
- /*   public void setTypeCodeObj(TransactionTypeCode typeCodeObj) {
-        this.typeCodeObj = typeCodeObj;
-    }
-*/
     
     /**
      * Gets the kemidObj attribute. 
@@ -241,7 +250,8 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
      * @return Returns the archiveSecurity.
      */
     public TransactionArchiveSecurity getArchiveSecurity() {
-        return !archiveSecurities.isEmpty() ? archiveSecurities.get(0) : null;
+        return !archiveSecurities.isEmpty() ? archiveSecurities.get(0) 
+               : new TransactionArchiveSecurity();
     }
 
     /**

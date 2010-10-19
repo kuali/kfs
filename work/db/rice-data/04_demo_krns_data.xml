@@ -18,5 +18,10 @@
 			<column header="APPL_NMSPC_CD" type="string" />
 		</loadData>
     </changeSet>
+	<changeSet author="kfs" id="KFS_LOAD_KRNS_CAMPUS_T">
+	    <delete tableName="KRNS_CAMPUS_T" />
+		<loadData tableName="KRNS_CAMPUS_T" file="demo-data/krns_campus_t.csv" />
+    </changeSet>
+
 </databaseChangeLog>   
       

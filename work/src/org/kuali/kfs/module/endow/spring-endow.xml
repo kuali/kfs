@@ -1106,7 +1106,9 @@
         <property name="dependencies">
 			<map>
 				<entry key="createAccrualTransactionsJob" value="hardDependency" />
-				<entry key="pooledFundControlTransactionsJob" value="hardDependency" />
+				<!--   <entry key="pooledFundControlTransactionsJob" value="hardDependency" /> -->
+				<entry key="createGainLossTransactionsJob" value="hardDependency" />
+				<entry key="createIncomeDistributionJob" value="hardDependency" />
 			</map>
 		</property>
     </bean>
@@ -1170,7 +1172,7 @@
     
     <bean id="recurringCashTransferTransactionsTotalReportWriterService" parent="reportWriterService">
             <property name="filePath" value="${reports.directory}/endow"/>
-            <property name="fileNamePrefix" value="accrualTransactionsTotalReport_"/>
+            <property name="fileNamePrefix" value="recurringCashTransferTotalReport_"/>
         <property name="title" value="CREATE RECURRING CASH TRANSFER TRANSACTIONS JOB TOTALS PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>

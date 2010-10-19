@@ -299,7 +299,9 @@ public class EndowPropertyConstants {
 
     // Cash Sweep Model
     public static final String CASH_SWEEP_MODEL_ID = "cashSweepModelID";
-    public static final String CASH_SWEEP_ACTIVE_INDICATOR = "active";
+    public static final String CASH_SWEEP_MODEL_NEXT_DUE_DATE = "cashSweepNextDueDate";
+    public static final String CASH_SWEEP_MODEL_FREQUENCY_CDOE = "cashSweepFrequencyCode";
+    public static final String CASH_SWEEP_MODEL_ACTIVE_INDICATOR = "active";
 
     // Automated Cash Investment Model
     public static final String ACI_MODEL_ID = "aciModelID";
@@ -307,7 +309,9 @@ public class EndowPropertyConstants {
     public static final String INVESTMENT_2_PERCENT = "investment2Percent";
     public static final String INVESTMENT_3_PERCENT = "investment3Percent";
     public static final String INVESTMENT_4_PERCENT = "investment4Percent";
-    public static final String ACI_ACTIVE_INDICATOR = "active";
+    public static final String ACI_MODEL_NEXT_DUE_DATE = "nextDueDate";
+    public static final String ACI_MODEL_FREQUENCY_CDOE = "aciFrequencyCode";
+    public static final String ACI_MODEL_ACTIVE_INDICATOR = "active";
 
     // PurposeCode
     public static final String PURPOSE_INCOME_CAE_CD = "incomeCAECode";
@@ -529,7 +533,7 @@ public class EndowPropertyConstants {
     // Tickler Constants
     public static final String TICKLER_NUMBER = "number";
     public static final String TICKLER_CODE = "typeCode";
-    public static final String TICKLER_FREQUENCY = "frequencyCode";
+    public static final String TICKLER_FREQUENCY_CODE = "frequencyCode";
     public static final String TICKLER_NEXT_DUE_DATE = "nextDueDate";
     public static final String TICKLER_DETAIL = "detail";
     public static final String TICKLER_ENTRY_DETAIL = "entryDate";

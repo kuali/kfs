@@ -40,6 +40,7 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     private BigDecimal investment4Percent;
     private String aciFrequencyCode;
     private Date dateOfLastACIModelChange;
+    private Date nextDueDate;
     private boolean active;
 
     private PooledFundControl investment1;
@@ -335,6 +336,22 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
      */
     public void setAciFrequencyCodeObj(FrequencyCode aciFrequencyCodeObj) {
         this.aciFrequencyCodeObj = aciFrequencyCodeObj;
+    }
+
+    /**
+     * Gets the nextDueDate attribute. 
+     * @return Returns the nextDueDate.
+     */
+    public Date getNextDueDate() {
+        return nextDueDate;
+    }
+
+    /**
+     * Sets the nextDueDate attribute value.
+     * @param nextDueDate The nextDueDate to set.
+     */
+    public void setNextDueDate(Date nextDueDate) {
+        this.nextDueDate = nextDueDate;
     }
 
     /**

@@ -1708,7 +1708,7 @@
         <property name="reportWriterService" ref="laborEnterpriseFeedReportWriterService" />
     </bean>
 
-    <bean id="laborEnterpriseFeedStep" class="org.kuali.kfs.module.ld.batch.EnterpriseFeedStep" parent="wrappedStep">
+    <bean id="laborEnterpriseFeedStep" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeedStep" parent="wrappedStep">
         <property name="wrappingBatchServices">
             <list>
                 <ref bean="laborEnterpriseFeedReportWriterService" />

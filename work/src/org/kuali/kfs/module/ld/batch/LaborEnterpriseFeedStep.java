@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchEx
 /**
  * This step executes the enterprise feeder
  */
-public class EnterpriseFeedStep extends AbstractWrappedBatchStep {
+public class LaborEnterpriseFeedStep extends AbstractWrappedBatchStep {
 
     private EnterpriseFeederService enterpriseFeederService;
 

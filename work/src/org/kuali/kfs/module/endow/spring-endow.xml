@@ -197,7 +197,6 @@
         <property name="title" value="CREATE ACCRUAL TRANSACTIONS JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader" value="accrualTransactionsExceptionReportHeader"/>
         		<entry key="org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine" value="transactionDocumentExceptionReportLineHelper"/>
          	</map>
        	</property>
@@ -622,7 +621,7 @@
 		</property>	
 		<property name="recurringCashTransferDao">
 			<ref bean="recurringCashTransferDao" />
-		</property>
+		</property>			
 		<property name="automatedCashInvestmentModelDao">
 			<ref bean="automatedCashInvestmentModelDao" />
 		</property>
@@ -648,7 +647,7 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
-
+	
 	<bean id="automatedCashInvestmentModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.AutomatedCashInvestmentModelDaoOjb">
 		<property name="kemService">
 			<ref bean="kemService"/>
@@ -1081,7 +1080,7 @@
         </property>
         <property name="securityService">
             <ref bean="securityService" />
-        </property>        
+        </property>
         <property name="createAutomatedCashInvestmentExceptionReportWriterService">
             <ref bean="createAutomatedCashInvestmentExceptionReportWriterService" />
         </property>

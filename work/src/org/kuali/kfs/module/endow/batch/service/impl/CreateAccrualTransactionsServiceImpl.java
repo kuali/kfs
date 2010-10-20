@@ -18,18 +18,14 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
-import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
@@ -52,10 +48,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -372,8 +365,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         }
         else {
             try {
-                // try to save the document
-                documentService.saveDocument(cashIncreaseDocument, CashIncreaseDocument.class);
                 exceptionReportLine.setSecurityId(cashIncreaseDocument.getTargetTransactionSecurity().getSecurityID());
                 exceptionReportLine.setIncomeAmount(cashIncreaseDocument.getTargetIncomeTotal());
                 accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
@@ -382,6 +373,10 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                     accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
                     accrualTransactionsExceptionReportWriterService.writeNewLines(1);
                 }
+
+                // try to save the document
+                documentService.saveDocument(cashIncreaseDocument);
+
             }
             catch (WorkflowException ex) {
                 // have to write a table header before write the table row.

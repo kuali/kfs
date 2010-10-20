@@ -43,6 +43,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -401,7 +402,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
             try {
                 // try to save the document
-                documentService.saveDocument(holdingAdjustmentDocument, HoldingAdjustmentDocument.class);
+                documentService.saveDocument(holdingAdjustmentDocument);
                 exceptionReportLine.setSecurityId(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID());
                 gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 List<String> errorMessages = extractGlobalVariableErrors();

@@ -52,6 +52,7 @@ import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -359,7 +360,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
         else {
             writeExceptionTableRowAssetDecrease(assetDecreaseDoc, transactionLine, isIncome);
-            List<String> errorMessages = extractGlobalVariableErrors();
+            List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
@@ -399,7 +400,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
         else {
             writeExceptionTableRowAssetIncrease(assetIncreaseDoc, transactionLine, isIncome);
-            List<String> errorMessages = extractGlobalVariableErrors();
+            List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
@@ -431,6 +432,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         else {
+            // Write the errors to the exception file.
+            List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
             // Try to save the document if it fails validation.
             try {
                 documentService.saveDocument(assetDecreaseDoc);
@@ -438,10 +444,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             catch (WorkflowException we) {
                 writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
                 LOG.error(we.getLocalizedMessage());
-            }
-            List<String> errorMessages = extractGlobalVariableErrors();
-            for (String errorMessage : errorMessages) {
-                writeExceptionTableReason(errorMessage);
             }
         }
     }
@@ -470,6 +472,12 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         else {
+            // Write the errors to the exception file.
+            List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
+            writeExceptionTableRowAssetIncrease(assetIncreaseDoc, null, isIncome);
+            for (String errorMessage : errorMessages) {
+                writeExceptionTableReason(errorMessage);
+            }
             // Try to save the document if it fails validation.
             try {
                 documentService.saveDocument(assetIncreaseDoc);
@@ -477,12 +485,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             catch (WorkflowException we) {
                 writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
                 LOG.error(we.getLocalizedMessage());
-            }
-            
-            List<String> errorMessages = extractGlobalVariableErrors();
-            writeExceptionTableRowAssetIncrease(assetIncreaseDoc, null, isIncome);
-            for (String errorMessage : errorMessages) {
-                writeExceptionTableReason(errorMessage);
             }
         }
     }
@@ -703,51 +705,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private int getMaxNumberOfTransactionLines() {
         return kemService.getMaxNumberOfTransactionLinesPerDocument();
-    }
-    
-    /**
-     * Extracts errors for error report writing.
-     * 
-     * @return a list of error messages
-     */
-    @SuppressWarnings("deprecation")
-    protected List<String> extractGlobalVariableErrors() {
-        List<String> result = new ArrayList<String>();
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-
-        Set<String> errorKeys = errorMap.keySet();
-        List<ErrorMessage> errorMessages = null;
-        Object[] messageParams;
-        String errorKeyString;
-        String errorString;
-
-        for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
-            for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
-                messageParams = errorMessage.getMessageParameters();
-
-                // MessageFormat.format only seems to replace one
-                // per pass, so I just keep beating on it until all are gone.
-                if (StringUtils.isBlank(errorKeyString)) {
-                    errorString = errorMessage.getErrorKey();
-                }
-                else {
-                    errorString = errorKeyString;
-                }
-                System.out.println(errorString);
-                while (errorString.matches("^.*\\{\\d\\}.*$")) {
-                    errorString = MessageFormat.format(errorString, messageParams);
-                }
-                result.add(errorString);
-            }
-        }
-
-        // clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getMessageMap().clear();
-        
-        return result;
     }
     
     /**

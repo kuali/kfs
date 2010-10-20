@@ -47,6 +47,7 @@
 				<!-- both these files and files we do not have the authority to distribute ourselves -->
 				<include name="${build.distribution.directory}/build.xml" />
 				<include name="${build.distribution.directory}/distribution.properties" />
+				<include name="work/db/upgrades/*/temp-*/**" />
 				<include name="build/svn*.jar" />
 				<include name="build/ganymed.jar" />
 				<include name="build/drivers/*.jar" />
@@ -102,19 +103,14 @@
 			<info target="${kuali.svn.root}/${rice.svn.module}/${rice.svn.path}"
 				  propPrefix="svn.info.rice" verbose="true" />			
 			<info target="${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}"
-				  propPrefix="svn.info.kfsdb.demo" verbose="true" />			
+				  propPrefix="svn.info.dataset" verbose="true" />			
 			<info target="${kuali.svn.root}/${impex.tool.svn.module}/${impex.tool.svn.path}"
 				  propPrefix="svn.info.impex" verbose="true" />			
 		</svn>
 	    <!-- dump a file with the extracted tags -->
     	<echo file="${all.temp.directory}/release-details.txt">
       		KFS URL: ${kfs.svn.module}/${kfs.svn.path} (@${svn.info.kfs.lastRev})
-      		Demo Dataset URLs: 
-    				KFS:  ${kfs.database.svn.module}/${kfs.database.demo.svn.path} (@${svn.info.kfsdb.demo.lastRev})
-    				Rice: ${rice.database.svn.module}/${rice.database.demo.svn.path} (@${svn.info.kfsdb.bootstrap.lastRev})
-      		Bootstrap Dataset URLs: 
-    				KFS:  ${kfs.database.svn.module}/${kfs.database.bootstrap.svn.path} (@${svn.info.ricedb.demo.lastRev})
-    				Rice: ${rice.database.svn.module}/${rice.database.bootstrap.svn.path} (@${svn.info.ricedb.bootstrap.lastRev})
+      		Dataset URL ${kfs.dataset.svn.module}/${kfs.dataset.svn.path} (@${svn.info.dataset.lastRev})
       		Impex URL: ${impex.tool.svn.module}/${impex.tool.svn.path} (@${svn.info.impex.lastRev})
       		Rice URL: ${rice.svn.module}/${rice.svn.path} (@${svn.info.rice.lastRev})
     	</echo>	

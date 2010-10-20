@@ -25,19 +25,12 @@
 			<!-- export the main project -->
 			<export srcurl="${kuali.svn.root}/${kfs.svn.module}/${kfs.svn.path}"
 					destpath="${all.temp.directory}/kfs" />
-			<!-- demo dataset -->
-			<export srcurl="${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.demo.svn.path}"
-					destpath="${all.temp.directory}/datasets/demo/kfs" />
-			<export srcurl="${kuali.svn.root}/${rice.database.svn.module}/${rice.database.demo.svn.path}"
-					destpath="${all.temp.directory}/datasets/demo/rice" />
-			<!-- bootstrap dataset -->
-			<export srcurl="${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.bootstrap.svn.path}"
-					destpath="${all.temp.directory}/datasets/bootstrap/kfs" />
-			<export srcurl="${kuali.svn.root}/${rice.database.svn.module}/${rice.database.bootstrap.svn.path}"
-					destpath="${all.temp.directory}/datasets/bootstrap/rice" />
+			<!-- datasets -->
+			<export srcurl="${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}"
+					destpath="${all.temp.directory}/datasets" />
 			<!-- impex tool -->
 			<export srcurl="${kuali.svn.root}/${impex.tool.svn.module}/${impex.tool.svn.path}"
-					destpath="${all.temp.directory}/impex" />
+					destpath="${all.temp.directory}/kul-cfg-dbs" />
 			<!-- rice -->
 			<export srcurl="${kuali.svn.root}/${rice.svn.module}/${rice.svn.path}"
 					destpath="${all.temp.directory}/rice" />
@@ -51,11 +44,15 @@
 				<include name="build-foundation.xml" />
 				<include name="build/properties/build-foundation.properties" />
 				<!-- remove the distribution build files -->
+				<!-- both these files and files we do not have the authority to distribute ourselves -->
 				<include name="${build.distribution.directory}/build.xml" />
 				<include name="${build.distribution.directory}/distribution.properties" />
 				<include name="build/svn*.jar" />
 				<include name="build/ganymed.jar" />
 				<include name="build/drivers/*.jar" />
+			</fileset>
+			<fileset dir="${all.temp.directory}/kul-cfg-dbs">
+				<include name="drivers/*.jar" />
 			</fileset>
 		</delete>
 	    <!-- remove foundation-only targets import from main build file -->

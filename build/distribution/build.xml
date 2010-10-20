@@ -77,7 +77,7 @@
 			<replacefilter token="feedback.link.url=https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;amp;issuetype=1" value="feedback.link.url=" />
 			<replacefilter token="licensing.contact.email=license@kuali.org" value="licensing.contact.email=" />
       	</replace>
-		<move file="${all.temp.directory}/kfs/${build.distribution.directory}/impex-build.properties"
+		<move file="${all.temp.directory}/kfs/${build.distribution.directory}/*-impex-build*.properties"
 			  todir="${all.temp.directory}" failonerror="false" />
 	</target>
 	
@@ -95,19 +95,14 @@
 			</fileset>
 		</move>
 		<!-- get the current revision numbers for each SVN path we are including in the export -->
+		<echo>${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}</echo>
 		<svn>
 			<info target="${kuali.svn.root}/${kfs.svn.module}/${kfs.svn.path}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
 			<info target="${kuali.svn.root}/${rice.svn.module}/${rice.svn.path}"
 				  propPrefix="svn.info.rice" verbose="true" />			
-			<info target="${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.demo.svn.path}"
+			<info target="${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}"
 				  propPrefix="svn.info.kfsdb.demo" verbose="true" />			
-			<info target="${kuali.svn.root}/${kfs.database.svn.module}/${kfs.database.bootstrap.svn.path}"
-				  propPrefix="svn.info.kfsdb.bootstrap" verbose="true" />			
-			<info target="${kuali.svn.root}/${rice.database.svn.module}/${rice.database.demo.svn.path}"
-				  propPrefix="svn.info.ricedb.demo" verbose="true" />			
-			<info target="${kuali.svn.root}/${rice.database.svn.module}/${rice.database.bootstrap.svn.path}"
-				  propPrefix="svn.info.ricedb.bootstrap" verbose="true" />			
 			<info target="${kuali.svn.root}/${impex.tool.svn.module}/${impex.tool.svn.path}"
 				  propPrefix="svn.info.impex" verbose="true" />			
 		</svn>

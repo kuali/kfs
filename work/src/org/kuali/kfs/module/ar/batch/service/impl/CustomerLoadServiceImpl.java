@@ -170,6 +170,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     
     /**
      * Clears out associated .done files for the processed data files.
+     * 
+     * @param dataFileNames
      */
     protected void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
@@ -223,7 +225,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
         LOG.info("Beginning validation and preparation of batch file.");
-        result = validateAndPrepare(customerVOs, readyTransientDocs, reporter, false);
+        result = validateCustomers(customerVOs, readyTransientDocs, reporter, false);
         
         //  send the readyDocs into workflow
         result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
@@ -354,15 +356,30 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * 
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
      */
+    @Override
     public boolean validate(List<CustomerDigesterVO> customerUploads) {
         return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>(), true);
     }
     
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validateAndPrepare(java.util.List, java.util.List, boolean)
+     */
+    @Override
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap) {
-        return validateAndPrepare(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
+        return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
     }
     
-    protected boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
+    /**
+     * 
+     * Validate the customers lists
+     * 
+     * @param customerUploads
+     * @param customerMaintDocs
+     * @param reporter
+     * @param useGlobalErrorMap
+     * @return
+     */
+    protected boolean validateCustomers(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
         
         //  fail if empty or null list
         if (customerUploads == null) {
@@ -497,21 +514,26 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return groupSucceeded;
     }
 
+    /**
+     * pre-processing for existing and new customer 
+     * 
+     * @param customer
+     * @param existingCustomer
+     * @param isUpdate
+     */
     protected void processBeforeValidating(Customer customer, Customer existingCustomer, boolean isUpdate) {
-        
-        
-        //  if its an update, but has no customerNumber, then set it from existing record
-        if (isUpdate && StringUtils.isBlank(customer.getCustomerNumber())) {
-            customer.setCustomerNumber(existingCustomer.getCustomerNumber());
-        }
-        
-        //  if its an update, then carry forward the version number
+
+        //update specifics processing
         if (isUpdate) {
+            //  if its has no customerNumber, then set it from existing record
+            if (StringUtils.isBlank(customer.getCustomerNumber())) {
+                customer.setCustomerNumber(existingCustomer.getCustomerNumber());
+            }
+            
+            //  carry forward the version number
             customer.setVersionNumber(existingCustomer.getVersionNumber());
-        }
         
-        //  dont let the batch zero out certain key fields on an update
-        if (isUpdate) {
+            //  don't let the batch zero out certain key fields on an update
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerTypeCode");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerTaxTypeCode");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerTaxNbr");
@@ -529,6 +551,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         //  upper case important fields
         upperCaseKeyFields(customer);
         
+        //NOTE: What's the reason for determining primary address?? address isn't used afterward
         //  determine whether the batch has a primary address, and which one it is
         boolean batchHasPrimaryAddress = false;
         CustomerAddress batchPrimaryAddress = null;
@@ -538,27 +561,45 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
                 batchPrimaryAddress = address;
             }
         }
-        
-        //  if its an update, merge the address records (ie, only add or update, dont remove all 
-        // addresses not imported).
+
+        //  if its an update, merge the address records (ie, only add or update, dont remove all addresses not imported).
         if (isUpdate) {
             boolean addressInBatchCustomer = false;
-            List<CustomerAddress> existingAddresses = new ArrayList<CustomerAddress>();
+            List<CustomerAddress> newCusomterAddresses = customer.getCustomerAddresses();
+            
+            // populate a stub address list (with empty addresses) base on the new customer address list size 
+            List<CustomerAddress> stubAddresses = new ArrayList<CustomerAddress>();
+            for (CustomerAddress batchAddress : newCusomterAddresses) {
+                stubAddresses.add(new CustomerAddress());
+            }
+            
             for (CustomerAddress existingAddress : existingCustomer.getCustomerAddresses()) {
                 addressInBatchCustomer = false;
-                for (CustomerAddress batchAddress : customer.getCustomerAddresses()) {
-                    if (existingAddress.compareTo(batchAddress) == 0) {
+                for (CustomerAddress batchAddress : newCusomterAddresses) {
+                    if (!addressInBatchCustomer && existingAddress.compareTo(batchAddress) == 0) {
                         addressInBatchCustomer = true;
                     }
                 }
+                
                 if (!addressInBatchCustomer) {
-                    //  make sure we dont add a second Primary address, if the batch specifies a primary address, it wins
-                    if (ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equalsIgnoreCase(existingAddress.getCustomerAddressTypeCode())) {
-                        existingAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+                    
+                    //clone the address to avoid changing the existingAddress's type code
+                    CustomerAddress clonedExistingAddress = cloneCustomerAddress(existingAddress);
+                    //  make sure we don't add a second Primary address, if the batch specifies a primary address, it wins
+                    if (batchHasPrimaryAddress && ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equalsIgnoreCase(clonedExistingAddress.getCustomerAddressTypeCode())) {
+                        clonedExistingAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
                     }
-                    customer.getCustomerAddresses().add(existingAddress);
+                    customer.getCustomerAddresses().add(clonedExistingAddress);
+                }else{
+                    //found a address already in batch, remove one stub address from the list
+                    stubAddresses.remove(0);
                 }
             }
+            
+            //append existing list to the stub list in order to have matching number of address for display, so the merged address from existing list is matched up
+            stubAddresses.addAll(existingCustomer.getCustomerAddresses());
+            // reset existing customer's address to the stub address list
+            existingCustomer.setCustomerAddresses(stubAddresses);
         }
         
         //  set parent customer number to null if blank (otherwise foreign key rule fails)
@@ -568,6 +609,23 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
     }
     
+    /**
+     * Clone the address object
+     * 
+     * @param address
+     * @return
+     */
+    private CustomerAddress cloneCustomerAddress(CustomerAddress address) {
+        CustomerAddress clonedAddress = null;
+        try {
+            clonedAddress = (CustomerAddress) BeanUtils.cloneBean(address);
+        }
+        catch (Exception ex) {
+            LOG.error("Unable to clone address [" + address + "]", ex);
+        }
+        return clonedAddress;
+    }
+
     protected void upperCaseKeyFields(Customer customer) {
         
         //  customer name

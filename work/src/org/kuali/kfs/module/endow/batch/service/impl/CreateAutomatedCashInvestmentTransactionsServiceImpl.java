@@ -49,8 +49,8 @@ import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
-import org.kuali.kfs.module.endow.businessobject.TransactioneDocPostingDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.module.endow.dataaccess.AutomatedCashInvestmentModelDao;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
@@ -85,6 +85,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
+    private AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService configService;
     private KualiRuleService kualiRuleService;
@@ -93,8 +94,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private SecurityService securityService;
     private KEMIDService kemidService;
     private KEMService kemService;
-    private PooledFundControlService pooledFundControlService;
-    
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService#createACITransactions()
      */
@@ -266,7 +265,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private AssetDecreaseDocument processCashInvestmentForAssetDecrease(AutomatedCashInvestmentModel aciModel, boolean isIncome, AssetDecreaseDocument assetDecreaseDoc, BigDecimal invPercent, int i, KEMID kemid, BigDecimal cashEquivalent, int inv) {
         
-        if (invPercent.compareTo(BigDecimal.ZERO) != 0) {
+        if (invPercent != null && invPercent.compareTo(BigDecimal.ZERO) != 0) {
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
             String invSecurityId       = getInvSecurityId(aciModel, inv);
             
@@ -307,7 +306,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private AssetIncreaseDocument processCashInvestmentForAssetIncrease(AutomatedCashInvestmentModel aciModel, boolean isIncome, AssetIncreaseDocument assetIncreaseDoc, BigDecimal invPercent, int i, KEMID kemid, BigDecimal cashEquivalent, int inv) {
         
-        if (invPercent.compareTo(BigDecimal.ZERO) != 0) {
+        if (invPercent != null && invPercent.compareTo(BigDecimal.ZERO) != 0) {
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
             String invSecurityId       = getInvSecurityId(aciModel, inv);
 
@@ -358,11 +357,18 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
         else {
+            // Try to save the document if it fails validation.
+            try {
+                documentService.saveDocument(assetDecreaseDoc);
+            }
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
+            }
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -384,17 +390,24 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetIncrease(assetIncreaseDoc, isIncome);
             }
-            catch (WorkflowException ex) {
-                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
-                LOG.error(ex.getLocalizedMessage());
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
             }
         }
         else {
+            // Try to save the document if it fails validation.
+            try {
+                documentService.saveDocument(assetIncreaseDoc);
+            }
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
+            }
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -429,7 +442,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -461,7 +473,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -686,7 +697,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Creates and initializes an asset decrease document type.
      *
      * @param securityId
      * @param registrationCode
@@ -724,7 +735,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     /**
      * 
-     * This method...
+     * Creates and initializes an asset increase document type.
      *
      * @param securityId
      * @param registrationCode
@@ -883,32 +894,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return Collection of CashSweepModel business objects
      */
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
-
-        //
-        // Get all the CashSweepModel BOs, and initialize a new list to contain
-        // the filtered cash sweep models whose frequency matches current date.
-        //
-        Collection<AutomatedCashInvestmentModel> allAciModels = businessObjectService.findAll(AutomatedCashInvestmentModel.class);
-        Collection<AutomatedCashInvestmentModel> aciModels = new ArrayList<AutomatedCashInvestmentModel>();
-        
-        //
-        // Get the current date.
-        //
-        Date currentDate = kemService.getCurrentDate();
-        
-        //
-        // Iterate through all the models and add the models whose frequency
-        // matches the current date to the list 'cashSweepModels'.
-        //
-        for (AutomatedCashInvestmentModel aciModel : allAciModels) {
- //         Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(aciModel.getAciFrequencyCode());
-            Date freqDate = aciModel.getAciNextDueDate();
-            if (freqDate.equals(currentDate)) {
-                aciModels.add(aciModel);
-            }
-        }
-        
-        return aciModels;
+        return automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate();
     }
     
     /**
@@ -1291,19 +1277,19 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
     
     /**
-     * Sets the pooledFundControlService attribute value.
-     * @param pooledFundControlService The pooledFundControlService to set.
-     */
-    public void setPooledFundControlService(PooledFundControlService pooledFundControlService) {
-        this.pooledFundControlService = pooledFundControlService;
-    }
-    
-    /**
      * Sets the configService attribute value.
      * @param configService The configService to set.
      */
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
+    }
+    
+    /**
+     * Sets the automatedCashInvestmentModelDao attribute value.
+     * @param automatedCashInvestmentModelDao The automatedCashInvestmentModelDao to set.
+     */
+    public void setAutomatedCashInvestmentModelDao(AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao) {
+        this.automatedCashInvestmentModelDao = automatedCashInvestmentModelDao;
     }
 
     /**

@@ -306,7 +306,7 @@
     </bean>
     <bean id="eDocPostingExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="endowmenteDocPostingExceptionReport"/>
+        <property name="fileNamePrefix" value="endowmenteDocPostingExceptionReport_"/>
         <property name="title" value="PROCESS eDOC POSTING JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -317,7 +317,7 @@
     </bean>
         <bean id="eDocPostingProcessedReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="endowmenteDocPostingProcessedReport"/>
+        <property name="fileNamePrefix" value="endowmenteDocPostingProcessedReport_"/>
         <property name="title" value="PROCESS eDOC POSTING JOB PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -997,10 +997,13 @@
         <property name="configService">
             <ref bean="kualiConfigurationService" />
         </property>
+        <property name="cashSweepModelDao">
+            <ref bean="cashSweepModelDao" />
+        </property> 
     </bean>
     <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="createCashSweepExceptionReport"/>
+        <property name="fileNamePrefix" value="createCashSweepExceptionReport_"/>
         <property name="title" value="CREATE CASH SWEEP JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -1012,7 +1015,7 @@
     </bean>
         <bean id="createCashSweepProcessedReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="createCashSweepProcessedReport"/>
+        <property name="fileNamePrefix" value="createCashSweepProcessedReport_"/>
         <property name="title" value="CREATE CASH SWEEP JOB PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -1078,9 +1081,6 @@
         </property>
         <property name="securityService">
             <ref bean="securityService" />
-        </property>
-        <property name="pooledFundControlService">
-            <ref bean="pooledFundControlService" />
         </property>        
         <property name="createAutomatedCashInvestmentExceptionReportWriterService">
             <ref bean="createAutomatedCashInvestmentExceptionReportWriterService" />
@@ -1088,10 +1088,13 @@
         <property name="createAutomatedCashInvestmentProcessedReportWriterService">
             <ref bean="createAutomatedCashInvestmentProcessedReportWriterService" />
         </property>
+        <property name="automatedCashInvestmentModelDao">
+            <ref bean="automatedCashInvestmentModelDao" />
+        </property>
 	</bean>
     <bean id="createAutomatedCashInvestmentExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="createAutomatedCashInvestmentExceptionReport"/>
+        <property name="fileNamePrefix" value="createAutomatedCashInvestmentExceptionReport_"/>
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -1103,7 +1106,7 @@
     </bean>
         <bean id="createAutomatedCashInvestmentProcessedReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="createAutomatedCashInvestmentProcessedReport"/>
+        <property name="fileNamePrefix" value="createAutomatedCashInvestmentProcessedReport_"/>
         <property name="title" value="CREATE AUTOMATED CASH INVESTMENT JOB PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>

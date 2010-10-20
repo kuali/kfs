@@ -355,8 +355,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
      * not be run, and that the job has failed.  There may be errors in the GlobalVariables.getMessageMap().
      * 
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
-     */
-    @Override
+     */    
     public boolean validate(List<CustomerDigesterVO> customerUploads) {
         return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>(), true);
     }
@@ -364,7 +363,6 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validateAndPrepare(java.util.List, java.util.List, boolean)
      */
-    @Override
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap) {
         return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
     }

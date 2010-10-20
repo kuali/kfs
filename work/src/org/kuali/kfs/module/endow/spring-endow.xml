@@ -57,24 +57,29 @@
         </property>
         <property name="jobNames">
             <list>
-				<value>availableCashUpdatesJob</value>
-				<value>currentTaxLotBalancesUpdateJob</value>
-                <value>endowmenteDocPostingJob</value>
-				<value>createAccrualTransactionsJob</value>			
-				<value>rollProcessDateJob</value>	
-				<value>updateHistoryCashJob</value>
-				<value>updateHoldingHistoryJob</value>
-                <value>rollFrequencyDatesJob</value> 
-				<value>accrualProcessingJob</value>
+                <value>endowmenteDocPostingJob</value>			
 				<value>holdingHisgtoryMarketValueUpdateJob</value>
-				<value>pooledFundControlTransactionsJob</value>
-                <value>createCashSweepTransactionsJob</value>
-                <value>createAutomatedCashInvestmentTransactionsJob</value>
+           		<value>createAccrualTransactionsJob</value>	
+           		<value>accrualProcessingJob</value>
                 <value>createGainLossTransactionsJob</value>
                 <value>createIncomeDistributionJob</value>
+                <value>postAccrualAndPoolDistributionJob</value>
                 <value>createRecurringCashTransferTransactionsJob</value>
                 <value>processFeeTransactionsJob</value>
-                <value>updateCorpusJob</value>               
+                <value>postRecurringCashTransferAndFeeTransactionsJob</value>
+                <value>createAutomatedCashInvestmentTransactionsJob</value>
+                <value>postAutomatedCashInvestmentTransactionsJob</value>
+                <value>createCashSweepTransactionsJob</value>
+                <value>postCashSweepTransactionsJob</value>
+                <value>rollFrequencyDatesJob</value> 
+                <value>pooledFundControlTransactionsJob</value>
+                <value>postPooledFundControlTransactionsJob</value>
+                <value>availableCashUpdatesJob</value>
+                <value>currentTaxLotBalancesUpdateJob</value>
+                <value>updateHistoryCashJob</value>
+                <value>updateHoldingHistoryJob</value>
+                <value>updateCorpusJob</value>
+                <value>rollProcessDateJob</value>               
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -90,6 +95,7 @@
     </bean>
  
  	<!--  begin core batch jobs -->
+ 	<!--  availableCashUpdatesJob configuration -->
  	<bean id="availableCashUpdatesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -98,14 +104,7 @@
 		</property>
 		<property name="dependencies">
             <map>
-                <entry key="endowmenteDocPostingJob" value="hardDependency" />
-                <entry key="createAccrualTransactionsJob" value="hardDependency" />
-                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
-                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
-                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
-                <entry key="createGainLossTransactionsJob" value="hardDependency" />
-                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
-                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+                <entry key="postPooledFundControlTransactionsJob" value="hardDependency" />
             </map>
         </property>
 	</bean>
@@ -138,12 +137,19 @@
 			<ref bean="KEMIDService" />
 		</property>		
 	</bean>
+	<!--  end availableCashUpdatesJob configuration -->
+	
  	<bean id="createAccrualTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="createAccrualTransactionsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>	
 	<bean id="createAccrualTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
@@ -262,7 +268,81 @@
 			<ref bean="businessObjectService" />
 		</property>
  	</bean>
+ 	
+ 	<!--  postPooledFundControlTransactionsJob configuration -->
+ 	<bean id="postPooledFundControlTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+ 	<!--  postCashSweepTransactionsJob configuration -->
+ 	<bean id="postCashSweepTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+ 	<!--  postAutomatedCashInvestmentTransactionsJob configuration -->
+ 	<bean id="postAutomatedCashInvestmentTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+ 	<!--  postRecurringCashTransferAndFeeTransactionsJob configuration -->
+ 	<bean id="postRecurringCashTransferAndFeeTransactionsJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
+                <entry key="processFeeTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
     
+    <!--  postAccrualAndPoolDistributionJob configuration -->
+ 	<bean id="postAccrualAndPoolDistributionJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="endowmenteDocPostingStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="createAccrualTransactionsJob" value="hardDependency" /> 
+                <entry key="createGainLossTransactionsJob" value="hardDependency" />
+                <entry key="createIncomeDistributionJob" value="hardDependency" />          
+            </map>
+        </property>
+    </bean>          	
+         	        	    
+    <!--  endowmenteDocPostingJob configuration -->
     <bean id="endowmenteDocPostingJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
@@ -335,6 +415,7 @@
         </property>
     </bean>
     
+    <!-- currentTaxLotBalancesUpdateJob configuration -->
  	<bean id="currentTaxLotBalancesUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -343,15 +424,7 @@
 		</property>
 		<property name="dependencies">
             <map>
-                <entry key="endowmenteDocPostingJob" value="hardDependency" />
-                <entry key="createAccrualTransactionsJob" value="hardDependency" />
-                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
-                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
-                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
-                <entry key="createGainLossTransactionsJob" value="hardDependency" />
-                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
-                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
-                <entry key="holdingHisgtoryMarketValueUpdateJob" value="hardDependency" />
+                <entry key="availableCashUpdatesJob" value="hardDependency" />
             </map>
         </property>
 	</bean>
@@ -396,12 +469,18 @@
 		</property>
  	</bean>
  	
+ 	<!--  createGainLossTransactionsJob configuration -->
  	<bean id="createGainLossTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="createGainLossTransactionsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	<bean id="createGainLossTransactionsStep" class="org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
@@ -492,13 +571,20 @@
 	    </property>
 	    <property name="columnCount" value="6" />
 	</bean>
+ 	<!--  end createGainLossTransactionsJob configuration -->
  	
+ 	<!--  rollProcessDateJob configuration -->
  	<bean id="rollProcessDateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="rollProcessDateStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="updateCorpusJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	
 	<bean id="rollProcessDateStep" class="org.kuali.kfs.module.endow.batch.RollProcessDateStep" parent="step">
@@ -518,14 +604,20 @@
 			<ref bean="businessObjectService" />
 		</property>	
 	</bean>
+	<!--  end rollProcessDateJob configuration -->
 	
-	<!--  updateHistoryCashJob -->	
+	<!--  updateHistoryCashJob configuration -->	
 	<bean id="updateHistoryCashJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="updateHistoryCashStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	
 	<bean id="updateHistoryCashStep" class="org.kuali.kfs.module.endow.batch.UpdateHistoryCashStep" parent="step">
@@ -545,8 +637,9 @@
 			<ref bean="monthEndDateService" />
 		</property>	
 	</bean>
+	<!--  end updateHistoryCashJob configuration -->
 	
-	<!--  updateHoldingHistoryJob -->
+	<!--  updateHoldingHistoryJob configuration -->
 	<bean id="updateHoldingHistoryJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -555,7 +648,6 @@
 		</property>
 		<property name="dependencies">
             <map>
-                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
                 <entry key="updateHistoryCashJob" value="hardDependency" />
             </map>
         </property>
@@ -578,8 +670,9 @@
 			<ref bean="monthEndDateService" />
 		</property>	
 	</bean>
+	<!--  end updateHoldingHistoryJob configuration -->
 	
-	<!-- rollFrequencyDatesJob -->
+	<!-- rollFrequencyDatesJob configuration-->
 	<bean id="rollFrequencyDatesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -665,13 +758,20 @@
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+	<!-- end rollFrequencyDatesJob configuration-->
 	
+	<!-- accrualProcessingJob configuration -->
 	<bean id="accrualProcessingJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="accrualProcessingStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="createAccrualTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	
  	<bean id="accrualProcessingStep" class="org.kuali.kfs.module.endow.batch.AccrualProcessingStep" parent="wrappedStep">
@@ -731,17 +831,18 @@
 	    </property>
 	    <property name="columnCount" value="4" />
 	</bean>	
-		
-	<!-- pooledFundControlTransactionsJob -->
+	<!-- end accrualProcessingJob configuration -->	
+	
+	<!-- pooledFundControlTransactionsJob configuration -->
 	<bean id="pooledFundControlTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pooledFundControlTransactionsStep" />
 			</list>
 		</property>
-		        <property name="dependencies">
+		<property name="dependencies">
             <map>
-                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+                <entry key="postCashSweepTransactionsJob" value="hardDependency" />
             </map>
         </property>
 	</bean>
@@ -811,13 +912,18 @@
 		</property>	
 	</bean>
 	
-	<!-- createIncomeDistributionJob -->
+	<!-- createIncomeDistributionJob configuration -->
 	<bean id="createIncomeDistributionJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="createIncomeDistributionStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 		
 	<bean id="createIncomeDistributionStep" class="org.kuali.kfs.module.endow.batch.IncomeDistributionForPooledFundStep" parent="wrappedStep">
@@ -896,7 +1002,9 @@
 			<ref bean="businessObjectService" />
 		</property>	
 	</bean>
+	<!-- end createIncomeDistributionJob configuration -->
 	
+	<!--  holdingHisgtoryMarketValueUpdateJob configuration -->
  	<bean id="holdingHisgtoryMarketValueUpdateJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -904,6 +1012,7 @@
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="holdingHistoryMarketValuesStep" class="org.kuali.kfs.module.endow.batch.HoldingHistoryMarketValuesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
@@ -915,6 +1024,7 @@
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
 	</bean>
+	
     <bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
         <property name="documentService">
             <ref bean="documentService" />
@@ -940,6 +1050,7 @@
         </property>
         <property name="aggregationModeOn" value="false"/>
     </bean>
+    <!--  holdingHisgtoryMarketValueUpdateJob configuration -->
     
     <!-- Create Cash Sweep Transactions Job -->
     <bean id="createCashSweepTransactionsJob" parent="scheduledJobDescriptor">
@@ -950,7 +1061,8 @@
         </property>
         <property name="dependencies">
             <map>
-                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="postAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="accrualProcessingJob" value="hardDependency" />
             </map>
         </property>
     </bean>
@@ -1034,10 +1146,7 @@
 		</property>
         <property name="dependencies">
             <map>
-                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
-                <entry key="createAccrualTransactionsJob" value="hardDependency" />
-                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
-                <entry key="processFeeTransactionsJob" value="hardDependency" />
+                <entry key="postRecurringCashTransferAndFeeTransactionsJob" value="hardDependency" />
             </map>
         </property>
 	</bean>
@@ -1125,10 +1234,7 @@
         </property>
         <property name="dependencies">
 			<map>
-				<entry key="createAccrualTransactionsJob" value="hardDependency" />
-				<!--   <entry key="pooledFundControlTransactionsJob" value="hardDependency" /> -->
-				<entry key="createGainLossTransactionsJob" value="hardDependency" />
-				<entry key="createIncomeDistributionJob" value="hardDependency" />
+				<entry key="postAccrualAndPoolDistributionJob" value="hardDependency" />				
 			</map>
 		</property>
     </bean>
@@ -1237,6 +1343,11 @@
 				<ref bean="processFeeTransactionsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="postAccrualAndPoolDistributionJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 	<bean id="processFeeTransactionsStep" class="org.kuali.kfs.module.endow.batch.ProcessFeeTransactionsStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
@@ -1338,12 +1449,18 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>    
+    
     <!-- updateCorpusJob configuration -->
     <bean id="updateCorpusJob" parent="scheduledJobDescriptor">
         <property name="steps">
             <list>
                 <ref bean="updateCorpusStep" />
             </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="updateHoldingHistoryJob" value="hardDependency" />
+            </map>
         </property>
     </bean>
 
@@ -1372,6 +1489,7 @@
 			<ref bean="updateCorpusDao" />
 		</property>				
     </bean>	
+    <!-- end updateCorpusJob configuration -->
     
  	<!--  end core batch jobs --> 
     

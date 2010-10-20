@@ -20,6 +20,7 @@ import java.sql.Date;
 import org.kuali.kfs.module.purap.PurapConstants.POCostSources;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -1052,6 +1053,10 @@ public enum PurchasingDocumentFixture {
 
     public PurchaseOrderDocument createPurchaseOrderDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
         return (PurchaseOrderDocument) createPurchasingDocument(PurchaseOrderDocument.class, purapFixture);
+    }
+
+    public PurchaseOrderAmendmentDocument createPurchaseOrderAmendmentDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
+        return (PurchaseOrderAmendmentDocument) createPurchasingDocument(PurchaseOrderAmendmentDocument.class, purapFixture);
     }
 
     public PurchasingDocument createPurchasingDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {

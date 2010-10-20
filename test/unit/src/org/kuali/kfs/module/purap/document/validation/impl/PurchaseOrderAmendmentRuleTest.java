@@ -19,13 +19,13 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.util.Map;
 
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.validation.PurapRuleTestBase;
+import org.kuali.kfs.module.purap.fixture.PurchaseOrderAmendmentDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderChangeDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.rice.kns.service.DocumentService;
@@ -34,24 +34,24 @@ import org.kuali.rice.kns.service.DocumentService;
 public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
 
     private Map<String, CompositeValidation> validations;
-    PurchaseOrderDocument po;
+    PurchaseOrderAmendmentDocument poAmendment;
 
     protected void setUp() throws Exception {
         super.setUp();
-        po = new PurchaseOrderDocument();
+        poAmendment = new PurchaseOrderAmendmentDocument();
         validations = SpringContext.getBeansOfType(CompositeValidation.class);
     }
 
     protected void tearDown() throws Exception {
         validations = null;
-        po = null;
+        poAmendment = null;
         super.tearDown();
     }
     
-    private void savePO(PurchaseOrderDocument po) {
-        po.prepareForSave(); 
+    private void savePO(PurchaseOrderAmendmentDocument poAmend) {
+        poAmend.prepareForSave(); 
         try {
-            AccountingDocumentTestUtils.saveDocument(po, SpringContext.getBean(DocumentService.class));
+            AccountingDocumentTestUtils.saveDocument(poAmend, SpringContext.getBean(DocumentService.class));
         }
         catch (Exception e) {
             throw new RuntimeException("Problems saving PO: " + e);
@@ -60,21 +60,21 @@ public class PurchaseOrderAmendmentRuleTest extends PurapRuleTestBase {
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testAmendmentValidate_Open() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        savePO(po);      
+        poAmendment = (PurchaseOrderAmendmentDocument) PurchaseOrderAmendmentDocumentFixture.PO_AMEND_STATUS_OPEN.createPurchaseOrderAmendmentDocument();
+        savePO(poAmendment);      
         
         CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderAmendment-routeDocumentValidation");
         
-        assertTrue( validation.validate(new AttributedDocumentEventBase("","", po)) );        
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", poAmendment)) );        
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testAmendmentValidate_NoItem() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
-        po.deleteItem(0);
-        savePO(po);       
+        poAmendment = (PurchaseOrderAmendmentDocument) PurchaseOrderAmendmentDocumentFixture.PO_AMEND_STATUS_OPEN.createPurchaseOrderAmendmentDocument();
+        poAmendment.deleteItem(0);
+        savePO(poAmendment);       
         CompositeValidation validation = (CompositeValidation)validations.get("PurchaseOrderAmendment-routeDocumentValidation");        
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", po)) );        
+        assertFalse( validation.validate(new AttributedDocumentEventBase("","", poAmendment)) );        
     }
 }
 

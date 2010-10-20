@@ -45,6 +45,7 @@ import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.module.endow.dataaccess.CashSweepModelDao;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
@@ -78,6 +79,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private ReportWriterService createCashSweepProcessedReportWriterService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService configService;
+    private CashSweepModelDao cashSweepModelDao;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
     private DocumentService documentService;
@@ -228,7 +230,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             KEMID kemid = kemids.get(i);
             
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
-            BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
+            BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
             if (currentCash != null && currentCash.compareTo(cashLimit) < 0) {
                 
                 // If this is null that means we need to create a new eDoc for
@@ -291,7 +293,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             KEMID kemid = kemids.get(i);
             
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
-            BigDecimal currentCash = isIncome ? getKemidCurrentIncomeCash(kemid) : getKemidCurrentPrincipalCash(kemid);
+            BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
             if (currentCash != null && currentCash.compareTo(cashLimit) > 0) {
                 
                 // If this is null that means we need to create a new eDoc for 
@@ -345,8 +347,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, false);
         
         // Create the correct transaction line based on if it's a source or target type.
-        EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true)
-                :createIncomeTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true);
+        EndowmentTransactionLine transactionLine = createTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true, isIncome);
         
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
@@ -362,7 +363,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -387,8 +387,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, true);
         
         // Create the correct transaction line based on if it's a source or target type.
-        EndowmentTransactionLine transactionLine = !isIncome ? createPrincipleTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false)
-                :createIncomeTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false);
+        EndowmentTransactionLine transactionLine = createTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false, isIncome);
         
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
@@ -404,7 +403,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -427,17 +425,24 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 documentService.routeDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetDecrease(assetDecreaseDoc, isIncome);
             }
-            catch (WorkflowException ex) {
-                writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
-                LOG.error(ex.getLocalizedMessage());
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
             }
         }
         else {
+            // Try to save the document if it fails validation.
+            try {
+                documentService.saveDocument(assetDecreaseDoc);
+            }
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
+            }
             List<String> errorMessages = extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
@@ -459,24 +464,32 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetIncrease(assetIncreaseDoc, isIncome);
             }
-            catch (WorkflowException ex) {
-                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
-                LOG.error(ex.getLocalizedMessage());
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
             }
         }
         else {
+            // Try to save the document if it fails validation.
+            try {
+                documentService.saveDocument(assetIncreaseDoc);
+            }
+            catch (WorkflowException we) {
+                writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
+                LOG.error(we.getLocalizedMessage());
+            }
+            
             List<String> errorMessages = extractGlobalVariableErrors();
             writeExceptionTableRowAssetIncrease(assetIncreaseDoc, null, isIncome);
             for (String errorMessage : errorMessages) {
                 writeExceptionTableReason(errorMessage);
             }
-            GlobalVariables.getMessageMap().clearErrorMessages();
         }
     }
     
     /**
      * 
-     * Creates and returns a new principle transaction line.
+     * Creates and returns a new principle or income transaction line.
      *
      * @param docNumber
      * @param kemid
@@ -484,7 +497,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param isSource
      * @return
      */
-    private EndowmentTransactionLine createPrincipleTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
+    private EndowmentTransactionLine createTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource, boolean isIncome) {
         
         EndowmentTransactionLine transactionLine = null;
         if (isSource) {
@@ -497,40 +510,12 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Set values on the transaction line.
         transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
-        transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
-        
-        // These should be whole numbers.
-        transactionLine.setTransactionAmount(amount);
-        transactionLine.setTransactionUnits(amount);
-        
-        return transactionLine;
-    }
-    
-    /**
-     * 
-     * Creates and returns a new income transaction line.
-     *
-     * @param docNumber
-     * @param kemid
-     * @param amount
-     * @param isSource
-     * @return
-     */
-    private EndowmentTransactionLine createIncomeTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource) {
-        
-        EndowmentTransactionLine transactionLine = null;
-        if (isSource) {
-            transactionLine = new EndowmentSourceTransactionLine();
+        if (!isIncome) {
+            transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
         }
         else {
-            transactionLine = new EndowmentTargetTransactionLine();
+            transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
         }
-        
-        // Set values on the transaction line.
-        transactionLine.setDocumentNumber(docNumber);
-        transactionLine.setKemid(kemid);
-        transactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-        
         // These should be whole numbers.
         transactionLine.setTransactionAmount(amount);
         transactionLine.setTransactionUnits(amount);
@@ -612,35 +597,21 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     }
     
     /**
-     * Gets the current principle cash for the specified KEMID.
+     * Gets the current principle or income cash for the specified KEMID.
      * 
      * @param kemid
      * @return
      */
-    private BigDecimal getKemidCurrentPrincipalCash(KEMID kemid) {
+    private BigDecimal getKemidCurrentCash(KEMID kemid, boolean isIncome) {
         KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
         
         if (kemidCurrentCash == null) {
             return null;
         }
         
-        return kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue();
+        return !isIncome ? kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue() 
+                : kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
      }
-
-    /**
-     * Gets the current income cash for the specified KEMID.
-     * 
-     * @param kemid
-     * @return
-     */
-    private BigDecimal getKemidCurrentIncomeCash(KEMID kemid) {
-       KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
-       
-       if (kemidCurrentCash == null) {
-           return null;
-       }
-       return kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
-    }
     
     /**
      * Determines the cash available.
@@ -674,32 +645,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return Collection of CashSweepModel business objects
      */
     private Collection<CashSweepModel> getCashSweepModelMatchingCurrentDate() {
-        
-        //
-        // Get all the CashSweepModel BOs, and initialize a new list to contain
-        // the filtered cash sweep models whose frequency matches current date.
-        //
-        Collection<CashSweepModel> allCashSweepModels = businessObjectService.findAll(CashSweepModel.class);
-        Collection<CashSweepModel> cashSweepModels = new ArrayList<CashSweepModel>();
-        
-        //
-        // Get the current date.
-        //
-        Date currentDate = kemService.getCurrentDate();
-        
-        //
-        // Iterate through all the models and add the models whose frequency
-        // matches the current date to the list 'cashSweepModels'.
-        //
-        for (CashSweepModel cashSweepModel : allCashSweepModels) {
-      //      Date freqDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(cashSweepModel.getCashSweepFrequencyCode());
-            Date freqDate = cashSweepModel.getCashSweepNextDueDate();
-            if (freqDate.equals(currentDate)) {
-                cashSweepModels.add(cashSweepModel);
-            }
-        }
-        
-        return cashSweepModels;
+        return cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate();
     }
     
     /**
@@ -1121,6 +1067,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
+    }
+
+    /**
+     * Sets the cashSweepModelDao attribute value.
+     * @param cashSweepModelDao The cashSweepModelDao to set.
+     */
+    public void setCashSweepModelDao(CashSweepModelDao cashSweepModelDao) {
+        this.cashSweepModelDao = cashSweepModelDao;
     }
     
 }

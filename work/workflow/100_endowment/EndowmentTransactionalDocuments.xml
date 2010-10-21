@@ -9,206 +9,6 @@
 			<parent>KFST</parent>
 		</documentType>
 		<documentType>
-			<name>EAD</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetdecrease.htm</helpDefinitionURL>
-			<label>Endowment Asset Decrease</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
-		    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>
-		</documentType>
-		<documentType>
-			<name>EAI</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetincrease.htm</helpDefinitionURL>
-			<label>Endowment Asset Increase</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
-						    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>
-		</documentType>
-		<documentType>
-			<name>ECDD</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashdecrease.htm</helpDefinitionURL>
-			<label>Endowment Cash Decrease</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
-		    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>				
-		</documentType>
-		<documentType>
-			<name>ECI</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashincrease.htm</helpDefinitionURL>
-			<label>Endowment Cash Increase</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
-		    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>		
-		</documentType>
-		<documentType>
-			<name>ECT</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashtransfer.htm</helpDefinitionURL>
-			<label>Endowment Cash Transfer</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
-		    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>
-		</documentType>
-		<documentType>
 			<name>ECA</name>
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcorpusadjustment.htm</helpDefinitionURL>
 			<label>Endowment Corpus Adjustment</label>
@@ -257,25 +57,35 @@
 				${application.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
-			<name>EHA</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fholdingadjustment.htm</helpDefinitionURL>
-			<label>Endowment Holding Adjustment</label>
+			<name>GLET</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fgltoendowmenttransferoffunds.htm</helpDefinitionURL>
+			<label>GL To Endowment Transfer Of Funds</label>
 			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+			<docHandler>${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
+		</documentType>
+		<documentType>
+			<name>ECR</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcorporatereorganization.htm</helpDefinitionURL>
+			<label>Endowment Corporate Reorganization</label>
+			<parent>ET</parent>
+			<docHandler>${application.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler</docHandler>
+		</documentType>
+		<documentType>
+			<name>ETB</name>
+			<label>Endowment Transactional Batch Document</label>
+			<parent>ET</parent>
 		    <routePaths>
         		<routePath>
             		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          			<split name="CheckIfNoRoute">
           				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+              				<simple name="NoOp" nextNode="JoinCheckIfRoute"/>
             			</branch>
             			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+              				<role name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
             			</branch>
             			<join name="JoinCheckIfRoute"/>
           			</split>
-            		<requests name="EndNode"/>
         		</routePath>
       		</routePaths>
       		<routeNodes>
@@ -284,9 +94,6 @@
           			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
         		</split>
         		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
           			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
         		</simple>
         		<join name="JoinCheckIfRoute"/>
@@ -300,57 +107,55 @@
 			<name>EGLT</name>
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fendowmenttogltransferoffunds.htm</helpDefinitionURL>
 			<label>Endowment To GL Transfer Of Funds</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
-		    <routePaths>
-        		<routePath>
-            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
-          			<split name="CheckIfNoRoute" nextNode="EndNode">
-          				<branch name="True">
-              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<branch name="False">
-              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
-            			</branch>
-            			<join name="JoinCheckIfRoute"/>
-          			</split>
-            		<requests name="EndNode"/>
-        		</routePath>
-      		</routePaths>
-      		<routeNodes>
-        		<start name="AdHoc"/>
-        		<split name="CheckIfNoRoute">
-          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-        		</split>
-        		<simple name="NoOp">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<simple name="EndNode">
-          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-        		</simple>
-        		<join name="JoinCheckIfRoute"/>
-        		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-          			<activationType>P</activationType>
-        		</role>
-      		</routeNodes>
+			<parent>ETB</parent>
+			<docHandler>${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
-			<name>GLET</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fgltoendowmenttransferoffunds.htm</helpDefinitionURL>
-			<label>GL To Endowment Transfer Of Funds</label>
-			<parent>ET</parent>
-			<docHandler>
-				${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
+			<name>EHA</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fholdingadjustment.htm</helpDefinitionURL>
+			<label>Endowment Holding Adjustment</label>
+			<parent>ETB</parent>
+			<docHandler>${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
-			<name>ECR</name>
-			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcorporatereorganization.htm</helpDefinitionURL>
-			<label>Endowment Corporate Reorganization</label>
-			<parent>ET</parent>
+			<name>EAD</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetdecrease.htm</helpDefinitionURL>
+			<label>Endowment Asset Decrease</label>
+			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler </docHandler>
+				${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
+		</documentType>
+		<documentType>
+			<name>EAI</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fassetincrease.htm</helpDefinitionURL>
+			<label>Endowment Asset Increase</label>
+			<parent>ETB</parent>
+			<docHandler>
+				${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+		</documentType>
+		<documentType>
+			<name>ECDD</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashdecrease.htm</helpDefinitionURL>
+			<label>Endowment Cash Decrease</label>
+			<parent>ETB</parent>
+			<docHandler>
+				${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+		</documentType>
+		<documentType>
+			<name>ECI</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashincrease.htm</helpDefinitionURL>
+			<label>Endowment Cash Increase</label>
+			<parent>ETB</parent>
+			<docHandler>
+				${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
+		</documentType>
+		<documentType>
+			<name>ECT</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcashtransfer.htm</helpDefinitionURL>
+			<label>Endowment Cash Transfer</label>
+			<parent>ETB</parent>
+			<docHandler>
+				${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 	</documentTypes>
 </data>

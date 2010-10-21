@@ -17,14 +17,11 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
@@ -43,7 +40,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -52,10 +49,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -112,7 +106,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return true if successful, false otherwise
      */
-    private boolean processShortTermGainLossDistribution() {
+    protected boolean processShortTermGainLossDistribution() {
         return processGainLossDistribution(true);
     }
 
@@ -121,7 +115,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return true if successful, false otherwise
      */
-    private boolean processLongTermGainLossDistribution() {
+    protected boolean processLongTermGainLossDistribution() {
         return processGainLossDistribution(false);
     }
 
@@ -131,18 +125,19 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return true if successful, false otherwise
      */
-    private boolean processGainLossDistribution(boolean isShortTerm) {
+    protected boolean processGainLossDistribution(boolean isShortTerm) {
         boolean result = true;
         List<PooledFundValue> pooledFundValues = null;
         int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
 
-        // process short term gain/loss
+        // process gain/loss
 
         if (isShortTerm) {
             // 1. collect all PooledFundValue entries with ST_PROC_ON_DT equal to current date
             pooledFundValues = pooledFundValueService.getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
         }
         else {
+            // 1. collect all PooledFundValue entries with LT_PROC_ON_DT equal to current date
             pooledFundValues = pooledFundValueService.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
         }
 
@@ -153,19 +148,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
             // group by registration code
             if (holdingTaxLots != null) {
                 // a map from registration code to taxlots
-                Map<String, List<HoldingTaxLot>> regCodeMap = new HashMap<String, List<HoldingTaxLot>>();
-
-                for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
-                    String registrationCode = holdingTaxLot.getRegistrationCode();
-                    if (regCodeMap.containsKey(registrationCode)) {
-                        regCodeMap.get(registrationCode).add(holdingTaxLot);
-                    }
-                    else {
-                        List<HoldingTaxLot> tmpTaxLots = new ArrayList<HoldingTaxLot>();
-                        tmpTaxLots.add(holdingTaxLot);
-                        regCodeMap.put(registrationCode, tmpTaxLots);
-                    }
-                }
+                Map<String, List<HoldingTaxLot>> regCodeMap = groupTaxLotsByRegistrationCode(holdingTaxLots);
 
                 // for each security and registration code generate a new HoldingAdjustmentDocument
 
@@ -173,49 +156,78 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
                     List<HoldingTaxLot> taxLots = regCodeMap.get(registrationCode);
                     // 4. generate Holding Adjustment document
-                    String documentDescription = "";
+                    HoldingAdjustmentDocument holdingAdjustmentDocument = generateHoldingAdjustmentDocument(isShortTerm, pooledFundValue.getPooledSecurityID());
 
-                    if (isShortTerm) {
-                        documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
-                    }
-                    else {
-                        documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
-                    }
+                    if (holdingAdjustmentDocument != null) {
+                        // add security details
+                        addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
 
-                    HoldingAdjustmentDocument holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription, pooledFundValue.getPooledSecurityID());
+                        initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
 
-                    // add security details
-                    addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
+                        int counter = 0;
+                        // add transaction lines
+                        if (taxLots != null) {
 
-                    initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
+                            // check if we reached the maximum number of transaction lines
+                            if (counter == maxNumberOfTranLines) {
+                                counter = 0;
 
-                    int counter = 0;
-                    // add transaction lines
-                    if (taxLots != null) {
-                        if (counter == maxNumberOfTranLines) {
-                            counter = 0;
-                            // generate a new Holding Adjustment document
-                            holdingAdjustmentDocument = generateHoldingAdjustmentDocument(documentDescription, pooledFundValue.getPooledSecurityID());
+                                // route document
+                                validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
 
-                            // add security details
-                            addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
+                                // generate a new Holding Adjustment document
+                                holdingAdjustmentDocument = generateHoldingAdjustmentDocument(isShortTerm, pooledFundValue.getPooledSecurityID());
 
-                            initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
+                                if (holdingAdjustmentDocument != null) {
+                                    // add security details
+                                    addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
+
+                                    initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
+                                }
+                            }
+
+                            if (holdingAdjustmentDocument != null) {
+                                for (HoldingTaxLot holdingTaxLot : taxLots) {
+                                    if (addTransactionLine(holdingAdjustmentDocument, holdingTaxLot, pooledFundValue))
+                                        counter++;
+                                }
+                            }
                         }
-                        for (HoldingTaxLot holdingTaxLot : taxLots) {
-                            if (addTransactionLine(holdingAdjustmentDocument, holdingTaxLot, pooledFundValue))
-                                counter++;
+
+                        if (holdingAdjustmentDocument != null) {
+                            // route document
+                            validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
                         }
                     }
-
-                    // route document
-                    validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
-
                 }
             }
         }
 
         return result;
+    }
+
+    /**
+     * Groups tax lots by registration code.
+     * 
+     * @param holdingTaxLots
+     * @return a map from registration code to taxlots
+     */
+    protected Map<String, List<HoldingTaxLot>> groupTaxLotsByRegistrationCode(List<HoldingTaxLot> holdingTaxLots) {
+        Map<String, List<HoldingTaxLot>> regCodeMap = new HashMap<String, List<HoldingTaxLot>>();
+
+        for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+            String registrationCode = holdingTaxLot.getRegistrationCode();
+            if (regCodeMap.containsKey(registrationCode)) {
+                regCodeMap.get(registrationCode).add(holdingTaxLot);
+            }
+            else {
+                List<HoldingTaxLot> tmpTaxLots = new ArrayList<HoldingTaxLot>();
+                tmpTaxLots.add(holdingTaxLot);
+                regCodeMap.put(registrationCode, tmpTaxLots);
+            }
+        }
+
+        return regCodeMap;
     }
 
 
@@ -224,8 +236,17 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * 
      * @return the HoldingAdjustmentDocument
      */
-    private HoldingAdjustmentDocument generateHoldingAdjustmentDocument(String documentDescription, String securityId) {
+    protected HoldingAdjustmentDocument generateHoldingAdjustmentDocument(boolean isShortTerm, String securityId) {
         HoldingAdjustmentDocument holdingAdjustmentDocument = null;
+
+        String documentDescription = "";
+
+        if (isShortTerm) {
+            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
+        }
+        else {
+            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
+        }
 
         try {
             holdingAdjustmentDocument = (HoldingAdjustmentDocument) documentService.getNewDocument(getHoldingAdjustmentDocumentTypeName());
@@ -245,7 +266,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
             gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
             gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while creating a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process: " + ex.toString());
             gainLossDistributionExceptionReportWriterService.writeNewLines(1);
-            throw new RuntimeException("WorkflowException while creating a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.", ex);
         }
 
         return holdingAdjustmentDocument;
@@ -258,7 +278,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * @param securityId
      * @param registrationCode
      */
-    private void addSecurityDetails(HoldingAdjustmentDocument holdingAdjustmentDocument, String securityId, String registrationCode) {
+    protected void addSecurityDetails(HoldingAdjustmentDocument holdingAdjustmentDocument, String securityId, String registrationCode) {
 
         // create new source security details
         EndowmentSourceTransactionSecurity endowmentSourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
@@ -278,7 +298,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * @param holdingTaxLot
      * @param gainloss
      */
-    private boolean addTransactionLine(HoldingAdjustmentDocument holdingAdjustmentDocument, HoldingTaxLot holdingTaxLot, PooledFundValue pooledFundValue) {
+    protected boolean addTransactionLine(HoldingAdjustmentDocument holdingAdjustmentDocument, HoldingTaxLot holdingTaxLot, PooledFundValue pooledFundValue) {
         boolean result = false;
         EndowmentTransactionLine endowmentTransactionLine = null;
         boolean isLoss = true;
@@ -333,7 +353,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 isFistTimeForWritingExceptionReport = false;
             }
             gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
-            List<String> errorMessages = extractGlobalVariableErrors();
+            List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
                 gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
                 gainLossDistributionExceptionReportWriterService.writeNewLines(1);
@@ -352,7 +372,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * @param holdingAdjustmentDocument
      * @param pooledFundValue
      */
-    private void validateAndRouteHoldingAdjustmentDocument(HoldingAdjustmentDocument holdingAdjustmentDocument, PooledFundValue pooledFundValue, boolean isShortTerm) {
+    protected void validateAndRouteHoldingAdjustmentDocument(HoldingAdjustmentDocument holdingAdjustmentDocument, PooledFundValue pooledFundValue, boolean isShortTerm) {
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(holdingAdjustmentDocument));
 
         if (rulesPassed) {
@@ -395,7 +415,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while routing a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process: " + ex.toString());
                 gainLossDistributionExceptionReportWriterService.writeNewLines(1);
-                throw new RuntimeException("WorkflowException while routing a HoldingAdjustmentDocument for Distribution of Gains and Losses Batch process.", ex);
             }
         }
         else {
@@ -405,7 +424,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 documentService.saveDocument(holdingAdjustmentDocument);
                 exceptionReportLine.setSecurityId(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID());
                 gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
-                List<String> errorMessages = extractGlobalVariableErrors();
+                List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
                 for (String errorMessage : errorMessages) {
                     gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", errorMessage);
                     gainLossDistributionExceptionReportWriterService.writeNewLines(1);
@@ -421,61 +440,18 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 // Write reason as a formatted message in a second line
                 gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while saving a HoldingAdjustmentDocument for Gain Loss Distribution batch process: " + ex.toString());
                 gainLossDistributionExceptionReportWriterService.writeNewLines(1);
-                throw new RuntimeException("WorkflowException while saving a HoldingAdjustmentDocument for Gain Loss Distribution batch process.", ex);
 
             }
         }
     }
 
-    /**
-     * Extracts errors for error report writing.
-     * 
-     * @return false if error messages exist, true otherwise.
-     */
-    protected List<String> extractGlobalVariableErrors() {
-        List<String> result = new ArrayList<String>();
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-
-        Set<String> errorKeys = errorMap.keySet();
-        List<ErrorMessage> errorMessages = null;
-        Object[] messageParams;
-        String errorKeyString;
-        String errorString;
-
-        for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
-            for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
-                messageParams = errorMessage.getMessageParameters();
-
-                // MessageFormat.format only seems to replace one
-                // per pass, so I just keep beating on it until all are gone.
-                if (StringUtils.isBlank(errorKeyString)) {
-                    errorString = errorMessage.getErrorKey();
-                }
-                else {
-                    errorString = errorKeyString;
-                }
-                System.out.println(errorString);
-                while (errorString.matches("^.*\\{\\d\\}.*$")) {
-                    errorString = MessageFormat.format(errorString, messageParams);
-                }
-                result.add(errorString);
-            }
-        }
-
-        // clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getMessageMap().clear();
-        return result;
-    }
 
     /**
      * Gets the HoldingAdjustmentDocument type.
      * 
      * @return the HoldingAdjustmentDocument type
      */
-    private String getHoldingAdjustmentDocumentTypeName() {
+    protected String getHoldingAdjustmentDocumentTypeName() {
         return "EHA";
     }
 
@@ -584,7 +560,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      * @param theDocumentId
      * @param theSecurityId
      */
-    private void initializeReportLines(String theDocumentId, String theSecurityId) {
+    protected void initializeReportLines(String theDocumentId, String theSecurityId) {
         // create a new distributionTotalReportLine for each new HoldingAdjustmentDocument
         this.distributionTotalReportLine = new GainLossDistributionTotalReportLine(getHoldingAdjustmentDocumentTypeName(), theDocumentId, theSecurityId);
 

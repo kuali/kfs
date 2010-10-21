@@ -15,6 +15,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>
 		</documentType>
 		<documentType>
 			<name>EAI</name>
@@ -23,6 +55,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+						    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>
 		</documentType>
 		<documentType>
 			<name>ECDD</name>
@@ -31,6 +95,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>				
 		</documentType>
 		<documentType>
 			<name>ECI</name>
@@ -39,6 +135,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>		
 		</documentType>
 		<documentType>
 			<name>ECT</name>
@@ -47,6 +175,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>
 		</documentType>
 		<documentType>
 			<name>ECA</name>
@@ -103,6 +263,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>
 		</documentType>
 		<documentType>
 			<name>EGLT</name>
@@ -111,6 +303,38 @@
 			<parent>ET</parent>
 			<docHandler>
 				${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler </docHandler>
+		    <routePaths>
+        		<routePath>
+            		<start name="AdHoc" nextNode="CheckIfNoRoute"/>
+          			<split name="CheckIfNoRoute" nextNode="EndNode">
+          				<branch name="True">
+              				<requests name="NoOp" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<branch name="False">
+              				<simple name="EndowmentApprovers" nextNode="JoinCheckIfRoute"/>
+            			</branch>
+            			<join name="JoinCheckIfRoute"/>
+          			</split>
+            		<requests name="EndNode"/>
+        		</routePath>
+      		</routePaths>
+      		<routeNodes>
+        		<start name="AdHoc"/>
+        		<split name="CheckIfNoRoute">
+          			<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        		</split>
+        		<simple name="NoOp">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<simple name="EndNode">
+          			<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        		</simple>
+        		<join name="JoinCheckIfRoute"/>
+        		<role name="EndowmentApprovers">
+          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
+      		</routeNodes>
 		</documentType>
 		<documentType>
 			<name>GLET</name>

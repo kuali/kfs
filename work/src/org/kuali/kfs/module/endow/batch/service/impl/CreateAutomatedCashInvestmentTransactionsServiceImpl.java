@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep;
-import org.kuali.kfs.module.endow.batch.reporter.ReportStatistics;
+import org.kuali.kfs.module.endow.batch.reporter.ReportDocumentStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
@@ -63,6 +63,7 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -79,13 +80,14 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateAutomatedCashInvestmentTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Automated Cash Investment Transactions Batch Process.";
     
-    private Map<String, ReportStatistics> statistics = new HashMap<String, ReportStatistics>();
+    private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();
     
     private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
     private AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
     private BusinessObjectService businessObjectService;
+    private DataDictionaryService dataDictionaryService;
     private KualiConfigurationService configService;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
@@ -1054,33 +1056,23 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * 
      * This method...
      *
-     * @param numberOfTransLines
+     * @param assetDocument
      */
     private void updatePostingStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
+               
+        String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
+        ReportDocumentStatistics stats = statistics.get(documentTypeName);
         
-        String documentTypeName = "";
-        ReportStatistics stats  = null;
-        int numberOfTransLines  = 0;
-        
-        if (assetDocument instanceof AssetIncreaseDocument) {
-            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
-            stats = statistics.get(documentTypeName);
-            numberOfTransLines = assetDocument.getTargetTransactionLines().size();
-        }
-        else {
-            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
-            stats = statistics.get(documentTypeName);
-            numberOfTransLines = assetDocument.getSourceTransactionLines().size();
-        }
-       
-        // If null, create and add a new one.
+        // If null that means there isn't one in the map, so create it and add 
+        // it to the map.
         if (stats == null) {
-            stats = new ReportStatistics();
+            stats = new ReportDocumentStatistics(documentTypeName);
             statistics.put(documentTypeName, stats);
         }
-        
+        stats.addNumberOfSourceTransactionLines(assetDocument.getSourceTransactionLines().size());
+        stats.addNumberOfTargetTransactionLines(assetDocument.getTargetTransactionLines().size());
+       
         stats.incrementNumberOfDocuments();
-        stats.addNumberOfTransactionLines(numberOfTransLines);
     }
     
     /**
@@ -1090,21 +1082,14 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param assetDocument
      */
     private void updateErrorStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
-        String documentTypeName = "";
-        ReportStatistics stats  = null;
         
-        if (assetDocument instanceof AssetIncreaseDocument) {
-            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE;
-            stats = statistics.get(documentTypeName);
-        }
-        else {
-            documentTypeName = EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE;
-            stats = statistics.get(documentTypeName);
-        }
+        String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
+        ReportDocumentStatistics stats  = statistics.get(documentTypeName);
         
-        // If null, create and add a new one.
+        // If null that means there isn't one in the map, so create it and add 
+        // it to the map.
         if (stats == null) {
-            stats = new ReportStatistics();
+            stats = new ReportDocumentStatistics(documentTypeName);
             statistics.put(documentTypeName, stats);
         }
         
@@ -1118,19 +1103,19 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void writeStatistics() {
         
-        for (Map.Entry<String, ReportStatistics> entry : statistics.entrySet()) {
+        for (Map.Entry<String, ReportDocumentStatistics> entry : statistics.entrySet()) {
             
-            ReportStatistics stats = entry.getValue();
+            ReportDocumentStatistics stats = entry.getValue();
             
-            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
-            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("", "");
             
-            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("%s Documents:", entry.getKey());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
-            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getNumberOfTransactionLines());
+            createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("", "");
         }
@@ -1247,6 +1232,14 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     public void setAutomatedCashInvestmentModelDao(AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao) {
         this.automatedCashInvestmentModelDao = automatedCashInvestmentModelDao;
+    }
+    
+    /**
+     * Sets the dataDictionaryService attribute value.
+     * @param dataDictionaryService The dataDictionaryService to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     /**

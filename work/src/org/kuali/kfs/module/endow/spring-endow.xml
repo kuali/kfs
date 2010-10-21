@@ -1110,7 +1110,10 @@
         </property>
         <property name="cashSweepModelDao">
             <ref bean="cashSweepModelDao" />
-        </property> 
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
     </bean>
     <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
@@ -1198,6 +1201,9 @@
         </property>
         <property name="automatedCashInvestmentModelDao">
             <ref bean="automatedCashInvestmentModelDao" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
         </property>
 	</bean>
     <bean id="createAutomatedCashInvestmentExceptionReportWriterService" parent="reportWriterService">

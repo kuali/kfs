@@ -85,7 +85,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * 
      * @return all securities that meet the criteria
      */
-    private List<Security> getSecuritiesToProcess() {
+    protected List<Security> getSecuritiesToProcess() {
         LOG.info("Get all securities for which the class codes have an accrual method of Automated Cash Management, Time Deposits, Treasury Notes and Bonds or Dividends.");
 
         // get all class codes with an accrual method of Automated Cash Management, Time Deposits, Treasury Notes and Bonds,
@@ -113,7 +113,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * 
      * @param security
      */
-    private void processAccrualForAutomatedCashManagement(Security security) {
+    protected void processAccrualForAutomatedCashManagement(Security security) {
 
         LOG.info("Calculate accruals for securities that have accrual method Automated Cash Management.");
 
@@ -159,7 +159,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * 
      * @param security
      */
-    private void processAccrualForTimeDeposits(Security security) {
+    protected void processAccrualForTimeDeposits(Security security) {
 
         LOG.info("Calculate accruals for securities that have accrual method Time Deposits.");
 
@@ -205,7 +205,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * 
      * @param security
      */
-    private void processAccrualForTreasuryNotesAndBonds(Security security) {
+    protected void processAccrualForTreasuryNotesAndBonds(Security security) {
 
         LOG.info("Calculate accruals for securities that have accrual method Treasury Notes and Bonds.");
 
@@ -264,7 +264,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * @param nextIncomePayDate
      * @return number of days since the last date the income was paid
      */
-    private int getNumberOfDaysSinceLastDateIncomeWasPaid(String incomePayFrequency, Date nextIncomePayDate) {
+    protected int getNumberOfDaysSinceLastDateIncomeWasPaid(String incomePayFrequency, Date nextIncomePayDate) {
         int nrOfDays = 0;
 
         String frequencyType = incomePayFrequency.substring(0, 1);
@@ -339,7 +339,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * @param security
      * @return
      */
-    private void processAccrualForDividends(Security security) {
+    protected void processAccrualForDividends(Security security) {
 
         LOG.info("Calculate accruals for securities that have accrual method Dividends.");
 
@@ -441,7 +441,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * @param securityId
      * @param accrualMethod
      */
-    private void initializeTotalReportLine(String securityId, String accrualMethod) {
+    protected void initializeTotalReportLine(String securityId, String accrualMethod) {
         // create a new totalReportLine
         this.totalReportLine = new AccrualsProcessingTotalReportLine(securityId, accrualMethod);
     }

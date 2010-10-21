@@ -110,66 +110,76 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 // 4. create new CashIncreaseDocument
                 CashIncreaseDocument cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
 
-                // create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
-                initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(), security.getId());
+                if (cashIncreaseDocument != null) {
 
-                // group tax lots by kemid and ip indicator; for each kemid and ip indicator we create a new transaction line
-                Map<String, List<HoldingTaxLot>> kemidIpMap = groupTaxLotsBasedOnKemidAndIPIndicator(regCodeMap.get(registrationCode));
+                    // create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
+                    initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(), security.getId());
 
-                // keep track of the tax lots to be updated
-                List<HoldingTaxLot> taxLotsForUpdate = new ArrayList<HoldingTaxLot>();
-                // keep a counter to create a new document if there are more that maximum number of allowed transaction lines per
-                // document
-                int counter = 0;
+                    // group tax lots by kemid and ip indicator; for each kemid and ip indicator we create a new transaction line
+                    Map<String, List<HoldingTaxLot>> kemidIpMap = groupTaxLotsBasedOnKemidAndIPIndicator(regCodeMap.get(registrationCode));
 
-                // create a new transaction line for each kemid and ip indicator
-                for (String kemidIp : kemidIpMap.keySet()) {
+                    // keep track of the tax lots to be updated
+                    List<HoldingTaxLot> taxLotsForUpdate = new ArrayList<HoldingTaxLot>();
+                    // keep a counter to create a new document if there are more that maximum number of allowed transaction lines
+                    // per
+                    // document
+                    int counter = 0;
 
-                    // compute the total amount for the transaction line
-                    KualiDecimal totalAmount = KualiDecimal.ZERO;
-                    String kemid = null;
+                    // create a new transaction line for each kemid and ip indicator
+                    for (String kemidIp : kemidIpMap.keySet()) {
 
-                    for (HoldingTaxLot lot : kemidIpMap.get(kemidIp)) {
-                        totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
+                        // compute the total amount for the transaction line
+                        KualiDecimal totalAmount = KualiDecimal.ZERO;
+                        String kemid = null;
 
-                        // initialize kemid
-                        if (kemid == null) {
-                            kemid = lot.getKemid();
+                        for (HoldingTaxLot lot : kemidIpMap.get(kemidIp)) {
+                            totalAmount = totalAmount.add(new KualiDecimal(lot.getCurrentAccrual()));
+
+                            // initialize kemid
+                            if (kemid == null) {
+                                kemid = lot.getKemid();
+                            }
+                        }
+
+                        // collect tax lots for update: when the document is submitted the tax lots accrual is copied to prior
+                        // accrual
+                        // and the current accrual is reset to zero
+                        taxLotsForUpdate.addAll(kemidIpMap.get(kemidIp));
+
+                        // if we have already reached the maximum number of transaction lines on the current document then create a
+                        // new
+                        // document
+                        if (counter == maxNumberOfTranLines) {
+                            // submit the current ECI doc and update the values in the tax lots used already
+                            submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
+
+                            // clear tax lots for update and create a new Cash Increase document
+                            taxLotsForUpdate.clear();
+                            cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
+
+                            if (cashIncreaseDocument != null) {
+                                // create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
+                                initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(), security.getId());
+
+                                counter = 0;
+                            }
+                        }
+
+                        if (cashIncreaseDocument != null) {
+                            // add a new transaction line
+                            if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount)) {
+                                counter++;
+                            }
+                            else {
+                                // if unable to add a new transaction line then remove the tax lots from the tax lots to update list
+                                taxLotsForUpdate.remove(kemidIp);
+                            }
                         }
                     }
 
-                    // collect tax lots for update: when the document is submitted the tax lots accrual is copied to prior accrual
-                    // and the current accrual is reset to zero
-                    taxLotsForUpdate.addAll(kemidIpMap.get(kemidIp));
-
-                    // if we have already reached the maximum number of transaction lines on the current document then create a new
-                    // document
-                    if (counter == maxNumberOfTranLines) {
-                        // submit the current ECI doc and update the values in the tax lots used already
-                        submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
-
-                        // clear tax lots for update and create a new Cash Increase document
-                        taxLotsForUpdate.clear();
-                        cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
-
-                        // create a new totalReportLine and exceptionReportLine for a new CashIncreaseDocument
-                        initializeTotalAndExceptionReportLines(cashIncreaseDocument.getDocumentNumber(), security.getId());
-
-                        counter = 0;
-                    }
-
-                    // add a new transaction line
-                    if (addTransactionLine(cashIncreaseDocument, security, kemid, totalAmount)) {
-                        counter++;
-                    }
-                    else {
-                        // if unable to add a new transaction line then remove the tax lots from the tax lots to update list
-                        taxLotsForUpdate.remove(kemidIp);
-                    }
+                    // submit the current ECI doc and update the values in the tax lots used already
+                    submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
                 }
-
-                // submit the current ECI doc and update the values in the tax lots used already
-                submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
 
             }
 
@@ -283,9 +293,10 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @return a new CashIncreaseDocument
      */
     private CashIncreaseDocument createNewCashIncreaseDocument(String securityId, String registrationCode) {
+        CashIncreaseDocument cashIncreaseDocument = null;
         try {
 
-            CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
+            cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
             String documentDescription = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(documentDescription);
             cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
@@ -297,7 +308,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             targetTransactionSecurity.setRegistrationCode(registrationCode);
             cashIncreaseDocument.setTargetTransactionSecurity(targetTransactionSecurity);
 
-            return cashIncreaseDocument;
         }
         catch (WorkflowException ex) {
             if (isFistTimeForWritingExceptionReport) {
@@ -310,8 +320,9 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
             accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
             accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while creating a CashIncreaseDocument for Accrual Transactions: " + ex.toString());
             accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-            throw new RuntimeException("WorkflowException while creating a CashIncreaseDocument for Accrual Transactions.", ex);
         }
+
+        return cashIncreaseDocument;
     }
 
     /**
@@ -360,7 +371,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 accrualTransactionsExceptionReportWriterService.writeTableRow(exceptionReportLine);
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process: " + ex.toString());
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-                throw new RuntimeException("WorkflowException while routing a CashIncreaseDocument for Accrual Transactions batch process.", ex);
             }
         }
         else {
@@ -388,7 +398,6 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 // Write reason as a formatted message in a second line
                 accrualTransactionsExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process: " + ex.toString());
                 accrualTransactionsExceptionReportWriterService.writeNewLines(1);
-                throw new RuntimeException("WorkflowException while saving a CashIncreaseDocument for Accrual Transactions batch process.", ex);
 
             }
 

@@ -694,13 +694,13 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         boolean success = true;
         
-        cashDecreaseDocument.setNoRouteIndicator(true);            
-        
         if (feeMethod.getFeePostPendingIndicator()) {
-            success = submitCashDecreaseDocument(cashDecreaseDocument);
+            cashDecreaseDocument.setNoRouteIndicator(false);            
+            success = submitCashDecreaseDocument(cashDecreaseDocument, feeMethod.getCode());
         }
         else {
-            success = routeCashDecreaseDocument(cashDecreaseDocument);
+            cashDecreaseDocument.setNoRouteIndicator(true);            
+            success = routeCashDecreaseDocument(cashDecreaseDocument, feeMethod.getCode());
         }
         
         LOG.info("submitDocumentForApprovalProcess() ended.");
@@ -865,19 +865,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param cashDecreaseDocument
      * @return true if document submitted else false
      */
-    protected boolean submitCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
-        boolean approved = true;
+    protected boolean submitCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument, String feeMethodCode) {
+        boolean saved = true;
         
         try {
-            Note approveNote = noteService.createNote(new Note(), cashDecreaseDocument.getDocumentHeader());
-            approveNote.setNoteText("Saved the document as a 'No Route'.");
-
-            Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-            approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
-            
-            noteService.save(approveNote);
-            
-            cashDecreaseDocument.addNote(approveNote);
+            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
+            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
             
             documentService.saveDocument(cashDecreaseDocument);
         }
@@ -888,7 +881,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             return false;            
         }
         
-        return approved;
+        return saved;
     }
     
     /**
@@ -896,23 +889,17 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param cashDecreaseDocument
      * @return true if successful else return false
      */
-    protected boolean routeCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument) {
+    protected boolean routeCashDecreaseDocument(CashDecreaseDocument cashDecreaseDocument, String feeMethodCode) {
         boolean routed = true;
         
         try {
-            documentService.routeDocument(cashDecreaseDocument, "Submitted the document for routing.", null);
+            documentService.routeDocument(cashDecreaseDocument, "Created by Fee Transactions Batch Job and routed.", null);
         }
         catch (WorkflowException wfe) {
             try {
-                Note approveNote = noteService.createNote(new Note(), cashDecreaseDocument.getDocumentHeader());
-                approveNote.setNoteText("Submitted the document as a 'No Route'.");
-
-                Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-                approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
-                
-                noteService.save(approveNote);
-                
-                cashDecreaseDocument.addNote(approveNote);
+                // write errors messages and clear them befor saving.....
+                LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
+                wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
                 
                 documentService.saveDocument(cashDecreaseDocument);
             }

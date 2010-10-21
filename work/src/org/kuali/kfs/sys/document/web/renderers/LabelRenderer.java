@@ -149,6 +149,15 @@ public class LabelRenderer implements Renderer {
         labelFor = null;
     }
 
+    private static String APPLICATION_URL;
+    
+    protected String getApplicationURL() {
+        if ( APPLICATION_URL == null ) {
+            APPLICATION_URL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+        }
+        return APPLICATION_URL;
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
@@ -164,7 +173,13 @@ public class LabelRenderer implements Renderer {
                 out.write("&nbsp;");
             }
             if (!StringUtils.isBlank(fullClassNameForHelp) && !StringUtils.isBlank(attributeEntryForHelp)) {
-                out.write("<a href=\""+SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY)+"/kr/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName="+fullClassNameForHelp+"&amp;attributeName="+attributeEntryForHelp);
+                out.write("<a href=\"");
+                out.write(getApplicationURL());
+                out.write("/kr/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=");
+                out.write(fullClassNameForHelp);
+                out.write("&amp;attributeName=");
+                out.write(attributeEntryForHelp);
+                out.write("\" target=\"_blank\">");
             }
             out.write(label);
             if (!StringUtils.isBlank(fullClassNameForHelp) && !StringUtils.isBlank(attributeEntryForHelp)) {

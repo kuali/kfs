@@ -17,9 +17,10 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
-import org.kuali.kfs.module.external.kc.dto.UnitDTO;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.service.impl.InstitutionalUnitServiceImpl.InstitutionalUnitSoapService;
@@ -46,15 +47,15 @@ public class UnitServiceImpl implements UnitService {
     }
 
 
-    public UnitDTO getUnit(String unitNumber) {
+    public KcUnit getUnit(String unitNumber) {
         InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
-        UnitDTO unitDTO  = port.getUnit(unitNumber);
+        KcUnit unitDTO  = port.getUnit(unitNumber);
         return unitDTO;
     }
 
 
-    public List<UnitDTO> lookupUnits(Map <String,String>searchCriteria) {
+    public List<KcUnit> lookupUnits(Map <String,String>searchCriteria) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
 
         for (String key : searchCriteria.keySet()) {

@@ -26,7 +26,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.module.external.kc.dto.UnitDTO;
+import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;

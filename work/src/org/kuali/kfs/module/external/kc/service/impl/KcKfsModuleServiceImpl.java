@@ -17,11 +17,14 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.cxf.Bus;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
 import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
@@ -30,6 +33,9 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.LookupService;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
@@ -169,5 +175,42 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
               }
           }
           super.setModuleConfiguration(moduleConfiguration);
+    }
+
+
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getExternalizableBusinessObjectDictionaryEntry(java.lang.Class)
+     */
+    public BusinessObjectEntry getExternalizableBusinessObjectDictionaryEntry(Class businessObjectInterfaceClass) {
+            Class boClass = businessObjectInterfaceClass;
+            if(businessObjectInterfaceClass.isInterface()) {
+                boClass = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
+                if (boClass == null) return null;
+                   DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
+                   Map<String, BusinessObjectEntry> boEntries = dataDictionary.getBusinessObjectEntries();
+                   BusinessObjectEntry businessObjectEntry = boEntries.get(boClass.getName());
+                   if (businessObjectEntry != null) return businessObjectEntry;
+                   // try again but look for the simple name
+                   businessObjectEntry = boEntries.get(boClass.getSimpleName());
+                   return businessObjectEntry;
+             }
+            DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
+            Map<String, BusinessObjectEntry> boEntries = dataDictionary.getBusinessObjectEntries();
+            BusinessObjectEntry businessObjectEntry = boEntries.get(boClass.getName());
+            if (businessObjectEntry != null) return businessObjectEntry;
+            businessObjectEntry = boEntries.get(boClass.getSimpleName());
+            return businessObjectEntry;
+        }
+
+  
+    /**
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizableBusinessObjectLookupable(java.lang.Class)
+     */
+    @Override
+    public boolean isExternalizableBusinessObjectLookupable(Class boClass) {
+        // TODO Auto-generated method stub
+        String boName = boClass.getSimpleName();
+        if (externalWebBusinessObjectPrimaryKeys.containsValue(boName)) return true;
+        return super.isExternalizableBusinessObjectLookupable(boClass);
     }
 }

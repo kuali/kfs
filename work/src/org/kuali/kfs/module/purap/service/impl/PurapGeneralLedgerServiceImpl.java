@@ -555,7 +555,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                 // Set amount
                 if (item.getItemOutstandingEncumberedQuantity() != null) {                   
-                    KualiDecimal itemEncumber = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));                    
+                    //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                    KualiDecimal itemEncumber = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));                    
                     
                     //add tax for encumbrance
                     KualiDecimal itemTaxAmount = item.getItemTaxAmount() == null ? ZERO : item.getItemTaxAmount();                    
@@ -738,7 +739,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
             else {
                 LOG.debug("generateEntriesReopenPurchaseOrder() " + logItmNbr + " Calculate based on quantities");
-                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
+                //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                itemAmount = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice()));
             }
 
             KualiDecimal accountTotal = ZERO;
@@ -1123,7 +1125,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     poItem.setItemInvoicedTotalQuantity(invoicedTotal.subtract(preqQuantity));
                     poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.add(preqQuantity));
 
-                    itemReEncumber = preqQuantity.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                    //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                    itemReEncumber = new KualiDecimal(preqQuantity.bigDecimalValue().multiply(poItem.getItemUnitPrice()));
 
                     //add tax for encumbrance
                     KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();
@@ -1287,7 +1290,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                     LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " encumbranceQtyChange " + encumbranceQuantityChange + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity() + " invoicedTotalQuantity " + poItem.getItemInvoicedTotalQuantity());
                     
-                    itemDisEncumber = encumbranceQuantityChange.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
+                    //do math as big decimal as doing it as a KualiDecimal will cause the item price to round to 2 digits
+                    itemDisEncumber = new KualiDecimal(encumbranceQuantityChange.bigDecimalValue().multiply(poItem.getItemUnitPrice()));
                     
                     //add tax for encumbrance
                     KualiDecimal itemTaxAmount = poItem.getItemTaxAmount() == null ? ZERO : poItem.getItemTaxAmount();

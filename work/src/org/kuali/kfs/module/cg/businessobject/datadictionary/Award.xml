@@ -750,7 +750,8 @@
                   <list>
                     <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
                     <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.principalName"/>
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
                   </list>
                 </property>
                 <property name="summaryFields">

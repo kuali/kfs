@@ -46,7 +46,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         EndowmentTransactionSecurity endowmentTransactionSecurity = holdingAdjustmentDocument.getSourceTransactionSecurity();
 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
-        if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
+        if (ObjectUtils.isNotNull(security)) {
             List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
             // Retrieve the tax lot records
@@ -79,7 +79,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         EndowmentTransactionSecurity endowmentTransactionSecurity = holdingAdjustmentDocument.getSourceTransactionSecurity();
 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
-        if (ObjectUtils.isNotNull(security) && !security.getClassCode().isTaxLotIndicator()) {
+        if (ObjectUtils.isNotNull(security)) {
             List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
 
             // Retrieve the tax lot records

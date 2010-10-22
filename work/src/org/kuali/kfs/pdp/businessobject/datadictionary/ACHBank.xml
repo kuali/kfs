@@ -76,7 +76,7 @@
 
   <bean id="ACHBank-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="bankRoutingNumber"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Routing Number"/>
     <property name="shortLabel" value="Bank Routing Number"/>
     <property name="maxLength" value="9"/>

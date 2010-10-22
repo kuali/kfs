@@ -27,10 +27,10 @@ public class FinancialSystemDocumentTypeServiceTest extends KualiTestBase {
     protected static final String LEDGER_POSTING_DOC_TYPE_TRANS_1 = "DV";
     protected static final String LEDGER_POSTING_DOC_TYPE_TRANS_2 = "JV";
     protected static final String LEDGER_POSTING_DOC_TYPE_TRANS_3 = "SB";
-    protected static final String LEDGER_POSTING_DOC_TYPE_MAINT_1 = "AA";
-    protected static final String LEDGER_POSTING_DOC_TYPE_MAINT_2 = "ARG";
-    protected static final String NON_LEDGER_POSTING_DOC_TYPE_TRANS_1 = "EC";
-    protected static final String NON_LEDGER_POSTING_DOC_TYPE_TRANS_2 = "BC";
+//    protected static final String LEDGER_POSTING_DOC_TYPE_MAINT_1 = "AA";
+//    protected static final String LEDGER_POSTING_DOC_TYPE_MAINT_2 = "ARG";
+//    protected static final String NON_LEDGER_POSTING_DOC_TYPE_TRANS_1 = "EC";
+//    protected static final String NON_LEDGER_POSTING_DOC_TYPE_TRANS_2 = "BC";
     protected static final String NON_LEDGER_POSTING_DOC_TYPE_MAINT_1 = "BANK";
 
     /**
@@ -52,8 +52,8 @@ public class FinancialSystemDocumentTypeServiceTest extends KualiTestBase {
        assertTrue(LEDGER_POSTING_DOC_TYPE_TRANS_1 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_TRANS_1));
        assertTrue(LEDGER_POSTING_DOC_TYPE_TRANS_2 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_TRANS_2));       
        assertTrue(LEDGER_POSTING_DOC_TYPE_TRANS_3 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_TRANS_3));      
-       assertTrue(LEDGER_POSTING_DOC_TYPE_MAINT_1 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_MAINT_1));
-       assertTrue(LEDGER_POSTING_DOC_TYPE_MAINT_2 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_MAINT_2));
+//       assertTrue(LEDGER_POSTING_DOC_TYPE_MAINT_1 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_MAINT_1));
+//       assertTrue(LEDGER_POSTING_DOC_TYPE_MAINT_2 + " is not considered accounting document but should be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(LEDGER_POSTING_DOC_TYPE_MAINT_2));
     }
     
     /**
@@ -62,8 +62,8 @@ public class FinancialSystemDocumentTypeServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsCurrentActiveAccountingDocumentType_inValidLedgerPosting() throws Exception {
-       assertFalse(NON_LEDGER_POSTING_DOC_TYPE_TRANS_1 + " is considered accounting document but should not be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(NON_LEDGER_POSTING_DOC_TYPE_TRANS_1));
-       assertFalse(NON_LEDGER_POSTING_DOC_TYPE_TRANS_2 + " is considered accounting document but should not be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(NON_LEDGER_POSTING_DOC_TYPE_TRANS_2));
+//       assertFalse(NON_LEDGER_POSTING_DOC_TYPE_TRANS_1 + " is considered accounting document but should not be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(NON_LEDGER_POSTING_DOC_TYPE_TRANS_1));
+//       assertFalse(NON_LEDGER_POSTING_DOC_TYPE_TRANS_2 + " is considered accounting document but should not be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(NON_LEDGER_POSTING_DOC_TYPE_TRANS_2));
        assertFalse(NON_LEDGER_POSTING_DOC_TYPE_MAINT_1 + " is considered accounting document but should not be", financialSystemDocumentTypeService.isCurrentActiveAccountingDocumentType(NON_LEDGER_POSTING_DOC_TYPE_MAINT_1));
     }
 

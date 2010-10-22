@@ -55,7 +55,7 @@
 	<!--  Principal ID -->
 	  <bean id="TicklerRecipientPrincipal-principalId" parent="TicklerRecipientPrincipal-principalId-parentBean"/>
 	
-	  <bean id="TicklerRecipientPrincipal-principalId-parentBean" abstract="true" parent="PersonImpl-principalName">
+	  <bean id="TicklerRecipientPrincipal-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
 	    <property name="name" value="principalId"/>
 	    <property name="label" value="Person"/>
 	    <property name="shortLabel" value="Person"/>
@@ -69,11 +69,15 @@
  	
 	  <bean id="TicklerRecipientPrincipal-contectNameAndID" parent="TicklerRecipientPrincipal-contectNameAndID-parentBean"/>
 	
-	  <bean id="TicklerRecipientPrincipal-contectNameAndID-parentBean" abstract="true" parent="PersonImpl-principalName">
+	  <bean id="TicklerRecipientPrincipal-contectNameAndID-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="name" value="contectNameAndID"/>
 	    <property name="label" value="Person"/>
 	    <property name="shortLabel" value="Person"/>
 	    <property name="required" value="false"/>
+	    <property name="control">
+	      <bean parent="TextControlDefinition" p:size="50"/>
+	    </property>
+	    
 	  </bean>
  	
 

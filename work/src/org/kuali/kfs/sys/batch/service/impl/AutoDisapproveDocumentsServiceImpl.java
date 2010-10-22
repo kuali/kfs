@@ -40,6 +40,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -359,8 +360,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         try {
             document = documentService.getByDocumentHeaderId(documentHeaderId);
         }
-        catch (WorkflowException wfe) {
-            LOG.error("Exception encountered on finding the document: " + documentHeaderId + " - " + wfe.getMessage());
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        } catch ( UnknownDocumentTypeException ex ) {
+            // don't blow up just because a document type is not installed (but don't return it either)
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
         }
         
         return document;

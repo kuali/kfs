@@ -679,6 +679,11 @@
 				<ref bean="rollFrequencyDatesStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="postCashSweepTransactionsJob" value="hardDependency" />
+            </map>
+        </property>
 	</bean>
 		
 	<bean id="rollFrequencyDatesStep" class="org.kuali.kfs.module.endow.batch.RollFrequencyDatesStep" parent="wrappedStep">

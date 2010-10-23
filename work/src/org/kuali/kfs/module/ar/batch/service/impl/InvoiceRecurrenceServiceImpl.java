@@ -34,6 +34,7 @@ import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
@@ -58,7 +59,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceServiceImpl.class);
     private DocumentService documentService;
     private DateTimeService dateTimeService;
-    
+    private BusinessObjectService boService;
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -146,6 +147,8 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                 invoiceRecurrence.setDocumentLastCreateDate(currentDate);
+                boService.save(invoiceRecurrence);
+                
             }
 
             /* if nextProcessDate is greater than currentDate BUT less than or equal to endDate */
@@ -163,6 +166,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                     getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                     invoiceRecurrence.setDocumentLastCreateDate(currentDate);
+                    boService.save(invoiceRecurrence);
                 }
             }
             
@@ -185,6 +189,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 //adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(newMaintDoc, null, adHocRouteRecipients);
                 newInvoiceRecurrence.setDocumentLastCreateDate(currentDate);
+                boService.save(newInvoiceRecurrence);
             }
         }
         return true;
@@ -253,5 +258,10 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
 
     public void setInvoiceRecurrenceDao(InvoiceRecurrenceDao invoiceRecurrenceDao) {
         this.invoiceRecurrenceDao = invoiceRecurrenceDao;
+    }
+    
+    public void setBusinessObjectService (BusinessObjectService boService)
+    {
+        this.boService = boService;
     }
 }

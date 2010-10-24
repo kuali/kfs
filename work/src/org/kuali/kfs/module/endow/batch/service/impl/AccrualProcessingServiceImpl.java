@@ -217,7 +217,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         // if security has an income pay frequency set
         if (incomePayFrequency != null && !incomePayFrequency.isEmpty()) {
             // compute the number of days since last time income was paid
-            int nrOfDays = getNumberOfDaysSinceLastDateIncomeWasPaid(incomePayFrequency, nextIncomePayDate);
+            long nrOfDays = getNumberOfDaysSinceLastDateIncomeWasPaid(incomePayFrequency, nextIncomePayDate);
             // get all tax lots for security that have units greater than zero
             List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(security.getId());
 
@@ -264,67 +264,31 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      * @param nextIncomePayDate
      * @return number of days since the last date the income was paid
      */
-    protected int getNumberOfDaysSinceLastDateIncomeWasPaid(String incomePayFrequency, Date nextIncomePayDate) {
-        int nrOfDays = 0;
+    protected long getNumberOfDaysSinceLastDateIncomeWasPaid(String incomePayFrequency, Date nextIncomePayDate) {
+        long nrOfDays = 0;
+        long milPerDay = 1000 * 60 * 60 * 24;
 
         String frequencyType = incomePayFrequency.substring(0, 1);
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
-            return 1;
-        }
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
-            return 7;
-        }
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
-            return 15;
-        }
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(nextIncomePayDate);
-            calendar.add(Calendar.MONTH, -1);
-            return calendar.getMaximum(Calendar.MONTH);
-        }
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(nextIncomePayDate);
-            int days = 0;
-            for (int i = 0; i < 3; i++) {
-                calendar.add(Calendar.MONTH, -1);
-                days += calendar.getMaximum(Calendar.MONTH);
-            }
-
-            return days;
-
-        }
-
+        
+        // since this method is only used for treasury notes and bonds we only and Income is paid on these instruments semiannually
+        // we are only interested in semi annually frequency type
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(nextIncomePayDate);
-            int days = 0;
-            for (int i = 0; i < 6; i++) {
-                calendar.add(Calendar.MONTH, -1);
-                java.util.Date time = calendar.getTime();
-                days += calendar.getMaximum(Calendar.MONTH);
-            }
 
-            return days;
-        }
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.setTime(nextIncomePayDate);
 
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(nextIncomePayDate);
-            int days = 0;
-            for (int i = 0; i < 12; i++) {
-                calendar.add(Calendar.MONTH, -1);
-                days += calendar.getMaximum(Calendar.MONTH);
-            }
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(nextIncomePayDate);
+            calendar2.add(Calendar.MONTH, -6);
 
-            return days;
+            // where there is daylight savings time, one day is 23 hours long and another is 25 hours long so we need to include
+            // offset to get the correct number of days; If the dates are in the spring around the "spring forward" date and in the
+            // autumn around the "fall back" date we get inaccurate calculations without using the offset
+            long endL = calendar1.getTimeInMillis() + calendar1.getTimeZone().getOffset(calendar1.getTimeInMillis());
+            long startL = calendar2.getTimeInMillis() + calendar2.getTimeZone().getOffset(calendar2.getTimeInMillis());
+
+            nrOfDays = (endL - startL) / milPerDay;
+            return nrOfDays;
         }
 
         return nrOfDays;

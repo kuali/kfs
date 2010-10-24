@@ -57,7 +57,7 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
         return (Collection<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
     }
 
-    
+
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.HoldingTaxLotDao#getTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(java.lang.String)
      */
@@ -77,7 +77,7 @@ public class HoldingTaxLotDaoOjb extends PlatformAwareDaoBaseOjb implements Hold
     public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, securityId);
-        criteria.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_COST, 0);
+        criteria.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_UNITS, 0);
 
         return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(HoldingTaxLot.class, criteria));
     }

@@ -168,29 +168,31 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                         // add transaction lines
                         if (taxLots != null) {
 
-                            // check if we reached the maximum number of transaction lines
-                            if (counter == maxNumberOfTranLines) {
-                                counter = 0;
+                            for (HoldingTaxLot holdingTaxLot : taxLots) {
 
-                                // route document
-                                validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
+                                // check if we reached the maximum number of transaction lines
+                                if (counter == maxNumberOfTranLines) {
+                                    counter = 0;
 
-                                // generate a new Holding Adjustment document
-                                holdingAdjustmentDocument = generateHoldingAdjustmentDocument(isShortTerm, pooledFundValue.getPooledSecurityID());
+                                    // route document
+                                    validateAndRouteHoldingAdjustmentDocument(holdingAdjustmentDocument, pooledFundValue, isShortTerm);
 
-                                if (holdingAdjustmentDocument != null) {
-                                    // add security details
-                                    addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
+                                    // generate a new Holding Adjustment document
+                                    holdingAdjustmentDocument = generateHoldingAdjustmentDocument(isShortTerm, pooledFundValue.getPooledSecurityID());
 
-                                    initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
+                                    if (holdingAdjustmentDocument != null) {
+                                        // add security details
+                                        addSecurityDetails(holdingAdjustmentDocument, pooledFundValue.getPooledSecurityID(), registrationCode);
+
+                                        initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
+                                    }
                                 }
-                            }
-
-                            if (holdingAdjustmentDocument != null) {
-                                for (HoldingTaxLot holdingTaxLot : taxLots) {
+                                
+                                if (holdingAdjustmentDocument != null) {
                                     if (addTransactionLine(isShortTerm, holdingAdjustmentDocument, holdingTaxLot, pooledFundValue))
                                         counter++;
                                 }
+
                             }
                         }
 
@@ -337,9 +339,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
 
         // populate transaction line
-        // the transaction amount has to be null when the unitAdjustmentamount is entered
-        endowmentTransactionLine.setTransactionAmount(null);
-
         endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
         endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
         endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
@@ -356,6 +355,8 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
             else {
                 holdingAdjustmentDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLine);
             }
+
+            // Generate the tax lots for the transaction line
             updateHoldingAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLotsByUnitAdjustmentAmount(false, holdingAdjustmentDocument, endowmentTransactionLine, isLoss);
 
             distributionTotalReportLine.addUnitAdjustmentAmount(endowmentTransactionLine.getUnitAdjustmentAmount());
@@ -458,7 +459,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 // Write reason as a formatted message in a second line
                 gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "WorkflowException while saving a HoldingAdjustmentDocument for Gain Loss Distribution batch process: " + ex.toString());
                 gainLossDistributionExceptionReportWriterService.writeNewLines(1);
-
             }
         }
     }

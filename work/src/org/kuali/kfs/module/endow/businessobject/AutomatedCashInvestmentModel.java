@@ -41,7 +41,6 @@ public class AutomatedCashInvestmentModel extends PersistableBusinessObjectBase 
     private String aciFrequencyCode;
     private Date aciNextDueDate;
     private Date dateOfLastACIModelChange;
-    private Date nextDueDate;
     private boolean active;
 
     private PooledFundControl investment1;

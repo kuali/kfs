@@ -41,7 +41,15 @@ public class TransactionDocumentTotalReportLine extends TransactionDocumentForRe
     public Integer getTotalNumberOfTransactionLines() {
         return totalNumberOfTransactionLines;
     }
- 
+     
+    /**
+     * Sets the totalNumberOfTransactionLines attribute value.
+     * @param totalNumberOfTransactionLines The totalNumberOfTransactionLines to set.
+     */
+    public void setTotalNumberOfTransactionLines(int totalNumberOfTransactionLines) {
+        this.totalNumberOfTransactionLines = totalNumberOfTransactionLines;
+    }
+
     /**
      * Adds a income amount to the current income total
      * @param incomeAmount the income amount to add to the income total

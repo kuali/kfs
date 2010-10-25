@@ -66,7 +66,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
             }
 
             // Update Transaction Amount field with absolute value of the lot holding cost
-            updateTransactionAmountWithLotHoldingCost(transLine);
+            updateTransactionAmountWithLotHoldingCost(isSource, transLine);
         }
     }
 
@@ -184,15 +184,21 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
      * Helper method to update the transaction amount with the total holding cost
      * 
      * @param transLine The endowment transaction line
+     * @param isSource whether this is source or target transaction line
      */
-    protected void updateTransactionAmountWithLotHoldingCost(EndowmentTransactionLine transLine) {
+    protected void updateTransactionAmountWithLotHoldingCost(boolean isSource, EndowmentTransactionLine transLine) {
         BigDecimal totalHoldingCost = BigDecimal.ZERO;
 
         for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : transLine.getTaxLotLines()) {
             totalHoldingCost = totalHoldingCost.add(endowmentTransactionTaxLotLine.getLotHoldingCost());
         }
 
-        transLine.setTransactionAmount(new KualiDecimal(totalHoldingCost.toString()));
+        // on the decrease side the transaction amount should be positive though the holding cost on the tax lots is negative
+        if (isSource && totalHoldingCost.signum() == -1) {
+            totalHoldingCost = totalHoldingCost.negate();
+        }
+
+        transLine.setTransactionAmount(new KualiDecimal(totalHoldingCost));
     }
 
     /**
@@ -205,7 +211,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         BigDecimal holdingCost = BigDecimal.ZERO;
 
         for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : transLine.getTaxLotLines()) {
-            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(transLine.getUnitAdjustmentAmount().bigDecimalValue(), endowmentTransactionTaxLotLine.getLotUnits(), 0));
+            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(transLine.getUnitAdjustmentAmount().bigDecimalValue(), endowmentTransactionTaxLotLine.getLotUnits(), 2));
 
             if (isSource) {
                 endowmentTransactionTaxLotLine.setLotHoldingCost(endowmentTransactionTaxLotLine.getLotHoldingCost().negate());
@@ -229,7 +235,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
             }
 
             BigDecimal percentage = KEMCalculationRoundingHelper.divide(endowmentTransactionTaxLotLine.getLotUnits(), taxLotsTotalUnits, 5);
-            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(percentage, transLine.getTransactionAmount().bigDecimalValue(), 0));
+            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(percentage, transLine.getTransactionAmount().bigDecimalValue(), 2));
 
             totalUnits = totalUnits.add(endowmentTransactionTaxLotLine.getLotUnits());
 
@@ -251,6 +257,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
      */
     /**
      * This method...
+     * 
      * @param holdingAdjustmentDocument
      * @param transLine
      * @param holdingTaxLots
@@ -263,12 +270,12 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
                 endowmentTransactionTaxLotLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
                 endowmentTransactionTaxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
                 endowmentTransactionTaxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
-                
+
                 endowmentTransactionTaxLotLine.setSecurityID(holdingAdjustmentDocument.getSourceTransactionSecurity().getSecurityID());
                 endowmentTransactionTaxLotLine.setRegistrationCode(holdingAdjustmentDocument.getSourceTransactionSecurity().getRegistrationCode());
                 endowmentTransactionTaxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
                 endowmentTransactionTaxLotLine.setKemid(transLine.getKemid());
-                
+
                 endowmentTransactionTaxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
                 // set it just for future computation
                 endowmentTransactionTaxLotLine.setLotUnits(holdingTaxLot.getUnits());

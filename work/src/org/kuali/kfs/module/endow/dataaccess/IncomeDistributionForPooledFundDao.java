@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
-import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 
 public interface IncomeDistributionForPooledFundDao {
 
@@ -28,7 +28,7 @@ public interface IncomeDistributionForPooledFundDao {
      * Get the list of holding tax lot
      * @return List<HoldingTaxLot>
      */
-    public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution();
+    //public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution();
     
     /**
      * Get the income transaction code for the given security id
@@ -49,11 +49,11 @@ public interface IncomeDistributionForPooledFundDao {
      * @param kemid
      * @return List<KemidPayoutInstruction>
      */
-    public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid);
+    public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid, Date currentDate);
     
     /**
-     * Get the list of Security for income distribution purposes
-     * @return List<Security>
+     * Get the list of PooledFundValue for income distribution purposes
+     * @return List<PooledFundValue>
      */
-    public List<Security> getSecurityForIncomeDistribution();
+    public List<PooledFundValue> getPooledFundValueForIncomeDistribution(Date currentDate);
 }

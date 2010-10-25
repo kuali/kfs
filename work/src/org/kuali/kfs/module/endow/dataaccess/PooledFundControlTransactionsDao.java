@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
@@ -35,7 +36,7 @@ public interface PooledFundControlTransactionsDao {
      * @param documentTypeNames
      * @return
      */
-    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames);
+    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames, Date currentDate);
     
     /**
      * Gets all transaction archive with security id and document names
@@ -43,5 +44,5 @@ public interface PooledFundControlTransactionsDao {
      * @param documentTypeNames
      * @return
      */
-    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames);
+    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames, Date currentDate);
 }

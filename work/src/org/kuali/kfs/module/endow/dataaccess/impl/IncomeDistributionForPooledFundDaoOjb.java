@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -37,34 +39,19 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseOjb implements IncomeDistributionForPooledFundDao {
 
-    protected KEMService kemService;
-    protected BusinessObjectService businessObjectService;
-
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getIncomeEntraCode(java.lang.String)
      */
     public String getIncomeEntraCode(String securityId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(EndowPropertyConstants.SECURITY_ID, securityId);       
-        Security security = (Security) businessObjectService.findByPrimaryKey(Security.class, fieldValues);
-        String classCode = security.getSecurityClassCode();
-        fieldValues.clear();
-        fieldValues.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, classCode);
-        return ((ClassCode)businessObjectService.findByPrimaryKey(ClassCode.class, fieldValues)).getSecurityIncomeEndowmentTransactionPostCode();        
-    }
-
-    /**
-     * @deprecated
-     */
-    public BigDecimal getDistributionAmount(String securityId) {
-        BigDecimal totalDistributionAmount = new BigDecimal(0);        
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("pooledSecurityID", securityId);
-        List<PooledFundValue> pooledFundValueList = (List<PooledFundValue>) businessObjectService.findMatching(PooledFundValue.class, fieldValues);
-        for (PooledFundValue pooledFundValue : pooledFundValueList) {
-            totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
-        }        
-        return totalDistributionAmount;
+        // get the security
+        Criteria crit = new Criteria();
+        crit.addEqualTo(EndowPropertyConstants.SECURITY_ID, securityId);
+        Security security = (Security) getPersistenceBrokerTemplate().getObjectById(Security.class, crit);
+        
+        // get the transaction post code,using security
+        crit = new Criteria();
+        crit.addEqualTo(EndowPropertyConstants.SECURITY_CLASS_CODE, security.getClassCode());
+        return((ClassCode) getPersistenceBrokerTemplate().getObjectById(ClassCode.class, crit)).getSecurityIncomeEndowmentTransactionPostCode();
     }
     
     /**
@@ -84,31 +71,68 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getSecurityForIncomeDistribution()
      */
-    public List<Security> getSecurityForIncomeDistribution() {
-
-        // get pooledFundValue query with current date and the latest distribution income date
-//        Criteria subCrit0 = new Criteria();
-//        ReportQueryByCriteria subQuery0 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit0);        
-//        subQuery0.setAttributes(new String[] {"max(" + EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE + ")"});
-//        subQuery0.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);
+    public List<PooledFundValue> getPooledFundValueForIncomeDistribution(Date currentDate) {
         
-        Criteria subCrit1 = new Criteria();
-        //subCrit1.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, "N");
-        //subCrit1.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        //subCrit1.addIn(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, subQuery0);
-        ReportQueryByCriteria subQuery1 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit1);
-        subQuery1.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
-
-        // get security query with the same security ids in pooledFundValue query
+        // get pooledFundValue query with current date and the latest distribution income date with the most recent value effective date
+        Criteria subCrit = new Criteria();
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundValue.class, subCrit);        
+        subQuery.setAttributes(new String[] {"max(" + EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE + ")"});
+        subQuery.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);
+      
+        // find PooledFundValue whose distribute income on date is the current date and income distribution complete is 'N' 
         Criteria crit = new Criteria();
-        crit.addIn(EndowPropertyConstants.SECURITY_ID, subQuery1);                
-        QueryByCriteria query = new QueryByCriteria(Security.class, crit);
+        crit.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
+        crit.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, currentDate);
+        crit.addIn(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, subQuery);
         
-        return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    } 
+        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, crit));
+        
+        //ReportQueryByCriteria subQuery1 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit1);
+        //subQuery1.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
+
+        // get security query with the same security ids in pooledFundValue query above
+        //Criteria crit = new Criteria();
+        //crit.addIn(EndowPropertyConstants.SECURITY_ID, subQuery1);                
+        //QueryByCriteria query = new QueryByCriteria(Security.class, crit);
+        
+        //return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }     
+
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getKemidPayoutInstructionForECT(java.lang.String)
+     */
+    public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid, Date currentDate) {
+        Criteria crit = new Criteria();
+        Criteria crit2 = new Criteria();
+        Criteria crit21 = new Criteria();
+        
+        crit.addEqualTo(EndowPropertyConstants.KEMID_PAY_INC_KEMID, kemid);
+        crit.addNotEqualTo(EndowPropertyConstants.KEMID_PAY_INC_TO_KEMID, kemid);
+        crit.addLessOrEqualThan(EndowPropertyConstants.KEMID_PAY_INC_START_DATE, currentDate);
+        crit2.addGreaterThan(EndowPropertyConstants.KEMID_PAY_INC_END_DATE, currentDate);        
+        crit21.addIsNull(EndowPropertyConstants.KEMID_PAY_INC_END_DATE);                
+        crit2.addOrCriteria(crit21);        
+        crit.addAndCriteria(crit2);
+                        
+        return (List<KemidPayoutInstruction>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KemidPayoutInstruction.class, crit));
+    }
+
+    /**
+     * @deprecated
+     */
+//    public BigDecimal getDistributionAmount(String securityId) {
+//        BigDecimal totalDistributionAmount = new BigDecimal(0);        
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//        fieldValues.put("pooledSecurityID", securityId);
+//        List<PooledFundValue> pooledFundValueList = (List<PooledFundValue>) businessObjectService.findMatching(PooledFundValue.class, fieldValues);
+//        for (PooledFundValue pooledFundValue : pooledFundValueList) {
+//            totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
+//        }        
+//        return totalDistributionAmount;
+//    }
     
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getHoldingTaxLotForIncomeDistribution()
+     * @deprecated
      */
     public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution() {
 
@@ -139,38 +163,5 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         
         return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }  
-
-    /**
-     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getKemidPayoutInstructionForECT(java.lang.String)
-     */
-    public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid) {
-        Criteria crit = new Criteria();
-        Criteria crit2 = new Criteria();
-        Criteria crit21 = new Criteria();
-        
-        crit.addEqualTo(EndowPropertyConstants.KEMID_PAY_INC_TO_KEMID, kemid);
-        crit.addLessOrEqualThan(EndowPropertyConstants.KEMID_PAY_INC_START_DATE, kemService.getCurrentDate());
-        crit2.addGreaterThan(EndowPropertyConstants.KEMID_PAY_INC_END_DATE, kemService.getCurrentDate());        
-        crit21.addIsNull(EndowPropertyConstants.KEMID_PAY_INC_END_DATE);                
-        crit2.addOrCriteria(crit21);        
-        crit.addAndCriteria(crit2);
-                        
-        return (List<KemidPayoutInstruction>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KemidPayoutInstruction.class, crit));
-    }
-    /**
-     * Sets the kemService attribute value.
-     * @param kemService The kemService to set.
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
   
 }

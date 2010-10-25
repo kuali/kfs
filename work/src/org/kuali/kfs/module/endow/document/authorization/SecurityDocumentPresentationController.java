@@ -22,7 +22,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -43,8 +43,8 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         String incomePayFrequencyCode = security.getIncomePayFrequency();
         
         if (StringUtils.isNotEmpty(incomePayFrequencyCode)) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            security.setIncomeNextPayDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(incomePayFrequencyCode));
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            security.setIncomeNextPayDate(frequencyCodeServiceImpl.calculateProcessDate(incomePayFrequencyCode));
         }
 
         // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted

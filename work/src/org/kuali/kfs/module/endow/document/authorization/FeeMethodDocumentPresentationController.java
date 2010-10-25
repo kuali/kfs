@@ -27,13 +27,11 @@ import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeePaymentType;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class FeeMethodDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
@@ -46,8 +44,8 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
         String frequencyCode = feeMethod.getFeeFrequencyCode();
         if (StringUtils.isNotEmpty(frequencyCode)) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            feeMethod.setFeeNextProcessDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            feeMethod.setFeeNextProcessDate(frequencyCodeServiceImpl.calculateProcessDate(frequencyCode));
         }
 
         String feeTypeCode = feeMethod.getFeeTypeCode();

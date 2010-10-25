@@ -36,8 +36,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferK
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionDocumentService;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -223,9 +223,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private void setNextProcessDate(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
 
         if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getNextProcessDate())) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            Date processDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
-            processDate.setDate(processDate.getDate()+1);
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            Date processDate = frequencyCodeServiceImpl.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
             endowmentRecurringCashTransfer.setNextProcessDate(processDate);
         }
     }
@@ -233,10 +232,8 @@ public class EndowmentRecurringCashTransferTransactionRule extends MaintenanceDo
     private void setLastProcessDate(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
 
         if (ObjectUtils.isNull(endowmentRecurringCashTransfer.getLastProcessDate())) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            Date processDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
-            processDate.setDate(processDate.getDate()-1);
-            
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            Date processDate = frequencyCodeServiceImpl.calculateProcessDate(endowmentRecurringCashTransfer.getFrequencyCode());
             endowmentRecurringCashTransfer.setLastProcessDate(processDate);
         }
     }

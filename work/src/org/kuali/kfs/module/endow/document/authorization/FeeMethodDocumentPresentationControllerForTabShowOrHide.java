@@ -17,22 +17,21 @@ package org.kuali.kfs.module.endow.document.authorization;
 
 import java.util.List;
 import java.util.Set;
-import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
-import org.kuali.kfs.module.endow.businessobject.FeePaymentType;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.FeePaymentType;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 
 public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
@@ -45,8 +44,8 @@ public class FeeMethodDocumentPresentationControllerForTabShowOrHide extends Fin
         
         String frequencyCode = feeMethod.getFeeFrequencyCode();
         if (StringUtils.isNotEmpty(frequencyCode)) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);          
-            feeMethod.setFeeNextProcessDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            feeMethod.setFeeNextProcessDate(frequencyCodeServiceImpl.calculateProcessDate(frequencyCode));
         }
         
         String feeTypeCode = feeMethod.getFeeTypeCode();

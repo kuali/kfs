@@ -21,15 +21,12 @@ import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PRO
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep;
@@ -48,7 +45,6 @@ import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.AutomatedCashInvestmentModelDao;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
@@ -68,10 +64,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -82,7 +75,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();
     
-    private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
     private AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
@@ -1138,14 +1130,6 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION);
     }
     
-    /**
-     * Sets the calculateProcessDateUsingFrequencyCodeService attribute value.
-     * @param calculateProcessDateUsingFrequencyCodeService The calculateProcessDateUsingFrequencyCodeService to set.
-     */
-    public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
-        this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
-    }
-
     /**
      * Sets the createAutomatedCashInvestmentExceptionReportWriterService attribute value.
      * @param createAutomatedCashInvestmentExceptionReportWriterService The createAutomatedCashInvestmentExceptionReportWriterService to set.

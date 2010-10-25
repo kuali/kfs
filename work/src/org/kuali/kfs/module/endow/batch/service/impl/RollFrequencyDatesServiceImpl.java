@@ -25,13 +25,13 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.AutomatedCashInvestmentModelDao;
 import org.kuali.kfs.module.endow.dataaccess.CashSweepModelDao;
 import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
+import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -42,11 +42,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService {
-
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RollFrequencyDatesServiceImpl.class);
     
     protected BusinessObjectService businessObjectService;
-    protected CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService; 
+    protected FrequencyCodeService frequencyCodeService;
     
     protected SecurityDao securityDao;
     protected FeeMethodDao feeMethodDao;
@@ -98,7 +97,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (securityRecords != null) {
             for (Security security : securityRecords) {
                 String frequencyCode = security.getIncomePayFrequency();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode);
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode);
                 if (nextDate != null) {
                     security.setIncomeNextPayDate(nextDate);
                     if (updateBusinessObject(security)) {
@@ -123,7 +122,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (ticklerRecords != null) {
             for (Tickler tickler : ticklerRecords) {
                 String frequencyCode = tickler.getFrequencyCode();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
                     tickler.setNextDueDate(nextDate);
                     if (updateBusinessObject(tickler)) {
@@ -148,7 +147,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (feeMethodRecords != null) {
             for (FeeMethod feeMethod : feeMethodRecords) {                        
                 String frequencyCode = feeMethod.getFeeFrequencyCode();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
                     feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                     feeMethod.setFeeNextProcessDate(nextDate);
@@ -174,7 +173,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (recurringCashTransferRecords != null) {
             for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
                 String frequencyCode = recurringCashTransfer.getFrequencyCode();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
                     recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                     recurringCashTransfer.setNextProcessDate(nextDate);
@@ -197,7 +196,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (aciRecords != null) {
             for (AutomatedCashInvestmentModel aci : aciRecords) {                        
                 String frequencyCode = aci.getAciFrequencyCode();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
                     aci.setAciNextDueDate(nextDate);
                     if (updateBusinessObject(aci)) {
@@ -219,7 +218,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (csmRecords != null) {
             for (CashSweepModel csm : csmRecords) {                        
                 String frequencyCode = csm.getCashSweepFrequencyCode();           
-                Date nextDate = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
                 if (nextDate != null) {
                     csm.setCashSweepNextDueDate(nextDate);
                     if (updateBusinessObject(csm)) {
@@ -283,14 +282,6 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     }
 
     /**
-     * Sets the calculateProcessDateUsingFrequencyCodeService attribute value.
-     * @param calculateProcessDateUsingFrequencyCodeService The calculateProcessDateUsingFrequencyCodeService to set.
-     */
-    public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
-        this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
-    }
-
-    /**
      * Sets the securityDao attribute value.
      * @param securityDao The securityDao to set.
      */
@@ -346,4 +337,19 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         this.cashSweepModelDao = cashSweepModelDao;
     }
     
+    /**
+     * Gets the frequencyCodeService attribute. 
+     * @return Returns the frequencyCodeService.
+     */
+    protected FrequencyCodeService getFrequencyCodeService() {
+        return frequencyCodeService;
+    }
+
+    /**
+     * Sets the frequencyCodeService attribute value.
+     * @param frequencyCodeService The frequencyCodeService to set.
+     */
+    public void setFrequencyCodeService(FrequencyCodeService frequencyCodeService) {
+        this.frequencyCodeService = frequencyCodeService;
+    }
 }

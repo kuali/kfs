@@ -40,7 +40,6 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.CashSweepModelDao;
 import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
@@ -69,7 +68,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
 
     private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();    
-    private CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
     private BusinessObjectService businessObjectService;
@@ -970,14 +968,6 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * Sets the calculateProcessDateUsingFrequencyCodeService attribute value.
-     * @param calculateProcessDateUsingFrequencyCodeService The calculateProcessDateUsingFrequencyCodeService to set.
-     */
-    public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
-        this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
     }
 
     /**

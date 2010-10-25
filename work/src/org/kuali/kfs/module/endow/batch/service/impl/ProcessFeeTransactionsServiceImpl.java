@@ -173,13 +173,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             return false;
         }
         
-        //update the fee transactions.
+        //Update the fee transactions.
         success &= processUpdateFeeTransactions();
         
-        if (success) {
-            //generate the waived and accrued report...
-            success &= generateWaivedAndAccruedReport();
-        }
+        //generate the waived and accrued report...
+        success &= generateWaivedAndAccruedReport();
+        
         return success;
     }
     
@@ -251,7 +250,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             }
         }
         
-        if (feeMethods.size() > 0) {
+        if (feeMethods.size() > 0) { //REMOVE
             // write out the grand totals line for Totals processed report...
             writeTotalsProcessedGrandTotalsLine();
         }
@@ -275,10 +274,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         
         Collection<FeeMethod> feeMethods = feeMethodService.getFeeMethodsByNextProcessingDate(currentDate);
 
-        if (feeMethods.size() <= 0) {
-            //write message that there are no fee method records to process.
-        }
-        
         for (FeeMethod feeMethod : feeMethods) {
             KualiDecimal accruedFeeSubTotal = KualiDecimal.ZERO;
             KualiDecimal waivedFeeSubTotal = KualiDecimal.ZERO;
@@ -353,7 +348,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      *
      *  IF rate def code is equal to V (Value), then the process will examine the Market Value of the records.
      *      If fee balance type code is equal to AMV (Average Market Value) the process will total holding market value
-     *         where month end date is greater last process date and divde the result by the number of records selected.
+     *         where month end date is greater last process date and divide the result by the number of records selected.
      *      If fee balance type code is equal to MMV (Month End market Value) the process will 
      *         total holding market value for all records where month end date is the most recent date.
      *      If fee balance type code is equal to CMV (Current Market Value) the process will 
@@ -377,7 +372,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected void performFeeRateDefintionForCountCalculations(FeeMethod feeMethod) {
         String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
         
-        //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+        //when FEE_BAL_TYP_CD = AU OR MU then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || 
             feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) { 
             totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod);

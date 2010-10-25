@@ -32,7 +32,6 @@ import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
@@ -54,7 +53,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     private BusinessObjectService businessObjectService;
     protected SecurityService securityService;
     protected KEMService kEMService;
-    protected CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService;
     protected CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
     protected TransactionArchiveDao transactionArchiveDao;
 
@@ -1128,22 +1126,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         this.securityService = securityService;
     }
 
-    /**
-     * gets the calculateProcessDateUsingFrequencyCodeService.
-     * @param calculateProcessDateUsingFrequencyCodeService
-     */
-    protected CalculateProcessDateUsingFrequencyCodeService getCalculateProcessDateUsingFrequencyCodeService() {
-        return calculateProcessDateUsingFrequencyCodeService;
-    }
-    
-    /**
-     * Sets the calculateProcessDateUsingFrequencyCodeService.
-     * @param calculateProcessDateUsingFrequencyCodeService
-     */
-    public void setCalculateProcessDateUsingFrequencyCodeService(CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService) {
-        this.calculateProcessDateUsingFrequencyCodeService = calculateProcessDateUsingFrequencyCodeService;
-    }
-    
     /**
      * gets the kEMService.
      * 

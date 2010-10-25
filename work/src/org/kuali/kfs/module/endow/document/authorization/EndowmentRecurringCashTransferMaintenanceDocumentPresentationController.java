@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -34,8 +34,8 @@ public class EndowmentRecurringCashTransferMaintenanceDocumentPresentationContro
 
         String frequencyCode = endowmentRecurringCashTransfer.getFrequencyCode();
         if (StringUtils.isNotEmpty(frequencyCode)) {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            endowmentRecurringCashTransfer.setNextProcessDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            endowmentRecurringCashTransfer.setNextProcessDate(frequencyCodeServiceImpl.calculateProcessDate(frequencyCode));
         }
 
         return readOnlyPropertyNames;

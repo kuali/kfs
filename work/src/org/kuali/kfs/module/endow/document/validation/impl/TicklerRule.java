@@ -17,35 +17,20 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.CloseCode;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
 import org.kuali.kfs.module.endow.businessobject.TicklerRecipientGroup;
 import org.kuali.kfs.module.endow.businessobject.TicklerRecipientPrincipal;
-import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.service.ValidateDateBasedOnFrequencyCodeService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This TicklerRule class implements the Business rules associated with the Tickler.
@@ -165,8 +150,8 @@ public class TicklerRule extends MaintenanceDocumentRuleBase {
         //Check whether frequency and next due date are both present. If yes, then check if the date matches up with frequency next due date.
         if( !StringUtils.isEmpty(getNewTickler().getFrequencyCode()) && getNewTickler().getNextDueDate() != null ) 
         {
-            CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-            Date date = calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(getNewTickler().getFrequencyCode());
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            Date date = frequencyCodeServiceImpl.calculateProcessDate(getNewTickler().getFrequencyCode());
             if( date.toString().compareTo((getNewTickler().getNextDueDate().toString())) != 0 )
             {
                 putGlobalError(EndowKeyConstants.TicklerConstants.ERROR_TICKLER_FREQUENCY_NEXTDUEDATE_MISMATCH);

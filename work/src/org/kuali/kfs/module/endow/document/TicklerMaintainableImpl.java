@@ -104,10 +104,6 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
             {
                 FrequencyCodeService frequencyCodeService = (FrequencyCodeService) SpringContext.getBean(FrequencyCodeService.class);
                 newTickler.setNextDueDate(frequencyCodeService.calculateProcessDate(frequencyCode));
-                
-         //       
-         //       CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-          //      newTickler.setNextDueDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
             }
         }
     }

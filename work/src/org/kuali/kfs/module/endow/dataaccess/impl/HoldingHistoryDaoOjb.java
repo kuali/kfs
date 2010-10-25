@@ -42,7 +42,7 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements HoldingHistoryDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryDaoOjb.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryDaoOjb.class);
     
     protected MonthEndDateService monthEndDateService;
     protected SecurityDao securityDao;
@@ -176,7 +176,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingUnits(FeeMethod)
      */
     public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod) {
-        BigDecimal totalHoldingUnits = new BigDecimal("0");
+        BigDecimal totalHoldingUnits = BigDecimal.ZERO;
         
         Date lastProcessDate = feeMethod.getFeeLastProcessDate();
         Date mostRecentDate = monthEndDateService.getMostRecentDate();

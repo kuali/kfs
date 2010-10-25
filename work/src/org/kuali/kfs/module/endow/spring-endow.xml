@@ -461,9 +461,6 @@
 	    <property name="currentTaxLotBalanceDao">
 			<ref bean="currentTaxLotBalanceDao" />
 		</property>
-		<property name="calculateProcessDateUsingFrequencyCodeService">
-			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
-		</property>
 		<property name="transactionArchiveDao">
 			<ref bean="transactionArchiveDao" />
 		</property>
@@ -702,8 +699,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-		<property name="calculateProcessDateUsingFrequencyCodeService">
-			<ref bean="calculateProcessDateUsingFrequencyCodeService" />
+		<property name="frequencyCodeService">
+			<ref bean="frequencyCodeService" />
 		</property>	
 		<property name="rollFrequencyDatesReportWriterService">
 			<ref bean="rollFrequencyDatesReportWriterService" />
@@ -1073,9 +1070,6 @@
         </property>
     </bean>
     <bean id="createCashSweepTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl">
-        <property name="calculateProcessDateUsingFrequencyCodeService">
-            <ref bean="calculateProcessDateUsingFrequencyCodeService" />
-        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1161,9 +1155,6 @@
 	</bean>
 	
 	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">
-        <property name="calculateProcessDateUsingFrequencyCodeService">
-            <ref bean="calculateProcessDateUsingFrequencyCodeService" />
-        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1666,11 +1657,6 @@
         </property>
     </bean>
     
-	<bean id="calculateProcessDateUsingFrequencyCodeService" class="org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService" scope="prototype">
-		<property name="dateTimeService" ref="dateTimeService"/>
-		<property name="kemService" ref="kemService"/>
-	</bean>	
-	
 	<bean id="typeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TypeCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

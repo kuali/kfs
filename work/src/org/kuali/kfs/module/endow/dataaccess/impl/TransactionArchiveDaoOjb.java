@@ -77,7 +77,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
     protected Collection<TransactionArchive> getTransactionArchivesForTransactions(FeeMethod feeMethod) {
         Collection<TransactionArchive> transactionArchives = new ArrayList(); 
         
-        Collection incomePrincipalValues = null;
+        Collection incomePrincipalValues = new ArrayList();
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
         
@@ -135,7 +135,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesIncomeCashAmountForTransactions(FeeMethod)
      */
     public BigDecimal getTransactionArchivesIncomeCashAmountForTransactions(FeeMethod feeMethod) {
-        BigDecimal incomeCashAmount = new BigDecimal("0");
+        BigDecimal incomeCashAmount = BigDecimal.ZERO;
         
         Collection<TransactionArchive> transactionArchives = new ArrayList();        
         transactionArchives = getTransactionArchivesForTransactions(feeMethod);
@@ -306,7 +306,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
     public long getTransactionArchivesCountByBothIncomeAndPrincipal(FeeMethod feeMethod) {
         long totalTransactionArchives = 0;
         
-        Collection incomePrincipalValues = null;
+        Collection incomePrincipalValues = new ArrayList();
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_INCOME);
         incomePrincipalValues.add(EndowConstants.FeeMethod.FEE_BASE_CODE_VALUE_FOR_PRINCIPAL);
         

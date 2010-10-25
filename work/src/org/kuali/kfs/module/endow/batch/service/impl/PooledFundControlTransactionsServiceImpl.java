@@ -23,6 +23,7 @@ import org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
@@ -32,6 +33,9 @@ import org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
+import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
+import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -59,12 +63,15 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     protected ParameterService parameterService;
     protected KualiRuleService kualiRuleService;
     
+    protected KEMService kemService;
+    
     protected PooledFundControlTransactionsDao pooledFundControlTransactionsDao;
     
     protected ReportWriterService pooledFundControlTransactionsExceptionReportWriterService;
     protected ReportWriterService pooledFundControlTransactionsTotalReportWriterService;
     
     private TransactionDocumentTotalReportLine totalReportLine = null;
+    
     private TransactionDocumentExceptionReportLine exceptionReportLine = null;
     
     /*
@@ -116,7 +123,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
-            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames);
+            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
             // get the total of security cost
             for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
                 totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getHoldingCost()));
@@ -144,7 +151,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
-            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames);
+            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
             // get the total of security long term and short term gain and loss
             for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {                         
                 totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getLongTermGainLoss()).add(new KualiDecimal(transactionArchiveSecurity.getShortTermGainLoss())));
@@ -173,7 +180,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
-            List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl.getPooledSecurityID(), documentTypeNames);
+            List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
             for (TransactionArchive transactionArchive : transactionArchiveRecords) {
                 totalAmount = totalAmount.add(new KualiDecimal(transactionArchive.getIncomeCashAmount())).add(new KualiDecimal(transactionArchive.getPrincipalCashAmount()));
             }
@@ -275,6 +282,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             if (validateECDD(cashDecreaseDocument)) {
                 errorMessage = submitCashDocument(cashDecreaseDocument, paramNoRouteInd);
             } else {
+                //TODO: get the global message
                 errorMessage = "createECDD() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber();
                 LOG.error(errorMessage);
                 result = false;
@@ -295,14 +303,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param securityLineTypeCode
      * @param transactionIPIndicatorCode
      */
-    protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
+    protected List<String> populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
         
-        // set security
-        cashIncreaseDocument.getTargetTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
-        cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());   
-        cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode(pooledFundControl.getFundRegistrationCode());  // 
+        List<String> errorMessages = null;
 
-        // add transaction line - need only one for this batch
+        // create a transaction line
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
@@ -311,9 +316,23 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         endowmentTargetTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
         
-        cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
-        cashIncreaseDocument.setNextTargetLineNumber(new Integer(1));
-        cashIncreaseDocument.getTargetTransactionLines().add(endowmentTargetTransactionLine);
+        GlobalVariables.clear();
+        if (validateTransactionLine(cashIncreaseDocument, endowmentTargetTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
+            // add a transaction line -  only one for this batch            
+            cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
+            cashIncreaseDocument.setNextTargetLineNumber(new Integer(1));
+            cashIncreaseDocument.getTargetTransactionLines().add(endowmentTargetTransactionLine);
+            // set security
+            cashIncreaseDocument.getTargetTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
+            cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());   
+            cashIncreaseDocument.getTargetTransactionSecurity().setRegistrationCode(pooledFundControl.getFundRegistrationCode());  // 
+
+        } else {
+            errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors(); 
+        }
+        
+        
+        return errorMessages;
     }
     
     /**
@@ -324,14 +343,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param securityLineTypeCode
      * @param transactionIPIndicatorCode
      */
-    protected void populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
+    protected List<String> populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
         
-        // set security
-        cashDecreaseDocument.getSourceTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
-        cashDecreaseDocument.getSourceTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());
-        cashDecreaseDocument.getSourceTransactionSecurity().setRegistrationCode(pooledFundControl.getFundRegistrationCode());
+        List<String> errorMessages = null;
 
-        // add transaction line - need only one for this batch
+        // add a transaction line - only one for this batch
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
@@ -340,9 +356,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         endowmentSourceTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
         
-        cashDecreaseDocument.setSourceTransactionLines(new TypedArrayList(EndowmentSourceTransactionLine.class));
-        cashDecreaseDocument.setNextSourceLineNumber(new Integer(1));
-        cashDecreaseDocument.getSourceTransactionLines().add(endowmentSourceTransactionLine);
+        GlobalVariables.clear();
+        if (validateTransactionLine(cashDecreaseDocument, endowmentSourceTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
+            // add transaction line - need only one for this batch 
+            cashDecreaseDocument.setSourceTransactionLines(new TypedArrayList(EndowmentSourceTransactionLine.class));
+            cashDecreaseDocument.setNextSourceLineNumber(new Integer(1));
+            cashDecreaseDocument.getSourceTransactionLines().add(endowmentSourceTransactionLine);            
+            // set security
+            cashDecreaseDocument.getSourceTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
+            cashDecreaseDocument.getSourceTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());
+            cashDecreaseDocument.getSourceTransactionSecurity().setRegistrationCode(pooledFundControl.getFundRegistrationCode());
+        } else {
+            errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
+        }
+        
+        return errorMessages;
     }
     
     /**
@@ -432,6 +460,19 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     }
         
     /**
+     * Validate Cash Transaction line
+     * @param <C>
+     * @param <T>
+     * @param cashDocument
+     * @param endowmentTransactionLine
+     * @param trnsactionPropertyName
+     * @return
+     */
+    protected <C extends EndowmentSecurityDetailsDocumentBase, T extends EndowmentTransactionLineBase> boolean validateTransactionLine(C cashDocument, T endowmentTransactionLine, String trnsactionPropertyName) {
+        return kualiRuleService.applyRules(new AddTransactionLineEvent(trnsactionPropertyName, cashDocument, endowmentTransactionLine));
+    }
+    
+    /**
      * validate the ECI business rules 
      * @param cashIncreaseDocument
      * @return boolean
@@ -519,6 +560,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     public void setPooledFundControlTransactionsTotalReportWriterService(ReportWriterService pooledFundControlTransactionsTotalReportWriterService) {
         this.pooledFundControlTransactionsTotalReportWriterService = pooledFundControlTransactionsTotalReportWriterService;
+    }
+
+    /**
+     * Sets the kemService attribute value.
+     * @param kemService The kemService to set.
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
     
 }

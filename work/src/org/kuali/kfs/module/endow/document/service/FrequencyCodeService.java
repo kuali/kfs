@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
+import java.sql.Date;
 import org.kuali.kfs.module.endow.businessobject.FrequencyCode;
 
 public interface FrequencyCodeService {
@@ -26,5 +27,12 @@ public interface FrequencyCodeService {
      * @return a frequency code
      */
     public FrequencyCode getByPrimaryKey(String code);
+
+    /**
+     * This method uses frequency code to derive the next processing date
+     * @param frequecyCode
+     * @return next process date
+     */
+    public Date calculateProcessDate(String frequencyCode);
 
 }

@@ -20,14 +20,12 @@ import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.dao.DataAccessException;
 
 public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFeeDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidFeeDaoJdbc.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidFeeDaoJdbc.class);
     
-    protected BusinessObjectService businessObjectService;
     protected KEMService kemService;
     protected ParameterService parameterService;
     
@@ -74,22 +72,6 @@ public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFe
         LOG.info("systemParametersForUpdateWaiverFeeAmounts() ended.");
         
         return systemParameterExists;
-    }
-    
-    /**
-     * This method gets the businessObjectService.
-     * @return businessObjectService
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * This method sets the businessObjectService
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     /**

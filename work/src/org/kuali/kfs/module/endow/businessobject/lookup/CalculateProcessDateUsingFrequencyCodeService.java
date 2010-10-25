@@ -26,7 +26,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 
 public class CalculateProcessDateUsingFrequencyCodeService {
 
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
     protected KEMService kemService;
     
     /**
@@ -36,28 +36,27 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @return returns the processing date
      */
     public Date calculateProcessDate(String frequencyCode) {
-        
-        Date processDate = dateTimeService.getCurrentSqlDate();
+        Date currentDate = dateTimeService.getCurrentSqlDate();
         
         String frequencyType = frequencyCode.substring(0, 1);
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
-            return calculateNextDate(processDate);
+            return currentDate;
         }
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
             String dayOfWeek =  frequencyCode.substring(1, 4).toUpperCase();
-            return calculateNextWeekDate(dayOfWeek);
+            return calculateNextWeeklyDate(dayOfWeek, currentDate);
         }
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
             String dayOfSemiMonthly =  frequencyCode.substring(1, 3);
-            return calculateNextSemiMonthlyDate(dayOfSemiMonthly);
+            return calculateNextSemiMonthlyDate(dayOfSemiMonthly, currentDate);
         }
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
             String dayOfMonth =  frequencyCode.substring(1, 3);
-            return calculateNextMonthlyDate(dayOfMonth);
+            return calculateNextMonthlyDate(dayOfMonth, currentDate);
         }
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY) || 
@@ -65,49 +64,21 @@ public class CalculateProcessDateUsingFrequencyCodeService {
             frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
             String month = frequencyCode.substring(1, 2);
             String dayOfMonth =  frequencyCode.substring(2, 4);
-            return calculateNextProcessDate(month, dayOfMonth, frequencyType);
+            return calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(month, dayOfMonth, frequencyType, currentDate);
         }
         
-        return processDate;
+        return currentDate;
     }
 
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public KEMService getKemService() {
-        return kemService;
-    }
-
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
-    }
-
-    /**
-     * Calculates the next date 
-     * @param currentDate
-     * @return
-     */
-    protected Date calculateNextDate(Date currentDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        calendar.add(Calendar.DATE, 1);
-        return new java.sql.Date(calendar.getTimeInMillis());        
-    }
-    
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date
      * @param dayOfWeek
      * @return next processing date
      */
-    protected Date calculateNextWeekDate(String dayOfWeekFromFrequencyCode) {
+    protected Date calculateNextWeeklyDate(String dayOfWeekFromFrequencyCode, Date currentDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateTimeService.getCurrentSqlDate());
+        calendar.setTime(currentDate);
         
         int daysToAdd = 0;
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);  // today's day of the week
@@ -151,13 +122,23 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param dayOfSemiMonthly
      * @return next processing date
      */
-    protected Date calculateNextSemiMonthlyDate(String dayOfSemiMonthly) {
+    protected Date calculateNextSemiMonthlyDate(String dayOfSemiMonthly, Date currentDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateTimeService.getCurrentSqlDate());
+        calendar.setTime(currentDate);
         
         int dayOfMonthToSet = Integer.parseInt(dayOfSemiMonthly);
+        int dayOfMonthNextToSet = dayOfMonthToSet + 15;
+        
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
-        calendar.add(Calendar.MONTH, 1);
+        
+        if (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, dayOfMonthNextToSet);
+        }
+        if (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
+            calendar.add(Calendar.MONTH, 1);
+        }
+        
         return new java.sql.Date(calendar.getTimeInMillis());
     }
    
@@ -167,13 +148,16 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param dayOfMonth
      * @return next processing date
      */
-    protected Date calculateNextMonthlyDate(String dayOfMonth) {
+    protected Date calculateNextMonthlyDate(String dayOfMonth, Date currentDate) {
         int dayInMonthToSet;
         
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateTimeService.getCurrentSqlDate());
+        calendar.setTime(currentDate);
         setCalendarWithDays(calendar, dayOfMonth);
-        calendar.add(Calendar.MONTH, 1);
+        while (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
+            calendar.add(Calendar.MONTH, 1);  
+        }
+        
         return new java.sql.Date(calendar.getTimeInMillis());
     }
 
@@ -183,26 +167,26 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param frequencyType frequency code for quarterly, month, dayOfMonth
      * @return next processing date
      */
-    protected Date calculateNextProcessDate(String month, String dayOfMonth, String frequencyType) {
+    protected Date calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(String month, String dayOfMonth, String frequencyType, Date currentDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateTimeService.getCurrentSqlDate());
-        calendar = setCaledarWithMonth(month);        
+        calendar.setTime(currentDate);
+        calendar = setCaledarWithMonth(month, currentDate);        
         setCalendarWithDays(calendar, dayOfMonth);
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
-            while (new java.sql.Date(calendar.getTimeInMillis()).before(dateTimeService.getCurrentSqlDate())) {
+            while (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
                 calendar.add(Calendar.MONTH, 3);  
                 setCalendarWithDays(calendar, dayOfMonth);
             }
         }
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) { 
-            while (new java.sql.Date(calendar.getTimeInMillis()).before(dateTimeService.getCurrentSqlDate())) {
+            while (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
                 calendar.add(Calendar.MONTH, 6);  
                 setCalendarWithDays(calendar, dayOfMonth);
             }
         }
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) { 
-            while (new java.sql.Date(calendar.getTimeInMillis()).before(dateTimeService.getCurrentSqlDate())) {
+            while (new java.sql.Date(calendar.getTimeInMillis()).before(currentDate)) {
                 calendar.add(Calendar.MONTH, 12); 
                 setCalendarWithDays(calendar, dayOfMonth);
             }
@@ -216,9 +200,9 @@ public class CalculateProcessDateUsingFrequencyCodeService {
      * @param month month to set the calendar
      * @return calendar calendar is set to the month selected
      */
-    protected Calendar setCaledarWithMonth(String month) {
+    protected Calendar setCaledarWithMonth(String month, Date currentDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateTimeService.getCurrentSqlDate());
+        calendar.setTime(currentDate);
         int calendarMonth = 1;
         
         if (EndowConstants.FrequencyMonths.JANUARY.equalsIgnoreCase(month)) {
@@ -305,5 +289,21 @@ public class CalculateProcessDateUsingFrequencyCodeService {
         maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         
         return maxDays;
+    }
+    
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    protected KEMService getKemService() {
+        return kemService;
+    }
+
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
 }

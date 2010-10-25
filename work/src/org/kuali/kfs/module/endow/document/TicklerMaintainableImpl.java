@@ -36,6 +36,7 @@ import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
 import org.kuali.kfs.module.endow.businessobject.lookup.CalculateProcessDateUsingFrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
+import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.impl.TicklerRule;
 import org.kuali.kfs.sys.KFSConstants;
@@ -101,8 +102,12 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
             String frequencyCode = newTickler.getFrequencyCode();
             if (StringUtils.isNotEmpty(frequencyCode)) 
             {
-                CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
-                newTickler.setNextDueDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
+                FrequencyCodeService frequencyCodeService = (FrequencyCodeService) SpringContext.getBean(FrequencyCodeService.class);
+                newTickler.setNextDueDate(frequencyCodeService.calculateProcessDate(frequencyCode));
+                
+         //       
+         //       CalculateProcessDateUsingFrequencyCodeService calculateProcessDateUsingFrequencyCodeService = (CalculateProcessDateUsingFrequencyCodeService) SpringContext.getBean(CalculateProcessDateUsingFrequencyCodeService.class);
+          //      newTickler.setNextDueDate(calculateProcessDateUsingFrequencyCodeService.calculateProcessDate(frequencyCode));
             }
         }
     }

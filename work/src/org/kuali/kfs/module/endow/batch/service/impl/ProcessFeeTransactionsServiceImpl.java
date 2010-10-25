@@ -77,7 +77,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected KemidFeeService kemidFeeService;
     protected FeeMethodService feeMethodService;
     protected KEMService kemService;
-    protected TransactionArchiveService transactionArchiveService;
     protected TransactionArchiveDao transactionArchiveDao;
     protected HoldingHistoryDao holdingHistoryDao;
     protected CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
@@ -1126,22 +1125,6 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      */
     public void setProcessFeeTransactionsExceptionRowReason(EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason) {
         this.processFeeTransactionsExceptionRowReason = processFeeTransactionsExceptionRowReason;
-    }
-    
-    /**
-     * Gets the transactionArchiveService attribute. 
-     * @return Returns the transactionArchiveService.
-     */
-    protected TransactionArchiveService getTransactionArchiveService() {
-        return transactionArchiveService;
-    }
-
-    /**
-     * Sets the transactionArchiveService attribute value.
-     * @param transactionArchiveService The transactionArchiveService to set.
-     */
-    public void setTransactionArchiveService(TransactionArchiveService transactionArchiveService) {
-        this.transactionArchiveService = transactionArchiveService;
     }
     
     /**

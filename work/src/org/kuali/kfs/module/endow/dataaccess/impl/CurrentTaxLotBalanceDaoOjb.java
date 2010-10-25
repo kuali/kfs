@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,22 +31,16 @@ import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
-import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
-import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
-import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements CurrentTaxLotBalanceDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceDaoOjb.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceDaoOjb.class);
 
-    protected BusinessObjectService businessObjectService;
     protected SecurityDao securityDao;
     
     /**
@@ -213,24 +206,6 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
         return totalHoldingMarkteValue;
     }
 
-    /**
-     * This method gets the businessObjectService.
-     * 
-     * @return businessObjectService
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * This method sets the businessObjectService
-     * 
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
     /**
      * Gets the securityDao attribute. 
      * @return Returns the securityDao.

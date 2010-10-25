@@ -1046,7 +1046,7 @@
     </bean>
     <bean id="holdingHistoryMarketValuesExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>
-        <property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException"/>
+        <property name="fileNamePrefix" value="holdingHistoryMarketValuesUpdatesException_"/>
         <property name="title" value="HOLDING HISTORY MARKET VALUES UPDATE JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
             <map>
@@ -1383,9 +1383,6 @@
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>			    
-		<property name="transactionArchiveService">
-			<ref bean="transactionArchiveService" />
-		</property>	
 		<property name="transactionArchiveDao">
 			<ref bean="transactionArchiveDao" />
 		</property>	
@@ -1423,7 +1420,7 @@
 	</bean>
 	<bean id="processFeeTransactionsExceptionReportsWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="proceeFeeTransactionsUpdatesException"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsUpdatesException_"/>
         <property name="title" value="BATCH PROCESS FEE TRANSACTIONS UPDATE JOB EXCEPTION REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1434,7 +1431,7 @@
     </bean>	
 	<bean id="processFeeTransactionsTotalProcessedReportsWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="proceeFeeTransactionsTotalProcessed"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsTotalProcessed_"/>
         <property name="title" value="BATCH PROCESS FEE TRANSACTIONS TOTALS PROCESSED REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1448,7 +1445,7 @@
     </bean>    
 	<bean id="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="proceeFeeTransactionsWaivedAndAccruedProcessed"/>
+		<property name="fileNamePrefix" value="proceeFeeTransactionsWaivedAndAccruedProcessed_"/>
         <property name="title" value="BATCH PROCESS FEE WAIVED AND ACCRUED FEES REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -1546,7 +1543,10 @@
     <bean id="frequencyCodeService" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>				
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>			
 	</bean>
 	
     <bean id="feeMethodService" class="org.kuali.kfs.module.endow.document.service.impl.FeeMethodServiceImpl">
@@ -1913,9 +1913,6 @@
     </bean>
     
     <bean id="currentTaxLotBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CurrentTaxLotBalanceDaoOjb">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>	
 		<property name="securityDao">
 			<ref bean="securityDao" />
 		</property>	
@@ -2182,14 +2179,8 @@
 		</property>
 	</bean>
 	<bean id="transactionArchiveDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TransactionArchiveDaoOjb">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 	</bean>
 	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="monthEndDateService">
 			<ref bean="monthEndDateService" />
 		</property>	
@@ -2198,9 +2189,6 @@
 		</property>		
 	</bean>
 	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoJdbc">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>

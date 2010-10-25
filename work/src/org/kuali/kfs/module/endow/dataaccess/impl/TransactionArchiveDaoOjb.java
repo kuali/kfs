@@ -39,18 +39,14 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements TransactionArchiveDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveDaoOjb.class);
-    
-    private BusinessObjectService businessObjectService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveDaoOjb.class);
     
     /**
      * @@see {@link org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getAllTransactionArchives()
      */
     public Collection<TransactionArchive> getAllTransactionArchives() {
         Collection<TransactionArchive> transactionArchives = new ArrayList();
-        
-        transactionArchives = businessObjectService.findAll(TransactionArchive.class);
-        
+
         return transactionArchives;
     }
     
@@ -369,23 +365,4 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         
         return totalCashActivity;
     }
-    
-    /**
-     * This method gets the businessObjectService.
-     * 
-     * @return businessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * This method sets the businessObjectService
-     * 
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
 }

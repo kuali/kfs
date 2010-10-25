@@ -33,6 +33,8 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class KFSConstants extends JSTLConstants implements ParameterKeyConstants {
     private static final long serialVersionUID = 2882277719647128949L;
 
+    public static final String APPLICATION_NAMESPACE_CODE = "KFS";    
+    
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";
@@ -307,7 +309,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
-    public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
     public static final String LOOKUP_ACTION = "kr/lookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";

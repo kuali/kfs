@@ -75,11 +75,11 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
     private final String RUN_INDICATOR_PARAMETER_VALUE = "N";
     private final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
     private final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the PurapMassRequisitionJob needs to only be run once after database initialization.";
-    private final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";       
+    private final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         LOG.info("Starting execution of PurapMassRequisitionStep");
-        
+
         Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
         if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValue())) {
             // save runParameter as "N" so that the job won't run until DB has been cleared
@@ -120,77 +120,77 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
                 Thread.sleep(5000);
             }
 
-            
-//TODO leaving CAMS docs commented out until problem is fixed 
-// for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-//                RequisitionDocument reqDoc = null;
-//                try {
-//                    LOG.info("Setting user session for routing of requisition with capital asset data and addresses.");
-//                    GlobalVariables.setUserSession(new UserSession("khuntley"));
-//                    // create document
-//                    reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
-//                    Thread.sleep(10000);
-//                    LOG.info("Blanket approving requisition with capital asset data and addresses.");
-//                    // route it
-//                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
-//                }
-//                catch (WorkflowException e) {
-//                    e.printStackTrace();
-//                }
-//                catch (ValidationException ve) {
-//                    continue;
-//                }
-//                Thread.sleep(5000);
-    //
-//                // Use Contract Manager Assignment to create PO.
-//                LOG.info("Setting user session for contract manager assignment of requisition with capital asset data and addresses.");
-//                GlobalVariables.setUserSession(new UserSession("parke"));
-//                LOG.info("Routing Contract Manager Assignment document for requisition with capital asset data and addresses.");
-//                ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
-    //
-//                Thread.sleep(20000);
-    //
-//                LOG.info("Routing Purchase Order document for requisition with capital asset data and addresses.");
-//                createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-    //
-//                Thread.sleep(5000);
-//            }
-    //
-//            for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
-//                RequisitionDocument reqDoc = null;
-//                try {
-//                    LOG.info("Setting user session for routing of BAS requisition.");
-//                    GlobalVariables.setUserSession(new UserSession("khuntley"));
-//                    // create document
-//                    reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
-//                    Thread.sleep(10000);
-//                    LOG.info("Blanket approving BAS requisition.");
-//                    // route it
-//                    documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
-//                }
-//                catch (WorkflowException e) {
-//                    e.printStackTrace();
-//                }
-//                catch (ValidationException ve) {
-//                    continue;
-//                }
-//                Thread.sleep(5000);
-    //
-//                // Use Contract Manager Assignment to create PO.
-//                LOG.info("Setting user session for contract manager assignment BAS requisition.");
-//                GlobalVariables.setUserSession(new UserSession("parke"));
-//                LOG.info("Routing Contract Manager Assignment document for BAS requisition.");
-//                ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
-    //
-//                Thread.sleep(20000);
-    //
-//                LOG.info("Routing Purchase Order document for BAS requisition");
-//                createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
-    //
-//                Thread.sleep(5000);
-//            }
+
+            // TODO leaving CAMS docs commented out until problem is fixed
+            // for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+            // RequisitionDocument reqDoc = null;
+            // try {
+            // LOG.info("Setting user session for routing of requisition with capital asset data and addresses.");
+            // GlobalVariables.setUserSession(new UserSession("khuntley"));
+            // // create document
+            // reqDoc = populateCapitalAsset_Individual_WithAddresses_Document();
+            // Thread.sleep(10000);
+            // LOG.info("Blanket approving requisition with capital asset data and addresses.");
+            // // route it
+            // documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+            // }
+            // catch (WorkflowException e) {
+            // e.printStackTrace();
+            // }
+            // catch (ValidationException ve) {
+            // continue;
+            // }
+            // Thread.sleep(5000);
+            //
+            // // Use Contract Manager Assignment to create PO.
+            // LOG.info("Setting user session for contract manager assignment of requisition with capital asset data and addresses.");
+            // GlobalVariables.setUserSession(new UserSession("parke"));
+            // LOG.info("Routing Contract Manager Assignment document for requisition with capital asset data and addresses.");
+            // ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+            //
+            // Thread.sleep(20000);
+            //
+            // LOG.info("Routing Purchase Order document for requisition with capital asset data and addresses.");
+            // createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
+            //
+            // Thread.sleep(5000);
+            // }
+            //
+            // for (int i = 0; i < NUM_DOCS_TO_CREATE; i++) {
+            // RequisitionDocument reqDoc = null;
+            // try {
+            // LOG.info("Setting user session for routing of BAS requisition.");
+            // GlobalVariables.setUserSession(new UserSession("khuntley"));
+            // // create document
+            // reqDoc = populateCapitalAsset_Individual_Unfilled_Document();
+            // Thread.sleep(10000);
+            // LOG.info("Blanket approving BAS requisition.");
+            // // route it
+            // documentService.blanketApproveDocument(reqDoc, "auto-routing: Test Requisition Job.", null);
+            // }
+            // catch (WorkflowException e) {
+            // e.printStackTrace();
+            // }
+            // catch (ValidationException ve) {
+            // continue;
+            // }
+            // Thread.sleep(5000);
+            //
+            // // Use Contract Manager Assignment to create PO.
+            // LOG.info("Setting user session for contract manager assignment BAS requisition.");
+            // GlobalVariables.setUserSession(new UserSession("parke"));
+            // LOG.info("Routing Contract Manager Assignment document for BAS requisition.");
+            // ContractManagerAssignmentDocument acmDoc = createAndRouteContractManagerAssignmentDocument(reqDoc);
+            //
+            // Thread.sleep(20000);
+            //
+            // LOG.info("Routing Purchase Order document for BAS requisition");
+            // createAndRoutePurchaseOrderDocument(reqDoc, acmDoc);
+            //
+            // Thread.sleep(5000);
+            // }
         }
-        
+
         Thread.sleep(60000);
         return true;
     }
@@ -597,7 +597,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
             runIndicatorParameter.setParameterConstraintCode(RUN_INDICATOR_PARAMETER_ALLOWED);
             runIndicatorParameter.setParameterTypeCode(RUN_INDICATOR_PARAMETER_TYPE);
-            runIndicatorParameter.setParameterApplicationNamespaceCode(KNSConstants.DEFAULT_APPLICATION_CODE);
+            runIndicatorParameter.setParameterApplicationNamespaceCode(KFSConstants.APPLICATION_NAMESPACE_CODE);
         }
         runIndicatorParameter.setParameterValue(RUN_INDICATOR_PARAMETER_VALUE);
         boService.save(runIndicatorParameter);

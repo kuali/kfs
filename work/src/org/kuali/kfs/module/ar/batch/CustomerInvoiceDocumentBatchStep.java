@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -37,6 +38,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
 import org.kuali.kfs.sys.batch.TestingStep;
@@ -71,8 +73,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     // parameter constants and logging
     private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
-    private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = "KFS-AR";
-    private static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = "KUALI";
+    private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = ArConstants.AR_NAMESPACE_CODE;
+    private static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = KFSConstants.APPLICATION_NAMESPACE_CODE;
     private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
     private static final String RUN_INDICATOR_PARAMETER_VALUE = "N"; // Tells the job framework whether to run this job or not; set to NO because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.
     private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";

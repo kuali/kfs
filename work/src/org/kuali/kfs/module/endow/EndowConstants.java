@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -22,7 +23,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
 
-    public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
+    public static final String KFS_ENDOW_ROLE_NAMESPACE = KFSConstants.ParameterNamespaces.ENDOWMENT;
 
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -165,7 +166,6 @@ public class EndowConstants extends JSTLConstants {
         public static final String LIABILITIES_ENTRAN_TYPE = "LIABILITY_TYPE";
 
         public static final String KEMID_VALUE = "KEMID_VALUE";
-        public static final String PARAMETER_APPLICATION_NAMESPACE_CODE = "KFS";
         public static final String PARAMETER_KEMID_COMPONENT = "KEMID";
 
         public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";

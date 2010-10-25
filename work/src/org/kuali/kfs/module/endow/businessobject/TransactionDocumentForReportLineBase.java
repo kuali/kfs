@@ -36,6 +36,14 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     public String getDocumentType() {
         return documentType;
     }
+ 
+    /**
+     * Sets the documentType attribute value.
+     * @param documentType The documentType to set.
+     */
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
     
     /**
      * Gets the documentId attribute. 
@@ -46,12 +54,21 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
     }
     
     /**
+     * Sets the documentId attribute value.
+     * @param documentId The documentId to set.
+     */
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+    
+    /**
      * Gets the securityId attribute. 
      * @return Returns the securityId.
      */
     public String getSecurityId() {
         return securityId;
     }
+    
     
     /**
      * Sets the securityId attribute. 

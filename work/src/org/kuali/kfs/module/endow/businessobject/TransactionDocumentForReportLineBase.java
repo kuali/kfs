@@ -147,8 +147,8 @@ public abstract class TransactionDocumentForReportLineBase extends TransientBusi
      * Adds a income units to the current income units total
      * @param incomeUnits the income units to add to the income units total
      */
-    public void addIncomeUnits(KualiDecimal incomeAmount) {
-        this.incomeAmount = this.incomeAmount.add(incomeAmount);        
+    public void addIncomeUnits(KualiDecimal incomeUnits) {
+        this.incomeUnits = this.incomeUnits.add(incomeUnits);        
     }    
    
     /**

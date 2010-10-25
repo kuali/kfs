@@ -205,6 +205,7 @@ public class EndowPropertyConstants {
 
     // KEMID Payout Instructions
     public static final String KEMID_PAY_INC_SEQ_NBR = "payoutIncomeSequenceNumber";
+    public static final String KEMID_PAY_INC_KEMID = "kemid";
     public static final String KEMID_PAY_INC_TO_KEMID = "payIncomeToKemid";
     public static final String KEMID_PAY_INC_TO_KEMID_OBJ_REF = "payIncomeToKemidObjRef";
     public static final String KEMID_PAY_INC_PERCENT_OF_INC_TO_PAY_TO_KEMID = "percentOfIncomeToPayToKemid";

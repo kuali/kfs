@@ -911,11 +911,7 @@
         </property>
 	</bean>
 	
-	<bean id="pooledFundControlTransactionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundControlTransactionsDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="pooledFundControlTransactionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundControlTransactionsDaoOjb" />
 	
 	<!-- createIncomeDistributionJob configuration -->
 	<bean id="createIncomeDistributionJob" parent="unscheduledJobDescriptor">
@@ -999,14 +995,8 @@
         </property>
 	</bean>
 	
-	<bean id="incomeDistributionForPooledFundDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.IncomeDistributionForPooledFundDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>	
-	</bean>
+	<bean id="incomeDistributionForPooledFundDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.IncomeDistributionForPooledFundDaoOjb" />
+	
 	<!-- end createIncomeDistributionJob configuration -->
 	
 	<!--  holdingHisgtoryMarketValueUpdateJob configuration -->

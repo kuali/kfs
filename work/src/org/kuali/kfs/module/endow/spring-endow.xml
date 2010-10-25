@@ -1070,6 +1070,12 @@
         </property>
     </bean>
     <bean id="createCashSweepTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl">
+        <property name="updateEaiTaxLotService">
+            <ref bean="updateAssetIncreaseDocumentTaxLotsService" />
+        </property>
+        <property name="updateEadTaxLotService">
+            <ref bean="updateAssetDecreaseDocumentTaxLotsService" />
+        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1155,6 +1161,12 @@
 	</bean>
 	
 	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">
+        <property name="updateEaiTaxLotService">
+            <ref bean="updateAssetIncreaseDocumentTaxLotsService" />
+        </property>
+        <property name="updateEadTaxLotService">
+            <ref bean="updateAssetDecreaseDocumentTaxLotsService" />
+        </property>       
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1811,6 +1823,18 @@
 			<ref bean="kemService" />
 		</property>	
 	</bean>
+    
+    <bean id="updateAssetDecreaseDocumentTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateAssetDecreaseDocumentTaxLotsServiceImpl">
+        <property name="taxLotService">
+            <ref bean="holdingTaxLotService" />
+        </property> 
+        <property name="securityService">
+            <ref bean="securityService" />
+        </property> 
+        <property name="kemService">
+            <ref bean="kemService" />
+        </property> 
+    </bean>
 	
 	<bean id="updateSecurityTransferTargetTaxLotsService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateSecurityTransferTargetTaxLotsServiceImpl">
 		<property name="taxLotService">

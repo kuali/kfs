@@ -46,6 +46,8 @@ import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetDecreaseDocumentTaxLotsService;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -68,6 +70,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
 
     private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();    
+    private UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService;
+    private UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
     private BusinessObjectService businessObjectService;
@@ -350,6 +354,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // write the error messages to the error report.
         if (rulesPassed) {
             assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
+            updateEadTaxLotService.updateTransactionLineTaxLots(assetDecreaseDoc, transactionLine);
         }
         else {
             writeExceptionTableRowAssetDecrease(assetDecreaseDoc, transactionLine, isIncome);
@@ -390,6 +395,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // write the error messages to the error report.
         if (rulesPassed) {
             assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
+            updateEaiTaxLotService.updateTransactionLineTaxLots(assetIncreaseDoc, transactionLine);
         }
         else {
             writeExceptionTableRowAssetIncrease(assetIncreaseDoc, transactionLine, isIncome);
@@ -1008,6 +1014,22 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Sets the updateEaiTaxLotService attribute value.
+     * @param updateEaiTaxLotService The updateEaiTaxLotService to set.
+     */
+    public void setUpdateEaiTaxLotService(UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService) {
+        this.updateEaiTaxLotService = updateEaiTaxLotService;
+    }
+
+    /**
+     * Sets the updateEadTaxLotService attribute value.
+     * @param updateEadTaxLotService The updateEadTaxLotService to set.
+     */
+    public void setUpdateEadTaxLotService(UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService) {
+        this.updateEadTaxLotService = updateEadTaxLotService;
     }
     
 }

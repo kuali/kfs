@@ -52,6 +52,8 @@ import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetDecreaseDocumentTaxLotsService;
+import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -77,6 +79,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
+    private UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService;
+    private UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService;
     private AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
@@ -431,6 +435,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
             assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
+            updateEadTaxLotService.updateTransactionLineTaxLots(assetDecreaseDoc, transactionLine);
         }
         else {
             writeExceptionTableRowAssetDecrease(assetDecreaseDoc, transactionLine, isIncome);
@@ -462,6 +467,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
             assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
+            updateEaiTaxLotService.updateTransactionLineTaxLots(assetIncreaseDoc, transactionLine);
         }
         else {
             writeExceptionTableRowAssetIncrease(assetIncreaseDoc, transactionLine, isIncome);
@@ -1224,6 +1230,22 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    /**
+     * Sets the updateEaiTaxLotService attribute value.
+     * @param updateEaiTaxLotService The updateEaiTaxLotService to set.
+     */
+    public void setUpdateEaiTaxLotService(UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService) {
+        this.updateEaiTaxLotService = updateEaiTaxLotService;
+    }
+
+    /**
+     * Sets the updateEadTaxLotService attribute value.
+     * @param updateEadTaxLotService The updateEadTaxLotService to set.
+     */
+    public void setUpdateEadTaxLotService(UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService) {
+        this.updateEadTaxLotService = updateEadTaxLotService;
     }
 
     /**

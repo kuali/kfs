@@ -125,7 +125,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 // Step 2.
                 processTransactionArchives(lineDoc, tranLine, pendingEntry, documentType);
                 // Step 3.
-                processCashSubTypes(lineDoc, tranLine);
+                processCashSubTypes(lineDoc, tranLine, documentType);
                 // Step 4.
                 processSecurityRecords(lineDoc, tranLine);
                 // Step 5.
@@ -172,7 +172,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranDoc
      * @param tranLine
      */
-    private void processCashSubTypes(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine) 
+    private void processCashSubTypes(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documenType) 
     {
         LOG.info("Entering \"processCashSubTypes\"");
         if (tranDoc.getTransactionSubTypeCode().equals(EndowConstants.TransactionSubTypeCode.CASH)) {
@@ -181,15 +181,41 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             
             // Get the KemidCurrentCash object from the DB table.
             KemidCurrentCash kemidCurrentCash = (KemidCurrentCash)businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid);
-            
+            // TODO: this is a quick fix. Norm will upload the updated spec soon (Date: Oct 25, 2010 by Bonnie)
             if (kemidCurrentCash != null) {
                 if (piCode.equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-                    kemidCurrentCash.setCurrentIncomeCash(
-                            kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount()));
+                    if (documenType.equals("EAI")|| documenType.equals("ELD")||documenType.equals("ECDD")) {                 
+                        kemidCurrentCash.setCurrentIncomeCash(
+                            kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
+                    }
+                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (
+                            documenType.equals("ECT")|| documenType.equals("EGLT"))) { 
+                             kemidCurrentCash.setCurrentIncomeCash(
+                                   kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
+                    }
+                    else{
+                        kemidCurrentCash.setCurrentIncomeCash(
+                                kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount()));
+
+                    }
                 }
                 else {
-                    kemidCurrentCash.setCurrentPrincipalCash(
-                            kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount()));
+                    //Deal with Principal                
+                    if (documenType.equals("EAI")|| documenType.equals("ELD")||documenType.equals("ECDD")) {   
+                        kemidCurrentCash.setCurrentPrincipalCash(
+                            kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
+                    }
+                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (
+                            documenType.equals("ECT")|| documenType.equals("EGLT"))) { 
+                        kemidCurrentCash.setCurrentPrincipalCash(
+                                kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
+                     }
+                    else{
+                        kemidCurrentCash.setCurrentPrincipalCash(
+                                kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount()));
+
+                    }
+                    
                 }
                 
                 businessObjectService.save(kemidCurrentCash);

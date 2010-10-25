@@ -629,13 +629,13 @@ public class ElectronicInvoiceMatchingServiceImpl implements ElectronicInvoiceMa
             BigDecimal lowerAcceptableVariance = (lowerVariancePercent.divide(new KualiDecimal(100))).multiply(salesTaxAmountCalculated).bigDecimalValue().negate();
             
             if (lowerAcceptableVariance.compareTo(BigDecimal.ZERO) >= 0 && 
-                actualVariance.compareTo(BigDecimal.ZERO) >= 0){
-                if (actualVariance.compareTo(lowerAcceptableVariance) > 0){
+                actualVariance.compareTo(KualiDecimal.ZERO) >= 0){
+                if (actualVariance.bigDecimalValue().compareTo(lowerAcceptableVariance) > 0){
                     ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
                     orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
                 }
             }else{
-                if (actualVariance.compareTo(lowerAcceptableVariance) < 0){
+                if (actualVariance.bigDecimalValue().compareTo(lowerAcceptableVariance) < 0){
                     ElectronicInvoiceRejectReason rejectReason = createRejectReason(PurapConstants.ElectronicInvoice.SALES_TAX_AMT_LESSER_THAN_LOWER_VARIANCE,null,orderHolder.getFileName());
                     orderHolder.addInvoiceOrderRejectReason(rejectReason,PurapConstants.ElectronicInvoice.RejectDocumentFields.INVOICE_ITEM_TAX_AMT,PurapKeyConstants.ERROR_REJECT_TAXAMOUNT_LOWERVARIANCE);
                 }

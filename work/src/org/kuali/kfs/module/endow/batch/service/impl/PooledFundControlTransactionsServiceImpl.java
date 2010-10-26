@@ -124,10 +124,12 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
             List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
-            // get the total of security cost
-            for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
-                totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getHoldingCost()));
-            }               
+            if (transactionArchiveSecurityRecords != null) {
+                // get the total of security cost
+                for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
+                    totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getHoldingCost()));
+                }               
+            }
             
             // create a cash document per security id of pooled fund control
             if (totalAmount.isPositive()) {

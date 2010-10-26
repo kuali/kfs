@@ -905,7 +905,7 @@
 	<bean id="pooledFundControlTransactionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundControlTransactionsDaoOjb" />
 	
 	<!-- createIncomeDistributionJob configuration -->
-	<bean id="createIncomeDistributionJob" parent="unscheduledJobDescriptor">
+	<bean id="createIncomeDistributionJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="createIncomeDistributionStep" />

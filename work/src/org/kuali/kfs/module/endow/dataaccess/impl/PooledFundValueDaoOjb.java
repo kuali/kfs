@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.dataaccess.impl;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
@@ -36,8 +37,14 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
         criteria.addEqualTo(EndowPropertyConstants.ST_GAIN_LOSS_DISTR_COMPL, false);
-        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
+
+        QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.POOL_SECURITY_ID);
+        qbc.addOrderByDescending(EndowPropertyConstants.VALUE_EFFECTIVE_DATE);
+
+        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
+
 
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereLTProcessOnDateIsCurrentDate()
@@ -46,7 +53,12 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
         criteria.addEqualTo(EndowPropertyConstants.LT_GAIN_LOSS_DISTR_COMPL, false);
-        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
+
+        QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.POOL_SECURITY_ID);
+        qbc.addOrderByDescending(EndowPropertyConstants.VALUE_EFFECTIVE_DATE);
+
+        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     /**
@@ -54,21 +66,21 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
         Criteria criteria = new Criteria();
-        //criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        // criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
         criteria.addLessThan(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        //criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
+        // criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
         return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#setIncomeDistributionCompleted(java.util.List, boolean)
      */
     public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
         for (PooledFundValue pooledFundValue : pooledFundValueList) {
             getPersistenceBrokerTemplate().store(pooledFundValue);
-        }        
+        }
     }
-    
+
     /**
      * Sets the kemService.
      * 

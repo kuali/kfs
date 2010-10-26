@@ -22,14 +22,16 @@ import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 public interface PooledFundValueDao {
 
     /**
-     * Gets PooledFundValue entries where the ST_PROC_ON_DT is equal to current date and ST_PROC_COMPLT = No.
+     * Gets PooledFundValue entries where the ST_PROC_ON_DT is equal to current date and ST_PROC_COMPLT = No. Order the result list
+     * by security ID and value effective date.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
 
     /**
-     * Gets PooledFundValue entries where the LT_PROC_ON_DT is equal to current date and LT_PROC_COMPLT = No.
+     * Gets PooledFundValue entries where the LT_PROC_ON_DT is equal to current date and LT_PROC_COMPLT = No. Order the result list
+     * by security ID and value effective date.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
@@ -41,9 +43,10 @@ public interface PooledFundValueDao {
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
-    
+
     /**
      * Set distribution complete value
+     * 
      * @param pooledfundValueList
      * @param completed
      */

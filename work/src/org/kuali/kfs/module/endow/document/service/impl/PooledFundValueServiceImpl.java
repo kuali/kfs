@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,7 +95,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
     public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
         pooledFundValueDao.setIncomeDistributionCompleted(pooledFundValueList, completed);
     }
-    
+
     /**
      * This method gets the businessObjectService.
      * 
@@ -174,8 +175,31 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#getPooledFundValueWhereSTProcessOnDateIsCurrentDate()
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate() {
+        // this is a list of pooled fund values sorted by security ID and descending by value effective date
+        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
+        List<PooledFundValue> resultList = new ArrayList<PooledFundValue>();
 
-        return pooledFundValueDao.getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
+        String currentSecurity = null;
+        // build a list of pooled fund values where we only get the entry with the most recent value effective date per security ID
+        if (fundValues != null && fundValues.size() > 0) {
+
+            for (PooledFundValue pooledFundValue : fundValues) {
+
+                if (currentSecurity == null) {
+                    currentSecurity = pooledFundValue.getPooledSecurityID();
+                    resultList.add(pooledFundValue);
+                }
+                else {
+                    if (!currentSecurity.equalsIgnoreCase(pooledFundValue.getPooledSecurityID())) {
+                        currentSecurity = pooledFundValue.getPooledSecurityID();
+                        resultList.add(pooledFundValue);
+                    }
+                }
+
+            }
+        }
+
+        return resultList;
     }
 
     /**
@@ -183,9 +207,34 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      */
     public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate() {
 
-        return pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
+        // this is a list of pooled fund values sorted by security ID and descending by value effective date
+        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
+        List<PooledFundValue> resultList = new ArrayList<PooledFundValue>();
+
+        String currentSecurity = null;
+
+        // build a list of pooled fund values where we only get the entry with the most recent value effective date per security ID
+        if (fundValues != null && fundValues.size() > 0) {
+
+            for (PooledFundValue pooledFundValue : fundValues) {
+
+                if (currentSecurity == null) {
+                    currentSecurity = pooledFundValue.getPooledSecurityID();
+                    resultList.add(pooledFundValue);
+                }
+                else {
+                    if (!currentSecurity.equalsIgnoreCase(pooledFundValue.getPooledSecurityID())) {
+                        currentSecurity = pooledFundValue.getPooledSecurityID();
+                        resultList.add(pooledFundValue);
+                    }
+                }
+
+            }
+        }
+
+        return resultList;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.document.service.PooledFundValueService#getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate()
      */
@@ -193,7 +242,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
 
         return pooledFundValueDao.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
     }
-    
+
     /**
      * Sets the pooledFundValueDao.
      * 

@@ -41,14 +41,16 @@ public interface PooledFundValueService {
     public Date getLatestValueEffectiveDate(String pooledSecurityID);
 
     /**
-     * Gets PooledFundValue entries where the short term process on date is equal to current date.
+     * Gets PooledFundValue entries where the short term process on date is equal to current date and value effective date is the
+     * most recent per security.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
 
     /**
-     * Gets PooledFundValue entries where the long term process on date is equal to current date.
+     * Gets PooledFundValue entries where the long term process on date is equal to current date and value effective date is the
+     * most recent per security.
      * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
@@ -56,10 +58,11 @@ public interface PooledFundValueService {
 
     /**
      * Gets PooledFundValue entries where the distribution income on date is equal to current date.
+     * 
      * @return a list of PooledFundValue entries that meet the criteria
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
-    
+
     /**
      * set PooledFundValue entries where the distribution income on date is equal to current date.
      */

@@ -39,6 +39,7 @@
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${documentAttributes.transactionSubTypeCode}"
 					useShortLabel="false"
+					forceRequired="true"
 					horizontal="true" width="50%" />
 
 				<td class="datacell-nowrap">

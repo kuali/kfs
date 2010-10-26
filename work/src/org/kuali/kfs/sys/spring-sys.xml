@@ -820,7 +820,7 @@
 	</bean>
 	
 	<bean id="financialSystemDocumentDao" parent="financialSystemDocumentDao-parentBean" />
-	<bean id="financialSystemDocumentDao-parentBean" abstract="true" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
+	<bean id="financialSystemDocumentDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
 		<property name="documentAdHocService" ref="documentAdHocService" />
 	</bean>
 	

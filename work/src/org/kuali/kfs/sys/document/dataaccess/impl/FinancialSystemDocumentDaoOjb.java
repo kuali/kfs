@@ -23,12 +23,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
-import org.kuali.rice.kns.dao.BusinessObjectDao;
-import org.kuali.rice.kns.dao.impl.DocumentDaoOjb;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentAdHocService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
@@ -43,8 +40,7 @@ public class FinancialSystemDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         criteria.addEqualTo(KNSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, statusCode);
 
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
-
-        ArrayList<T> tempList =  new ArrayList<T>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+       ArrayList<T> tempList =  new ArrayList<T>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
         for (Document doc : tempList) getDocumentAdHocService().addAdHocs(doc);
         return tempList;
     }

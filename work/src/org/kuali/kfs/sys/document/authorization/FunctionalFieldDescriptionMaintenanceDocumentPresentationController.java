@@ -25,7 +25,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  * This class is the custom KFS maintenance document authorizer base class
  */
 public class FunctionalFieldDescriptionMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-    private static Log LOG = LogFactory.getLog(FinancialSystemMaintenanceDocumentAuthorizerBase.class);
 
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)

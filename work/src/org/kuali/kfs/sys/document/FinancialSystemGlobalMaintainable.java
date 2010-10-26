@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class...
  */
 public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaintainableImpl {
-    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintainable.class);
+    private static final Logger LOG = Logger.getLogger(FinancialSystemGlobalMaintainable.class);
 
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("FinancialSystemGlobalMaintainable does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName); 

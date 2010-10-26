@@ -25,7 +25,9 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 
-//This class can be shared by all account-involved maintenance documents which have special nested reference accounts.
+/**
+ * This class can be shared by all account-involved maintenance documents which have special nested reference accounts.
+ */
 public class SubAccountMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     
     // COA code fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.

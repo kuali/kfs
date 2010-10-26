@@ -30,11 +30,13 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
@@ -43,10 +45,15 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class AccountPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements AccountPersistenceStructureService {
     
-    // List of account-related BO classes which have chartOfAccountsCode and accountNumber as (part of) the primary keys.
-    // This list shall include all subclasses of such classes as well.
-    public static final Class[] ACCOUNT_CLASSES = { Account.class, SubAccount.class, A21SubAccount.class, PriorYearAccount.class,
-        AccountDelegate.class, AccountDescription.class, AccountGlobalDetail.class, AccountGuideline.class, SubObjectCode.class, SubObjectCodeCurrent.class};
+    // List of account-related BO classes (and all their subclasses) which have chartOfAccountsCode and accountNumber as (part of) the primary keys,
+    // i.e. the complete list of all possible referenced BO classes with chart code and account number as (part of) the foreign keys. 
+    public static final Class[] ACCOUNT_CLASSES = { 
+        Account.class, SubAccount.class, A21SubAccount.class, 
+        AwardAccount.class, IndirectCostRecoveryExclusionAccount.class, PriorYearAccount.class, 
+        AccountDelegate.class, AccountDescription.class, AccountGlobalDetail.class, AccountGuideline.class, 
+        SubObjectCode.class, SubObjectCodeCurrent.class,
+    };
+    
     public static HashSet<Class> accountClasses;    
     static {
         accountClasses = new HashSet<Class>();
@@ -127,16 +134,18 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 // exclude the case when chartOfAccountsCode-accountNumber don't exist as foreign keys in the BO:
                 // for ex, in SubAccount, a21SubAccount is a reference object but its PKs don't exist as FKs in SubAccount;
                 // rather, A21SubAccount has a nested reference account - costShareAccount, 
-                // whose PKs exists in A21SubAccount as FKs, and are used in SubAccount maint doc as nested reference
+                // whose PKs exists in A21SubAccount as FKs, and are used in SubAccount maint doc as nested reference;
                 // special treatment outside this method is needed for this case
                 if (StringUtils.isEmpty(coaCodeName) || StringUtils.isEmpty(acctNumName)) 
                     continue;
                 
-                // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
-                // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                // in general we do want to have chartOfAccountsCode fields readOnly/auto-populated even when they are part of PKs,  
+                // (such as in SubAccount), as the associated account shall only be chosen from existing accounts; 
+                // however, when the BO is Account itself, we don't want to make the PK chartOfAccountsCode field readOnly, 
+                // as it shall be editable when a new Account is being created; so we shall exclude such case 
                 List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
-                if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
-                    continue;
+                if (bo instanceof Account && pks.contains(coaCodeName) && pks.contains(acctNumName )) 
+                    continue;                
                 
                 // exclude non-maintainable account field
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
@@ -174,12 +183,14 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 if (StringUtils.isEmpty(coaCodeName) || StringUtils.isEmpty(acctNumName)) 
                     continue;
                 
-                // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
-                // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                // in general we do want to have chartOfAccountsCode fields readOnly/auto-populated even when they are part of PKs,  
+                // (such as in SubAccount), as the associated account shall only be chosen from existing accounts; 
+                // however, when the BO is Account itself, we don't want to make the PK chartOfAccountsCode field readOnly, 
+                // as it shall be editable when a new Account is being created; so we shall exclude such case 
                 List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
-                if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
-                    continue;
-                
+                if (bo instanceof Account && pks.contains(coaCodeName) && pks.contains(acctNumName )) 
+                    continue;                
+                                
                 // exclude non-maintainable account field
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableField(docTypeName, coaCodeName) == null ||
@@ -216,11 +227,13 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
                 if (StringUtils.isEmpty(coaCodeName) || StringUtils.isEmpty(acctNumName)) 
                     continue;
                 
-                // exclude the case when chartOfAccountsCode-accountNumber are also the PKs of this BO, 
-                // for ex, in SubAccount; as these fields shall be dealt by the framework separately  
+                // in general we do want to have chartOfAccountsCode fields readOnly/auto-populated even when they are part of PKs,  
+                // (such as in SubAccount), as the associated account shall only be chosen from existing accounts; 
+                // however, when the BO is Account itself, we don't want to make the PK chartOfAccountsCode field readOnly, 
+                // as it shall be editable when a new Account is being created; so we shall exclude such case 
                 List<String> pks = listPrimaryKeyFieldNames(bo.getClass());
-                if (pks.contains(coaCodeName) || pks.contains(acctNumName)) 
-                    continue;
+                if (bo instanceof Account && pks.contains(coaCodeName) && pks.contains(acctNumName )) 
+                    continue;                
                 
                 // exclude non-maintainable account field
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
@@ -235,9 +248,10 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         
         return accountChartPairs;
     }
-    
-    /** Need to stop this method from running for objects which are not bound 
-     * into the ORM layer (OJB).  In this case, we can just return an empty list.
+
+    /** 
+     * Need to stop this method from running for objects which are not bound into the ORM layer (OJB),
+     * for ex. OrgReviewRole is not persistable. In this case, we can just return an empty list.
      * 
      * @see org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl#listReferenceObjectFields(org.kuali.rice.kns.bo.PersistableBusinessObject)
      */

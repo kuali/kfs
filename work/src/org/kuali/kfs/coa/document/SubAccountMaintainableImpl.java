@@ -39,7 +39,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class...
  */
 public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
-    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintainable.class);
+    private static final Logger LOG = Logger.getLogger(SubAccountMaintainableImpl.class);
 
     // account fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.
     public static final String[] COA_CODE_NAMES = {        

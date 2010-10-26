@@ -21,7 +21,7 @@ function onblur_subAccountTypeCode( subAccountTypeCodeField ) {
 	var chartCodeFieldName = fieldPrefix + ".chartOfAccountsCode";
 	var accountNumberFieldName = fieldPrefix + ".accountNumber";
 	
-	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
+	//alert("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
 	updateCgIcrAccount(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName);
 }
  
@@ -30,15 +30,16 @@ function onblur_accountNumberPK( accountNumberField ) {
 	var accountNumberFieldName = accountNumberField.name;
 	var fieldPrefix = findElPrefix(accountNumberFieldName);
 	var chartCodeFieldName = fieldPrefix + ".chartOfAccountsCode";
-	var subAccountTypeCodeFieldName = fieldPrefix + ".a21SubAccount.subAccountTypeCode";	
-	
-	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
-	updateCgIcrAccount(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName);
+	var subAccountTypeCodeFieldName = fieldPrefix + ".a21SubAccount.subAccountTypeCode";		
+	//alert("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName + ", subAccountTypeCodeFieldName = " + subAccountTypeCodeFieldName);
 	
 	var dwrReply = {
 		callback: function (param) {
-			if ( typeof param == 'boolean' && param == false) {	
-				loadChartCode(chartCodeFieldName, accountNumberFieldName);
+			if ( typeof param == "boolean" && param == false) {	
+				loadChartCode(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName, true);
+			}
+			else {
+				updateCgIcrAccount(chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName);				
 			}
 		},	
 		errorHandler:function( errorMessage ) { 
@@ -49,27 +50,39 @@ function onblur_accountNumberPK( accountNumberField ) {
 }
 
 function updateCgIcrAccount( chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName ) {	
-	var chartCode = getElementValue( chartCodeFieldName );
-	var accountNumber = getElementValue( accountNumberFieldName );
-	var subAccountTypeCode = getElementValue( subAccountTypeCodeFieldName );
-	//alert ("chartCode = " + chartCode + ", accountNumber = " + accountNumber + ", subAccountTypeCode = " + subAccountTypeCode);
-	
-	var dwrReply = {
-		callback:updateCgIcrAccount_Callback,
-		errorHandler:function( errorMessage ) { 
-			window.status = errorMessage;
-		}
-	};	
-	A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
-}
+	var prefix = "document.newMaintainableObject.a21SubAccount";
 
-function updateCgIcrAccount_Callback( data ) {
 	// check if the current user has permissions to the ICR fields
-	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() == "hidden" ) {
+	if ( kualiElements[prefix+".financialIcrSeriesIdentifier"].type.toLowerCase() == "hidden" ) {
 		return;
 	}
 	
+	var chartCode = getElementValue( chartCodeFieldName );
+	var accountNumber = getElementValue( accountNumberFieldName );
+	var subAccountTypeCode = getElementValue( subAccountTypeCodeFieldName );
+	//alert("chartCode = " + chartCode + ", accountNumber = " + accountNumber + ", subAccountTypeCode = " + subAccountTypeCode);
+	
+	if (chartCode == "" || accountNumber == "" || subAccountTypeCode == "") {
+		setElementValue( prefix + ".financialIcrSeriesIdentifier", "" );
+		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
+		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
+		setElementValue( prefix + ".offCampusCode", "" );
+		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
+	}
+	else {
+		var dwrReply = {
+			callback:updateCgIcrAccount_Callback,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};	
+		A21SubAccountService.buildCgIcrAccount( chartCode, accountNumber, null, subAccountTypeCode, dwrReply );
+	}
+}
+
+function updateCgIcrAccount_Callback( data ) {	
 	var prefix = "document.newMaintainableObject.a21SubAccount";
+	
 	if (data != null) {
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
 		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", data.indirectCostRcvyFinCoaCode );
@@ -92,12 +105,12 @@ function onblur_accountNumberA21Sub( accountNumberField, chartCodePropertyName )
 	var accountNumberFieldName = accountNumberField.name;
 	var fieldPrefix = findElPrefix( findElPrefix(accountNumberFieldName) );
 	var chartCodeFieldName = fieldPrefix + "." + chartCodePropertyName;
-	//alert ("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
+	//alert("chartCodeFieldName = " + chartCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
 
 	var dwrReply = {
 		callback: function (param) {
-			if ( typeof param == 'boolean' && param == false) {	
-				loadChartCode(chartCodeFieldName, accountNumberFieldName);
+			if ( typeof param == "boolean" && param == false) {	
+				loadChartCode(chartCodeFieldName, accountNumberFieldName, null, false);
 			}
 		},	
 		errorHandler:function( errorMessage ) { 
@@ -107,7 +120,7 @@ function onblur_accountNumberA21Sub( accountNumberField, chartCodePropertyName )
 	AccountService.accountsCanCrossCharts(dwrReply);	
 }
 
-function loadChartCode( chartCodeFieldName, accountNumberFieldName ) {
+function loadChartCode( chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName, shouldUpdateCgIcr) {
     var accountNumber = getElementValue( accountNumberFieldName );	
 
     if (accountNumber == "") {
@@ -116,12 +129,17 @@ function loadChartCode( chartCodeFieldName, accountNumberFieldName ) {
 	else {
 		var dwrReply = {
 				callback: function (data) {
-				//alert ("chartCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber);
-				if ( data != null && typeof data == 'object' ) {   
+				//alert("chartCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber);
+				if ( data != null && typeof data == "object" ) {   
 					setRecipientValue( chartCodeFieldName, data.chartOfAccountsCode );
 				}
 				else {
 					clearRecipients(chartCodeFieldName); 
+				}
+				// call updateCgIcrAccount here instead of in onblur_accountNumberPK, because DWR calls are asynchronized,
+				// so need to make sure to wait till chartCodeField is set before calling updateCgIcrAccount
+				if (shouldUpdateCgIcr == true) {
+					updateCgIcrAccount( chartCodeFieldName, accountNumberFieldName, subAccountTypeCodeFieldName );
 				}
 			},
 			errorHandler:function( errorMessage ) { 
@@ -132,3 +150,39 @@ function loadChartCode( chartCodeFieldName, accountNumberFieldName ) {
 		AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
 	}
 }
+
+/**
+ * Gets the value with the given field name of an element, which can be readOnly, and in which case it won't be one of the
+ * input fields and can't be retrieved using getElementValue; instead we need to use the element ID to retrieve its value.
+ * This function also filters out white spaces as well as any URL links that might be associated with the field.
+ * @param fieldName the given field name.
+ * @return the field value
+ *
+function getElementValuePossiblyReadOnly(fieldName) {
+	// retrieve html element using fieldName as id
+	var field = document.getElementById(fieldName);
+	var fieldValue = null;
+	//alert("getElementById field = " + field);
+	
+	if ( field != null ) {
+		// if the element id as fieldName exists, then it's an input field, get its value directly
+		fieldValue = field.value;
+		//alert("fieldValue = " + fieldValue);
+	}
+	else {
+		// otherwise the field is readOnly and its id is fieldName.div 
+		fieldValue = DWRUtil.getValue(fieldName + ".div");
+		//alert("DWR getValue = " + fieldValue);
+		
+		// sometimes readOnly field is rendered with a URL link, strip that off
+		fieldValue = fieldValue.replace(/(<([^>]+)>)/ig,"");
+		//alert("After striping URL, fieldValue = " + fieldValue);
+		
+		// trim &nbsp's and white spaces i
+		fieldValue = fieldValue.replace("&nbsp;", "").replace(/^\s+|\s+$/g,"");
+		//alert("After striping spaces, fieldValue = " + fieldValue);		
+	}
+	
+	return fieldValue;
+}
+*/

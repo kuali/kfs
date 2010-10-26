@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 var chartCodeSuffix = ".chartOfAccountsCode";
 var chartNameSuffix = ".chart.finChartOfAccountDescription";
 var accountNumberSuffix = ".accountNumber";
@@ -25,49 +26,15 @@ var subObjectCodeSuffix = ".financialSubObjectCode";
 var subObjectCodeNameSuffix = ".subObjectCode.financialSubObjectCodeName";
 var universityFiscalYearSuffix =".universityFiscalYear";
 
-/**
- * Get chart code field value for the given chart code field name. 
- * This function takes care of the case when chart code is readOnly, thus not one of the input fields, and thus
- * can't be retrieved using getElementValue. It also filters out any URL links associated with the chart code.
- * @param coaCodeFieldName the given chart code field name.
- * @return the chart code field value
- */
-function getChartCode(coaCodeFieldName) {
-	// retrieve chart code html element using coaCodeFieldName as id
-	var coaCodeField = document.getElementById(coaCodeFieldName);
-	//alert('getElementById coaCodeField = ' + coaCodeField);
-	var coaCode = null;
-	
-	if ( coaCodeField != null ) {
-		// if that element id exists, then chart code field is a select drop down list
-		coaCode = coaCodeField.value;
-		//alert('field value coaCode = ' + coaCode);
-	}
-	else {
-		// otherwise chart code field is readOnly and its id is coaCodeFieldName+".div" 
-		coaCode = DWRUtil.getValue(coaCodeFieldName + '.div');
-		//alert('DWR getValue coaCode = ' + coaCode);
-		
-		// after accounting line is added chart code is rendered with a URL link, need to strip that off
-		var index = coaCode.indexOf('</a>');
-		if (index > 0) {			
-			coaCode = coaCode.substring(index-2,index);
-			//alert('strip URL coaCode = ' + coaCode);
-		}
-	}
-	
-	return coaCode;
-}
-
 function loadChartInfo(coaCodeFieldName, coaNameFieldName ) {
     var coaCode = DWRUtil.getValue( coaCodeFieldName );
 
-	if (coaCode=='') {
-		clearRecipients(coaNameFieldName, "");
+	if (coaCode=="") {
+		clearRecipients(coaNameFieldName, ""); 
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( coaNameFieldName, data.finChartOfAccountDescription );
 			} else {
 				setRecipientValue( coaNameFieldName, wrapError( "chart not found" ), true );			
@@ -85,10 +52,10 @@ function setReportsToChartCode() {
 	// make AJAX call to get reports-to chart
 	var coaCode = DWRUtil.getValue( "document.newMaintainableObject" + chartCodeSuffix );
 
-	if (coaCode!='') {
+	if (coaCode!="") {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				var reportsToChartDiv = document.getElementById("document.newMaintainableObject.reportsToChartOfAccountsCode.div");
 				reportsToChartDiv.innerHTML = data.reportsToChartOfAccountsCode;
 			} else {
@@ -117,18 +84,18 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     
     var dwrResult = {
     	callback:function(param) {
-    	if ( typeof param == 'boolean' && param == true) {	
+    	if ( typeof param == "boolean" && param == true) {	
     		var coaCode = DWRUtil.getValue( coaCodeFieldName );
-    		//alert('went to AccountCanCrossChart branch, coaCode = ' + coaCode + ', accountCode = ' + accountCode);
-    		if (accountCode=='') {
+    		//alert("Account Can Cross Chart: coaCode = " + coaCode + ", accountCode = " + accountCode);
+    		if (accountCode == "") {
     			clearRecipients(accountNameFieldName);
-    		} else if (coaCode=='') {
-    			setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
+    		} else if (coaCode == "") {
+    			setRecipientValue(accountNameFieldName, wrapError( "chart code is empty" ), true );
     		} else {
     			accountCode = accountCode.toUpperCase();
     			var dwrReply = {
     				callback:function(data) {
-    				if ( data != null && typeof data == 'object' ) {
+    				if ( data != null && typeof data == "object" ) {
     					setRecipientValue( accountNameFieldName, data.accountName );
     				} else {
     					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
@@ -140,8 +107,8 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     			AccountService.getByPrimaryIdWithCaching( coaCode, accountCode, dwrReply );
     		}	
     	} else {
-    		//alert('went to the ELSE branch, coaCodeFieldName = ' + coaCodeFieldName);
-    		if (accountCode=='') {
+    		//alert("Account Cant Cross Chart: coaCodeFieldName = " + coaCodeFieldName);
+    		if (accountCode == "") {
     			clearRecipients(accountNameFieldName);
     			clearRecipients(coaCodeFieldName);    		
     			clearRecipients(coaNameFieldName);    		
@@ -149,10 +116,10 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     			accountCode = accountCode.toUpperCase();
     			var dwrReply = {
     				callback:function(data) {
-    				if ( data != null && typeof data == 'object' ) {    				
+    				if ( data != null && typeof data == "object" ) {    				
     					setRecipientValue( accountNameFieldName, data.accountName );
     					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
-    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName+'.div'));
+    					//alert("coaCode = " + DWRUtil.getValue(coaCodeFieldName+".div"));
     					setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
     				} else {
     					setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
@@ -177,23 +144,21 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
 
 function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) {
     var elPrefix = findElPrefix( subAccountCodeFieldName );	
-    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
-	var coaCode = getChartCode(elPrefix + chartCodeSuffix);
+	var coaCode = getElementValue(elPrefix + chartCodeSuffix);
     var accountCode = getElementValue( elPrefix + accountNumberSuffix );
     var subAccountCode = getElementValue( subAccountCodeFieldName );
-
-    //alert('loadSubAccountInfo:\ncoaCode = ' + coaCode + '\naccountCode = ' + accountCode + '\nsubAccountCode = ' + subAccountCode);
+    //alert("loadSubAccountInfo:\ncoaCode = " + coaCode + "\naccountCode = " + accountCode + "\nsubAccountCode = " + subAccountCode);
     
-	if (subAccountCode=='') {
+	if (subAccountCode=="") {
 		clearRecipients(subAccountNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(subAccountNameFieldName, wrapError( 'chart code is empty' ), true );
-	} else if (accountCode=='') {
-		setRecipientValue(subAccountNameFieldName, wrapError( 'account number is empty' ), true );
+	} else if (coaCode=="") {
+		setRecipientValue(subAccountNameFieldName, wrapError( "chart code is empty" ), true );
+	} else if (accountCode=="") {
+		setRecipientValue(subAccountNameFieldName, wrapError( "account number is empty" ), true );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( subAccountNameFieldName, data.subAccountName );
 			} else {
 				setRecipientValue( subAccountNameFieldName, wrapError( "sub-account not found" ), true );			
@@ -208,26 +173,24 @@ function loadSubAccountInfo( subAccountCodeFieldName, subAccountNameFieldName ) 
 
 function loadObjectInfo(fiscalYear, objectTypeNameRecipient, objectTypeCodeRecipient, objectCodeFieldName, objectNameFieldName) {
 	var elPrefix = findElPrefix( objectCodeFieldName );   
-    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
-    var coaCode = getChartCode( elPrefix + chartCodeSuffix );
-    var objectCode = getElementValue( objectCodeFieldName );
-    
-    //alert('loadObjectInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\nobjectCode = ' + objectCode);    
+    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
+    var objectCode = getElementValue( objectCodeFieldName );    
+    //alert("loadObjectInfo:\nfiscalYear = " + fiscalYear + "\ncoaCode = " + coaCode + "\nobjectCode = " + objectCode);    
 
     if (valueChanged( objectCodeFieldName )) {
         clearRecipients( elPrefix + subObjectCodeSuffix );
         clearRecipients( elPrefix + subObjectCodeNameSuffix );
     }
-	if (objectCode=='') {
+	if (objectCode=="") {
 		clearRecipients(objectNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(objectNameFieldName, wrapError( 'chart code is empty' ), true );
-	} else if (fiscalYear=='') {
-		setRecipientValue(objectNameFieldName, wrapError( 'fiscal year is missing' ), true );
+	} else if (coaCode=="") {
+		setRecipientValue(objectNameFieldName, wrapError( "chart code is empty" ), true );
+	} else if (fiscalYear=="") {
+		setRecipientValue(objectNameFieldName, wrapError( "fiscal year is missing" ), true );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( objectNameFieldName, data.financialObjectCodeName );
 				setRecipientValue( objectTypeCodeRecipient, data.financialObjectTypeCode );
 				setRecipientValue( objectTypeNameRecipient, data.financialObjectType.name );
@@ -250,25 +213,23 @@ function loadObjectInfo(fiscalYear, objectTypeNameRecipient, objectTypeCodeRecip
 function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
     var elPrefix = findElPrefix( objectCodeFieldName );
     var fiscalYear = getElementValue( elPrefix + universityFiscalYearSuffix);
-    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
-    var coaCode = getChartCode( elPrefix + chartCodeSuffix );
+    var coaCode = getElementValue( elPrefix + chartCodeSuffix );
     var objectCode = getElementValue( objectCodeFieldName );
-
-    //alert('loadObjectCodeInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\nobjectCode = ' + objectCode);    
+    //alert("loadObjectCodeInfo:\nfiscalYear = " + fiscalYear + "\ncoaCode = " + coaCode + "\nobjectCode = " + objectCode);    
 
     if (valueChanged( objectCodeFieldName )) {
         clearRecipients(objectNameFieldName );
     }
-	if (objectCode=='') {
+	if (objectCode=="") {
 		clearRecipients(objectNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(objectNameFieldName, wrapError( 'chart code is empty' ), true );
-	} else if (fiscalYear=='') {
-		setRecipientValue(objectNameFieldName, wrapError( 'fiscal year is missing' ), true );
+	} else if (coaCode=="") {
+		setRecipientValue(objectNameFieldName, wrapError( "chart code is empty" ), true );
+	} else if (fiscalYear=="") {
+		setRecipientValue(objectNameFieldName, wrapError( "fiscal year is missing" ), true );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( objectNameFieldName, data.financialObjectCodeName );
 			} else {
 				setRecipientValue( objectNameFieldName, wrapError( "object not found" ), true );			
@@ -283,28 +244,26 @@ function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
 
 function loadSubObjectInfo(fiscalYear, subObjectCodeFieldName, subObjectNameFieldName) {
     var elPrefix = findElPrefix( subObjectCodeFieldName );
-    //var coaCode = getElementValue( elPrefix + chartCodeSuffix );
-    var coaCode = getChartCode( elPrefix + chartCodeSuffix);
+    var coaCode = getElementValue( elPrefix + chartCodeSuffix);
     var accountCode = getElementValue( elPrefix + accountNumberSuffix );
     var objectCode = getElementValue( elPrefix + objectCodeSuffix );
-    var subObjectCode = getElementValue( subObjectCodeFieldName );
-        
-    //alert('loadSubObjectInfo:\nfiscalYear = ' + fiscalYear + '\ncoaCode = ' + coaCode + '\naccountCode = ' + accountCode + '\nobjectCode = ' + objectCode + '\nsubObjectCode = ' + subObjectCode);
+    var subObjectCode = getElementValue( subObjectCodeFieldName );        
+    //alert("loadSubObjectInfo:\nfiscalYear = " + fiscalYear + "\ncoaCode = " + coaCode + "\naccountCode = " + accountCode + "\nobjectCode = " + objectCode + "\nsubObjectCode = " + subObjectCode);
 
-    if (subObjectCode=='') {
+    if (subObjectCode=="") {
 		clearRecipients(subObjectNameFieldName);
-	} else if (coaCode=='') {
-		setRecipientValue(subObjectNameFieldName, wrapError( 'chart is empty' ), true);
-	} else if (fiscalYear=='') {
-		setRecipientValue(subObjectNameFieldName, wrapError( 'fiscal year is missing' ), true);
-	} else if (accountCode=='') {
-		setRecipientValue(subObjectNameFieldName, wrapError( 'account is empty' ), true );
-	} else if (objectCode=='') {
-		setRecipientValue(subObjectNameFieldName, wrapError( 'object code is empty' ), true );
+	} else if (coaCode=="") {
+		setRecipientValue(subObjectNameFieldName, wrapError( "chart is empty" ), true);
+	} else if (fiscalYear=="") {
+		setRecipientValue(subObjectNameFieldName, wrapError( "fiscal year is missing" ), true);
+	} else if (accountCode=="") {
+		setRecipientValue(subObjectNameFieldName, wrapError( "account is empty" ), true );
+	} else if (objectCode=="") {
+		setRecipientValue(subObjectNameFieldName, wrapError( "object code is empty" ), true );
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( subObjectNameFieldName, data.financialSubObjectCodeName );
 			} else {
 				setRecipientValue( subObjectNameFieldName, wrapError( "sub-object not found" ), true );			
@@ -320,12 +279,12 @@ function loadSubObjectInfo(fiscalYear, subObjectCodeFieldName, subObjectNameFiel
 function loadProjectInfo(projectCodeFieldName, projectNameFieldName) {
     var projectCode = getElementValue( projectCodeFieldName );
 
-	if (projectCode=='') {
+	if (projectCode=="") {
 		clearRecipients(projectNameFieldName);
 	} else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( projectNameFieldName, data.name );
 			} else {
 				setRecipientValue( projectNameFieldName, wrapError( "project not found" ), true );			
@@ -341,12 +300,12 @@ function loadProjectInfo(projectCodeFieldName, projectNameFieldName) {
 function loadObjectTypeInfo(objectTypeCodeFieldName, objectTypeNameFieldName) {
     var objectTypeCode = getElementValue( objectTypeCodeFieldName );
 
-    if (objectTypeCode=='') {
+    if (objectTypeCode=="") {
         clearRecipients(objectTypeNameFieldName);
     } else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( objectTypeNameFieldName, data.name );
 			} else {
 				setRecipientValue( objectTypeNameFieldName, wrapError( "object type not found" ), true );			
@@ -362,12 +321,12 @@ function loadObjectTypeInfo(objectTypeCodeFieldName, objectTypeNameFieldName) {
 function loadOriginationInfo(originationCodeFieldName, originationCodeNameFieldName) {
     var originationCode = getElementValue(originationCodeFieldName);
 
-    if (originationCode == '') {
+    if (originationCode == "") {
         clearRecipients(originationCodeNameFieldName);
     } else {
 		var dwrReply = {
 			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
+			if ( data != null && typeof data == "object" ) {
 				setRecipientValue( originationCodeNameFieldName, data.financialSystemDatabaseName );
 			} else {
 				setRecipientValue( originationCodeNameFieldName, wrapError( "origin code not found" ), true );			
@@ -389,7 +348,7 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
     } else {
         var dwrReply = {
             callback:function(data) {
-            if ( data != null && typeof data == 'object' ) {
+            if ( data != null && typeof data == "object" ) {
                 DWRUtil.setValue(containerDiv.id, data.name, {escapeHtml:true} );
             } else {
                 DWRUtil.setValue(containerDiv.id, wrapError( "person not found" ));
@@ -401,5 +360,44 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
         PersonService.getPersonByEmployeeId( userId, dwrReply );
     }
 }
+
+/**
+ * Gets chart code field value for the given chart code field name. 
+ * It takes care of the case when chart code is readOnly, thus not one of the input fields and can't be retrieved using getElementValue.
+ * It also filters out white spaces as well as any URL links associated with the chart code.
+ * @param coaCodeFieldName the given chart code field name.
+ * @return the chart code field value
+ *
+function getChartCode(coaCodeFieldName) {
+	// retrieve chart code html element using coaCodeFieldName as id
+	var coaCodeField = document.getElementById(coaCodeFieldName);
+	var coaCode = null;
+	//alert("getElementById coaCodeField = " + coaCodeField);
+	
+	if ( coaCodeField != null ) {
+		// if that element id exists, then chart code field is a select drop down list
+		coaCode = coaCodeField.value;
+		//alert("Field value coaCode = " + coaCode);
+	}
+	else {
+		// otherwise chart code field is readOnly and its id is coaCodeFieldName+".div" 
+		coaCode = DWRUtil.getValue(coaCodeFieldName + ".div");
+		//alert("DWR getValue coaCode = " + coaCode);
+		
+		// after accounting line is added chart code is rendered with a URL link, need to strip that off
+		var index = coaCode.indexOf("</a>");
+		if (index > 0) {			
+			coaCode = coaCode.substring(index-2,index);
+			//alert("After striping URL, coaCode = " + coaCode);
+		}
+
+		// remove &nbsp's and white spaces
+		coaCode = coaCode.replace("&nbsp;", "").replace(/^\s+|\s+$/g,"");
+		//alert("After striping spaces, coaCode = " + coaCode);		
+	}
+	
+	return coaCode;
+}
+*/
 
 

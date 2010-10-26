@@ -20,8 +20,10 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -270,21 +272,20 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             return false;
 
         }
-        return true;
+      
         // Check KcUnit required field      
       //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
-        /*
+
         try {
-            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-            UnitDTO unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+            UnitService unitService = SpringContext.getBean(UnitService.class);
+            KcUnit unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
             if (unitDTO == null) result = false;
             return result;
         } catch (Exception ex) {
               GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
             return false;
-
         }
-        */
+
     }
     
     /**

@@ -801,15 +801,10 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 continue;
             }
 
-            KualiDecimal itemAmount = ZERO;
-            if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
-                LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
-                itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
-            }
-            else {
-                LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on quantities");
-                itemAmount = item.getItemOutstandingEncumberedQuantity().multiply(new KualiDecimal(item.getItemUnitPrice()));
-            }
+            //just use the outstanding amount as recalculating here, particularly the item tax will cause
+            //amounts to be over or under encumbered and the remaining encumbered amount should be unencumbered during a close
+            LOG.debug("generateEntriesVoidPurchaseOrder() " + logItmNbr + " Calculate based on amounts");
+            KualiDecimal itemAmount = item.getItemOutstandingEncumberedAmount() == null ? ZERO : item.getItemOutstandingEncumberedAmount();
            
             KualiDecimal accountTotal = ZERO;
             PurchaseOrderAccount lastAccount = null;

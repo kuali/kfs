@@ -206,7 +206,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
      * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingMarketValue(FeeMethod)
      */
     public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod) {
-        BigDecimal totalHoldingMarkteValue = new BigDecimal("0");
+        BigDecimal totalHoldingMarkteValue = BigDecimal.ZERO;
         
         Date lastProcessDate = feeMethod.getFeeLastProcessDate();
         Date mostRecentDate = monthEndDateService.getMostRecentDate();
@@ -262,6 +262,4 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
     public void setSecurityDao(SecurityDao securityDao) {
         this.securityDao = securityDao;
     }
-
-    
 }

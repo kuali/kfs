@@ -123,32 +123,31 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     @SuppressWarnings("unchecked")
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-
-        if (StringUtils.equals(KFSPropertyConstants.PROPOSAL, (String) fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH))) {
-            String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
-            GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
+        if (StringUtils.equals("proposalLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
 
             boolean awarded = AwardRuleUtil.isProposalAwarded(getAward());
             if (awarded) {
+                String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
+                GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
+                GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
             }
+            
             // SEE KULCG-315 for details on why this code is commented out.
             // if (AwardRuleUtil.isProposalInactive(getAward())) {
             // GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER,
             // KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
             // }
-            GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
 
             // copy over proposal values after refresh
             if (!awarded) {
-                refreshAward(KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+                refreshAward(true);
+                fieldValues.put(KFSConstants.REFERENCES_TO_REFRESH, "proposal");
                 super.refresh(refreshCaller, fieldValues, document);
-                Award award = getAward();
-                award.populateFromProposal(award.getProposal());
-                refreshAward(KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
+                getAward().populateFromProposal(getAward().getProposal());
+                refreshAward(true);
             }
-        }
-        else {
+        } else {
             refreshAward(KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             super.refresh(refreshCaller, fieldValues, document);
         }

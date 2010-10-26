@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document.validation.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,14 +41,10 @@ public class AwardRuleUtil {
             return false;
         }
 
-        Long proposalNumber = award.getProposalNumber();
-        Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
-        awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Award.class, awardPrimaryKeys);
+        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Award.class, award.getProposalNumber());
 
-        boolean awarded = ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
-
-        return awarded;
+        // Make sure it exists and is not the same object
+        return ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
     }
 
 

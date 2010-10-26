@@ -115,27 +115,21 @@
 	</bean>
 	
 	<bean id="availableCashUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
     	<property name="parameterService">
     	 <ref bean="parameterService" />
 		</property>		
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="kemidCurrentCashOpenRecordsService">
 			<ref bean="kemidCurrentCashOpenRecordsService" />
 		</property>
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>
-		<property name="typeRestrictionCodeService">
-			<ref bean="typeRestrictionCodeService" />
-		</property>
 		<property name="kEMIDService">
 			<ref bean="KEMIDService" />
-		</property>		
+		</property>	
+		<property name="kEMIDCurrentAvailableBalanceService">
+			<ref bean="kEMIDCurrentAvailableBalanceService" />
+		</property>
 	</bean>
 	<!--  end availableCashUpdatesJob configuration -->
 	
@@ -2194,6 +2188,11 @@
 		</property>
     	<property name="parameterService">
     	 	<ref bean="parameterService" />
+		</property>
+	</bean>
+	<bean id="kEMIDCurrentAvailableBalanceService" class="org.kuali.kfs.module.endow.batch.service.impl.KEMIDCurrentAvailableBalanceServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 </beans>

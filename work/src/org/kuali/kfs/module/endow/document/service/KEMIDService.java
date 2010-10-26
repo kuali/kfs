@@ -61,4 +61,9 @@ public interface KEMIDService {
      * @return Collection of KEMID
      */
     public Collection<KEMID> getByIncomeAciId(Integer aciIncomeId);
+    
+    /**
+     * Retrieves all kemId records where closed indicator = 'N'
+     */
+    public abstract Collection<KEMID> getAllKemIdWithClosedIndicatorNo();
 }

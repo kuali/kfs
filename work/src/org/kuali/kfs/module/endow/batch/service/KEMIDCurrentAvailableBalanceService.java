@@ -15,20 +15,23 @@
  */
 package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.Collection;
-
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 
 /**
  * This interface defines the batch job that would to summarize the available spendable
  * funds for every KEMID that is not closed 
  */
-public interface AvailableCashUpdateService {
+public interface KEMIDCurrentAvailableBalanceService {
 
     /**
-     * This process will generate records at the end of each processing cycle to summarize the 
-     * available spendable funds for every KEMID that is not closed.  
+     * Removes the data from the Available Cash table (END_AVAIL_CSH_T table).
      */
-    public boolean summarizeAvailableSpendableFunds();
+    public abstract void clearAllAvailableCash();
+    
+    /**
+     * Updates the available cash table
+     * @param currentAvailableBalance representing the record to be added to the table
+     * @return true if currentAvailableBalance record is added else false
+     */
+    public abstract void InsertAvailableCash(KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance);
 }

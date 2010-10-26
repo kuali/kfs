@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
@@ -92,6 +93,19 @@ public class KEMIDServiceImpl implements KEMIDService {
         fieldValues.put(EndowPropertyConstants.TYPE_INCOME_ACI_MODEL_ID, aciIncomeId.toString());
         
         return (Collection<KEMID>)businessObjectService.findMatching(KEMID.class, fieldValues);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.batch.service.AvailableCashUpdateService#getAllKemIdWithClosedIndicatorNo()
+     * Retrieves all kemId records where closed indicator = 'N'
+     */
+    public Collection<KEMID> getAllKemIdWithClosedIndicatorNo() {
+        Map fieldValues = new HashMap();
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.NO);
+        
+        Collection<KEMID> kemIdRecords = businessObjectService.findMatching(KEMID.class, fieldValues);
+        
+        return kemIdRecords;
     }
     
     /**

@@ -43,14 +43,17 @@ public class GloabalVariablesExtractHelper {
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        Set<String> errorKeys = errorMap.keySet();
+        //Set<String> errorKeys = errorMap.keySet();  // deprecated
+        Set<String> errorKeys = errorMap.getAllPropertiesWithErrors();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
         String errorKeyString;
         String errorString;
 
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            //errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);  // deprecated
+            errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
+
             for (ErrorMessage errorMessage : errorMessages) {
                 errorKeyString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();

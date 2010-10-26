@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
+import org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder;
 import org.kuali.rice.kns.service.ParameterService;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
@@ -45,6 +46,7 @@ public class CacheServiceImpl implements CacheService {
         clearMethodCache();
         clearKIMCache();
         clearParameterCache();
+        new CampusValuesFinder().clearInternalCache();
     }
 
     /**

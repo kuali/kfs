@@ -42,7 +42,7 @@ public interface IncomeDistributionForPooledFundDao {
      * @param securityId
      * @return List<BigDecimal>
      */
-    public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId);
+    //public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId);
     
     /**
      * Get the pay income records for building ECT 
@@ -52,7 +52,7 @@ public interface IncomeDistributionForPooledFundDao {
     public List<KemidPayoutInstruction> getKemidPayoutInstructionForECT(String kemid, Date currentDate);
     
     /**
-     * Get the list of PooledFundValue for income distribution purposes
+     * Get pooledFundValue query for each security id with DSTRB_PROC_ON_DT = current date, DSTRB_PROC_CMPLT = 'N', and the most recent value effective date
      * @return List<PooledFundValue>
      */
     public List<PooledFundValue> getPooledFundValueForIncomeDistribution(Date currentDate);

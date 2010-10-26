@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +33,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
-import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
-import org.kuali.kfs.module.endow.businessobject.TransactionDocumentForReportLineBase;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
@@ -112,21 +111,23 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                         registrationCodeMap.put(registrationCode, taxLots);
                     }
                 }
-
+                
+                // initialize report lines for ECI; needs to fill details including documentId 
+                initializeReports(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+                
                 // generate a new ECI document per security id and registration code 
                 for (String registrationCode : registrationCodeMap.keySet()) {
                     List<HoldingTaxLot> holdingTaxLotsByRegCode = registrationCodeMap.get(registrationCode);
-                    if (holdingTaxLotsByRegCode != null) {
-                        createECI(pooledFundValue.getPooledSecurityID(), registrationCode, holdingTaxLotsByRegCode);
+                    if (holdingTaxLotsByRegCode != null) {                        
+                        createECI(pooledFundValue.getPooledSecurityID(), pooledFundValue.getValueEffectiveDate(), registrationCode, holdingTaxLotsByRegCode);
                     }
                 }
             }            
         }
         
-        // set incomeDistributionComplete to 'Y'
-        pooledFundValueList = pooledFundValueService.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+        // set incomeDistributionComplete to 'Y' and save
         pooledFundValueService.setIncomeDistributionCompleted(pooledFundValueList, true);
-
+        
         //TODO: write the sub total and grand total
         
         LOG.info("The Income Distribution for Pooled Fund Transactions Batch Job was finished.");
@@ -140,14 +141,15 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param registrationCode
      * @param holdingTaxLotList
      */
-    protected boolean createECI(String securityId, String registrationCode, List<HoldingTaxLot> holdingTaxLotList) {
+    protected boolean createECI(String securityId, Date effectiveDate, String registrationCode, List<HoldingTaxLot> holdingTaxLotList) {
 
         LOG.info("Creating ECI ..."); 
         
         boolean result = true;
         
-        // initialize report lines for ECI; needs to fill details including documentId 
-        initializeReports(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, securityId);
+        // set security id
+        totalReportLine.setSecurityId(securityId);
+        exceptionReportLine.setSecurityId(securityId);
         
         // initialize ECT list, which will be used while adding ECI transaction lines
         // this must be submitted after the ECI is submitted successfully
@@ -167,7 +169,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         addSecurityDetailToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, securityId, registrationCode);
   
         // add transaction lines   
-        addTransactionLinesToECI(cashIncreaseDocument, cashTransferDocumentList, holdingTaxLotList);
+        addTransactionLinesToECI(cashIncreaseDocument, cashTransferDocumentList, holdingTaxLotList, effectiveDate);
 
         // validate ECI first and then submit it
         GlobalVariables.clear();
@@ -189,7 +191,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             }    
             
             // write the total report 
-            incomeDistributionForPooledFundExceptionReportWriterService.writeTableRow(totalReportLine);
+            incomeDistributionForPooledFundTotalReportWriterService.writeTableRow(totalReportLine);
             
             //TODO: prepare for sub total by security id and grand total
             
@@ -208,7 +210,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param cashTransferDocumentList
      * @param holdingTaxLotList
      */
-    protected void addTransactionLinesToECI(CashIncreaseDocument cashIncreaseDocument, List<CashTransferDocument> cashTransferDocumentList, List<HoldingTaxLot> holdingTaxLotList) {
+    protected void addTransactionLinesToECI(CashIncreaseDocument cashIncreaseDocument, List<CashTransferDocument> cashTransferDocumentList, List<HoldingTaxLot> holdingTaxLotList, Date effectiveDate) {
         
         // create a kemid map <kemid, map<incomePrincipalIndicator, holdingTaxLots>> in preparation for adding transaction lines
         Map<String, Map<String,List<HoldingTaxLot>>> kemidMap = new HashMap<String, Map<String,List<HoldingTaxLot>>>();
@@ -220,7 +222,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         for (String kemid : kemidMap.keySet()) {
             for (String incomePrincipalIndicator : kemidMap.get(kemid).keySet()) {
                 List<HoldingTaxLot> holdingTaxLotGroupedByIPInd = kemidMap.get(kemid).get(incomePrincipalIndicator);
-                KualiDecimal transactionAmount = getTransactionAmount(holdingTaxLotGroupedByIPInd);
+                KualiDecimal transactionAmount = getTransactionAmount(holdingTaxLotGroupedByIPInd, effectiveDate);
                 if (holdingTaxLotGroupedByIPInd != null && transactionAmount.isGreaterThan(KualiDecimal.ZERO)) {                            
                     int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();                    
                     for (HoldingTaxLot holdingTaxLot : holdingTaxLotGroupedByIPInd) {                                    
@@ -425,7 +427,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param holdingTaxLotList
      * @return KualiDecimal(totalTransactionAmount)
      */
-    protected KualiDecimal getTransactionAmount(List<HoldingTaxLot> holdingTaxLotList) {
+    protected KualiDecimal getTransactionAmount(List<HoldingTaxLot> holdingTaxLotList, Date effectiveDate) {
 
         // total holding units
         BigDecimal totalUnits = BigDecimal.ZERO;                
@@ -433,16 +435,22 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             totalUnits = totalUnits.add(holdingTaxLot.getUnits());
         }
         
-        // distribution amount
+        // distribution amount of pooledFundValue with the security id and effective date 
         BigDecimal totalDistributionAmount = BigDecimal.ZERO;
-        for (HoldingTaxLot holdingTaxLot : holdingTaxLotList) {            
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, holdingTaxLot.getSecurityId());
-            List<PooledFundValue> pooledFundValueList = (List<PooledFundValue>) businessObjectService.findMatching(PooledFundValue.class, fieldValues);
-            for (PooledFundValue pooledFundValue : pooledFundValueList) {
-                totalDistributionAmount = totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
-            }
-        }
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, holdingTaxLotList.get(0).getSecurityId());
+        fieldValues.put(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, effectiveDate);
+        PooledFundValue pooledFundValue = (PooledFundValue) businessObjectService.findByPrimaryKey(PooledFundValue.class, fieldValues);
+        totalDistributionAmount = totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
+
+//        for (HoldingTaxLot holdingTaxLot : holdingTaxLotList) {            
+//            Map<String, Object> fieldValues = new HashMap<String, Object>();
+//            fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, holdingTaxLot.getSecurityId());
+//            fieldValues.put(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, effectiveDate);
+//            PooledFundValue pooledFundValue = (PooledFundValue) businessObjectService.findByPrimaryKey(PooledFundValue.class, fieldValues);
+//            totalDistributionAmount = totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
+//        }
+        
         return new KualiDecimal(totalUnits.multiply(totalDistributionAmount));
 
     }
@@ -658,16 +666,16 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param documentType
      * @param securityId
      */
-    protected void initializeReports(String documentType, String securityId) {
+    protected void initializeReports(String documentType) {
 
         // initialize totalReportLine  
-        this.totalReportLine = new TransactionDocumentTotalReportLine(documentType, "", securityId);
+        this.totalReportLine = new TransactionDocumentTotalReportLine(documentType, "", "");
         incomeDistributionForPooledFundTotalReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Totals Processed");
         incomeDistributionForPooledFundTotalReportWriterService.writeNewLines(1);
         incomeDistributionForPooledFundTotalReportWriterService.writeTableHeader(totalReportLine);
 
         // initialize exceptionReportLine 
-        this.exceptionReportLine = new TransactionDocumentExceptionReportLine(documentType, "", securityId);
+        this.exceptionReportLine = new TransactionDocumentExceptionReportLine(documentType, "", "");
         incomeDistributionForPooledFundExceptionReportWriterService.writeSubTitle("<incomeDistributionForPooledFundJob> Exception Report");
         incomeDistributionForPooledFundExceptionReportWriterService.writeNewLines(1);
         incomeDistributionForPooledFundExceptionReportWriterService.writeTableHeader(exceptionReportLine); 
@@ -788,4 +796,6 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         this.incomeDistributionForPooledFundTotalReportWriterService = incomeDistributionForPooledFundTotalReportWriterService;
     }
     
+
+           
 }

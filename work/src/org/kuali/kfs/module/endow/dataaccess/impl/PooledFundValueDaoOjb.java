@@ -37,12 +37,7 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
         criteria.addEqualTo(EndowPropertyConstants.ST_GAIN_LOSS_DISTR_COMPL, false);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
-        qbc.addOrderByAscending(EndowPropertyConstants.POOL_SECURITY_ID);
-        qbc.addOrderByDescending(EndowPropertyConstants.VALUE_EFFECTIVE_DATE);
-
-        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
     }
 
 
@@ -66,9 +61,8 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
         Criteria criteria = new Criteria();
-        // criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        criteria.addLessThan(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        // criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
+        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
         return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
     }
 
@@ -77,6 +71,7 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
      */
     public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
         for (PooledFundValue pooledFundValue : pooledFundValueList) {
+            pooledFundValue.setIncomeDistributionComplete(completed);
             getPersistenceBrokerTemplate().store(pooledFundValue);
         }
     }

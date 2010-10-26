@@ -17,9 +17,10 @@ package org.kuali.kfs.module.endow.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -31,11 +32,8 @@ import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseOjb implements IncomeDistributionForPooledFundDao {
 
@@ -44,14 +42,11 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
      */
     public String getIncomeEntraCode(String securityId) {
         // get the security
-        Criteria crit = new Criteria();
-        crit.addEqualTo(EndowPropertyConstants.SECURITY_ID, securityId);
-        Security security = (Security) getPersistenceBrokerTemplate().getObjectById(Security.class, crit);
-        
+        Security security = (Security) getPersistenceBrokerTemplate().getObjectById(Security.class, securityId);        
         // get the transaction post code,using security
-        crit = new Criteria();
-        crit.addEqualTo(EndowPropertyConstants.SECURITY_CLASS_CODE, security.getClassCode());
-        return((ClassCode) getPersistenceBrokerTemplate().getObjectById(ClassCode.class, crit)).getSecurityIncomeEndowmentTransactionPostCode();
+        ClassCode classCode = (ClassCode) getPersistenceBrokerTemplate().getObjectById(ClassCode.class, security.getSecurityClassCode());
+
+        return classCode.getSecurityIncomeEndowmentTransactionPostCode();
     }
     
     /**
@@ -73,29 +68,33 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
      */
     public List<PooledFundValue> getPooledFundValueForIncomeDistribution(Date currentDate) {
         
-        // get pooledFundValue query with current date and the latest distribution income date with the most recent value effective date
+        // get pooledFundValue query for each security id with DSTRB_PROC_ON_DT = current date, DSTRB_PROC_CMPLT = 'N', and the most recent value effective date
         Criteria subCrit = new Criteria();
+        subCrit.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
+        subCrit.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, currentDate);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundValue.class, subCrit);        
-        subQuery.setAttributes(new String[] {"max(" + EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE + ")"});
-        subQuery.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);
-      
-        // find PooledFundValue whose distribute income on date is the current date and income distribution complete is 'N' 
+        subQuery.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID, "max(" + EndowPropertyConstants.VALUE_EFFECTIVE_DATE + ")"});
+        subQuery.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);      
+        Iterator<?> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(subQuery);
+        
         Criteria crit = new Criteria();
-        crit.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
-        crit.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, currentDate);
-        crit.addIn(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, subQuery);
+        while (result.hasNext()) {
+            Criteria c = new Criteria();
+            Object[] data = (Object[]) result.next();
+            String securityId = data[0].toString();
+            String effectiveDate = data[1].toString();
+            c.addEqualTo(EndowPropertyConstants.POOL_SECURITY_ID, securityId);
+            try {
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date date = df.parse(effectiveDate);
+                c.addEqualTo(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, new Date(date.getTime()));
+            } catch (Exception e) {
+                continue;
+            }            
+            crit.addOrCriteria(c);
+        }
         
         return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, crit));
-        
-        //ReportQueryByCriteria subQuery1 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit1);
-        //subQuery1.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
-
-        // get security query with the same security ids in pooledFundValue query above
-        //Criteria crit = new Criteria();
-        //crit.addIn(EndowPropertyConstants.SECURITY_ID, subQuery1);                
-        //QueryByCriteria query = new QueryByCriteria(Security.class, crit);
-        
-        //return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }     
 
     /**
@@ -116,52 +115,5 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
                         
         return (List<KemidPayoutInstruction>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KemidPayoutInstruction.class, crit));
     }
-
-    /**
-     * @deprecated
-     */
-//    public BigDecimal getDistributionAmount(String securityId) {
-//        BigDecimal totalDistributionAmount = new BigDecimal(0);        
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("pooledSecurityID", securityId);
-//        List<PooledFundValue> pooledFundValueList = (List<PooledFundValue>) businessObjectService.findMatching(PooledFundValue.class, fieldValues);
-//        for (PooledFundValue pooledFundValue : pooledFundValueList) {
-//            totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
-//        }        
-//        return totalDistributionAmount;
-//    }
-    
-    /**
-     * @deprecated
-     */
-    public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution() {
-
-        // get pooledFundValue query with current date and the latest distribution income date
-//        Criteria subCrit0 = new Criteria();
-//        ReportQueryByCriteria subQuery0 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit0);        
-//        subQuery0.setAttributes(new String[] {"max(" + EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE + ")"});
-//        subQuery0.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);
-        
-        Criteria subCrit1 = new Criteria();
-        //subCrit1.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, "N");
-        //subCrit1.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
-        //subCrit1.addIn(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, subQuery0);
-        ReportQueryByCriteria subQuery1 = QueryFactory.newReportQuery(PooledFundValue.class, subCrit1);
-        subQuery1.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID});
-
-        // get security query with the same security ids in pooledFundValue query
-        Criteria subCrit2 = new Criteria();
-        subCrit2.addIn(EndowPropertyConstants.SECURITY_ID, subQuery1);
-        ReportQueryByCriteria subQuery2 = QueryFactory.newReportQuery(Security.class, subCrit2);
-        subQuery2.setAttributes(new String[] {EndowPropertyConstants.SECURITY_ID});
-                
-        // get holding tax lot query with the same security ids in security query
-        Criteria crit = new Criteria();
-        crit.addGreaterThan(EndowPropertyConstants.HOLDING_TAX_LOT_UNITS, new BigDecimal(0));
-        crit.addIn(EndowPropertyConstants.HOLDING_TAX_LOT_SECURITY_ID, subQuery2);
-        QueryByCriteria query = new QueryByCriteria(HoldingTaxLot.class, crit);
-        
-        return (List<HoldingTaxLot>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }  
   
 }

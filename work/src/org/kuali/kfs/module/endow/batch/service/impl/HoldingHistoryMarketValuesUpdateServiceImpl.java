@@ -20,18 +20,14 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.HoldingHistoryMarketValuesUpdateService;
-import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -45,15 +41,15 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryMarketValuesUpdateServiceImpl.class);
     public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
     
-    private DocumentService documentService;
-    private HoldingHistoryService holdingHistoryService;
-    private HoldingHistoryValueAdjustmentDocumentService holdingHistoryValueAdjustmentDocumentService;
+    protected DocumentService documentService;
+    protected HoldingHistoryService holdingHistoryService;
+    protected HoldingHistoryValueAdjustmentDocumentService holdingHistoryValueAdjustmentDocumentService;
 
-    private ReportWriterService holdingHistoryMarketValuesExceptionReportWriterService;
+    protected ReportWriterService holdingHistoryMarketValuesExceptionReportWriterService;
     
-    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
-    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues;
-    private EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason;    
+    protected EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionReportHeader;
+    protected EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowValues;
+    protected EndowmentExceptionReportHeader holdingHistoryMarketValueExceptionRowReason;    
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -65,8 +61,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
     }
 
     /**
-     * Gathers all documents that are in ENROUTE status and auto disapproves them.
-     * @see org.kuali.kfs.sys.batch.service.autoDisapproveDocumentsInEnrouteStatus#autoDisapproveDocumentsInEnrouteStatus()
+     * @see org.kuali.kfs.module.endow.batch.service.HoldingHistoryMarketValuesUpdateService#updateHoldingHistoryMarketValues()
      */
     public boolean updateHoldingHistoryMarketValues() {
         boolean success = true ;
@@ -310,7 +305,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * 
      * @return Returns the documentService.
      */
-    public DocumentService getDocumentService() {
+    protected DocumentService getDocumentService() {
         return documentService;
     }   
     
@@ -334,7 +329,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * Gets the holdingHistoryService attribute. 
      * @return Returns the holdingHistoryService.
      */
-    public HoldingHistoryService getHoldingHistoryService() {
+    protected HoldingHistoryService getHoldingHistoryService() {
         return holdingHistoryService;
     }
 
@@ -350,7 +345,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * Gets the holdingHistoryValueAdjustmentDocumentService attribute. 
      * @return Returns the holdingHistoryValueAdjustmentDocumentService.
      */
-    public HoldingHistoryValueAdjustmentDocumentService getHoldingHistoryValueAdjustmentDocumentService() {
+    protected HoldingHistoryValueAdjustmentDocumentService getHoldingHistoryValueAdjustmentDocumentService() {
         return holdingHistoryValueAdjustmentDocumentService;
     }
 
@@ -366,7 +361,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * Gets the holdingHistoryMarketValueExceptionReportHeader attribute. 
      * @return Returns the holdingHistoryMarketValueExceptionReportHeader.
      */
-    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionReportHeader() {
+    protected EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionReportHeader() {
         return holdingHistoryMarketValueExceptionReportHeader;
     }
 
@@ -382,7 +377,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * Gets the holdingHistoryMarketValueExceptionRowValues attribute. 
      * @return Returns the holdingHistoryMarketValueExceptionRowValues.
      */
-    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowValues() {
+    protected EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowValues() {
         return holdingHistoryMarketValueExceptionRowValues;
     }
 
@@ -398,7 +393,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * Gets the holdingHistoryMarketValueExceptionRowReason attribute. 
      * @return Returns the holdingHistoryMarketValueExceptionRowReason.
      */
-    public EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowReason() {
+    protected EndowmentExceptionReportHeader getHoldingHistoryMarketValueExceptionRowReason() {
         return holdingHistoryMarketValueExceptionRowReason;
     }
 

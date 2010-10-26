@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<include file="02_data/endowment-base-data.xml"/>
+	
+	<include file="02_data/fp-module-data-updates.xml"/>
 
 </databaseChangeLog>
 	

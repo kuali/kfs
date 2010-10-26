@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<!-- TODO: waiting on Bonnie -->
-
 	<changeSet author="kfs" id="KFS_40_ENDOW_ORIGIN_CODE">
 		<comment> Persist Kuali Endowment Origination Code to the base data  </comment>
 		<insert tableName="FS_ORIGIN_CODE_T">

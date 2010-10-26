@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="Winston" id="KFS_40_FP_DV_DIEM_T_UPDATE_PER_DIEM_CNTRY_NM">
+		<comment>value US-AL &amp; HI needs to be changed to US-AK &amp; HI for all years. </comment>
+		<update tableName="FP_DV_DIEM_T">
+			<column name="DV_DIEM_CNTRY_NM" value="US-AK &amp; HI" />
+			<where>DV_DIEM_CNTRY_NM='US-AL &amp; HI'</where>
+		</update>
+	</changeSet>
+</databaseChangeLog>

@@ -87,6 +87,10 @@
     <property name="name" value="contact.principalName"/>
     <property name="label" value="Person"/>
     <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="contact.name" p:universalIdAttributeName="principalId" p:userIdAttributeName="contact.principalName"/>
+    </property>
+    
   </bean>
 
 	  

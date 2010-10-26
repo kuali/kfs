@@ -82,6 +82,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:template="vendorHeaderGeneratedIdentifier"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:template="vendorDetailAssignedIdentifier"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetail.vendorName" p:template="vendorDetail.vendorName" p:unconditionallyReadOnly="true"/>                    
+		      <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>              
             </list>
           </property>
           <property name="duplicateIdentificationFields">

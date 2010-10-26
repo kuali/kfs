@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-
 	<changeSet id="KFS_40_PURAP_ADD_PREQ_ELEC_INV_REJECT_DOC"
 		author="kfs">
 		<addColumn tableName="ap_elctrnc_inv_rjt_doc_t">
@@ -28,6 +27,10 @@
 		</modifySql>
 	</changeSet>
 
-
+	<changeSet id="KFS_40_PURAP_ADD_ACTIVE_PUR_PO_QT_LST_VNDR_T" author="kfs">
+		<addColumn tableName="PUR_PO_QT_LST_VNDR_T">
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y" />
+		</addColumn>
+	</changeSet>
 
 </databaseChangeLog>

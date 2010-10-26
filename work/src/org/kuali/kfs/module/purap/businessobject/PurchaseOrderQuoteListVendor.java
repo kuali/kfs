@@ -21,20 +21,21 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Quote List Vendor Business Object.
  */
-public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase {
+public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase implements Inactivateable {
 
-    private Integer purchaseOrderQuoteListIdentifier;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-
-    private PurchaseOrderQuoteList purchaseOrderQuoteList;
-
-    private VendorDetail vendorDetail;
+    protected Integer purchaseOrderQuoteListIdentifier;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected boolean active;
+    
+    protected PurchaseOrderQuoteList purchaseOrderQuoteList;
+    protected VendorDetail vendorDetail;
 
     /**
      * Default constructor.
@@ -107,6 +108,14 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
         }
         return m;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

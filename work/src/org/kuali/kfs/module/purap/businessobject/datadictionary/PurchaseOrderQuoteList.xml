@@ -129,6 +129,7 @@
                   <list>
                     <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorName"/>   
                     <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorNumber"/>                                                                                     
+			        <bean parent="FieldDefinition" p:attributeName="active"/>
                   </list>
                 </property>
                 <property name="summaryFields">

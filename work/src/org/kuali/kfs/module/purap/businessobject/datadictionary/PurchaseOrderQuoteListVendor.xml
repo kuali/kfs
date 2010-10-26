@@ -34,6 +34,7 @@
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetailAssignedIdentifier"/>
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorName"/>
         <ref bean="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber"/>
+        <ref bean="PurchaseOrderQuoteListVendor-active"/>
       </list>
     </property>
   </bean>
@@ -65,12 +66,16 @@
     <property name="name" value="vendorDetail.vendorName"/>
   </bean>
   
-    <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean"/>
+  <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber" parent="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean"/>
 
   <bean id="PurchaseOrderQuoteListVendor-vendorDetail.vendorNumber-parentBean" abstract="true" parent="VendorDetail-vendorNumber">
     <property name="name" value="vendorDetail.vendorNumber"/>
   </bean>
 
+  <bean id="PurchaseOrderQuoteListVendor-active" parent="PurchaseOrderQuoteListVendor-active-parentBean"/>
+  <bean id="PurchaseOrderQuoteListVendor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active"/>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -89,6 +94,7 @@
               <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
               <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
               <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -113,6 +119,7 @@
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -120,6 +127,7 @@
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
         <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

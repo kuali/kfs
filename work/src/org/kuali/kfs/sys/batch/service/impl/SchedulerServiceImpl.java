@@ -184,6 +184,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected boolean isIncomplete(JobDetail scheduledJobDetail) {
+        if ( scheduledJobDetail == null ) {
+            return false;
+        }
         try {
             if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
                 Trigger[] triggersOfJob = scheduler.getTriggersOfJob(scheduledJobDetail.getName(), SCHEDULED_GROUP);
@@ -279,7 +282,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         try {
             for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
                 JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
-                if (!SCHEDULE_JOB_NAME.equals(jobDetail.getName())) {
+                if ( jobDetail != null &&  !SCHEDULE_JOB_NAME.equals(jobDetail.getName())) {
                     scheduleResults.append("\n\t").append(jobDetail.getName()).append("=").append(getStatus(jobDetail));
                 }
             }
@@ -444,6 +447,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 JobDetail dependencyJobDetail = getScheduledJobDetail(dependencyJobName);
                 if ( dependencyJobDetail == null ) {
                     LOG.error( "Unable to get JobDetail for dependency of " + jobDetail.getName() + " : " + dependencyJobName );
+                    return false;
                 }
                 if (!isDependencySatisfiedPositively(jobDetail, dependencyJobDetail)) {
                     return false;
@@ -457,6 +461,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected boolean shouldCancelJob(JobDetail jobDetail) {
+        if ( jobDetail == null ) {
+            return true;
+        }
         for (String dependencyJobName : getJobDependencies(jobDetail.getName()).keySet()) {
             JobDetail dependencyJobDetail = getScheduledJobDetail(dependencyJobName);
             if (isDependencySatisfiedNegatively(jobDetail, dependencyJobDetail)) {
@@ -467,10 +474,16 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     protected boolean isDependencySatisfiedPositively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
+        if ( dependentJobDetail == null || dependencyJobDetail == null ) {
+            return false;
+        }
         return isSucceeded(dependencyJobDetail) || ((isFailed(dependencyJobDetail) || isCancelled(dependencyJobDetail)) && isSoftDependency(dependentJobDetail.getName(), dependencyJobDetail.getName()));
     }
 
     protected boolean isDependencySatisfiedNegatively(JobDetail dependentJobDetail, JobDetail dependencyJobDetail) {
+        if ( dependentJobDetail == null || dependencyJobDetail == null ) {
+            return true;
+        }
         return (isFailed(dependencyJobDetail) || isCancelled(dependencyJobDetail)) && !isSoftDependency(dependentJobDetail.getName(), dependencyJobDetail.getName());
     }
 
@@ -503,6 +516,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     public String getStatus(JobDetail jobDetail) {
+        if ( jobDetail == null ) {
+            return FAILED_JOB_STATUS_CODE;
+        }
         KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)
             SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(jobDetail.getName());
         //If the module service has status information for a job, get the status from it

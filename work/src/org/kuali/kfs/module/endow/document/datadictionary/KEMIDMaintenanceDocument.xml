@@ -232,7 +232,7 @@
               p:required="true" p:noLookup="true" />   
         <bean parent="MaintainableFieldDefinition"
               p:name="principalRestrictionCode"
-              p:required="true" />                             
+              p:required="true" p:noLookup="true" />                             
         <bean parent="MaintainableFieldDefinition"
               p:name="purposeCode"
               p:required="true" 

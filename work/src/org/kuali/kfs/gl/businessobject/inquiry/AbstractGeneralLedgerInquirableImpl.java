@@ -411,19 +411,20 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @return {@link HtmlData} representing inquiry URL
      */
     protected HtmlData getDocTypeInquiryUrl(String docTypeCode) {
+        DocumentTypeDTO docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(docTypeCode);
+        if ( docTypeDTO == null ) {
+            return new AnchorHtmlData();
+        }
         String baseUrl = KFSConstants.INQUIRY_ACTION;
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentTypeEBO.class.getName());
         parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
 
-
-        DocumentTypeDTO docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(docTypeCode);
         Map<String, String> inquiryFields = new HashMap<String, String>();
         inquiryFields.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
-        
-        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
 
         return getHyperLink(DocumentTypeEBO.class, inquiryFields, UrlFactory.parameterizeUrl(baseUrl, parameters));
     }

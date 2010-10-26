@@ -131,12 +131,12 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 ERROR_PREFIX = EndowPropertyConstants.SOURCE_TRANSACTION_LINE_PREFIX;
             }
             else {
-                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_ACCT_LINE_PREFIX + "[" + index + "].";
+                ERROR_PREFIX = EndowPropertyConstants.EXISTING_SOURCE_TRANSACTION_LINE_PREFIX + "[" + index + "].";
             }
         }
         else {
             if (index == -1) {
-                ERROR_PREFIX = EndowPropertyConstants.TARGET_ACCT_LINE_PREFIX;
+                ERROR_PREFIX = EndowPropertyConstants.TARGET_TRANSACTION_LINE_PREFIX;
             }
             else {
                 ERROR_PREFIX = EndowPropertyConstants.EXISTING_TARGET_TRANSACTION_LINE_PREFIX + "[" + index + "].";
@@ -697,17 +697,15 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
         isValid &= validateSecurityClassTypeCode(document, isSource, EndowConstants.ClassCodeTypes.LIABILITY);
         return isValid;
     }
-    
+
     /**
+     * This method validates that the source and target security lines are different from each other.
      * 
-     * This method validates that the source and target security lines are
-     * different from each other.
-     *  
      * @param document
      * @return True if source and target security codes are different
      */
     protected boolean validateNonDuplicateSecurityCodes(EndowmentSecurityDetailsDocumentBase document) {
-        
+
         Security sourceSecurity = getSecurityForValidation(document, true);
         Security targetSecurity = getSecurityForValidation(document, false);
 
@@ -716,7 +714,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                 putFieldError(getEndowmentTransactionSecurityPrefix(document, false) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CODE_EQUAL);
             }
         }
-        
+
         return true;
     }
 

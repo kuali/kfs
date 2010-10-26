@@ -1244,16 +1244,22 @@ public class PurapServiceImpl implements PurapService {
         // iterate over items and calculate tax if taxable
         for (PurApItem item : purapDocument.getItems()) {
             if (item.getItemType().isLineItemIndicator()){
-                if(isTaxable(useTaxIndicator, deliveryState, item)){
-                    taxableLineItemPrice = taxableLineItemPrice.add(item.getExtendedPrice());
-                    totalLineItemPrice = totalLineItemPrice.add(item.getExtendedPrice());
-                }else{
-                    totalLineItemPrice = totalLineItemPrice.add(item.getExtendedPrice());
+                //only when extended price exists
+                if(ObjectUtils.isNotNull(item.getExtendedPrice())){
+                    if(isTaxable(useTaxIndicator, deliveryState, item)){
+                        taxableLineItemPrice = taxableLineItemPrice.add(item.getExtendedPrice());
+                        totalLineItemPrice = totalLineItemPrice.add(item.getExtendedPrice());
+                    }else{
+                        totalLineItemPrice = totalLineItemPrice.add(item.getExtendedPrice());
+                    }
                 }
             }
         }
         
-        taxablePrice = taxableLineItemPrice.divide(totalLineItemPrice).multiply(extendedPrice);
+        //check nonzero so no divide by zero errors, and make sure extended price is not null
+        if(totalLineItemPrice.isNonZero() && ObjectUtils.isNotNull(extendedPrice))
+            taxablePrice = taxableLineItemPrice.divide(totalLineItemPrice).multiply(extendedPrice);
+        
         return taxablePrice;
     }
 

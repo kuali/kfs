@@ -16,16 +16,21 @@
 package org.kuali.kfs.coa.document;
 
 import java.sql.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -175,4 +180,51 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         
         return newReference;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
+     * 
+     * Special treatment is needed when a new Account is created, the chartCode-accountNumber fields in the document can use the new account 
+     * that's being created; in which case chart code shall be populated from the PK chart code in the document instead of retrieving it from DB
+     * using the account number, as the new account doesn't exist in the DB yet.
+     */
+    @Override
+    protected void populateChartOfAccountsCodeFields() {
+        // super method is not called because the logic there wouldn't apply here        
+        AccountService acctService = SpringContext.getBean(AccountService.class);        
+        AccountPersistenceStructureService apsService = SpringContext.getBean(AccountPersistenceStructureService.class);
+        PersistableBusinessObject bo = getBusinessObject();        
+        Iterator<Map.Entry<String, String>> chartAccountPairs = apsService.listChartCodeAccountNumberPairs(bo).entrySet().iterator();        
+ 
+        // all reference accounts could possibly use the same new accounting being created in the current document 
+        while (chartAccountPairs.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>)chartAccountPairs.next();
+            String coaCodeName = entry.getKey();            
+            String acctNumName = entry.getValue(); 
+            String accountNumber = (String)ObjectUtils.getPropertyValue(bo, acctNumName);
+            String coaCode = null;
+            String coaCodePK = (String)ObjectUtils.getPropertyValue(bo, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            String accountNumberPK = (String)ObjectUtils.getPropertyValue(bo, KFSPropertyConstants.ACCOUNT_NUMBER);
+            
+            // if reference account number is same as the primary key accountNumber, copy the primary key chart code to reference chart Code
+            if (StringUtils.equalsIgnoreCase(accountNumber, accountNumberPK)) {
+                coaCode = coaCodePK;
+            }
+            // otherwise retrieve chart code from account as usual
+            else {
+                Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+                if (account != null) {
+                    coaCode = account.getChartOfAccountsCode();
+                }
+            }
+            
+            try {
+                ObjectUtils.setObjectProperty(bo, coaCodeName, coaCode); 
+            }
+            catch (Exception e) {
+                LOG.error("Error in setting property value for " + coaCodeName);
+            }
+        }
+    }    
+
 }

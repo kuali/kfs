@@ -17,7 +17,9 @@
 
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.businessobject.Account" p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
+  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  	p:businessObjectClass="org.kuali.kfs.coa.businessobject.Account" 
+  	p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
@@ -99,7 +101,7 @@
         <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/>
         <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>reportsToChartOfAccountsCode</value>
@@ -110,7 +112,7 @@
         <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
         <dd:maintField attributeName="accountRestrictedStatusDate"/>
         <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
-        <bean parent="MaintainableFieldDefinition" p:name="endowmentIncomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="endowmentIncomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>endowmentIncomeAcctFinCoaCd</value>
@@ -133,7 +135,7 @@
         <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
         <dd:maintField attributeName="accountManagerUser.principalName" required="true"/>
         <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
-        <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>continuationFinChrtOfAcctCd</value>
@@ -141,7 +143,7 @@
 			</property> 
 		</bean>                
         <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>incomeStreamFinancialCoaCode</value>
@@ -165,7 +167,7 @@
     <property name="maintainableItems">
       <list>
         <dd:maintField attributeName="contractControlFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>contractControlFinCoaCode</value>
@@ -175,7 +177,7 @@
         <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
         <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber">
+        <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
 			<property name="webUILeaveFieldFunctionParameters">
 				<list>
 					<value>indirectCostRcvyFinCoaCode</value>

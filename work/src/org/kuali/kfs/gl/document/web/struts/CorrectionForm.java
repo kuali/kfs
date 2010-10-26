@@ -152,7 +152,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
             String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
                 String parameterName = (String) i.nextElement();
-                if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
+                if (parameterName.startsWith(paramPrefix)) {
                     String switchToPageNumberStr = StringUtils.substringBetween(parameterName, paramPrefix, ".");
                     originEntrySearchResultTableMetadata.setSwitchToPageNumber(Integer.parseInt(switchToPageNumberStr));
                 }

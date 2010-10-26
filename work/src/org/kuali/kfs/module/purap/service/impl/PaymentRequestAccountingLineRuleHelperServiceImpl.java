@@ -62,7 +62,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
                 String expirationExtensionDays = SpringContext.getBean(ParameterService.class).getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
-                if (expirationExtensionDays.trim().length() > 0) {
+                if (ObjectUtils.isNotNull(expirationExtensionDays) && expirationExtensionDays.trim().length() > 0) {
 
                     expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
                 }

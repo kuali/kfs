@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
     protected SecurityService securityService;
     protected KEMService kEMService;
     protected CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
@@ -1081,7 +1081,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

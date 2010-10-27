@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHistoryMarketValuesUpdateService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryMarketValuesUpdateServiceImpl.class);
-    public static final String WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY = "routeHeaderId";
     
     protected DocumentService documentService;
     protected HoldingHistoryService holdingHistoryService;
@@ -101,26 +100,21 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
             if (document != null) {
                 if (document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                     // the state of the document is final.. so processing the document.
-                    if (checkIfDocumentEligibleForUpdate(document)) {
-                        if (updateHoldingHistoryRecords(holdingHistoryValueAdjustmentDocument)) {
-                            //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
-                            holdingHistoryValueAdjustmentDocument.setTransactionPosted(true);
-                            if (!holdingHistoryValueAdjustmentDocumentService.saveHoldingHistory(holdingHistoryValueAdjustmentDocument)) {
-                                setUnwantedReportColumnsToBlank();                                
-                                writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to set Transaction Posted flag in Holding History Value Adjustment Document.");
-                            }
+                    if (updateHoldingHistoryRecords(holdingHistoryValueAdjustmentDocument)) {
+                        //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
+                        holdingHistoryValueAdjustmentDocument.setTransactionPosted(true);
+                        if (!holdingHistoryValueAdjustmentDocumentService.saveHoldingHistory(holdingHistoryValueAdjustmentDocument)) {
+                            setUnwantedReportColumnsToBlank();                                
+                            writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to set Transaction Posted flag in Holding History Value Adjustment Document.");
                         }
-                     }
-                }
-                else {
-                    setUnwantedReportColumnsToBlank();                    
-                    writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Holding History Value Adjustment document status is NOT FINAL. - Skipped updating the Market Values.");
+                    }
                 }
             }
             else {
-                LOG.error("Document is NULL.  It should never have been null");
+                //include docuement number....
+                LOG.error("Document with document number: " + documentHeaderId + " is NULL.  It should never have been null");
                 setUnwantedReportColumnsToBlank();                
-                writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Unable to find if the document status is FINAL.  The document does not exist in the workflow.");                
+                writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Document with document number: " + documentHeaderId + " The document does not exist in the workflow.");                
             }
         }
         
@@ -136,31 +130,6 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         holdingHistoryMarketValueExceptionRowValues.setColumnHeading5("");                    
         holdingHistoryMarketValueExceptionRowValues.setColumnHeading6("");                    
         holdingHistoryMarketValueExceptionRowValues.setColumnHeading7("");                    
-    }
-    
-    /**
-     * This method will check the document's transaction posted boolean field to see if the document is
-     * eligible for market value update process.
-     * @param document
-     * @return true if transactionPosted is true, else return false
-     */
-    protected boolean checkIfDocumentEligibleForUpdate(Document document) {
-        boolean documentEligible = true;
-        
-        HoldingHistoryValueAdjustmentDocument ehva = (HoldingHistoryValueAdjustmentDocument) document;
-
-        getExceptionReportTableRowValues(ehva);
-        
-        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-     
-        if (!documentTypeName.equalsIgnoreCase(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
-            setUnwantedReportColumnsToBlank();            
-            writeTableRowAndTableReason(ehva, "Document Type = " + documentTypeName + " - only document types EHVA are allowed to be processed by this job.");
-
-            return false;
-        }
-        
-        return documentEligible;
     }
     
     /**
@@ -226,7 +195,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
         for (HoldingHistory holdingHistoryRecord : holdingHistoryRecords) {
             holdingHistoryRecord.setSecurityUnitVal(ehva.getSecurityUnitValue());
 
-            BigDecimal marketValue = getMarketValue(ehva);
+            BigDecimal marketValue = getMarketValue(ehva, holdingHistoryRecord.getUnits());
             if (ObjectUtils.isNull(marketValue)) {
                 return false;
             }
@@ -253,10 +222,10 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * @param ehva
      * @return marketValue The calculated market value
      */
-    protected BigDecimal getMarketValue(HoldingHistoryValueAdjustmentDocument ehva) {
+    protected BigDecimal getMarketValue(HoldingHistoryValueAdjustmentDocument ehva, BigDecimal units) {
         BigDecimal marketValue = BigDecimal.ZERO;
         try {
-            BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), null, EndowConstants.Scale.SECURITY_MARKET_VALUE);
+            BigDecimal tmpValue = KEMCalculationRoundingHelper.multiply(ehva.getSecurityUnitValue(), units, EndowConstants.Scale.SECURITY_MARKET_VALUE);
             
             if (ehva.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(EndowConstants.ClassCodeTypes.BOND)) {
                 tmpValue = KEMCalculationRoundingHelper.divide(tmpValue, BigDecimal.valueOf(100), EndowConstants.Scale.SECURITY_MARKET_VALUE);

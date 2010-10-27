@@ -408,7 +408,6 @@ public class EndowPropertyConstants {
     public static final String CURRENT_TAX_LOT_LAST_TRAN_DATE = "lastTransactionDate";
     public static final String CURRENT_TAX_LOT_CURRENT_ACCRUAL = "currentAccrual";
     public static final String CURRENT_TAX_LOT_PRIOR_ACCRUAL = "priorAccrual";
-    public static final String CURRENT_TAX_LOT_FOREIGN_TAX_WITHHELD = "foreignTaxWithheld";
     public static final String CURRENT_TAX_LOT_KEMID_SHORT_TTL = "kemidObj.shortTitle";
     public static final String CURRENT_TAX_LOT_KEMID_PURPOSE_CD = "kemidObj.purposeCode";
     public static final String CURRENT_TAX_LOT_BALANCE_DATE = "balanceDate";
@@ -455,7 +454,6 @@ public class EndowPropertyConstants {
     public static final String KEMID_HIST_REP_GRP_COST = "cost";
     public static final String KEMID_HIST_REP_GRP_CRNT_ACCR = "currentAccrual";
     public static final String KEMID_HIST_REP_GRP_PRIOR_ACCR = "priorAccrual";
-    public static final String KEMID_HIST_REP_GRP_FOREIGN_TAX_WITHH = "foreignTaxWithheld";
     public static final String KEMID_HIST_REP_GRP_LAST_TRAN_DATA = "lastTransactionDate";
     public static final String KEMID_HIST_REP_GRP_SEC_ID = "securityId";
     public static final String KEMID_HIST_REP_GRP_CD = "reportingGroupCode";
@@ -489,7 +487,6 @@ public class EndowPropertyConstants {
     public static final String KEMID_HIST_TAX_LOT_LAST_TRAN_DATE = "lastTransactionDate";
     public static final String KEMID_HIST_TAX_LOT_CURRENT_ACCRUAL = "currentAccrual";
     public static final String KEMID_HIST_TAX_LOT_PRIOR_ACCRUAL = "priorAccrual";
-    public static final String KEMID_HIST_TAX_LOT_FOREIGN_TAX_WITHHELD = "foreignTaxWithheld";
     public static final String KEMID_HIST_TAX_LOT_KEMID_SHORT_TTL = "kemidObj.shortTitle";
     public static final String KEMID_HIST_TAX_LOT_KEMID_PURPOSE_CD = "kemidObj.purposeCode";
     public static final String KEMID_HIST_TAX_LOT_BALANCE_DATE = "balanceDate";

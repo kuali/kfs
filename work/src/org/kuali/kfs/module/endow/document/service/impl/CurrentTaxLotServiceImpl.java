@@ -189,7 +189,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         currentTaxLotBalance.setPriorAccrual(holdingTaxLot.getPriorAccrual());
         currentTaxLotBalance.setCurrentAccrual(holdingTaxLot.getCurrentAccrual());
         currentTaxLotBalance.setLastTransactionDate(holdingTaxLot.getLastTransactionDate());
-        currentTaxLotBalance.setForeignTaxWithheld(holdingTaxLot.getForeignTaxWithheld());
 
         return currentTaxLotBalance;
     }

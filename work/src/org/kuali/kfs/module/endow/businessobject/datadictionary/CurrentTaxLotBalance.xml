@@ -36,7 +36,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="CurrentTaxLotBalance-lastTransactionDate" />
         <ref bean="CurrentTaxLotBalance-currentAccrual" />
         <ref bean="CurrentTaxLotBalance-priorAccrual" />
-        <ref bean="CurrentTaxLotBalance-foreignTaxWithheld" />
         <ref bean="CurrentTaxLotBalance-kemidObj.shortTitle" />
         <ref bean="CurrentTaxLotBalance-kemidObj.purposeCode" />
         <ref bean="CurrentTaxLotBalance-kemidObj.purpose.name" />
@@ -301,26 +300,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-  </bean> 
-  <bean id="CurrentTaxLotBalance-foreignTaxWithheld" parent="CurrentTaxLotBalance-foreignTaxWithheld-parentBean" />
-
-  <bean id="CurrentTaxLotBalance-foreignTaxWithheld-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="foreignTaxWithheld" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Foreign Tax Withheld" />
-    <property name="shortLabel" value="Foreign Tax Withheld" />
-    <property name="maxLength" value="21" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" 
-            />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
   </bean>       
   <bean id="CurrentTaxLotBalance-kemidObj.purposeCode" parent="CurrentTaxLotBalance-kemidObj.purposeCode-parentBean" />
 
@@ -424,9 +403,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
               <bean parent="FieldDefinition"
                     p:attributeName="currentAccrual" />
               <bean parent="FieldDefinition"
-                    p:attributeName="priorAccrual" />                                                                                   
-              <bean parent="FieldDefinition"
-                    p:attributeName="foreignTaxWithheld" />                     
+                    p:attributeName="priorAccrual" />                                                                                                       
             </list>
           </property>
         </bean>

@@ -40,7 +40,6 @@ public class HoldingTaxLot extends PersistableBusinessObjectBase {
     private BigDecimal cost;
     private BigDecimal currentAccrual;
     private BigDecimal priorAccrual;
-    private BigDecimal foreignTaxWithheld;
     private Date lastTransactionDate;
 
     private KEMID kemidObj;
@@ -156,24 +155,6 @@ public class HoldingTaxLot extends PersistableBusinessObjectBase {
      */
     public void setCurrentAccrual(BigDecimal currentAccrual) {
         this.currentAccrual = currentAccrual;
-    }
-
-    /**
-     * Gets the foreignTaxWithheld.
-     * 
-     * @return foreignTaxWithheld
-     */
-    public BigDecimal getForeignTaxWithheld() {
-        return foreignTaxWithheld;
-    }
-
-    /**
-     * Sets the foreignTaxWithheld.
-     * 
-     * @param foreignTaxWithheld
-     */
-    public void setForeignTaxWithheld(BigDecimal foreignTaxWithheld) {
-        this.foreignTaxWithheld = foreignTaxWithheld;
     }
 
     /**

@@ -33,7 +33,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="HoldingTaxLot-lastTransactionDate" />
         <ref bean="HoldingTaxLot-currentAccrual" />
         <ref bean="HoldingTaxLot-priorAccrual" />
-        <ref bean="HoldingTaxLot-foreignTaxWithheld" />
         <ref bean="HoldingTaxLot-kemidObj.shortTitle" />
         <ref bean="HoldingTaxLot-kemidObj.purposeCode" />
         <ref bean="HoldingTaxLot-kemidObj.purpose.name" />
@@ -243,26 +242,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <bean parent="TextControlDefinition"
             p:size="22" />
     </property>
-  </bean> 
-  <bean id="HoldingTaxLot-foreignTaxWithheld" parent="HoldingTaxLot-foreignTaxWithheld-parentBean" />
-
-  <bean id="HoldingTaxLot-foreignTaxWithheld-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="foreignTaxWithheld" />
-    <property name="label" value="Foreign Tax Withheld" />
-    <property name="shortLabel" value="Foreign Tax Withheld" />
-    <property name="maxLength" value="21" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" 
-            />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
-  </bean>       
+  </bean>      
   <bean id="HoldingTaxLot-kemidObj.purposeCode" parent="HoldingTaxLot-kemidObj.purposeCode-parentBean" />
 
   <bean id="HoldingTaxLot-kemidObj.purposeCode-parentBean" abstract="true" parent="KEMID-purposeCode">

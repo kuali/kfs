@@ -79,7 +79,6 @@ public class UpdateHoldingHistoryServiceImpl implements UpdateHoldingHistoryServ
             newHoldingHistory.setAcquiredDate(currentTaxLotBalanceRecord.getAcquiredDate());
             newHoldingHistory.setPriorAccrual(currentTaxLotBalanceRecord.getPriorAccrual());
             newHoldingHistory.setCurrentAccrual(currentTaxLotBalanceRecord.getCurrentAccrual());
-            newHoldingHistory.setForeignTaxWithheld(currentTaxLotBalanceRecord.getForeignTaxWithheld());
             newHoldingHistory.setLastTransactionDate(currentTaxLotBalanceRecord.getLastTransactionDate());
             newHoldingHistory.setMarketValue(currentTaxLotBalanceRecord.getMarketValue());
             businessObjectService.save(newHoldingHistory);

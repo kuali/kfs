@@ -597,7 +597,6 @@
 	<field-descriptor name="cost" column="HLDG_COST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="currentAccrual" column="HLDG_ACRD_INC_DUE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="priorAccrual" column="HLDG_PRIOR_ACRD_INC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="foreignTaxWithheld" column="HLDG_FRGN_TAX_WITH" jdbc-type="DECIMAL"/>
 	<field-descriptor name="lastTransactionDate" column="LAST_TRAN_DT" jdbc-type="DATE"/>
 	
 	<reference-descriptor name="kemidObj" class-ref="org.kuali.kfs.module.endow.businessobject.KEMID" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
@@ -638,7 +637,6 @@
 	<field-descriptor name="cost" column="HLDG_COST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="currentAccrual" column="HLDG_ACRD_INC_DUE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="priorAccrual" column="HLDG_PRIOR_ACRD_INC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="foreignTaxWithheld" column="HLDG_FRGN_TAX_WITH" jdbc-type="DECIMAL"/>
 	<field-descriptor name="lastTransactionDate" column="LAST_TRAN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="estimatedIncome" column="HLDG_ANNL_INC_EST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="securityUnitVal" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
@@ -969,7 +967,6 @@
 	<field-descriptor name="securityUnitVal" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>
 	<field-descriptor name="currentAccrual" column="HLDG_ACRD_INC_DUE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="priorAccrual" column="HLDG_PRIOR_ACRD_INC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="foreignTaxWithheld" column="HLDG_FRGN_TAX_WITH" jdbc-type="DECIMAL"/>
 	<field-descriptor name="lastTransactionDate" column="LAST_TRAN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="holdingMarketValue" column="HLDG_MVAL" jdbc-type="DECIMAL"/>
 	
@@ -1159,7 +1156,6 @@
 	<field-descriptor name="cost" column="HLDG_COST" jdbc-type="DECIMAL"></field-descriptor>
 	<field-descriptor name="currentAccrual" column="HLDG_ACRD_INC_DUE" jdbc-type="DECIMAL"></field-descriptor>
 	<field-descriptor name="priorAccrual" column="HLDG_PRIOR_ACRD_INC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="foreignTaxWithheld" column="HLDG_FRGN_TAX_WITH" jdbc-type="DECIMAL"/>
 	<field-descriptor name="lastTransactionDate" column="LAST_TRAN_DT" jdbc-type="DATE"/>
 	<field-descriptor name="estimatedIncome" column="HLDG_ANNL_INC_EST" jdbc-type="DECIMAL"/>
 	<field-descriptor name="securityUnitVal" column="SEC_UNIT_VAL" jdbc-type="DECIMAL"/>

@@ -39,7 +39,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KEMIDHistoricalTaxLot-acquiredDate" />
         <ref bean="KEMIDHistoricalTaxLot-currentAccrual" />
         <ref bean="KEMIDHistoricalTaxLot-priorAccrual" />
-        <ref bean="KEMIDHistoricalTaxLot-foreignTaxWithheld" />
         <ref bean="KEMIDHistoricalTaxLot-lastTransactionDate" />
         <ref bean="KEMIDHistoricalTaxLot-estimatedIncome" />
         <ref bean="KEMIDHistoricalTaxLot-remainderOfFYEstimatedIncome" />
@@ -190,25 +189,6 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="name" value="priorAccrual" />
     <property name="label" value="Prior Accrual" />
     <property name="shortLabel" value="Prior Accrual" />
-    <property name="maxLength" value="21" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" 
-            />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
-  </bean>
-  <bean id="KEMIDHistoricalTaxLot-foreignTaxWithheld" parent="KEMIDHistoricalTaxLot-foreignTaxWithheld-parentBean" />
-
-  <bean id="KEMIDHistoricalTaxLot-foreignTaxWithheld-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="foreignTaxWithheld" />
-    <property name="label" value="Foreign Taxes Withheld" />
-    <property name="shortLabel" value="Taxes Withheld" />
     <property name="maxLength" value="21" />
     <property name="required" value="true" />
     <property name="validationPattern">

@@ -54,35 +54,31 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
     public boolean updateCurrentTaxLotBalances() {
         LOG.info("updateCurrentTaxLotBalances() - Processed all HoldingTaxLot records started."); 
         
-        boolean success = true;
-        
-        if (systemParametersForCurrentTaxLotBalanceUpdateStepJob()) {
-            //Step 1: remove all the records from END_AVAIL_CSH_T table
-            clearAllCurrentTaxLotRecords();
+        //Step 1: remove all the records from END_AVAIL_CSH_T table
+        clearAllCurrentTaxLotRecords();
            
-            //Step 2: Retrieve all HoldingTaxLot records
-            List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getAllTaxLots();
+        //Step 2: Retrieve all HoldingTaxLot records
+        List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getAllTaxLots();
             
-            //process the records in the list
-            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
-                CurrentTaxLotBalance currentTaxLotBalance = currentTaxLotService.copyHoldingTaxLotToCurrentTaxLotBalance(holdingTaxLot); 
+        //process the records in the list
+        for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+            CurrentTaxLotBalance currentTaxLotBalance = currentTaxLotService.copyHoldingTaxLotToCurrentTaxLotBalance(holdingTaxLot); 
 
-                String securityId = currentTaxLotBalance.getSecurityId();
+            String securityId = currentTaxLotBalance.getSecurityId();
 
-                currentTaxLotBalance.setHoldingMarketValue(currentTaxLotService.getHoldingMarketValue(holdingTaxLot, securityId));
-                currentTaxLotBalance.setSecurityUnitVal(currentTaxLotService.getCurrentTaxLotBalanceSecurityUnitValue(securityId));
-                currentTaxLotBalance.setAnnualEstimatedIncome(currentTaxLotService.getNextTwelveMonthsEstimatedValue(holdingTaxLot, securityId));
-                currentTaxLotBalance.setRemainderOfFYEstimatedIncome(currentTaxLotService.getRemainderOfFiscalYearEstimatedIncome(holdingTaxLot, securityId));
-                currentTaxLotBalance.setNextFYEstimatedIncome(currentTaxLotService.getNextFiscalYearInvestmentIncome(holdingTaxLot, securityId));
+            currentTaxLotBalance.setHoldingMarketValue(currentTaxLotService.getHoldingMarketValue(holdingTaxLot, securityId));
+            currentTaxLotBalance.setSecurityUnitVal(currentTaxLotService.getCurrentTaxLotBalanceSecurityUnitValue(securityId));
+            currentTaxLotBalance.setAnnualEstimatedIncome(currentTaxLotService.getNextTwelveMonthsEstimatedValue(holdingTaxLot, securityId));
+            currentTaxLotBalance.setRemainderOfFYEstimatedIncome(currentTaxLotService.getRemainderOfFiscalYearEstimatedIncome(holdingTaxLot, securityId));
+            currentTaxLotBalance.setNextFYEstimatedIncome(currentTaxLotService.getNextFiscalYearInvestmentIncome(holdingTaxLot, securityId));
                 
-                saveCurrentTaxLotRecord(currentTaxLotBalance);
-                LOG.info("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());
-            }
+            saveCurrentTaxLotRecord(currentTaxLotBalance);
+            LOG.info("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());
         }
         
         LOG.info("updateCurrentTaxLotBalances() - Updated  Current Tax Lot Balances."); 
         
-        return success;
+        return true;
     }
     
     /**

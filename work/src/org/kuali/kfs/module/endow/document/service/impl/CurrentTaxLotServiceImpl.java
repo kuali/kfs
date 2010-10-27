@@ -243,7 +243,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
         Security security = securityService.getByPrimaryKey(securityId);
 
-        return KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
+        return KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
     }
 
     /**
@@ -332,10 +332,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         
         Date fiscalYearEndDate = getFiscalYearEndDate();
 
-        if (ObjectUtils.isNull(nextIncomeDueDate)) {
-            return amount;            
-        }
-        
         // BONDS - rule 2.a
         if (nextIncomeDueDate.after(fiscalYearEndDate)) {
             return BigDecimal.ZERO;
@@ -368,25 +364,15 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
         calendar.setTime(fiscalYearEndDate);
         int fiscalMonths = calendar.get(Calendar.MONTH);
-        int fiscalYear = calendar.get(Calendar.YEAR);
 
         calendar.setTime(nextIncomeDueDate);
         int nextIncomeMonths = calendar.get(Calendar.MONTH);
-        int nextIncomeYear = calendar.get(Calendar.YEAR);
 
-        // income due date in the previous fiscal year then add the 6 months to the number of months
-        // in the previous fiscal year
-        // example: fiscalYear = 06/30/2010 and nextIncomeDueDate = 10/01/2008
-        if (nextIncomeYear < fiscalYear) {
-            numberOfMonths = (((fiscalYear - nextIncomeYear) * 12) - nextIncomeMonths) + EndowConstants.NUMBER_OF_MONTHS_REMAINING;
+        if (fiscalYearEndDate.before(nextIncomeDueDate)) {
+                numberOfMonths = nextIncomeMonths - fiscalMonths;
         }
         else {
-            if (fiscalYearEndDate.before(nextIncomeDueDate)) {
-                numberOfMonths = nextIncomeMonths - fiscalMonths;
-            }
-            else {
-                numberOfMonths = fiscalMonths - nextIncomeMonths;
-            }
+            numberOfMonths = fiscalMonths - nextIncomeMonths;
         }
 
         return numberOfMonths;

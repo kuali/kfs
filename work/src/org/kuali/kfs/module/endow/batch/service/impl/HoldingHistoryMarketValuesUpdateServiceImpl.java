@@ -219,7 +219,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
 
         if (holdingHistoryRecords.isEmpty()) {
             setUnwantedReportColumnsToBlank();            
-            writeTableRowAndTableReason(ehva, "There are no Holding History records to match the Holding History Value Adjustment document's security id and monthEndDateID.  The process is not executed");
+            writeTableRowAndTableReason(ehva, "There are no Holding History records to match the Holding History Value Adjustment document's security id and monthEndDateID.");
             return false;
         }
         // process the holding history records

@@ -36,7 +36,7 @@ import org.kuali.rice.kns.util.KualiInteger;
  */
 public class HoldingHistoryServiceImpl implements HoldingHistoryService {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getHoldingHistoryBySecuritIdAndMonthEndId(java.lang.String, KualiInteger)
@@ -208,7 +208,7 @@ public class HoldingHistoryServiceImpl implements HoldingHistoryService {
      * 
      * @return businessObjectService
      */
-    public BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 

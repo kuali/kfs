@@ -237,7 +237,7 @@ public class KEMServiceImpl implements KEMService {
      * @see org.kuali.kfs.module.endow.document.service.org.kuali.kfs.module.endow.document.service.KEMService#getTotalNumberOfPaymentsForFiscalYear()
      */
     public long getTotalNumberOfPaymentsForFiscalYear() {
-        long totalNumberOfPayments = 0;
+        long totalNumberOfPayments = 2;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String totalPayments = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);

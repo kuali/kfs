@@ -26,7 +26,7 @@
 <kul:tab tabTitle="Transaction Lines" defaultOpen="true" tabErrorKey="${EndowConstants.TRANSACTION_LINE_ERRORS}">
 
  <div class="tab-container" align=center>
-	<h3>Transaction Lines</h3>
+	<h3>Transaction Lines <a href="${KualiForm.transactionLineImportInstructionsUrl}" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="Transaction Line Import Help" src="Transaction Line Import Help" hspace="5" border="0" align="middle" /></a></h3>
 	<c:if test="${hasSource}" >
 		<endow:endowmentTransactionalLines isSource="true" hasUnits="${hasUnits}" isTransAmntReadOnly="${isTransAmntReadOnly}"/>
 	</c:if>

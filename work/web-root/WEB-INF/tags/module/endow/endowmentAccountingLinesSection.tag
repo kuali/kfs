@@ -24,7 +24,7 @@
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${EndowConstants.ACCOUNTING_LINE_ERRORS}">
 
  <div class="tab-container" align=center>
-	<h3>Accounting Lines</h3>
+	<h3>Accounting Lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif" title="Accounting Line Import Help" src="Accounting Line Import Help" hspace="5" border="0" align="middle" /></a></h3>
 	<c:if test="${hasSource}" >
 		<endow:endowmentAccountingLines isSource="true" />
 	</c:if>

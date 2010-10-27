@@ -16,10 +16,16 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class...
@@ -119,6 +125,13 @@ public abstract class EndowmentAccountingLinesDocumentFormBase extends Endowment
      */
     public void setTargetFile(FormFile targetFile) {
         this.targetFile = targetFile;
+    }
+    
+    /**
+     * @return the URL to the accounting line import instructions
+     */
+    public String getAccountingLineImportInstructionsUrl() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_ACCOUNTING_LINE_IMPORT);
     }
 
 }

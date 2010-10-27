@@ -65,7 +65,7 @@ public class EndowConstants extends JSTLConstants {
     public static class FeeType {
         public static final String FEE_TYPE_CODE_FOR_PAYMENTS = "P";
     }
-    
+
     public static class ClassCodeTypes {
         public static final String ALTERNATIVE_INVESTMENT = "A";
         public static final String CASH_EQUIVALENTS = "C";
@@ -79,9 +79,9 @@ public class EndowConstants extends JSTLConstants {
     // Frequency Codes
     public static class FrequencyCodes {
         public static final String SEMI_ANNUAL_FREQUENCY_CODE_FOR_NEXT_PROCESS_DUE_DATE = "IJME";
-        public static final String QUARTERLY_FREQUENCY_CODE_FOR_NEXT_PROCESS_DUE_DATE = "QJME"; 
+        public static final String QUARTERLY_FREQUENCY_CODE_FOR_NEXT_PROCESS_DUE_DATE = "QJME";
     }
-    
+
     public static class FrequencyTypes {
         public static final String DAILY = "D";
         public static final String WEEKLY = "W";
@@ -190,6 +190,9 @@ public class EndowConstants extends JSTLConstants {
         public static final String INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE = "INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE";
 
         public static final String ROLE_REQUIRED_IND = "ROLE_REQUIRED_IND";
+
+        public static final String ENDOWMENT_ACCOUNTING_LINE_IMPORT = "ENDOWMENT_ACCOUNTING_LINE_IMPORT";
+        public static final String ENDOWMENT_TRANSACTION_LINE_IMPORT = "ENDOWMENT_TRANSACTION_LINE_IMPORT";
 
     }
 
@@ -364,7 +367,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String ENDOWMENT_CASH_DECREASE = "ECDD";
         public static final String ENDOWMENT_CASH_TRANSFER = "ECT";
         public static final String ENDOWMENT_LIABILITY_INCREASE = "ELI";
-        public static final String ENDOWMENT_SECURITY_TRANSFER  = "EST";
+        public static final String ENDOWMENT_SECURITY_TRANSFER = "EST";
         public static final String ENDOWMENT_CORPORATE_REORGANZATION = "ECR";
     }
 }

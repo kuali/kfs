@@ -23,7 +23,12 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
 
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
@@ -65,38 +70,38 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     // show the import button on target transaction lines
     protected boolean showTargetImport = true;
-    
+
     // show the add button on the source transaction lines
     protected boolean showSourceAdd = true;
-    
+
     // show the add button on the target transaction lines
     protected boolean showTargetAdd = true;
 
     // make the KEMID field on the source transaction lines read only.
     protected boolean sourceKemidReadOnly = false;
-    
+
     // make the KEMID field on the target transaction lines read only.
     protected boolean targetKemidReadOnly = false;
-    
+
     // make the income/principal indicator on the source transaction lines read only.
     protected boolean sourceIncomePrincipalIndicatorReadOnly = false;
-    
+
     // make the income/principal indicator on the target transaction lines read only.
     protected boolean targetIncomePrincipalIndicatorReadOnly = false;
-    
+
     // show all the added source transaction lines on the form.
     protected boolean showSourceTransLines = true;
-    
+
     // show all the added target transaction lines on the form.
     protected boolean showTargetTransLines = true;
-    
+
     protected boolean showSourceRefresh = true;
     protected boolean showTargetRefresh = true;
     protected boolean showSourceBalance = true;
     protected boolean showTargetBalance = true;
-    protected boolean showSourceDelete  = true;
-    protected boolean showTargetDelete  = true;
-    
+    protected boolean showSourceDelete = true;
+    protected boolean showTargetDelete = true;
+
     /**
      * Constructs a EndowmentTransactionLinesDocumentFormBase.java.
      */
@@ -215,7 +220,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     public boolean getShowFromTransactionLine() {
         return true;
     }
-    
+
     /**
      * Tells whether the target transaction lines add transaction line section should be displayed. By default this returns true for
      * all documents. If a document needs to handle this in a more special way than this method should be overridden in the document
@@ -480,7 +485,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showSourceAdd attribute. 
+     * Gets the showSourceAdd attribute.
+     * 
      * @return Returns the showSourceAdd.
      */
     public boolean isShowSourceAdd() {
@@ -489,6 +495,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showSourceAdd attribute value.
+     * 
      * @param showSourceAdd The showSourceAdd to set.
      */
     public void setShowSourceAdd(boolean showSourceAdd) {
@@ -496,7 +503,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showTargetAdd attribute. 
+     * Gets the showTargetAdd attribute.
+     * 
      * @return Returns the showTargetAdd.
      */
     public boolean isShowTargetAdd() {
@@ -505,6 +513,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showTargetAdd attribute value.
+     * 
      * @param showTargetAdd The showTargetAdd to set.
      */
     public void setShowTargetAdd(boolean showTargetAdd) {
@@ -512,7 +521,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the sourceKemidReadOnly attribute. 
+     * Gets the sourceKemidReadOnly attribute.
+     * 
      * @return Returns the sourceKemidReadOnly.
      */
     public boolean isSourceKemidReadOnly() {
@@ -521,6 +531,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the sourceKemidReadOnly attribute value.
+     * 
      * @param sourceKemidReadOnly The sourceKemidReadOnly to set.
      */
     public void setSourceKemidReadOnly(boolean sourceKemidReadOnly) {
@@ -528,7 +539,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the targetKemidReadOnly attribute. 
+     * Gets the targetKemidReadOnly attribute.
+     * 
      * @return Returns the targetKemidReadOnly.
      */
     public boolean isTargetKemidReadOnly() {
@@ -537,6 +549,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the targetKemidReadOnly attribute value.
+     * 
      * @param targetKemidReadOnly The targetKemidReadOnly to set.
      */
     public void setTargetKemidReadOnly(boolean targetKemidReadOnly) {
@@ -544,7 +557,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the targetIncomePrincipalIndicatorReadOnly attribute. 
+     * Gets the targetIncomePrincipalIndicatorReadOnly attribute.
+     * 
      * @return Returns the targetIncomePrincipalIndicatorReadOnly.
      */
     public boolean isTargetIncomePrincipalIndicatorReadOnly() {
@@ -553,6 +567,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the targetIncomePrincipalIndicatorReadOnly attribute value.
+     * 
      * @param targetIncomePrincipalIndicatorReadOnly The targetIncomePrincipalIndicatorReadOnly to set.
      */
     public void setTargetIncomePrincipalIndicatorReadOnly(boolean targetIncomePrincipalIndicatorReadOnly) {
@@ -560,7 +575,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the sourceIncomePrincipalIndicatorReadOnly attribute. 
+     * Gets the sourceIncomePrincipalIndicatorReadOnly attribute.
+     * 
      * @return Returns the sourceIncomePrincipalIndicatorReadOnly.
      */
     public boolean isSourceIncomePrincipalIndicatorReadOnly() {
@@ -569,6 +585,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the sourceIncomePrincipalIndicatorReadOnly attribute value.
+     * 
      * @param sourceIncomePrincipalIndicatorReadOnly The sourceIncomePrincipalIndicatorReadOnly to set.
      */
     public void setSourceIncomePrincipalIndicatorReadOnly(boolean sourceIncomePrincipalIndicatorReadOnly) {
@@ -576,7 +593,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showSourceTransLines attribute. 
+     * Gets the showSourceTransLines attribute.
+     * 
      * @return Returns the showSourceTransLines.
      */
     public boolean isShowSourceTransLines() {
@@ -585,6 +603,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showSourceTransLines attribute value.
+     * 
      * @param showSourceTransLines The showSourceTransLines to set.
      */
     public void setShowSourceTransLines(boolean showSourceTransLines) {
@@ -592,7 +611,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showTargetTransLines attribute. 
+     * Gets the showTargetTransLines attribute.
+     * 
      * @return Returns the showTargetTransLines.
      */
     public boolean isShowTargetTransLines() {
@@ -601,6 +621,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showTargetTransLines attribute value.
+     * 
      * @param showTargetTransLines The showTargetTransLines to set.
      */
     public void setShowTargetTransLines(boolean showTargetTransLines) {
@@ -608,7 +629,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showSourceRefresh attribute. 
+     * Gets the showSourceRefresh attribute.
+     * 
      * @return Returns the showSourceRefresh.
      */
     public boolean isShowSourceRefresh() {
@@ -617,6 +639,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showSourceRefresh attribute value.
+     * 
      * @param showSourceRefresh The showSourceRefresh to set.
      */
     public void setShowSourceRefresh(boolean showSourceRefresh) {
@@ -624,7 +647,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showTargetRefresh attribute. 
+     * Gets the showTargetRefresh attribute.
+     * 
      * @return Returns the showTargetRefresh.
      */
     public boolean isShowTargetRefresh() {
@@ -633,6 +657,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showTargetRefresh attribute value.
+     * 
      * @param showTargetRefresh The showTargetRefresh to set.
      */
     public void setShowTargetRefresh(boolean showTargetRefresh) {
@@ -640,7 +665,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showSourceBalance attribute. 
+     * Gets the showSourceBalance attribute.
+     * 
      * @return Returns the showSourceBalance.
      */
     public boolean isShowSourceBalance() {
@@ -649,6 +675,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showSourceBalance attribute value.
+     * 
      * @param showSourceBalance The showSourceBalance to set.
      */
     public void setShowSourceBalance(boolean showSourceBalance) {
@@ -656,7 +683,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showTargetBalance attribute. 
+     * Gets the showTargetBalance attribute.
+     * 
      * @return Returns the showTargetBalance.
      */
     public boolean isShowTargetBalance() {
@@ -665,6 +693,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showTargetBalance attribute value.
+     * 
      * @param showTargetBalance The showTargetBalance to set.
      */
     public void setShowTargetBalance(boolean showTargetBalance) {
@@ -672,7 +701,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showSourceDelete attribute. 
+     * Gets the showSourceDelete attribute.
+     * 
      * @return Returns the showSourceDelete.
      */
     public boolean isShowSourceDelete() {
@@ -681,6 +711,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showSourceDelete attribute value.
+     * 
      * @param showSourceDelete The showSourceDelete to set.
      */
     public void setShowSourceDelete(boolean showSourceDelete) {
@@ -688,7 +719,8 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
     }
 
     /**
-     * Gets the showTargetDelete attribute. 
+     * Gets the showTargetDelete attribute.
+     * 
      * @return Returns the showTargetDelete.
      */
     public boolean isShowTargetDelete() {
@@ -697,10 +729,18 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
 
     /**
      * Sets the showTargetDelete attribute value.
+     * 
      * @param showTargetDelete The showTargetDelete to set.
      */
     public void setShowTargetDelete(boolean showTargetDelete) {
         this.showTargetDelete = showTargetDelete;
+    }
+
+    /**
+     * @return the URL to the accounting line import instructions
+     */
+    public String getTransactionLineImportInstructionsUrl() {
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_TRANSACTION_LINE_IMPORT);
     }
 
 }

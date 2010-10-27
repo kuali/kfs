@@ -721,7 +721,7 @@
 	
     <bean id="rollFrequencyDatesReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="rollFrequencyDatesReport-"/>
+		<property name="fileNamePrefix" value="rollFrequencyDatesReport_"/>
         <property name="title" value="ROLL FREQUENCY DATES BATCH REPORT"/>
 	</bean>
 			
@@ -869,6 +869,9 @@
 		<property name="kualiRuleService">
     	 	<ref bean="kualiRuleService" />
 		</property>	
+		<property name="kemService">
+    	 	<ref bean="kemService" />
+		</property>			
 		<property name="pooledFundControlTransactionsTotalReportWriterService">
     	 	<ref bean="pooledFundControlTransactionsTotalReportWriterService" />
 		</property>		
@@ -882,7 +885,7 @@
 
 	<bean id="pooledFundControlTransactionsTotalReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="pooledFundControlTransactionsTotalReport-"/>
+		<property name="fileNamePrefix" value="pooledFundControlTransactionsTotalReport_"/>
         <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -893,7 +896,7 @@
 	
 	<bean id="pooledFundControlTransactionsExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReport-"/>
+		<property name="fileNamePrefix" value="pooledFundControlTransactionsExceptionReport_"/>
         <property name="title" value="POOLED FUND CONTROL TRANSACTIONS BATCH REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -966,7 +969,7 @@
 
 	<bean id="incomeDistributionForPooledFundExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException-"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException_"/>
         <property name="title" value="Income Distribution"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -977,7 +980,7 @@
 
 	<bean id="incomeDistributionForPooledFundTotalReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal-"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal_"/>
         <property name="title" value="Income Distribution"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>

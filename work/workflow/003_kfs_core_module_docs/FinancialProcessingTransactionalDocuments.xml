@@ -230,11 +230,17 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -288,21 +294,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
+          <activationType>
+            P
+          </activationType>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <join name="JoinRequiresFullApproval"/>
         <simple name="Do Nothing">
@@ -349,21 +367,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -404,21 +434,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -459,21 +501,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -514,21 +568,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -568,16 +634,25 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -623,16 +698,25 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -673,21 +757,33 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -721,16 +817,25 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
         </role>
       </routeNodes>
     </documentType>

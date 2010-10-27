@@ -82,10 +82,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         LOG.info("Begin the batch Generate Pooled Fund Control Transactions ..."); 
         
         // All the jobs should be attempted. If one should fail, that would be an exception to report
-        createCashDocument1();   
-        createCashDocument2();
-        createCashDocument3();
-        createCashDocument4();
+        createCashDocumentByTrasnactionSecurityCostForEAI();   
+        createCashDocumentByTrasnactionSecurityCostForEAD();
+        createCashDocumentByTransactionSecurityGainLossForEAD();
+        createCashDocumentByTrasnactionCashAmount();
 
         LOG.info("The batch Generate Pooled Fund Control Transactions was finished"); 
         
@@ -95,14 +95,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAI
      */
-    protected void createCashDocument1() {
+    protected void createCashDocumentByTrasnactionSecurityCostForEAI() {
         createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);       
     }
 
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAD
      */
-    protected void createCashDocument2() {        
+    protected void createCashDocumentByTrasnactionSecurityCostForEAD() {        
         createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);          
     }
     
@@ -117,8 +117,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         
         List<String> documentTypeNames = new ArrayList<String>();
         documentTypeNames.add(documentName);
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();        
-     
+        List<PooledFundControl> pooledFundControlRecords = (List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();        
+        if (pooledFundControlRecords == null) return;
+        
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -143,22 +144,24 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of gain/loss for transaction type EAD
      */
-    protected void createCashDocument3() {
+    protected void createCashDocumentByTransactionSecurityGainLossForEAD() {
         
         List<String> documentTypeNames = new ArrayList<String>();
         documentTypeNames.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();        
-     
+        List<PooledFundControl> pooledFundControlRecords = (List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();        
+        if (pooledFundControlRecords == null) return;
+        
         // generate a cash document per each PooledFundControl
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
             List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
             // get the total of security long term and short term gain and loss
-            for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {                         
-                totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getLongTermGainLoss()).add(new KualiDecimal(transactionArchiveSecurity.getShortTermGainLoss())));
+            if (transactionArchiveSecurityRecords != null) {
+                for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {                         
+                    totalAmount = totalAmount.add(new KualiDecimal(transactionArchiveSecurity.getLongTermGainLoss()).add(new KualiDecimal(transactionArchiveSecurity.getShortTermGainLoss())));
+                }
             }
-            
             // create a cash document per security id of pooled fund control
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is 'recovering' (paying out) Losses, we must increase the value of the pool (ECI).
@@ -173,18 +176,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of income/principle cash for transaction type ECI and ECDD
      */
-    protected void createCashDocument4() {
+    protected void createCashDocumentByTrasnactionCashAmount() {
         
         List<String> documentTypeNames = new ArrayList<String>();
         documentTypeNames.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
         documentTypeNames.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
-        List<PooledFundControl> pooledFundControlRecords =(List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();
+        List<PooledFundControl> pooledFundControlRecords = (List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();
+        if (pooledFundControlRecords == null) return;
         
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
-            for (TransactionArchive transactionArchive : transactionArchiveRecords) {
-                totalAmount = totalAmount.add(new KualiDecimal(transactionArchive.getIncomeCashAmount())).add(new KualiDecimal(transactionArchive.getPrincipalCashAmount()));
+            if (transactionArchiveRecords != null) {
+                for (TransactionArchive transactionArchive : transactionArchiveRecords) {
+                    totalAmount = totalAmount.add(new KualiDecimal(transactionArchive.getIncomeCashAmount())).add(new KualiDecimal(transactionArchive.getPrincipalCashAmount()));
+                }
             }
             
             // create a cash document per security id of pooled fund control

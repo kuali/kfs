@@ -43,26 +43,12 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
     public String getIncomeEntraCode(String securityId) {
         // get the security
         Security security = (Security) getPersistenceBrokerTemplate().getObjectById(Security.class, securityId);        
-        // get the transaction post code,using security
+        // get the transaction post code, using security
         ClassCode classCode = (ClassCode) getPersistenceBrokerTemplate().getObjectById(ClassCode.class, security.getSecurityClassCode());
 
         return classCode.getSecurityIncomeEndowmentTransactionPostCode();
     }
-    
-    /**
-     * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getHoldingTaxLotListGroupedBySecurityId(java.lang.String)
-     */
-    public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId) {
-        Criteria crit = new Criteria();
-        crit.addEqualTo(EndowPropertyConstants.SECURITY_ID, securityId);
-        QueryByCriteria query = new QueryByCriteria(HoldingTaxLot.class, crit);
-        query.addGroupBy(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID);
-        query.addGroupBy(EndowPropertyConstants.HOLDING_TAX_LOT_REGISTRATION_CODE);
-        query.addGroupBy(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR);
-        
-        return (List<BigDecimal>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }
- 
+     
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.IncomeDistributionForPooledFundDao#getSecurityForIncomeDistribution()
      */

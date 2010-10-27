@@ -147,7 +147,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         
         boolean result = true;
         
-        // set security id
+        // set security id for reports
         totalReportLine.setSecurityId(securityId);
         exceptionReportLine.setSecurityId(securityId);
         

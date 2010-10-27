@@ -23,12 +23,6 @@ import org.kuali.kfs.module.endow.businessobject.KemidPayoutInstruction;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 
 public interface IncomeDistributionForPooledFundDao {
-
-    /**
-     * Get the list of holding tax lot
-     * @return List<HoldingTaxLot>
-     */
-    //public List<HoldingTaxLot> getHoldingTaxLotForIncomeDistribution();
     
     /**
      * Get the income transaction code for the given security id
@@ -36,13 +30,6 @@ public interface IncomeDistributionForPooledFundDao {
      * @return String
      */
     public String getIncomeEntraCode(String securityId);
-    
-    /**
-     * Get the list of holding tax lot grouped by the given security id
-     * @param securityId
-     * @return List<BigDecimal>
-     */
-    //public List<BigDecimal> getHoldingTaxLotListGroupedBySecurityId(String securityId);
     
     /**
      * Get the pay income records for building ECT 

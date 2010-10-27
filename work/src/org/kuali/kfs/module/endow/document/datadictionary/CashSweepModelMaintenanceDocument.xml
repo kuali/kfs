@@ -71,11 +71,9 @@
       <list>
         <bean parent="MaintainableFieldDefinition"
               p:name="cashSweepModelID"
-              p:required="true"/> 
- <!--     
-              p:noLookup="false"
-              p:overrideLookupClass="org.kuali.kfs.module.endow.businessobject.Security"/>
--->              
+              p:required="true"
+              p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.NextCashSweepModelIDFinder"
+              p:unconditionallyReadOnly="true"/>           
         <bean parent="MaintainableFieldDefinition"
               p:name="cashSweepModelName"
               p:required="true" />             

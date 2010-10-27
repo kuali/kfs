@@ -46,9 +46,7 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.endow.document.validation.impl.ACIModelPreRule" /> 
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.ACIModelRule" />
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-<!-- 	<property name="documentTypeName" value="SubclassCodeMaintenanceDocument" /> -->
-
-<!--    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.PooledFundControlDocumentPresentationController" /> -->
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.ACIModelDocumentPresentationController" />    	
     <property name="webScriptFiles" >
       <list>
         <value>../dwr/interface/PooledFundControlService.js</value>

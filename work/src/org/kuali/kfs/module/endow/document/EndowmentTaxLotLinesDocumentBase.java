@@ -69,4 +69,22 @@ public abstract class EndowmentTaxLotLinesDocumentBase extends EndowmentSecurity
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedList = super.buildListOfDeletionAwareLists();
+
+        for (EndowmentTransactionLine endowmentTransactionLine : getTargetTransactionLines()) {
+            managedList.add(endowmentTransactionLine.getTaxLotLines());
+        }
+
+        for (EndowmentTransactionLine endowmentTransactionLine : getSourceTransactionLines()) {
+            managedList.add(endowmentTransactionLine.getTaxLotLines());
+        }
+
+        return managedList;
+    }
+
 }

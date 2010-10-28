@@ -97,11 +97,11 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
-    public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, bo);
         MessageMap errorMap = GlobalVariables.getMessageMap();
@@ -109,27 +109,29 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
         EndowmentTransactionCode endowmentTransactionCode = (EndowmentTransactionCode) document.getNewMaintainableObject().getBusinessObject();
         GLLink glLink = (GLLink) bo;
 
-        bo.refreshReferenceObject(EndowPropertyConstants.GL_LINK_FINANCIAL_OBJECT_CODE);
+        if (isValid) {
+            bo.refreshReferenceObject(EndowPropertyConstants.GL_LINK_FINANCIAL_OBJECT_CODE);
 
-        // check that ObjectCode.ObjectTypeCode.BasicAccountingCategory == EndowmentTransactionCode.TransactionTypeCode
-        if (!validateGLLinkObjectCode(endowmentTransactionCode, glLink)) {
-            isValid = false;
-            putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_OBJECT_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_OBJ_CD_ACC_CATEGORY_MUST_EQUAL_ETRAN_TYPE);
-        }
+            // check that ObjectCode.ObjectTypeCode.BasicAccountingCategory == EndowmentTransactionCode.TransactionTypeCode
+            if (!validateGLLinkObjectCode(endowmentTransactionCode, glLink)) {
+                isValid = false;
+                putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_OBJECT_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_OBJ_CD_ACC_CATEGORY_MUST_EQUAL_ETRAN_TYPE);
+            }
 
-        // check that the selected chart and the object code chart are the same
-        if (ObjectUtils.isNotNull(glLink.getFinancialObjectCode()) && !StringUtils.equalsIgnoreCase(glLink.getFinancialObjectCode().getChartOfAccountsCode(), glLink.getChartCode())) {
-            isValid = false;
-            putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_CHART_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_CHART_CD_MUST_EQUAL_OBJECT_CHART_CD);
-        }
+            // check that the selected chart and the object code chart are the same
+            if (ObjectUtils.isNotNull(glLink.getFinancialObjectCode()) && !StringUtils.equalsIgnoreCase(glLink.getFinancialObjectCode().getChartOfAccountsCode(), glLink.getChartCode())) {
+                isValid = false;
+                putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_CHART_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_CHART_CD_MUST_EQUAL_OBJECT_CHART_CD);
+            }
 
-        // check that there is no other GL Link with the same chart already added
-        if (collectionName.equals(EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS)) {
-            if (glLink.getChartCode() != null) {
-                for (GLLink tmpGlLink : endowmentTransactionCode.getGlLinks()) {
-                    if (glLink.getChartCode().equals(tmpGlLink.getChartCode())) {
-                        isValid = false;
-                        putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_CHART_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_WITH_SAME_CHART_ALREADY_EXISTS);
+            // check that there is no other GL Link with the same chart already added
+            if (collectionName.equals(EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS)) {
+                if (glLink.getChartCode() != null) {
+                    for (GLLink tmpGlLink : endowmentTransactionCode.getGlLinks()) {
+                        if (glLink.getChartCode().equals(tmpGlLink.getChartCode())) {
+                            isValid = false;
+                            putFieldError(KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.ENDOWMENT_TRANSACTION_GL_LINKS + "." + EndowPropertyConstants.GL_LINK_CHART_CD, EndowKeyConstants.EndowmentTransactionConstants.ERROR_GL_LINK_WITH_SAME_CHART_ALREADY_EXISTS);
+                        }
                     }
                 }
             }
@@ -151,8 +153,9 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         ObjectCode objectCode = glLink.getFinancialObjectCode();
 
-        // check that ObjectCode.ObjectTypeCode.BasicAccountingCategory == EndowmentTransactionCode.TransactionTypeCode
         if (ObjectUtils.isNotNull(objectCode)) {
+
+            // check that ObjectCode.ObjectTypeCode.BasicAccountingCategory == EndowmentTransactionCode.TransactionTypeCode
             if (EndowConstants.EndowmentTransactionTypeCodes.ASSET_TYPE_CODE.equalsIgnoreCase(endowmentTransactionCode.getEndowmentTransactionTypeCode())) {
                 String basicAccountingCategoryAsset = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.ASSETS_ENTRAN_TYPE);
 

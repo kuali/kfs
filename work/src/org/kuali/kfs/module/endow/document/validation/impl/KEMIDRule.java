@@ -818,7 +818,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             }
         }
         if (!hasActiveRecord) {
-            putFieldError(EndowPropertyConstants.KEMID_AGREEMENTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_SOURCE_OF_FUNDS);
+            putFieldError(EndowPropertyConstants.KEMID_SOURCE_OF_FUNDS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_SOURCE_OF_FUNDS);
             valid = false;
         }
 
@@ -847,7 +847,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!hasActiveRecord) {
-                putFieldError(EndowPropertyConstants.KEMID_AGREEMENTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_BENEFITTING_ORG);
+                putFieldError(EndowPropertyConstants.KEMID_BENEFITTING_ORGS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_BENEFITTING_ORG);
                 return false;
             }
             // Check: the total of BENE_PCT for all records where ROW_ACTV_IND is equal to Yes must be 1(100%).

@@ -1,5 +1,5 @@
 <%--
- Copyright 2007-2009 The Kuali Foundation
+ Copyright 2007-2010 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,9 +16,6 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <%@ attribute name="laborOriginEntries" required="true" type="java.util.List" description="The list of LaborOriginEntries that we'll iterate to display." %>
-<%@ attribute name="image" required="false"%>
-
-<c:set var="imageName" value="${empty image ? 'sort.gif' : image}"/>
 
 <c:if test="${empty laborOriginEntries}">
     No Origin Entries found.
@@ -29,6 +26,9 @@
             firstDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.firstRowIndex}" lastDisplayedRow="${KualiForm.originEntrySearchResultTableMetadata.lastRowIndex}"
             resultsActualSize="${KualiForm.originEntrySearchResultTableMetadata.resultsActualSize}" resultsLimitedSize="${KualiForm.originEntrySearchResultTableMetadata.resultsLimitedSize}"
             buttonExtraParams=".anchor${currentTabIndex}"/>
+    <input type="hidden" name="originEntrySearchResultTableMetadata.${Constants.TableRenderConstants.PREVIOUSLY_SORTED_COLUMN_INDEX_PARAM}" value="${KualiForm.originEntrySearchResultTableMetadata.columnToSortIndex}"/>
+    <input type="hidden" name="originEntrySearchResultTableMetadata.sortDescending" value="${KualiForm.originEntrySearchResultTableMetadata.sortDescending}"/>
+    <input type="hidden" name="originEntrySearchResultTableMetadata.viewedPageNumber" value="${KualiForm.originEntrySearchResultTableMetadata.viewedPageNumber}"/>
     <table class="datatable-100" id="laborOriginEntry" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -37,7 +37,7 @@
                 </c:if>
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
                     <th class="sortable">
-                        ${column.columnTitle}<c:if test="${empty column.columnTitle}">&nbsp;</c:if>
+                        <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
                     </th>
                 </c:forEach>
             </tr>
@@ -48,11 +48,7 @@
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column" varStatus="columnLoopStatus">
                     <td class="sortable" style="text-align: center;">
                         <c:if test="${column.sortable}">
-							<c:set var="sortButtonName" value="methodToCall.sort.${columnLoopStatus.index}.anchor${currentTabIndex}" />
-								   ${kfunc:registerEditableProperty(KualiForm, sortButtonName)}
-								   <input type="image" tabindex="${tabindex}" name="${sortButtonName}"
-										  src="${ConfigProperties.kr.externalizable.images.url}${imageName}" alt="Sort column ${column.columnTitle}" 
-										  title="Sort column ${column.columnTitle}" border="0" valign="middle"/>
+                            <html:image property="methodToCall.sort.${columnLoopStatus.index}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}sort.gif" styleClass="tinybutton" alt="Sort column" title="Sort column ${column.columnTitle}"/>
                         </c:if>
                         <c:if test="${!column.sortable}">
                             &nbsp;
@@ -62,7 +58,7 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${laborOriginEntries}" var="laborOriginEntry" varStatus="loopStatus" 
+            <c:forEach items="${laborOriginEntries}" var="originEntry" varStatus="loopStatus" 
                     begin="${KualiForm.originEntrySearchResultTableMetadata.firstRowIndex}" end="${KualiForm.originEntrySearchResultTableMetadata.lastRowIndex}">
                 <c:set var="rowclass" value="odd"/>
                 <c:if test="${loopStatus.count % 2 == 0}">
@@ -71,55 +67,55 @@
                 <tr class="${rowclass}">
                     <c:if test="${KualiForm.editableFlag == true and KualiForm.editMethod == 'M'}">
                         <td>
-                            <html:image property="methodToCall.editManualEntry.entryId${laborOriginEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit" />
-                            <html:image property="methodToCall.deleteManualEntry.entryId${laborOriginEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
+                            <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" title="edit" />
+                            <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" title="delete" />
                         </td>
                     </c:if>
-                    <td class="infocell">${laborOriginEntry.universityFiscalYear}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.chartOfAccountsCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.accountNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.subAccountNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialObjectCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialSubObjectCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialBalanceTypeCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialObjectTypeCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.universityFiscalPeriodCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialDocumentTypeCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialSystemOriginationCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.documentNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionLedgerEntrySequenceNumber}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.positionNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.projectCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionLedgerEntryDescription}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionLedgerEntryAmount}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionDebitCreditCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionDate}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.organizationDocumentNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.organizationReferenceId}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.referenceFinancialDocumentTypeCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.referenceFinancialSystemOriginationCode}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.referenceFinancialDocumentNumber}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.financialDocumentReversalDate}&nbsp;</td>
-                    <td class="infocell">${laborOriginEntry.transactionEncumbranceUpdateCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.transactionPostingDate}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.payPeriodEndDate}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.transactionTotalHours}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.payrollEndDateFiscalYear}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.payrollEndDateFiscalPeriodCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.emplid}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.employeeRecord}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.earnCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.payGroup}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.salaryAdministrationPlan}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.grade}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.runIdentifier}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.laborLedgerOriginalChartOfAccountsCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.laborLedgerOriginalAccountNumber}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.laborLedgerOriginalSubAccountNumber}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.laborLedgerOriginalFinancialObjectCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.laborLedgerOriginalFinancialSubObjectCode}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.hrmsCompany}&nbsp;</td>
-					<td class="infocell">${laborOriginEntry.setid}&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.universityFiscalYear}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.chartOfAccountsCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.accountNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.subAccountNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialObjectCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialSubObjectCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialBalanceTypeCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialObjectTypeCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.universityFiscalPeriodCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialDocumentTypeCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialSystemOriginationCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.documentNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionLedgerEntrySequenceNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.positionNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.projectCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionLedgerEntryDescription}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionLedgerEntryAmount}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionDebitCreditCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionDate}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.organizationDocumentNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.organizationReferenceId}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.referenceFinancialDocumentTypeCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.referenceFinancialSystemOriginationCode}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.referenceFinancialDocumentNumber}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.financialDocumentReversalDate}" />&nbsp;</td>
+                    <td class="infocell"><c:out value="${originEntry.transactionEncumbranceUpdateCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.transactionPostingDate}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.payPeriodEndDate}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.transactionTotalHours}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.payrollEndDateFiscalYear}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.payrollEndDateFiscalPeriodCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.emplid}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.employeeRecord}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.earnCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.payGroup}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.salaryAdministrationPlan}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.grade}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.runIdentifier}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.laborLedgerOriginalChartOfAccountsCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.laborLedgerOriginalAccountNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.laborLedgerOriginalSubAccountNumber}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.laborLedgerOriginalFinancialObjectCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.laborLedgerOriginalFinancialSubObjectCode}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.hrmsCompany}" />&nbsp;</td>
+					<td class="infocell"><c:out value="${originEntry.setid}" />&nbsp;</td>
 				</tr>
             </c:forEach>
         <tbody>

@@ -584,7 +584,9 @@ public class LaborCorrectionAction extends CorrectionAction {
         laborCorrectionForm.setEditableFlag(true);
         laborCorrectionForm.setManualEditFlag(false);
 
-        document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+        if ( document.getCorrectionChangeGroup().isEmpty() ) {
+            document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -132,7 +132,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         if (feeMethod.getFeeByTransactionType() || feeMethod.getFeeByETranCode()) {
             if (ObjectUtils.isNotNull(feeMethod.getFeeTypeCode()) && !EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_TRANSACTIONS.equalsIgnoreCase(feeMethod.getFeeTypeCode())) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_TYPE_CODE_FOR_TRANSACTIONS_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_TYPE_CODE_FOR_TRANSACTIONS_ENTERED);
                 return false;
             }
         }
@@ -152,7 +152,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         if (feeMethod.getFeeByClassCode() || feeMethod.getFeeBySecurityCode()) {
             if (ObjectUtils.isNotNull(feeMethod.getFeeTypeCode()) && !EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_BALANCES.equalsIgnoreCase(feeMethod.getFeeTypeCode())) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_TYPE_CODE_FOR_BALANCE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_TYPE_CODE_FOR_BALANCE_ENTERED);
                 return false;
             }
         }
@@ -171,7 +171,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(feeMethod.getFeeTypeCode()) && EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS.equalsIgnoreCase(feeMethod.getFeeTypeCode())) {
             if (!EndowConstants.FeeMethod.FEE_BASE_CD_VALUE.equalsIgnoreCase(feeMethod.getFeeBaseCode())) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BASE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_BASE_CODE_FOR_PAYMENTS_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_BASE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_BASE_CODE_FOR_PAYMENTS_ENTERED);
                 return false;
             }
         }
@@ -200,7 +200,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!recordExists) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+                putFieldError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
             }
         }
 
@@ -228,7 +228,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!recordExists) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_CLASS_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE);
+                putFieldError(EndowPropertyConstants.FEE_BY_CLASS_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE);
             }
         }
 
@@ -257,7 +257,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!recordExists) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE);
+                putFieldError(EndowPropertyConstants.FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE);
             }
         }
 
@@ -285,7 +285,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!recordExists) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BY_SECURITY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE);
+                putFieldError(EndowPropertyConstants.FEE_BY_SECURITY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE);
             }
         }
 
@@ -314,7 +314,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             }
 
             if (!recordExists) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_BASE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_PAYMENT_TYPE);
+                putFieldError(EndowPropertyConstants.FEE_BASE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_PAYMENT_TYPE);
             }
         }
 
@@ -373,7 +373,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         EndowmentTransactionCode endowmentTransaction = endowmentTransactionCodeService.getByPrimaryKey(endowmentTransactionCode.toUpperCase());
 
         if (ObjectUtils.isNull(endowmentTransaction)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE);
+            putFieldError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE);
             return false;
         }
 
@@ -392,11 +392,11 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(feeMethod.getCorpusPctTolerance())) {
             KualiDecimal corputPctToTolerance = feeMethod.getCorpusPctTolerance();
             if (corputPctToTolerance.isLessThan(KualiDecimal.ZERO)) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_NEGATIVE);
+                putFieldError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_NEGATIVE);
                 return false;
             }
             if (!corputPctToTolerance.isZero() && !corputPctToTolerance.isGreaterThan(new KualiDecimal("1.0"))) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_MUST_BE_GREATER_THAN_ONE);
+                putFieldError(EndowPropertyConstants.CORPUS_TO_PCT_TOLERANCE, EndowKeyConstants.FeeMethodConstants.ERROR_CORPUS_PCT_TO_TOLERANCE_MUST_BE_GREATER_THAN_ONE);
                 return false;
             }
         }
@@ -415,47 +415,47 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         // no negative values for first, second, and third rate fields
         if (feeMethod.getFirstFeeRate().compareTo(BigDecimal.ZERO) == -1) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FIRST_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_RATE_CAN_NOT_BE_NEGATIVE);
+            putFieldError(EndowPropertyConstants.FIRST_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_RATE_CAN_NOT_BE_NEGATIVE);
             return false;
         }
         if (feeMethod.getSecondFeeRate().compareTo(BigDecimal.ZERO) == -1) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.SECOND_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_RATE_CAN_NOT_BE_NEGATIVE);
+            putFieldError(EndowPropertyConstants.SECOND_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_RATE_CAN_NOT_BE_NEGATIVE);
             return false;
         }
 
         if (feeMethod.getThirdFeeRate().compareTo(BigDecimal.ZERO) == -1) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.THIRD_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_THIRD_FEE_RATE_CAN_NOT_BE_NEGATIVE);
+            putFieldError(EndowPropertyConstants.THIRD_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_THIRD_FEE_RATE_CAN_NOT_BE_NEGATIVE);
             return false;
         }
 
         // no negative values for first, second fee breakpoint values.
         if (feeMethod.getFirstFeeBreakpoint().isLessThan(KualiDecimal.ZERO)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FIRST_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO);
+            putFieldError(EndowPropertyConstants.FIRST_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO);
             return false;
         }
 
         if (feeMethod.getSecondFeeBreakpoint().isLessThan(KualiDecimal.ZERO)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.SECOND_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO);
+            putFieldError(EndowPropertyConstants.SECOND_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_GREATER_THAN_OR_ZERO);
             return false;
         }
 
         if (feeMethod.getFirstFeeBreakpoint().isLessThan(EndowConstants.FeeMethod.FEE_RATE_DEFAULT_VALUE) && feeMethod.getSecondFeeRate().compareTo(BigDecimal.ZERO) == 0) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.SECOND_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_RATE_MUST_BE_GREATER_THAN_OR_ZERO);
+            putFieldError(EndowPropertyConstants.SECOND_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_RATE_MUST_BE_GREATER_THAN_OR_ZERO);
             return false;
         }
 
         if (feeMethod.getSecondFeeRate().compareTo(BigDecimal.ZERO) == 1 && feeMethod.getFirstFeeBreakpoint().isGreaterEqual(feeMethod.getSecondFeeBreakpoint())) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FIRST_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_LESS_THAN_SECOND_FEE_BREAK_POINT);
+            putFieldError(EndowPropertyConstants.FIRST_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_FIRST_FEE_BREAK_POINT_MUST_BE_LESS_THAN_SECOND_FEE_BREAK_POINT);
             return false;
         }
 
         if (feeMethod.getThirdFeeRate().compareTo(BigDecimal.ZERO) == 1 && feeMethod.getSecondFeeBreakpoint().isGreaterEqual(EndowConstants.FeeMethod.FEE_RATE_DEFAULT_VALUE)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.SECOND_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_LESS_THAN_MAX_FEE_BREAK_POINT);
+            putFieldError(EndowPropertyConstants.SECOND_FEE_BREAK_POINT, EndowKeyConstants.FeeMethodConstants.ERROR_SECOND_FEE_BREAK_POINT_MUST_BE_LESS_THAN_MAX_FEE_BREAK_POINT);
             return false;
         }
 
         if (feeMethod.getSecondFeeBreakpoint().isLessThan(EndowConstants.FeeMethod.FEE_RATE_DEFAULT_VALUE) && (feeMethod.getThirdFeeRate().compareTo(BigDecimal.ZERO) == 0)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.THIRD_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_THIRD_FEE_RATE_MUST_BE_GREATER_THAN_ZERO);
+            putFieldError(EndowPropertyConstants.THIRD_FEE_RATE, EndowKeyConstants.FeeMethodConstants.ERROR_THIRD_FEE_RATE_MUST_BE_GREATER_THAN_ZERO);
             return false;
         }
 
@@ -514,7 +514,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         // process add line for feeTransaction collection
         if (collectionName.equalsIgnoreCase(EndowPropertyConstants.FEE_TRANSACTION_TYPE_COLLECTION_NAME)) {
             FeeTransaction feeTransaction = (FeeTransaction) bo;
-        //    bo.refreshReferenceObject(EndowPropertyConstants.FEE_TRANSACTION_ARCHIVE_REF);
+            // bo.refreshReferenceObject(EndowPropertyConstants.FEE_TRANSACTION_ARCHIVE_REF);
 
             if (isEmptyFeeTransactionTypeCode(bo)) {
                 return false;
@@ -522,9 +522,9 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             if (duplicateFeeTransactionTypeCode(feeMethod, bo)) {
                 return false;
             }
-        //    if (!validateFeeTransactionTypeCode(bo)) {
-        //        isValid = false;
-       //     }
+            // if (!validateFeeTransactionTypeCode(bo)) {
+            // isValid = false;
+            // }
         }
 
         // process add line for feeEndowmentTransaction collection
@@ -569,7 +569,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         String feeClassCode = feeClass.getFeeClassCode();
         if (ObjectUtils.isNull(feeClassCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_FEE_CLASS_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_FEE_CLASS_CODE_ENTERED);
             return true;
         }
 
@@ -592,7 +592,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         ClassCode classCode = classCodeService.getByPrimaryKey(feeClassCode);
 
         if (ObjectUtils.isNull(classCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_CLASS_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_CLASS_CODE_ENTERED);
             return false;
         }
 
@@ -617,7 +617,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         for (FeeClassCode feeClassCodeRecord : feeClassCodes) {
             if (feeClassCodeRecord.getFeeClassCode().equalsIgnoreCase(feeClassCode)) {
                 isDuplicate = true;
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_FEE_CLASS_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_CLASS_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_FEE_CLASS_CODE_ENTERED);
             }
         }
 
@@ -637,7 +637,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         String feeSecurityCode = feeSecurity.getSecurityCode();
         if (ObjectUtils.isNull(feeSecurityCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_FEE_SECURITY_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_FEE_SECURITY_CODE_ENTERED);
             return true;
         }
 
@@ -660,7 +660,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         Security security = securityService.getByPrimaryKey(securityCode);
 
         if (ObjectUtils.isNull(security)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_SECURITY_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_FEE_SECURITY_CODE_ENTERED);
             return false;
         }
 
@@ -685,7 +685,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         for (FeeSecurity feeSecurityRecord : feeSecurity) {
             if (feeSecurityRecord.getSecurityCode().equalsIgnoreCase(securityCode)) {
                 isDuplicate = true;
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_FEE_SECURITY_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_SECURITY_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_FEE_SECURITY_CODE_ENTERED);
             }
         }
 
@@ -705,7 +705,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         String feeTransactionTypeCode = feeTransaction.getTransactionTypeCode();
 
         if (ObjectUtils.isNull(feeTransactionTypeCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED);
             return true;
         }
 
@@ -728,7 +728,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         TransactionTypeCode transactionTypeCode = transactionTypeService.getByPrimaryKey(feeTransactionTypeCode);
 
         if (ObjectUtils.isNull(transactionTypeCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED);
             return false;
         }
 
@@ -753,7 +753,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         for (FeeTransaction feeTransactionsRecord : feeTransactions) {
             if (feeTransactionsRecord.getTransactionTypeCode().equalsIgnoreCase(feeTransactionTypeCode)) {
                 isDuplicate = true;
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED);
             }
         }
 
@@ -773,7 +773,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         String feeEndowmentCode = feeEndowmentTransactionCode.getEndowmentTransactionCode();
 
         if (ObjectUtils.isNull(feeEndowmentCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_ENDOWMENT_TRANSACTION_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_ENDOWMENT_TRANSACTION_CODE_ENTERED);
             return true;
         }
 
@@ -796,7 +796,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         EndowmentTransactionCode endowmentTransactionCode = endowmentTransactionCodeService.getByPrimaryKey(feeEndowmentCode);
 
         if (ObjectUtils.isNull(endowmentTransactionCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_ENDOWMENT_TRANSACTION_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_ENDOWMENT_TRANSACTION_CODE_ENTERED);
             return false;
         }
 
@@ -822,7 +822,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         for (FeeEndowmentTransactionCode feeEndowmentTransactionCodesRecord : feeEndowmentTransactionCodes) {
             if (feeEndowmentTransactionCodesRecord.getEndowmentTransactionCode().equalsIgnoreCase(feeEndowmentCode)) {
                 isDuplicate = true;
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_ENDOWMENT_TRANSACTION_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_ENDOWMENT_TRANSACTION_CODE_ENTERED);
             }
         }
 
@@ -842,7 +842,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         String feePaymentTypeCode = feePaymentType.getPaymentTypeCode();
 
         if (ObjectUtils.isNull(feePaymentTypeCode)) {
-            GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_PAYMENT_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_PAYMENT_TYPE_CODE_ENTERED);
+            putFieldError(EndowPropertyConstants.FEE_PAYMENT_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_PAYMENT_TYPE_CODE_ENTERED);
             return true;
         }
 
@@ -867,7 +867,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         for (FeePaymentType feePaymentTypesRecord : feePaymentTypes) {
             if (feePaymentTypesRecord.getPaymentTypeCode().equalsIgnoreCase(feePaymentTypeCode)) {
                 isDuplicate = true;
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_PAYMENT_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_PAYMENT_TYPE_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_PAYMENT_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_PAYMENT_TYPE_CODE_ENTERED);
             }
         }
 
@@ -892,7 +892,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             if (!StringUtils.equalsIgnoreCase(newFeeMethod.getFeeFrequencyCode(), oldFeeMethod.getFeeFrequencyCode())) {
                 FeeMethodService feeMethodService = SpringContext.getBean(FeeMethodService.class);
                 if (feeMethodService.isFeeMethodUsedOnAnyKemid(feeMethodCode)) {
-                    GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_FEE_MTHD_FREQ_CD_CANNOT_BE_CHANGED_IF_FEE_USED_ON_ANY_KEMID);
+                    putFieldError(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_FEE_MTHD_FREQ_CD_CANNOT_BE_CHANGED_IF_FEE_USED_ON_ANY_KEMID);
                     isValid = false;
                 }
             }
@@ -900,7 +900,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
         return isValid;
     }
-    
+
     /**
      * This method will check if Fee Transaction Type collection does not have type as EHVA
      * 
@@ -921,11 +921,11 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
                 }
             }
             if (!valid) {
-                GlobalVariables.getMessageMap().putError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED);
             }
         }
 
         return valid;
     }
-    
+
 }

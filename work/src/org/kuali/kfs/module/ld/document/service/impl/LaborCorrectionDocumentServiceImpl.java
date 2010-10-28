@@ -194,6 +194,9 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "About to save input labor origin entries for document " + document.getDocumentNumber() + " to file: " + fullPathUniqueFileName);
+        }
         persistLaborOriginEntries(fullPathUniqueFileName, entries);
     }
 
@@ -208,6 +211,9 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "About to save output labor origin entries for document " + document.getDocumentNumber() + " to file: " + fullPathUniqueFileName);
+        }
         persistLaborOriginEntries(fullPathUniqueFileName, entries);
     }
 
@@ -232,7 +238,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
         }
         catch (IOException e) {
             LOG.error("unable to persist labor origin entries to file: " + fullPathUniqueFileName, e);
-            throw new RuntimeException("unable to persist origin entries to file.");
+            throw new RuntimeException("unable to persist origin entries to file.", e);
         }
         finally {
             try {
@@ -241,7 +247,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             }
             catch (IOException e) {
                 LOG.error("unable to close output streams for file: " + fullPathUniqueFileName, e);
-                throw new RuntimeException("unable to close output streams");
+                throw new RuntimeException("unable to close output streams", e);
             }
         }
     }
@@ -317,6 +323,9 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntries(java.lang.String, int)
      */
     protected List<LaborOriginEntry> retrievePersistedLaborOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "Retrieving Entries from file " + fullPathUniqueFileName);
+        }
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
             LOG.error("File " + fullPathUniqueFileName + " does not exist.");
@@ -382,6 +391,9 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      * @see org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService#retrievePersistedLaborOriginEntriesAsIterator(java.lang.String)
      */
     protected Iterator<LaborOriginEntry> retrievePersistedLaborOriginEntriesAsIterator(String fullPathUniqueFileName) {
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info( "Retrieving Entries from file " + fullPathUniqueFileName);
+        }
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
             LOG.error("File " + fullPathUniqueFileName + " does not exist.");
@@ -456,8 +468,13 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             while ((bytesRead = fileIn.read(buf)) != -1) {
                 out.write(buf, 0, bytesRead);
             }
-        }
-        finally {
+        } catch ( IOException ex ) {
+            LOG.error("Unable to write origin entries from " + fullPathUniqueFileName + "to output stream.",ex);
+            throw ex;
+        } catch ( RuntimeException ex ) {
+            LOG.error("Unable to write origin entries from " + fullPathUniqueFileName + "to output stream.",ex);
+            throw ex;
+        } finally {
             fileIn.close();
         }
     }
@@ -546,7 +563,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
             }
             catch (IOException e) {
                 LOG.error("Unable to persist persisted output entry", e);
-                throw new RuntimeException("Unable to persist output entry");
+                throw new RuntimeException("Unable to persist output entry",e);
             }
             finally {
                 if (bufferedOutputStream != null) {
@@ -555,7 +572,7 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
                     }
                     catch (IOException e) {
                         LOG.error("Unable to close output stream for persisted output entries", e);
-                        throw new RuntimeException("Unable to close output entry file");
+                        throw new RuntimeException("Unable to close output entry file",e);
                     }
                 }
             }

@@ -44,7 +44,7 @@
           <tr><td>dataLoadedFlag</td><td>${KualiForm.dataLoadedFlag}</td></tr>
           <tr><td>matchCriteriaOnly</td><td>${KualiForm.matchCriteriaOnly}</td></tr>
           <tr><td>editableFlag</td><td>${KualiForm.editableFlag}</td></tr>
-          <tr><td>deteleFileFlag</td><td>${KualiForm.deleteFileFlag}</td></tr>
+          <tr><td>deleteFileFlag</td><td>${KualiForm.deleteFileFlag}</td></tr>
           <tr><td>allEntries.size</td><td>${KualiForm.allEntriesSize}</td></tr>
           <tr><td>readOnly</td><td>${readOnly}</td></tr>
         </table>
@@ -609,9 +609,9 @@
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
                     <html:image property="methodToCall.removeCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}-${criteria.correctionCriteriaLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Remove Search Criteria" title="Remove Search Criteria" />
-                    <br>
+                    <br />
                   </c:forEach>
-                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">Field</labbel>:
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName">Field</label>:
                   <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldName" title="Field">
                     <option value=""></option>
                      <c:choose>
@@ -621,17 +621,16 @@
 						<c:otherwise>
 		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
 		                </c:otherwise>
-		              </c:choose> 
-                    
-                    
+		              </c:choose>
                   </html:select>
-                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</labbel>:
+                  <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</label>:
                   <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" title="Operator">
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
                   </html:select>
                   <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue">Value</label>:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" title="Value"/>
                   <html:image property="methodToCall.addCorrectionCriteria.criteria${group.correctionChangeGroupLineNumber}.anchor${currentTabIndex}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" alt="Add Search Criteria" title="Add Search Criteria" />
+                  <br />
                 </c:forEach>
               </td>
             </tr>

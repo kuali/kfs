@@ -36,8 +36,8 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
-import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
@@ -47,19 +47,19 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
     
     // List of account-related BO classes (and all their subclasses) which have chartOfAccountsCode and accountNumber as (part of) the primary keys,
     // i.e. the complete list of all possible referenced BO classes with chart code and account number as (part of) the foreign keys. 
-    public static final Class[] ACCOUNT_CLASSES = { 
-        Account.class, SubAccount.class, A21SubAccount.class, 
-        AwardAccount.class, IndirectCostRecoveryExclusionAccount.class, PriorYearAccount.class, 
-        AccountDelegate.class, AccountDescription.class, AccountGlobalDetail.class, AccountGuideline.class, 
-        SubObjectCode.class, SubObjectCodeCurrent.class,
-    };
-    
-    public static HashSet<Class> accountClasses;    
+    protected static final HashSet<Class<? extends BusinessObject>> ACCOUNT_CLASSES = new HashSet<Class<? extends BusinessObject>>();    
     static {
-        accountClasses = new HashSet<Class>();
-        for (int i=0; i<ACCOUNT_CLASSES.length; i++) {
-            accountClasses.add(ACCOUNT_CLASSES[i]);
-        }
+        ACCOUNT_CLASSES.add(Account.class);
+        ACCOUNT_CLASSES.add(SubAccount.class);
+        ACCOUNT_CLASSES.add(A21SubAccount.class);
+        ACCOUNT_CLASSES.add(IndirectCostRecoveryExclusionAccount.class);
+        ACCOUNT_CLASSES.add(PriorYearAccount.class);
+        ACCOUNT_CLASSES.add(AccountDelegate.class);
+        ACCOUNT_CLASSES.add(AccountDescription.class);
+        ACCOUNT_CLASSES.add(AccountGlobalDetail.class);
+        ACCOUNT_CLASSES.add(AccountGuideline.class);
+        ACCOUNT_CLASSES.add(SubObjectCode.class);
+        ACCOUNT_CLASSES.add(SubObjectCodeCurrent.class);
     }    
     
     private MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
@@ -68,6 +68,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
 
+    @SuppressWarnings("rawtypes")
     public Map<String, Class> listCollectionAccountFields(PersistableBusinessObject bo) {
         Map<String, Class> accountFields = new HashMap<String, Class>(); 
         Iterator<Map.Entry<String, Class>> collObjs = listCollectionObjectTypes(bo).entrySet().iterator();
@@ -78,7 +79,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             Class accountCollType = entry.getValue();
             
             // if the reference object is of Account or Account-involved BO class (including all subclasses) 
-            if (accountClasses.contains(accountCollType)) {
+            if (ACCOUNT_CLASSES.contains(accountCollType)) {
                 // exclude non-maintainable account collection
                 String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
                 if (maintenanceDocumentDictionaryService.getMaintainableCollection(docTypeName, accountCollName) == null)
@@ -92,6 +93,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         return accountFields;
     }
     
+    @SuppressWarnings("rawtypes")
     public Set<String> listCollectionChartOfAccountsCodeNames(PersistableBusinessObject bo) {
         Set<String> coaCodeNames = new HashSet<String>();
         String docTypeName = maintenanceDocumentDictionaryService.getDocumentTypeName(bo.getClass());
@@ -103,7 +105,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             Class accountCollType = entry.getValue();
             
             // if the reference object is of Account or Account-involved BO class (including all subclasses) 
-            if (accountClasses.contains(accountCollType)) {
+            if (ACCOUNT_CLASSES.contains(accountCollType)) {
                 // exclude non-maintainable account collection
                 if (maintenanceDocumentDictionaryService.getMaintainableCollection(docTypeName, accountCollName) == null)
                     continue;
@@ -117,6 +119,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         return coaCodeNames;
     }
     
+    @SuppressWarnings("rawtypes")
     public Map<String, Class> listReferenceAccountFields(PersistableBusinessObject bo) {
         Map<String, Class> accountFields = new HashMap<String, Class>();       
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
@@ -127,7 +130,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             Class accountType = entry.getValue();
             
             // if the reference object is of Account or Account-involved BO class (including all subclasses)            
-            if (accountClasses.contains(accountType)) {
+            if (ACCOUNT_CLASSES.contains(accountType)) {
                 String coaCodeName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 String acctNumName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.ACCOUNT_NUMBER);
                 
@@ -161,6 +164,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         return accountFields;
     }
     
+    @SuppressWarnings("rawtypes")
     public Map<String, String> listChartCodeAccountNumberPairs(PersistableBusinessObject bo) {
         Map<String, String> chartAccountPairs = new HashMap<String, String>();       
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
@@ -171,7 +175,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             Class accountType = entry.getValue();
             
             // if the reference object is of Account or Account-involved BO class (including all subclasses)            
-            if (accountClasses.contains(accountType)) {
+            if (ACCOUNT_CLASSES.contains(accountType)) {
                 String coaCodeName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 String acctNumName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.ACCOUNT_NUMBER);
                 
@@ -205,6 +209,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
         return chartAccountPairs;
     }
     
+    @SuppressWarnings("rawtypes")
     public Map<String, String> listAccountNumberChartCodePairs(PersistableBusinessObject bo) {
         Map<String, String> accountChartPairs = new HashMap<String, String>(); 
         Iterator<Map.Entry<String, Class>> refObjs = listReferenceObjectFields(bo).entrySet().iterator();
@@ -215,7 +220,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
             Class accountType = entry.getValue();
             
             // if the reference object is of Account or Account-involved BO class (including all subclasses)            
-            if (accountClasses.contains(accountType)) {
+            if (ACCOUNT_CLASSES.contains(accountType)) {
                 String coaCodeName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 String acctNumName = getForeignKeyFieldName(bo.getClass(), accountName, KFSPropertyConstants.ACCOUNT_NUMBER);
                 
@@ -255,6 +260,7 @@ public class AccountPersistenceStructureServiceImpl extends PersistenceStructure
      * 
      * @see org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl#listReferenceObjectFields(org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public Map<String, Class> listReferenceObjectFields(PersistableBusinessObject bo) {
         if ( isPersistable(bo.getClass() ) ) {

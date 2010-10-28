@@ -97,8 +97,7 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
      */
     protected boolean existsTransactionArchiveSecurityWithDocNames(List<String> documentTypeNames, TransactionArchiveSecurity transactionArchiveSecurity, Date currentDate) {
         Criteria crit = new Criteria();
-        //crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, kemService.getCurrentDate());
-        crit.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, currentDate);
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, currentDate);
         if (documentTypeNames != null && !documentTypeNames.isEmpty()) {
             crit.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypeNames);
         }

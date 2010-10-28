@@ -399,7 +399,6 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             targetTransactionLine.setEtranCode(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowmentSystemParameter.INCOME_TRANSFER_ENDOWMENT_TRANSACTION_CODE));
             targetTransactionLine.setTransactionLineDescription("From <" + kemidPayoutInstruction.getPayIncomeToKemid() + ">");
             targetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
-            //TODO: calculation is not accurate. Check with good sample data later
             targetTransactionLine.setTransactionAmount(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()));
 
             GlobalVariables.clear();  
@@ -408,7 +407,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                     cashTransferDocument.addSourceTransactionLine(sourceTransactionLine);
                     cashTransferDocument.addTargetTransactionLine(targetTransactionLine);  
                     
-                    //TODO: verify where to put - income or principal; what about units?
+                    //TODO: verify what to put - income or principal; what about units?
                     prepareTotalReport(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()), new KualiDecimal(holdingTaxLot.getUnits()));
 
                 } else {                        

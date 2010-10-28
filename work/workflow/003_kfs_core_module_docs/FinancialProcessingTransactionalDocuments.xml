@@ -302,10 +302,10 @@
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
-        </role>
           <activationType>
             P
           </activationType>
+        </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver

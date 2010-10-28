@@ -104,7 +104,7 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
                 ObjectUtils.setObjectProperty(bo, coaCodeName, coaCode); 
             }
             catch (Exception e) {
-                LOG.error("Error in setting property value for " + coaCodeName);
+                LOG.error("Error in setting property value for " + coaCodeName, e);
             }
         }
         
@@ -126,7 +126,7 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
                     ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 
                 }
                 catch (Exception e) {
-                    LOG.error("Error in setting chartOfAccountsCode property value in account collection " + accountCollName);
+                    LOG.error("Error in setting chartOfAccountsCode property value in account collection " + accountCollName, e);
                 }
             }
         }

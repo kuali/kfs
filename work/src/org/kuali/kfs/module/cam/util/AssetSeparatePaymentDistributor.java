@@ -113,9 +113,6 @@ public class AssetSeparatePaymentDistributor {
         roundAccountChargeAmount();
         // create offset payments
         createOffsetPayments();
-
-        // Compute accumulated depreciation amounts
-        computeAccumulatedDepreciationAmount();
     }
 
 

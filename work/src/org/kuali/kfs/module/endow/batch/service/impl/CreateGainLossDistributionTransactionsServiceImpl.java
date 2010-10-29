@@ -93,7 +93,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         LOG.debug("processGainLossDistribution() started");
 
         // process short term gain/loss
-//        result &= processShortTermGainLossDistribution();
+        result &= processShortTermGainLossDistribution();
 
         // process long term gain/loss
         result &= processLongTermGainLossDistribution();

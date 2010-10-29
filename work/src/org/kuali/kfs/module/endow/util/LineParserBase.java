@@ -21,6 +21,8 @@ import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS;
+import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT;
+import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNIT_ADJUSTMENT_AMOUNT;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,7 +55,7 @@ public class LineParserBase implements LineParser {
      * The default format defines the expected line property names and their order in the import file. Please update this if the
      * import file format changes (i.e. adding/deleting line properties, changing their order).
      */
-    protected static final String[] DEFAULT_LINE_FORMAT = { KEMID, TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, TRANSACTION_LINE_DESCRIPTION, TRANSACTION_LINE_IP_INDICATOR_CODE, TRANSACTION_LINE_TRANSACTION_UNITS };
+    protected static final String[] DEFAULT_LINE_FORMAT = { KEMID, TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE, TRANSACTION_LINE_DESCRIPTION, TRANSACTION_LINE_IP_INDICATOR_CODE, TRANSACTION_LINE_TRANSACTION_UNITS, TRANSACTION_LINE_TRANSACTION_AMOUNT, TRANSACTION_LINE_TRANSACTION_UNIT_ADJUSTMENT_AMOUNT };
 
     private Integer lineNo = 0;
 

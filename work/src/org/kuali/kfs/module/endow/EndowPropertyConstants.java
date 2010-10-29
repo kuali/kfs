@@ -570,6 +570,7 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_LINE_TRANSACTION_AMOUNT = "transactionAmount";
     public static final String TRANSACTION_LINE_TRANSACTION_UNITS = "transactionUnits";
     public static final String TRANSACTION_LINE_IP_INDICATOR_CODE = "transactionIPIndicatorCode";
+    public static final String TRANSACTION_LINE_TRANSACTION_UNIT_ADJUSTMENT_AMOUNT = "unitAdjustmentAmount";
 
 
     public static final String TARGET_TRANSACTION_LINE_PREFIX = "newTargetTransactionLine.";

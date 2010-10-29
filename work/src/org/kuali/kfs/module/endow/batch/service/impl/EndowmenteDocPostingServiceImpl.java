@@ -275,8 +275,10 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             // Determine the next available tax lot number based on the current highest tax lot number.  This
             // list is already sorted in ASC per OJB mapping XML file, so I need to grab the last element and
             // increment its value by 1 to get the next available tax lot number.
-            Integer nextHoldingLotNumber = taxLotLines.get(taxLotLines.size() - 1).getTransactionHoldingLotNumber();
-            nextHoldingLotNumber++;
+            
+            // TODO: Remove commented code.
+            //Integer nextHoldingLotNumber = taxLotLines.get(taxLotLines.size() - 1).getTransactionHoldingLotNumber();
+            //nextHoldingLotNumber++;
             
             for (EndowmentTransactionTaxLotLine taxLotLine : tranLine.getTaxLotLines()) {
                 
@@ -287,13 +289,11 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 HoldingTaxLot holdingTaxLot = findHoldingTaxLotRecord(kemid, securityId, regCode, piCode, holdingLotNumber);
                 
                 // Get new lot indicator.
-                boolean isNewLot = taxLotLine.isNewLotIndicator(); // TODO: WHAT??
+                boolean isNewLot = taxLotLine.isNewLotIndicator();
                 
                 // If we find an existing one, then modify it.
                 if (holdingTaxLot != null && !isNewLot) {
-                    
-                    holdingTaxLot.getSecurity().getClassCode().isTaxLotIndicator();
-                    
+                                       
                     holdingTaxLot.setUnits(holdingTaxLot.getUnits().add(taxLotLine.getLotUnits()));
                     holdingTaxLot.setCost(holdingTaxLot.getCost().add(taxLotLine.getLotHoldingCost()));
                     
@@ -316,10 +316,12 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                         documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CORPORATE_REORGANZATION)) {
                     
                     holdingTaxLot = createHoldingTaxLot(kemid, securityId, regCode, piCode, taxLotLine.getLotUnits(), taxLotLine.getLotHoldingCost());
-                    holdingTaxLot.setAcquiredDate(kemService.getCurrentDate());              
-                    holdingTaxLot.setLotNumber(new KualiInteger(nextHoldingLotNumber));
+                    holdingTaxLot.setAcquiredDate(kemService.getCurrentDate());
+
+                    holdingTaxLot.setLotNumber(new KualiInteger(taxLotLine.getTransactionHoldingLotNumber()));
                     
-                    nextHoldingLotNumber++;
+                    // TODO: Remove commented code.
+                    //nextHoldingLotNumber++;
                 }
                 // One doesn't exist, and it doesn't fall under the document type criteria.
                 else {
@@ -327,8 +329,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                     continue;
                 }
                 
-                
- 
                 holdingTaxLot.setLastTransactionDate(kemService.getCurrentDate());
                 
                 // Create a new HoldingTaxLotRebalance entry.

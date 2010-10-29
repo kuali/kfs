@@ -167,6 +167,24 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     public void setTransactionSourceType(EndowmentTransactionSourceType transactionSourceType) {
         this.transactionSourceType = transactionSourceType;
     }
+    
+    /**
+     * Gets the noRouteIndicator.
+     * 
+     * @return noRouteIndicator
+     */
+    public boolean getNoRouteIndicator(){
+        return noRouteIndicator;
+    }
+    
+    /**
+     * Sets the noRouteIndicator.
+     * 
+     * @param noRouteIndicator
+     */
+    public void setNoRouteIndicator(boolean noRouteIndicator){
+        this.noRouteIndicator = noRouteIndicator;
+    }        
 
     /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
@@ -218,12 +236,8 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             
             getBusinessObjectService().save(entry);    
         }
-    }   
-    
-    public void setNoRouteIndicator(boolean noRouteIndicator){
-        this.noRouteIndicator = noRouteIndicator;
-    }
-    
+    }       
+   
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(this.CHECK_IF_ROUTE_SPLIT))
             return this.noRouteIndicator;

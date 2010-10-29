@@ -54,7 +54,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao;
     protected CashSweepModelDao cashSweepModelDao;
         
-    protected ReportWriterService rollFrequencyDatesReportWriterService;
+    protected ReportWriterService rollFrequencyDatesTotalReportWriterService;
+    protected ReportWriterService rollFrequencyDatesExceptionReportWriterService;
     
     /**
      * Updates some date fields based on the frequency for the activity 
@@ -71,7 +72,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         updateTicklerNextDueDates();
         
         // update Fee Next Process Dates
-        updateFeeProcessDates();
+        //updateFeeProcessDates();
         
         // update Recurring Cash Transfer Next Process Dates
         updateRecurringCashTransferProcessDates();
@@ -102,13 +103,16 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     security.setIncomeNextPayDate(nextDate);
                     if (updateBusinessObject(security)) {
                         counter++;
+                        generateTotalReport("END_SEC_T", counter);
                     } else {
                         LOG.error("Failed to update Security " + security.getId());
+                        generateExceptionReport("END_SEC_T", security.getId());
+                        
                     }
                 }
             }
         }
-        generateReport("END_SEC_T", counter, true);
+        
         LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter); 
     }
     
@@ -127,13 +131,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     tickler.setNextDueDate(nextDate);
                     if (updateBusinessObject(tickler)) {
                         counter++;
+                        generateTotalReport("END_TKLR_T", counter);
                     } else {
                         LOG.error("Failed to update Tickler " + tickler.getNumber());
+                        generateExceptionReport("END_TKLR_T", tickler.getNumber());
                     }
                 }                
             }
         }
-        generateReport("END_TKLR_T", counter, false);
+        
         LOG.info("Total Tickler Next Due Dates updated in END_TKLR_T: " + counter);
     }
     
@@ -153,13 +159,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     feeMethod.setFeeNextProcessDate(nextDate);
                     if (updateBusinessObject(feeMethod)) {
                         counter++;
+                        generateTotalReport("END_FEE_MTHD_T", counter);
                     } else {
                         LOG.error("Failed to update FeeMethod " + feeMethod.getCode());
+                        generateExceptionReport("END_FEE_MTHD_T", feeMethod.getCode());
                     }
                 }
             }
         }
-        generateReport("END_FEE_MTHD_T", counter, false);
+        
         LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated in END_FEE_MTHD_T: " + counter);
     }
     
@@ -179,13 +187,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     recurringCashTransfer.setNextProcessDate(nextDate);
                     if (updateBusinessObject(recurringCashTransfer)) {
                         counter++;
+                        generateTotalReport("END_REC_CSH_XFR_T", counter);
                     } else {
                         LOG.error("Failed to update EndowmentRecurringCashTransfer " + recurringCashTransfer.getTransferNumber());
+                        generateExceptionReport("END_REC_CSH_XFR_T", recurringCashTransfer.getTransferNumber());
                     }
                 }                
             }
         }
-        generateReport("END_REC_CSH_XFR_T", counter, false);
+        
         LOG.info("Total Next Process Dates and Last Process Dates updated in END_REC_CSH_XFR_T: " + counter);
     }
     
@@ -201,13 +211,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     aci.setAciNextDueDate(nextDate);
                     if (updateBusinessObject(aci)) {
                         counter++;
+                        generateTotalReport("END_AUTO_CSH_INVEST_MDL_T", counter);
                     } else {
                         LOG.error("Failed to update FeeMethod " + aci.getAciModelID());
+                        generateExceptionReport("END_AUTO_CSH_INVEST_MDL_T", aci.getAciModelID().toString());
                     }
                 }
             }
         }
-        generateReport("END_AUTO_CSH_INVEST_MDL_T", counter, false);
+        
         LOG.info("Total ACI Next Due Dates updated in END_AUTO_CSH_INVEST_MDL_T: " + counter);
     }
 
@@ -223,13 +235,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     csm.setCashSweepNextDueDate(nextDate);
                     if (updateBusinessObject(csm)) {
                         counter++;
+                        generateTotalReport("END_CSH_SWEEP_MDL_T", counter);
                     } else {
                         LOG.error("Failed to update FeeMethod " + csm.getCashSweepModelID());
+                        generateExceptionReport("END_CSH_SWEEP_MDL_T", csm.getCashSweepModelID().toString());
                     }
                 }
             }
         }
-        generateReport("END_CSH_SWEEP_MDL_T", counter, false);
+       
         LOG.info("Total Cash Sweep Model Next Due Dates updated in END_CSH_SWEEP_MDL_T: " + counter);
     }
     
@@ -237,22 +251,37 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
      * Generates the statistic report for updated tables 
      * @param tableName
      * @param counter
-     * @param isFirstReport
      */
-    protected void generateReport(String tableName, int counter, boolean isFirstReport) {
+    protected void generateTotalReport(String tableName, int counter) {
         
         try {
-            if (isFirstReport) {
-                // write the title
-                rollFrequencyDatesReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Number of Records Updated");
-                rollFrequencyDatesReportWriterService.writeNewLines(1);
-            }
-            rollFrequencyDatesReportWriterService.writeFormattedMessageLine(tableName + ": %s", counter);
-            
+            rollFrequencyDatesTotalReportWriterService.writeFormattedMessageLine(tableName + ": %s", counter);            
         } catch (Exception e) {
             LOG.error("Failed to generate the statistic report: " + e.getMessage());
-            rollFrequencyDatesReportWriterService.writeFormattedMessageLine("Failed to generate the statistic report: " + e.getMessage());
+            rollFrequencyDatesExceptionReportWriterService.writeFormattedMessageLine("Failed to generate the total report: " + e.getMessage());
         }
+    }
+    
+    /**
+     * Generates the exception report 
+     * @param tableName
+     * @param counter
+     */
+    protected void generateExceptionReport(String tableName, String errorMessage) {
+        
+        try {
+            rollFrequencyDatesExceptionReportWriterService.writeFormattedMessageLine(tableName + ": %s", errorMessage);            
+        } catch (Exception e) {
+            LOG.error("Failed to generate the exception report: " + e.getMessage());
+        }
+    }
+    
+    protected void initializeReports() {
+        rollFrequencyDatesTotalReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Number of Records Updated");
+        rollFrequencyDatesTotalReportWriterService.writeNewLines(1);
+        
+        rollFrequencyDatesExceptionReportWriterService.writeSubTitle("<rollFrequencyDatesJob> Records Failed for update");
+        rollFrequencyDatesExceptionReportWriterService.writeNewLines(1);
     }
     
     /**
@@ -265,7 +294,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         boolean result = true;
         try {
             businessObjectService.save(businessObject);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) { // such as IllegalArgumentException
+            LOG.error(e.getMessage());
             result = false;
         }
         
@@ -314,11 +344,19 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     }
 
     /**
-     * Sets the rollFrequencyDatesReportWriterService attribute value.
-     * @param rollFrequencyDatesReportWriterService The rollFrequencyDatesReportWriterService to set.
+     * Sets the rollFrequencyDatesTotalReportWriterService attribute value.
+     * @param rollFrequencyDatesTotalReportWriterService The rollFrequencyDatesTotalReportWriterService to set.
      */
-    public void setRollFrequencyDatesReportWriterService(ReportWriterService rollFrequencyDatesReportWriterService) {
-        this.rollFrequencyDatesReportWriterService = rollFrequencyDatesReportWriterService;
+    public void setRollFrequencyDatesTotalReportWriterService(ReportWriterService rollFrequencyDatesTotalReportWriterService) {
+        this.rollFrequencyDatesTotalReportWriterService = rollFrequencyDatesTotalReportWriterService;
+    }
+
+    /**
+     * Sets the rollFrequencyDatesExceptionReportWriterService attribute value.
+     * @param rollFrequencyDatesExceptionReportWriterService The rollFrequencyDatesExceptionReportWriterService to set.
+     */
+    public void setRollFrequencyDatesExceptionReportWriterService(ReportWriterService rollFrequencyDatesExceptionReportWriterService) {
+        this.rollFrequencyDatesExceptionReportWriterService = rollFrequencyDatesExceptionReportWriterService;
     }
 
     /**

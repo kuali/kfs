@@ -680,7 +680,8 @@
 	<bean id="rollFrequencyDatesStep" class="org.kuali.kfs.module.endow.batch.RollFrequencyDatesStep" parent="wrappedStep">
 		<property name="wrappingBatchServices">
 			<list>
-				<ref bean="rollFrequencyDatesReportWriterService" />				
+				<ref bean="rollFrequencyDatesTotalReportWriterService" />
+				<ref bean="rollFrequencyDatesExceptionReportWriterService" />				
 			</list>
 		</property>	
 		<property name="rollFrequencyDatesService">
@@ -696,9 +697,12 @@
 		<property name="frequencyCodeService">
 			<ref bean="frequencyCodeService" />
 		</property>	
-		<property name="rollFrequencyDatesReportWriterService">
-			<ref bean="rollFrequencyDatesReportWriterService" />
+		<property name="rollFrequencyDatesTotalReportWriterService">
+			<ref bean="rollFrequencyDatesTotalReportWriterService" />
 		</property>
+		<property name="rollFrequencyDatesExceptionReportWriterService">
+			<ref bean="rollFrequencyDatesExceptionReportWriterService" />
+		</property>		
 		<property name="securityDao">
 			<ref bean="securityDao" />
 		</property>	
@@ -719,10 +723,16 @@
 		</property>			
 	</bean>	
 	
-    <bean id="rollFrequencyDatesReportWriterService" parent="reportWriterService">
+    <bean id="rollFrequencyDatesTotalReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="rollFrequencyDatesReport_"/>
-        <property name="title" value="ROLL FREQUENCY DATES BATCH REPORT"/>
+		<property name="fileNamePrefix" value="rollFrequencyDatesTotalReport-"/>
+        <property name="title" value="ROLL FREQUENCY DATES BATCH TOTAL REPORT"/>
+	</bean>
+	
+	<bean id="rollFrequencyDatesExceptionReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="rollFrequencyDatesExceptionReport-"/>
+        <property name="title" value="ROLL FREQUENCY DATES BATCH EXCEPTION REPORT"/>
 	</bean>
 			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb">

@@ -244,7 +244,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             GlobalVariables.clear();
             if (validateECI(cashIncreaseDocument)) {
                 submitCashDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, paramNoRouteInd);
-                writeTotalReport(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+                writeTotalReport(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, incomePrincipalIndicator);
+                LOG.error("Submitted an ECI successfully: document# " + cashIncreaseDocument.getDocumentNumber());
             } else {
                 writeDocumentValdiationErrorReport(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
                 LOG.error("createECI() Validation Error: Document# " + cashIncreaseDocument.getDocumentHeader().getDocumentNumber()); 
@@ -254,6 +255,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     LOG.error("createECI() Saving Error: Document# " + cashIncreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());
                 } 
             }
+        } else {
+            LOG.error("ECI was not sumitted because no transaction lines are found in document# " + cashIncreaseDocument.getDocumentNumber());
         }
         
         return true;
@@ -292,7 +295,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             GlobalVariables.clear();
             if (validateECDD(cashDecreaseDocument)) {
                 submitCashDocument(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, paramNoRouteInd);
-                writeTotalReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
+                writeTotalReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, incomePrincipalIndicator);
+                LOG.error("Submitted an ECI successfully: document# " + cashDecreaseDocument.getDocumentNumber());
             } else {
                 writeDocumentValdiationErrorReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
                 LOG.error("createECI() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber());
@@ -302,6 +306,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                     LOG.error("createECI() Saving Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());
                 } 
             }
+        } else {
+            LOG.error("ECI was not sumitted because no transaction lines are found in document# " + cashDecreaseDocument.getDocumentNumber());
         }
 
         return true;
@@ -317,21 +323,20 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
         
-        // create a transaction line - needs only one
+        // create a transaction line - needs only one for this batch job
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
         endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+endowmentTargetTransactionLine.setEtranCode("75720");         
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
-        endowmentTargetTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
+        //endowmentTargetTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
         
         GlobalVariables.clear();
         if (validateTransactionLine(cashIncreaseDocument, endowmentTargetTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
             // add a transaction line -  only one for this batch            
-            cashIncreaseDocument.setTargetTransactionLines(new TypedArrayList(EndowmentTargetTransactionLine.class));
-            //cashIncreaseDocument.setNextTargetLineNumber(new Integer(1));  
-            cashIncreaseDocument.getTargetTransactionLines().add(endowmentTargetTransactionLine);
+            cashIncreaseDocument.addTargetTransactionLine(endowmentTargetTransactionLine);
             // set security
             cashIncreaseDocument.getTargetTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
             cashIncreaseDocument.getTargetTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());   
@@ -352,21 +357,19 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     protected void populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
         
-        // create a transaction line - needs only one
+        // create a transaction line - needs only one for this batch job
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
         endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
         endowmentSourceTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
-        endowmentSourceTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
+        //endowmentSourceTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
         
         GlobalVariables.clear();
         if (validateTransactionLine(cashDecreaseDocument, endowmentSourceTransactionLine, EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME)) {
-            // add transaction line - need only one for this batch 
-            cashDecreaseDocument.setSourceTransactionLines(new TypedArrayList(EndowmentSourceTransactionLine.class));
-            //cashDecreaseDocument.setNextSourceLineNumber(new Integer(1));
-            cashDecreaseDocument.getSourceTransactionLines().add(endowmentSourceTransactionLine);            
+            // add transaction line
+            cashDecreaseDocument.addSourceTransactionLine(endowmentSourceTransactionLine);
             // set security
             cashDecreaseDocument.getSourceTransactionSecurity().setSecurityLineTypeCode(securityLineTypeCode);
             cashDecreaseDocument.getSourceTransactionSecurity().setSecurityID(pooledFundControl.getPooledSecurityID());
@@ -476,12 +479,26 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param cashDocument
      * @param documentType
      */
-    protected <C extends EndowmentSecurityDetailsDocumentBase> void writeTotalReport(C cashDocument, String documentType) {
+    protected <C extends EndowmentSecurityDetailsDocumentBase> void writeTotalReport(C cashDocument, String documentType, String incomePrincipalIndicator) {
         totalReportLine.setDocumentType(documentType);
         totalReportLine.setDocumentId(cashDocument.getDocumentNumber());
         totalReportLine.setSecurityId(cashDocument.getTargetTransactionSecurity().getSecurityID());
-        totalReportLine.setIncomeAmount(cashDocument.getTargetIncomeTotal());
-        totalReportLine.setIncomeUnits(cashDocument.getTargetIncomeTotalUnits());
+        if (incomePrincipalIndicator.equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+            totalReportLine.setPrincipalAmount(cashDocument.getTargetPrincipalTotal().add(cashDocument.getSourcePrincipalTotal()));
+            totalReportLine.setPrincipalUnits(cashDocument.getTargetPrincipalTotalUnits().add(cashDocument.getSourcePrincipalTotalUnits()));
+        } else if (incomePrincipalIndicator.equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+            totalReportLine.setIncomeAmount(cashDocument.getTargetIncomeTotal().add(cashDocument.getSourceIncomeTotal()));
+            totalReportLine.setIncomeUnits(cashDocument.getTargetIncomeTotalUnits().add(cashDocument.getSourceIncomeTotalUnits()));
+        }
+        totalReportLine.setTotalNumberOfTransactionLines(1);
+        pooledFundControlTransactionsTotalReportWriterService.writeTableRow(totalReportLine);
+        
+        // reset for the next total report
+        totalReportLine.setTotalNumberOfTransactionLines(0);
+        totalReportLine.setPrincipalAmount(KualiDecimal.ZERO);
+        totalReportLine.setPrincipalUnits(KualiDecimal.ZERO);
+        totalReportLine.setIncomeAmount(KualiDecimal.ZERO);
+        totalReportLine.setIncomeUnits(KualiDecimal.ZERO);
     }
         
     /**

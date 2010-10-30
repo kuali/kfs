@@ -381,7 +381,6 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         return totalUnits;
     }
 
-
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getTargetTotalUnits()
      */

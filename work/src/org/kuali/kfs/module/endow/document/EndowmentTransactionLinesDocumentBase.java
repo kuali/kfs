@@ -211,7 +211,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
-            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+            if (tl.getTransactionUnits() != null && EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
                 total = total.add(tl.getTransactionUnits());
             }
         }
@@ -227,7 +227,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (EndowmentTransactionLine tl : getSourceTransactionLines()) {
-            if (tl.getTransactionAmount() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
+            if (tl.getTransactionUnits() != null && EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(tl.getTransactionIPIndicatorCode())) {
                 total = total.add(tl.getTransactionUnits());
             }
         }

@@ -198,7 +198,9 @@ public class BarcodeInventoryErrorAction extends FinancialSystemTransactionalDoc
                 } else {
                     //Reseting the status back to error for those rows that were not selected by the user to be validated.
                     //detail.getCorrectorUniversalIdentifier() = null means record has not been saved as corrected
-                    if (detail.getCorrectorUniversalIdentifier() == null) {
+                    // if (detail.getCorrectorUniversalIdentifier() == null) {
+                    // detail.getInventoryCorrectionTimestamp() used to determine error_status instead of detail.getCorrectorUniversalIdentifier()
+                     if (detail.getInventoryCorrectionTimestamp() == null) {
                         detail.setErrorCorrectionStatusCode(CamsConstants.BarCodeInventoryError.STATUS_CODE_ERROR);
                     }
                 }

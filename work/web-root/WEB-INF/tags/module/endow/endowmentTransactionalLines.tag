@@ -113,7 +113,7 @@
                       		'     width=72 height=15 border=0 align="right" class="det-button">' +
                     		'<\/a>' +
                     		'<div id="uploadDivSourceTran" style="display:none;" >' +
-                      		'<html:file size="30" property="transactionLineImportFile" />' +
+                      		'<html:file size="30" property="transactionSourceLinesImportFile" />' +
                       		'<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="add imported transaction lines" title="add imported transaction lines" />' +
                       		'<html:image property="methodToCall.cancelImport" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
@@ -123,7 +123,7 @@
             		</SCRIPT>
 					<NOSCRIPT>
 						Import lines
-						<html:file size="30" property="transactionLineImportFile" style="font:10px;height:16px;" />
+						<html:file size="30" property="transactionSourceLinesImportFile" style="font:10px;height:16px;" />
 						<html:image property="methodToCall.${importLineAction}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
 					</NOSCRIPT>
 				</c:if>

@@ -33,6 +33,8 @@ import org.kuali.rice.kns.service.ParameterService;
 public abstract class EndowmentTransactionLinesDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
 
     protected FormFile transactionLineImportFile;
+    protected FormFile transactionSourceLinesImportFile;
+    
     protected EndowmentTransactionLine newSourceTransactionLine;
     protected EndowmentTransactionLine newTargetTransactionLine;
     private EndowmentSourceTransactionSecurity sourceTransactionSecurity;
@@ -743,4 +745,22 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_TRANSACTION_LINE_IMPORT);
     }
 
+    /**
+     * Gets the transactionSourceLinesImportFile.
+     * 
+     * @return transactionSourceLinesImportFile
+     */
+    public FormFile getTransactionSourceLinesImportFile() {
+        return transactionSourceLinesImportFile;
+    }
+
+    /**
+     * Sets the transactionSourceLinesImportFile.
+     * 
+     * @param transactionSourceLinesImportFile
+     */
+    public void setTransactionSourceLinesImportFile(FormFile transactionSourceLinesImportFile) {
+        this.transactionSourceLinesImportFile = transactionSourceLinesImportFile;
+    }
+    
 }

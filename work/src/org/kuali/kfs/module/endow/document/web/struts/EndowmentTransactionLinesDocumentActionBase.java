@@ -180,7 +180,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         EndowmentTransactionLinesDocument tranLineDocument = (EndowmentTransactionLinesDocument) tranLineForm.getDocument();
         String documentNumber = tranLineDocument.getDocumentNumber();
 
-        FormFile lineFile = tranLineForm.getTransactionLineImportFile();
+        FormFile lineFile = (isSource ? tranLineForm.getTransactionSourceLinesImportFile() : tranLineForm.getTransactionLineImportFile());
         Class lineClass = tranLineDocument.getTranLineClass(isSource);
         List<EndowmentTransactionLine> importedTransactionLines = null;
 

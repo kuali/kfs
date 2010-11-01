@@ -72,7 +72,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         updateTicklerNextDueDates();
         
         // update Fee Next Process Dates
-        //updateFeeProcessDates();
+        updateFeeProcessDates();
         
         // update Recurring Cash Transfer Next Process Dates
         updateRecurringCashTransferProcessDates();

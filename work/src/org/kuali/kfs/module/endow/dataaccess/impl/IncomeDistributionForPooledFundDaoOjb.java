@@ -61,7 +61,10 @@ public class IncomeDistributionForPooledFundDaoOjb extends PlatformAwareDaoBaseO
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(PooledFundValue.class, subCrit);        
         subQuery.setAttributes(new String[] {EndowPropertyConstants.POOL_SECURITY_ID, "max(" + EndowPropertyConstants.VALUE_EFFECTIVE_DATE + ")"});
         subQuery.addGroupBy(EndowPropertyConstants.POOL_SECURITY_ID);      
-        Iterator<?> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(subQuery);
+        Iterator<?> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(subQuery);        
+        if (!result.hasNext()) {
+            return null;
+        }
         
         Criteria crit = new Criteria();
         while (result.hasNext()) {

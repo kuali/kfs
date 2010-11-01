@@ -113,88 +113,93 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
-    public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
 
-        initializeAttributes(document);
+        success &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, bo);
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        success &= errorMap.hasNoErrors();
 
-        if (collectionName.equalsIgnoreCase(EndowPropertyConstants.KEMID_DONOR_STATEMENTS_TAB)) {
-            KemidDonorStatement donorStatement = (KemidDonorStatement) bo;
+        if (success) {
 
-            if (!validCombineWithDonorId(donorStatement)) {
-                success &= false;
+            initializeAttributes(document);
+
+            if (collectionName.equalsIgnoreCase(EndowPropertyConstants.KEMID_DONOR_STATEMENTS_TAB)) {
+                KemidDonorStatement donorStatement = (KemidDonorStatement) bo;
+
+                if (!validCombineWithDonorId(donorStatement)) {
+                    success &= false;
+                }
+            }
+
+            if (bo instanceof KemidAgreement) {
+                KemidAgreement agreement = (KemidAgreement) bo;
+                success &= checkAgreement(agreement);
+
+            }
+
+            if (bo instanceof KemidSourceOfFunds) {
+                KemidSourceOfFunds sourceOfFunds = (KemidSourceOfFunds) bo;
+                success &= checkSourceOfFunds(sourceOfFunds);
+            }
+
+            if (bo instanceof KemidBenefittingOrganization) {
+                KemidBenefittingOrganization benefittingOrg = (KemidBenefittingOrganization) bo;
+                success &= checkBenefittingOrg(benefittingOrg);
+            }
+
+            if (bo instanceof KemidGeneralLedgerAccount) {
+                KemidGeneralLedgerAccount generalLedgerAccount = (KemidGeneralLedgerAccount) bo;
+                success &= checkGeneralLedgerAccount(generalLedgerAccount);
+            }
+
+            if (bo instanceof KemidAuthorizations) {
+                KemidAuthorizations authorization = (KemidAuthorizations) bo;
+                success &= checkAuthorization(authorization, -1);
+            }
+
+            if (bo instanceof KemidPayoutInstruction) {
+                KemidPayoutInstruction payoutInstruction = (KemidPayoutInstruction) bo;
+                success &= checkPayoutInstruction(payoutInstruction, -1);
+            }
+
+            if (bo instanceof KemidUseCriteria) {
+                KemidUseCriteria useCriteria = (KemidUseCriteria) bo;
+                success &= checkUseCriteria(useCriteria);
+            }
+
+            if (bo instanceof KemidSpecialInstruction) {
+                KemidSpecialInstruction specialInstruction = (KemidSpecialInstruction) bo;
+                success &= checkSpecialInstruction(specialInstruction);
+            }
+
+            if (bo instanceof KemidReportGroup) {
+                KemidReportGroup reportGroup = (KemidReportGroup) bo;
+                success &= checkReportGroup(reportGroup);
+            }
+
+            if (bo instanceof KemidDonorStatement) {
+                KemidDonorStatement donorStatement = (KemidDonorStatement) bo;
+                success &= checkDonorStatement(donorStatement);
+            }
+
+            if (bo instanceof KemidCombineDonorStatement) {
+                KemidCombineDonorStatement combineDonorStatement = (KemidCombineDonorStatement) bo;
+                success &= checkCombineDonorStatement(combineDonorStatement);
+            }
+
+            if (bo instanceof KemidFee) {
+                KemidFee fee = (KemidFee) bo;
+                success &= checkFee(fee);
+                success &= validateFeePercentageTotal(fee, -1);
+                success &= validatePercentageOfFeeChargedToPrincipal(fee, -1);
+                success &= validateKemidFeeStartDate(fee, -1);
             }
         }
-
-        if (bo instanceof KemidAgreement) {
-            KemidAgreement agreement = (KemidAgreement) bo;
-            success &= checkAgreement(agreement);
-
-        }
-
-        if (bo instanceof KemidSourceOfFunds) {
-            KemidSourceOfFunds sourceOfFunds = (KemidSourceOfFunds) bo;
-            success &= checkSourceOfFunds(sourceOfFunds);
-        }
-
-        if (bo instanceof KemidBenefittingOrganization) {
-            KemidBenefittingOrganization benefittingOrg = (KemidBenefittingOrganization) bo;
-            success &= checkBenefittingOrg(benefittingOrg);
-        }
-
-        if (bo instanceof KemidGeneralLedgerAccount) {
-            KemidGeneralLedgerAccount generalLedgerAccount = (KemidGeneralLedgerAccount) bo;
-            success &= checkGeneralLedgerAccount(generalLedgerAccount);
-        }
-
-        if (bo instanceof KemidAuthorizations) {
-            KemidAuthorizations authorization = (KemidAuthorizations) bo;
-            success &= checkAuthorization(authorization, -1);
-        }
-
-        if (bo instanceof KemidPayoutInstruction) {
-            KemidPayoutInstruction payoutInstruction = (KemidPayoutInstruction) bo;
-            success &= checkPayoutInstruction(payoutInstruction, -1);
-        }
-
-        if (bo instanceof KemidUseCriteria) {
-            KemidUseCriteria useCriteria = (KemidUseCriteria) bo;
-            success &= checkUseCriteria(useCriteria);
-        }
-
-        if (bo instanceof KemidSpecialInstruction) {
-            KemidSpecialInstruction specialInstruction = (KemidSpecialInstruction) bo;
-            success &= checkSpecialInstruction(specialInstruction);
-        }
-
-        if (bo instanceof KemidReportGroup) {
-            KemidReportGroup reportGroup = (KemidReportGroup) bo;
-            success &= checkReportGroup(reportGroup);
-        }
-
-        if (bo instanceof KemidDonorStatement) {
-            KemidDonorStatement donorStatement = (KemidDonorStatement) bo;
-            success &= checkDonorStatement(donorStatement);
-        }
-
-        if (bo instanceof KemidCombineDonorStatement) {
-            KemidCombineDonorStatement combineDonorStatement = (KemidCombineDonorStatement) bo;
-            success &= checkCombineDonorStatement(combineDonorStatement);
-        }
-
-        if (bo instanceof KemidFee) {
-            KemidFee fee = (KemidFee) bo;
-            success &= checkFee(fee);
-            success &= validateFeePercentageTotal(fee, -1);
-            success &= validatePercentageOfFeeChargedToPrincipal(fee, -1);
-            success &= validateKemidFeeStartDate(fee, -1);
-        }
-
-        success &= super.processAddCollectionLineBusinessRules(document, collectionName, bo);
         return success;
     }
 

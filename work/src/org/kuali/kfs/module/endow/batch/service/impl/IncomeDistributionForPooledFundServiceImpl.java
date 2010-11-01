@@ -89,7 +89,11 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         LOG.info("Beginning the Income Distribution for Pooled Fund Transactions batch ...");
                        
         // get the list of PooledFundValue with distribute income on date == the current date && income distribution complete == 'N'&& the most recent value effective date 
-        List<PooledFundValue> pooledFundValueList = incomeDistributionForPooledFundDao.getPooledFundValueForIncomeDistribution(kemService. getCurrentDate());
+        List<PooledFundValue> pooledFundValueList = incomeDistributionForPooledFundDao.getPooledFundValueForIncomeDistribution(kemService. getCurrentDate());        
+        if (pooledFundValueList == null || pooledFundValueList.isEmpty()) {
+            // none exists so end the process
+            return true;
+        }
         
         // group by security id
         for (PooledFundValue pooledFundValue : pooledFundValueList) {
@@ -166,6 +170,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         
         // add the doc description and security
         cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION));
+        cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
         addSecurityDetailToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, securityId, registrationCode);
   
         // add transaction lines   
@@ -256,8 +261,8 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
                         endowmentTargetTransactionLine.setKemid(holdingTaxLot.getKemid()); 
                         endowmentTargetTransactionLine.setEtranCode(incomeDistributionForPooledFundDao.getIncomeEntraCode(holdingTaxLot.getSecurityId()));            
-                        endowmentTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
-                        endowmentTargetTransactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
+                        endowmentTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.INCOME);
+                        //endowmentTargetTransactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
                         endowmentTargetTransactionLine.setTransactionAmount(transactionAmount);
                         
                         GlobalVariables.clear();  // clear the previous errors

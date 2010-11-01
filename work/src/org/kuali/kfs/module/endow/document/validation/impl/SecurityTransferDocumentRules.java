@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
@@ -46,6 +47,14 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
         isValid &= validateSecurity(isValid, securityTransferDocument, true);
 
         isValid &= validateRegistration(isValid, securityTransferDocument, true);
+
+        // if adding a target transaction line check that there is at least one source transaction line entered
+        if (line instanceof EndowmentTargetTransactionLine) {
+            if (transLineDocument.getSourceTransactionLines() == null || transLineDocument.getSourceTransactionLines().size() == 0) {
+                putFieldError(getErrorPrefix(line, -1), EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_SECURITY_TRANSFER_ENTER_SOURCE_TRANS_LINE);
+                return false;
+            }
+        }
 
         // there can be only one source transaction line
         isValid &= validateOnlyOneSourceTransactionLine(true, securityTransferDocument, line, -1);
@@ -112,14 +121,16 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
 
             // Validate Units is Greater then Zero(thus positive) value
             isValid &= validateTransactionUnitsGreaterThanZero(line, ERROR_PREFIX);
+            if (isValid) {
 
-            if (line instanceof EndowmentSourceTransactionLine) {
-                // Validate if Sufficient Units are Avaiable
-                isValid &= validateSufficientUnits(isAdd, endowmentTransactionLinesDocument, line, transLineIndex, taxLotIndex);
+                if (line instanceof EndowmentSourceTransactionLine) {
+                    // Validate if Sufficient Units are Avaiable
+                    isValid &= validateSufficientUnits(isAdd, endowmentTransactionLinesDocument, line, transLineIndex, taxLotIndex);
+                }
+
+                // Check if value of Endowment is being reduced.
+                checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
             }
-
-            // Check if value of Endowment is being reduced.
-            checkWhetherReducePermanentlyRestrictedFund(line, ERROR_PREFIX);
         }
 
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
@@ -157,7 +168,11 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
             // Validate All the Transaction Lines.
             for (int i = 0; i < txLines.size(); i++) {
                 EndowmentTransactionLine txLine = txLines.get(i);
-                isValid &= validateSecurityTransferTransactionLine(false, securityTransferDocument, txLine, i, -1);
+
+                if (!validateSecurityTransferTransactionLine(false, securityTransferDocument, txLine, i, -1)) {
+                    return false;
+                }
+
                 isValid &= validateTaxLots(securityTransferDocument, txLine, i);
                 isValid &= validateTotalUnits(securityTransferDocument, txLine, i);
             }

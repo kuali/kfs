@@ -15,7 +15,6 @@ k * Copyright 2009 The Kuali Foundation.
  */
 package org.kuali.kfs.module.endow;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 
 public class EndowKeyConstants {
 
@@ -241,6 +240,7 @@ public class EndowKeyConstants {
 
         // Security Transfer constants
         public static final String ERROR_SECURITY_TRANSFER_ONE_AND_ONLY_ONE_SOURCE_TRANS_LINE = "error.document.securityTransfer.oneAndOnlyOneTransactionLine";
+        public static final String ERROR_SECURITY_TRANSFER_ENTER_SOURCE_TRANS_LINE = "error.document.securityTransfer.enterSourceTransactionLine";
 
 
         // Accounting Lines

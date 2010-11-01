@@ -254,6 +254,7 @@
         </bean>
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.ObjectCodeInquirable"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->

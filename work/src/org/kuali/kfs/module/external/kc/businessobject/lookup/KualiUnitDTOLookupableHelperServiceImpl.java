@@ -62,14 +62,6 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
            unitList = unitService.lookupUnits(parameters);
            if (unitList == null) return Collections.EMPTY_LIST;
            return unitList;
-            /*
-            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-            if (unitList != null) {
-                unitList = unitService.lookupUnits(parameters);
-                return unitList;
-
-            }
-            */
             
         } catch (Exception ex) {
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 

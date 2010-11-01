@@ -160,7 +160,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         List<CashTransferDocument> cashTransferDocumentList = new ArrayList<CashTransferDocument>();
 
         // initialize CashIncreaseDocument
-        CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+        CashIncreaseDocument cashIncreaseDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
         if (ObjectUtils.isNull(cashIncreaseDocument)) {
             return false;
         } else {
@@ -239,12 +239,13 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                                 submitIncomeDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
                                     
                                 // generate a new ECI
-                                cashIncreaseDocument = (CashIncreaseDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+                                cashIncreaseDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
                                 if (ObjectUtils.isNull(cashIncreaseDocument)) {
-                                    return;  //?? how to deal with the remaining transaction lines - try again?
+                                    return;  // we can't do anything 
                                 } else {                           
                                     // add the doc description and security detail
                                     cashIncreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION));
+                                    cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
                                     addSecurityDetailToECI(cashIncreaseDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
                                     // reset reports
                                     resetTotalReport(cashIncreaseDocument);
@@ -305,8 +306,10 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      */
     protected CashTransferDocument createECT(HoldingTaxLot holdingTaxLot, KualiDecimal transactionAmount, List<CashTransferDocument> cashTransferDocumentList, List<KemidPayoutInstruction> kemidPayoutInstructionList) {
         
-        CashTransferDocument cashTransferDocument = generateECT(holdingTaxLot, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION);                
-        if (ObjectUtils.isNotNull(cashTransferDocument)) {
+        CashTransferDocument cashTransferDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
+        if (ObjectUtils.isNotNull(cashTransferDocument)) { 
+            cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION));
+            cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);          
             // add security
             addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
             // add transaction lines
@@ -316,47 +319,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         }
         return cashTransferDocument;
     }
-    
-    protected void createECT2(HoldingTaxLot holdingTaxLot, KualiDecimal transactionAmount, List<CashTransferDocument> cashTransferDocumentList) {
-        
-        // get the list of KemidPayoutInstruction with pay income short date <= current date && (pay income term date == null or > current date) && kemid != pay_inc_to_kemid
-        List<KemidPayoutInstruction> kemidPayoutInstructionList = incomeDistributionForPooledFundDao.getKemidPayoutInstructionForECT(holdingTaxLot.getKemid(), kemService.getCurrentDate());
-        if (kemidPayoutInstructionList != null) {
-            for (KemidPayoutInstruction kemidPayoutInstruction : kemidPayoutInstructionList) {
-                CashTransferDocument cashTransferDocument = generateECT(holdingTaxLot, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION);
-                if (ObjectUtils.isNotNull(cashTransferDocument)) {
-                    // add security
-                    addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
-                    // add transaction lines
-                    addTransactionLinesToECT(cashTransferDocumentList, cashTransferDocument, holdingTaxLot, kemidPayoutInstructionList, transactionAmount);
-                    // prepare to submit the current ECT later
-                    cashTransferDocumentList.add(cashTransferDocument);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Generates and initializes ECT 
-     * @param holdingTaxLot
-     * @param paramDescriptionName
-     * @return
-     */
-    protected CashTransferDocument generateECT(HoldingTaxLot holdingTaxLot, String paramDescriptionName) {
-        
-        LOG.info("Creating ECT ...");
-        
-        CashTransferDocument cashTransferDocument = null;
-                
-        // initialize CashTransferDocument
-        cashTransferDocument = (CashTransferDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
-        if (cashTransferDocument != null) {
-            cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, paramDescriptionName));
-        }
-        
-        return cashTransferDocument;
-    }
-    
+            
     /**
      * Adds transaction lines to ECT
      * @param cashTransferDocumentList
@@ -375,12 +338,13 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                 cashTransferDocumentList.add(cashTransferDocument);
                 
                 // generate a new ECT
-                cashTransferDocument = (CashTransferDocument)generateCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
+                cashTransferDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
                 if (cashTransferDocument == null) {
                     return; //??
                 } else {
                     // add the doc description and security
                     cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_DESCRIPTION));
+                    cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
                     addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
                     // populate security            
                     addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
@@ -446,15 +410,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         fieldValues.put(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, effectiveDate);
         PooledFundValue pooledFundValue = (PooledFundValue) businessObjectService.findByPrimaryKey(PooledFundValue.class, fieldValues);
         totalDistributionAmount = totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
-
-//        for (HoldingTaxLot holdingTaxLot : holdingTaxLotList) {            
-//            Map<String, Object> fieldValues = new HashMap<String, Object>();
-//            fieldValues.put(EndowPropertyConstants.POOL_SECURITY_ID, holdingTaxLot.getSecurityId());
-//            fieldValues.put(EndowPropertyConstants.VALUE_EFFECTIVE_DATE, effectiveDate);
-//            PooledFundValue pooledFundValue = (PooledFundValue) businessObjectService.findByPrimaryKey(PooledFundValue.class, fieldValues);
-//            totalDistributionAmount = totalDistributionAmount.add(pooledFundValue.getIncomeDistributionPerUnit());
-//        }
-        
+       
         return new KualiDecimal(totalUnits.multiply(totalDistributionAmount));
 
     }
@@ -490,26 +446,30 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
     }
     
     /**
-     * Generates Cash document
-     * @param cashDocumentType
+     * Initialize a cash document. If fails, try as many times as EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITILIZATION_TRY.
+     * @param <C>
+     * @param documentType
+     * @param counter
      * @return
      */
-    protected EndowmentSecurityDetailsDocumentBase generateCashDocument(String cashDocumentType) {
+    protected <C extends EndowmentSecurityDetailsDocumentBase> C initializeCashDocument(String documentType, int counter) {
         
-        EndowmentSecurityDetailsDocumentBase endowmentSecurityDetailsDocumentBase = null;
-                
-        try {
-            endowmentSecurityDetailsDocumentBase = (EndowmentSecurityDetailsDocumentBase) documentService.getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(cashDocumentType));            
-        } catch (WorkflowException wfe) {
-            incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Failed to generate a new %s: %s", cashDocumentType, wfe.getMessage());
-            LOG.error("generateCashDocument() Workflow error in initializing document: " + cashDocumentType + ": " + wfe.getMessage());
-            
-        } catch (Exception e) {
-            incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Failed to generate a new %s: %s", cashDocumentType, e.getMessage());
-            LOG.error("generateCashDocument Runtime error in initializing document: " + cashDocumentType + ": " + e.getMessage());
-        }
+        C cashDocument = null;
         
-        return endowmentSecurityDetailsDocumentBase;
+        if (counter > 0) {
+            try {
+                cashDocument = (C) documentService.getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName(documentType));
+            } catch (WorkflowException wfe) {
+                incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Failed to generate a new %s: %s", documentType, wfe.getMessage());
+                LOG.error( (EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY - counter + 1) + ": The creation of " + documentType + " failed. Tyring it again ...");
+                cashDocument = (C) initializeCashDocument(documentType, --counter);
+            } catch (Exception e) {
+                incomeDistributionForPooledFundExceptionReportWriterService.writeFormattedMessageLine("Failed to generate a new %s: %s", documentType, e.getMessage());
+                LOG.error("generateCashDocument Runtime error in initializing document: " + documentType + ": " + e.getMessage());
+            }
+        } 
+        
+        return cashDocument;
     }
 
     /**

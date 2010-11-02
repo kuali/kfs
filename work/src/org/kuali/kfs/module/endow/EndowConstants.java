@@ -180,6 +180,7 @@ public class EndowConstants extends JSTLConstants {
         public static final String PURCHASE_DESCRIPTION = "PURCHASE_DESCRIPTION";
         public static final String SALE_NO_ROUTE_IND = "SALE_NO_ROUTE_IND";
         public static final String SALE_DESCRIPTION = "SALE_DESCRIPTION";
+        public static final String INCOME_TRANSFER_NO_ROUTE_IND = "INCOME_TRANSFER_NO_ROUTE_IND";        
         public static final String DESCRIPTION = "DESCRIPTION";
         public static final String NO_ROUTE_IND = "NO_ROUTE_IND";
         public static final String ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES = "DOCUMENT_TYPES";

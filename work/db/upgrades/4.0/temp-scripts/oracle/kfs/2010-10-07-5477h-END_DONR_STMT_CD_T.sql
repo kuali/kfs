@@ -1,1 +1,0 @@
-update END_DONR_STMT_CD_T set ROW_ACTV_IND = 'Y'; 

@@ -1,3 +1,0 @@
-Alter table END_REC_CSH_XFT_T rename to END_REC_CSH_XFR_T;
-Alter table END_REC_CSH_XFT_KEMID_TGT_T rename to END_REC_CSH_XFR_KEMID_TGT_T;
-Alter table END_REC_CSH_XFT_GL_TGT_T rename to END_REC_CSH_XFR_GL_TGT_T;

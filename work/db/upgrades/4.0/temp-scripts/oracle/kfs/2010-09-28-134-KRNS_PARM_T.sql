@@ -1,4 +1,0 @@
-
-insert into KRNS_PARM_T columns (NMSPC_CD, APPL_NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD,OBJ_ID, VER_NBR) values ('KFS-SYS', 'KFS', 'BatchUpload', 'BATCH_UPLOAD_HELP_URL', 'HELP',
- 'customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm',
- 'A Parameter to provide customizing the help URL for the Batch Upload help page', 'A',sys_guid(), 1); 

@@ -1,3 +1,0 @@
-UPDATE krns_parm_t
-SET parm_desc_txt='A semi-colon delimited list of regular expressions that identify potentially sensitive data in strings. These patterns will be matched against notes, document explanations, and routing annotations (i.e. the document disapproval reason). The default value excludes all strings exceeding 9 digits. To exclude only those of exactly 9 or 16 digits change the parameter value to: [0-9]{3}-[0-9]{2}-[0-9]{4};\d{4}-\d{4}-\d{4}-\d{4};\d{4}\s\d{4}\s\d{4}\s\d{4};\d{2}-\d{7};(^\d{9}$)|(\D\d{9}$)|(^\d{9}\D)|(\D\d{9}\D);(^\d{16}$)|(\D\d{16}$)|(^\d{16}\D)|(\D\d{16}\D)'
-WHERE nmspc_cd='KR-NS' AND PARM_DTL_TYP_CD='All' AND PARM_NM='SENSITIVE_DATA_PATTERNS'; 

@@ -1,5 +1,0 @@
-alter table AP_ELCTRNC_INV_MAP_T
-add DOBJ_MAINT_CD_ACTV_IND varchar(1);
-
-update AP_ELCTRNC_INV_MAP_T
-set DOBJ_MAINT_CD_ACTV_IND = 'Y'; 

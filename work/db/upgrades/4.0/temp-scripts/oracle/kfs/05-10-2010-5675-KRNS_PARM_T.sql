@@ -1,3 +1,0 @@
-UPDATE krns_parm_t
-SET txt='BT;YEBT;ST;YEST'
-WHERE nmspc_cd='KFS-LD' AND PARM_DTL_TYP_CD='LaborScrubberStep' AND PARM_NM='DEMERGE_DOCUMENT_TYPES'; 

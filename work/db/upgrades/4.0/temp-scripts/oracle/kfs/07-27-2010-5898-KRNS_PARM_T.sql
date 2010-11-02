@@ -1,2 +1,0 @@
-insert into krns_parm_t(nmspc_cd, parm_dtl_typ_cd, parm_nm, obj_id, ver_nbr, parm_typ_cd, txt, parm_desc_txt, cons_cd, appl_nmspc_cd)
-	values ('KFS-PURAP', 'ElectronicInvoiceReject', 'OVERRIDE_DOCUMENT_TITLE_IND', sys_guid(), 1, 'CONFG', 'N', 'Indicator related default document titles. Set to "N" if accepting the Kuali default document title, related to the Electronic Invoice Reject Document, as listed in the Document Search results.', 'A', 'KFS')

@@ -1,2 +1,0 @@
-
-insert into KRNS_PARM_T columns (NMSPC_CD, APPL_NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD) values ('KFS-ENDOW', 'KFS', 'KEMID', 'ROLE_REQUIRED_IND', 'CONFG', 'N', 'If this value is Yes, then for each KEMID record created there must be at least one active record in END_KEMID_ROLE_T. If this value is No, then no associated records are required in END_KEMID_ROLE_T.', 'A'); 

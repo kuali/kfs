@@ -1,4 +1,0 @@
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD) values ('KFS-PURAP', 'Document', 'TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET', SYS_GUID(), 1, 'CONFG', '7070', 'the object code to be used for the trade in item accounts if the object code subtype of the account is one of the given set of Capital Asset subtypes', 'A', 'KUALI');
-
--- Create a new system parameter for the hard coded OJB Code 7099
-insert into KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD) values ('KFS-PURAP', 'Document', 'TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE', SYS_GUID(), 1, 'CONFG', '7099', 'the object code to be used for the trade in item accounts if the object code subtype of the account is Capital Lease', 'A', 'KUALI');

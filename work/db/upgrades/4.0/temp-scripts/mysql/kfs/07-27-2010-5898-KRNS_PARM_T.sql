@@ -1,3 +1,0 @@
-- Changeset updates/2010-07-27-5898-1-KRNS_PARM_T.xml::5898-1-1::Ying::(MD5Sum: ac20918ee69c6b23ad2cee1c4fc2bab)
--- KFS Development      * KFS Development     * KFSMI-5898  Request Parameter for EIRT OVERRIDE_DOCUMENT_TITLE_IND
-INSERT INTO `KRNS_PARM_T` (`appl_nmspc_cd`, `cons_cd`, `nmspc_cd`, `parm_dtl_typ_cd`, `parm_nm`, `obj_id`, `parm_desc_txt`, `ver_nbr`, `txt`, `parm_typ_cd`) VALUES ('KFS', 'A', 'KFS-PURAP', 'ElectronicInvoiceReject', 'OVERRIDE_DOCUMENT_TITLE_IND', uuid(), 'Indicator related default document titles Set to N if accepting the Kuali default document title, related to the Electronic Invoice Reject Document, as listed in the Document Search results', 1, 'N', 'CONFG');

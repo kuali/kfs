@@ -17,24 +17,21 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.sql.Date;
 
+import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
+import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
+import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
+import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
+import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
-import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
-import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
-import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
-import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
-import org.kuali.kfs.module.endow.document.service.SecurityService;
 
+public class PooledFundValuePreRule extends MaintenancePreRulesBase {
 
-public class PooledFundValuePreRule extends MaintenancePreRulesBase{
-    
     private PooledFundValue newPooledFundValue;
     private PooledFundControl pooledFundControl;
-    
+
     /**
      * Set value for newCashSweepModel.
      * 
@@ -46,12 +43,12 @@ public class PooledFundValuePreRule extends MaintenancePreRulesBase{
         newPooledFundValue = (PooledFundValue) document.getNewMaintainableObject().getBusinessObject();
         newPooledFundValue.refreshNonUpdateableReferences();
         pooledFundControl = newPooledFundValue.getPooledFundControl();
-        if (!ObjectUtils.isNotNull(pooledFundControl)){
+        if (!ObjectUtils.isNotNull(pooledFundControl)) {
             PooledFundControlService pooledFundControlService = SpringContext.getBean(PooledFundControlService.class);
             pooledFundControl = pooledFundControlService.getByPrimaryKey(newPooledFundValue.getPooledSecurityID());
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -59,28 +56,22 @@ public class PooledFundValuePreRule extends MaintenancePreRulesBase{
     protected boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
 
         setupConvenienceObjects(maintenanceDocument);
-        if (!ObjectUtils.isNotNull(pooledFundControl)){
-            //bad pooledSecurityID
-//          this.event.setActionForwardName(actionForwardName)
-            return false;
-        }
-        
-        // Set the date of last sweep model change -- the date is the time when the maintenance doc is submitted, not
-        // the time when that maintenance doc gets approved.
-        PooledFundValueService pooledFundValueService = SpringContext.getBean(PooledFundValueService.class);
-        Date valuationDate = newPooledFundValue.getValuationDate();
-        String pooledSecurityID = newPooledFundValue.getPooledSecurityID();
-        
+        if (ObjectUtils.isNotNull(pooledFundControl)) {
+            // Set the date of last sweep model change -- the date is the time when the maintenance doc is submitted, not
+            // the time when that maintenance doc gets approved.
+            PooledFundValueService pooledFundValueService = SpringContext.getBean(PooledFundValueService.class);
+            Date valuationDate = newPooledFundValue.getValuationDate();
+            String pooledSecurityID = newPooledFundValue.getPooledSecurityID();
 
-        if (valuationDate == null || pooledSecurityID == null){
-            return false;            
-        }        
-        else {
-            
-            Date valueEffectiveDate = pooledFundValueService.calculateValueEffectiveDate(valuationDate, pooledSecurityID);
-            newPooledFundValue.setValueEffectiveDate(valueEffectiveDate);
-            return true;
+            if (valuationDate != null && pooledSecurityID != null) {
+
+                Date valueEffectiveDate = pooledFundValueService.calculateValueEffectiveDate(valuationDate, pooledSecurityID);
+                newPooledFundValue.setValueEffectiveDate(valueEffectiveDate);
+                return true;
+            }
         }
+
+        return true;
     }
 
 }

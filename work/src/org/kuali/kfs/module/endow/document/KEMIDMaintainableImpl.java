@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
 import org.kuali.kfs.module.endow.businessobject.KemidCombineDonorStatement;
+import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
@@ -35,18 +36,23 @@ import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * This class...
@@ -55,6 +61,40 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
 
     private KEMID oldKemid;
     private KEMID newKemid;
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+
+        super.doRouteStatusChange(documentHeader);
+
+        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        FinancialSystemMaintenanceDocument maintDoc = null;
+
+        try {
+            maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+
+        initializeAttributes(maintDoc);
+
+        // This code is only executed if the maintenance action was NEW or COPY and when the final approval occurs
+        if ((KNSConstants.MAINTENANCE_NEW_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction())) && workflowDoc.stateIsFinal()) {
+
+            KemidCurrentCash newCurrentCashEntry = new KemidCurrentCash();
+            newCurrentCashEntry.setKemid(newKemid.getKemid());
+            newCurrentCashEntry.setCurrentIncomeCash(KualiDecimal.ZERO);
+            newCurrentCashEntry.setCurrentPrincipalCash(KualiDecimal.ZERO);
+
+            // save new current cash entry
+            SpringContext.getBean(BusinessObjectService.class).save(newCurrentCashEntry);
+        }
+    }
 
 
     /**

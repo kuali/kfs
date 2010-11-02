@@ -17,25 +17,13 @@ package org.kuali.kfs.coa.businessobject.inquiry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;

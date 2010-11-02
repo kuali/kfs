@@ -179,14 +179,14 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         // validate ECI first and then submit it
         GlobalVariables.clear();
         if (validateECI(cashIncreaseDocument)) {
-            submitIncomeDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+            submitCashDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
   
             // and then validate and submit ECT
             if (cashTransferDocumentList != null) {
                 for (CashTransferDocument cashTransferDocument : cashTransferDocumentList) {
                     GlobalVariables.clear();  // in case
                     if (validateECT(cashTransferDocument)) {
-                        submitIncomeDocument(cashTransferDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
+                        submitCashDocument(cashTransferDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, EndowConstants.EndowmentSystemParameter.INCOME_TRANSFER_NO_ROUTE_IND);
                     } else {
                         writeValidationErrorReason();
                         LOG.error("Failed to validate ECT: Document # " + cashTransferDocument.getDocumentNumber());
@@ -236,7 +236,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
 
                             // validate and submit
                             if (validateECI(cashIncreaseDocument)) {
-                                submitIncomeDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+                                submitCashDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND);
                                     
                                 // generate a new ECI
                                 cashIncreaseDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
@@ -477,10 +477,9 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param <T> 
      * @param cashDocument
      */
-    protected <T extends EndowmentSecurityDetailsDocumentBase> void submitIncomeDocument(T cashDocument, String documentType) {
+    protected <T extends EndowmentSecurityDetailsDocumentBase> void submitCashDocument(T cashDocument, String documentType, String noRouteInd) {
         try {
-            //TODO: verify the param name
-            cashDocument.setNoRouteIndicator(isNoRoute(EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND));
+            cashDocument.setNoRouteIndicator(isNoRoute(noRouteInd));
             documentService.routeDocument(cashDocument, "Submitted by the batch job", null);
         } catch (WorkflowException wfe) {
             LOG.error("Failed to route document #: " + cashDocument.getDocumentNumber());

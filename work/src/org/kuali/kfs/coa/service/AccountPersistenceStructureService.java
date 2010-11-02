@@ -28,6 +28,13 @@ import org.kuali.rice.kns.service.PersistenceStructureService;
 public interface AccountPersistenceStructureService extends PersistenceStructureService {
     
     /**
+     * Decides if the specified class is an account related class, i.e. whether it contains chartOfAccountsCode and accountNumber as part of the primary keys.
+     * @param clazz the specified class
+     * @return true if the class contains chartOfAccountsCode and accountNumber as part of the primary keys; false otherwise.
+     */
+    public boolean isAccountRelatedClass(Class clazz);
+
+    /**
      * Determines the list of collection accounts (or other account-involved BOs) contained within the specified parent object. 
      * For example, an Award object contains awardAccounts.
      * Note: these do not include the following cases

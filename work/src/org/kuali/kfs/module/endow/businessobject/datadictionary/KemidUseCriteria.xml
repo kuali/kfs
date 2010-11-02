@@ -25,6 +25,7 @@
         		<ref bean="KemidUseCriteria-kemid" />
         		<ref bean="KemidUseCriteria-useCriteriaSeq" />
 		        <ref bean="KemidUseCriteria-useCriteriaCode" />
+		        <ref bean="KemidUseCriteria-useCriteria.name" />
 		        <ref bean="KemidUseCriteria-useCriteriaAdditionalInfo"/>
 		        <ref bean="KemidUseCriteria-active"/>
         		<ref bean="KemidUseCriteria-newCollectionRecord"/>	     
@@ -63,6 +64,14 @@
     	<property name="label" value="Use Criteria Code" />
     	<property name="required" value="true" />
   	</bean>
+  	
+  	<bean id="KemidUseCriteria-useCriteria.name" parent="KemidUseCriteria-useCriteria.name-parentBean" />
+  
+  	<bean id="KemidUseCriteria-useCriteria.name-parentBean" abstract="true" parent="UseCriteriaCode-name">
+  		<property name="name" value="useCriteria.name" />
+    	<property name="label" value="Use Criteria Code Description" />
+  	</bean> 
+  	
 	<bean id="KemidUseCriteria-useCriteriaAdditionalInfo" parent="KemidUseCriteria-useCriteriaAdditionalInfo-parentBean" />
 
  	<bean id="KemidUseCriteria-useCriteriaAdditionalInfo-parentBean" abstract="true" parent="AttributeDefinition">

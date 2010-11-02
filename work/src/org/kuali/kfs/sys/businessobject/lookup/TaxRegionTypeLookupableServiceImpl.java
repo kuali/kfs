@@ -44,8 +44,9 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
     // KFSMI-5158
     @Override
     public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions restrictions) {
-        
-        if (getParameters().containsValue(KFSConstants.TaxRegionConstants.CREATE_TAX_REGION_FROM_LOOKUP_PARM)) {
+
+        final String docTypeName = getTaxRegionDocumentTypeName();
+        if (docTypeName.equals(lookupForm.getFormKey())) { 
             Properties parameters = getParameters(businessObject, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName(), returnKeys);
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegion.class.getName());
@@ -82,4 +83,8 @@ public class TaxRegionTypeLookupableServiceImpl extends KualiLookupableHelperSer
         
         return htmlDataList;
     }
+    
+    private String getTaxRegionDocumentTypeName() {
+        return getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(TaxRegion.class).getDocumentTypeName();
+    } 
 }

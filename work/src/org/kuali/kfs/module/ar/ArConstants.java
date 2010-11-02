@@ -137,8 +137,7 @@ public class ArConstants {
         public static final String PRINT_INVOICE_NOW = "Y";
         public static final String PRINT_DO_NOT_PRINT = "N";
     }
-    
-    
+
     public static final String LOCKBOX_DOCUMENT_DESCRIPTION = "Created by Lockbox ";
     public static final String LOCKBOX_REMITTANCE_FOR_INVALID_INVOICE_NUMBER = "Lockbox: Remittance for INVALID invoice number ";
     public static final String LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER = "Lockbox: Remittance for CLOSED invoice number ";

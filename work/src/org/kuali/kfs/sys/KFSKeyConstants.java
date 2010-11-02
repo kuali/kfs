@@ -836,6 +836,7 @@ public class KFSKeyConstants {
         public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset";
         public static final String ERROR_DEPOSIT_NOT_SUPPORTED = "error.document.bank.depositNotSupported";
         public static final String ERROR_DISBURSEMENT_NOT_SUPPORTED = "error.document.bank.disbursementNotSupported";      
+        public static final String ERROR_ACCOUNT_NUMBER_NOT_UNIQUE = "error.document.bank.accountNumberNotUnique";         
     }
     
     public static final String LABEL_NEW_ACCOUNTING_LINE_FIELD = "accounting.line.field.newLine.label";

@@ -68,6 +68,10 @@ public class TaxServiceImpl implements TaxService {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
 
         if (StringUtils.isNotEmpty(postalCode)) {
+            //  strip digits from the postal code before passing it to the sales tax regions 
+            // if the parameters indicate to do so.
+            postalCode = truncatePostalCodeForSalesTaxRegionService(postalCode);
+            
             for (TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)) {
                 useTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
             }

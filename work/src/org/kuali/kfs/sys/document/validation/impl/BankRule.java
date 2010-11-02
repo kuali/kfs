@@ -15,17 +15,18 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * Evaluates business rules for editing or creation of a new bank record.
@@ -50,6 +51,7 @@ public class BankRule extends MaintenanceDocumentRuleBase {
 
         valid &= checkPartiallyFilledOutReferences();
         valid &= validateFieldsForBankOffsetEntries();
+        valid &= validateBankAccountNumber();
 
         return valid;
     }
@@ -102,6 +104,30 @@ public class BankRule extends MaintenanceDocumentRuleBase {
         }
 
         return valid;
+    }
+    
+    /**
+     * Bank account number must be unique.
+     * 
+     * @return
+     */
+    protected boolean validateBankAccountNumber() {
+        boolean valid = true;
+        Map criteria = new HashMap();
+
+        if ( StringUtils.isNotBlank(newBank.getBankAccountNumber() ) )
+        {
+            criteria.put("bankAccountNumber", newBank.getBankAccountNumber() );
+            Collection existingBanks = super.getBoService().findMatching(Bank.class, criteria);
+            if ( existingBanks != null && !existingBanks.isEmpty() )
+            {
+                valid = false;
+                this.putFieldError(KFSPropertyConstants.BANK_ACCOUNT_NUMBER, KFSKeyConstants.Bank.ERROR_ACCOUNT_NUMBER_NOT_UNIQUE);
+            }
+        }
+        
+        return valid;
+        
     }
 
 }

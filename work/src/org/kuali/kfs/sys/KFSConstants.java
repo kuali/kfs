@@ -1296,6 +1296,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String XSD_VALIDATION_PREFIX = "xsd:";
         public static final String DD_VALIDATION_PREFIX = "dd:";
     }
+    
+    public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
 
     public static class Reserch {
         public static final String KC_NAMESPACE_URI = "KC";

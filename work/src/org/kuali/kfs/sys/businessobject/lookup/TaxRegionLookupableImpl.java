@@ -17,6 +17,8 @@ package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.Properties;
 
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.TaxRegion;
 import org.kuali.kfs.sys.businessobject.TaxRegionType;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -35,23 +37,22 @@ public class TaxRegionLookupableImpl extends KualiLookupableImpl {
      */
     @Override
     public String getCreateNewUrl() {
-
         String url = "";
 
         if (getLookupableHelperService().allowsMaintenanceNewOrCopyAction()) {
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
             parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegionType.class.getName());
             parameters.put(KNSConstants.RETURN_LOCATION_PARAMETER, KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KNSConstants.MAPPING_PORTAL);
-            parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
-            parameters.put(KNSConstants.HIDE_LOOKUP_RETURN_LINK, Boolean.toString(true));
+            parameters.put(KNSConstants.DOC_FORM_KEY, getTaxRegionDocumentTypeName()); 
             parameters.put(KNSConstants.CONVERSION_FIELDS_PARAMETER, "taxRegionTypeCode:taxRegionTypeCode");
-            url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters);
-            url = "<a href=\"" + url + "\"><img src=\"images/tinybutton-createnew.gif\" alt=\"create new\" width=\"70\" height=\"15\"/></a>";
+            url = getCreateNewUrl(UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters)); 
         }
 
         return url;
     }
-
+    
+    private String getTaxRegionDocumentTypeName() {
+        return getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(TaxRegion.class).getDocumentTypeName();
+    } 
 
 }

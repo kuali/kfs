@@ -617,6 +617,9 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="useCriteriaCode" 
                     p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="useCriteria.name" 
+		            p:unconditionallyReadOnly="true"/>	      
               <bean parent="MaintainableFieldDefinition" 
                     p:name="useCriteriaAdditionalInfo" />   
               <bean parent="MaintainableFieldDefinition" 
@@ -658,6 +661,10 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="agreementSpecialInstructionCode" 
                     p:required="true" />
+              <bean parent="MaintainableFieldDefinition"
+		            p:name="agreementSpecialInstruction.name"
+		            p:required="true"
+		            p:unconditionallyReadOnly="true" />	      
               <bean parent="MaintainableFieldDefinition" 
                     p:name="comments" />   
               <bean parent="MaintainableFieldDefinition" 

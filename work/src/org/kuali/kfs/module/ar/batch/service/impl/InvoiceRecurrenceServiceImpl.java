@@ -133,8 +133,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 lastProcessCalendar.clear();
             }
             lastProcessDate = DateUtils.convertToSqlDate(lastProcessCalendar.getTime());
-            
-            /* if nextProcessDate is equal to currentDate create INV document */
+             /* if nextProcessDate is equal to currentDate create INV document */
             if (nextProcessDate.equals(currentDate)) {
                 /* copy INV document to a new INV document */
                 String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
@@ -154,7 +153,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             /* if nextProcessDate is greater than currentDate BUT less than or equal to endDate */
             if (nextProcessDate.after(currentDate) && (!nextProcessDate.after(endDate))) {
                 if ((ObjectUtils.isNotNull(lastCreateDate) && lastProcessDate.after(lastCreateDate))  ||
-                    (ObjectUtils.isNull(lastCreateDate))) {
+                    (ObjectUtils.isNull(lastCreateDate)  && beginDate.before(currentDate)) ) {
                     /* copy INV document to a new INV document */
                     String initiator = invoiceRecurrence.getDocumentInitiatorUserPersonUserIdentifier();
                     GlobalVariables.setUserSession(new UserSession(initiator));

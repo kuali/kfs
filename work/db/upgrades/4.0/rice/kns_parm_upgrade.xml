@@ -48,18 +48,6 @@
     	</delete>
     </changeSet>
     
-    <!-- Fix some parameter values where the value needs to be an HTML hyperlink instead of just an URL -->
-    <changeSet author="kfs" id="KFS_40_FIX_PARM_URLS">
-    	<update tableName="KRNS_PARM_T">
-    		<column name="TXT" value="&lt;a href=&quot;http://kuali.org/&quot;&gt;&quot;http://kuali.org/&quot;&lt;/a&gt;" />
-    		<where>NMSPC_CD = 'KFS-FP' AND PARM_DTL_TYP_CD = 'ProcurementCard' AND PARM_NM = 'DISPUTE_URL'</where>
-    	</update>
-    	<update tableName="KRNS_PARM_T">
-    		<column name="TXT" value="&lt;a href=&quot;http://kuali.org/&quot;&gt;&quot;http://kuali.org/&quot;&lt;/a&gt;" />
-    		<where>NMSPC_CD = 'KFS-PURAP' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'PDF_STATUS_INQUIRY_URL'</where>
-    	</update>
-    </changeSet>
-
 	<!-- fix the descriptions on parameters which are misleading -->
     <changeSet author="kfs" id="KFS_40_FIX_PARM_DESC">
     	<update tableName="KRNS_PARM_T">

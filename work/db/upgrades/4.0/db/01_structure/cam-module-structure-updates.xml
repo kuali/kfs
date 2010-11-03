@@ -6,7 +6,7 @@
 	<changeSet author="Bob" id="5869-1-3" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_AST_COMPONENT_T">
-			<column name="CACMP_MFR_NM" type="VARCHAR(45)" />
+			<column name="CACMP_MFR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
@@ -16,7 +16,7 @@
 	<changeSet author="Bob" id="5869-1-4" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_AST_COMPONENT_T">
-			<column name="CACMP_VENDOR_NM" type="VARCHAR(45)" />
+			<column name="CACMP_VENDOR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
@@ -26,7 +26,7 @@
 	<changeSet author="Bob" id="5869-1-5" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_CPTLAST_DOC_T">
-			<column name="CPTLAST_MFR_NM" type="VARCHAR(45)" />
+			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
@@ -36,7 +36,7 @@
 	<changeSet author="Bob" id="5869-1-6" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_CPTLAST_DOC_T">
-			<column name="CPTLAST_MFR_NM" type="VARCHAR(45)" />
+			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
@@ -46,7 +46,7 @@
 	<changeSet author="Bob" id="5869-1-7" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_CPTLAST_T">
-			<column name="CPTLAST_MFR_NM" type="VARCHAR(45)" />
+			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
@@ -56,7 +56,7 @@
 	<changeSet author="Bob" id="5869-1-8" failOnError="true">
 		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
 		<modifyColumn tableName="CM_CPTLAST_T">
-			<column name="CPTLAST_VENDOR_NM" type="VARCHAR(45)" />
+			<column name="CPTLAST_VENDOR_NM" type="VARCHAR2(45)" />
 		</modifyColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />

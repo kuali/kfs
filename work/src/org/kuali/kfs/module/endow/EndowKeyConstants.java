@@ -144,9 +144,9 @@ public class EndowKeyConstants {
         public static final String ERROR_KEMID_ACTIVE_BENE_ORGS_PCT_SUM_MUST_BE_ONE = "error.document.kemid.benefittingOrganizations.activeBeneOrgsPctSumMustBeOne";
         public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_INCOME_GL_ACC = "error.document.kemid.glAccounts.mustHaveAtLeastOneIncomeGLAcc";
         public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_INCOME_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOneIncomeGLAcc";
-        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_NOT_NA = "error.document.kemid.glAccounts.mustHaveAtLeastOnePrincipalGLAccIfTypeRestrCdNotNA";
-        public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_PRINCIPAL_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOnePrincipalGLAccIfTypeRestrCdNotNA";
-        public static final String ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_IS_NA = "error.document.kemid.glAccounts.canNotHaveAPrincipalGLAccIfTypeRestrCdIsNA";
+        public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_PRINCIPAL_GL_ACC_IF_PRINCIPAL_CD_NOT_NA = "error.document.kemid.glAccounts.mustHaveAtLeastOneActivePrincipalGLAccIfPrincipalRestrCdNotNA";
+        public static final String ERROR_KEMID_CAN_ONLY_HAVE_ONE_PRINCIPAL_GL_ACC = "error.document.kemid.glAccounts.canOnlyHaveOnePrincipalGLAccIfPrincipalRestrCdNotNA";
+        public static final String ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_PRINCIPAL_RESTR_CD_IS_NA = "error.document.kemid.glAccounts.canNotHaveAPrincipalGLAccIfPrincipalRestrCdIsNA";
         public static final String ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PAYOUT_INSTRUCTION = "error.document.kemid.payoutInstructions.mustHaveAtLeastOnePayoutInstruction";
         public static final String ERROR_KEMID_TOTAL_OFF_ALL_PAYOUT_RECORDS_MUST_BE_ONE = "error.document.kemid.payoutInstructions.theTotalOfAllNonterminatedInstructionsMustBeOne";
         public static final String ERROR_KEMID_PAYOUT_INSTRUCTION_START_DATE_SHOULD_BE_PRIOR_TO_END_DATE = "error.document.kemid.payoutInstructions.startDateShouldBePriorToEndDate";

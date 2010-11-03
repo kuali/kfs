@@ -917,7 +917,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                         hasPrincipalGL = true;
                     }
                     else {
-                        // Error: There are more than one END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P
+                        // Error: There is more than one END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to P
                         putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_CAN_ONLY_HAVE_ONE_PRINCIPAL_GL_ACC);
                         return false;
                     }
@@ -933,15 +933,13 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                 return false;
             }
 
-            if (newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasPrincipalGL) {
-                if (hasActivePrincipalGL) {
-                    putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_IS_NA);
-                    return false;
-                }
+            if (newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasActivePrincipalGL) {
+                putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_PRINCIPAL_RESTR_CD_IS_NA);
+                return false;
             }
 
-            if (!newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasPrincipalGL) {
-                putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_PRINCIPAL_GL_ACC_IF_TYPE_RESTR_CD_NOT_NA);
+            if (!newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasActivePrincipalGL) {
+                putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_PRINCIPAL_GL_ACC_IF_PRINCIPAL_CD_NOT_NA);
                 return false;
             }
         }

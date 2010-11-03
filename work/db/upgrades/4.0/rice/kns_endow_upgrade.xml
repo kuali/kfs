@@ -1,0 +1,60 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">	
+
+	<!-- Add the endowment namespace code -->
+	<changeSet author="kfs" id="KFS_4.0_KRNS_NMSPC_T_ADD_ENDOW">
+		<insert tableName="KRNS_NMSPC_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Endowment" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+    </changeSet>
+
+	<!-- Add the standard components for the KFS-ENDOW namespace -->    
+	<changeSet author="kfs" id="KFS_4.0_KRNS_PARM_DTL_TYP_T_ADD_ENDOW">
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="All" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="All" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Batch" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Batch" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Document" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="PARM_DTL_TYP_CD" value="Lookup" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Lookup" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+</databaseChangeLog>   
+      

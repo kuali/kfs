@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.FrequencyCode;
 import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -31,7 +32,8 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
     
     protected BusinessObjectService businessObjectService;
     protected DateTimeService dateTimeService;
-
+    protected KEMService kemService;
+    
     /**
      * @see org.kuali.kfs.module.endow.document.service.FrequencyCodeService#getByPrimaryKey(java.lang.String)
      */
@@ -51,7 +53,7 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
      * @see org.kuali.kfs.module.endow.document.service.FrequencyCodeService#calculateProcessDate(String)
      */
     public Date calculateProcessDate(String frequencyCode) {
-        Date currentDate = dateTimeService.getCurrentSqlDate();
+        Date currentDate = kemService.getCurrentDate();
         
         String frequencyType = frequencyCode.substring(0, 1);
         
@@ -331,4 +333,13 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
     protected DateTimeService getDateTimeService() {
         return dateTimeService;
     }
+    
+    protected KEMService getKemService() {
+        return kemService;
+    }
+    
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
+    }
+    
 }

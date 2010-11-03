@@ -1546,7 +1546,10 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>			
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
 	</bean>
 	
     <bean id="feeMethodService" class="org.kuali.kfs.module.endow.document.service.impl.FeeMethodServiceImpl">

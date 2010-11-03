@@ -24,14 +24,14 @@ public class RecurringCashTransferTransactionDocumentTotalReportLine extends Tra
 
     private String transferNumber;
     private String sourceKemid;
-    private String targetLinesGenerated;
+    private Integer targetLinesGenerated;
     private KualiDecimal totalTransferAmount;
     
     public RecurringCashTransferTransactionDocumentTotalReportLine() {
-        this("", "", "", "", "", KualiDecimal.ZERO);
+        this("", "", "", "", 0, KualiDecimal.ZERO);
     }
     
-    public RecurringCashTransferTransactionDocumentTotalReportLine(String documentType, String documentId, String transferNumber, String sourcekemid, String targetLinesGenerated, KualiDecimal totalTransferAmount) {
+    public RecurringCashTransferTransactionDocumentTotalReportLine(String documentType, String documentId, String transferNumber, String sourcekemid, Integer targetLinesGenerated, KualiDecimal totalTransferAmount) {
         this.documentType = documentType;
         this.documentId = documentId;
         this.transferNumber = transferNumber;
@@ -56,11 +56,11 @@ public class RecurringCashTransferTransactionDocumentTotalReportLine extends Tra
         this.sourceKemid = sourceKemid;
     }
 
-    public String getTargetLinesGenerated() {
+    public Integer getTargetLinesGenerated() {
         return targetLinesGenerated;
     }
 
-    public void setTargetLinesGenerated(String targetLinesGenerated) {
+    public void setTargetLinesGenerated(Integer targetLinesGenerated) {
         this.targetLinesGenerated = targetLinesGenerated;
     }
 
@@ -70,5 +70,13 @@ public class RecurringCashTransferTransactionDocumentTotalReportLine extends Tra
 
     public void setTotalTransferAmount(KualiDecimal totalTransferAmount) {
         this.totalTransferAmount = totalTransferAmount;
+    }
+    
+    public void incrementTargetLinesGenerated(Integer targetLines){
+        this.targetLinesGenerated += targetLines;  
+    }
+    
+    public void incrementTotalTransferAmount(KualiDecimal transferAmount){
+        this.totalTransferAmount = this.totalTransferAmount.add(transferAmount);  
     }
 }

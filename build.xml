@@ -35,6 +35,37 @@
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
+	<target name="check-for-kfs-build">
+		<if>
+			<not>
+				<available file="${user.home}/kfs-build.properties" />
+			</not>
+			<then>
+				<echo message="No ${user.home}/kfs-build.properties: creating" />
+    			<property name="input.default.base.directory" location="${basedir}/.."/>
+    			<input message="What is your base directory?" 
+    				defaultvalue="${input.default.base.directory}" 
+    				addproperty="input.base.directory" />
+			</then>
+			<!-- filter-copy the template-kfs-build.properties file to the user's home directory 
+			echo an intro message
+			abstract the file name/location into a variable
+			source in a file with the defaults from the same directory
+		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+
+		<copy todir="${external.work.directory}">
+			<fileset dir="${build.work.directory}" />
+			<filterset>
+				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
+			</filterset>
+		</copy>
+			-->
+		</if>
+	
+	</target>
+	
+	
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 		<if>
@@ -76,6 +107,7 @@
 
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
+	<!--  depends="check-for-kfs-build" -->
 	<target name="init-property-files">
 		<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
 		<property file="${user.home}/${ant.project.name}-build.properties" />

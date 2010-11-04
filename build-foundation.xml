@@ -72,10 +72,10 @@ are intended for use only by Kuali Foundation developers.
   
 	<target name="setup-rice" depends="init-property-files,init-additional-properties">
 		<ant dir="${rice.project.directory}" target="retrieve-maven-dependencies" />
-    	<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc14.jar">
+    	<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc6.jar">
       		<os family="windows"/>
     	</condition>
-    	<property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
+    	<property name="os.safe.driver.path" location="${drivers.directory}/ojdbc6.jar" />
     	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
     	<maven goals="clean:clean install source:jar javadoc:jar package" options="-U -Dpackaging=jar" />
     	<touch file="${rice.project.directory}/pom.xml" />
@@ -174,61 +174,6 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		</unzip>
 	</target>
 	
-	<target name="build-eclipse-classpath" depends="init-properties,init-additional-properties">
-		<!-- this property is here to make it easy to test without replacing the classpath -->
-		<property name="classpath.file" value=".classpath"/>
-    	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />
-
-		<!-- KFS Jars -->
-		<path id="kfs.library.jars">
-			<fileset dir="${build.kfs.lib.directory}"  includes="*.jar" excludes="${runtime.only.jars}" />
-			<fileset dir="${build.rice.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
-			<fileset dir="${build.server.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
-			<fileset dir="${build.appserver.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
-			<fileset dir="${test.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
-			<fileset dir="${build.directory}"  includes="log4j*.jar" />
-		</path>		  		
-		<for param="jarname">
-			<path refid="kfs.library.jars" />
-			<sequential>
-				<propertyregex property="file" 
-							 	input="@{jarname}" 
-							 	regexp="${basedir}/" 
-							 	replace="" 
-							 	override="true" />
-				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}" />
-]]></echo>
-			</sequential>
-		</for>
-
-		<path id="kfs.runtime.library.jars">
-			<fileset dir="${build.kfs.lib.directory}" includes="${runtime.only.jars}" />
-			<fileset dir="${build.rice.lib.directory}" includes="${runtime.only.jars}" />
-			<fileset dir="${build.server.lib.directory}" includes="${runtime.only.jars}" />
-			<fileset dir="${drivers.directory}" />
-			<fileset dir="${build.appserver.directory}" includes="${runtime.only.jars}" />
-			<fileset dir="${test.lib.directory}" includes="${runtime.only.jars}" />
-		</path>		  		
-		<for param="jarname">
-			<path refid="kfs.runtime.library.jars" />
-			<sequential>
-				<propertyregex property="file" 
-							 	input="@{jarname}" 
-							 	regexp="${basedir}/" 
-							 	replace="" 
-							 	override="true" />
-				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}">
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-]]></echo>
-			</sequential>
-		</for>
-		<!-- Testing Jars -->
-
-    	<echo append="true" file="${classpath.file}" message="${classpath.suffix}" />
-	</target>
 <!--	
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">
 		<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task">

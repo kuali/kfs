@@ -25,7 +25,8 @@
         		<ref bean="KemidSpecialInstruction-kemid" />
         		<ref bean="KemidSpecialInstruction-instructionSeq" />
 		        <ref bean="KemidSpecialInstruction-agreementSpecialInstructionCode" />
-		        <ref bean="KemidSpecialInstruction-agreementSpecialInstruction.name" />
+		        <ref bean="KemidSpecialInstruction-agreementSpecialInstruction.name" /> 
+		        <ref bean="KemidSpecialInstruction-agreementSpecialInstruction.codeAndDescription" />
 		        <ref bean="KemidSpecialInstruction-comments"/>
 		        <ref bean="KemidSpecialInstruction-instructionStartDate"/>
 		        <ref bean="KemidSpecialInstruction-instructionEndDate"/>
@@ -66,14 +67,20 @@
     	<property name="required" value="true" />
   	</bean>
   	
-  	<bean id="KemidSpecialInstruction-agreementSpecialInstruction.name" parent="KemidSpecialInstruction-agreementSpecialInstruction.name-parentBean" />
-  
+  	<bean id="KemidSpecialInstruction-agreementSpecialInstruction.name" parent="KemidSpecialInstruction-agreementSpecialInstruction.name-parentBean" /> 
   	<bean id="KemidSpecialInstruction-agreementSpecialInstruction.name-parentBean" abstract="true" parent="AgreementSpecialInstruction-name">
   		<property name="name" value="agreementSpecialInstruction.name" />
     	<property name="label" value="Agreement Special Instruction Code Description" />
     	<property name="required" value="true" />
   	</bean>
   	  	
+  	<bean id="KemidSpecialInstruction-agreementSpecialInstruction.codeAndDescription" parent="KemidSpecialInstruction-agreementSpecialInstruction.codeAndDescription-parentBean" /> 
+  	<bean id="KemidSpecialInstruction-agreementSpecialInstruction.codeAndDescription-parentBean" abstract="true" parent="AgreementSpecialInstruction-codeAndDescription">
+  		<property name="name" value="agreementSpecialInstruction.codeAndDescription" />
+    	<property name="label" value="Agreement Special Instruction Code Description" />
+    	<property name="required" value="true" />
+  	</bean>
+  	  	  	
   	<bean id="KemidSpecialInstruction-instructionStartDate" parent="KemidSpecialInstruction-instructionStartDate-parentBean" />
 		        
   	<bean id="KemidSpecialInstruction-instructionStartDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

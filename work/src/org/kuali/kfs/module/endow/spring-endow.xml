@@ -2215,4 +2215,10 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="useCriteriaCodeService" class="org.kuali.kfs.module.endow.document.service.impl.UseCriteriaCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+	</bean>	
 </beans>

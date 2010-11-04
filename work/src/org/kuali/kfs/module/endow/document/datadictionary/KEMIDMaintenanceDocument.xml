@@ -183,7 +183,9 @@
         <value>../dwr/interface/DonorService.js</value>
         <value>../dwr/interface/DonorLabelService.js</value>
         <value>../scripts/module/endow/kemidDonorStatement.js</value>  
-        <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>  
+        <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>
+        <!-- <value>../dwr/interface/UseCriteriaCodeService.js</value> -->     
+        <value>../scripts/module/endow/useCriteriaCode.js</value> 
       </list>
     </property>
     <property name="workflowAttributes">
@@ -616,7 +618,8 @@
 		            p:unconditionallyReadOnly="true"/>	
               <bean parent="MaintainableFieldDefinition" 
                     p:name="useCriteriaCode" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadUseCriteriaCodeDesc" />
               <bean parent="MaintainableFieldDefinition"
 		            p:name="useCriteria.name" 
 		            p:unconditionallyReadOnly="true"/>	      

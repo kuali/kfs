@@ -441,7 +441,7 @@
   <bean id="KEMID-endowmentCorpusValues.priorFYEndPrincipalMarketValue" parent="KEMID-endowmentCorpusValues.priorFYEndPrincipalMarketValue-parentBean" />
 
   <bean id="KEMID-endowmentCorpusValues.priorFYEndPrincipalMarketValue-parentBean" abstract="true" parent="EndowmentCorpusValues-priorFYEndPrincipalMarketValue">
-    <property name="name" value="endowmentCorpusValues" />
+    <property name="name" value="endowmentCorpusValues.priorFYEndPrincipalMarketValue" />
   </bean>  
   <bean id="KEMID-kemidUseCriteria.useCriteriaSeq" parent="KEMID-kemidUseCriteria.useCriteriaSeq-parentBean" />
 
@@ -761,7 +761,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="useCriteriaCode" />
+                          p:attributeName="useCriteria.codeAndDescription" />
                     <bean parent="FieldDefinition"
                           p:attributeName="useCriteriaAdditionalInfo" />
                     <bean parent="FieldDefinition"
@@ -785,7 +785,7 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="agreementSpecialInstructionCode" />
+                          p:attributeName="agreementSpecialInstruction.codeAndDescription" />
                     <bean parent="FieldDefinition"
                           p:attributeName="comments" />
                     <bean parent="FieldDefinition"

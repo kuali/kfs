@@ -229,6 +229,14 @@
 	        <include method="getByPrimaryKey" />
 	    </create>
 	    
+	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.UseCriteriaCode">
+            <param name="include" value="name" />
+        </convert>
+    	<create creator="spring" javascript="UseCriteriaCodeService">
+	    	<param name="beanName" value="useCriteriaCodeService" />
+	        <include method="getByPrimaryKey" />
+	    </create>
+	    	    
 	  	<convert converter="array" match="[S"/>
 	  	  
 	    <create creator="spring" javascript="EndowmentTransactionDocumentService">

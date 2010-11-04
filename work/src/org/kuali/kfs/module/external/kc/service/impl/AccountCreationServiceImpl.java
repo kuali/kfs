@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -34,7 +32,6 @@ import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
@@ -50,6 +47,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,14 +105,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
             accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
         }
-        
-        // for test 
-//        AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
-//        accountCreationStatus.setErrorMessages(new ArrayList<String>());
-//        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
-//        accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
-//        accountCreationStatus.setDocumentNumber("1111");    
-        
+                
         return accountCreationStatus;
     }
     
@@ -160,13 +151,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 break;
             } 
         }
-        // if they are all empty, then take from the default table
-//        if (account.getAccountStreetAddress().isEmpty()) {
-//            account.setAccountStreetAddress(defaults.getAccountStreetAddress());             
-//            account.setAccountCityName(defaults.getAccountCityName());
-//            account.setAccountStateCode(defaults.getAccountStateCode());
-//            account.setAccountZipCode(defaults.getAccountZipCode());
-//        }
         
         account.setAccountOffCampusIndicator(parameters.isOffCampusIndicator());
         
@@ -226,15 +210,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.getAccountGuideline().setAccountExpenseGuidelineText(parameters.getExpenseGuidelineText());
         account.getAccountGuideline().setAccountIncomeGuidelineText(parameters.getIncomeGuidelineText());
         account.getAccountGuideline().setAccountPurposeText(parameters.getPurposeText());
-                
-        //* Account Description: not required 
-//        account.setAccountDescription(new AccountDescription()); 
-//        account.getAccountDescription().setCampusDescription(null);
-//        account.getAccountDescription().setOrganizationDescription(null);
-//        account.getAccountDescription().setResponsibilityCenterDescription(null);
-//        account.getAccountDescription().getBuilding().setCampusCode(null);
-//        account.getAccountDescription().setBuildingCode(null);        
-        
         return account;
     }
     
@@ -257,7 +232,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                                    
             // set the account object in the maintenance document.         
             maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-                        
+            maintenanceAccountDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);             
             // the maintenance document will now be routed based on the system parameter value for routing.
             createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, accountCreationStatus);
         }
@@ -408,18 +383,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 }
             }
  
-            /*
-            UnitService unitService = (UnitService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-            List<String> parentUnits = unitService.getParentUnits(unitNumber);
-                       
-            if (parentUnits != null) {
-                for (String unit : parentUnits) {
-                    criteria.put("kcUnit", unit);    
-                    defaults = (AccountAutoCreateDefaults) businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
-                    if (defaults != null) break;
-                }
-            }
-            */
         }        
                    
         return defaults;

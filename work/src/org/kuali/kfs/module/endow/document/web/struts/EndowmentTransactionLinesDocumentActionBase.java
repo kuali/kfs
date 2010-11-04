@@ -205,29 +205,23 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
             // Validate imported items
             boolean rulePassed = true;
             int lineNumber = 1;
-            for (EndowmentTransactionLine line : importedTransactionLines) {
-                /*
-                 * Before the validation, set the item line number to the same as the line number in the import file (starting from
-                 * 1) So that the error message will use the correct line number if there're errors for the current item line.
-                 */
-
-
-                // line.setTransactionLineNumber(++lineNumber);
-
-                // check any business rules
-                // rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new
-                // RefreshTransactionLineEvent(EXISTING_TARGET_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line, lineNumber ));
-
-                lineNumber++;
-            }
-
+            
+//            for (EndowmentTransactionLine line : importedTransactionLines) {
+//                 // Before the validation, set the item line number to the same as the line number in the import file (starting from
+//                 // 1) So that the error message will use the correct line number if there're errors for the current item line.
+//                 line.setTransactionLineNumber(++lineNumber);
+//                 
+//                 if (isSource) {
+//                     // check any business rules
+//                     rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line));
+//                 } 
+//                 else                  {
+//                     // check any business rules
+//                     rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, tranLineDocument, line));
+//                 }
+//            }
+//
             if (rulePassed) {
-                /*
-                 * if(isSource) { // add it to the document
-                 * tranLineDocument.addSourceTransactionLine((EndowmentSourceTransactionLine) line); } else { // add it to the
-                 * document tranLineDocument.addTargetTransactionLine((EndowmentTargetTransactionLine) line); }
-                 */
-
                 // Add the lines to the collection 1 by one.
                 for (EndowmentTransactionLine line : importedTransactionLines) {
                     insertTransactionLine(isSource, tranLineForm, line);

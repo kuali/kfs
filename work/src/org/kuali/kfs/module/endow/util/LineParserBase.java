@@ -40,6 +40,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants.EndowmentTransactionDocumentConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.exception.LineParserException;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -116,7 +117,7 @@ public class LineParserBase implements LineParser {
      * @param line a string read from a line in the line import file
      * @return a map containing line attribute name-value string pairs
      */
-    protected Map<String, String> retrieveLineAttributes(String line) {
+    protected Map<String, String> retrieveLineAttributes(String line, Class<? extends EndowmentTransactionLine> lineClass) {
         String[] attributeNames = getLineFormat();
         String[] attributeValues = StringUtils.splitPreserveAllTokens(line, ',');
 
@@ -128,7 +129,14 @@ public class LineParserBase implements LineParser {
 
         Map<String, String> lineMap = new HashMap<String, String>();
         for (int i = 0; i < attributeNames.length; i++) {
-            lineMap.put(attributeNames[i], attributeValues[i]);
+            String attributeName = attributeNames[i];
+            String attributeValue = attributeValues[i];
+            // if the attribute has an forceUpper = true in the data dictionary, convert the value to upper case...
+            if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(lineClass, attributeName)) {
+                attributeValue = attributeValue.toUpperCase();
+            }
+            
+            lineMap.put(attributeName, attributeValue);
         }
         return lineMap;
     }
@@ -250,7 +258,7 @@ public class LineParserBase implements LineParser {
      * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(java.lang.String,java.lang.Class,java.lang.String)
      */
     public EndowmentTransactionLine parseLine(String transactionLine, Class<? extends EndowmentTransactionLine> lineClass, String documentNumber) {
-        Map<String, String> lineMap = retrieveLineAttributes(transactionLine);
+        Map<String, String> lineMap = retrieveLineAttributes(transactionLine, lineClass);
         EndowmentTransactionLine line = genLineWithRetrievedAttributes(lineMap, lineClass);
         // populateExtraAttributes( line, documentNumber );
         line.refresh();

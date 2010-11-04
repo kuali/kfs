@@ -35,34 +35,81 @@
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
+	<property name="local.env.config.file" location="${user.home}/kfs-build.properties" />
+	
 	<target name="check-for-kfs-build">
 		<if>
 			<not>
-				<available file="${user.home}/kfs-build.properties" />
+				<available file="${local.env.config.file}" />
 			</not>
 			<then>
-				<echo message="No ${user.home}/kfs-build.properties: creating" />
     			<property name="input.default.base.directory" location="${basedir}/.."/>
-    			<input message="What is your base directory?" 
+    			<property name="input.default.datasource.ojb.platform" value="Oracle9i"/>
+    			<property name="input.default.mysql.datasource.url" value="jdbc:mysql://localhost:3306/kuldev"/>
+    			<property name="input.default.oracle.datasource.url" value="jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI"/>
+    			<property name="input.default.datasource.username" value="kuldev"/>
+    			<property name="input.default.datasource.password" value="kuldev"/>
+				<echo>
+*******************************************************************************					
+Welcome to the Kuali Financial System, the most advanced financial information system
+ever developed by a consortium of educational institutions fed up with paying
+vendors for products which did not meet the needs of higher education.
+					
+It looks like you have never attempted to build KFS before (at least on this system.)
+
+Let me ask you a few questions about your environment.
+*******************************************************************************
+				</echo>	
+				<!--
+				<echo message="No ${local.env.config.file}: creating" />				
+				-->
+				<input message="Do you have a PhD in Kualiology?" validargs="yes,no" defaultvalue="no" addproperty="input.kualiology" />
+				<if>
+					<equals arg1="yes" arg2="${input.kualiology}" />
+					<then>
+						<echo>
+
+
+If you say so...exiting...you're on your own. :)
+
+						</echo>
+						<fail />
+					</then>
+				</if>
+				
+    			<input message="What is your base directory?  This would be the directory containing your eclipse workspace." 
     				defaultvalue="${input.default.base.directory}" 
     				addproperty="input.base.directory" />
-			</then>
-			<!-- filter-copy the template-kfs-build.properties file to the user's home directory 
-			echo an intro message
-			abstract the file name/location into a variable
-			source in a file with the defaults from the same directory
-		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+				
+    			<input message="What type of database will you be using for development?"
+    				validargs="Oracle9i,MySQL"
+    				defaultvalue="${input.default.datasource.ojb.platform}" 
+    				addproperty="input.datasource.ojb.platform" />
+				<if>
+					<equals arg1="MySQL" arg2="${input.datasource.ojb.platform}" />
+					<then>
+		    			<input message="And where is this database?"
+		    				defaultvalue="${input.default.mysql.datasource.url}" 
+		    				addproperty="input.mysql.datasource.url" />
+					</then>
+					<else>
+		    			<input message="And where is this database?"
+		    				defaultvalue="${input.default.oracle.datasource.url}" 
+		    				addproperty="input.oracle.datasource.url" />
+					</else>
+				</if>
 
-		<copy todir="${external.work.directory}">
-			<fileset dir="${build.work.directory}" />
-			<filterset>
-				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
-			</filterset>
-		</copy>
-			-->
+				<copy tofile="${local.env.config.file}" file="build/external/user/template-kfs-build.properties" verbose="true">
+					<filterset begintoken="@" endtoken="@">
+						<filter token="input.base.directory" value="${input.base.directory}" />
+						<filter token="input.datasource.ojb.platform" value="${input.datasource.ojb.platform}" />
+						<filter token="input.base.directory" value="${input.base.directory}" />
+						<filter token="input.base.directory" value="${input.base.directory}" />
+						<filter token="input.base.directory" value="${input.base.directory}" />
+					</filterset>
+				</copy>
+			</then>
 		</if>
-	
 	</target>
 	
 	
@@ -109,8 +156,8 @@
 
 	<!--  depends="check-for-kfs-build" -->
 	<target name="init-property-files">
-		<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
-		<property file="${user.home}/${ant.project.name}-build.properties" />
+		<echo message="Reading Properties: ${local.env.config.file}" />
+		<property file="${local.env.config.file}" />
 		<if>
 			<available file="${institution.build.properties.file}" />
 			<then>

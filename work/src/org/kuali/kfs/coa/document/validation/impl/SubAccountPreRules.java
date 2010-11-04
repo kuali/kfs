@@ -117,7 +117,7 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
             A21SubAccount a21SubAccount = newSubAccount.getA21SubAccount();
             Account account = newSubAccount.getAccount();
             if (KFSConstants.SubAccountType.EXPENSE.equals(a21SubAccount.getSubAccountTypeCode())) {
-                if (account == null || StringUtils.isBlank(account.getAccountNumber())) {
+                if (ObjectUtils.isNull(account) || StringUtils.isBlank(account.getAccountNumber())) {
                     account = getAccountService().getByPrimaryId(newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber());
                     if (ObjectUtils.isNotNull(account)) {
                         if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAcctNbr())) {

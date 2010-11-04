@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
-import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +25,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.businessobject.OriginEntryFieldUtil;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateRecurringCashTransferTransactionsStep;
+import org.kuali.kfs.module.endow.batch.reporter.ReportDocumentStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateRecurringCashTransferTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
@@ -51,29 +47,28 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.comparator.StringValueComparator;
 
 public class CreateRecurringCashTransferTransactionsServiceImpl implements CreateRecurringCashTransferTransactionsService {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     
+    private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();
     private BusinessObjectService businessObjectService;
     private KEMService kemService;
     private DocumentService documentService;
@@ -81,7 +76,9 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private KualiRuleService kualiRuleService;
     private KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
     private HoldingTaxLotService holdingTaxLotService;
+
     private KualiConfigurationService configService;
+    private DataDictionaryService dataDictionaryService;
 
     private ReportWriterService recurringCashTransferTransactionsExceptionReportWriterService;
     private ReportWriterService recurringCashTransferTransactionsTotalReportWriterService;
@@ -136,6 +133,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         
         writeGrandTotalReportLine();
                 
+        writeStatistics();
+        
         LOG.info("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
         
         return true;
@@ -214,6 +213,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 if (routeCashTransferDoc(cashTransferDoc, sourceKemid, transferNumber, totalTargetTransaction)) {
                     subTotalReportLine.incrementTotalTransferAmount(totalTargetTransaction);
                     subTotalReportLine.incrementTargetLinesGenerated(cashTransferDoc.getTargetTransactionLines().size());
+                    
+                    updatePostingStatsForCashTransferDoc(cashTransferDoc);
                 }
             }
         }
@@ -288,6 +289,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                     
                     subTotalReportLine.incrementTotalTransferAmount(totalTargetTransaction);
                     subTotalReportLine.incrementTargetLinesGenerated(gLTransferOfFundsDocument.getTargetAccountingLines().size());
+                    
+                    updatePostingStatsForGlTransferDoc(gLTransferOfFundsDocument);
                 }
             }
         }
@@ -402,6 +405,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
                     endowmentRecurringCashTransfer.getSourceKemid(), endowmentRecurringCashTransfer.getTransferNumber(), 
                     EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME);
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(cashTransferDoc.getClass());
+            updateErrorStats(documentTypeName);
         }
     }
     
@@ -425,6 +430,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
                     endowmentRecurringCashTransfer.getSourceKemid(), endowmentRecurringCashTransfer.getTransferNumber(), 
                     EndowConstants.EXISTING_SOURCE_TRAN_LINE_PROPERTY_NAME);
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(gLTransferOfFundsDocument.getClass());
+            updateErrorStats(documentTypeName);
         }
     }
 
@@ -450,6 +457,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
                     sourceKemid, endowmentRecurringCashTransferKEMIDTarget.getTransferNumber(), 
                     endowmentRecurringCashTransferKEMIDTarget.getTargetSequenceNumber().toString());
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(cashTransferDoc.getClass());
+            updateErrorStats(documentTypeName);
         }
         
         return rulesPassed;
@@ -475,6 +484,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
                     sourceKemid, endowmentRecurringCashTransferGLTarget.getTransferNumber(), 
                     endowmentRecurringCashTransferGLTarget.getTargetSequenceNumber().toString());
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(endowmentToGLTransferOfFundsDocument.getClass());
+            updateErrorStats(documentTypeName);
 
         }
         
@@ -523,11 +534,15 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 LOG.error(ex.getLocalizedMessage());
                 writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, 
                         sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from routeCashTransferDoc()");
+                String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(cashTransferDoc.getClass());
+                updateErrorStats(documentTypeName);
                 routeSuccessInd = false;
             }
         } else {
             // report to error
             writeExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER, sourceKemid, transferNumber, "");
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(cashTransferDoc.getClass());
+            updateErrorStats(documentTypeName);
             routeSuccessInd = false;
         }
         
@@ -556,11 +571,15 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
                 writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, 
                         sourceKemid, transferNumber, "", ex.getLocalizedMessage() + " from routeGLTransferOfFundsDocument()");
+                String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(gLTransferOfFundsDocument.getClass());
+                updateErrorStats(documentTypeName);
                 routeSuccessInd = false;
             }
         } else {
             // report to error
             writeExceptionReportLine(EndowConstants.ENDOWMENT_GENERAL_LEDGER_CASH_TRANSFER_TRANSACTION_TYPE, sourceKemid, transferNumber, "");
+            String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(gLTransferOfFundsDocument.getClass());
+            updateErrorStats(documentTypeName);
             routeSuccessInd = false;
         }
         
@@ -748,6 +767,10 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         this.recurringCashTransferTransactionsTotalReportWriterService = recurringCashTransferTransactionsTotalReportWriterService;
     }
     
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+    
     /**
      * Sets the configService.
      * 
@@ -757,5 +780,72 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         this.configService = configService;
     }
     
+    private void updatePostingStatsForCashTransferDoc(CashTransferDocument cashTransferDoc) {
+        
+        String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(cashTransferDoc.getClass());
+        ReportDocumentStatistics stats = statistics.get(documentTypeName);
+        
+        // If null that means there isn't one in the map, so create it and add 
+        // it to the map.
+        if (stats == null) {
+            stats = new ReportDocumentStatistics(documentTypeName);
+            statistics.put(documentTypeName, stats);
+        }
+        stats.addNumberOfSourceTransactionLines(cashTransferDoc.getSourceTransactionLines().size());
+        stats.addNumberOfTargetTransactionLines(cashTransferDoc.getTargetTransactionLines().size());
+       
+        stats.incrementNumberOfDocuments();
+    }
+    
+    private void updatePostingStatsForGlTransferDoc(EndowmentToGLTransferOfFundsDocument glTransferDoc) {
+        
+        String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(glTransferDoc.getClass());
+        ReportDocumentStatistics stats = statistics.get(documentTypeName);
+        
+        // If null that means there isn't one in the map, so create it and add 
+        // it to the map.
+        if (stats == null) {
+            stats = new ReportDocumentStatistics(documentTypeName);
+            statistics.put(documentTypeName, stats);
+        }
+        stats.addNumberOfSourceTransactionLines(glTransferDoc.getSourceTransactionLines().size());
+        stats.addNumberOfTargetTransactionLines(glTransferDoc.getTargetAccountingLines().size());
+       
+        stats.incrementNumberOfDocuments();
+    }
+
+    private void updateErrorStats(String documentTypeName) {
+        ReportDocumentStatistics stats  = statistics.get(documentTypeName);
+        
+        // If null that means there isn't one in the map, so create it and add 
+        // it to the map.
+        if (stats == null) {
+            stats = new ReportDocumentStatistics(documentTypeName);
+            statistics.put(documentTypeName, stats);
+        }
+        
+        stats.incrementNumberOfErrors();
+    }
+    
+    /**
+     * 
+     * Write out the statistics.
+     *
+     */
+    private void writeStatistics() {
+        
+        for (Map.Entry<String, ReportDocumentStatistics> entry : statistics.entrySet()) {
+            
+            ReportDocumentStatistics stats = entry.getValue();
+            
+            recurringCashTransferTransactionsTotalReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
+            recurringCashTransferTransactionsTotalReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
+            recurringCashTransferTransactionsTotalReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
+            recurringCashTransferTransactionsTotalReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
+            recurringCashTransferTransactionsTotalReportWriterService.writeStatisticLine("", "");
+        }
+        
+    }
+
     
 }

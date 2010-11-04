@@ -1293,6 +1293,10 @@
 		<property name="recurringCashTransferTransactionsTotalReportWriterService">
 			<ref bean="recurringCashTransferTransactionsTotalReportWriterService" />
 		</property>
+		<property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+		
     </bean>
     
     <bean id="recurringCashTransferTransactionsExceptionReportWriterService" parent="reportWriterService">

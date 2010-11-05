@@ -20,22 +20,22 @@ import org.kuali.rice.kns.service.ParameterConstants;
 
 public class KfsParameterConstants extends ParameterConstants {
 
-    protected static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
-    protected static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
-    protected static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
-    protected static final String BUDGET_CONSTRUCTION_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "BC";
-    protected static final String CAPITAL_ASSET_BUILDER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CAB";
-    protected static final String CAPITAL_ASSETS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CAM";
-    protected static final String CONTRACTS_AND_GRANTS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CG";
-    protected static final String CHART_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "COA";
-    protected static final String EFFORT_REPORTING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "EC";
-    protected static final String FINANCIAL_PROCESSING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "FP";
-    protected static final String GENERAL_LEDGER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "GL";
-    protected static final String LABOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "LD";
-    protected static final String PRE_DISBURSEMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PDP";
-    protected static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
-    protected static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
-    protected static final String ENDOWMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ENDOW";
+    public static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
+    public static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
+    public static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
+    public static final String BUDGET_CONSTRUCTION_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "BC";
+    public static final String CAPITAL_ASSET_BUILDER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CAB";
+    public static final String CAPITAL_ASSETS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CAM";
+    public static final String CONTRACTS_AND_GRANTS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CG";
+    public static final String CHART_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "COA";
+    public static final String EFFORT_REPORTING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "EC";
+    public static final String FINANCIAL_PROCESSING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "FP";
+    public static final String GENERAL_LEDGER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "GL";
+    public static final String LABOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "LD";
+    public static final String PRE_DISBURSEMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PDP";
+    public static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
+    public static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
+    public static final String ENDOWMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ENDOW";
 
     @NAMESPACE(namespace = FINANCIAL_SYSTEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)

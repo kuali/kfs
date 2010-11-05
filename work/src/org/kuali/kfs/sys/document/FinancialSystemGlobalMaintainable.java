@@ -97,7 +97,7 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
             String accountNumber = (String)ObjectUtils.getPropertyValue(bo, acctNumName);
             String coaCode = null;
             Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
             }
             try {
@@ -120,7 +120,7 @@ public abstract class FinancialSystemGlobalMaintainable extends KualiGlobalMaint
             String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);            
             String coaCode = null;
             Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
                 try {
                     ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 

@@ -92,7 +92,7 @@ public class IndirectCostRecoveryRateMaintainableImpl extends FinancialSystemMai
         // otherwise do the normal account lookup
         else {
             Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
             }
         }

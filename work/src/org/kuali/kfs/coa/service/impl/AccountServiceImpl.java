@@ -38,6 +38,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -294,7 +295,7 @@ public class AccountServiceImpl implements AccountService {
     public void populateAccountingLineChartIfNeeded(AccountingLine line) {
         if (!accountsCanCrossCharts() /*&& line.getChartOfAccountsCode() == null*/) {
             Account account = getUniqueAccountForAccountNumber(line.getAccountNumber());
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)) {
                 line.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }

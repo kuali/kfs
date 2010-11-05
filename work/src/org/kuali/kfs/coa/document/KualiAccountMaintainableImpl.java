@@ -213,7 +213,7 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
             // otherwise retrieve chart code from account as usual
             else {
                 Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
-                if (account != null) {
+                if (ObjectUtils.isNotNull(account)) {
                     coaCode = account.getChartOfAccountsCode();
                 }
             }

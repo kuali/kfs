@@ -101,7 +101,7 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
             String accountNumber = (String)ObjectUtils.getPropertyValue(bo, acctNumName);
             String coaCode = null;
             Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
-            if (account != null) {
+            if (ObjectUtils.isNotNull(account)) {
                 coaCode = account.getChartOfAccountsCode();
             }
             try {

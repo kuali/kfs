@@ -21,11 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -33,6 +35,7 @@ import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
 import org.kuali.kfs.module.cam.service.AssetLockService;
+import org.kuali.kfs.module.cam.util.MaintainableWorkflowUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -41,9 +44,11 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
@@ -53,7 +58,10 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
  */
 
 public class AssetMaintainableImpl extends FinancialSystemMaintainable {
-    private Asset newAsset;
+    
+    private static final Logger LOG = Logger.getLogger(AssetMaintainableImpl.class);
+    
+    private Asset asset;
     private Asset copyAsset;
     private boolean fabricationOn;
 
@@ -107,29 +115,29 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         initializeAttributes(document);
         // Identifies the latest location information
         getAssetLocationService().setOffCampusLocation(copyAsset);
-        getAssetLocationService().setOffCampusLocation(newAsset);
+        getAssetLocationService().setOffCampusLocation(asset);
 
         // Calculates payment summary and depreciation summary based on available payment records
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         paymentSummaryService.calculateAndSetPaymentSummary(copyAsset);
-        paymentSummaryService.calculateAndSetPaymentSummary(newAsset);
+        paymentSummaryService.calculateAndSetPaymentSummary(asset);
 
         // Identifies the merge history and separation history based on asset disposition records
         getAssetService().setSeparateHistory(copyAsset);
-        getAssetService().setSeparateHistory(newAsset);
+        getAssetService().setSeparateHistory(asset);
 
         // Finds out the latest retirement info, is asset is currently retired.
         RetirementInfoService retirementInfoService = SpringContext.getBean(RetirementInfoService.class);
         retirementInfoService.setRetirementInfo(copyAsset);
-        retirementInfoService.setRetirementInfo(newAsset);
+        retirementInfoService.setRetirementInfo(asset);
 
         retirementInfoService.setMergeHistory(copyAsset);
-        retirementInfoService.setMergeHistory(newAsset);
+        retirementInfoService.setMergeHistory(asset);
 
         // Finds out the latest equipment loan or return information if available
         EquipmentLoanOrReturnService equipmentLoanOrReturnService = SpringContext.getBean(EquipmentLoanOrReturnService.class);
         equipmentLoanOrReturnService.setEquipmentLoanInfo(copyAsset);
-        equipmentLoanOrReturnService.setEquipmentLoanInfo(newAsset);
+        equipmentLoanOrReturnService.setEquipmentLoanInfo(asset);
 
         super.processAfterEdit(document, parameters);
     }
@@ -150,7 +158,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
                 }
             }
         }
-
+        
         return sections;
     }
 
@@ -160,9 +168,9 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
      * @param document Asset Edit Document
      */
     private void initializeAttributes(MaintenanceDocument document) {
-        if (newAsset == null) {
-            newAsset = (Asset) document.getNewMaintainableObject().getBusinessObject();
-            newAsset.setTagged();
+        if (asset == null) {
+            asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+            asset.setTagged();
         }
         if (copyAsset == null) {
             copyAsset = (Asset) document.getOldMaintainableObject().getBusinessObject();
@@ -170,7 +178,26 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
 
         setFabricationOn(document.getNewMaintainableObject().getBusinessObject() instanceof AssetFabrication);
     }
+    
+    /**
+     * KFSMI-5964: added refresh to Asset object after retrieve to prevent updated depreciation data from
+     * wiped on existing saved/enrouted maint. doc
+     * 
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterRetrieve()
+     */
+    @Override
+    public void processAfterRetrieve() {
+        
+        //Asset only
+        if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(documentNumber)) {
 
+            Asset asset = (Asset)getBusinessObject();
+            asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
+            
+            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
+            paymentSummaryService.calculateAndSetPaymentSummary(asset);
+        }
+    }
 
     @Override
     public void saveBusinessObject() {
@@ -192,17 +219,17 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         super.processAfterNew(document, parameters);
         initializeAttributes(document);
         // document.getNewMaintainableObject().setGenerateDefaultValues(false);
-        if (newAsset.getCreateDate() == null) {
-            newAsset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            newAsset.setAcquisitionTypeCode(CamsConstants.Asset.ACQUISITION_TYPE_CODE_C);
-            newAsset.setVendorName(CamsConstants.Asset.VENDOR_NAME_CONSTRUCTED);
-            newAsset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
-            newAsset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
-            newAsset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
-            getAssetService().setFiscalPeriod(newAsset);
+        if (asset.getCreateDate() == null) {
+            asset.setCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            asset.setAcquisitionTypeCode(CamsConstants.Asset.ACQUISITION_TYPE_CODE_C);
+            asset.setVendorName(CamsConstants.Asset.VENDOR_NAME_CONSTRUCTED);
+            asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
+            asset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
+            asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            getAssetService().setFiscalPeriod(asset);
         }
         // setup offCampusLocation
-        getAssetLocationService().setOffCampusLocation(newAsset);
+        getAssetLocationService().setOffCampusLocation(asset);
     }
 
     @Override

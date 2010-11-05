@@ -109,12 +109,16 @@ public class EndowKeyConstants {
         public static final String ERROR_DUPLICATE_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.duplicateEntered";
         public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_TRANSACTIONS_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForTransactions";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.noRecord";
+        public static final String ERROR_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.yesRecord";
         public static final String ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED = "error.document.feeMethod.feeByTransactionType.invalid";
-        public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
+        public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.invalidETranCode";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
+        public static final String ERROR_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.yesRecord";
         public static final String ERROR_INVALID_FEE_TYPE_CODE_FOR_BALANCE_ENTERED = "error.document.feeMethod.feeTypeCode.invalidValueForBalance";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE = "error.document.feeMethod.feeByClassCode.noRecord";
+        public static final String ERROR_RECORDS_WITH_YES_IN_FEE_CLASS_CODE = "error.document.feeMethod.feeByClassCode.yesRecord";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE = "error.document.feeMethod.feeBySecurityCode.noRecord";
+        public static final String ERROR_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE = "error.document.feeMethod.feeBySecurityCode.yesRecord";
         public static final String ERROR_INVALID_FEE_BASE_CODE_FOR_PAYMENTS_ENTERED = "error.document.feeMethod.feeBaseCode.invalidValueForPayments";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_PAYMENT_TYPE = "error.document.feeMethod.feePaymentTypes.noRecord";
         public static final String ERROR_INVALID_FEE_BALANCE_TYPE_CODE_WHEN_COUNT_ENTERED = "error.document.feeMethod.feeBalanceTypeCode.inValidFeeBalanceTypeWhenCount";

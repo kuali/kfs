@@ -187,24 +187,32 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      * @return true if Fee Transaction Type code checked on and at least one record with INCL flag is checked on else return false
      */
     private boolean recordExistsInFeeTransactionType(FeeMethod feeMethod) {
-        boolean recordExists = true;
+        boolean recordExists = false;
 
-        if (feeMethod.getFeeByTransactionType()) {
-            recordExists = false;
-            List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
+        List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
 
-            for (FeeTransaction feeTransactionsRecord : feeTransactions) {
-                if (feeTransactionsRecord.getInclude()) {
-                    recordExists = true;
-                    break;
-                }
-            }
-            if (!recordExists) {
-                putFieldError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+        for (FeeTransaction feeTransactionsRecord : feeTransactions) {
+            if (feeTransactionsRecord.getInclude()) {
+                recordExists = true;
+                break;
             }
         }
-
-        return recordExists;
+        
+        if (feeMethod.getFeeByTransactionType()) {
+            if (!recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+                return false;
+            }
+        }
+        //However, If Fee Transaction Type code is not checked, there can be no records in END_FEE_TRAN_DOC_TYP_T with the field INCL set to Yes 
+        else {
+            if (recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE);
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -215,24 +223,31 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      * @return true if Fee Class code is checked on and at least one record with INCL flag is checked on else return false
      */
     private boolean recordExistsInFeeClassCode(FeeMethod feeMethod) {
-        boolean recordExists = true;
+        boolean recordExists = false;
+        
+        List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
 
-        if (feeMethod.getFeeByClassCode()) {
-            recordExists = false;
-            List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
-
-            for (FeeClassCode feeClassCodeRecord : feeClassCodes) {
-                if (feeClassCodeRecord.getInclude()) {
-                    recordExists = true;
-                    break;
-                }
-            }
-            if (!recordExists) {
-                putFieldError(EndowPropertyConstants.FEE_BY_CLASS_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE);
+        for (FeeClassCode feeClassCodeRecord : feeClassCodes) {
+            if (feeClassCodeRecord.getInclude()) {
+                recordExists = true;
+                break;
             }
         }
 
-        return recordExists;
+        if (feeMethod.getFeeByClassCode()) {
+            if (!recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_CLASS_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_CLASS_CODE);
+                return false;
+            }
+        }
+        else {
+            if (recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_CLASS_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_RECORDS_WITH_YES_IN_FEE_CLASS_CODE);
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -244,24 +259,32 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      *         false
      */
     private boolean recordExistsInFeeEndowmentTransactionType(FeeMethod feeMethod) {
-        boolean recordExists = true;
+        boolean recordExists = false;
 
-        if (feeMethod.getFeeByETranCode()) {
-            recordExists = false;
-            List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
+        List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
 
-            for (FeeEndowmentTransactionCode feeEndowmentTransactionCodesRecord : feeEndowmentTransactionCodes) {
-                if (feeEndowmentTransactionCodesRecord.getInclude()) {
-                    recordExists = true;
-                    break;
-                }
+        for (FeeEndowmentTransactionCode feeEndowmentTransactionCodesRecord : feeEndowmentTransactionCodes) {
+            if (feeEndowmentTransactionCodesRecord.getInclude()) {
+                recordExists = true;
+                break;
             }
+        }
+        
+        if (feeMethod.getFeeByETranCode()) {
             if (!recordExists) {
                 putFieldError(EndowPropertyConstants.FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE);
+                return false;                
+            }
+        }
+        //However, If etran code is not checked, there can be no records in etrancode table with the field INCL set to Yes 
+        else {
+            if (recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE);
+                return false;
             }
         }
 
-        return recordExists;
+        return true;
     }
 
     /**
@@ -272,24 +295,30 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      * @return true if Fee Security Code is checked on and at least one record with INCL flag is checked on else return false
      */
     private boolean recordExistsInFeeSecurity(FeeMethod feeMethod) {
-        boolean recordExists = true;
+        boolean recordExists = false;
+        List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
 
-        if (feeMethod.getFeeBySecurityCode()) {
-            recordExists = false;
-            List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
-
-            for (FeeSecurity feeSecurityRecord : feeSecurity) {
-                if (feeSecurityRecord.getInclude()) {
-                    recordExists = true;
-                    break;
-                }
-            }
-            if (!recordExists) {
-                putFieldError(EndowPropertyConstants.FEE_BY_SECURITY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE);
+        for (FeeSecurity feeSecurityRecord : feeSecurity) {
+            if (feeSecurityRecord.getInclude()) {
+                recordExists = true;
+                break;
             }
         }
 
-        return recordExists;
+        if (feeMethod.getFeeBySecurityCode()) {
+            if (!recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_SECURITY_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_NO_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE);
+                return false;
+            }
+        }
+        else {
+            if (recordExists) {
+                putFieldError(EndowPropertyConstants.FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_RECORDS_WITH_YES_IN_FEE_SECURITY_CODE);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

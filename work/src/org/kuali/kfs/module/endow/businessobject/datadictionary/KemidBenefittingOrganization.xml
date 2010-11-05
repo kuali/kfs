@@ -31,6 +31,7 @@
 		        <ref bean="KemidBenefittingOrganization-lastChangeDate"/>
 		        <ref bean="KemidBenefittingOrganization-active"/>
         		<ref bean="KemidBenefittingOrganization-newCollectionRecord"/>	   
+        		<ref bean="KemidBenefittingOrganization-benefittingChartCode-desc"/>
       		</list>
     	</property>
 	</bean>
@@ -71,6 +72,12 @@
     	<property name="name" value="benefittingChartCode" />
     	<property name="label" value="Benefitting Chart" />
   	</bean>  	
+  	<bean id="KemidBenefittingOrganization-benefittingChartCode-desc" parent="KemidBenefittingOrganization-benefittingChartCode-desc-parentBean" />
+
+  	<bean id="KemidBenefittingOrganization-benefittingChartCode-desc-parentBean" abstract="true" parent="Chart-finChartOfAccountDescription">
+    	<property name="name" value="chart.finChartOfAccountDescription" />
+    	<property name="label" value="Benefitting Chart Description" />
+  	</bean>
 	<bean id="KemidBenefittingOrganization-benefitPrecent" parent="KemidBenefittingOrganization-benefitPrecent-parentBean" />
 
  	<bean id="KemidBenefittingOrganization-benefitPrecent-parentBean" abstract="true" parent="AttributeDefinition">

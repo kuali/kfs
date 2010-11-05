@@ -28,6 +28,7 @@
 		        <ref bean="KemidGeneralLedgerAccount-accountNumber"/>
 		        <ref bean="KemidGeneralLedgerAccount-active"/>
         		<ref bean="KemidGeneralLedgerAccount-newCollectionRecord"/>	     
+        		<ref bean="KemidGeneralLedgerAccount-chartCode-desc"/>
       		</list>
     	</property>
 	</bean>
@@ -59,6 +60,14 @@
     	<property name="label" value="Chart Code" />
     	<property name="required" value="true" />
   	</bean>
+  	<bean id="KemidGeneralLedgerAccount-chartCode-desc" parent="KemidGeneralLedgerAccount-chartCode-desc-parentBean" />
+
+  	<bean id="KemidGeneralLedgerAccount-chartCode-desc-parentBean" abstract="true" parent="Chart-finChartOfAccountDescription">
+    	<property name="name" value="chart.finChartOfAccountDescription" />
+    	<property name="label" value="Chart Description" />
+  	</bean>
+  	
+  	
 	<bean id="KemidGeneralLedgerAccount-accountNumber" parent="KemidGeneralLedgerAccount-accountNumber-parentBean" />
 		        
   	<bean id="KemidGeneralLedgerAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">

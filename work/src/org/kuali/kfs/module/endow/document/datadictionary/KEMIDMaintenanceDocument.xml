@@ -186,6 +186,8 @@
         <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>
         <!-- <value>../dwr/interface/UseCriteriaCodeService.js</value> -->     
         <value>../scripts/module/endow/useCriteriaCode.js</value> 
+        <value>../scripts/sys/objectInfo.js</value>
+        <value>../scripts/module/endow/kemid.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
@@ -441,7 +443,12 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="benefittingChartCode" 
-                    p:required="true" />  
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadChartInfo" 
+                    />  
+              <bean parent="MaintainableFieldDefinition"
+              		p:name="chart.finChartOfAccountDescription"
+              		p:unconditionallyReadOnly="true" />        
               <bean parent="MaintainableFieldDefinition" 
                     p:name="benefittingOrgCode" 
                     p:required="true" />                  
@@ -490,7 +497,12 @@
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="chartCode" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadChartInfo"
+                    />
+              <bean parent="MaintainableFieldDefinition"
+              		p:name="chart.finChartOfAccountDescription"
+              		p:unconditionallyReadOnly="true" />        
               <bean parent="MaintainableFieldDefinition" 
                     p:name="accountNumber"
                     p:required="true" />
@@ -572,7 +584,11 @@
 		            p:unconditionallyReadOnly="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="payIncomeToKemid" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadKEMIDShortTitle"/>
+			  <bean parent="MaintainableFieldDefinition"
+              		p:name="payIncomeToKemidObjRef.shortTitle"
+              		p:unconditionallyReadOnly="true" />    
               <bean parent="MaintainableFieldDefinition" 
                     p:name="percentOfIncomeToPayToKemid" 
                     p:required="true"

@@ -28,7 +28,9 @@
 		        <ref bean="KemidPayoutInstruction-percentOfIncomeToPayToKemid"/>
 		        <ref bean="KemidPayoutInstruction-startDate"/>
 		        <ref bean="KemidPayoutInstruction-endDate"/>
-        		<ref bean="KemidPayoutInstruction-newCollectionRecord"/>	     
+        		<ref bean="KemidPayoutInstruction-newCollectionRecord"/>
+        		<ref bean="KemidPayoutInstruction-payIncomeToKemid-shortTitle" />
+        			     
       		</list>
     	</property>
 	</bean>
@@ -74,13 +76,20 @@
             <bean parent="TextControlDefinition" p:size="8"/>
         </property>
   	</bean>
-	<bean id="KemidPayoutInstruction-payIncomeToKemid" parent="KemidPayoutInstruction-payIncomeToKemid-parentBean" />
+	<bean id="KemidPayoutInstruction-payIncomeToKemid-shortTitle" parent="KemidPayoutInstruction-payIncomeToKemid-shortTitle-parentBean" />
+		        
+  	<bean id="KemidPayoutInstruction-payIncomeToKemid-shortTitle-parentBean" abstract="true" parent="KEMID-shortTitle">
+  		<property name="name" value="payIncomeToKemidObjRef.shortTitle" />
+  		<property name="label" value="Pay Income to KEMID Short Title" />
+  	</bean>  	
+  	<bean id="KemidPayoutInstruction-payIncomeToKemid" parent="KemidPayoutInstruction-payIncomeToKemid-parentBean" />
 		        
   	<bean id="KemidPayoutInstruction-payIncomeToKemid-parentBean" abstract="true" parent="KEMID-kemid">
   		<property name="name" value="payIncomeToKemid" />
     	<property name="label" value="Pay Income to KEMID" />
     	<property name="required" value="true" />
   	</bean>  	
+  	
   	<bean id="KemidPayoutInstruction-startDate" parent="KemidPayoutInstruction-startDate-parentBean" />
 		        
   	<bean id="KemidPayoutInstruction-startDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

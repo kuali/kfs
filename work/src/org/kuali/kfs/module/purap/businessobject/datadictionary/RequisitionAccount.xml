@@ -141,7 +141,7 @@
     <property name="shortLabel" value="Org Ref Id"/>
     <property name="maxLength" value="8"/>
     <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="false"/>
     <property name="control">

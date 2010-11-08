@@ -36,10 +36,10 @@ public class HoldingTaxLot extends PersistableBusinessObjectBase {
     private KualiInteger lotNumber;
     private String incomePrincipalIndicator;
     private Date acquiredDate;
-    private BigDecimal units;
-    private BigDecimal cost;
-    private BigDecimal currentAccrual;
-    private BigDecimal priorAccrual;
+    private BigDecimal units = BigDecimal.ZERO;
+    private BigDecimal cost = BigDecimal.ZERO;
+    private BigDecimal currentAccrual = BigDecimal.ZERO;
+    private BigDecimal priorAccrual = BigDecimal.ZERO;
     private Date lastTransactionDate;
 
     private KEMID kemidObj;

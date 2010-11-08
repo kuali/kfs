@@ -54,7 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingService {
     
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CurrentTaxLotBalanceUpdateServiceImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmenteDocPostingServiceImpl.class);
     
     private ReportWriterService eDocPostingExceptionReportWriterService;
     private ReportWriterService eDocPostingProcessedReportWriterService;

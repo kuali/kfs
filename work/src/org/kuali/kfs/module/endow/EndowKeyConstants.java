@@ -50,11 +50,6 @@ public class EndowKeyConstants {
         public static final String ERROR_GL_LINK_OBJ_CD_ACC_CATEGORY_MUST_EQUAL_ETRAN_TYPE = "error.document.endowmentTransaction.glLink.objectCode.accCategory.mustEqualEtranType";
     }
 
-    public static class PooledFundControlConstants {
-        public static final String ERROR_CLASS_CODE_TYPE_IS_NOT_P = "error.document.pooledFundControl.classCodeType.notPooledInvestment";
-        public static final String ERROR_POOL_SECURITY_ID_NOT_EXIST = "error.document.pooledFundControl.pooledSecurityID.notExist";
-    }
-
     public static class PooledFundValueConstants {
         public static final String ERROR_VALUATION_DATE_IS_NOT_THE_END_OF_MONTH = "error.document.pooledFundValue.valuationDate.notTheEndOfMonth";
         public static final String ERROR_VALUATION_DATE_IS_NOT_LATEST_ONE = "error.document.pooledFundValue.valuationDate.notTheLatestOne";

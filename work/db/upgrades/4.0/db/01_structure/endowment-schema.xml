@@ -971,12 +971,24 @@
             <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_UNITS" type="NUMBER(16,4)"/>
-            <column name="HLDG_COST" type="NUMBER(19,2)"/>
-            <column name="HLDG_ACQD_DT" type="DATE"/>
-            <column defaultValueNumeric="0.0" name="HLDG_PRIOR_ACRD_INC" type="NUMBER(19,2)"/>
-            <column defaultValueNumeric="0.0" name="HLDG_ACRD_INC_DUE" type="NUMBER(19,5)"/>
-            <column name="LAST_TRAN_DT" type="DATE"/>
+            <column name="HLDG_UNITS" type="NUMBER(16,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HLDG_COST" type="NUMBER(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HLDG_ACQD_DT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0.0" name="HLDG_PRIOR_ACRD_INC" type="NUMBER(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0.0" name="HLDG_ACRD_INC_DUE" type="NUMBER(19,5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_TRAN_DT" type="DATE">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
                 <constraints nullable="false"/>
             </column>

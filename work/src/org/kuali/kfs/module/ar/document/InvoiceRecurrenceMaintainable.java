@@ -84,4 +84,12 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
         return null;
     }
     
+    @SuppressWarnings("deprecation")
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        // Need to make sure that the customer invoice object has been loaded on the new object
+        ((InvoiceRecurrence)getBusinessObject()).setCustomerInvoiceDocument( getBusinessObjectService().findBySinglePrimaryKey(CustomerInvoiceDocument.class, ((InvoiceRecurrence)getBusinessObject()).getInvoiceNumber() ));
+    }
+    
 }

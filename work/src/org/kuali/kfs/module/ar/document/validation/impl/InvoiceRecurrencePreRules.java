@@ -25,13 +25,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.exception.UnknownDocumentIdException;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrencePreRules.class);
     /**
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
      */
@@ -45,8 +46,6 @@ public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
     }
 
     /**
-     * This method checks if there is another customer with the same name and generates yes/no question
-     * 
      * @param document the maintenance document
      * @return
      */
@@ -61,13 +60,17 @@ public class InvoiceRecurrencePreRules extends PromptBeforeValidationBase {
             return true;
         }
         
-        CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
-            customerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(newInvoiceRecurrence.getInvoiceNumber());
-        } catch (WorkflowException e){
+            if ( SpringContext.getBean(DocumentService.class).documentExists(newInvoiceRecurrence.getInvoiceNumber()) ) {
+                CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(newInvoiceRecurrence.getInvoiceNumber());
+                newInvoiceRecurrence.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
+            }
+        } catch (WorkflowException ex ) {
+            LOG.error( "Unable to retrieve document " + newInvoiceRecurrence.getInvoiceNumber() + " from workflow.", ex );
+        } catch ( UnknownDocumentIdException ex ) {
+            LOG.error( "Document " + newInvoiceRecurrence.getInvoiceNumber() + " does not exist." );
         }
         
-        newInvoiceRecurrence.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
         return true;
     }
 

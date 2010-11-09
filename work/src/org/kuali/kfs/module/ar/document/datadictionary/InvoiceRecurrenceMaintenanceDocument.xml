@@ -41,9 +41,7 @@
         <value>../scripts/module/ar/customerInvoiceObjectInfo.js</value>
       </list>
     </property>
-    <property name="workflowAttributes">
-    	<ref bean="InvoiceRecurrenceMaintenanceDocument-workflowAttributes"/>
-    </property>
+    <property name="workflowAttributes" ref="InvoiceRecurrenceMaintenanceDocument-workflowAttributes"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -74,20 +72,23 @@
     <bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes" parent="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean"/>
 	
 	<bean id="InvoiceRecurrenceMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<!-- 
     	<property name="searchingTypeDefinitions">
     		<list>
     			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode"/>
     			<ref bean="SearchingType-InvoiceRecurrenceMaintenanceDocument-accountNumber"/>
     		</list>
     	</property>
+    	 -->
     	<property name="routingTypeDefinitions">
     		<map>
-    			<entry key="Account" value-ref="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly"/>
+    			<entry key="Account" value-ref="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account"/>
+    			<entry key="Recurrence" value-ref="InvoiceRecurrenceMaintenanceDocument-RoutingType-BillingChartOrg"/>
     		</map>
     	</property>
 	</bean>  
 	
-	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account-sourceOnly" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	 <bean id="RoutingType-InvoiceRecurrenceMaintenanceDocument-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
@@ -100,13 +101,15 @@
     		</list>
     	</property>
     </bean>
+    
 	<bean id="DocumentValuePathGroup-InvoiceRecurrenceMaintenanceDocument-Account-sourceAccountingLines" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-	<property name="documentCollectionPath">
-		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-			<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines"/>
-		</bean>
-	</property>
+		<property name="documentCollectionPath">
+			<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+				<property name="collectionPath" value="newMaintainableObject.businessObject.customerInvoiceDocument.sourceAccountingLines"/>
+			</bean>
+		</property>
 	</bean>
+	<!-- 
 	<bean id="SearchingType-InvoiceRecurrenceMaintenanceDocument-chartOfAccountsCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
         <property name="documentValues">
@@ -123,4 +126,29 @@
         	</list>
         </property>
     </bean>     
+ -->
+  <bean id="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg" parent="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg-parentBean"/>
+  <bean id="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg-parentBean" abstract="true" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.customerInvoiceDocument.billByChartOfAccountCode</value>
+				<value>newMaintainableObject.businessObject.customerInvoiceDocument.billedByOrganizationCode</value>	    					
+			</list>
+		</property>
+  </bean>
+
+  <bean id="InvoiceRecurrenceMaintenanceDocument-RoutingType-BillingChartOrg" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<property name="routingAttributes">
+		<list>
+	     	<ref bean="RoutingAttribute-chartOfAccountsCode"/>
+	     	<ref bean="RoutingAttribute-organizationCode"/>
+		</list>
+	</property>
+	<property name="documentValuePathGroups">
+		<list>
+			<ref bean="InvoiceRecurrenceMaintenanceDocument-DocumentValuePathGroup-billingChartOrg"/>
+		</list>
+	</property>
+  </bean>
+
 </beans>

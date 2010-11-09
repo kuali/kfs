@@ -31,20 +31,20 @@ import org.kuali.rice.kim.service.PersonService;
 
 public class InvoiceRecurrence extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private String invoiceNumber;
-	private String customerNumber;
-	private Date documentRecurrenceBeginDate;
-	private Date documentRecurrenceEndDate;
-	private Integer documentTotalRecurrenceNumber;
-	private String documentRecurrenceIntervalCode;
-	private String documentInitiatorUserIdentifier;
-	private Date documentLastCreateDate;
-	private boolean active;
+	protected String invoiceNumber;
+	protected String customerNumber;
+	protected Date documentRecurrenceBeginDate;
+	protected Date documentRecurrenceEndDate;
+	protected Integer documentTotalRecurrenceNumber;
+	protected String documentRecurrenceIntervalCode;
+	protected String documentInitiatorUserIdentifier;
+	protected Date documentLastCreateDate;
+	protected boolean active;
 
-    private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    private CustomerInvoiceDocument customerInvoiceDocument;
-    private Customer customer;
-    private Person documentInitiatorUser;
+	protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
+    protected CustomerInvoiceDocument customerInvoiceDocument;
+    protected Customer customer;
+    protected Person documentInitiatorUser;
     
     
 	/**
@@ -288,7 +288,8 @@ public class InvoiceRecurrence extends PersistableBusinessObjectBase implements 
     /**
 	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
 	 */
-	protected LinkedHashMap toStringMapper() {
+	@SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.invoiceNumber);
 	    return m;

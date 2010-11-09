@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -61,11 +62,15 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      */
     public String calculateValueEffectiveDateForAjax(String valuationDate, String pooledSecurityID) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        String valueEffectiveDate = KNSConstants.EMPTY_STRING;
+        String valueEffectiveDate = null;
 
         try {
             Date valDate = dateTimeService.convertToSqlDate(valuationDate);
-            valueEffectiveDate = dateTimeService.toDateString(calculateValueEffectiveDate(valDate, pooledSecurityID));
+            Date computedValEffectiveDate = calculateValueEffectiveDate(valDate, pooledSecurityID);
+
+            if (computedValEffectiveDate != null) {
+                valueEffectiveDate = dateTimeService.toDateString(computedValEffectiveDate);
+            }
         }
         catch (ParseException e) {
             // do nothing, the returned value will be empty string
@@ -81,15 +86,18 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
 
             pooledFundControl = (PooledFundControl) businessObjectService.findByPrimaryKey(PooledFundControl.class, criteria);
         }
-        int incrementDays = pooledFundControl.getIncrementValuationDays().intValue();
+        if (ObjectUtils.isNotNull(pooledFundControl)) {
+            int incrementDays = pooledFundControl.getIncrementValuationDays().intValue();
 
-        // Calculate the date
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(valuationDate);
-        calendar.add(Calendar.DATE, incrementDays);
-        java.sql.Date valueEffectiveDate = new java.sql.Date(calendar.getTime().getTime());
+            // Calculate the date
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(valuationDate);
+            calendar.add(Calendar.DATE, incrementDays);
+            java.sql.Date valueEffectiveDate = new java.sql.Date(calendar.getTime().getTime());
+            return valueEffectiveDate;
+        }
 
-        return valueEffectiveDate;
+        return null;
     }
 
     public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {

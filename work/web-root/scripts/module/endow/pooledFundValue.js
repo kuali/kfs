@@ -32,6 +32,7 @@
 	} else if (pooledSecurityID == '' ){
 	    clearRecipients(pooledSecurityIDFieldName, "");	    
 	} else {
+		pooledSecurityID = pooledSecurityID.toUpperCase();
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null ) {

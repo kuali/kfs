@@ -162,11 +162,11 @@
 				
 	    </tr>
 	    
-	   <kul:displayIfErrors keyMatch="${errorKeyMatch}">
+	   <endow:displayIfErrorsOrWarnings keyMatch="${errorKeyMatch}">
 	    <tr>
             <td colspan="8"><kul:errors keyMatch="${errorKeyMatch}" errorTitle="Errors found in this Section:" /></td>
         </tr>
-       </kul:displayIfErrors>
+       </endow:displayIfErrorsOrWarnings>
 	    
 		<tr>
 		    <c:if test="${showIncomeTotalAmount}">

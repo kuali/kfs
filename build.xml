@@ -694,7 +694,7 @@ If you say so...exiting...you're on your own. :)
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
-		<javac destdir="${war.classes.directory}" srcdir="${source.directory}"
+		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />
 		</javac>

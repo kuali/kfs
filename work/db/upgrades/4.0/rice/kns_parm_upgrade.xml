@@ -46,6 +46,42 @@
     	<delete tableName="KRNS_PARM_T">
     		<where>NMSPC_CD = 'KFS-LD' AND PARM_DTL_TYP_CD = 'LaborPosterStep' AND PARM_NM = 'SENT_TO_POSTER_OBJECT_CODES'</where>
     	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'COST_SHARE_ORGS_BUDGET_PERMISSION'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'DEFAULT_APPOINTMENT_TYPE'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'DEFAULT_NONPERSONNEL_INFLATION_RATE'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'DEFAULT_PERSONNEL_INFLATION_RATE'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'FIRST25K_SUBCATEGORY_CODES'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'GRADUATE_ASSISTANT_NONPERSONNEL_DESCRIPTION'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'PERIOD_IDENTIFIER'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'PERSONNEL_STATUSES'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'RESEARCH_RISKS_ANIMALS_ACTIVE'</where>
+    	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE'</where>
+    	</delete>
     </changeSet>
     
 	<!-- fix the descriptions on parameters which are misleading -->

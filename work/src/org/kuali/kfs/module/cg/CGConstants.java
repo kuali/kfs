@@ -46,10 +46,6 @@ public class CGConstants extends JSTLConstants {
 
     public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
     
-    // Research Risks codes (system param names)
-    public static final String RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE = "RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE";
-    public static final String RESEARCH_RISKS_ANIMALS_ACTIVE_CODE = "RESEARCH_RISKS_ANIMALS_ACTIVE";
-
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";
 

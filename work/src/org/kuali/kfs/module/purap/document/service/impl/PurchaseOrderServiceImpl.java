@@ -31,9 +31,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
@@ -41,6 +38,9 @@ import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
@@ -103,6 +103,7 @@ import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -145,7 +146,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private PersonService<Person> personService;
     private MailService mailService;
     private B2BPurchaseOrderService b2bPurchaseOrderService;
-
+    private DataDictionaryService dataDictionaryService;
+    
     public void setB2bPurchaseOrderService(B2BPurchaseOrderService purchaseOrderService) {
         b2bPurchaseOrderService = purchaseOrderService;
     }
@@ -908,7 +910,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         else {
             //PO transmission failed; record errors and change status to "cxml failed"
             try {
-                Note note = documentService.createNoteFromDocument(po, "Unable to transmit the PO for the following reasons:\n" + errors);
+                String noteText = "Unable to transmit the PO for the following reasons:\n" + errors;                
+                int noteMaxSize = dataDictionaryService.getAttributeMaxLength("Note", "noteText");
+
+                // Break up the note into multiple pieces if the note is too large to fit in the database field.
+                while (noteText.length() > noteMaxSize) {
+                    int fromIndex = 0;
+                    fromIndex = noteText.lastIndexOf(';', noteMaxSize);
+
+                    String noteText1 = noteText.substring(0, fromIndex);
+                    Note note1 = documentService.createNoteFromDocument(po, noteText1);
+                    documentService.addNoteToDocument(po, note1);
+                    noteText = noteText.substring(fromIndex);
+                }
+
+                Note note = documentService.createNoteFromDocument(po, noteText);
                 documentService.addNoteToDocument(po, note);
             }
             catch (Exception e) {
@@ -2001,6 +2017,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

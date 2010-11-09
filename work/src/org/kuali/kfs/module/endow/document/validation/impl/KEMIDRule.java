@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +156,12 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             if (bo instanceof KemidGeneralLedgerAccount) {
                 KemidGeneralLedgerAccount generalLedgerAccount = (KemidGeneralLedgerAccount) bo;
                 success &= checkGeneralLedgerAccount(generalLedgerAccount);
+
+                List<KemidGeneralLedgerAccount> generalLedgerAccounts = new ArrayList<KemidGeneralLedgerAccount>();
+                generalLedgerAccounts.addAll(newKemid.getKemidGeneralLedgerAccounts());
+                generalLedgerAccounts.add(generalLedgerAccount);
+
+                success &= validateIncomePrincipalGLAccounts(generalLedgerAccounts);
             }
 
             if (bo instanceof KemidAuthorizations) {
@@ -896,7 +903,32 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
             return false;
         }
         else {
-            for (KemidGeneralLedgerAccount kemidGeneralLedgerAccount : newKemid.getKemidGeneralLedgerAccounts()) {
+            valid &= validateIncomePrincipalGLAccounts(newKemid.getKemidGeneralLedgerAccounts());
+        }
+
+        return valid;
+
+    }
+
+    /**
+     * Validates that there is no more than one active entry with IP indicator I or P, that there is at least one active income GL
+     * account, if principal restriction code is NA then there is no principal GL account and if principal restriction code is not
+     * NA then there is at least one principal GL account.
+     * 
+     * @param generalLedgerAccounts
+     * @return true if valid, false otherwise
+     */
+    private boolean validateIncomePrincipalGLAccounts(List<KemidGeneralLedgerAccount> generalLedgerAccounts) {
+        boolean valid = true;
+
+        boolean hasIncomeGL = false;
+        boolean hasPrincipalGL = false;
+        boolean hasActiveIncomeGL = false;
+        boolean hasActivePrincipalGL = false;
+
+
+        if (generalLedgerAccounts != null && generalLedgerAccounts.size() != 0) {
+            for (KemidGeneralLedgerAccount kemidGeneralLedgerAccount : generalLedgerAccounts) {
                 if (kemidGeneralLedgerAccount.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
                     // One and ONLY ONE END_KEMID_GL_LNK_T record with the IP_IND_CD field equal to I must exist for each
                     // END_KEMID_T record.
@@ -933,19 +965,18 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                 return false;
             }
 
-            if (newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasActivePrincipalGL) {
+            if (newKemid.getPrincipalRestrictionCode() != null && newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && hasActivePrincipalGL) {
                 putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_CAN_NOT_HAVE_A_PRINCIPAL_GL_ACC_IF_PRINCIPAL_RESTR_CD_IS_NA);
                 return false;
             }
 
-            if (!newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasActivePrincipalGL) {
+            if (newKemid.getPrincipalRestrictionCode() != null && !newKemid.getPrincipalRestrictionCode().equalsIgnoreCase(EndowConstants.TypeRestrictionPresetValueCodes.NOT_APPLICABLE_TYPE_RESTRICTION_CODE) && !hasActivePrincipalGL) {
                 putFieldError(EndowPropertyConstants.KEMID_GENERAL_LEDGER_ACCOUNTS_TAB, EndowKeyConstants.KEMIDConstants.ERROR_KEMID_MUST_HAVE_AT_LEAST_ONE_ACTIVE_PRINCIPAL_GL_ACC_IF_PRINCIPAL_CD_NOT_NA);
                 return false;
             }
         }
 
         return valid;
-
     }
 
     /**

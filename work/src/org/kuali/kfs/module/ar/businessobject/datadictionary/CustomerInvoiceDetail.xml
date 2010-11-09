@@ -269,15 +269,10 @@
   </bean>
   <bean id="CustomerInvoiceDetail-taxableIndicator" parent="CustomerInvoiceDetail-taxableIndicator-parentBean"/>
 
-  <bean id="CustomerInvoiceDetail-taxableIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerInvoiceDetail-taxableIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     <property name="name" value="taxableIndicator"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Tax?"/>
     <property name="shortLabel" value="Tax?"/>
-    <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
   </bean>
   
   <!-- 

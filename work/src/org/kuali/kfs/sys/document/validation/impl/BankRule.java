@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,13 +35,6 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 public class BankRule extends MaintenanceDocumentRuleBase {
     protected Bank oldBank;
     protected Bank newBank;
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return super.processCustomRouteDocumentBusinessRules(document);
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -89,18 +83,17 @@ public class BankRule extends MaintenanceDocumentRuleBase {
     protected boolean validateFieldsForBankOffsetEntries() {
         boolean valid = true;
 
-        if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-            return valid;
-        }
+        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
 
-        if (StringUtils.isBlank(newBank.getCashOffsetAccountNumber())) {
-            this.putFieldError(KFSPropertyConstants.CASH_OFFSET_ACCOUNT_NUMBER, KFSKeyConstants.Bank.ERROR_MISSING_CASH_ACCOUNT_NUMBER);
-            valid = false;
-        }
-
-        if (StringUtils.isBlank(newBank.getCashOffsetObjectCode())) {
-            this.putFieldError(KFSPropertyConstants.CASH_OFFSET_OBJECT_CODE, KFSKeyConstants.Bank.ERROR_MISSING_CASH_OBJECT_CODE);
-            valid = false;
+            if (StringUtils.isBlank(newBank.getCashOffsetAccountNumber())) {
+                putFieldError(KFSPropertyConstants.CASH_OFFSET_ACCOUNT_NUMBER, KFSKeyConstants.Bank.ERROR_MISSING_CASH_ACCOUNT_NUMBER);
+                valid = false;
+            }
+    
+            if (StringUtils.isBlank(newBank.getCashOffsetObjectCode())) {
+                putFieldError(KFSPropertyConstants.CASH_OFFSET_OBJECT_CODE, KFSKeyConstants.Bank.ERROR_MISSING_CASH_OBJECT_CODE);
+                valid = false;
+            }
         }
 
         return valid;
@@ -112,22 +105,18 @@ public class BankRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     protected boolean validateBankAccountNumber() {
-        boolean valid = true;
-        Map criteria = new HashMap();
-
-        if ( StringUtils.isNotBlank(newBank.getBankAccountNumber() ) )
-        {
-            criteria.put("bankAccountNumber", newBank.getBankAccountNumber() );
-            Collection existingBanks = super.getBoService().findMatching(Bank.class, criteria);
-            if ( existingBanks != null && !existingBanks.isEmpty() )
-            {
-                valid = false;
-                this.putFieldError(KFSPropertyConstants.BANK_ACCOUNT_NUMBER, KFSKeyConstants.Bank.ERROR_ACCOUNT_NUMBER_NOT_UNIQUE);
+        // if the new bank is not blank *AND* has been changed
+        // (I.e, never fire this edit if the account has not been changed)
+        if ( StringUtils.isNotBlank(newBank.getBankAccountNumber() )
+                && (oldBank == null ||
+                         !StringUtils.equals(oldBank.getBankAccountNumber(), newBank.getBankAccountNumber())) ) {
+            @SuppressWarnings("rawtypes")
+            Collection existingBanks = getBoService().findMatching(Bank.class, Collections.singletonMap(KFSPropertyConstants.BANK_ACCOUNT_NUMBER, newBank.getBankAccountNumber()));
+            if ( existingBanks != null && !existingBanks.isEmpty() ) {
+                putFieldError(KFSPropertyConstants.BANK_ACCOUNT_NUMBER, KFSKeyConstants.Bank.ERROR_ACCOUNT_NUMBER_NOT_UNIQUE);
+                return false;
             }
         }
-        
-        return valid;
-        
+        return true;        
     }
-
 }

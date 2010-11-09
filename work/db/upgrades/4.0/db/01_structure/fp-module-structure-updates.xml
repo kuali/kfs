@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 
-	<changeSet author="Muddu" id="5693-1-1" failOnError="true">
+	<changeSet author="Muddu" id="5693-1-1">
 		<comment>Need to add a column for Exception Attached to FP_DV_DOC_T Table.</comment>
 		<addColumn tableName="FP_DV_DOC_T">
 			<column name="DV_EXCPT_IND" type="VARCHAR2(1)" defaultValue="N">
@@ -16,7 +16,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="Sam" id="5926-1-1" failOnError="true">
+	<changeSet author="Sam" id="5926-1-1">
 		<comment>Add new fields to table FP_DV_NRA_TAX_T   </comment>
 		<addColumn tableName="FP_DV_NRA_TAX_T">
 			<column name="SPCL_W4_INC_AMT" type="NUMBER(19,2)" />
@@ -27,6 +27,16 @@
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="Bob" id="KFS_40_FP_VENDOR_FIELD_LENGTHS">
+		<comment>KFSMI-5869  CAB doesn"t accept a vendor name &gt; 40 characters </comment>
+		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
+			<column name="CPTLAST_MFR_NM" type="VARCHAR2(45)" />
+		</modifyColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
 		</modifySql>
 	</changeSet>
 </databaseChangeLog>

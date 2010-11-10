@@ -20,27 +20,29 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.AgreementSpecialInstruction;
 import org.kuali.kfs.module.endow.businessobject.UseCriteriaCode;
-import org.kuali.kfs.module.endow.document.service.UseCriteriaCodeService;
+import org.kuali.kfs.module.endow.document.service.AgreementSpecialInstructionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
-public class UseCriteriaCodeServiceImpl implements UseCriteriaCodeService {
+public class AgreementSpecialInstructionServiceImpl implements AgreementSpecialInstructionService {
+
 
     private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.UseCriteriaCodeService#getByPrimaryKey(java.lang.String)
      */
-    public UseCriteriaCode getByPrimaryKey(String code) {
+    public AgreementSpecialInstruction getByPrimaryKey(String code) {
 
-        UseCriteriaCode useCriteriaCode = null;
+        AgreementSpecialInstruction agreementSpecialInstruction = null;
         if (StringUtils.isNotBlank(code) && !code.isEmpty()) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(EndowPropertyConstants.KUALICODEBASE_CODE, code);
-            useCriteriaCode = (UseCriteriaCode) businessObjectService.findByPrimaryKey(UseCriteriaCode.class, criteria);
-System.out.println(useCriteriaCode.getName() + "******************");            
+            agreementSpecialInstruction = (AgreementSpecialInstruction) businessObjectService.findByPrimaryKey(AgreementSpecialInstruction.class, criteria);
+System.out.println(agreementSpecialInstruction.getName() + "******************");            
         }
-        return useCriteriaCode;
+        return agreementSpecialInstruction;
     }
 
     /**
@@ -58,5 +60,5 @@ System.out.println(useCriteriaCode.getName() + "******************");
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
 }

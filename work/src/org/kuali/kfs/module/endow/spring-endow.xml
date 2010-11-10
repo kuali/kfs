@@ -2221,4 +2221,10 @@
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>	
+	
+	<bean id="agreementSpecialInstructionService" class="org.kuali.kfs.module.endow.document.service.impl.AgreementSpecialInstructionServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+	</bean>	
 </beans>

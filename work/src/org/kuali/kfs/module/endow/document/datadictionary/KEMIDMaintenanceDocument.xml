@@ -185,6 +185,7 @@
         <value>../scripts/module/endow/kemidDonorStatement.js</value>  
         <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>
         <value>../scripts/module/endow/useCriteriaCode.js</value> 
+        <value>../scripts/module/endow/agreementSpecialInstruction.js</value> 
         <value>../scripts/sys/objectInfo.js</value>
         <value>../scripts/module/endow/kemid.js</value>
       </list>
@@ -678,7 +679,8 @@
 		            p:unconditionallyReadOnly="true" />	
               <bean parent="MaintainableFieldDefinition" 
                     p:name="agreementSpecialInstructionCode" 
-                    p:required="true" />
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadAgreementSpecialInstructionCodeDesc" />
               <bean parent="MaintainableFieldDefinition"
 		            p:name="agreementSpecialInstruction.name"
 		            p:required="true"

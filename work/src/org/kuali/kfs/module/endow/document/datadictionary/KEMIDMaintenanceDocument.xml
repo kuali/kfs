@@ -184,7 +184,6 @@
         <value>../dwr/interface/DonorLabelService.js</value>
         <value>../scripts/module/endow/kemidDonorStatement.js</value>  
         <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>
-        <!-- <value>../dwr/interface/UseCriteriaCodeService.js</value> -->     
         <value>../scripts/module/endow/useCriteriaCode.js</value> 
         <value>../scripts/sys/objectInfo.js</value>
         <value>../scripts/module/endow/kemid.js</value>

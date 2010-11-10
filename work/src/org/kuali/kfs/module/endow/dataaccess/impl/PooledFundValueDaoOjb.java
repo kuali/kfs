@@ -35,9 +35,15 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate() {
         Criteria criteria = new Criteria();
+
         criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
         criteria.addEqualTo(EndowPropertyConstants.ST_GAIN_LOSS_DISTR_COMPL, false);
-        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
+
+        QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.POOL_SECURITY_ID);
+        qbc.addOrderByDescending(EndowPropertyConstants.VALUE_EFFECTIVE_DATE);
+
+        return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
 

@@ -84,6 +84,8 @@ public class LockServiceTest extends KualiTestBase {
       // get the services we need 
       lockService = SpringContext.getBean(LockService.class);
       bcHeaderDao = SpringContext.getBean(BudgetConstructionDao.class);
+      if (!runTests())
+          return;
       // find a test fiscal year 
       universityFiscalYear = setTestFiscalYear(); 
       assertTrue("Unable to obtain fiscal year",universityFiscalYear != 0);

@@ -66,7 +66,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="frequencyCode" p:lookupReadOnly="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="nextDueDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="detail" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="entryDate" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="entryDate" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.options.CurrentProcessDateValuesFinder" />
 				<bean parent="MaintainableFieldDefinition" p:name="terminationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
       		</list>

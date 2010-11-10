@@ -380,7 +380,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/drivers/mysql-connector-java-5.0.5-bin.jar">
+	<classpathentry exported="true" kind="lib" path="build/drivers/mysql-connector-java-5.1.13-bin.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

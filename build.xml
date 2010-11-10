@@ -45,10 +45,10 @@
 			<then>
     			<property name="input.default.base.directory" location="${basedir}/.."/>
     			<property name="input.default.datasource.ojb.platform" value="Oracle9i"/>
-    			<property name="input.default.mysql.datasource.url" value="jdbc:mysql://localhost:3306/kuldev"/>
-    			<property name="input.default.oracle.datasource.url" value="jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI"/>
     			<property name="input.default.datasource.username" value="kuldev"/>
     			<property name="input.default.datasource.password" value="kuldev"/>
+    			<property name="input.default.mysql.datasource.url" value="jdbc:mysql://localhost:3306/${input.default.datasource.username}"/>
+    			<property name="input.default.oracle.datasource.url" value="jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI"/>
 				<echo>
 *******************************************************************************					
 Welcome to the Kuali Financial System, the most advanced financial information system
@@ -60,10 +60,10 @@ It looks like you have never attempted to build KFS before (at least on this sys
 Let me ask you a few questions about your environment.
 *******************************************************************************
 				</echo>	
-				<!--
-				<echo message="No ${local.env.config.file}: creating" />				
-				-->
-				<input message="Do you have a PhD in Kualiology?" validargs="yes,no" defaultvalue="no" addproperty="input.kualiology" />
+				<input message="Do you have a PhD in Kualiology?" 
+					validargs="yes,no" 
+					defaultvalue="no" 
+					addproperty="input.kualiology" />
 				<if>
 					<equals arg1="yes" arg2="${input.kualiology}" />
 					<then>
@@ -88,7 +88,7 @@ If you say so...exiting...you're on your own. :)
 				<if>
 					<equals arg1="MySQL" arg2="${input.datasource.ojb.platform}" />
 					<then>
-		    			<input message="And where is this database?"
+		    			<input message="And where is this database?  (Don't forget the schema name suffix.)"
 		    				defaultvalue="${input.default.mysql.datasource.url}" 
 		    				addproperty="input.mysql.datasource.url" />
 					</then>
@@ -98,16 +98,32 @@ If you say so...exiting...you're on your own. :)
 		    				addproperty="input.oracle.datasource.url" />
 					</else>
 				</if>
+    			<input message="Where are my tables in that database? (user/schema name)"
+    				defaultvalue="${input.default.datasource.username}" 
+    				addproperty="input.datasource.username" />
+    			<input message="What is the password for that account? (I promise I won't tell...)"
+    				defaultvalue="${input.default.datasource.password}" 
+    				addproperty="input.datasource.password" />
 
 				<copy tofile="${local.env.config.file}" file="build/external/user/template-kfs-build.properties" verbose="true">
 					<filterset begintoken="@" endtoken="@">
 						<filter token="input.base.directory" value="${input.base.directory}" />
 						<filter token="input.datasource.ojb.platform" value="${input.datasource.ojb.platform}" />
-						<filter token="input.base.directory" value="${input.base.directory}" />
-						<filter token="input.base.directory" value="${input.base.directory}" />
-						<filter token="input.base.directory" value="${input.base.directory}" />
+						<filter token="input.datasource.username" value="${input.datasource.username}" />
+						<filter token="input.datasource.password" value="${input.datasource.password}" />
+						<filter token="input.mysql.datasource.url" value="${input.mysql.datasource.url}" />
+						<filter token="input.oracle.datasource.url" value="${input.oracle.datasource.url}" />
 					</filterset>
 				</copy>
+				<copy todir="${user.home}" file="build/external/log4j.properties" verbose="true" />
+				<echo>
+*******************************************************************************					
+That's it!  You should now be able to run KFS from the command line.  For further
+setup instructions within Eclipse, please visit:
+					
+https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
+*******************************************************************************
+				</echo>	
 			</then>
 		</if>
 	</target>
@@ -154,8 +170,7 @@ If you say so...exiting...you're on your own. :)
 
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
-	<!--  depends="check-for-kfs-build" -->
-	<target name="init-property-files">
+	<target name="init-property-files" depends="check-for-kfs-build">
 		<echo message="Reading Properties: ${local.env.config.file}" />
 		<property file="${local.env.config.file}" />
 		<if>
@@ -1002,6 +1017,12 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		<!-- Testing Jars -->
 
     	<echo append="true" file="${classpath.file}" message="${classpath.suffix}" />
+    	<if> 
+    		<isset property="eclipse.running" />
+    		<then>
+    			<eclipse.refreshLocal resource="kfs/" depth="infinite"/>
+    		</then>
+    	</if>
 	</target>
 	
 	<target name="help" depends="init-properties" description="Describe public targets">

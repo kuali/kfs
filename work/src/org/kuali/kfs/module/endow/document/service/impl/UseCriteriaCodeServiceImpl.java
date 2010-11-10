@@ -32,14 +32,12 @@ public class UseCriteriaCodeServiceImpl implements UseCriteriaCodeService {
      * @see org.kuali.kfs.module.endow.document.service.UseCriteriaCodeService#getByPrimaryKey(java.lang.String)
      */
     public UseCriteriaCode getByPrimaryKey(String code) {
-        
+
         UseCriteriaCode useCriteriaCode = null;
-        if (StringUtils.isNotBlank(code)) {
+        if (StringUtils.isNotBlank(code) && !code.isEmpty()) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(EndowPropertyConstants.KUALICODEBASE_CODE, code);
-
             useCriteriaCode = (UseCriteriaCode) businessObjectService.findByPrimaryKey(UseCriteriaCode.class, criteria);
-System.out.println(useCriteriaCode.getName() + "*****************************************************************");            
         }
         return useCriteriaCode;
     }

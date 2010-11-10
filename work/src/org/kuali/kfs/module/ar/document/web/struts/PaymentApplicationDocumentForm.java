@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -597,5 +598,34 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return getNonAppliedControlAllocations().get(documentNumber);
     }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    protected void populateFalseCheckboxes(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        if (parameterMap.get("checkboxToReset") != null) {
+            final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
+            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
+                for (int i = 0; i < checkboxesToReset.length; i++) {
+                    String propertyName = (String) checkboxesToReset[i];
+                    if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null ) {
+                        try {
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
+                        } catch (RuntimeException ex) {
+                            
+                        }
+                    }  
+                    else if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on") ) {
+                        try {
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap); 
+                        } catch (RuntimeException ex) {
+                            
+                        }
+                    }
+                }
+            }
+        }    }
     
 }

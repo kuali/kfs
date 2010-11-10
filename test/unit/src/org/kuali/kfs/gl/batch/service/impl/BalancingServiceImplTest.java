@@ -163,7 +163,7 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
             // be the same but done to avoid future bugs if there are changes to the test setup
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            assertTrue("No reason that this job should have gotten interrupted.", false);
+            fail("No reason that this job should have gotten interrupted.");
         }
         
         // Next we post exactly the same entries and verify data exists. Note, now we have more entries
@@ -205,7 +205,7 @@ public class BalancingServiceImplTest extends BalancingServiceImplTestBase {
             assertTrue("fileRenameStep should have succeeded", fileRenameStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
         }
         catch (InterruptedException e) {
-            assertTrue("posterEntriesStep or fileRenameStep failed: " + e.getMessage(), true);
+            fail("posterEntriesStep or fileRenameStep failed: " + e.getMessage());
         }
     }
     

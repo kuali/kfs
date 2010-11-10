@@ -230,7 +230,10 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
     protected int updateHistoriesHelper(Integer postMode, Integer startUniversityFiscalYear, File inputFile, File errorFile) {
         int ignoredRecordsFound = 0;
         int lineNumber = 0;
-
+        
+        if ( inputFile == null || errorFile == null ) {
+            return 0;
+        }
         try {
             FileReader posterInputFileReader = new FileReader(inputFile);
             BufferedReader posterInputBufferedReader = new BufferedReader(posterInputFileReader);
@@ -274,9 +277,9 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
             posterErrorFileReader.close();
             posterErrorBufferedReader.close();
         } catch (Exception e) {
-            LOG.fatal(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
+            LOG.fatal(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber),e);
             reportWriterService.writeFormattedMessageLine(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
-            throw new RuntimeException(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber));
+            throw new RuntimeException(String.format(kualiConfigurationService.getPropertyString(KFSKeyConstants.Balancing.ERROR_BATCH_BALANCING_UNKNOWN_FAILURE), e.getMessage(), lineNumber),e);
         }
         
         return ignoredRecordsFound;

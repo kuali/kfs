@@ -18,12 +18,15 @@ package org.kuali.kfs.coa.identity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class SubFundReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     private DocumentTypeService documentTypeService;
@@ -48,5 +51,18 @@ public class SubFundReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
             documentTypeService = KEWServiceLocator.getDocumentTypeService();
         }
         return this.documentTypeService;
+    }
+
+    @Override
+    protected AttributeDefinition getDataDictionaryAttributeDefinition(String namespaceCode, String kimTypeId, KimTypeAttributeInfo typeAttribute) {
+        
+        AttributeDefinition definition = super.getDataDictionaryAttributeDefinition(namespaceCode, kimTypeId, typeAttribute);
+        
+        //if Document Type, set to required
+        if( StringUtils.equalsIgnoreCase(definition.getName(), KfsKimAttributes.DOCUMENT_TYPE_NAME) ){
+            definition.setRequired(true);    
+        }
+        
+        return definition;
     }
 }

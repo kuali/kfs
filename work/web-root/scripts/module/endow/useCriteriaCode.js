@@ -11,40 +11,35 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
  function loadUseCriteriaCodeDesc(useCriteriaCodeFieldName){
 	var elPrefix = findElPrefix( useCriteriaCodeFieldName.name );
-	var useCriteriaCodeDescriptionFieldName = elPrefix + ".useCriteriaCode.name";
-	
-	alert(useCriteriaCodeFieldName.name + ":" + useCriteriaCodeDescriptionFieldName);
-	
-	setUseCriteriaCodeDescription(useCriteriaCodeFieldName, useCriteriaCodeDescriptionFieldName);
- }
-  
- function setUseCriteriaCodeDescription(useCriteriaCodeFieldName, useCriteriaCodeDescriptionFieldName){
- 
-	var useCriteriaCode = DWRUtil.getValue(useCriteriaCodeFieldName);
-
-alert(useCriteriaCod);
-
-	if (useCriteriaCode == '') {
-		clearRecipients(useCriteriaCodeDescriptionFieldName);
-	} else {
-		useCriteriaCode = useCriteriaCode.toUpperCase();
-setRecipientValue( useCriteriaCodeDescriptionFieldName, 'Waiting...');		
-		var dwrReply = {
-			callback:function(data) {
-			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( useCriteriaCodeDescriptionFieldName, data.name );
-			} else {
-				setRecipientValue( useCriteriaCodeDescriptionFieldName, wrapError( "Use Criteria Code description not found" ), true );			
-			} },
-			errorHandler:function( errorMessage ) { 
-				setRecipientValue( useCriteriaCodeDescriptionFieldName, wrapError( "Use Criteria Code description not found" ), true );
-			}
-		};
-		UseCriteriaCodeService.getByPrimaryKey( useCriteriaCode, dwrReply );
-	}
+	var useCriteriaCodeDescFieldName = elPrefix + ".useCriteria.name";
+	setUseCriteriaDesc(useCriteriaCodeFieldName, useCriteriaCodeDescFieldName);
 }
+  
+ function setUseCriteriaDesc( useCriteriaCodeFieldName, useCriteriaCodeDescFieldName ){
+	 
+		var useCriteriaCode = DWRUtil.getValue( useCriteriaCodeFieldName );
+
+		if (useCriteriaCode =='') {
+			clearRecipients(useCriteriaCodeDescFieldName, "");
+		} else {
+			useCriteriaCode = useCriteriaCode.toUpperCase();
+			var dwrReply = {
+				callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {
+					setRecipientValue( useCriteriaCodeDescFieldName, data.name );
+				} else {
+					setRecipientValue( useCriteriaCodeDescFieldName, wrapError( "Use Criteria code not found" ), true );			
+				} },
+				errorHandler:function( errorMessage ) { 
+					setRecipientValue( useCriteriaCodeDescFieldName, wrapError( "Use Criteria code not found" ), true );
+				}
+			};
+			UseCriteriaCodeService.getByPrimaryKey(useCriteriaCode, dwrReply );
+		}
+}
+ 
+

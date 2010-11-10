@@ -155,8 +155,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             Security security = findSecurityRecord(tranSecurity.getSecurityID());
             if (security != null) {
                 HoldingLotValues holdingLotValues = calculateLotValues(tranLine);
-                security.setUnitsHeld(security.getUnitsHeld().add(holdingLotValues.getLotUnits()));
-                security.setCarryValue(security.getCarryValue().add(holdingLotValues.getLotHoldingCost()));
+                security.setUnitsHeld((security.getUnitsHeld()==null ? BigDecimal.ZERO:security.getUnitsHeld()).add(holdingLotValues.getLotUnits()));
+                security.setCarryValue((security.getCarryValue()==null ? BigDecimal.ZERO:security.getCarryValue()) .add(holdingLotValues.getLotHoldingCost()));
                 security.setLastTransactionDate(kemService.getCurrentDate());
                 
                 businessObjectService.save(security);

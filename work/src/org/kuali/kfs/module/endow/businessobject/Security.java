@@ -86,6 +86,9 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
      */
     public Security() {
         super();
+        unitValue = BigDecimal.ONE;
+        unitsHeld = BigDecimal.ZERO;
+        carryValue = BigDecimal.ZERO;
         ticklers = new TypedArrayList(Tickler.class);
     }
 

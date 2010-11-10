@@ -268,7 +268,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             addJiraIssues(this.getClass().getMethod(getName()).getAnnotation(RelatesTo.class), issues);
         }
         catch (NoSuchMethodException e) {
-            throw new AssertionError("Impossible because tests are named after their test method.");
+            throw new AssertionError("Impossible because tests are named after their test method: " + e.getMessage());
         }
         return issues;
     }

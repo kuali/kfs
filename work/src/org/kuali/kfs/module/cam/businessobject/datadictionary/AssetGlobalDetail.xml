@@ -84,6 +84,10 @@
 		<dd:relationship objectAttribute="campus">
             <dd:primitiveAttribute source="campusCode" target="campusCode"/>
         </dd:relationship>
+        <dd:relationship objectAttribute="capitalAssetType">
+            <dd:primitiveAttribute source="capitalAssetTypeCode" target="capitalAssetTypeCode"/>
+        </dd:relationship>
+        
       </list>
     </property>
   </bean>
@@ -254,9 +258,10 @@
   <bean id="AssetGlobalDetail-assetRepresentative.name" parent="AssetGlobalDetail-assetRepresentative.name-parentBean"/>
   <bean id="AssetGlobalDetail-assetRepresentative.name-parentBean" abstract="true" parent="AssetGlobal-assetRepresentative.name-parentBean">
   </bean>
-  
-  <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean"/>
-  <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode"/>
+
+    <bean id="AssetGlobalDetail-capitalAssetTypeCode" parent="AssetGlobalDetail-capitalAssetTypeCode-parentBean" />
+    <bean id="AssetGlobalDetail-capitalAssetTypeCode-parentBean" abstract="true" parent="AssetGlobal-capitalAssetTypeCode">
+    </bean>
   
   <bean id="AssetGlobalDetail-capitalAssetDescription" parent="AssetGlobalDetail-capitalAssetDescription-parentBean"/>
   <bean id="AssetGlobalDetail-capitalAssetDescription-parentBean" abstract="true" parent="AssetGlobal-capitalAssetDescription"/>

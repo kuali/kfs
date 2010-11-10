@@ -19,19 +19,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.Building;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.businessobject.Room;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Country;
+import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -70,7 +69,10 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     private Integer locationQuantity;
     private String representativeUniversalIdentifier;
+
     private String capitalAssetTypeCode;
+    private AssetType capitalAssetType;
+
     private String capitalAssetDescription;
     private String manufacturerName;
     private String organizationText;
@@ -672,6 +674,14 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
         this.representativeUniversalIdentifier = representativeUniversalIdentifier;
+    }
+
+    public AssetType getCapitalAssetType() {
+        return capitalAssetType;
+    }
+
+    public void setCapitalAssetType(AssetType capitalAssetType) {
+        this.capitalAssetType = capitalAssetType;
     }
 
 }

@@ -28,21 +28,22 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.gl.AssetGlobalGeneralLedgerPendingEntrySource;
 import org.kuali.kfs.module.cam.document.service.AssetAcquisitionTypeService;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -614,6 +615,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
                     GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     success &= validateCapitalAssetTypeCode(assetGlobalUniqueDetail);
+                    success &= validateAssetType(assetGlobalUniqueDetail);
                     success &= validateAssetDescription(assetGlobalUniqueDetail);
                     success &= validateManufacturer(assetGlobalUniqueDetail);
                     success &= validateSeparateSourceAmount(assetGlobalUniqueDetail, document);
@@ -764,7 +766,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the capital asset type code.
+     * Validates the capital asset type code. This only checks for the existence of some contents, not whether the contents are valid.
      * 
      * @param uniqueLocationDetails
      * @return boolean
@@ -977,6 +979,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             valid &= checkReferenceExists(assetLocationDetail);
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             index++;
+
+            // checks that all of the asset types entered in the collection of Unique Details actually exist in persistent storage
+            for (AssetGlobalDetail assetGlobalUniqueDetails : assetLocationDetail.getAssetGlobalUniqueDetails()) {
+                valid &= validateAssetType(assetGlobalUniqueDetails);
+            }
         }
 
 
@@ -985,6 +992,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (valid && getAssetGlobalService().isAssetSeparate(assetGlobal)) {
             valid &= setAssetLock(maintenanceDocument, assetGlobal);
         }
+
         return valid && super.processSaveDocument(document);
     }
 
@@ -1062,7 +1070,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validate asset type.
+     * Validate asset type at the AssetGlobal level. Only checks that there are contents in the object.
      * 
      * @param assetGlobal
      * @return boolean
@@ -1071,9 +1079,36 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE);
         if (ObjectUtils.isNull(assetGlobal.getCapitalAssetType())) {
-            putFieldError(CamsPropertyConstants.AssetGlobal.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
+            putFieldError(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
             success &= false;
         }
+
+        return success;
+    }
+
+    /**
+     * Validate asset type in the AssetGlobalDetails level, and ensures the value is in the list of valid types.
+     * 
+     * @param assetGlobalUniqueDetails
+     * @return boolean
+     */
+    protected boolean validateAssetType(AssetGlobalDetail assetGlobalUniqueDetails) {
+        boolean success = true;
+        if (ObjectUtils.isNull(assetGlobalUniqueDetails)) {
+            putFieldError(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
+            success &= false;
+        }
+
+        // validate asset type
+        if (StringUtils.isNotBlank(assetGlobalUniqueDetails.getCapitalAssetTypeCode())) {
+            AssetType assetType = (AssetType) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetType.class, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+            if (assetType == null || StringUtils.isBlank(assetType.getCapitalAssetTypeCode())) {
+                // putFieldError(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+                success &= false;
+            }
+        }
+
         return success;
     }
 

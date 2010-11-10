@@ -20,15 +20,15 @@ import java.util.Date;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 
     public String getValue() {
         // get the current date from the service
-        Date date = SpringContext.getBean(KEMService.class).getCurrentDate();
+        Date date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
 
         // remove the time component
         date = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);

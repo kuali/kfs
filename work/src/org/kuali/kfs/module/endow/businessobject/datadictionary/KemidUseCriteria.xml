@@ -69,7 +69,6 @@
   	<bean id="KemidUseCriteria-useCriteria.name" parent="KemidUseCriteria-useCriteria.name-parentBean" />  
   	<bean id="KemidUseCriteria-useCriteria.name-parentBean" abstract="true" parent="UseCriteriaCode-name">
   		<property name="name" value="useCriteria.name" />
-    	<property name="label" value="Use Criteria Code Description" />
   	</bean> 
   	
   	<bean id="KemidUseCriteria-useCriteria.codeAndDescription" parent="KemidUseCriteria-useCriteria.codeAndDescription-parentBean" />  

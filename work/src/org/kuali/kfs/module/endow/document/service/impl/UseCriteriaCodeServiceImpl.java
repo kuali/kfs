@@ -34,11 +34,10 @@ public class UseCriteriaCodeServiceImpl implements UseCriteriaCodeService {
     public UseCriteriaCode getByPrimaryKey(String code) {
 
         UseCriteriaCode useCriteriaCode = null;
-        if (StringUtils.isNotBlank(code) && !code.isEmpty()) {
+        if (StringUtils.isNotBlank(code)) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(EndowPropertyConstants.KUALICODEBASE_CODE, code);
             useCriteriaCode = (UseCriteriaCode) businessObjectService.findByPrimaryKey(UseCriteriaCode.class, criteria);
-System.out.println(useCriteriaCode.getName() + "******************");            
         }
         return useCriteriaCode;
     }

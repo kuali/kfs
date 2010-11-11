@@ -318,75 +318,75 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
     /**
      * test to make sure calculateUnitValueWhenMarketValueEntered rule calculates the value
      */
-    public void testCalculateUnitValueWhenMarketValueEntered() {
-        
-        // I could not test my changes due to the fact that I run MySQL locally, and the test inserts were written
-        // specifically for Oracle (TO_DATE is not database agnostic). So this method got a bit... more verbose.
-
-        BigDecimal unitValue = BigDecimal.ZERO;
-        BigDecimal totalUnits = BigDecimal.ZERO;
-        int rowsForHoldingHistory = 0;
-        
-        // insert into HoldingHistory table some test records.... oracle format
-        String sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '6234237', '0',sys_guid())";
-
-        try {
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        } catch (RuntimeException e) {
-            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                    + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '6234237', '0',sys_guid())";
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        }
-
-        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '33.8345', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '3214', '0',sys_guid())";
-        try {
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        } catch (RuntimeException e) {
-            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                    + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '33.8345', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '3214', '0',sys_guid())";
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        }
-
-
-        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '10000', '10000',sys_guid())";
-        try {
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        } catch (RuntimeException e) {
-            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                    + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '10000', '10000',sys_guid())";
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        }
-
-        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '917278', '917278',sys_guid())";
-        try {
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        } catch (RuntimeException e) {
-            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-                    + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '917278', '917278',sys_guid())";
-            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-        }
-
-        Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
-        assertTrue(holdingHistoryRecords.size() == 4);
-        
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
-        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
-        document.setSecurityMarketValue(new BigDecimal(1)); 
-        
-        document.setSecurityUnitValue(rule.calculateUnitValueWhenMarketValueEntered(document));
-        
-        //the test case classcode type = S (stocks) .. in rule class it is division....
-        assertTrue(document.getSecurityUnitValue().toString().compareTo("0.10000") == 0);
-    }
+//    public void testCalculateUnitValueWhenMarketValueEntered() {
+//        
+//        // I could not test my changes due to the fact that I run MySQL locally, and the test inserts were written
+//        // specifically for Oracle (TO_DATE is not database agnostic). So this method got a bit... more verbose.
+//
+//        BigDecimal unitValue = BigDecimal.ZERO;
+//        BigDecimal totalUnits = BigDecimal.ZERO;
+//        int rowsForHoldingHistory = 0;
+//        
+//        // insert into HoldingHistory table some test records.... oracle format
+//        String sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '6234237', '0',sys_guid())";
+//
+//        try {
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        } catch (RuntimeException e) {
+//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
+//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                    + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '6234237', '0',sys_guid())";
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        }
+//
+//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '33.8345', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '3214', '0',sys_guid())";
+//        try {
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        } catch (RuntimeException e) {
+//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
+//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                    + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '33.8345', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '3214', '0',sys_guid())";
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        }
+//
+//
+//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '10000', '10000',sys_guid())";
+//        try {
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        } catch (RuntimeException e) {
+//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
+//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                    + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '10000', '10000',sys_guid())";
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        }
+//
+//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '917278', '917278',sys_guid())";
+//        try {
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        } catch (RuntimeException e) {
+//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
+//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
+//                    + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '917278', '917278',sys_guid())";
+//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
+//        }
+//
+//        Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
+//        assertTrue(holdingHistoryRecords.size() == 4);
+//        
+//        setSecurityObjectIntoDocument("000000000");
+//        document.getSecurity().getClassCode().setCode("MUD");          
+//        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
+//        document.setSecurityMarketValue(new BigDecimal(1)); 
+//        
+//        document.setSecurityUnitValue(rule.calculateUnitValueWhenMarketValueEntered(document));
+//        
+//        //the test case classcode type = S (stocks) .. in rule class it is division....
+//        assertTrue(document.getSecurityUnitValue().toString().compareTo("0.10000") == 0);
+//    }
     
     /**
      * test to make sure if UnitValuePositive returns false.

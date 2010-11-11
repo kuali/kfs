@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -33,7 +34,6 @@ import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.validation.DeleteTaxLotLineRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.AbstractKualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDocumentBaseRules implements DeleteTaxLotLineRule<EndowmentTaxLotLinesDocument, EndowmentTransactionTaxLotLine, EndowmentTransactionLine, Number, Number> {
@@ -76,7 +76,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      * @return true if valid, false otherwise
      */
     protected boolean checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(EndowmentTransactionLine line, int index) {
-        if ((ObjectUtils.isNull(line.getTransactionAmount()) || line.getTransactionAmount().isZero()) && (ObjectUtils.isNull(line.getUnitAdjustmentAmount()) || line.getUnitAdjustmentAmount().isZero())) {
+        if ((ObjectUtils.isNull(line.getTransactionAmount()) || line.getTransactionAmount().isZero()) && (ObjectUtils.isNull(line.getUnitAdjustmentAmount()) || (line.getUnitAdjustmentAmount().compareTo(BigDecimal.ZERO) == 0))) {
             putFieldError(getErrorPrefix(line, index) + EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_BLANK);
             return true;
         }
@@ -89,7 +89,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
      * @return true if valid, false otherwise
      */
     protected boolean checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(EndowmentTransactionLine line, int index) {
-        if ((ObjectUtils.isNotNull(line.getTransactionAmount()) && !line.getTransactionAmount().isZero()) && (ObjectUtils.isNotNull(line.getUnitAdjustmentAmount()) && line.getUnitAdjustmentAmount().isZero())) {
+        if ((ObjectUtils.isNotNull(line.getTransactionAmount()) && !line.getTransactionAmount().isZero()) && (ObjectUtils.isNotNull(line.getUnitAdjustmentAmount()) && (line.getUnitAdjustmentAmount().compareTo(BigDecimal.ZERO) == 0))) {
             putFieldError(getErrorPrefix(line, index) + EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_LINE_BOTH_AMOUNTS_ENTERED);
             return true;
         }

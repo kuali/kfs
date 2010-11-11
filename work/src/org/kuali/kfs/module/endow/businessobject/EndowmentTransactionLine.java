@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -195,10 +196,10 @@ public interface EndowmentTransactionLine extends PersistableBusinessObject {
      * 
      * @return returns unit adjustment amount for this transaction line
      */
-    public KualiDecimal getUnitAdjustmentAmount();
-    
+    public BigDecimal getUnitAdjustmentAmount();
+
     /**
      * sets unitAdjustmentAmount
      */
-    public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount);    
+    public void setUnitAdjustmentAmount(BigDecimal unitAdjustmentAmount);
 }

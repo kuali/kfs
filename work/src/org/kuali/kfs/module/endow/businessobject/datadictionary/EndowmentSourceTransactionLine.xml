@@ -161,11 +161,21 @@
   </bean>
   <bean id="EndowmentSourceTransactionLine-unitAdjustmentAmount" parent="EndowmentSourceTransactionLine-unitAdjustmentAmount-parentBean"/>
 
-  <bean id="EndowmentSourceTransactionLine-unitAdjustmentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="EndowmentSourceTransactionLine-unitAdjustmentAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="unitAdjustmentAmount"/>
     <property name="label" value="Unit Adjustment Amount"/>
     <property name="shortLabel" value="Unit Adjustment Amount"/>
     <property name="required" value="false"/>
+    <property name="maxLength" value="24"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern"
+            p:precision="19"
+            p:scale="4" 
+            p:allowNegative="true"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+    </property>
   </bean>
   <bean id="EndowmentSourceTransactionLine-linePosted" parent="EndowmentSourceTransactionLine-linePosted-parentBean"/>
 

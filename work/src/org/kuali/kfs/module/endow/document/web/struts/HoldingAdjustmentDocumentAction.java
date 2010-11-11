@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.document.web.struts;
 
+import java.math.BigDecimal;
+
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
@@ -43,7 +45,7 @@ public class HoldingAdjustmentDocumentAction extends EndowmentTaxLotLinesDocumen
         }
 
         // call service to update the tax lot lines if unit adjustment amount is entered
-        if (ObjectUtils.isNotNull(transLine.getUnitAdjustmentAmount()) && !transLine.getUnitAdjustmentAmount().isZero()) {
+        if (ObjectUtils.isNotNull(transLine.getUnitAdjustmentAmount()) && (transLine.getUnitAdjustmentAmount().compareTo(BigDecimal.ZERO) != 0)) {
             updateHoldingAdjustmentDocumentTaxLotsService.updateTransactionLineTaxLotsByUnitAdjustmentAmount(isUpdate, holdingAdjustmentDocument, transLine, isSource);
         }
     }

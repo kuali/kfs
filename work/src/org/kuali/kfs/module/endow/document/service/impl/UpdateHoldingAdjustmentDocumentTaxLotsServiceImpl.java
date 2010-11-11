@@ -211,7 +211,7 @@ public class UpdateHoldingAdjustmentDocumentTaxLotsServiceImpl implements Update
         BigDecimal holdingCost = BigDecimal.ZERO;
 
         for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : transLine.getTaxLotLines()) {
-            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(transLine.getUnitAdjustmentAmount().bigDecimalValue(), endowmentTransactionTaxLotLine.getLotUnits(), 2));
+            endowmentTransactionTaxLotLine.setLotHoldingCost(KEMCalculationRoundingHelper.multiply(transLine.getUnitAdjustmentAmount(), endowmentTransactionTaxLotLine.getLotUnits(), 2));
 
             if (isSource) {
                 endowmentTransactionTaxLotLine.setLotHoldingCost(endowmentTransactionTaxLotLine.getLotHoldingCost().negate());

@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class GainLossDistributionTotalReportLine extends TransientBusinessObjectBase {
 
@@ -28,7 +27,7 @@ public class GainLossDistributionTotalReportLine extends TransientBusinessObject
     protected String documentId;
     protected String securityId;
     protected int totalNumberOfTransactionLines = 0;
-    protected KualiDecimal unitAdjustmentAmount = KualiDecimal.ZERO;
+    protected BigDecimal unitAdjustmentAmount = BigDecimal.ZERO;
     protected BigDecimal totalHoldingAdjustmentAmount = BigDecimal.ZERO;
 
     /**
@@ -130,7 +129,7 @@ public class GainLossDistributionTotalReportLine extends TransientBusinessObject
      * 
      * @return unitAdjustmentAmount
      */
-    public KualiDecimal getUnitAdjustmentAmount() {
+    public BigDecimal getUnitAdjustmentAmount() {
         return unitAdjustmentAmount;
     }
 
@@ -139,7 +138,7 @@ public class GainLossDistributionTotalReportLine extends TransientBusinessObject
      * 
      * @param unitAdjustmentAmount
      */
-    public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
+    public void setUnitAdjustmentAmount(BigDecimal unitAdjustmentAmount) {
         this.unitAdjustmentAmount = unitAdjustmentAmount;
     }
 
@@ -166,7 +165,7 @@ public class GainLossDistributionTotalReportLine extends TransientBusinessObject
      * 
      * @param unitAdjustmentAmount
      */
-    public void addUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
+    public void addUnitAdjustmentAmount(BigDecimal unitAdjustmentAmount) {
         this.unitAdjustmentAmount = this.unitAdjustmentAmount.add(unitAdjustmentAmount);
         totalNumberOfTransactionLines++;
     }

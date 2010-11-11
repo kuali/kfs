@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * This is the generic class which contains all the elements on a typical Endowment Transaction Line.
  */
-public abstract class EndowmentTransactionLineBase extends PersistableBusinessObjectBase implements EndowmentTransactionLine  {
+public abstract class EndowmentTransactionLineBase extends PersistableBusinessObjectBase implements EndowmentTransactionLine {
 
     private String documentNumber;
     private String transactionLineTypeCode;
@@ -39,14 +40,14 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     private boolean corpusIndicator;
     private KualiDecimal transactionUnits;
     private boolean linePosted;
-    private KualiDecimal unitAdjustmentAmount;
-    
+    private BigDecimal unitAdjustmentAmount;
+
     private KEMID kemidObj;
     private EndowmentTransactionCode etranCodeObj;
     private IncomePrincipalIndicator incomePrincipalIndicator;
 
     private List<EndowmentTransactionTaxLotLine> taxLotLines;
-    
+
     /**
      * Constructs a EndowmentTransactionLineBase.java.
      */
@@ -57,10 +58,10 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
         kemidObj = new KEMID();
         etranCodeObj = new EndowmentTransactionCode();
         incomePrincipalIndicator = new IncomePrincipalIndicator();
-        
+
         taxLotLines = new TypedArrayList(EndowmentTransactionTaxLotLine.class);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -101,7 +102,6 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public void setTransactionLineTypeCode(String transactionLineTypeCode) {
         this.transactionLineTypeCode = transactionLineTypeCode;
     }
-
 
 
     /**
@@ -244,7 +244,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public void setIncomePrincipalIndicator(IncomePrincipalIndicator incomePrincipalIndicator) {
         this.incomePrincipalIndicator = incomePrincipalIndicator;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#getKemidObj()
      */
@@ -265,7 +265,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public EndowmentTransactionCode getEtranCodeObj() {
         return etranCodeObj;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setEtranCodeObj(org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode)
      */
@@ -286,18 +286,20 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     public void setTaxLotLines(List<EndowmentTransactionTaxLotLine> taxLotLines) {
         this.taxLotLines = taxLotLines;
     }
+
     /**
      * Gets unitAdjustmentAmount
+     * 
      * @return unitAdjustmentAmount
      */
-    public KualiDecimal getUnitAdjustmentAmount() {
+    public BigDecimal getUnitAdjustmentAmount() {
         return unitAdjustmentAmount;
     }
 
     /**
      * sets unitAdjustmentAmount
      */
-    public void setUnitAdjustmentAmount(KualiDecimal unitAdjustmentAmount) {
+    public void setUnitAdjustmentAmount(BigDecimal unitAdjustmentAmount) {
         this.unitAdjustmentAmount = unitAdjustmentAmount;
     }
 }

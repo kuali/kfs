@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import static org.kuali.kfs.module.endow.EndowConstants.NEW_SOURCE_TRAN_LINE_PROPERTY_NAME;
 import static org.kuali.kfs.module.endow.EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.module.endow.document.service.UpdateHoldingAdjustmentDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
@@ -49,7 +51,6 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -187,7 +188,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                                         initializeReportLines(holdingAdjustmentDocument.getDocumentNumber(), pooledFundValue.getPooledSecurityID());
                                     }
                                 }
-                                
+
                                 if (holdingAdjustmentDocument != null) {
                                     if (addTransactionLine(isShortTerm, holdingAdjustmentDocument, holdingTaxLot, pooledFundValue))
                                         counter++;
@@ -312,14 +313,14 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 // loss
                 isLoss = true;
                 endowmentTransactionLine = new EndowmentSourceTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate()));
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate());
 
             }
             if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == 1) {
                 // gain
                 isLoss = false;
                 endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getShortTermGainLossDistributionPerUnit()));
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit());
             }
         }
         else {
@@ -327,14 +328,14 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
                 // loss
                 isLoss = true;
                 endowmentTransactionLine = new EndowmentSourceTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getLongTermGainLossDistributionPerUnit().negate()));
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit().negate());
 
             }
             if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == 1) {
                 // gain
                 isLoss = false;
                 endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(new KualiDecimal(pooledFundValue.getLongTermGainLossDistributionPerUnit()));
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit());
             }
         }
 
@@ -346,7 +347,15 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
         // add transaction line
 
-        boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, holdingAdjustmentDocument, endowmentTransactionLine));
+        String errorPrefix = KFSConstants.EMPTY_STRING;
+        if (endowmentTransactionLine instanceof EndowmentTargetTransactionLine) {
+            errorPrefix = NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
+        }
+        else {
+            errorPrefix = NEW_SOURCE_TRAN_LINE_PROPERTY_NAME;
+        }
+
+        boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(errorPrefix, holdingAdjustmentDocument, endowmentTransactionLine));
 
         if (rulesPassed) {
             if (isLoss) {

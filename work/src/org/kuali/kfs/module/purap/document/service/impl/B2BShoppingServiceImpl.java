@@ -127,7 +127,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
         // get items from the cart
         List items = message.getItems();
-
+            
         // get vendor(s) for the items
         List vendors = getAllVendors(items);
 
@@ -251,35 +251,44 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     protected List getAllVendors(List items) {
         LOG.debug("getAllVendors() started");
 
-        Set vendorNumbers = new HashSet();
+        Set vendorIdentifiers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            String externalSupplierId = item.getExtrinsic("ExternalSupplierId");
-            if (StringUtils.isBlank(externalSupplierId)){
+            
+            String vendorIdentifier = "";
+            if (isDunsNumberEnabled()){
+                //duns number
+                vendorIdentifier = item.getSupplier("DUNS");
+            }else{
+                //vendor number
+                vendorIdentifier = item.getExtrinsic("ExternalSupplierId");
+            }
+            
+            if (StringUtils.isBlank(vendorIdentifier)){
                 throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
             }
-            vendorNumbers.add(item.getExtrinsic("ExternalSupplierId"));
+            vendorIdentifiers.add(vendorIdentifier);
         }
 
         ArrayList vendors = new ArrayList();
-        for (Iterator iter = vendorNumbers.iterator(); iter.hasNext();) {
-            String vendorNumber = (String) iter.next();
+        for (Iterator iter = vendorIdentifiers.iterator(); iter.hasNext();) {
+            String vendorIdentifier = (String) iter.next();
             VendorDetail vd = null;
             if (isDunsNumberEnabled()) {  
                 //retrieve vendor by duns number
-                vd = vendorService.getVendorByDunsNumber(vendorNumber);
+                vd = vendorService.getVendorByDunsNumber(vendorIdentifier);
             }
             else {
                 //retrieve vendor by vendor id
-                vd = vendorService.getVendorDetail(vendorNumber);
+                vd = vendorService.getVendorDetail(vendorIdentifier);
             }
            
             if (ObjectUtils.isNotNull(vd)) {
                 vendors.add(vd);
             }
             else {
-                LOG.error("getAllVendors() Invalid vendor number from shopping cart: " + vendorNumber);
-                throw new B2BShoppingException("Invalid vendor number from shopping cart: " + vendorNumber);
+                LOG.error("getAllVendors() Invalid vendor number or DUNS from shopping cart: " + vendorIdentifier);
+                throw new B2BShoppingException("Invalid vendor number or DUNS from shopping cart: " + vendorIdentifier);
             }
         }
 

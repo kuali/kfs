@@ -36,11 +36,10 @@ public class AgreementSpecialInstructionServiceImpl implements AgreementSpecialI
     public AgreementSpecialInstruction getByPrimaryKey(String code) {
 
         AgreementSpecialInstruction agreementSpecialInstruction = null;
-        if (StringUtils.isNotBlank(code) && !code.isEmpty()) {
+        if (StringUtils.isNotBlank(code)) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(EndowPropertyConstants.KUALICODEBASE_CODE, code);
             agreementSpecialInstruction = (AgreementSpecialInstruction) businessObjectService.findByPrimaryKey(AgreementSpecialInstruction.class, criteria);
-System.out.println(agreementSpecialInstruction.getName() + "******************");            
         }
         return agreementSpecialInstruction;
     }

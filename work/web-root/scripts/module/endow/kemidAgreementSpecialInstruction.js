@@ -18,12 +18,10 @@
 	var codeDescriptionFieldName = elPrefix + ".agreementSpecialInstruction.name";
 	var code = DWRUtil.getValue(codeFieldName);
 	
-	setCodeDescription(code, codeDescriptionFieldName);
+	setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName);
 }
 
-function setCodeDescription(code, codeDescriptionFieldName){
-	 
-alert(code + "-" + codeDescriptionFieldName);
+function setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName){	 
 
  	if (code == '') {
  		clearRecipients(codeDescriptionFieldName);
@@ -39,7 +37,7 @@ alert(code + "-" + codeDescriptionFieldName);
  				setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);
  			}
  		};
- 		AgreementSpecialInstructionService.getByPrimaryKey(code.toUpperCase(), dwrReply);		
+ 		AgreementSpecialInstructionService.getByPrimaryKey(code.toUpperCase(), dwrReply);
  	}
 }
  

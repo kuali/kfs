@@ -109,6 +109,10 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
         super.processAfterCopy(arg0, arg1);
 
         initializeAttributes(arg0);
+
+        // set old userEnteredSecurityIDprefix to the whole security ID so that all 9 digits are displayed on the copy screen
+        oldSecurity.setUserEnteredSecurityIDprefix(oldSecurity.getId());
+
         newSecurity.refreshNonUpdateableReferences();
 
         // clear fields for copy as we want only certain fields to be copied over

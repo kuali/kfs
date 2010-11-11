@@ -668,7 +668,7 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
 
         this.setMarketValue(marketValue);
         // set user entered security ID prefix based on the security ID so that we don't get a required field error.
-        this.setUserEnteredSecurityIDprefix(securityID.substring(0, securityID.length() - 2));
+        this.setUserEnteredSecurityIDprefix(securityID.substring(0, securityID.length() - 1));
 
     }
 

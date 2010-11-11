@@ -1996,8 +1996,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL2331489-----4100---ACEX07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53C" + testingYear + "-01-05          ----------                                                                               "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE, testingYear + "BL2331489-----9041---ACLI07BA  LGEXPIRCGAC     00000AUTO FR BL4131407CONCERTO OFFICE PRODUCT+00000000000000048.53D" + testingYear + "-01-05          ----------                                                                               ") };
 
+        cleanupBatchDirectory();
         scrub(input);
         assertOriginEntries(7, output);
+        cleanupBatchDirectory();
     }
 
     /**
@@ -2031,6 +2033,22 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         BatchSortUtil.sortTextFileWithFields(inputFile, outputFile, new DemergerSortComparator());
 
         scrubberService.performDemerger();
+    }
+
+    /**
+     * Cleans up (empties) the batch directory from residual files that can mess up the tests.
+     */
+    private void cleanupBatchDirectory() {
+        File dir = new File(batchDirectory);
+        File[] files = dir.listFiles();
+        for (File oneFile : files) {
+            boolean result = oneFile.delete();
+            if (!result) {
+                LOG.warn(oneFile.getName() + " was not deleted from directory=[" + batchDirectory + "]");
+            } else {
+                LOG.info(oneFile.getName() + " was deleted from directory=[" + batchDirectory + "]");
+            }
+        }
     }
 
     /**

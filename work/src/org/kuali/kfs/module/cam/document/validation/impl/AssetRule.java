@@ -44,11 +44,11 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
-import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -409,7 +409,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         boolean anyFound = false;
 
-
         if (!assetService.isTagNumberCheckExclude(newAsset)) {
 
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -419,9 +418,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
             for (Asset asset : results) {
                 if (!asset.getCapitalAssetNumber().equals(newAsset.getCapitalAssetNumber())) {
-                    putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
-                    valid &= false;
-                    break;
+                    // KFSMI-6149 - do not invalidate if the asset from the database is retired
+                    if (StringUtils.isBlank(asset.getRetirementReasonCode())) {
+                        putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
+                        valid &= false;
+                        break;
+                    } else {
+                        LOG.info("Although the asset tag number is duplicated, the old asset has already been retired");
+                    }
                 }
             }
         }

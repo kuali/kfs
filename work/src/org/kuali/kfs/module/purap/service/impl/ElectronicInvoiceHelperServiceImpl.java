@@ -1364,6 +1364,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder)) {
                 processDueItem(preqItem, orderHolder);
             }
+            else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_EXMT, orderHolder)) {
+                processAboveTheLineItem(preqItem, orderHolder);
+            }
             
             /**
              * This is not needed since if we have default desc from misc item, then preq rules are expecting the account details for this items

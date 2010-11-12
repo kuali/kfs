@@ -43,6 +43,7 @@ public class ElectronicInvoice {
     public static String INVOICE_AMOUNT_TYPE_CODE_DISCOUNT = "DISC";
     public static String INVOICE_AMOUNT_TYPE_CODE_DEPOSIT = "DPST";
     public static String INVOICE_AMOUNT_TYPE_CODE_DUE = "DUE";
+    public static String INVOICE_AMOUNT_TYPE_CODE_EXMT = "EXMT";
 
     public static boolean FILE_REJECTED = true;
     public static boolean FILE_NOT_REJECTED = false;

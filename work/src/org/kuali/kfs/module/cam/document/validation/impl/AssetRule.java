@@ -412,7 +412,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!assetService.isTagNumberCheckExclude(newAsset)) {
 
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber());
+            fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber().toUpperCase());
 
             Collection<Asset> results = getBoService().findMatching(Asset.class, fieldValues);
 
@@ -422,9 +422,9 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
                     if (StringUtils.isBlank(asset.getRetirementReasonCode())) {
                         putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
                         valid &= false;
-                        break;
+                        LOG.info("The asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number");
                     } else {
-                        LOG.info("Although the asset tag number is duplicated, the old asset has already been retired");
+                        LOG.info("Although the asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number, the old asset has already been retired");
                     }
                 }
             }

@@ -273,6 +273,13 @@ public class EndowKeyConstants {
         public static final String ERROR_HISTORY_VALUE_ADJUSTMENT_UNIT_VALUE_ENTERED_WHEN_VALUATION_METHOD_IS_MARKET_VALUE = "error.holdingHistoryValueAdjustment.unitValue.entered";
     }
 
+    public static class HoldingAdjustmentConstants {
+        public static final String ERROR_HOLDING_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES = "error.holdingHistoryAdjustment.addOnlySourceOrTargetTransactionLines";
+        public static final String ERROR_HOLDING_ADJUSTMENT_NO_TAX_LOTS_FOUND = "error.holdingHistoryAdjustment.noTaxLotsFoundForKemid";
+        public static final String ERROR_HOLDING__ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT = "error.holdingHistoryAdjustment.transactionLineMustHaveAtLeastOneTaxLotLine";
+        public static final String ERROR_HOLDING_ADJUSTMENT_BOTH_SOURCE_AND_TARGET_TRAN_LINES_BLANK = "error.holdingHistoryAdjustment.bothTransactionLineSections.canNotBeBlank";
+    }
+    
     public static class HoldingTaxLotRebalanceConstants {
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalUnits.notBalanced";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalCost.notBalanced";

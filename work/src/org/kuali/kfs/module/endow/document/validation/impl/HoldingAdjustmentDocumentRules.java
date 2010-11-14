@@ -131,11 +131,15 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
             List<EndowmentTransactionLine> transLines = (holdingAdjustmentDocument.getSourceTransactionLines() != null && holdingAdjustmentDocument.getSourceTransactionLines().size() > 0) ? holdingAdjustmentDocument.getSourceTransactionLines() : holdingAdjustmentDocument.getTargetTransactionLines();
 
-            for (int i = 0; i < transLines.size(); i++) {
-                EndowmentTransactionLine transLine = transLines.get(i);
-                isValid &= validateTaxLots(holdingAdjustmentDocument, transLine, i);
+            if (transLines.isEmpty()) {
+                putFieldError(EndowConstants.TRANSACTION_LINE_ERRORS, EndowKeyConstants.HoldingAdjustmentConstants.ERROR_HOLDING_ADJUSTMENT_BOTH_SOURCE_AND_TARGET_TRAN_LINES_BLANK);
+                isValid =  false;
+            } else {
+                for (int i = 0; i < transLines.size(); i++) {
+                    EndowmentTransactionLine transLine = transLines.get(i);
+                    isValid &= validateTaxLots(holdingAdjustmentDocument, transLine, i);
+                }
             }
-
         }
 
         return isValid;
@@ -186,13 +190,13 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
         if (isSource) {
             if (endowmentTransactionLinesDocument.getTargetTransactionLines() != null && endowmentTransactionLinesDocument.getTargetTransactionLines().size() > 0) {
                 isValid = false;
-                putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
+                putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.HoldingAdjustmentConstants.ERROR_HOLDING_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
             }
         }
         else {
             if (endowmentTransactionLinesDocument.getSourceTransactionLines() != null && endowmentTransactionLinesDocument.getSourceTransactionLines().size() > 0) {
                 isValid = false;
-                putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
+                putFieldError(getErrorPrefix(transLine, index), EndowKeyConstants.HoldingAdjustmentConstants.ERROR_HOLDING_ADJUSTMENT_ADD_ONLY_SOURCE_OR_TARGET_TRAN_LINES);
             }
         }
 
@@ -218,7 +222,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
         if (holdingTaxLots == null || holdingTaxLots.size() == 0) {
             isValid = false;
-            putFieldError(getErrorPrefix(transLine, index) + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_NO_TAX_LOTS_FOUND);
+            putFieldError(getErrorPrefix(transLine, index) + EndowPropertyConstants.KEMID, EndowKeyConstants.HoldingAdjustmentConstants.ERROR_HOLDING_ADJUSTMENT_NO_TAX_LOTS_FOUND);
         }
 
         return isValid;
@@ -234,7 +238,7 @@ public class HoldingAdjustmentDocumentRules extends EndowmentTransactionLinesDoc
 
         if (endowmentTransactionLine.getTaxLotLines() != null && endowmentTransactionLine.getTaxLotLines().size() <= 1) {
             isValid = false;
-            putFieldError(getErrorPrefix(endowmentTransactionLine, (Integer) transLineIndex) + EndowPropertyConstants.KEMID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_UNIT_SHARE_ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT);
+            putFieldError(getErrorPrefix(endowmentTransactionLine, (Integer) transLineIndex) + EndowPropertyConstants.KEMID, EndowKeyConstants.HoldingAdjustmentConstants.ERROR_HOLDING__ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT);
         }
 
         return isValid;

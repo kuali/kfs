@@ -24,20 +24,23 @@
       		<list>
         		<ref bean="KemidBenefittingOrganization-kemid" />
         		<ref bean="KemidBenefittingOrganization-benefittingOrgSeqNumber" />
+        		<ref bean="KemidBenefittingOrganization-benefittingChartCode" />
 		        <ref bean="KemidBenefittingOrganization-benefittingOrgCode" />
-		        <ref bean="KemidBenefittingOrganization-benefittingChartCode" />
 		        <ref bean="KemidBenefittingOrganization-benefitPrecent"/>
 		        <ref bean="KemidBenefittingOrganization-startDate"/>
 		        <ref bean="KemidBenefittingOrganization-lastChangeDate"/>
 		        <ref bean="KemidBenefittingOrganization-active"/>
         		<ref bean="KemidBenefittingOrganization-newCollectionRecord"/>	   
         		<ref bean="KemidBenefittingOrganization-benefittingChartCode-desc"/>
+        		<ref bean="KemidBenefittingOrganization-benefittingOrgCode-desc" />
+        		<ref bean="KemidBenefittingOrganization-benefittingChartCode.codeAndDescription"/>   
+        		<ref bean="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription"/>     		        		
       		</list>
     	</property>
 	</bean>
 
 <!-- Attribute Definitions -->
-
+  	 	
 	<bean id="KemidBenefittingOrganization-kemid" parent="KemidBenefittingOrganization-kemid-parentBean" />
 
  	<bean id="KemidBenefittingOrganization-kemid-parentBean" abstract="true" parent="KEMID-kemid">
@@ -78,6 +81,26 @@
     	<property name="name" value="chart.finChartOfAccountDescription" />
     	<property name="label" value="Benefitting Chart Description" />
   	</bean>
+  	
+  	<bean id="KemidBenefittingOrganization-benefittingOrgCode-desc" parent="KemidBenefittingOrganization-benefittingOrgCode-desc-parentBean" />
+
+  	<bean id="KemidBenefittingOrganization-benefittingOrgCode-desc-parentBean" abstract="true" parent="Organization-organizationName">
+    	<property name="name" value="organization.organizationName" />
+    	<property name="label" value="Benefitting Organization Name" />
+  	</bean>
+  	  	  	  
+  	<bean id="KemidBenefittingOrganization-benefittingChartCode.codeAndDescription" parent="KemidBenefittingOrganization-benefittingChartCode.codeAndDescription-parentBean" />  
+  	<bean id="KemidBenefittingOrganization-benefittingChartCode.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
+  		<property name="name" value="chart.codeAndDescription" />
+    	<property name="label" value="Benefitting Organization Chart Code" />
+  	</bean> 
+ 
+   	<bean id="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription" parent="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription-parentBean" />  
+  	<bean id="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription">
+  		<property name="name" value="organization.codeAndDescription" />
+    	<property name="label" value="Benefitting Organization Organization Code" />
+  	</bean> 
+  	
 	<bean id="KemidBenefittingOrganization-benefitPrecent" parent="KemidBenefittingOrganization-benefitPrecent-parentBean" />
 
  	<bean id="KemidBenefittingOrganization-benefitPrecent-parentBean" abstract="true" parent="AttributeDefinition">

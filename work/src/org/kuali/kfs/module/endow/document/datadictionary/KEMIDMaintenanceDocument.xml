@@ -190,6 +190,8 @@
         <value>../dwr/interface/UseCriteriaCodeService.js</value>
         <value>../scripts/sys/objectInfo.js</value>
         <value>../scripts/module/endow/kemid.js</value>
+        <value>../dwr/interface/ChartService.js</value>
+        <value>../dwr/interface/OrganizationService.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
@@ -398,8 +400,7 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="fundSourceCode" 
                     p:required="true" 
-                    p:webUILeaveFieldFunction="loadFundSourceDesc"
-                    />
+                    p:webUILeaveFieldFunction="loadFundSourceDesc"/>
 			  <bean parent="MaintainableFieldDefinition"
               		p:name="fundSource.name"
               		p:unconditionallyReadOnly="true" />         
@@ -446,19 +447,22 @@
               <bean parent="MaintainableFieldDefinition" 
                     p:name="benefittingChartCode" 
                     p:required="true" 
-                    p:webUILeaveFieldFunction="loadChartInfo" 
-                    />  
+                    p:webUILeaveFieldFunction="loadBenefittingChartCodeDesc"/>  
               <bean parent="MaintainableFieldDefinition"
               		p:name="chart.finChartOfAccountDescription"
               		p:unconditionallyReadOnly="true" />        
               <bean parent="MaintainableFieldDefinition" 
                     p:name="benefittingOrgCode" 
-                    p:required="true" />                  
+                    p:required="true" 
+                    p:webUILeaveFieldFunction="loadBenefittingOrganizationName"/>
+              <bean parent="MaintainableFieldDefinition"
+              		p:name="organization.organizationName"
+              		p:unconditionallyReadOnly="true" />                              
               <bean parent="MaintainableFieldDefinition" 
                     p:name="benefitPrecent" 
                     p:required="true"
                     p:defaultValue="1"
-                    p:webUILeaveFieldFunction="setKemidBenefittingOrgLastChangeDate" />
+                    p:webUILeaveFieldFunction="loadKemidBenefittingOrgLastChangeDate" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="startDate"
                     p:defaultValueFinderClass="org.kuali.kfs.module.endow.businessobject.defaultvalue.KEMIDDefaultProcessDateFinder"

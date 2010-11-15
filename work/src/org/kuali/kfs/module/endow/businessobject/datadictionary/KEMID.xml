@@ -654,9 +654,9 @@
                 <property name="inquiryFields" >
                   <list>
                     <bean parent="FieldDefinition"
-                          p:attributeName="benefittingChartCode" />                  
+                          p:attributeName="chart.codeAndDescription" />                  
                     <bean parent="FieldDefinition"
-                          p:attributeName="benefittingOrgCode" />                          
+                          p:attributeName="organization.codeAndDescription" />                          
                     <bean parent="FieldDefinition"
                           p:attributeName="benefitPrecent" />
                     <bean parent="FieldDefinition"

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.endow.batch.service.CreatePooledFundDistributionTransactionsService;
 import org.kuali.kfs.module.endow.batch.service.UpdateHistoryCashService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 

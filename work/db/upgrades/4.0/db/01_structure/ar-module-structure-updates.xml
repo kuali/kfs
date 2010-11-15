@@ -14,6 +14,9 @@
 		<rollback>
 			<dropColumn tableName="AR_ORG_OPTION_T" columnName="org_postal_cntry_cd"/>
 		</rollback>
+		<modifySql dbms="mysql">
+			<replace replace="varchar2" with="VARCHAR" />
+		</modifySql>
 	</changeSet>
 
 </databaseChangeLog>

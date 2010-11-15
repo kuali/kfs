@@ -5,32 +5,32 @@
 
     <changeSet author="kfs" id="KFS_40_ENDOWMENT_TABLES">
 		<createTable tableName="END_ACRL_MTHD_T">
-            <column name="SEC_ACRL_MTHD" type="VARCHAR2(1 BYTE)">
+            <column name="SEC_ACRL_MTHD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_ACRL_MTHD_TP1"/>
             </column>
-            <column name="SEC_ACRL_MTHD_DESC" type="VARCHAR2(150 BYTE)">
+            <column name="SEC_ACRL_MTHD_DESC" type="VARCHAR2(150)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_AGRMNT_SPCL_INSTRC_CD_T">
-            <column name="AGRMNT_SPCL_INSTRC_CD" type="VARCHAR2(3 BYTE)">
+            <column name="AGRMNT_SPCL_INSTRC_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_AGRMNT_SPCL_INSTRC_CD_TP1"/>
             </column>
-            <column name="AGRMNT_SPCL_INSTRC_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="AGRMNT_SPCL_INSTRC_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -40,19 +40,19 @@
     
     
         <createTable tableName="END_AGRMNT_STAT_CD_T">
-            <column name="AGRMNT_STAT_CD" type="VARCHAR2(4 BYTE)">
+            <column name="AGRMNT_STAT_CD" type="VARCHAR2(4)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_AGRMNT_STAT_CD_TP1"/>
             </column>
-            <column name="AGRMNT_STAT_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="AGRMNT_STAT_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column name="AGRMNT_DFLT_TRAN_RESTR" type="VARCHAR2(5 BYTE)">
+            <column name="AGRMNT_DFLT_TRAN_RESTR" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -62,16 +62,16 @@
     
     
         <createTable tableName="END_AGRMNT_TYP_CD_T">
-            <column name="AGRMNT_TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="AGRMNT_TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_AGRMNT_TYP_CD_TP1"/>
             </column>
-            <column name="AGRMNT_TYP_CD_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="AGRMNT_TYP_CD_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -84,34 +84,34 @@
             <column name="ACI_MDL_ID" type="NUMBER(9,0)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_AUTO_CSH_INVEST_MDL_TP1"/>
             </column>
-            <column name="ACI_MDL_NM" type="VARCHAR2(100 BYTE)">
+            <column name="ACI_MDL_NM" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACI_HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="ACI_HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACI_POOL1_SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="ACI_POOL1_SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1.0" name="ACI_POOL1_PCT" type="NUMBER(5,4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACI_POOL2_SEC_ID" type="VARCHAR2(9 BYTE)"/>
+            <column name="ACI_POOL2_SEC_ID" type="VARCHAR2(9)"/>
             <column defaultValueNumeric="0.0" name="ACI_POOL2_PCT" type="NUMBER(5,4)"/>
-            <column name="ACI_POOL3_SEC_ID" type="VARCHAR2(9 BYTE)"/>
+            <column name="ACI_POOL3_SEC_ID" type="VARCHAR2(9)"/>
             <column defaultValueNumeric="0.0" name="ACI_POOL3_PCT" type="NUMBER(5,4)"/>
-            <column name="ACI_POOL4_SEC_ID" type="VARCHAR2(9 BYTE)"/>
+            <column name="ACI_POOL4_SEC_ID" type="VARCHAR2(9)"/>
             <column defaultValueNumeric="0.0" name="ACI_POOL4_PCT" type="NUMBER(5,4)"/>
-            <column name="ACI_FREQ" type="VARCHAR2(4 BYTE)">
+            <column name="ACI_FREQ" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="ACI_MDL_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -121,7 +121,7 @@
     
     
         <createTable tableName="END_AVAIL_CSH_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_AVAIL_CSH_TP1"/>
             </column>
             <column defaultValueNumeric="0.0" name="AVAIL_INC_CSH" type="NUMBER(19,2)">
@@ -133,7 +133,7 @@
             <column defaultValueNumeric="0.0" name="AVAIL_TOT_CSH" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -143,35 +143,35 @@
     
     
         <createTable tableName="END_CAE_CD_T">
-            <column name="CAE_CD" type="VARCHAR2(1 BYTE)">
+            <column name="CAE_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CAE_CD_TP1"/>
             </column>
-            <column name="CAE_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="CAE_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CAE_TYP" type="VARCHAR2(1 BYTE)">
+            <column name="CAE_TYP" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_CLOSE_CD_T">
-            <column name="CLOSE_CD" type="VARCHAR2(3 BYTE)">
+            <column name="CLOSE_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CLOSE_CD_TP1"/>
             </column>
-            <column name="CLOSE_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="CLOSE_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -181,62 +181,62 @@
     
     
         <createTable tableName="END_CLS_CD_T">
-            <column name="SEC_CLS_CD" type="VARCHAR2(3 BYTE)">
+            <column name="SEC_CLS_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CLS_CD_TP1"/>
             </column>
-            <column name="SEC_CLS_CD_DESC" type="VARCHAR2(150 BYTE)"/>
-            <column name="SEC_RPT_GRP" type="VARCHAR2(5 BYTE)">
+            <column name="SEC_CLS_CD_DESC" type="VARCHAR2(150)"/>
+            <column name="SEC_RPT_GRP" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ACRL_MTHD" type="VARCHAR2(1 BYTE)">
+            <column name="SEC_ACRL_MTHD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_INC_ETRAN_POST_CD" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_INC_ETRAN_POST_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="TAX_LOT_IND" type="VARCHAR2(1 BYTE)"/>
-            <column name="CLS_CD_TYP" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="TAX_LOT_IND" type="VARCHAR2(1)"/>
+            <column name="CLS_CD_TYP" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="VLTN_MTHD" type="VARCHAR2(1 BYTE)"/>
+            <column name="VLTN_MTHD" type="VARCHAR2(1)"/>
         </createTable>
     
     
         <createTable tableName="END_CLS_CD_TYP_T">
-            <column name="CLS_CD_TYP" type="VARCHAR2(1 BYTE)">
+            <column name="CLS_CD_TYP" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CLS_CD_TYP_TP1"/>
             </column>
-            <column name="CLS_CD_TYP_DESC" type="VARCHAR2(150 BYTE)"/>
+            <column name="CLS_CD_TYP_DESC" type="VARCHAR2(150)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_CMB_GRP_T">
-            <column name="CMB_GRP_ID" type="VARCHAR2(5 BYTE)">
+            <column name="CMB_GRP_ID" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CMB_GRP_TP1"/>
             </column>
-            <column name="CMB_GRP_DESC" type="VARCHAR2(75 BYTE)">
+            <column name="CMB_GRP_DESC" type="VARCHAR2(75)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -246,7 +246,7 @@
     
     
         <createTable tableName="END_CRNT_CSH_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CRNT_CSH_TP1"/>
             </column>
             <column defaultValueNumeric="0.0" name="CRNT_INC_CSH" type="NUMBER(19,2)">
@@ -255,7 +255,7 @@
             <column defaultValueNumeric="0.0" name="CRNT_PRIN_CSH" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -265,7 +265,7 @@
     
     
         <createTable tableName="END_CRNT_ENDOW_CORPUS_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CRNT_ENDOW_CORPUS_TP1"/>
             </column>
             <column name="CRNT_CORPUS_VAL" type="NUMBER(19,2)">
@@ -274,7 +274,7 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="CRNT_PRIN_MVAL" type="NUMBER(19,2)"/>
@@ -282,19 +282,19 @@
     
     
         <createTable tableName="END_CRNT_TAX_LOT_BAL_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="HLDG_LOT_NBR" type="NUMBER(4,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="HLDG_UNITS" type="NUMBER(16,4)">
@@ -333,7 +333,7 @@
             <column name="HLDG_MVAL" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -346,33 +346,33 @@
             <column name="CSH_SWEEP_MDL_ID" type="NUMBER(9,0)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_CSH_SWEEP_MDL_TP1"/>
             </column>
-            <column name="CSH_SWEEP_MDL_NM" type="VARCHAR2(100 BYTE)">
+            <column name="CSH_SWEEP_MDL_NM" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="INC_SWEEP_LOWER_LMT" type="NUMBER(7,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INC_SWEEP_SEC_ID" type="VARCHAR2(9 BYTE)"/>
-            <column name="INC_SWEEP_REGIS_CD" type="VARCHAR2(4 BYTE)"/>
+            <column name="INC_SWEEP_SEC_ID" type="VARCHAR2(9)"/>
+            <column name="INC_SWEEP_REGIS_CD" type="VARCHAR2(4)"/>
             <column defaultValueNumeric="0.0" name="PRIN_SWEEP_LOWER_LMT" type="NUMBER(7,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CSH_SWEEP_FREQ" type="VARCHAR2(4 BYTE)">
+            <column name="CSH_SWEEP_FREQ" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="CSH_SWEEP_MDL_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PRIN_SWEEP_SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="PRIN_SWEEP_SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PRIN_SWEEP_REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="PRIN_SWEEP_REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -382,30 +382,30 @@
     
     
         <createTable tableName="END_DONR_LBL_SEL_T">
-            <column name="DONR_LBL_SEL" type="VARCHAR2(1 BYTE)">
+            <column name="DONR_LBL_SEL" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_DONR_LBL_SEL_TP1"/>
             </column>
-            <column name="DONR_LBL_SEL_DESC" type="VARCHAR2(50 BYTE)"/>
+            <column name="DONR_LBL_SEL_DESC" type="VARCHAR2(50)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_DONR_STMT_CD_T">
-            <column name="DONR_STMT_CD" type="VARCHAR2(5 BYTE)">
+            <column name="DONR_STMT_CD" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_DONR_STMT_CD_TP1"/>
             </column>
-            <column name="DONR_STMT_DESC" type="VARCHAR2(50 BYTE)">
+            <column name="DONR_STMT_DESC" type="VARCHAR2(50)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -415,35 +415,35 @@
     
     
         <createTable tableName="END_DONR_T">
-            <column name="DONR_ID" type="VARCHAR2(10 BYTE)">
+            <column name="DONR_ID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_DONR_TP1"/>
             </column>
-            <column name="FIRST_NM" type="VARCHAR2(36 BYTE)"/>
-            <column name="MID_NM" type="VARCHAR2(36 BYTE)"/>
-            <column name="LAST_NM" type="VARCHAR2(72 BYTE)"/>
-            <column name="ADDR1" type="VARCHAR2(36 BYTE)"/>
-            <column name="ADDR2" type="VARCHAR2(36 BYTE)"/>
-            <column name="ADDR3" type="VARCHAR2(36 BYTE)"/>
-            <column name="CITY" type="VARCHAR2(36 BYTE)"/>
-            <column name="ST" type="VARCHAR2(2 BYTE)"/>
-            <column name="PSTL_CD" type="VARCHAR2(15 BYTE)"/>
-            <column name="CNTRY" type="VARCHAR2(2 BYTE)"/>
-            <column name="PHN_NBR" type="VARCHAR2(15 BYTE)"/>
-            <column name="INDIV_SLTN" type="VARCHAR2(80 BYTE)"/>
-            <column name="INDIV_MAIL_LBL" type="VARCHAR2(80 BYTE)"/>
-            <column name="JNT_SLTN" type="VARCHAR2(80 BYTE)"/>
-            <column name="JNT_MAIL_LBL" type="VARCHAR2(80 BYTE)"/>
-            <column name="DEVEL_OFFCR" type="VARCHAR2(80 BYTE)"/>
+            <column name="FIRST_NM" type="VARCHAR2(36)"/>
+            <column name="MID_NM" type="VARCHAR2(36)"/>
+            <column name="LAST_NM" type="VARCHAR2(72)"/>
+            <column name="ADDR1" type="VARCHAR2(36)"/>
+            <column name="ADDR2" type="VARCHAR2(36)"/>
+            <column name="ADDR3" type="VARCHAR2(36)"/>
+            <column name="CITY" type="VARCHAR2(36)"/>
+            <column name="ST" type="VARCHAR2(2)"/>
+            <column name="PSTL_CD" type="VARCHAR2(15)"/>
+            <column name="CNTRY" type="VARCHAR2(2)"/>
+            <column name="PHN_NBR" type="VARCHAR2(15)"/>
+            <column name="INDIV_SLTN" type="VARCHAR2(80)"/>
+            <column name="INDIV_MAIL_LBL" type="VARCHAR2(80)"/>
+            <column name="JNT_SLTN" type="VARCHAR2(80)"/>
+            <column name="JNT_MAIL_LBL" type="VARCHAR2(80)"/>
+            <column name="DEVEL_OFFCR" type="VARCHAR2(80)"/>
             <column name="DEC_DT" type="DATE"/>
-            <column name="CORP_NM1" type="VARCHAR2(80 BYTE)"/>
-            <column name="CORP_TTL1" type="VARCHAR2(80 BYTE)"/>
-            <column name="CORP_NM2" type="VARCHAR2(80 BYTE)"/>
-            <column name="CORP_TTL2" type="VARCHAR2(80 BYTE)"/>
-            <column name="CMNT" type="VARCHAR2(300 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="CORP_NM1" type="VARCHAR2(80)"/>
+            <column name="CORP_TTL1" type="VARCHAR2(80)"/>
+            <column name="CORP_NM2" type="VARCHAR2(80)"/>
+            <column name="CORP_TTL2" type="VARCHAR2(80)"/>
+            <column name="CMNT" type="VARCHAR2(300)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -453,34 +453,34 @@
     
     
         <createTable tableName="END_ENDOW_ACCT_LINES_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
             <column name="FDOC_LINE_NBR" type="NUMBER(7,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FIN_COA_CD" type="VARCHAR2(2 BYTE)"/>
-            <column name="ACCOUNT_NBR" type="VARCHAR2(7 BYTE)"/>
-            <column name="FIN_OBJECT_CD" type="VARCHAR2(4 BYTE)"/>
+            <column name="FIN_COA_CD" type="VARCHAR2(2)"/>
+            <column name="ACCOUNT_NBR" type="VARCHAR2(7)"/>
+            <column name="FIN_OBJECT_CD" type="VARCHAR2(4)"/>
             <column name="FDOC_LINE_AMT" type="NUMBER(19,2)"/>
-            <column name="SUB_ACCT_NBR" type="VARCHAR2(5 BYTE)"/>
-            <column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3 BYTE)"/>
-            <column name="PROJECT_CD" type="VARCHAR2(10 BYTE)"/>
-            <column name="ORG_REFERENCE_ID" type="VARCHAR2(8 BYTE)"/>
+            <column name="SUB_ACCT_NBR" type="VARCHAR2(5)"/>
+            <column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)"/>
+            <column name="PROJECT_CD" type="VARCHAR2(10)"/>
+            <column name="ORG_REFERENCE_ID" type="VARCHAR2(8)"/>
         </createTable>
     
     
         <createTable tableName="END_ENDOW_CORPUS_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="CORPUS_VAL_HIST_DT" type="DATE">
@@ -492,61 +492,61 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_ETRAN_CD_T">
-            <column name="ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_ETRAN_CD_TP1"/>
             </column>
-            <column name="ETRAN_CD_DESC" type="VARCHAR2(120 BYTE)">
+            <column name="ETRAN_CD_DESC" type="VARCHAR2(120)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ETRAN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="ETRAN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="CORPUS_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="CORPUS_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_ETRAN_GL_LNK_T">
-            <column name="ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CHART_CD" type="VARCHAR2(2 BYTE)">
+            <column name="CHART_CD" type="VARCHAR2(2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJECT" type="VARCHAR2(4 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)"/>
+            <column name="OBJECT" type="VARCHAR2(4)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)"/>
             <column name="VER_NBR" type="NUMBER(8,0)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_ETRAN_TYP_CD_T">
-            <column name="ETRAN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="ETRAN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_ETRAN_TYP_CD_TP1"/>
             </column>
-            <column name="ETRAN_TYP_DESC" type="VARCHAR2(40 BYTE)">
+            <column name="ETRAN_TYP_DESC" type="VARCHAR2(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -556,13 +556,13 @@
     
     
         <createTable tableName="END_FEE_BAL_TYP_CD_T">
-            <column name="FEE_BAL_TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="FEE_BAL_TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_BAL_TYP_CD_TP1"/>
             </column>
-            <column name="FEE_BAL_TYP_DESC" type="VARCHAR2(22 BYTE)">
+            <column name="FEE_BAL_TYP_DESC" type="VARCHAR2(22)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -572,13 +572,13 @@
     
     
         <createTable tableName="END_FEE_BASE_CD_T">
-            <column name="FEE_BASE_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_BASE_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_BASE_CD_TP1"/>
             </column>
-            <column name="FEE_BASE_DESC" type="VARCHAR2(9 BYTE)">
+            <column name="FEE_BASE_DESC" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -588,16 +588,16 @@
     
     
         <createTable tableName="END_FEE_CLS_CD_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_CLS_CD" type="VARCHAR2(3 BYTE)">
+            <column name="SEC_CLS_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="INCL" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="INCL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -607,16 +607,16 @@
     
     
         <createTable tableName="END_FEE_ETRAN_CD_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="INCL" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="INCL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -626,18 +626,18 @@
     
     
         <createTable tableName="END_FEE_MTHD_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_MTHD_TP1"/>
             </column>
-            <column name="FEE_MTHD_DESC" type="VARCHAR2(50 BYTE)">
+            <column name="FEE_MTHD_DESC" type="VARCHAR2(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FEE_FREQ_CD" type="VARCHAR2(4 BYTE)">
+            <column name="FEE_FREQ_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="FEE_NXT_PROC_DT" type="DATE"/>
             <column name="FEE_LST_PROC_DT" type="DATE"/>
-            <column name="FEE_RT_DEF_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_RT_DEF_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="FEE_RT_1" type="NUMBER(9,4)">
@@ -656,30 +656,30 @@
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="FEE_MIN_AMT" type="NUMBER(4,2)"/>
-            <column name="FEE_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FEE_BASE_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_BASE_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FEE_EXP_ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="FEE_EXP_ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="FEE_POST_PEND_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="FEE_POST_PEND_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="CORPUS_PCT_TLRNC" type="NUMBER(5,2)"/>
-            <column name="FEE_BAL_TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="FEE_BAL_TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="FEE_BY_CLS_CD" type="VARCHAR2(1 BYTE)"/>
-            <column defaultValue="N" name="FEE_BY_SEC_ID" type="VARCHAR2(1 BYTE)"/>
-            <column defaultValue="N" name="FEE_BY_TRAN_DOC_TYP" type="VARCHAR2(1 BYTE)"/>
-            <column defaultValue="N" name="FEE_BY_ETRAN_CD" type="VARCHAR2(1 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="FEE_BY_CLS_CD" type="VARCHAR2(1)"/>
+            <column defaultValue="N" name="FEE_BY_SEC_ID" type="VARCHAR2(1)"/>
+            <column defaultValue="N" name="FEE_BY_TRAN_DOC_TYP" type="VARCHAR2(1)"/>
+            <column defaultValue="N" name="FEE_BY_ETRAN_CD" type="VARCHAR2(1)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -690,16 +690,16 @@
     
     
         <createTable tableName="END_FEE_PMT_TYP_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_PMT_TYP_TP1"/>
             </column>
-            <column name="PMT_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="PMT_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="INCL" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="INCL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -709,13 +709,13 @@
     
     
         <createTable tableName="END_FEE_RT_DEF_CD_T">
-            <column name="FEE_RT_DEF_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_RT_DEF_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_RT_DEF_CD_TP1"/>
             </column>
-            <column name="FEE_RT_DEF_DESC" type="VARCHAR2(5 BYTE)">
+            <column name="FEE_RT_DEF_DESC" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -725,16 +725,16 @@
     
     
         <createTable tableName="END_FEE_SEC_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="INCL" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="INCL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -744,16 +744,16 @@
     
     
         <createTable tableName="END_FEE_TRAN_DOC_TYP_T">
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DOC_TYP_NM" type="VARCHAR2(64 BYTE)">
+            <column name="DOC_TYP_NM" type="VARCHAR2(64)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="INCL" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="INCL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -763,13 +763,13 @@
     
     
         <createTable tableName="END_FEE_TYP_CD_T">
-            <column name="FEE_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FEE_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FEE_TYP_CD_TP1"/>
             </column>
-            <column name="FEE_TYP_DESC" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_TYP_DESC" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -779,16 +779,16 @@
     
     
         <createTable tableName="END_FND_SRC_CD_T">
-            <column name="FND_SRC_CD" type="VARCHAR2(5 BYTE)">
+            <column name="FND_SRC_CD" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FND_SRC_CD_TP1"/>
             </column>
-            <column name="FND_SRC_DESC" type="VARCHAR2(36 BYTE)">
+            <column name="FND_SRC_DESC" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -798,21 +798,21 @@
     
     
         <createTable tableName="END_FREQ_CD_T">
-            <column name="FREQ_CD" type="VARCHAR2(4 BYTE)">
+            <column name="FREQ_CD" type="VARCHAR2(4)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_FREQ_CD_TP1"/>
             </column>
-            <column name="FREQ_DESC" type="VARCHAR2(150 BYTE)"/>
+            <column name="FREQ_DESC" type="VARCHAR2(150)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_HIST_CSH_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="ME_DT_ID" type="NUMBER(3,0)">
@@ -824,7 +824,7 @@
             <column defaultValueNumeric="0.0" name="HIST_PRIN_CSH" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -834,10 +834,10 @@
     
     
         <createTable tableName="END_HIST_VAL_ADJ_DOC_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_HIST_VAL_ADJ_DOC_TP1"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
             <column name="HLDG_ME_DT_ID" type="NUMBER(3,0)">
@@ -847,10 +847,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="SEC_MVAL" type="NUMBER(19,2)"/>
-            <column defaultValue="N" name="TRAN_PSTD" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="TRAN_PSTD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -860,22 +860,22 @@
     
     
         <createTable tableName="END_HLDG_HIST_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="ME_DT_ID" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="HLDG_LOT_NBR" type="NUMBER(4,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="HLDG_UNITS" type="NUMBER(16,4)">
@@ -905,7 +905,7 @@
             <column name="HLDG_MVAL" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -925,16 +925,16 @@
     
     
         <createTable tableName="END_HLDG_TAX_LOT_REBAL_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="TOT_HLDG_LOT_NBR" type="NUMBER(4,0)">
@@ -949,26 +949,26 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_HLDG_TAX_LOT_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="HLDG_LOT_NBR" type="NUMBER(4,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="HLDG_UNITS" type="NUMBER(16,4)">
@@ -989,7 +989,7 @@
             <column name="LAST_TRAN_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1000,90 +1000,90 @@
     
     
         <createTable tableName="END_IP_IND_T">
-            <column name="IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_IP_IND_TP1"/>
             </column>
-            <column name="IP_IND_DESC" type="VARCHAR2(150 BYTE)"/>
+            <column name="IP_IND_DESC" type="VARCHAR2(150)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_AGRMNT_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="AGRMNT_ID" type="NUMBER(2,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="AGRMNT_TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="AGRMNT_TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="PEND" name="AGRMNT_STAT_CD" type="VARCHAR2(4 BYTE)">
+            <column defaultValue="PEND" name="AGRMNT_STAT_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="AGRMNT_STAT_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="AGRMNT_OTHR_DOC" type="VARCHAR2(1024 BYTE)"/>
-            <column name="DONR_INTNT_TXT" type="VARCHAR2(4000 BYTE)"/>
-            <column name="CMNT" type="VARCHAR2(1024 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="AGRMNT_OTHR_DOC" type="VARCHAR2(1024)"/>
+            <column name="DONR_INTNT_TXT" type="VARCHAR2(4000)"/>
+            <column name="CMNT" type="VARCHAR2(1024)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_BENE_ORG_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="BENE_ORG_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="BENE_ORG_CD" type="VARCHAR2(4 BYTE)">
+            <column name="BENE_ORG_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="BENE_PCT" type="NUMBER(3,2)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="BENE_ORG_STRT_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
             <column name="BENE_ORG_CHG_DT" type="DATE"/>
-            <column name="BENE_CHRT_CD" type="VARCHAR2(2 BYTE)">
+            <column name="BENE_CHRT_CD" type="VARCHAR2(2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_CMB_GRP_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="CMB_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CMB_GRP_ID" type="VARCHAR2(5 BYTE)">
+            <column name="CMB_GRP_ID" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
             <column name="CMB_DT" type="DATE">
@@ -1093,14 +1093,14 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_CORPUS_VAL_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_KEMID_CORPUS_VAL_TP1"/>
             </column>
             <column name="CRNT_CORPUS_VAL" type="NUMBER(19,2)"/>
@@ -1110,20 +1110,20 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_DONR_CMB_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="CMB_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CMB_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="CMB_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="CMB_DT" type="DATE">
@@ -1133,63 +1133,63 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_DONR_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DONR_ID" type="VARCHAR2(10 BYTE)">
+            <column name="DONR_ID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="DONR_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DONR_STMT_CD" type="VARCHAR2(5 BYTE)">
+            <column name="DONR_STMT_CD" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CMB_DONR_ID" type="VARCHAR2(10 BYTE)"/>
+            <column name="CMB_DONR_ID" type="VARCHAR2(10)"/>
             <column name="EFF_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
             <column name="TERM_DT" type="DATE"/>
-            <column name="TERM_RSN" type="VARCHAR2(150 BYTE)"/>
-            <column name="DONR_LBL_SEL" type="VARCHAR2(1 BYTE)">
+            <column name="TERM_RSN" type="VARCHAR2(150)"/>
+            <column name="DONR_LBL_SEL" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_FEE_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FEE_MTHD" type="VARCHAR2(12 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(12)">
                 <constraints nullable="false"/>
             </column>
             <column name="FEE_MTHD_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CHRG_FEE_TO_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="CHRG_FEE_TO_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="PCT_CHRG_FEE_TO_INC" type="NUMBER(3,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="PCT_CHRG_FEE_TO_PRIN" type="NUMBER(3,2)"/>
-            <column defaultValue="N" name="ACR_FEE" type="VARCHAR2(1 BYTE)"/>
+            <column defaultValue="N" name="ACR_FEE" type="VARCHAR2(1)"/>
             <column name="ACRD_FEE_TO_DT" type="NUMBER(19,2)"/>
-            <column defaultValue="N" name="WAIVE_FEE" type="VARCHAR2(1 BYTE)"/>
+            <column defaultValue="N" name="WAIVE_FEE" type="VARCHAR2(1)"/>
             <column name="WAIVED_FEE_YTD" type="NUMBER(19,2)"/>
             <column name="WAIVED_FEE_TO_DT" type="NUMBER(19,2)"/>
             <column name="FEE_IMPL_DT" type="DATE">
@@ -1199,70 +1199,70 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_FND_SRC_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="KEMID_FND_SRC_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FND_SRC_CD" type="VARCHAR2(5 BYTE)">
+            <column name="FND_SRC_CD" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OPND_FRM_KEMID" type="VARCHAR2(10 BYTE)"/>
-            <column name="FND_HIST" type="VARCHAR2(250 BYTE)"/>
-            <column name="FND_SRC_ADTNL_DTA" type="VARCHAR2(250 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="OPND_FRM_KEMID" type="VARCHAR2(10)"/>
+            <column name="FND_HIST" type="VARCHAR2(250)"/>
+            <column name="FND_SRC_ADTNL_DTA" type="VARCHAR2(250)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_GL_LNK_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CHRT_CD" type="VARCHAR2(2 BYTE)">
+            <column name="CHRT_CD" type="VARCHAR2(2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACCT_NBR" type="VARCHAR2(7 BYTE)">
+            <column name="ACCT_NBR" type="VARCHAR2(7)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_PAY_INC_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="PAY_INC_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="PAY_INC_TO_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="PAY_INC_TO_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="PAY_INC_PCT" type="NUMBER(3,2)">
@@ -1275,28 +1275,28 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_ROLE_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_SEQ_NBR" type="VARCHAR2(4 BYTE)">
+            <column name="ROLE_SEQ_NBR" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_ID" type="VARCHAR2(40 BYTE)">
+            <column name="ROLE_ID" type="VARCHAR2(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_PRNCPL_ID" type="VARCHAR2(40 BYTE)">
+            <column name="ROLE_PRNCPL_ID" type="VARCHAR2(40)">
                 <constraints nullable="false"/>
             </column>
             <column name="ROLE_TERM_DT" type="DATE"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1306,16 +1306,16 @@
     
     
         <createTable tableName="END_KEMID_SPCL_INSTRC_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="INSTRC_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="AGRMNT_SPCL_INSTRC_CD" type="VARCHAR2(3 BYTE)">
+            <column name="AGRMNT_SPCL_INSTRC_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CMNT" type="VARCHAR2(1024 BYTE)"/>
+            <column name="CMNT" type="VARCHAR2(1024)"/>
             <column name="INSTRC_EST_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
@@ -1323,36 +1323,36 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_KEMID_TP1"/>
             </column>
-            <column name="SHRT_TTL" type="VARCHAR2(50 BYTE)">
+            <column name="SHRT_TTL" type="VARCHAR2(50)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="CLOSED_IND" type="VARCHAR2(1 BYTE)"/>
-            <column name="PRPS_CD" type="VARCHAR2(4 BYTE)">
+            <column defaultValue="N" name="CLOSED_IND" type="VARCHAR2(1)"/>
+            <column name="PRPS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="INC_CAE_CD" type="VARCHAR2(1 BYTE)"/>
-            <column name="PRIN_CAE_CD" type="VARCHAR2(1 BYTE)"/>
-            <column name="CLOSED_TO_KEMID" type="VARCHAR2(10 BYTE)"/>
-            <column name="CLOSE_CD" type="VARCHAR2(3 BYTE)"/>
-            <column name="FND_DISP" type="VARCHAR2(150 BYTE)"/>
+            <column name="INC_CAE_CD" type="VARCHAR2(1)"/>
+            <column name="PRIN_CAE_CD" type="VARCHAR2(1)"/>
+            <column name="CLOSED_TO_KEMID" type="VARCHAR2(10)"/>
+            <column name="CLOSE_CD" type="VARCHAR2(3)"/>
+            <column name="FND_DISP" type="VARCHAR2(150)"/>
             <column name="CLOSE_DT" type="DATE"/>
-            <column name="LONG_TTL" type="VARCHAR2(255 BYTE)">
+            <column name="LONG_TTL" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="OPND_DT" type="DATE">
@@ -1361,46 +1361,46 @@
             <column name="ESTBL_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYP_CD" type="VARCHAR2(4 BYTE)">
+            <column name="TYP_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="RESP_ADMIN_CD" type="VARCHAR2(4 BYTE)"/>
-            <column name="TRAN_RESTR_CD" type="VARCHAR2(5 BYTE)">
+            <column name="RESP_ADMIN_CD" type="VARCHAR2(4)"/>
+            <column name="TRAN_RESTR_CD" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
             <column name="CSH_SWEEP_MDL_ID" type="NUMBER(9,0)"/>
             <column name="INC_ACI_MDL_ID" type="NUMBER(9,0)"/>
             <column name="PRIN_ACI_MDL_ID" type="NUMBER(9,0)"/>
-            <column defaultValue="N" name="DORMANT_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="DORMANT_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYP_INC_RESTR_CD" type="VARCHAR2(3 BYTE)">
+            <column name="TYP_INC_RESTR_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TYP_PRIN_RESTR_CD" type="VARCHAR2(3 BYTE)">
+            <column name="TYP_PRIN_RESTR_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_KEMID_USE_CRIT_T">
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
             <column name="USE_CRIT_SEQ" type="NUMBER(3,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USE_CRIT_CD" type="VARCHAR2(5 BYTE)">
+            <column name="USE_CRIT_CD" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USE_CRIT_ADTNL_DTA" type="VARCHAR2(150 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="USE_CRIT_ADTNL_DTA" type="VARCHAR2(150)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1413,7 +1413,7 @@
             <column name="ME_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1423,10 +1423,10 @@
     
     
         <createTable tableName="END_PENDING_TRAN_DOC_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_PENDING_TRAN_DOC_TP1"/>
             </column>
-            <column name="DOC_TYP_NM" type="VARCHAR2(64 BYTE)">
+            <column name="DOC_TYP_NM" type="VARCHAR2(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="APPROVED_DT" type="DATE">
@@ -1435,20 +1435,20 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_PMT_TYP_CD_T">
-            <column name="PMT_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="PMT_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_PMT_TYP_CD_TP1"/>
             </column>
-            <column name="PMT_TYP_DESC" type="VARCHAR2(5 BYTE)">
+            <column name="PMT_TYP_DESC" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1458,39 +1458,39 @@
     
     
         <createTable tableName="END_POOL_FND_CTRL_T">
-            <column name="POOL_SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="POOL_SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_POOL_FND_CTRL_TP1"/>
             </column>
-            <column name="POOL_FND_DESC" type="VARCHAR2(120 BYTE)"/>
+            <column name="POOL_FND_DESC" type="VARCHAR2(120)"/>
             <column defaultValueNumeric="0" name="INCRM_VLTN_DAYS" type="NUMBER(3,0)"/>
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="AST_PURCH_OFST_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="AST_SALE_OFST_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="SALE_GAIN_LOSS_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="CSH_DPST_OFST_CD" type="VARCHAR2(9 BYTE)"/>
-            <column defaultValue="N" name="DSTRB_GAIN_LOSS_IND" type="VARCHAR2(1 BYTE)">
+            <column name="AST_PURCH_OFST_CD" type="VARCHAR2(9)"/>
+            <column name="AST_SALE_OFST_CD" type="VARCHAR2(9)"/>
+            <column name="SALE_GAIN_LOSS_CD" type="VARCHAR2(9)"/>
+            <column name="CSH_DPST_OFST_CD" type="VARCHAR2(9)"/>
+            <column defaultValue="N" name="DSTRB_GAIN_LOSS_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="FRXNL_SHS_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="FRXNL_SHS_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="POOL_REGIS_CD" type="VARCHAR2(4 BYTE)"/>
+            <column name="POOL_REGIS_CD" type="VARCHAR2(4)"/>
         </createTable>
     
     
         <createTable tableName="END_POOL_FND_VAL_T">
-            <column name="POOL_SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="POOL_SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
             <column name="VAL_EFF_DT" type="DATE">
@@ -1503,24 +1503,24 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DSTRB_PROC_ON_DT" type="DATE"/>
-            <column defaultValue="N" name="DSTRB_PROC_CMPLT" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="DSTRB_PROC_CMPLT" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="LT_GAIN_LOSS" type="NUMBER(19,5)">
                 <constraints nullable="false"/>
             </column>
             <column name="LT_PROC_ON_DT" type="DATE"/>
-            <column defaultValue="N" name="LT_PROC_CMPLT" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="LT_PROC_CMPLT" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="ST_PROC_CMPLT" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="ST_PROC_CMPLT" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="ST_GAIN_LOSS" type="NUMBER(19,5)">
                 <constraints nullable="false"/>
             </column>
             <column name="ST_PROC_ON_DT" type="DATE"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1533,16 +1533,16 @@
     
     
         <createTable tableName="END_PRPS_CD_T">
-            <column name="PRPS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="PRPS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_PRPS_CD_TP1"/>
             </column>
-            <column name="PRPS_DESC" type="VARCHAR2(100 BYTE)">
+            <column name="PRPS_DESC" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1552,70 +1552,70 @@
     
     
         <createTable tableName="END_REC_CSH_XFR_GL_TGT_T">
-            <column name="XFR_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="XFR_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SRC_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="SRC_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_SEQ_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="TGT_SEQ_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_FIN_COA_CD" type="VARCHAR2(2 BYTE)">
+            <column name="TGT_FIN_COA_CD" type="VARCHAR2(2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_ACCT_NBR" type="VARCHAR2(7 BYTE)">
+            <column name="TGT_ACCT_NBR" type="VARCHAR2(7)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_SUB_ACCT_NBR" type="VARCHAR2(5 BYTE)"/>
-            <column name="TGT_FIN_OBJ_CD" type="VARCHAR2(4 BYTE)">
+            <column name="TGT_SUB_ACCT_NBR" type="VARCHAR2(5)"/>
+            <column name="TGT_FIN_OBJ_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_SUB_OBJ_CD" type="VARCHAR2(10 BYTE)"/>
-            <column name="TGT_PROJECT_CD" type="VARCHAR2(10 BYTE)"/>
+            <column name="TGT_SUB_OBJ_CD" type="VARCHAR2(10)"/>
+            <column name="TGT_PROJECT_CD" type="VARCHAR2(10)"/>
             <column defaultValueNumeric="0.0" name="TGT_FDOC_LN_AMT" type="NUMBER(19,2)"/>
             <column defaultValueNumeric="0.0" name="TGT_PCT" type="NUMBER(3,2)"/>
-            <column name="TGT_USE_ETRAN_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="TGT_USE_ETRAN_CD" type="VARCHAR2(9)"/>
+            <column name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_ORG_REF_ID" type="VARCHAR2(8 BYTE)"/>
+            <column name="TGT_ORG_REF_ID" type="VARCHAR2(8)"/>
         </createTable>
     
     
         <createTable tableName="END_REC_CSH_XFR_KEMID_TGT_T">
-            <column name="XFR_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="XFR_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SRC_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="SRC_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_SEQ_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="TGT_SEQ_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="TGT_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="TGT_ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TGT_LN_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="TGT_IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TGT_LN_DESC" type="VARCHAR2(40)"/>
+            <column name="TGT_IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0.0" name="TGT_AMT" type="NUMBER(19,2)"/>
             <column defaultValueNumeric="0.0" name="TGT_PCT" type="NUMBER(3,2)"/>
-            <column name="TGT_USE_ETRAN_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="TGT_USE_ETRAN_CD" type="VARCHAR2(9)"/>
+            <column name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1625,33 +1625,33 @@
     
     
         <createTable tableName="END_REC_CSH_XFR_T">
-            <column name="XFR_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="XFR_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SRC_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="SRC_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_DOC_TYP_CD" type="VARCHAR2(5 BYTE)">
+            <column name="TRAN_DOC_TYP_CD" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SRC_ETRAN_CD" type="VARCHAR2(9 BYTE)">
+            <column name="SRC_ETRAN_CD" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SRC_LN_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="SRC_IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="SRC_LN_DESC" type="VARCHAR2(40)"/>
+            <column name="SRC_IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FREQ_CD" type="VARCHAR2(4 BYTE)">
+            <column name="FREQ_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
             <column name="NXT_PROC_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
             <column name="LST_PROC_DT" type="DATE"/>
-            <column name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1661,14 +1661,14 @@
     
     
         <createTable tableName="END_REGIS_CD_T">
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_REGIS_CD_TP1"/>
             </column>
-            <column name="REGIS_CD_DESC" type="VARCHAR2(50 BYTE)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column name="REGIS_CD_DESC" type="VARCHAR2(50)"/>
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1678,16 +1678,16 @@
     
     
         <createTable tableName="END_RESP_ADMIN_CD_T">
-            <column name="RESP_ADMIN_CD" type="VARCHAR2(4 BYTE)">
+            <column name="RESP_ADMIN_CD" type="VARCHAR2(4)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_RESP_ADMIN_CD_TP1"/>
             </column>
-            <column name="RESP_ADMIN_DESC" type="VARCHAR2(36 BYTE)">
+            <column name="RESP_ADMIN_DESC" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1697,15 +1697,15 @@
     
     
         <createTable tableName="END_SEC_RPT_GRP_T">
-            <column name="SEC_RPT_GRP" type="VARCHAR2(5 BYTE)">
+            <column name="SEC_RPT_GRP" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_SEC_RPT_GRP_TP1"/>
             </column>
-            <column name="SEC_RPT_GRP_DESC" type="VARCHAR2(50 BYTE)"/>
+            <column name="SEC_RPT_GRP_DESC" type="VARCHAR2(50)"/>
             <column name="SEC_RPT_GRP_ORD" type="NUMBER(2,0)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1715,23 +1715,23 @@
     
     
         <createTable tableName="END_SEC_T">
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_SEC_TP1"/>
             </column>
-            <column name="SEC_DESC" type="VARCHAR2(120 BYTE)"/>
-            <column name="SEC_TKR_SYMB" type="VARCHAR2(6 BYTE)"/>
-            <column name="SEC_CLS_CD" type="VARCHAR2(3 BYTE)"/>
-            <column name="SEC_SUBCLS_CD" type="VARCHAR2(3 BYTE)"/>
+            <column name="SEC_DESC" type="VARCHAR2(120)"/>
+            <column name="SEC_TKR_SYMB" type="VARCHAR2(6)"/>
+            <column name="SEC_CLS_CD" type="VARCHAR2(3)"/>
+            <column name="SEC_SUBCLS_CD" type="VARCHAR2(3)"/>
             <column name="SEC_MAT_DT" type="DATE"/>
             <column defaultValueNumeric="1.0" name="SEC_UNIT_VAL" type="NUMBER(19,5)"/>
             <column defaultValueNumeric="0.0" name="SEC_UNITS_HELD" type="NUMBER(16,5)"/>
             <column name="SEC_VAL_DT" type="DATE"/>
-            <column name="UNIT_VAL_SRC" type="VARCHAR2(30 BYTE)"/>
+            <column name="UNIT_VAL_SRC" type="VARCHAR2(30)"/>
             <column name="PREV_UNIT_VAL" type="NUMBER(19,5)"/>
             <column name="PREV_UNIT_VAL_DT" type="DATE"/>
             <column defaultValueNumeric="0.0" name="SEC_CVAL" type="NUMBER(19,2)"/>
             <column name="LAST_TRAN_DT" type="DATE"/>
-            <column name="SEC_INC_PAY_FREQ" type="VARCHAR2(4 BYTE)"/>
+            <column name="SEC_INC_PAY_FREQ" type="VARCHAR2(4)"/>
             <column name="SEC_INC_NEXT_PAY_DT" type="DATE"/>
             <column name="SEC_RT" type="NUMBER(19,5)"/>
             <column name="SEC_INC_CHG_DT" type="DATE"/>
@@ -1741,10 +1741,10 @@
             <column name="SEC_DVDND_PAY_DT" type="DATE"/>
             <column name="SEC_DVDND_AMT" type="NUMBER(19,4)"/>
             <column name="CMTMNT_AMT" type="NUMBER(19,2)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1756,11 +1756,11 @@
     
     
         <createTable tableName="END_SEC_VLTN_MTHD_T">
-            <column name="VLTN_MTHD" type="VARCHAR2(1 BYTE)">
+            <column name="VLTN_MTHD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_SEC_VLTN_MTHD_TP1"/>
             </column>
-            <column name="VLTN_MTHD_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="VLTN_MTHD_DESC" type="VARCHAR2(40)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1770,16 +1770,16 @@
     
     
         <createTable tableName="END_SUBCLS_CD_T">
-            <column name="SEC_SUBCLS_CD" type="VARCHAR2(3 BYTE)">
+            <column name="SEC_SUBCLS_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_SUBCLS_CD_TP1"/>
             </column>
-            <column name="SEC_SUBCLS_CD_DESC" type="VARCHAR2(150 BYTE)">
+            <column name="SEC_SUBCLS_CD_DESC" type="VARCHAR2(150)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1789,16 +1789,16 @@
     
     
         <createTable tableName="END_TKLR_KEMID_T">
-            <column name="TKLR_NBR" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_NBR" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="TKLR_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1808,16 +1808,16 @@
     
     
         <createTable tableName="END_TKLR_RECP_GRP_T">
-            <column name="TKLR_NBR" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_NBR" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_RECP_GRP_ID" type="VARCHAR2(40 BYTE)">
+            <column name="TKLR_RECP_GRP_ID" type="VARCHAR2(40)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1827,16 +1827,16 @@
     
     
         <createTable tableName="END_TKLR_RECP_PRNCPL_T">
-            <column name="TKLR_NBR" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_NBR" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_RECP_PRNCPL_ID" type="VARCHAR2(40 BYTE)">
+            <column name="TKLR_RECP_PRNCPL_ID" type="VARCHAR2(40)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1846,16 +1846,16 @@
     
     
         <createTable tableName="END_TKLR_SEC_T">
-            <column name="TKLR_NBR" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_NBR" type="VARCHAR2(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_SEC_ID" type="VARCHAR2(10 BYTE)">
+            <column name="TKLR_SEC_ID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1865,27 +1865,27 @@
     
     
         <createTable tableName="END_TKLR_T">
-            <column name="TKLR_NBR" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_NBR" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TKLR_TP1"/>
             </column>
-            <column name="TKLR_TYP_CD" type="VARCHAR2(4 BYTE)">
+            <column name="TKLR_TYP_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_FREQ" type="VARCHAR2(4 BYTE)"/>
+            <column name="TKLR_FREQ" type="VARCHAR2(4)"/>
             <column name="TKLR_NXT_DUE_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="TKLR_DTL" type="VARCHAR2(1024 BYTE)">
+            <column name="TKLR_DTL" type="VARCHAR2(1024)">
                 <constraints nullable="false"/>
             </column>
             <column name="TKLR_ENTRY_DT" type="DATE">
                 <constraints nullable="false"/>
             </column>
             <column name="TKLR_TERM_DT" type="DATE"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1895,16 +1895,16 @@
     
     
         <createTable tableName="END_TKLR_TYP_CD_T">
-            <column name="TKLR_TYP_CD" type="VARCHAR2(5 BYTE)">
+            <column name="TKLR_TYP_CD" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TKLR_TYP_CD_TP1"/>
             </column>
-            <column name="TKLR_TYP_DESC" type="VARCHAR2(36 BYTE)">
+            <column name="TKLR_TYP_DESC" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -1914,20 +1914,20 @@
     
     
         <createTable tableName="END_TRAN_ARCHV_SEC_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
             <column name="FDOC_LN_NBR" type="NUMBER(7,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="TRAN_SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_SEC_REGIS_CD" type="VARCHAR2(4 BYTE)"/>
-            <column name="TRAN_SEC_ETRAN_CD" type="VARCHAR2(9 BYTE)"/>
+            <column name="TRAN_SEC_REGIS_CD" type="VARCHAR2(4)"/>
+            <column name="TRAN_SEC_ETRAN_CD" type="VARCHAR2(9)"/>
             <column name="TRAN_SEC_UNITS" type="NUMBER(16,4)"/>
             <column name="TRAN_SEC_UNIT_VAL" type="NUMBER(19,5)"/>
             <column name="TRAN_SEC_COST" type="NUMBER(19,2)"/>
@@ -1936,43 +1936,43 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_TRAN_ARCHV_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
             <column name="FDOC_LN_NBR" type="NUMBER(7,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="DOC_TYP_NM" type="VARCHAR2(64 BYTE)">
+            <column name="TRAN_DESC" type="VARCHAR2(40)"/>
+            <column name="DOC_TYP_NM" type="VARCHAR2(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="TRAN_KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_ETRAN_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="TRAN_LN_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="TRAN_IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_ETRAN_CD" type="VARCHAR2(9)"/>
+            <column name="TRAN_LN_DESC" type="VARCHAR2(40)"/>
+            <column name="TRAN_IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="TRAN_INC_CSH_AMT" type="NUMBER(19,2)"/>
             <column name="TRAN_PRIN_CSH_AMT" type="NUMBER(19,2)"/>
-            <column name="TRAN_CORPUS_IND" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_CORPUS_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="TRAN_CORPUS_AMT" type="NUMBER(19,2)"/>
@@ -1980,26 +1980,26 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_TRAN_DOC_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TRAN_DOC_TP1"/>
             </column>
-            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="TRAN_PSTD" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="TRAN_PSTD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2013,13 +2013,13 @@
     
     
         <createTable tableName="END_TRAN_HLDG_LOT_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
             <column name="FDOC_LN_NBR" type="NUMBER(7,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="TRAN_HLDG_LT_NBR" type="NUMBER(4,0)">
@@ -2031,60 +2031,60 @@
             <column name="LOT_HLDG_COST" type="NUMBER(19,2)"/>
             <column name="LOT_LT_GAIN_LOSS" type="NUMBER(19,2)"/>
             <column name="LOT_ST_GAIN_LOSS" type="NUMBER(19,2)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
             <column name="LOT_ACQD_DT" type="DATE"/>
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIS_CD" type="VARCHAR2(4 BYTE)">
+            <column name="REGIS_CD" type="VARCHAR2(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="HLDG_IP_IND" type="VARCHAR2(1 BYTE)">
+            <column name="HLDG_IP_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="NEW_LOT_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="NEW_LOT_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_TRAN_LN_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="FDOC_LN_NBR" type="NUMBER(7,0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="KEMID" type="VARCHAR2(10 BYTE)">
+            <column name="KEMID" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ETRAN_CD" type="VARCHAR2(9 BYTE)"/>
-            <column name="TRAN_LN_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="TRAN_IP_IND_CD" type="VARCHAR2(1 BYTE)">
+            <column name="ETRAN_CD" type="VARCHAR2(9)"/>
+            <column name="TRAN_LN_DESC" type="VARCHAR2(40)"/>
+            <column name="TRAN_IP_IND_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="TRAN_AMT" type="NUMBER(19,2)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="CORPUS_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="CORPUS_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
             <column name="TRAN_UNITS" type="NUMBER(16,4)"/>
-            <column defaultValue="N" name="LN_PSTD" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="LN_PSTD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2095,16 +2095,16 @@
     
     
         <createTable tableName="END_TRAN_RESTR_CD_T">
-            <column name="TRAN_RESTR_CD" type="VARCHAR2(5 BYTE)">
+            <column name="TRAN_RESTR_CD" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TRAN_RESTR_CD_TP1"/>
             </column>
-            <column name="TRAN_RESTR_DESC" type="VARCHAR2(36 BYTE)">
+            <column name="TRAN_RESTR_DESC" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2114,17 +2114,17 @@
     
     
         <createTable tableName="END_TRAN_SEC_T">
-            <column name="FDOC_NBR" type="VARCHAR2(14 BYTE)">
+            <column name="FDOC_NBR" type="VARCHAR2(14)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_LN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="SEC_LN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_ID" type="VARCHAR2(9 BYTE)">
+            <column name="SEC_ID" type="VARCHAR2(9)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SEC_REGIS_CD" type="VARCHAR2(4 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="SEC_REGIS_CD" type="VARCHAR2(4)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2134,11 +2134,11 @@
     
     
         <createTable tableName="END_TRAN_SRC_TYP_T">
-            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SRC_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TRAN_SRC_TYP_TP1"/>
             </column>
-            <column name="TRAN_SRC_TYP_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="TRAN_SRC_TYP_DESC" type="VARCHAR2(40)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2148,11 +2148,11 @@
     
     
         <createTable tableName="END_TRAN_SUB_TYP_T">
-            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_SUB_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TRAN_SUB_TYP_TP1"/>
             </column>
-            <column name="TRAN_SUB_TYP_DESC" type="VARCHAR2(40 BYTE)"/>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="TRAN_SUB_TYP_DESC" type="VARCHAR2(40)"/>
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2162,13 +2162,13 @@
     
     
         <createTable tableName="END_TRAN_TYP_CD_T">
-            <column name="TRAN_TYP_CD" type="VARCHAR2(1 BYTE)">
+            <column name="TRAN_TYP_CD" type="VARCHAR2(1)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TRAN_TYP_CD_TP1"/>
             </column>
-            <column name="TRAN_TYP_DESC" type="VARCHAR2(10 BYTE)">
+            <column name="TRAN_TYP_DESC" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2178,38 +2178,38 @@
     
     
         <createTable tableName="END_TYP_FEE_MTHD_T">
-            <column name="TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="FEE_MTHD" type="VARCHAR2(10 BYTE)">
+            <column name="FEE_MTHD" type="VARCHAR2(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     
     
         <createTable tableName="END_TYP_RESTR_CD_T">
-            <column name="TYP_RESTR_CD" type="VARCHAR2(3 BYTE)">
+            <column name="TYP_RESTR_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TYP_RESTR_CD_TP1"/>
             </column>
-            <column name="TYP_RESTR_DESC" type="VARCHAR2(36 BYTE)">
+            <column name="TYP_RESTR_DESC" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="N" name="PERM" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="N" name="PERM" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2219,19 +2219,19 @@
     
     
         <createTable tableName="END_TYP_T">
-            <column name="TYP_CD" type="VARCHAR2(3 BYTE)">
+            <column name="TYP_CD" type="VARCHAR2(3)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_TYP_TP1"/>
             </column>
-            <column name="TYP_DESC" type="VARCHAR2(100 BYTE)">
+            <column name="TYP_DESC" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="TYP_CSH_SWEEP_MDL_ID" type="NUMBER(9,0)"/>
             <column name="TYP_INC_ACI_MDL_ID" type="NUMBER(9,0)"/>
             <column name="TYP_PRIN_ACI_MDL_ID" type="NUMBER(9,0)"/>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2241,16 +2241,16 @@
     
     
         <createTable tableName="END_USE_CRIT_T">
-            <column name="USE_CRIT_CD" type="VARCHAR2(5 BYTE)">
+            <column name="USE_CRIT_CD" type="VARCHAR2(5)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="END_USE_CRIT_TP1"/>
             </column>
-            <column name="USE_CRIT_DESC" type="VARCHAR2(100 BYTE)">
+            <column name="USE_CRIT_DESC" type="VARCHAR2(100)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1 BYTE)">
+            <column defaultValue="Y" name="ROW_ACTV_IND" type="VARCHAR2(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="OBJ_ID" type="VARCHAR2(36 BYTE)">
+            <column name="OBJ_ID" type="VARCHAR2(36)">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
@@ -2399,13 +2399,39 @@
 		<addUniqueConstraint tableName="END_USE_CRIT_T" columnNames="OBJ_ID" constraintName="END_USE_CRIT_TC0" />
     </changeSet>
  
-    <changeSet author="kfs" id="KFS_40_ENDOWMENT_SEQUENCES">
+    <changeSet author="kfs" id="KFS_40_ENDOWMENT_SEQUENCES_oracle" dbms="oracle">
         <createSequence sequenceName="END_ACI_SEQ"/>
         <createSequence sequenceName="END_KEMID_SEQ"/>
         <createSequence sequenceName="END_REC_CSH_XFR_SEQ"/>
         <createSequence sequenceName="END_TKLR_SEQ" />
     </changeSet>
  
+    <changeSet author="kfs" id="KFS_40_ENDOWMENT_SEQUENCES_mysql" dbms="mysql">
+	  	<createTable tableName="END_ACI_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="END_KEMID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="END_REC_CSH_XFR_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="END_TKLR_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+    </changeSet>
+
     <changeSet author="kfs" id="KFS_40_ENDOWMENT_VIEWS">
     
         <createView viewName="END_KEMID_CRNT_BAL_DET_V"><![CDATA[SELECT

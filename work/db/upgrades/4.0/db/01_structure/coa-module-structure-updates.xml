@@ -20,10 +20,7 @@
 	<changeSet author="kfs"
 		id="KFS_40_ADD_RESEARCH_COLUMNS_TO_OBJECT_VIEW">
 		<comment>add new columns to CA_OBJECT_CODE_V</comment>
-		<createView viewName="CA_OBJECT_CODE_V">
-      CREATE OR REPLACE VIEW CA_OBJECT_CODE_V
-AS
-(
+		<createView viewName="CA_OBJECT_CODE_V" replaceIfExists="true">
 SELECT
 C.UNIV_FISCAL_YR,
 FIN_COA_CD,
@@ -46,10 +43,10 @@ RSCH_OBJ_CD_DESC,
 RSCH_ON_CMP_IND
 FROM CA_OBJECT_CODE_T C, SH_UNIV_DATE_T S
 WHERE C.UNIV_FISCAL_YR = S.UNIV_FISCAL_YR AND UNIV_DT = TRUNC(SYSDATE)
-);
+
     </createView>
 		<modifySql dbms="mysql">
-			<replace replace="SYSDATE" with="CURRENT_DATE" />
+			<replace replace="TRUNC(SYSDATE)" with="DATE(CURRENT_DATE)" />
 		</modifySql>
 	</changeSet>
 

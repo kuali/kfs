@@ -4,9 +4,8 @@
 	<!-- Ensure that all KFS namespaces have the KFS application namespace code. -->
 
 	<!-- New KFS parameters since 3.0.1 -->
-	<changeSet author="kfs" id="KFS_400_KRNS_PARM_T_NEW_PARAMS">
-		<addDefaultValue tableName="KRNS_PARM_T" columnName="OBJ_ID" defaultValueNumeric="SYS_GUID()"/>
-		<loadData tableName="KRNS_PARM_T" file="kfs_40_new_params.csv">
+	<changeSet author="kfs" id="KFS_400_KRNS_PARM_T_NEW_PARAMS" >	
+		<loadData tableName="KRNS_PARM_T" file="kfs_40_new_params.csv" >
 			<column header="NMSPC_CD" type="string" />
 			<column header="PARM_DTL_TYP_CD" type="string" />
 			<column header="PARM_NM" type="string" />
@@ -15,30 +14,8 @@
 			<column header="PARM_DESC_TXT" type="string" />
 			<column header="CONS_CD" type="string" />
 			<column header="APPL_NMSPC_CD" type="string" />
+			<column header="OBJ_ID" type="string" />
 		</loadData>
-		<dropDefaultValue tableName="KRNS_PARM_T" columnName="OBJ_ID"/>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="UUID" />
-		</modifySql>
-    </changeSet>
-
-	<!-- New parameters for the endowment module -->
-	<changeSet author="kfs" id="KFS_400_KRNS_PARM_T_ENDOW_PARAMS">
-		<addDefaultValue tableName="KRNS_PARM_T" columnName="OBJ_ID" defaultValueNumeric="SYS_GUID()"/>
-		<loadData tableName="KRNS_PARM_T" file="kfs_40_endowment_params.csv">
-			<column header="NMSPC_CD" type="string" />
-			<column header="PARM_DTL_TYP_CD" type="string" />
-			<column header="PARM_NM" type="string" />
-			<column header="PARM_TYP_CD" type="string" />
-			<column header="TXT" type="string" />
-			<column header="PARM_DESC_TXT" type="string" />
-			<column header="CONS_CD" type="string" />
-			<column header="APPL_NMSPC_CD" type="string" />
-		</loadData>
-		<dropDefaultValue tableName="KRNS_PARM_T" columnName="OBJ_ID"/>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="UUID" />
-		</modifySql>
     </changeSet>
 
 	<!-- Remove no-longer-used parameters -->

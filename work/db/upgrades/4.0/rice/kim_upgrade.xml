@@ -67,9 +67,9 @@
 
 	<!-- fix the document type on a couple of permissions -->
 	<changeSet author="kfs" id="KFS_4.0_CHANGE_PERM_DOC">
-		<update tableName="KRIM_PERM_T">
+		<update tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_VAL" value="RiceDocument" />
-			<where>PERM_ID IN ( '146', '156' )</where>
+			<where>PERM_ID IN ( '146', '156' ) AND KIM_ATTR_DEFN_ID = '13'</where>
 		</update>
 	</changeSet>
 	
@@ -85,7 +85,7 @@
 	<changeSet author="kfs" id="KFS_4.0_NEW_PERMS">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1100" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="3" />
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -95,7 +95,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1101" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="2" />
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -105,7 +105,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1102" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -115,7 +115,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1103" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="51" />
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -126,7 +126,7 @@
 		<!--  Attribute Data -->
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFS10000" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="1100" />			
 			<column name="KIM_TYP_ID" value="3" />
@@ -135,7 +135,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFS10001" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID()  " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="1101" />			
 			<column name="KIM_TYP_ID" value="3" />
@@ -144,7 +144,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFS10002" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="1102" />	
 			<column name="KIM_TYP_ID" value="3" />
@@ -154,7 +154,7 @@
 		<!--  Permission/Role Assignments -->
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1106" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="62" />
 			<column name="PERM_ID" value="1100" />	
@@ -162,7 +162,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1107" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="55" />
 			<column name="PERM_ID" value="1100" />	
@@ -170,7 +170,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1108" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="95" />
 			<column name="PERM_ID" value="1101" />	
@@ -178,7 +178,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1109" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="31" />
 			<column name="PERM_ID" value="1102" />	
@@ -186,7 +186,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1004" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="49" />
 			<column name="PERM_ID" value="306" />	
@@ -194,7 +194,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1110" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="31" />
 			<column name="PERM_ID" value="248" />	
@@ -202,7 +202,7 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS1111" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="59" />
 			<column name="PERM_ID" value="1103" />	
@@ -225,7 +225,7 @@
 	</changeSet>
 	
 	<!--  update some baseline role assignments -->
-	<changeSet author="kfs" id="KFS_4.0_CHANGE_PERM_DOC">
+	<changeSet author="kfs" id="KFS_4.0_LOOSEN_PERMISSIONS">
 		<!-- grant these permissions to any authenticated person - were locked down based on KFS needs, not central rice -->
 		<update tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_ID" value="1" />
@@ -241,7 +241,7 @@
 	<changeSet author="kfs" id="KFS_4.0_LABOR_FEED_UPLOAD_PERM">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="1105" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="33" />
 			<column name="NMSPC_CD" value="KFS-LD" />
@@ -251,8 +251,8 @@
 		</insert>
 		<!--  Attribute Data -->
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSLD1" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="ATTR_DATA_ID" value="KFSLD1" /> 			
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="1105" />			
 			<column name="KIM_TYP_ID" value="15" />
@@ -261,12 +261,15 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSLD1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="45" />
 			<column name="PERM_ID" value="1105" />	
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
 	</changeSet>
 
 </databaseChangeLog>   

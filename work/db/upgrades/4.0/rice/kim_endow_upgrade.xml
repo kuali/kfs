@@ -7,9 +7,6 @@
 		<loadData tableName="KRIM_ROLE_T" file="kfs_40_endowment_krim_role_t.csv" />
     </changeSet>
 
-	<changeSet author="kfs" id="KFS_4.0_UPGRADE_ENDOW_KRIM_PERM_TMPL_T">
-		<loadData tableName="KRIM_PERM_TMPL_T" file="kfs_40_endowment_krim_perm_tmpl_t.csv" />
-    </changeSet>
 	<changeSet author="kfs" id="KFS_4.0_UPGRADE_ENDOW_KRIM_PERM_T">
 		<loadData tableName="KRIM_PERM_T" file="kfs_40_endowment_krim_perm_t.csv" />
     </changeSet>

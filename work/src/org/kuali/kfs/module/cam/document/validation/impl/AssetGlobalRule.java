@@ -240,7 +240,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(assetGlobalDetail.getCampusCode())) {
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(CamsPropertyConstants.Asset.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
-            Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+            Campus campus = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
 
             if (ObjectUtils.isNull(campus)) {
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_CAMPUS_CODE, assetGlobalDetail.getCampusCode());
@@ -254,7 +254,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingCode())) {
-            Map objectKeys = new HashMap();
+            Map<String, String> objectKeys = new HashMap<String, String>();
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
             Building building = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, objectKeys);
@@ -271,7 +271,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         }
 
         if (StringUtils.isNotBlank(assetGlobalDetail.getBuildingRoomNumber())) {
-            Map objectKeys = new HashMap();
+            Map<String, String> objectKeys = new HashMap<String, String>();
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, assetGlobalDetail.getCampusCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, assetGlobalDetail.getBuildingCode());
             objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, assetGlobalDetail.getBuildingRoomNumber());
@@ -1101,10 +1101,12 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // validate asset type
         if (StringUtils.isNotBlank(assetGlobalUniqueDetails.getCapitalAssetTypeCode())) {
-            AssetType assetType = (AssetType) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetType.class, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+            AssetType assetType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetType.class, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
             if (assetType == null || StringUtils.isBlank(assetType.getCapitalAssetTypeCode())) {
-                // putFieldError(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED);
-                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+                String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[0]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[0]";
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+                GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 success &= false;
             }
         }

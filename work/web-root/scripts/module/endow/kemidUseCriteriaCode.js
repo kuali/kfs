@@ -23,22 +23,22 @@
 
  function setUseCriteriaCodeDescription(code, codeDescriptionFieldName){	 
 
-	 	if (code == '') {
-	 		clearRecipients(codeDescriptionFieldName);
-	 	} else {
-	 		var dwrReply = {
-	 			callback:function(data) {
-	 				if ( data != null && typeof data == 'object') {
-	 					setRecipientValue(codeDescriptionFieldName, data.name);
-	 				} else {
-	 					setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);			
-	 				} },
-	 			errorHandler:function(errorMessage) { 
-	 				setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);
-	 			}
-	 		};
-	 		UseCriteriaCodeService.getByPrimaryKey(code.toUpperCase(), dwrReply);
-	 	}
-	} 
+ 	if (code == '') {
+ 		clearRecipients(codeDescriptionFieldName);
+ 	} else {
+ 		var dwrReply = {
+ 			callback:function(data) {
+ 				if ( data != null && typeof data == 'object') {
+ 					setRecipientValue(codeDescriptionFieldName, data.name);
+ 				} else {
+ 					setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);			
+ 				} },
+ 			errorHandler:function(errorMessage) { 
+ 				setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);
+ 			}
+ 		};
+ 		UseCriteriaCodeService.getByPrimaryKey(code.toUpperCase(), dwrReply);
+ 	}
+} 
 
 

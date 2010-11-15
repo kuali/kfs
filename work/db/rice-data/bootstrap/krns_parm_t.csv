@@ -112,7 +112,6 @@ KFS-CAM,Batch,NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES,KFS99,1,CONFG,N;O,A
 KFS-CG,All,MAXIMUM_ACCOUNT_RESPONSIBILITY_ID,KFS101,1,CONFG,17,Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. The minimum is 1.,A,KFS
 KFS-CG,CfdaBatchStep,RESULT_SUMMARY_TO_EMAIL_ADDRESSES,KFS102,1,CONFG,knoreceipt-l@indiana.edu,Listserv for recipients of CFDA batch process results.,A,KFS
 KFS-CG,CfdaBatchStep,SOURCE_URL,KFS103,1,CONFG,ftp://ftp.cfda.gov/programs,CFDA url,A,KFS
-KFS-CG,Document,TO_BE_NAMED_LABEL,KFS116,1,CONFG,TO BE NAMED,The text to be used when identifying a To Be Named person in error messages or labels.,A,KFS
 KFS-COA,Account,ACCOUNT_ADDRESS_TYPE,KFS606,1,CONFG,ADMIN;PAYMENT;DEFAULT,Defines the cascading order for extracting the addresses,A,KFS
 KFS-COA,Account,CAPITAL_SUB_FUND_GROUPS,KFS117,1,CONFG,PFCMR,Indicates the SubFundGroup for this Kuali implementation that is used for CAMS/Capital purposes for capitalization of expenses related to building construction or remodeling.,A,KFS
 KFS-COA,Account,CG_DENOTING_VALUE,KFS118,1,CONFG,CG,This is the value of the fund group or sub-fund group that the institution uses for contracts and grants accounts. Used in conjunction with FUND_GROUP_DENOTES_CG_IND.,A,KFS

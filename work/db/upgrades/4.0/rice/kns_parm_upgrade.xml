@@ -82,6 +82,9 @@
     	<delete tableName="KRNS_PARM_T">
     		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE'</where>
     	</delete>
+    	<delete tableName="KRNS_PARM_T">
+    		<where>NMSPC_CD = 'KFS-CG' AND PARM_DTL_TYP_CD = 'Document' AND PARM_NM = 'TO_BE_NAMED_LABEL'</where>
+    	</delete>
     </changeSet>
     
 	<!-- fix the descriptions on parameters which are misleading -->

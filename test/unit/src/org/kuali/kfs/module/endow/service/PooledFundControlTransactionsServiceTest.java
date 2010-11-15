@@ -51,11 +51,11 @@ public class PooledFundControlTransactionsServiceTest extends KualiTestBase {
     }
 
     
-    public void testPooledFundControlTransactionsService() {        
-        assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());        
-    }
-    
-    public void testIncomeDistributionForPooledFundService() {
-        incomeDistributionForPooledFundService.createIncomeDistributionForPooledFund();
-    }
+//    public void testPooledFundControlTransactionsService() {        
+//        assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());        
+//    }
+//    
+//    public void testIncomeDistributionForPooledFundService() {
+//        incomeDistributionForPooledFundService.createIncomeDistributionForPooledFund();
+//    }
 }

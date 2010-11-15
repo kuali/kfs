@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.CreateAccrualTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateAccrualTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -297,7 +298,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         try {
 
             cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
-            String documentDescription = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.DESCRIPTION);
+            String documentDescription = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(documentDescription);
             cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
             cashIncreaseDocument.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
@@ -337,7 +338,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         if (rulesPassed) {
 
-            String noRouteIndVal = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowConstants.EndowmentSystemParameter.NO_ROUTE_IND);
+            String noRouteIndVal = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {

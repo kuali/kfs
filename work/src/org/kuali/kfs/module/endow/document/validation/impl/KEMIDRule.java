@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CloseCode;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
@@ -991,7 +992,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
 
         // if sys param END_KEMID_ROLE_T_RECORD_REQUIRED_IND is yes the Kemid must have at least one active entry in the
         // authorizations tab
-        String authorizationReqParamVal = SpringContext.getBean(ParameterService.class).getParameterValue(KEMID.class, EndowConstants.EndowmentSystemParameter.ROLE_REQUIRED_IND);
+        String authorizationReqParamVal = SpringContext.getBean(ParameterService.class).getParameterValue(KEMID.class, EndowParameterKeyConstants.ROLE_REQUIRED_IND);
 
         if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(authorizationReqParamVal)) {
             // At least one active records must exist

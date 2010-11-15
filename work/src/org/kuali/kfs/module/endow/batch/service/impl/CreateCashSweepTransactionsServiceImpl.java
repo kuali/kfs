@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
 import org.kuali.kfs.module.endow.batch.reporter.ReportDocumentStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
@@ -65,11 +66,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTransactionsService {
-    
+
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Cash Sweep Batch Process.";
 
-    private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();    
+    private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();
     private UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService;
     private UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
@@ -83,15 +84,15 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private DocumentService documentService;
     private KEMIDService kemidService;
     private KEMService kemService;
-    
+
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService#createCashSweepTransactions()
      */
     public boolean createCashSweepTransactions() {
-        
+
         LOG.info("Starting \"Create Cash Sweep Transactions\" batch job...");
         writeHeaders();
-        
+
         Collection<CashSweepModel> cashSweepModels = getCashSweepModelMatchingCurrentDate();
         for (CashSweepModel cashSweepModel : cashSweepModels) {
             processIncomeSweepPurchases(cashSweepModel);
@@ -99,36 +100,31 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             processPrincipalSweepPurchases(cashSweepModel);
             processPrincipalSweepSale(cashSweepModel);
         }
-        
+
         writeStatistics();
         LOG.info("Finished \"Create Cash Sweep Transactions\" batch job!");
-        
+
         return true;
     }
-    
+
     /**
      * Process all the principle cash sweep models for sales.
-     *
+     * 
      * @param cashSweepModel
      */
     protected void processPrincipalSweepSale(CashSweepModel cashSweepModel) {
         LOG.info("Entering \"processPrincipalSweepSale\".");
-        
+
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getPrincipleSweepRegistrationCode();
-        String sweepSecurityId      = cashSweepModel.getPrincipleSweepInvestment();
-        
+        String sweepSecurityId = cashSweepModel.getPrincipleSweepInvestment();
+
         // Steps 4 - 12.
-        processAssetDecreaseDocuments(
-                cashSweepModel.getCashSweepModelID(),
-                sweepRegistraionCode, 
-                sweepSecurityId,
-                cashSweepModel.getSweepPrincipleCashLimit(),
-                false);
-        
+        processAssetDecreaseDocuments(cashSweepModel.getCashSweepModelID(), sweepRegistraionCode, sweepSecurityId, cashSweepModel.getSweepPrincipleCashLimit(), false);
+
         LOG.info("Leaving \"processPrincipalSweepSale\".");
     }
-    
+
     /**
      * Process all the principle cash sweep models for purchases.
      * 
@@ -136,22 +132,17 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     protected void processPrincipalSweepPurchases(CashSweepModel cashSweepModel) {
         LOG.info("Entering \"processPrincipalSweepPurchases\".");
-        
+
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getPrincipleSweepRegistrationCode();
-        String sweepSecurityId      = cashSweepModel.getPrincipleSweepInvestment();
-        
+        String sweepSecurityId = cashSweepModel.getPrincipleSweepInvestment();
+
         // Steps 4 - 12.
-        processAssetIncreaseDocuments(
-                cashSweepModel.getCashSweepModelID(),
-                sweepRegistraionCode, 
-                sweepSecurityId,
-                cashSweepModel.getSweepPrincipleCashLimit(),
-                false);
-        
+        processAssetIncreaseDocuments(cashSweepModel.getCashSweepModelID(), sweepRegistraionCode, sweepSecurityId, cashSweepModel.getSweepPrincipleCashLimit(), false);
+
         LOG.info("Leaving \"processPrincipalSweepPurchases\".");
     }
-    
+
     /**
      * Process all the income cash sweep models for sales.
      * 
@@ -159,19 +150,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     protected void processIncomeSweepSales(CashSweepModel cashSweepModel) {
         LOG.info("Entering \"processIncomeSweepSales\".");
-        
+
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getIncomeSweepRegistrationCode();
-        String sweepSecurityId      = cashSweepModel.getIncomeSweepInvestment();
-        
+        String sweepSecurityId = cashSweepModel.getIncomeSweepInvestment();
+
         // Steps 4 - 12.
-        processAssetDecreaseDocuments(
-                cashSweepModel.getCashSweepModelID(),
-                sweepRegistraionCode, 
-                sweepSecurityId,
-                cashSweepModel.getSweepIncomeCashLimit(),
-                true);
-        
+        processAssetDecreaseDocuments(cashSweepModel.getCashSweepModelID(), sweepRegistraionCode, sweepSecurityId, cashSweepModel.getSweepIncomeCashLimit(), true);
+
         LOG.info("Leaving \"processIncomeSweepSales\".");
     }
 
@@ -182,178 +168,152 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     protected void processIncomeSweepPurchases(CashSweepModel cashSweepModel) {
         LOG.info("Entering \"processIncomeSweepPurchases\".");
-        
+
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getIncomeSweepRegistrationCode();
-        String sweepSecurityId      = cashSweepModel.getIncomeSweepInvestment();
+        String sweepSecurityId = cashSweepModel.getIncomeSweepInvestment();
 
         // Steps 4 - 12.
-        processAssetIncreaseDocuments(
-                cashSweepModel.getCashSweepModelID(),
-                sweepRegistraionCode, 
-                sweepSecurityId,
-                cashSweepModel.getSweepIncomeCashLimit(),
-                true);
-        
+        processAssetIncreaseDocuments(cashSweepModel.getCashSweepModelID(), sweepRegistraionCode, sweepSecurityId, cashSweepModel.getSweepIncomeCashLimit(), true);
+
         LOG.info("Leaving \"processIncomeSweepPurchases\".");
     }
-    
+
     /**
-     * 
      * Creates asset decrease documents with transaction lines and routes it.
-     *
+     * 
      * @param cashSweepModelId
      * @param sweepRegistraionCode
      * @param sweepSecurityId
      * @param cashLimit
      * @param isIncome
      */
-    private void processAssetDecreaseDocuments(
-            Integer cashSweepModelId, 
-            String sweepRegistraionCode,
-            String sweepSecurityId,
-            BigDecimal cashLimit,
-            boolean isIncome) 
-    {
+    private void processAssetDecreaseDocuments(Integer cashSweepModelId, String sweepRegistraionCode, String sweepSecurityId, BigDecimal cashLimit, boolean isIncome) {
         AssetDecreaseDocument assetDecreaseDoc = null;
-        
+
         // Get the maximum number of allowed transaction lines per eDoc.
         int maxNumberOfTransactionLines = getMaxNumberOfTransactionLines();
-        
+
         // Iterate through all the KEMIDs for processing.
         List<KEMID> kemids = new ArrayList<KEMID>(kemidService.getByCashSweepId(cashSweepModelId));
         for (int i = 0; i < kemids.size(); i++) {
-            
+
             // Get the current KEMID.
             KEMID kemid = kemids.get(i);
-            
+
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
             if (currentCash != null && currentCash.compareTo(cashLimit) < 0) {
-                
+
                 // If this is null that means we need to create a new eDoc for
                 // the first time.
                 if (assetDecreaseDoc == null) {
                     assetDecreaseDoc = createAssetDecrease(sweepSecurityId, sweepRegistraionCode);
                 }
-                
+
                 // Create, validate, and add the transaction line to the eDoc.
                 addTransactionLineForAssetDecrease(assetDecreaseDoc, kemid, cashLimit, currentCash, isIncome);
-                
+
                 // Check to see if we've reached our max number of transaction lines
-                // per eDoc.  If so, validate, and submit the current eDoc and start
+                // per eDoc. If so, validate, and submit the current eDoc and start
                 // another eDoc.
-                if (i != 0 && i%maxNumberOfTransactionLines == 0) {
-                    // Validate and route the document.  Then create a new doc.
+                if (i != 0 && i % maxNumberOfTransactionLines == 0) {
+                    // Validate and route the document. Then create a new doc.
                     routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
                     assetDecreaseDoc = createAssetDecrease(sweepSecurityId, sweepRegistraionCode);
                 }
             }
         }
-        
-        // Verify that we don't need to do any clean-up.  There could still be
+
+        // Verify that we don't need to do any clean-up. There could still be
         // some let over transaction lines, less than the max amount that need
-        // to still be processed on the current eDoc.  This also prevents from
+        // to still be processed on the current eDoc. This also prevents from
         // routing an asset decrease document with no transaction lines.
         if (assetDecreaseDoc != null && !assetDecreaseDoc.getSourceTransactionLines().isEmpty()) {
             // Validate and route the document.
             routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
         }
     }
-    
+
     /**
-     * 
      * Creates asset increase documents with transaction lines and routes it.
-     *
+     * 
      * @param cashSweepModelId
      * @param sweepRegistraionCode
      * @param sweepSecurityId
      * @param cashLimit
      * @param isIncome
      */
-    private void processAssetIncreaseDocuments(
-            Integer cashSweepModelId, 
-            String sweepRegistraionCode,
-            String sweepSecurityId,
-            BigDecimal cashLimit,
-            boolean isIncome) 
-    {
+    private void processAssetIncreaseDocuments(Integer cashSweepModelId, String sweepRegistraionCode, String sweepSecurityId, BigDecimal cashLimit, boolean isIncome) {
         AssetIncreaseDocument assetIncreaseDoc = null;
-        
+
         // Get the maximum number of allowed transaction lines per eDoc.
         int maxNumberOfTransactionLines = getMaxNumberOfTransactionLines();
-        
+
         // Iterate through all the KEMIDs for processing.
         List<KEMID> kemids = new ArrayList<KEMID>(kemidService.getByCashSweepId(cashSweepModelId));
         for (int i = 0; i < kemids.size(); i++) {
-            
+
             // Get the current KEMID.
             KEMID kemid = kemids.get(i);
-            
+
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
             if (currentCash != null && currentCash.compareTo(cashLimit) > 0) {
-                
-                // If this is null that means we need to create a new eDoc for 
+
+                // If this is null that means we need to create a new eDoc for
                 // the first time.
                 if (assetIncreaseDoc == null) {
                     assetIncreaseDoc = createAssetIncrease(sweepSecurityId, sweepRegistraionCode);
                 }
-                
+
                 // Create, validate, and add the transaction line to the eDoc.
                 addTransactionLineForAssetIncrease(assetIncreaseDoc, kemid, cashLimit, currentCash, isIncome);
-                
+
                 // Check to see if we've reached our max number of transaction lines
-                // per eDoc.  If so, validate, and submit the current eDoc and start
+                // per eDoc. If so, validate, and submit the current eDoc and start
                 // another eDoc.
-                if (i != 0 && i%maxNumberOfTransactionLines == 0) {
-                    // Validate and route the document.  Then create a new doc.
+                if (i != 0 && i % maxNumberOfTransactionLines == 0) {
+                    // Validate and route the document. Then create a new doc.
                     routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
                     assetIncreaseDoc = createAssetIncrease(sweepSecurityId, sweepRegistraionCode);
                 }
             }
         }
-        
-        // Verify that we don't need to do any clean-up.  There could still be
+
+        // Verify that we don't need to do any clean-up. There could still be
         // some let over transaction lines, less than the max amount that need
-        // to still be processed on the current eDoc.  This also prevents from
+        // to still be processed on the current eDoc. This also prevents from
         // routing an asset decrease document with no transaction lines.
         if (assetIncreaseDoc != null && !assetIncreaseDoc.getTargetTransactionLines().isEmpty()) {
             // Validate and route the document.
             routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
         }
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDecreaseDoc
      * @param kemid
      * @param cashLimit
      * @param currentCash
      * @param isIncome
      */
-    private void addTransactionLineForAssetDecrease(
-            AssetDecreaseDocument assetDecreaseDoc,
-            KEMID kemid,
-            BigDecimal cashLimit,
-            BigDecimal currentCash,
-            boolean isIncome) 
-    {
+    private void addTransactionLineForAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, boolean isIncome) {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, false);
-        
+
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true, isIncome);
-        
+
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
-   
+
         // If the validation passes, add the transaction line to the document; otherwise,
         // write the error messages to the error report.
         if (rulesPassed) {
-            assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
+            assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine) transactionLine);
             updateEadTaxLotService.updateTransactionLineTaxLots(assetDecreaseDoc, transactionLine);
         }
         else {
@@ -364,37 +324,30 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetIncreaseDoc
      * @param kemid
      * @param cashLimit
      * @param currentCash
      * @param isIncome
      */
-    private void addTransactionLineForAssetIncrease(
-            AssetIncreaseDocument assetIncreaseDoc,
-            KEMID kemid,
-            BigDecimal cashLimit,
-            BigDecimal currentCash,
-            boolean isIncome) 
-    {
+    private void addTransactionLineForAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, boolean isIncome) {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, true);
-        
+
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, false, isIncome);
-        
+
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
-        
+
         // If the validation passes, add the transaction line to the document; otherwise,
         // write the error messages to the error report.
         if (rulesPassed) {
-            assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
+            assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) transactionLine);
             updateEaiTaxLotService.updateTransactionLineTaxLots(assetIncreaseDoc, transactionLine);
         }
         else {
@@ -405,7 +358,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
     }
-    
+
     /**
      * Validates and routes the asset decrease document.
      * 
@@ -413,7 +366,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param balh
      */
     private void routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
-        
+
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetDecreaseDoc));
 
@@ -446,17 +399,17 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
     }
-    
+
     /**
      * Validates and routes the asset increase document.
      * 
      * @param assetIncreaseDoc
      */
     private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
-        
+
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetIncreaseDoc));
-        
+
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
             boolean noRouteIndicator = getNoRouteIndicator(false);
@@ -487,11 +440,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
     }
-    
+
     /**
-     * 
      * Creates and returns a new principle or income transaction line.
-     *
+     * 
      * @param docNumber
      * @param kemid
      * @param amount
@@ -499,7 +451,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private EndowmentTransactionLine createTransactionLine(String docNumber, String kemid, KualiDecimal amount, boolean isSource, boolean isIncome) {
-        
+
         EndowmentTransactionLine transactionLine = null;
         if (isSource) {
             transactionLine = new EndowmentSourceTransactionLine();
@@ -507,7 +459,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         else {
             transactionLine = new EndowmentTargetTransactionLine();
         }
-        
+
         // Set values on the transaction line.
         transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
@@ -520,10 +472,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // These should be whole numbers.
         transactionLine.setTransactionAmount(amount);
         transactionLine.setTransactionUnits(amount);
-        
+
         return transactionLine;
     }
-    
+
     /**
      * Creates and returns a new asset increase document.
      * 
@@ -532,34 +484,34 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private AssetIncreaseDocument createAssetIncrease(String securityId, String registrationCode) {
-        
+
         AssetIncreaseDocument assetIncrease = null;
         try {
-            assetIncrease = (AssetIncreaseDocument)documentService.getNewDocument(AssetIncreaseDocument.class);
-            
+            assetIncrease = (AssetIncreaseDocument) documentService.getNewDocument(AssetIncreaseDocument.class);
+
             // Set the document description.
             DocumentHeader docHeader = assetIncrease.getDocumentHeader();
             docHeader.setDocumentDescription(getPurchaseDescription());
             assetIncrease.setDocumentHeader(docHeader);
-            
+
             // Set the sub type code to cash.
             assetIncrease.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-            
+
             // Create and set the target security transaction line.
             EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
             targetTransactionSecurity.setRegistrationCode(registrationCode);
             targetTransactionSecurity.setSecurityID(securityId);
-            
+
             assetIncrease.setTargetTransactionSecurity(targetTransactionSecurity);
         }
         catch (WorkflowException ex) {
             writeExceptionTableReason("Workflow error while trying to create EAI document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
-        
-       return assetIncrease; 
+
+        return assetIncrease;
     }
-    
+
     /**
      * Creates and returns a new asset decrease document.
      * 
@@ -568,35 +520,35 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private AssetDecreaseDocument createAssetDecrease(String securityId, String registrationCode) {
-        
+
         AssetDecreaseDocument assetDecrease = null;
         try {
-            assetDecrease = (AssetDecreaseDocument)documentService.getNewDocument(AssetDecreaseDocument.class);
-            
+            assetDecrease = (AssetDecreaseDocument) documentService.getNewDocument(AssetDecreaseDocument.class);
+
             // Set the document description.
             DocumentHeader docHeader = assetDecrease.getDocumentHeader();
             docHeader.setDocumentDescription(getSaleDescription());
             assetDecrease.setDocumentHeader(docHeader);
-            
+
             // Set the sub type code to cash.
             assetDecrease.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-            
+
             // Create and set the source security transaction line.
             EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
             sourceTransactionSecurity.setRegistrationCode(registrationCode);
             sourceTransactionSecurity.setSecurityID(securityId);
-            
+
             assetDecrease.setSourceTransactionSecurity(sourceTransactionSecurity);
-            
+
         }
         catch (WorkflowException ex) {
             writeExceptionTableReason("Workflow error while trying to create EAD document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
 
-       return assetDecrease; 
+        return assetDecrease;
     }
-    
+
     /**
      * Gets the current principle or income cash for the specified KEMID.
      * 
@@ -605,15 +557,14 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     private BigDecimal getKemidCurrentCash(KEMID kemid, boolean isIncome) {
         KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
-        
+
         if (kemidCurrentCash == null) {
             return null;
         }
-        
-        return !isIncome ? kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue() 
-                : kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
-     }
-    
+
+        return !isIncome ? kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue() : kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
+    }
+
     /**
      * Determines the cash available.
      * 
@@ -622,9 +573,9 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private KualiDecimal calculateCashAvailable(BigDecimal cashLimit, BigDecimal currentCash, boolean isIncrease) {
- 
+
         BigDecimal amount = null;
-        
+
         // Minus, up.
         if (isIncrease) {
             amount = currentCash.subtract(cashLimit);
@@ -635,23 +586,21 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             amount = currentCash.add(cashLimit);
             amount = amount.setScale(0, BigDecimal.ROUND_DOWN);
         }
-        
+
         return new KualiDecimal(amount);
     }
-    
+
     /**
-     * This method retrieves all the cash sweep models whose frequency code
-     * matches the current date.
+     * This method retrieves all the cash sweep models whose frequency code matches the current date.
      * 
      * @return Collection of CashSweepModel business objects
      */
     private Collection<CashSweepModel> getCashSweepModelMatchingCurrentDate() {
         return cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate();
     }
-    
+
     /**
-     * Gets the appropriate approval indicator based on if it's for a sale or
-     * purchase type.
+     * Gets the appropriate approval indicator based on if it's for a sale or purchase type.
      * 
      * @param isSale
      * @return
@@ -660,66 +609,64 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         boolean approvalIndicator = isSale ? getSaleNoRouteIndicator() : getPurchaseNoRouteIndicator();
         return approvalIndicator;
     }
-    
+
     /**
-     * This method returns the true or false value of the purchase
-     * no route indicator.
+     * This method returns the true or false value of the purchase no route indicator.
+     * 
      * @return
      */
     private boolean getPurchaseNoRouteIndicator() {
-      String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
-      return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
+        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
+        return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
-    
+
     /**
-     * This method returns the true or false value of the sale
-     * no route indicator.
+     * This method returns the true or false value of the sale no route indicator.
+     * 
      * @return
      */
     private boolean getSaleNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
-    
+
     /**
      * Gets the purchase description parameter.
+     * 
      * @return
      */
     private String getPurchaseDescription() {
-        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION);
+        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
     }
-    
+
     /**
      * Gets the sale description parameter.
+     * 
      * @return
      */
     private String getSaleDescription() {
-        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION);
+        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
     }
-    
+
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     private int getMaxNumberOfTransactionLines() {
         return kemService.getMaxNumberOfTransactionLinesPerDocument();
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetIncreaseDoc
      * @param isIncome
      */
     private void writeProcessedTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
-        
-        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE,
-                assetIncreaseDoc.getDocumentNumber(),
-                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+
+        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, assetIncreaseDoc.getDocumentNumber(), assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         List<EndowmentTransactionLine> transLines = assetIncreaseDoc.getTargetTransactionLines();
         for (EndowmentTransactionLine tranLine : transLines) {
             if (isIncome) {
@@ -732,25 +679,21 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         updatePostingStats(assetIncreaseDoc);
-        
+
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
         createCashSweepProcessedReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDecreaseDoc
      * @param isIncome
      */
     private void writeProcessedTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
 
-        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE,
-                assetDecreaseDoc.getDocumentNumber(),
-                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+        TransactionDocumentTotalReportLine createCashSweepProcessedReportValues = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, assetDecreaseDoc.getDocumentNumber(), assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getSourceTransactionLines();
         for (EndowmentTransactionLine tranLine : transLines) {
             if (isIncome) {
@@ -763,26 +706,22 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         updatePostingStats(assetDecreaseDoc);
-        
+
         createCashSweepProcessedReportWriterService.writeTableRow(createCashSweepProcessedReportValues);
         createCashSweepProcessedReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetIncreaseDoc
      * @param tranLine
      * @param isIncome
      */
     private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
-        
-        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, 
-                assetIncreaseDoc.getDocumentNumber(),
-                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+
+        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, assetIncreaseDoc.getDocumentNumber(), assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         if (tranLine != null) {
             createCashSweepExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
@@ -795,26 +734,22 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         updateErrorStats(assetIncreaseDoc);
-        
+
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDecreaseDoc
      * @param tranLine
      * @param isIncome
      */
     private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
-        
-        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, 
-                assetDecreaseDoc.getDocumentNumber(),
-                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+
+        TransactionDocumentExceptionReportLine createCashSweepExceptionReportValues = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, assetDecreaseDoc.getDocumentNumber(), assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         if (tranLine != null) {
             createCashSweepExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
@@ -827,11 +762,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         updateErrorStats(assetDecreaseDoc);
-        
+
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
      * Writes the reason row and inserts a blank line.
      * 
@@ -841,15 +776,13 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         EndowmentExceptionReportHeader createCashSweepExceptionReportReason = new EndowmentExceptionReportHeader();
         createCashSweepExceptionReportReason.setColumnHeading1("Reason: ");
         createCashSweepExceptionReportReason.setColumnHeading2(reasonMessage);
-        
+
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportReason);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * Initialize the report document headers.
-     *
      */
     private void writeHeaders() {
         createCashSweepExceptionReportWriterService.writeNewLines(1);
@@ -857,19 +790,18 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         createCashSweepExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
         createCashSweepProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDocument
      */
     private void updatePostingStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
-               
+
         String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
         ReportDocumentStatistics stats = statistics.get(documentTypeName);
-        
-        // If null that means there isn't one in the map, so create it and add 
+
+        // If null that means there isn't one in the map, so create it and add
         // it to the map.
         if (stats == null) {
             stats = new ReportDocumentStatistics(documentTypeName);
@@ -877,59 +809,57 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
         stats.addNumberOfSourceTransactionLines(assetDocument.getSourceTransactionLines().size());
         stats.addNumberOfTargetTransactionLines(assetDocument.getTargetTransactionLines().size());
-       
+
         stats.incrementNumberOfDocuments();
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDocument
      */
     private void updateErrorStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
-        
+
         String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
-        ReportDocumentStatistics stats  = statistics.get(documentTypeName);
-        
-        // If null that means there isn't one in the map, so create it and add 
+        ReportDocumentStatistics stats = statistics.get(documentTypeName);
+
+        // If null that means there isn't one in the map, so create it and add
         // it to the map.
         if (stats == null) {
             stats = new ReportDocumentStatistics(documentTypeName);
             statistics.put(documentTypeName, stats);
         }
-        
+
         stats.incrementNumberOfErrors();
     }
-    
+
     /**
-     * 
      * Write out the statistics.
-     *
      */
     private void writeStatistics() {
-        
+
         for (Map.Entry<String, ReportDocumentStatistics> entry : statistics.entrySet()) {
-            
+
             ReportDocumentStatistics stats = entry.getValue();
-            
+
             createCashSweepProcessedReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
             createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createCashSweepProcessedReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createCashSweepProcessedReportWriterService.writeStatisticLine("", "");
-            
+
             createCashSweepExceptionReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
             createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createCashSweepExceptionReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createCashSweepExceptionReportWriterService.writeStatisticLine("", "");
         }
-        
+
     }
-    
+
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -938,6 +868,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the kemService attribute value.
+     * 
      * @param kemService The kemService to set.
      */
     public void setKemService(KEMService kemService) {
@@ -946,6 +877,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the kemidService attribute value.
+     * 
      * @param kemidService The kemidService to set.
      */
     public void setKemidService(KEMIDService kemidService) {
@@ -954,6 +886,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the documentService attribute value.
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -962,6 +895,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the kualiRuleService attribute value.
+     * 
      * @param kualiRuleService The kualiRuleService to set.
      */
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
@@ -970,6 +904,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -978,6 +913,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the createCashSweepExceptionReportWriterService attribute value.
+     * 
      * @param createCashSweepExceptionReportWriterService The createCashSweepExceptionReportWriterService to set.
      */
     public void setCreateCashSweepExceptionReportWriterService(ReportWriterService createCashSweepExceptionReportWriterService) {
@@ -986,6 +922,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the createCashSweepProcessedReportWriterService attribute value.
+     * 
      * @param createCashSweepProcessedReportWriterService The createCashSweepProcessedReportWriterService to set.
      */
     public void setCreateCashSweepProcessedReportWriterService(ReportWriterService createCashSweepProcessedReportWriterService) {
@@ -994,6 +931,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the configService attribute value.
+     * 
      * @param configService The configService to set.
      */
     public void setConfigService(KualiConfigurationService configService) {
@@ -1002,6 +940,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the cashSweepModelDao attribute value.
+     * 
      * @param cashSweepModelDao The cashSweepModelDao to set.
      */
     public void setCashSweepModelDao(CashSweepModelDao cashSweepModelDao) {
@@ -1010,6 +949,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the dataDictionaryService attribute value.
+     * 
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -1018,6 +958,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the updateEaiTaxLotService attribute value.
+     * 
      * @param updateEaiTaxLotService The updateEaiTaxLotService to set.
      */
     public void setUpdateEaiTaxLotService(UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService) {
@@ -1026,10 +967,11 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
     /**
      * Sets the updateEadTaxLotService attribute value.
+     * 
      * @param updateEadTaxLotService The updateEadTaxLotService to set.
      */
     public void setUpdateEadTaxLotService(UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService) {
         this.updateEadTaxLotService = updateEadTaxLotService;
     }
-    
+
 }

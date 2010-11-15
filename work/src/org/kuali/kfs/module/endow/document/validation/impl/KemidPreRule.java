@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidAgreement;
 import org.kuali.kfs.module.endow.businessobject.KemidAuthorizations;
@@ -60,7 +60,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         boolean preRulesOK = true;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowConstants.EndowmentSystemParameter.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         setupConvenienceObjects(maintenanceDocument);
 

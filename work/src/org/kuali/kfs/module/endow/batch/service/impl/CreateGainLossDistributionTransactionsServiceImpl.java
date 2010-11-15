@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.CreateGainLossDistributionTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.CreateGainLossDistributionTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
@@ -245,10 +246,10 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         String documentDescription = "";
 
         if (isShortTerm) {
-            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
+            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION);
         }
         else {
-            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.LONG_TERM_GAIN_LOSS_DESCRIPTION);
+            documentDescription = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.LONG_TERM_GAIN_LOSS_DESCRIPTION);
         }
 
         try {
@@ -405,7 +406,7 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
 
         if (rulesPassed) {
 
-            String noRouteIndVal = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND);
+            String noRouteIndVal = parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {

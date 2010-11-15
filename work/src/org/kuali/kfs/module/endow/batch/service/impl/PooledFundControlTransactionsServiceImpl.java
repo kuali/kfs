@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.PooledFundControlTransactionsStep;
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
@@ -99,14 +100,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAI
      */
     protected boolean createCashDocumentByTrasnactionSecurityCostForEAI() {
-        return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);       
+        return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, EndowParameterKeyConstants.PURCHASE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);       
     }
 
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAD
      */
     protected boolean createCashDocumentByTrasnactionSecurityCostForEAD() {        
-        return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);          
+        return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, EndowParameterKeyConstants.SALE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.SALE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);          
     }
     
     /**
@@ -171,9 +172,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is 'recovering' (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount.isPositive()) {
-                if (!createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
+                if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
             } else if (totalAmount.isNegative()) {
-                if (createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
+                if (createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
             }
         }    
         
@@ -202,9 +203,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             
             // create a cash document per security id of pooled fund control
             if (totalAmount.isPositive()) {
-                if (!createECI(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
+                if (!createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
             } else if (totalAmount.isNegative()) {
-                if (!createECDD(pooledFundControl, totalAmount, EndowConstants.EndowmentSystemParameter.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowConstants.EndowmentSystemParameter.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
+                if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
             }
         }
         

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject.defaultvalue;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -30,7 +31,7 @@ public class NextKEMIDFinder implements ValueFinder {
      */
     public String getValue() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowConstants.EndowmentSystemParameter.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         if (EndowConstants.KemidValueOptions.AUTOMATIC.equals(kemidValueSystemParam)) {
             return getLongValue().toString();

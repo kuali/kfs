@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.CurrentTaxLotBalanceUpdateStep;
 import org.kuali.kfs.module.endow.batch.service.CurrentTaxLotBalanceUpdateService;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
@@ -91,7 +91,7 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
         boolean systemParameterExists = true;
         
         // check to make sure the system parameter has been setup...
-        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH)) {
+        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH)) {
           LOG.warn("FISCAL_YEAR_END_DAY_AND_MONTH System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,7 +40,7 @@ public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyV
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", ""));
         
-        List<String> documentTypeNames = SpringContext.getBean(ParameterService.class).getParameterValues(EndowmentRecurringCashTransfer.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES);
+        List<String> documentTypeNames = SpringContext.getBean(ParameterService.class).getParameterValues(EndowmentRecurringCashTransfer.class, EndowParameterKeyConstants.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES);
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
 
         String label= null;

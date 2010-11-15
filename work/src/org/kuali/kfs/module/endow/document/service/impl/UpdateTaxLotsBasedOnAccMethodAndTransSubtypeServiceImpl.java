@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
@@ -56,7 +57,7 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
     public void updateTransactionLineTaxLots(boolean isUpdate, EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument, EndowmentTransactionLine transLine) {
 
         EndowmentTransactionSecurity endowmentTransactionSecurity = endowmentTaxLotLinesDocument.getSourceTransactionSecurity();
-        String accountingMethod = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.TAX_LOTS_ACCOUNTING_METHOD);
+        String accountingMethod = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.TAX_LOTS_ACCOUNTING_METHOD);
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
         if (ObjectUtils.isNotNull(security)) {

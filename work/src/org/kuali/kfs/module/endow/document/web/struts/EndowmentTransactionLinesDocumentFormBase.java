@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
@@ -742,7 +743,7 @@ public abstract class EndowmentTransactionLinesDocumentFormBase extends Financia
      * @return the URL to the accounting line import instructions
      */
     public String getTransactionLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowConstants.EndowmentSystemParameter.ENDOWMENT_TRANSACTION_LINE_IMPORT);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowParameterKeyConstants.ENDOWMENT_TRANSACTION_LINE_IMPORT);
     }
 
     /**

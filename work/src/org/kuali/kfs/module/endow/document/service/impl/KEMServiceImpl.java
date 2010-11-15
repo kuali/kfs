@@ -131,7 +131,7 @@ public class KEMServiceImpl implements KEMService {
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String curentSystemProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE);
+        String curentSystemProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
 
         return curentSystemProcessDate;
     }
@@ -165,7 +165,7 @@ public class KEMServiceImpl implements KEMService {
      */
     public java.sql.Date getCurrentDate() {
         java.sql.Date currentDate = null;
-        String useProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowConstants.EndowmentSystemParameter.USE_PROCESS_DATE);
+        String useProcessDate = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_ALL.class, EndowParameterKeyConstants.USE_PROCESS_DATE);
 
         if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(useProcessDate)) {
             currentDate = getCurrentProcessDate();
@@ -187,7 +187,7 @@ public class KEMServiceImpl implements KEMService {
             date = dateTimeService.convertToSqlDate(currentProcessDate);
         }
         catch (ParseException ex) {
-            throw new RuntimeException("Invalid value for " + EndowConstants.EndowmentSystemParameter.CURRENT_PROCESS_DATE + " system parameter: " + currentProcessDate + ".\n" + ex.getMessage());
+            throw new RuntimeException("Invalid value for " + EndowParameterKeyConstants.CURRENT_PROCESS_DATE + " system parameter: " + currentProcessDate + ".\n" + ex.getMessage());
         }
 
         return date;
@@ -217,7 +217,7 @@ public class KEMServiceImpl implements KEMService {
         java.sql.Date fiscalDate = null;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String yearEndDateAndMonth = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String yearEndDateAndMonth = parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH);
 
         Calendar calendar = Calendar.getInstance();
         
@@ -240,7 +240,7 @@ public class KEMServiceImpl implements KEMService {
         long totalNumberOfPayments = 2;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String totalPayments = parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR);
+        String totalPayments = parameterService.getParameterValue(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR);
         
         try {
             totalNumberOfPayments = Long.parseLong(totalPayments);
@@ -295,7 +295,7 @@ public class KEMServiceImpl implements KEMService {
         int maximumNumberOfTransactionLines = EndowConstants.MAXIMUM_NUMBER_OF_LINES_PER_EDOC;
         
         try { 
-            maximumNumberOfTransactionLines = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
+            maximumNumberOfTransactionLines = Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
         }
         catch (NumberFormatException ex) {
             return maximumNumberOfTransactionLines;

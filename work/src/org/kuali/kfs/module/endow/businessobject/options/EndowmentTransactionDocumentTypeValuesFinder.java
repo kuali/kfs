@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,7 +46,7 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
         
         // Read in parameter values.
         List<String> documentTypeNames =
-            parameterService.getParameterValues(TransactionArchive.class, EndowConstants.EndowmentSystemParameter.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
+            parameterService.getParameterValues(TransactionArchive.class, EndowParameterKeyConstants.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
         String label= null;
         for (String documentTypeName : documentTypeNames) {
             if(documentTypeService.findByName(documentTypeName)== null){

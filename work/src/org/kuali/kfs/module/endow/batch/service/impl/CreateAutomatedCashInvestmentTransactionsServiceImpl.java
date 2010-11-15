@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateAutomatedCashInvestmentTransactionsStep;
 import org.kuali.kfs.module.endow.batch.reporter.ReportDocumentStatistics;
@@ -74,9 +75,9 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateAutomatedCashInvestmentTransactionsServiceImpl.class);
     private static final String SUBMIT_DOCUMENT_DESCRIPTION = "Created by Create Automated Cash Investment Transactions Batch Process.";
-    
+
     private Map<String, ReportDocumentStatistics> statistics = new HashMap<String, ReportDocumentStatistics>();
-    
+
     private ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService;
     private ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService;
     private UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService;
@@ -91,62 +92,61 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private SecurityService securityService;
     private KEMIDService kemidService;
     private KEMService kemService;
-    
+
     /**
      * @see org.kuali.kfs.module.endow.batch.service.CreateAutomatedCashInvestmentTransactionsService#createACITransactions()
      */
     public boolean createAciTransactions() {
-        
+
         LOG.info("Starting \"Create Automated Cash Investments Transactions\" batch job...");
         writeHeaders();
-        
+
         for (AutomatedCashInvestmentModel aciModel : getAutomatedCashInvestmentModelMatchingCurrentDate()) {
-            
+
             List<KEMID> principleKemids = new ArrayList<KEMID>(kemidService.getByPrincipleAciId(aciModel.getAciModelID()));
-            List<KEMID> incomeKemids    = new ArrayList<KEMID>(kemidService.getByIncomeAciId(aciModel.getAciModelID()));
-            
+            List<KEMID> incomeKemids = new ArrayList<KEMID>(kemidService.getByIncomeAciId(aciModel.getAciModelID()));
+
             // Process for increase documents.
             processAssetIncreaseDocs(principleKemids, aciModel, false);
             processAssetIncreaseDocs(incomeKemids, aciModel, true);
-            
+
             // Process for decrease documents.
             processAssetDecreaseDocs(principleKemids, aciModel, false);
             processAssetDecreaseDocs(incomeKemids, aciModel, true);
         }
-        
+
         writeStatistics();
         LOG.info("Finished \"Create Automated Cash Investments Transactions\" batch job!");
-        
-        return true;        
+
+        return true;
     }
 
     /**
-     * 
      * Process all the asset increase documents for income and principle types.
-     *
+     * 
      * @param kemid
      * @param aciModel
      */
     private void processAssetIncreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
-        
+
         // An asset increase document for each of the pooled investments.
         AssetIncreaseDocument assetIncreaseDoc1 = null;
         AssetIncreaseDocument assetIncreaseDoc2 = null;
         AssetIncreaseDocument assetIncreaseDoc3 = null;
         AssetIncreaseDocument assetIncreaseDoc4 = null;
-        
-        // Get the percentages.  We'll only process investments with
+
+        // Get the percentages. We'll only process investments with
         // percentages greater than zero.
         BigDecimal inv1Percent = aciModel.getInvestment1Percent();
         BigDecimal inv2Percent = aciModel.getInvestment2Percent();
         BigDecimal inv3Percent = aciModel.getInvestment3Percent();
         BigDecimal inv4Percent = aciModel.getInvestment4Percent();
-        
+
         for (int i = 0; i < kemids.size(); i++) {
-            
+
             // Get the KEMID at the current index.
             KEMID kemid = kemids.get(i);
-            
+
             // Get the principle/income cash equivalent.
             BigDecimal cashEquivalent = getCashEquivalent(kemid, isIncome);
 
@@ -159,7 +159,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 assetIncreaseDoc4 = processCashInvestmentForAssetIncrease(aciModel, isIncome, assetIncreaseDoc4, inv4Percent, i, kemid, cashEquivalent, 4);
             }
         }
-        
+
         // Route documents that may still need routing.
         performCleanUpForAssetIncrease(isIncome, assetIncreaseDoc1);
         performCleanUpForAssetIncrease(isIncome, assetIncreaseDoc2);
@@ -168,33 +168,32 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
 
     /**
-     * 
      * Process all the asset decrease documents for income and principle types.
-     *
+     * 
      * @param kemids
      * @param aciModel
      * @param isIncome
      */
     private void processAssetDecreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
-        
+
         // An asset increase document for each of the pooled investments.
         AssetDecreaseDocument assetDecreaseDoc1 = null;
         AssetDecreaseDocument assetDecreaseDoc2 = null;
         AssetDecreaseDocument assetDecreaseDoc3 = null;
         AssetDecreaseDocument assetDecreaseDoc4 = null;
-        
-        // Get the percentages.  We'll only process investments with
+
+        // Get the percentages. We'll only process investments with
         // percentages greater than zero.
         BigDecimal inv1Percent = aciModel.getInvestment1Percent();
         BigDecimal inv2Percent = aciModel.getInvestment2Percent();
         BigDecimal inv3Percent = aciModel.getInvestment3Percent();
         BigDecimal inv4Percent = aciModel.getInvestment4Percent();
-        
+
         for (int i = 0; i < kemids.size(); i++) {
-            
+
             // Get the KEMID at the current index.
             KEMID kemid = kemids.get(i);
-            
+
             // Get the principle/income cash equivalent.
             BigDecimal cashEquivalent = getCashEquivalent(kemid, isIncome);
 
@@ -207,20 +206,18 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 assetDecreaseDoc4 = processCashInvestmentForAssetDecrease(aciModel, isIncome, assetDecreaseDoc4, inv4Percent, i, kemid, cashEquivalent, 4);
             }
         }
-        
+
         // Route documents that may still need routing.
         performCleanUpForAssetDecrease(isIncome, assetDecreaseDoc1);
         performCleanUpForAssetDecrease(isIncome, assetDecreaseDoc2);
         performCleanUpForAssetDecrease(isIncome, assetDecreaseDoc3);
         performCleanUpForAssetDecrease(isIncome, assetDecreaseDoc4);
     }
-    
+
     /**
+     * Verify that we don't need to do any clean-up. There could still be some let over transaction lines, less than the max amount
+     * that need to still be processed on the current eDoc.
      * 
-     * Verify that we don't need to do any clean-up.  There could still be
-     * some let over transaction lines, less than the max amount that need
-     * to still be processed on the current eDoc.
-     *
      * @param isIncome
      * @param assetIncreaseDoc
      */
@@ -230,13 +227,11 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
         }
     }
-    
+
     /**
+     * Verify that we don't need to do any clean-up. There could still be some let over transaction lines, less than the max amount
+     * that need to still be processed on the current eDoc.
      * 
-     * Verify that we don't need to do any clean-up.  There could still be
-     * some let over transaction lines, less than the max amount that need
-     * to still be processed on the current eDoc.
-     *
      * @param isIncome
      * @param assetIncreaseDoc
      */
@@ -248,9 +243,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
 
     /**
-     * 
      * Helper method for processing the cash investments for asset decrease documents.
-     *
+     * 
      * @param aciModel
      * @param isIncome
      * @param assetDecreaseDoc
@@ -262,11 +256,11 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private AssetDecreaseDocument processCashInvestmentForAssetDecrease(AutomatedCashInvestmentModel aciModel, boolean isIncome, AssetDecreaseDocument assetDecreaseDoc, BigDecimal invPercent, int i, KEMID kemid, BigDecimal cashEquivalent, int inv) {
-        
+
         if (invPercent != null && invPercent.compareTo(BigDecimal.ZERO) != 0) {
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
-            String invSecurityId       = getInvSecurityId(aciModel, inv);
-            
+            String invSecurityId = getInvSecurityId(aciModel, inv);
+
             // Initialize the asset decrease doc if null.
             if (assetDecreaseDoc == null) {
                 assetDecreaseDoc = createAssetDecrease(invSecurityId, invRegistrationCode);
@@ -276,22 +270,21 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             addTransactionLineForAssetDecrease(assetDecreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
 
             // Check to see if we've reached our max number of transaction lines
-            // per eDoc.  If so, validate, and submit the current eDoc and start
+            // per eDoc. If so, validate, and submit the current eDoc and start
             // another eDoc.
-            if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
+            if ((i != 0) && (i % getMaxNumberOfTransactionLines() == 0)) {
                 // Validate and route the document.
                 routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
                 assetDecreaseDoc = createAssetDecrease(invSecurityId, invRegistrationCode);
             }
         }
-        
+
         return assetDecreaseDoc;
     }
-    
+
     /**
-     * 
      * Helper method for processing the cash investments for asset increase documents.
-     *
+     * 
      * @param aciModel
      * @param isIncome
      * @param assetIncreaseDoc
@@ -303,10 +296,10 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private AssetIncreaseDocument processCashInvestmentForAssetIncrease(AutomatedCashInvestmentModel aciModel, boolean isIncome, AssetIncreaseDocument assetIncreaseDoc, BigDecimal invPercent, int i, KEMID kemid, BigDecimal cashEquivalent, int inv) {
-        
+
         if (invPercent != null && invPercent.compareTo(BigDecimal.ZERO) != 0) {
             String invRegistrationCode = getInvRegistrationCode(aciModel, inv);
-            String invSecurityId       = getInvSecurityId(aciModel, inv);
+            String invSecurityId = getInvSecurityId(aciModel, inv);
 
             // Initialize the asset increase doc if null.
             if (assetIncreaseDoc == null) {
@@ -317,30 +310,29 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             addTransactionLineForAssetIncrease(assetIncreaseDoc, aciModel, kemid.getKemid(), cashEquivalent, inv, isIncome);
 
             // Check to see if we've reached our max number of transaction lines
-            // per eDoc.  If so, validate, and submit the current eDoc and start
+            // per eDoc. If so, validate, and submit the current eDoc and start
             // another eDoc.
-            if ((i != 0) && (i%getMaxNumberOfTransactionLines() == 0)) {
+            if ((i != 0) && (i % getMaxNumberOfTransactionLines() == 0)) {
                 // Validate and route the document.
                 routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
                 assetIncreaseDoc = createAssetIncrease(invSecurityId, invRegistrationCode);
             }
         }
-        
+
         return assetIncreaseDoc;
     }
-    
+
     /**
      * Validates the asset decrease document and routes it.
      * 
-     *
      * @param assetDecreaseDoc
      * @param isIncome
      */
     private void routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
-        
+
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetDecreaseDoc));
-        
+
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
             boolean noRouteIndicator = getNoRouteIndicator(true);
@@ -370,17 +362,17 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
     }
-    
+
     /**
      * Validates the asset increase document and routes it.
      * 
      * @param assetIncreaseDoc
      */
     private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
-        
+
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetIncreaseDoc));
-        
+
         // If the document passed validations, route it accordingly.
         if (rulesPassed) {
             boolean noRouteIndicator = getNoRouteIndicator(false);
@@ -410,12 +402,10 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
     }
-    
+
     /**
+     * Creates a new transaction line, validates, and adds it to the asset decrease document.
      * 
-     * Creates a new transaction line, validates, and adds it to the asset
-     * decrease document.
-     *
      * @param assetDecreaseDoc
      * @param aciModel
      * @param kemid
@@ -425,16 +415,16 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     private void addTransactionLineForAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, AutomatedCashInvestmentModel aciModel, String kemid, BigDecimal cashEquivalent, int inv, boolean isIncome) {
         UnitAmountAssociation unitAmount = calculateUnitAmount(aciModel, cashEquivalent, inv);
-        
+
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), true);
-        
+
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_SOURCE_TRAN_LINE_PROPERTY_NAME, assetDecreaseDoc, transactionLine));
-        
+
         // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
-            assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine)transactionLine);
+            assetDecreaseDoc.addSourceTransactionLine((EndowmentSourceTransactionLine) transactionLine);
             updateEadTaxLotService.updateTransactionLineTaxLots(assetDecreaseDoc, transactionLine);
         }
         else {
@@ -445,28 +435,26 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
     }
-    
+
     /**
+     * Creates a new transaction line, validates, and adds it to the asset increase document.
      * 
-     * Creates a new transaction line, validates, and adds it to the asset
-     * increase document.
-     *
      * @param assetIncreaseDoc
      * @param aciModel
      * @param cashEquivalent
      */
     private void addTransactionLineForAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, AutomatedCashInvestmentModel aciModel, String kemid, BigDecimal cashEquivalent, int inv, boolean isIncome) {
         UnitAmountAssociation unitAmount = calculateUnitAmount(aciModel, cashEquivalent, inv);
-        
+
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetIncreaseDoc.getDocumentNumber(), kemid, aciModel.getIpIndicator(), unitAmount.getAmount(), unitAmount.getUnits(), false);
-        
+
         // Validate the transaction line.
         boolean rulesPassed = kualiRuleService.applyRules(new AddTransactionLineEvent(NEW_TARGET_TRAN_LINE_PROPERTY_NAME, assetIncreaseDoc, transactionLine));
-        
+
         // If the transaction line passes validation, add it to the document.
         if (rulesPassed) {
-            assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine)transactionLine);
+            assetIncreaseDoc.addTargetTransactionLine((EndowmentTargetTransactionLine) transactionLine);
             updateEaiTaxLotService.updateTransactionLineTaxLots(assetIncreaseDoc, transactionLine);
         }
         else {
@@ -477,11 +465,10 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
     }
-    
+
     /**
-     * 
      * Creates a new transaction line.
-     *
+     * 
      * @param kemid
      * @param etranCode
      * @param amount
@@ -490,7 +477,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return
      */
     private EndowmentTransactionLine createTransactionLine(String docNumber, String kemid, String ipIndicator, BigDecimal amount, BigDecimal units, boolean isSource) {
-        
+
         EndowmentTransactionLine transactionLine = null;
         if (isSource) {
             transactionLine = new EndowmentSourceTransactionLine();
@@ -498,27 +485,26 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         else {
             transactionLine = new EndowmentTargetTransactionLine();
         }
-        
+
         // Set values on the transaction line.
         transactionLine.setDocumentNumber(docNumber);
         transactionLine.setKemid(kemid);
         transactionLine.setTransactionIPIndicatorCode(ipIndicator);
         transactionLine.setTransactionAmount(new KualiDecimal(amount));
         transactionLine.setTransactionUnits(new KualiDecimal(units));
-        
+
         return transactionLine;
     }
-    
+
     /**
-     * 
      * Get the registration code for the specified investment.
-     *
+     * 
      * @param aciModel
      * @param inv
      * @return
      */
     private String getInvRegistrationCode(AutomatedCashInvestmentModel aciModel, int inv) {
-        
+
         String invRegistrationCode = "";
         switch (inv) {
             case 1:
@@ -534,13 +520,13 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 invRegistrationCode = aciModel.getInvestment4().getFundRegistrationCode();
                 break;
         }
-        
+
         return invRegistrationCode;
     }
-    
+
     /**
      * Get the security id from the specified investment.
-     *
+     * 
      * @param aciModel
      * @param inv
      * @return
@@ -562,14 +548,13 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 invSecurityId = aciModel.getInvestment4SecurityID();
                 break;
         }
-        
+
         return invSecurityId;
     }
-    
+
     /**
-     * 
      * Gets the correct sale offset code for the specified investment.
-     *
+     * 
      * @param aciModel
      * @param inv
      * @return
@@ -590,56 +575,55 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 offsetCode = aciModel.getInvestment4().getFundAssetSaleOffsetTranCode();
                 break;
         }
-        
+
         return offsetCode;
     }
-    
+
     /**
-     * 
      * Calculates the unite amount for the specified investment.
-     *
+     * 
      * @param aciModel
      * @param cashEquivalent
      * @param inv
      * @return
      */
     private UnitAmountAssociation calculateUnitAmount(AutomatedCashInvestmentModel aciModel, BigDecimal cashEquivalent, int inv) {
-        
-        BigDecimal invPercent     = null;
-        BigDecimal invUnitValue   = null;
-        BigDecimal invCashNeeded  = null;
-        BigDecimal invAmount      = null;
-        BigDecimal invUnits       = null;
-        
-        boolean allowsFractions   = false;
-        
-        switch(inv) {
+
+        BigDecimal invPercent = null;
+        BigDecimal invUnitValue = null;
+        BigDecimal invCashNeeded = null;
+        BigDecimal invAmount = null;
+        BigDecimal invUnits = null;
+
+        boolean allowsFractions = false;
+
+        switch (inv) {
             case 1:
-                invPercent   = aciModel.getInvestment1Percent();
+                invPercent = aciModel.getInvestment1Percent();
                 invUnitValue = aciModel.getInvestment1().getSecurity().getUnitValue();
                 allowsFractions = aciModel.getInvestment1().isAllowFractionalShares();
                 break;
             case 2:
-                invPercent   = aciModel.getInvestment2Percent();
+                invPercent = aciModel.getInvestment2Percent();
                 invUnitValue = aciModel.getInvestment2().getSecurity().getUnitValue();
                 allowsFractions = aciModel.getInvestment1().isAllowFractionalShares();
                 break;
             case 3:
-                invPercent   = aciModel.getInvestment3Percent();
+                invPercent = aciModel.getInvestment3Percent();
                 invUnitValue = aciModel.getInvestment3().getSecurity().getUnitValue();
                 allowsFractions = aciModel.getInvestment1().isAllowFractionalShares();
                 break;
             case 4:
-                invPercent   = aciModel.getInvestment4Percent();
+                invPercent = aciModel.getInvestment4Percent();
                 invUnitValue = aciModel.getInvestment4().getSecurity().getUnitValue();
                 allowsFractions = aciModel.getInvestment1().isAllowFractionalShares();
                 break;
         }
-        
+
         if (invPercent != null) {
             try {
                 invCashNeeded = new BigDecimal(invPercent.multiply(cashEquivalent).doubleValue());
-                invUnits      = invCashNeeded.divide(invUnitValue, 5, RoundingMode.HALF_UP);
+                invUnits = invCashNeeded.divide(invUnitValue, 5, RoundingMode.HALF_UP);
 
                 if (!allowsFractions) {
                     // Round the units down.
@@ -655,7 +639,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
         return (new UnitAmountAssociation(invAmount, invUnits));
     }
-    
+
     /**
      * Get the max number of transaction lines allowed per document.
      * 
@@ -664,10 +648,9 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     private int getMaxNumberOfTransactionLines() {
         return kemService.getMaxNumberOfTransactionLinesPerDocument();
     }
-    
+
     /**
-     * Gets the appropriate approval indicator based on if it's for a sale or
-     * purchase type.
+     * Gets the appropriate approval indicator based on if it's for a sale or purchase type.
      * 
      * @param isSale
      * @return
@@ -676,129 +659,125 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         boolean noRouteIndicator = isSale ? getSaleNoRouteIndicator() : getPurchaseNoRouteIndicator();
         return noRouteIndicator;
     }
-    
+
     /**
-     * This method returns the true or false value of the purchase
-     * no route indicator.
+     * This method returns the true or false value of the purchase no route indicator.
+     * 
      * @return
      */
     private boolean getPurchaseNoRouteIndicator() {
-      String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_NO_ROUTE_IND);
-      return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
+        String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
+        return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
-    
+
     /**
-     * This method returns the true or false value of the sale
-     * no route indicator.
+     * This method returns the true or false value of the sale no route indicator.
+     * 
      * @return
      */
     private boolean getSaleNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
-    
+
     /**
-     * 
      * Creates and initializes an asset decrease document type.
-     *
+     * 
      * @param securityId
      * @param registrationCode
      * @return
      */
     private AssetDecreaseDocument createAssetDecrease(String securityId, String registrationCode) {
-        
+
         AssetDecreaseDocument assetDecrease = null;
         try {
-            assetDecrease = (AssetDecreaseDocument)documentService.getNewDocument(AssetDecreaseDocument.class);
-            
+            assetDecrease = (AssetDecreaseDocument) documentService.getNewDocument(AssetDecreaseDocument.class);
+
             // Set the document description.
             DocumentHeader docHeader = assetDecrease.getDocumentHeader();
             docHeader.setDocumentDescription(getPurchaseDescription());
             assetDecrease.setDocumentHeader(docHeader);
-            
+
             // Set the sub type code to cash.
             assetDecrease.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-            
+
             // Create and set the target security transaction line.
             EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
             sourceTransactionSecurity.setSecurityLineTypeCode(EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE);
             sourceTransactionSecurity.setRegistrationCode(registrationCode);
             sourceTransactionSecurity.setSecurityID(securityId);
-            
+
             assetDecrease.setSourceTransactionSecurity(sourceTransactionSecurity);
         }
         catch (WorkflowException ex) {
             writeExceptionTableReason("Workflow error while trying to create EAI document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
-        
-       return assetDecrease; 
+
+        return assetDecrease;
     }
-    
+
     /**
-     * 
      * Creates and initializes an asset increase document type.
-     *
+     * 
      * @param securityId
      * @param registrationCode
      * @return
      */
     private AssetIncreaseDocument createAssetIncrease(String securityId, String registrationCode) {
-        
+
         AssetIncreaseDocument assetIncrease = null;
         try {
-            assetIncrease = (AssetIncreaseDocument)documentService.getNewDocument(AssetIncreaseDocument.class);
-            
+            assetIncrease = (AssetIncreaseDocument) documentService.getNewDocument(AssetIncreaseDocument.class);
+
             // Set the document description.
             DocumentHeader docHeader = assetIncrease.getDocumentHeader();
             docHeader.setDocumentDescription(getPurchaseDescription());
             assetIncrease.setDocumentHeader(docHeader);
-            
+
             // Set the sub type code to cash.
             assetIncrease.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
-            
+
             // Create and set the target security transaction line.
             EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
             targetTransactionSecurity.setSecurityLineTypeCode(EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET);
             targetTransactionSecurity.setRegistrationCode(registrationCode);
             targetTransactionSecurity.setSecurityID(securityId);
-            
+
             assetIncrease.setTargetTransactionSecurity(targetTransactionSecurity);
         }
         catch (WorkflowException ex) {
             writeExceptionTableReason("Workflow error while trying to create EAI document: " + ex.getLocalizedMessage());
             LOG.error(ex.getLocalizedMessage());
         }
-        
-       return assetIncrease; 
+
+        return assetIncrease;
     }
-    
+
     /**
-     * 
      * Returns the appropriate principle/income cash equivalent.
-     *
+     * 
      * @param kemid
      * @param isIncome
      * @return BigDecimal
      */
     private BigDecimal getCashEquivalent(KEMID kemid, boolean isIncome) {
-        
+
         BigDecimal cashEquivalent;
-        
+
         if (!isIncome) {
             cashEquivalent = calculatePrincipleCashEquivalent(kemid.getKemid());
         }
         else {
             cashEquivalent = calculateIncomeCashEquivalent(kemid.getKemid());
         }
-        
+
         return cashEquivalent;
     }
-    
+
     /**
-     * 
      * Calculates the total market value for cash class code.
-     *
+     * 
      * @param kemid
      * @param ipIndicator
      * @return
@@ -807,13 +786,13 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
         // Used to calculate the total market value.
         BigDecimal totalMarketValue = new BigDecimal(BigInteger.ZERO);
-        
+
         // Build the criteria used for getting the KEMIDs.
         Map<String, String> map = new HashMap<String, String>();
         map.put(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
         map.put(EndowPropertyConstants.HOLDING_TAX_LOT_INCOME_PRINCIPAL_INDICATOR, ipIndicator);
-        
-        // Get all the holding tax lots that match the kemid and ipIndicator.  Next, filter out
+
+        // Get all the holding tax lots that match the kemid and ipIndicator. Next, filter out
         // those that are not cash equivalent, based on their class code type.
         Collection<HoldingTaxLot> hldgTaxLots = businessObjectService.findMatching(HoldingTaxLot.class, map);
         for (HoldingTaxLot hldgTaxLot : hldgTaxLots) {
@@ -824,95 +803,86 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 }
             }
         }
-       
+
         return totalMarketValue;
     }
-    
+
     /**
-     * 
      * Calculates the principle cash equivalents.
-     *
+     * 
      * @param kemid
      * @return
      */
     private BigDecimal calculatePrincipleCashEquivalent(String kemid) {
         BigDecimal totalMarketValue = calculateTotalMarketValue(kemid, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
- 
+
         return getKemidCurrentPrincipalCash(kemid).add(totalMarketValue);
     }
-    
+
     /**
-     * 
      * Calculates the income cash equivalents.
-     *
+     * 
      * @param kemid
      * @return
      */
     private BigDecimal calculateIncomeCashEquivalent(String kemid) {
         BigDecimal totalMarketValue = calculateTotalMarketValue(kemid, EndowConstants.IncomePrincipalIndicator.INCOME);
-        
+
         return getKemidCurrentIncomeCash(kemid).add(totalMarketValue);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param kemid
      * @return
      */
     private BigDecimal getKemidCurrentPrincipalCash(String kemid) {
         KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid);
-        
+
         if (kemidCurrentCash == null) {
             writeExceptionTableReason("Recieved \'null\' value for END_CRNT_CSH_T for KEMID " + kemid);
             return new BigDecimal(BigInteger.ZERO);
         }
-        
+
         return kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue();
-     }
+    }
 
     /**
-     * 
      * This method...
-     *
+     * 
      * @param kemid
      * @return
      */
     private BigDecimal getKemidCurrentIncomeCash(String kemid) {
-       KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid);
-       
-       if (kemidCurrentCash == null) {
-           writeExceptionTableReason("Recieved \'null\' value for END_CRNT_CSH_T for KEMID " + kemid);
-           return new BigDecimal(BigInteger.ZERO);
-       }
-       return kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
+        KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid);
+
+        if (kemidCurrentCash == null) {
+            writeExceptionTableReason("Recieved \'null\' value for END_CRNT_CSH_T for KEMID " + kemid);
+            return new BigDecimal(BigInteger.ZERO);
+        }
+        return kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue();
     }
-    
+
     /**
-     * This method retrieves all the cash sweep models whose frequency code
-     * matches the current date.
+     * This method retrieves all the cash sweep models whose frequency code matches the current date.
      * 
      * @return Collection of CashSweepModel business objects
      */
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
         return automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate();
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetIncreaseDoc
      * @param isIncome
      */
     private void writeProcessedTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
 
-        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE,
-                assetIncreaseDoc.getDocumentNumber(),
-                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, assetIncreaseDoc.getDocumentNumber(), assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         List<EndowmentTransactionLine> transLines = assetIncreaseDoc.getTargetTransactionLines();
         for (EndowmentTransactionLine tranLine : transLines) {
             if (isIncome) {
@@ -925,25 +895,21 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
         updatePostingStats(assetIncreaseDoc);
-        
+
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDecreaseDoc
      * @param isIncome
      */
     private void writeProcessedTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
 
-        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE,
-                assetDecreaseDoc.getDocumentNumber(),
-                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+        TransactionDocumentTotalReportLine createAutomatedCashInvestmentProcessedReportValues = new TransactionDocumentTotalReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, assetDecreaseDoc.getDocumentNumber(), assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         List<EndowmentTransactionLine> transLines = assetDecreaseDoc.getTargetTransactionLines();
         for (EndowmentTransactionLine tranLine : transLines) {
             if (isIncome) {
@@ -956,26 +922,22 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
         updatePostingStats(assetDecreaseDoc);
-        
+
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableRow(createAutomatedCashInvestmentProcessedReportValues);
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDecreaseDoc
      * @param tranLine
      * @param isIncome
      */
     private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
-        
-        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, 
-                assetDecreaseDoc.getDocumentNumber(),
-                assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+
+        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, assetDecreaseDoc.getDocumentNumber(), assetDecreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         if (tranLine != null) {
             createAutomatedCashInvestmentExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
@@ -988,26 +950,22 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
         updateErrorStats(assetDecreaseDoc);
-        
+
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportValues);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetIncreaseDoc
      * @param tranLine
      * @param isIncome
      */
     private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, EndowmentTransactionLine tranLine, boolean isIncome) {
-        
-        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(
-                EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, 
-                assetIncreaseDoc.getDocumentNumber(),
-                assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
-        
+
+        TransactionDocumentExceptionReportLine createAutomatedCashInvestmentExceptionReportValues = new TransactionDocumentExceptionReportLine(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, assetIncreaseDoc.getDocumentNumber(), assetIncreaseDoc.getTargetTransactionSecurity().getSecurityID());
+
         if (tranLine != null) {
             createAutomatedCashInvestmentExceptionReportValues.setKemid(tranLine.getKemid());
             if (isIncome) {
@@ -1020,11 +978,11 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
             }
         }
         updateErrorStats(assetIncreaseDoc);
-        
+
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportValues);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
      * Writes the reason row and inserts a blank line.
      * 
@@ -1037,31 +995,28 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableRow(createAutomatedCashInvestmentExceptionReportReason);
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
     }
-    
+
     /**
-     * 
      * Initialize the report document headers.
-     *
      */
-    private void writeHeaders() { 
+    private void writeHeaders() {
         createAutomatedCashInvestmentExceptionReportWriterService.writeNewLines(1);
         createAutomatedCashInvestmentProcessedReportWriterService.writeNewLines(1);
         createAutomatedCashInvestmentExceptionReportWriterService.writeTableHeader(new TransactionDocumentExceptionReportLine());
         createAutomatedCashInvestmentProcessedReportWriterService.writeTableHeader(new TransactionDocumentTotalReportLine());
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDocument
      */
     private void updatePostingStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
-               
+
         String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
         ReportDocumentStatistics stats = statistics.get(documentTypeName);
-        
-        // If null that means there isn't one in the map, so create it and add 
+
+        // If null that means there isn't one in the map, so create it and add
         // it to the map.
         if (stats == null) {
             stats = new ReportDocumentStatistics(documentTypeName);
@@ -1069,76 +1024,77 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         }
         stats.addNumberOfSourceTransactionLines(assetDocument.getSourceTransactionLines().size());
         stats.addNumberOfTargetTransactionLines(assetDocument.getTargetTransactionLines().size());
-       
+
         stats.incrementNumberOfDocuments();
     }
-    
+
     /**
-     * 
      * This method...
-     *
+     * 
      * @param assetDocument
      */
     private void updateErrorStats(EndowmentTaxLotLinesDocumentBase assetDocument) {
-        
+
         String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(assetDocument.getClass());
-        ReportDocumentStatistics stats  = statistics.get(documentTypeName);
-        
-        // If null that means there isn't one in the map, so create it and add 
+        ReportDocumentStatistics stats = statistics.get(documentTypeName);
+
+        // If null that means there isn't one in the map, so create it and add
         // it to the map.
         if (stats == null) {
             stats = new ReportDocumentStatistics(documentTypeName);
             statistics.put(documentTypeName, stats);
         }
-        
+
         stats.incrementNumberOfErrors();
     }
-    
+
     /**
-     * 
      * Write out the statistics.
-     *
      */
     private void writeStatistics() {
-        
+
         for (Map.Entry<String, ReportDocumentStatistics> entry : statistics.entrySet()) {
-            
+
             ReportDocumentStatistics stats = entry.getValue();
-            
+
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createAutomatedCashInvestmentProcessedReportWriterService.writeStatisticLine("", "");
-            
+
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("%s Documents:", stats.getDocumentTypeName());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Documents Generated:            %d", stats.getNumberOfDocuments());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Transaction Lines Generated:    %d", stats.getTotalNumberOfTransactionLines());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("   Number of Error Records Written:          %d", stats.getNumberOfErrors());
             createAutomatedCashInvestmentExceptionReportWriterService.writeStatisticLine("", "");
         }
-        
+
     }
-    
+
     /**
      * Gets the purchase description parameter.
+     * 
      * @return
      */
     private String getPurchaseDescription() {
-        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowConstants.EndowmentSystemParameter.PURCHASE_DESCRIPTION);
+        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
     }
-    
+
     /**
      * Gets the sale description parameter.
+     * 
      * @return
      */
     private String getSaleDescription() {
-        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowConstants.EndowmentSystemParameter.SALE_DESCRIPTION);
+        return parameterService.getParameterValue(CreateAutomatedCashInvestmentTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
     }
-    
+
     /**
      * Sets the createAutomatedCashInvestmentExceptionReportWriterService attribute value.
-     * @param createAutomatedCashInvestmentExceptionReportWriterService The createAutomatedCashInvestmentExceptionReportWriterService to set.
+     * 
+     * @param createAutomatedCashInvestmentExceptionReportWriterService The
+     *        createAutomatedCashInvestmentExceptionReportWriterService to set.
      */
     public void setCreateAutomatedCashInvestmentExceptionReportWriterService(ReportWriterService createAutomatedCashInvestmentExceptionReportWriterService) {
         this.createAutomatedCashInvestmentExceptionReportWriterService = createAutomatedCashInvestmentExceptionReportWriterService;
@@ -1146,7 +1102,9 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the createAutomatedCashInvestmentProcessedReportWriterService attribute value.
-     * @param createAutomatedCashInvestmentProcessedReportWriterService The createAutomatedCashInvestmentProcessedReportWriterService to set.
+     * 
+     * @param createAutomatedCashInvestmentProcessedReportWriterService The
+     *        createAutomatedCashInvestmentProcessedReportWriterService to set.
      */
     public void setCreateAutomatedCashInvestmentProcessedReportWriterService(ReportWriterService createAutomatedCashInvestmentProcessedReportWriterService) {
         this.createAutomatedCashInvestmentProcessedReportWriterService = createAutomatedCashInvestmentProcessedReportWriterService;
@@ -1154,6 +1112,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -1162,6 +1121,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the kualiRuleService attribute value.
+     * 
      * @param kualiRuleService The kualiRuleService to set.
      */
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
@@ -1170,6 +1130,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -1178,6 +1139,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the documentService attribute value.
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -1186,6 +1148,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the kemidService attribute value.
+     * 
      * @param kemidService The kemidService to set.
      */
     public void setKemidService(KEMIDService kemidService) {
@@ -1194,46 +1157,52 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the kemService attribute value.
+     * 
      * @param kemService The kemService to set.
      */
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }
-    
+
     /**
      * Sets the securityService attribute value.
+     * 
      * @param securityService The securityService to set.
      */
     public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
     }
-    
+
     /**
      * Sets the configService attribute value.
+     * 
      * @param configService The configService to set.
      */
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
     }
-    
+
     /**
      * Sets the automatedCashInvestmentModelDao attribute value.
+     * 
      * @param automatedCashInvestmentModelDao The automatedCashInvestmentModelDao to set.
      */
     public void setAutomatedCashInvestmentModelDao(AutomatedCashInvestmentModelDao automatedCashInvestmentModelDao) {
         this.automatedCashInvestmentModelDao = automatedCashInvestmentModelDao;
     }
-    
+
     /**
      * Sets the dataDictionaryService attribute value.
+     * 
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
     /**
      * Sets the updateEaiTaxLotService attribute value.
+     * 
      * @param updateEaiTaxLotService The updateEaiTaxLotService to set.
      */
     public void setUpdateEaiTaxLotService(UpdateAssetIncreaseDocumentTaxLotsService updateEaiTaxLotService) {
@@ -1242,6 +1211,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
 
     /**
      * Sets the updateEadTaxLotService attribute value.
+     * 
      * @param updateEadTaxLotService The updateEadTaxLotService to set.
      */
     public void setUpdateEadTaxLotService(UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService) {
@@ -1249,20 +1219,20 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
     }
 
     /**
-     * 
      * This class...
      */
     private class UnitAmountAssociation {
         private BigDecimal amount;
         private BigDecimal units;
-        
+
         public UnitAmountAssociation(BigDecimal amount, BigDecimal units) {
             this.amount = amount;
-            this.units  = units;
+            this.units = units;
         }
 
         /**
-         * Gets the amount attribute. 
+         * Gets the amount attribute.
+         * 
          * @return Returns the amount.
          */
         public BigDecimal getAmount() {
@@ -1270,7 +1240,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         }
 
         /**
-         * Gets the unit attribute. 
+         * Gets the unit attribute.
+         * 
          * @return Returns the unit.
          */
         public BigDecimal getUnits() {

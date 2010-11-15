@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,7 +38,7 @@ public class KEMIDDocumentPresentationController extends FinancialSystemMaintena
         Set<String> fields = super.getConditionallyReadOnlyPropertyNames(document);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowConstants.EndowmentSystemParameter.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         if (EndowConstants.KemidValueOptions.AUTOMATIC.equalsIgnoreCase(kemidValueSystemParam)) {
             fields.add(EndowPropertyConstants.KEMID);

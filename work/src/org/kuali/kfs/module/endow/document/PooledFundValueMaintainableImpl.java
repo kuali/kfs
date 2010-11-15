@@ -21,7 +21,7 @@ import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl;
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -79,7 +79,7 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                 BigDecimal newUnitValue = newPooledFundValue.getUnitValue();
                 BigDecimal newDistributionPerUnit = newPooledFundValue.getIncomeDistributionPerUnit();
                 Date newValueDate = newPooledFundValue.getValueEffectiveDate();
-                String newUnitValueSource = EndowConstants.EndowmentSystemParameter.POOLED_FUND_VALUE;
+                String newUnitValueSource = EndowParameterKeyConstants.POOLED_FUND_VALUE;
                 String pooledSecurityID = newPooledFundValue.getPooledSecurityID();
 
                 // Why the following method didn't work?
@@ -89,7 +89,7 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                 Security theSecurity = securityService.getByPrimaryKey(pooledSecurityID);
 
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-                BigDecimal numOfDistributions = new BigDecimal(new Double(parameterService.getParameterValue(PooledFundValue.class, EndowConstants.EndowmentSystemParameter.DISTRIBUTION_TIMES_PER_YEAR)).doubleValue());
+                BigDecimal numOfDistributions = new BigDecimal(new Double(parameterService.getParameterValue(PooledFundValue.class, EndowParameterKeyConstants.DISTRIBUTION_TIMES_PER_YEAR)).doubleValue());
                 BigDecimal interestRate = newDistributionPerUnit.multiply(numOfDistributions);
 
                 /*

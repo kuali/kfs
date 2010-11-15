@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.GLLink;
@@ -157,7 +158,7 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
 
             // check that ObjectCode.ObjectTypeCode.BasicAccountingCategory == EndowmentTransactionCode.TransactionTypeCode
             if (EndowConstants.EndowmentTransactionTypeCodes.ASSET_TYPE_CODE.equalsIgnoreCase(endowmentTransactionCode.getEndowmentTransactionTypeCode())) {
-                String basicAccountingCategoryAsset = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.ASSETS_ENTRAN_TYPE);
+                String basicAccountingCategoryAsset = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowParameterKeyConstants.ASSETS_ENTRAN_TYPE);
 
                 if (!objectCode.getFinancialObjectType().getBasicAccountingCategoryCode().equalsIgnoreCase(basicAccountingCategoryAsset)) {
                     isValid = false;
@@ -165,7 +166,7 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
             }
 
             if (EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE.equalsIgnoreCase(endowmentTransactionCode.getEndowmentTransactionTypeCode())) {
-                String basicAccountingCategoryExpense = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.EXPENSES_ENTRAN_TYPE);
+                String basicAccountingCategoryExpense = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowParameterKeyConstants.EXPENSES_ENTRAN_TYPE);
 
                 if (!objectCode.getFinancialObjectType().getBasicAccountingCategoryCode().equalsIgnoreCase(basicAccountingCategoryExpense)) {
                     isValid = false;
@@ -173,7 +174,7 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
             }
 
             if (EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE.equalsIgnoreCase(endowmentTransactionCode.getEndowmentTransactionTypeCode())) {
-                String basicAccountingCategoryIncome = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.INCOME_ENTRAN_TYPE);
+                String basicAccountingCategoryIncome = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowParameterKeyConstants.INCOME_ENTRAN_TYPE);
 
                 if (!objectCode.getFinancialObjectType().getBasicAccountingCategoryCode().equalsIgnoreCase(basicAccountingCategoryIncome)) {
                     isValid = false;
@@ -181,7 +182,7 @@ public class EndowmentTransactionCodeRule extends MaintenanceDocumentRuleBase {
             }
 
             if (EndowConstants.EndowmentTransactionTypeCodes.LIABILITY_TYPE_CODE.equalsIgnoreCase(endowmentTransactionCode.getEndowmentTransactionTypeCode())) {
-                String basicAccountingCategoryLiabilities = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowConstants.EndowmentSystemParameter.LIABILITIES_ENTRAN_TYPE);
+                String basicAccountingCategoryLiabilities = parameterService.getParameterValue(EndowmentTransactionCode.class, EndowParameterKeyConstants.LIABILITIES_ENTRAN_TYPE);
 
                 if (!objectCode.getFinancialObjectType().getBasicAccountingCategoryCode().equalsIgnoreCase(basicAccountingCategoryLiabilities)) {
                     isValid = false;

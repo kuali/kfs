@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.service.UpdateCorpusService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentCorpusValues;
 import org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao;
@@ -128,7 +128,7 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
      * @return
      */
     protected int getMaxNumberOfTransactionLines() {
-        return Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowConstants.EndowmentSystemParameter.MAXIMUM_TRANSACTION_LINES));
+        return Integer.parseInt(parameterService.getParameterValue(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.MAXIMUM_TRANSACTION_LINES));
     }
     
     /**

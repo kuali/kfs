@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements the ProcessFeeTransactionsService.
+ * This class implements the HoldingHistoryMarketValuesUpdateService.
  */
 @Transactional
 public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHistoryMarketValuesUpdateService {
@@ -65,7 +65,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
     public boolean updateHoldingHistoryMarketValues() {
         boolean success = true ;
         
-        LOG.debug("processUpdateHistoryMarketValues() started");
+        LOG.debug("updateHoldingHistoryMarketValues() started");
         
         //writes the exception report header
         holdingHistoryMarketValuesExceptionReportWriterService.writeNewLines(1);
@@ -111,7 +111,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
                 }
             }
             else {
-                //include docuement number....
+                //include document number....
                 LOG.error("Document with document number: " + documentHeaderId + " is NULL.  It should never have been null");
                 setUnwantedReportColumnsToBlank();                
                 writeTableRowAndTableReason(holdingHistoryValueAdjustmentDocument, "Document with document number: " + documentHeaderId + " The document does not exist in the workflow.");                

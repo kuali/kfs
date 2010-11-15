@@ -576,14 +576,15 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
         BigDecimal amount = null;
 
-        // Minus, up.
+        // Subtract the current amount from the limit amount, and round up.
         if (isIncrease) {
             amount = currentCash.subtract(cashLimit);
             amount = amount.setScale(0, BigDecimal.ROUND_UP);
         }
-        // Plus, down.
+        // Take the absolute value of the current cash, add limit amount,
+        // and round down.
         else {
-            amount = currentCash.add(cashLimit);
+            amount = (currentCash.abs()).add(cashLimit);
             amount = amount.setScale(0, BigDecimal.ROUND_DOWN);
         }
 

@@ -165,7 +165,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
         account.setFinancialHigherEdFunctionCd(defaults.getFinancialHigherEdFunctionCd());
         
-        account.setAccountRestrictedStatusCode("U");
+        account.setAccountRestrictedStatusCode("R");
         account.setAccountRestrictedStatusDate(null);
         
         account.setEndowmentIncomeChartOfAccounts(null);

@@ -1339,9 +1339,12 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, fixedTransactionDatesAndAmounts[0]), //
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_VAILD_OUTPUT_FILE, fixedTransactionDatesAndAmounts[1]) };
 
+        // there were garbage files in the batch directory left over that were destroying the validity of this and other tests... clean them up
+        cleanupBatchDirectory();
         scrub(inputTransactions);
-
         assertOriginEntries(7, outputTransactions);
+        cleanupBatchDirectory();
+
     }
 
     /**

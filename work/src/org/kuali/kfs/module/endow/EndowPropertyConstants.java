@@ -24,6 +24,7 @@ public class EndowPropertyConstants {
     public static final String KUALICODEBASE_ACTIVE_INDICATOR = "active";
     public static final String ENDOWCODEBASE_CODE = "code";
     public static final String ENDOWCODEBASE_DESC = "description";
+    public static final String ENDOWCODEBASE_ACTIVE_INDICATOR = "active";
 
     // Security Reporting Group
     public static final String SECURITY_REPORTING_GROUP_ORDER = "securityReportingGrpOrder";

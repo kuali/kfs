@@ -21,13 +21,11 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb implements PooledFundControlTransactionsDao {
@@ -37,7 +35,7 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
      */
     public List<PooledFundControl> getAllPooledFundControlTransaction() {
         Criteria crit = new Criteria();
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TransactionArchiveSecurity.class, crit);
+        crit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
         return (List<PooledFundControl>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundControl.class, crit));        
     }
 

@@ -64,13 +64,18 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     public void setBatchFileDirectories(List<String> batchFileDirectories) {
         if (batchFileDirectories == null) {
             this.batchFileDirectories = new ArrayList<String>();
-        }
-        else {
+        } else {
             this.batchFileDirectories = batchFileDirectories;
             for (String batchFileDirectory : this.batchFileDirectories) {
                 File directory = new File(batchFileDirectory);
-                if (!directory.exists() || !directory.isDirectory()) {
-                    throw new RuntimeException(batchFileDirectory + " is not an existing directory.");
+                if ( !directory.exists() ) {
+                    if ( !directory.mkdirs() ) {
+                        throw new RuntimeException( batchFileDirectory + " does not exist and the server was unable to create it." );
+                    }
+                } else {
+                    if (!directory.isDirectory()) {
+                        throw new RuntimeException(batchFileDirectory + " exists but is not a directory.");
+                    }
                 }
             }
         }

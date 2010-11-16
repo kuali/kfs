@@ -188,9 +188,9 @@
         <value>../scripts/module/endow/kemidAgreementSpecialInstruction.js</value>
         <value>../dwr/interface/AgreementSpecialInstructionService.js</value>
         <value>../dwr/interface/UseCriteriaCodeService.js</value>
-        <value>../scripts/sys/objectInfo.js</value>
-        <value>../scripts/module/endow/kemid.js</value>
+        <value>../scripts/module/endow/kemidGeneralLedgerAccounts.js</value>
         <value>../dwr/interface/ChartService.js</value>
+        <value>../scripts/module/endow/kemid.js</value>
         <value>../dwr/interface/OrganizationService.js</value>
       </list>
     </property>

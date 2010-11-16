@@ -615,7 +615,7 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
                     String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedIndex + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_GLOBAL_UNIQUE_DETAILS + "[" + uniqueIndex + "]";
                     GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     success &= validateCapitalAssetTypeCode(assetGlobalUniqueDetail);
-                    success &= validateAssetType(assetGlobalUniqueDetail);
+                    success &= validateAssetType(assetGlobalUniqueDetail, sharedIndex, uniqueIndex);
                     success &= validateAssetDescription(assetGlobalUniqueDetail);
                     success &= validateManufacturer(assetGlobalUniqueDetail);
                     success &= validateSeparateSourceAmount(assetGlobalUniqueDetail, document);
@@ -978,12 +978,14 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             valid &= checkReferenceExists(assetLocationDetail);
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
-            index++;
 
             // checks that all of the asset types entered in the collection of Unique Details actually exist in persistent storage
+            int indexUniqueDetails = 0;
             for (AssetGlobalDetail assetGlobalUniqueDetails : assetLocationDetail.getAssetGlobalUniqueDetails()) {
-                valid &= validateAssetType(assetGlobalUniqueDetails);
+                valid &= validateAssetType(assetGlobalUniqueDetails, index, indexUniqueDetails);
+                indexUniqueDetails++;
             }
+            index++;
         }
 
 
@@ -1087,13 +1089,32 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validate asset type in the AssetGlobalDetails level, and ensures the value is in the list of valid types.
+     * Validate asset type in the AssetGlobalUniqueDetails level, and ensures the value is in the list of valid types.
+     * The incoming indices are for creation of the errorPath for the global variable message map, which will determine 
+     * what text field to mark as having a problem. This was written to be called within a loop.
      * 
      * @param assetGlobalUniqueDetails
+     * @param sharedIndex the index of the shared details within the AssetGlobal 
+     * @param uniqueIndex the index of the unique details within the shared details
      * @return boolean
      */
-    protected boolean validateAssetType(AssetGlobalDetail assetGlobalUniqueDetails) {
+    protected boolean validateAssetType(AssetGlobalDetail assetGlobalUniqueDetails, Integer sharedIndex, Integer uniqueIndex) {
         boolean success = true;
+        int sharedInd = 0;
+        int uniqueInd = 0;
+
+        // In hindsite, maybe this should have been written to perform the loop-within-loop fully contained within this
+        // method, and not used within the typical double loop structure of processSaveDocument() and
+        // processCustomRouteDecumentBusinessRules.
+
+        // don't change the value of the incoming param!
+        if (sharedIndex != null) {
+            sharedInd = sharedIndex;
+        }
+        if (uniqueIndex != null) {
+            uniqueInd = uniqueIndex;
+        }
+
         if (ObjectUtils.isNull(assetGlobalUniqueDetails)) {
             putFieldError(CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS, CamsKeyConstants.AssetGlobal.ERROR_ASSET_LOCATION_DEPENDENCY);
             success &= false;
@@ -1103,9 +1124,9 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotBlank(assetGlobalUniqueDetails.getCapitalAssetTypeCode())) {
             AssetType assetType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetType.class, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
             if (assetType == null || StringUtils.isBlank(assetType.getCapitalAssetTypeCode())) {
-                String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[0]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[0]";
+                String errorPath = MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ASSET_SHARED_DETAILS + "[" + sharedInd + "]." + CamsPropertyConstants.AssetGlobalDetail.ASSET_UNIQUE_DETAILS + "[" + uniqueInd + "]";
                 GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
+                GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobalDetail.CAPITAL_ASSET_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_CAPITAL_ASSET_TYPE_CODE_INVALID, assetGlobalUniqueDetails.getCapitalAssetTypeCode());
                 GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
                 success &= false;
             }

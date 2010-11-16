@@ -217,6 +217,7 @@ public class CamsKeyConstants {
     public static class AssetSeparate {
         public static final String ERROR_ASSET_SPLIT_MAX_LIMIT = "error.max.payments.limit";
         public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_REQUIRED = "error.capital.asset.type.code.required";
+        public static final String ERROR_CAPITAL_ASSET_TYPE_CODE_INVALID = "error.capital.asset.type.code.invalid";
         public static final String ERROR_ASSET_DESCRIPTION_REQUIRED = "error.asset.description.required";
         public static final String ERROR_MANUFACTURER_REQUIRED = "error.manufacturer.required";
         public static final String ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED = "error.non.active.capital.asset.required";

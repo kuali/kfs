@@ -21,17 +21,12 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImpl;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.kfs.sys.context.TestUtils;
 
 @ConfigureContext(session = kfs)
 public class AvailableCashUpdateServiceImplTest extends KualiTestBase {

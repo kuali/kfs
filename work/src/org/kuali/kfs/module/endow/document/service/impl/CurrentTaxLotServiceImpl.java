@@ -441,7 +441,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         long MILLISECS_PER_DAY = (1000*60*60*24) ; // total milliseconds in a day
         
         Calendar currentDateCalendar = Calendar.getInstance();
-        currentDateCalendar.setTime(kEMService.getCurrentDate());
+        currentDateCalendar.setTime(getFiscalYearEndDate());
         currentDateCalendar.set(Calendar.HOUR, 0);
         currentDateCalendar.set(Calendar.MINUTE, 0);
         currentDateCalendar.set(Calendar.SECOND, 0);
@@ -452,7 +452,11 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         lastPaymentDateCalendar.set(Calendar.MINUTE, 0);
         lastPaymentDateCalendar.set(Calendar.SECOND, 0);
         
-        return (lastPaymentDateCalendar.getTimeInMillis() - currentDateCalendar.getTimeInMillis()) / MILLISECS_PER_DAY ;
+        //to take care of leap year and day light savings time.
+        long endL = lastPaymentDateCalendar.getTimeInMillis() + lastPaymentDateCalendar.getTimeZone().getOffset(lastPaymentDateCalendar.getTimeInMillis());
+        long startL = currentDateCalendar.getTimeInMillis() + currentDateCalendar.getTimeZone().getOffset(currentDateCalendar.getTimeInMillis());
+        
+        return (endL - startL) / MILLISECS_PER_DAY ;
     }
 
     /**

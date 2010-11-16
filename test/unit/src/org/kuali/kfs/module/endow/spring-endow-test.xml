@@ -28,4 +28,7 @@
 	<bean id="mockAvailableCashUpdateService" parent="availableCashUpdateService">
 	</bean>
     
+	<bean id="mockCurrentTaxLotBalanceUpdateService" parent="currentTaxLotBalanceUpdateService">
+	</bean>
+    
 </beans>

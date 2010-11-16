@@ -429,6 +429,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         else {
+            //TODO: REMOVE WHEN DONE.
+            writeExceptionTableReason("The following document failed validation:");
+            writeExceptionTableRowAssetDecrease(assetDecreaseDoc, isIncome);
+            
             // Write the errors to the exception file.
             List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
             for (String errorMessage : errorMessages) {
@@ -469,6 +473,10 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             }
         }
         else {
+            //TODO: REMOVE WHEN DONE.
+            writeExceptionTableReason("The following document failed validation:");
+            writeExceptionTableRowAssetIncrease(assetIncreaseDoc, isIncome);
+            
             // Write the errors to the exception file.
             List<String> errorMessages = GloabalVariablesExtractHelper.extractGlobalVariableErrors();
             writeExceptionTableRowAssetIncrease(assetIncreaseDoc, null, isIncome);
@@ -759,6 +767,24 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         createCashSweepProcessedReportWriterService.writeNewLines(1);
     }
 
+    private void writeExceptionTableRowAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
+        if (assetDecreaseDoc != null) {
+            List<EndowmentTransactionLine> tranLines = assetDecreaseDoc.getSourceTransactionLines();
+            for (EndowmentTransactionLine tranLine : tranLines) {
+                writeExceptionTableRowAssetDecrease(assetDecreaseDoc, tranLine, isIncome);
+            }
+        }
+    }
+    
+    private void writeExceptionTableRowAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
+        if (assetIncreaseDoc != null) {
+            List<EndowmentTransactionLine> tranLines = assetIncreaseDoc.getTargetTransactionLines();
+            for (EndowmentTransactionLine tranLine : tranLines) {
+                writeExceptionTableRowAssetIncrease(assetIncreaseDoc, tranLine, isIncome);
+            }
+        }
+    }
+    
     /**
      * This method...
      * 
@@ -786,7 +812,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         createCashSweepExceptionReportWriterService.writeTableRow(createCashSweepExceptionReportValues);
         createCashSweepExceptionReportWriterService.writeNewLines(1);
     }
-
+    
     /**
      * This method...
      * 

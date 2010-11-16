@@ -143,6 +143,7 @@
 										  		</xsd:element> <!-- Total -->
 		                              		</xsd:sequence>	
 		                              		<xsd:attribute name="operationAllowed" type="xsd:string"/> <!-- Not Used -->
+		                              		<xsd:attribute name="quoteStatus" type="xsd:string" use="optional"/> <!-- Not Used -->
 						  				</xsd:complexType>
 						  			</xsd:element>
 					  			
@@ -189,6 +190,7 @@
 					  		</xsd:complexType>	
 						</xsd:element>  <!-- PunchOutOrderMessage -->
 					</xsd:sequence>
+					<xsd:attribute name="deploymentMode" type="xsd:string" use="optional"/>
 				</xsd:complexType>	
 			</xsd:element> <!-- Message -->
 		</xsd:sequence>

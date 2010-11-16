@@ -24,6 +24,7 @@
       <routingVersion>2</routingVersion>
     </documentType>
 
+    <documentType>
       <name>ACIModelMaintenanceDocument</name>
       <parent>EndowmentSimpleMaintenanceDocument</parent>
       <label>ACI Model Maintenance Document</label>

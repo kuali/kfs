@@ -1116,6 +1116,9 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
+        <property name="pooledFundControlService">
+            <ref bean="pooledFundControlService" />
+        </property>
     </bean>
     <bean id="createCashSweepExceptionReportWriterService" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/endow"/>

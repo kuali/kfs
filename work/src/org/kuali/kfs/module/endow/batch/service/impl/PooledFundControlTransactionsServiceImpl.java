@@ -474,6 +474,12 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         return kualiRuleService.applyRules(new RouteDocumentEvent(cashDecreaseDocument));
     }
     
+    /**
+     * Gets the transaction type code based on the document component type
+     * @param pooledFundControl
+     * @param docComponentType
+     * @return
+     */
     protected String getEtranTypeCode(PooledFundControl pooledFundControl, String docComponentType) {
         String etranTypeCode = "";
         if (docComponentType.equalsIgnoreCase(EndowParameterKeyConstants.PURCHASE_DESCRIPTION)) {

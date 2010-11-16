@@ -1722,6 +1722,8 @@
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.documentNumber"/> 
               <bean parent="FieldDefinition" p:attributeName="retirementReasonCode"/>
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementDate"/>
+			  <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Merge"/>
+			  <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.mergedTargetCapitalAssetNumber"/>
               <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Sale"/>
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.buyerDescription"/>
               <bean parent="FieldDefinition" p:attributeName="salePrice"/>

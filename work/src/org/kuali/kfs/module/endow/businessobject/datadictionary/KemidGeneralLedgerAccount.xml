@@ -25,7 +25,9 @@
         		<ref bean="KemidGeneralLedgerAccount-kemid" />
         		<ref bean="KemidGeneralLedgerAccount-incomePrincipalIndicatorCode" />
 		        <ref bean="KemidGeneralLedgerAccount-chartCode" />
+		        <ref bean="KemidGeneralLedgerAccount-chart.codeAndDescription" />
 		        <ref bean="KemidGeneralLedgerAccount-accountNumber"/>
+		        <ref bean="KemidGeneralLedgerAccount-account.accountName"/>
 		        <ref bean="KemidGeneralLedgerAccount-active"/>
         		<ref bean="KemidGeneralLedgerAccount-newCollectionRecord"/>	     
         		<ref bean="KemidGeneralLedgerAccount-chartCode-desc"/>
@@ -66,14 +68,24 @@
     	<property name="name" value="chart.finChartOfAccountDescription" />
     	<property name="label" value="Chart Description" />
   	</bean>
-  	
-  	
+  	<bean id="KemidGeneralLedgerAccount-chart.codeAndDescription" parent="KemidGeneralLedgerAccount-chart.codeAndDescription-parentBean" />
+
+  	<bean id="KemidGeneralLedgerAccount-chart.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription">
+    	<property name="name" value="chart.codeAndDescription" />
+    	<property name="label" value="Chart Code" />
+  	</bean>  	
 	<bean id="KemidGeneralLedgerAccount-accountNumber" parent="KemidGeneralLedgerAccount-accountNumber-parentBean" />
 		        
   	<bean id="KemidGeneralLedgerAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
   		<property name="name" value="accountNumber" />
     	<property name="label" value="Account Number" />
     	<property name="required" value="true" />
+  	</bean>
+    <bean id="KemidGeneralLedgerAccount-account.accountName" parent="KemidGeneralLedgerAccount-account.accountName-parentBean" />
+		        
+  	<bean id="KemidGeneralLedgerAccount-account.accountName-parentBean" abstract="true" parent="Account-accountName">
+  		<property name="name" value="account.accountName" />
+    	<property name="label" value="Account Name" />
   	</bean>
   	<bean id="KemidGeneralLedgerAccount-active" parent="KemidGeneralLedgerAccount-active-parentBean" />
 		        

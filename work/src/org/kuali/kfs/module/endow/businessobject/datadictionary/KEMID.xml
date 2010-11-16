@@ -685,9 +685,11 @@
                     <bean parent="FieldDefinition"
                           p:attributeName="incomePrincipalIndicatorCode" />
                     <bean parent="FieldDefinition"
-                          p:attributeName="chartCode" />
+                          p:attributeName="chart.codeAndDescription" />
                     <bean parent="FieldDefinition"
                           p:attributeName="accountNumber" />
+                    <bean parent="FieldDefinition"
+                          p:attributeName="account.accountName" />                          
                     <bean parent="FieldDefinition"
                           p:attributeName="active" />                                                                                                                                    
                   </list>

@@ -40,4 +40,35 @@ function setChartDescription(code, codeDescriptionFieldName){
  		ChartService.getByPrimaryId(code.toUpperCase(), dwrReply);
  	}
 }
+
+function loadAccountName(accountFieldName ) {
+	var elPrefix = findElPrefix(accountFieldName.name);
+	var accountDescriptionFieldName = elPrefix + ".account.accountName";
+	var chartCodeFieldName = elPrefix + ".chartCode";
+	var accountNumber = DWRUtil.getValue(accountFieldName);
+	var code = DWRUtil.getValue(chartCodeFieldName);
+	
+	setAccountDescription(accountNumber, code, accountDescriptionFieldName);
+}
+
+function setAccountDescription(accountNumber, code, accountDescriptionFieldName){	 
+
+ 	if (code == '' || accountNumber == '') {
+ 		clearRecipients(accountDescriptionFieldName);
+ 	} else {
+ 		var dwrReply = {
+ 			callback:function(data) {
+ 				if ( data != null && typeof data == 'object') {
+ 					setRecipientValue(accountDescriptionFieldName, data.accountName);
+ 				} else {
+ 					setRecipientValue(accountDescriptionFieldName, wrapError("Account not found"), true);			
+ 				} },
+ 			errorHandler:function(errorMessage) { 
+ 				setRecipientValue(accountDescriptionFieldName, wrapError("Account not found"), true);
+ 			}
+ 		};
+ 		AccountService.getByPrimaryIdWithCaching(code.toUpperCase(), accountNumber.toUpperCase(), dwrReply);
+ 	}
+}
+ 
  

@@ -190,6 +190,7 @@
         <value>../dwr/interface/UseCriteriaCodeService.js</value>
         <value>../scripts/module/endow/kemidGeneralLedgerAccounts.js</value>
         <value>../dwr/interface/ChartService.js</value>
+        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/module/endow/kemid.js</value>
         <value>../dwr/interface/OrganizationService.js</value>
       </list>
@@ -511,7 +512,11 @@
               		p:unconditionallyReadOnly="true" />        
               <bean parent="MaintainableFieldDefinition" 
                     p:name="accountNumber"
-                    p:required="true" />
+                    p:required="true"
+                    p:webUILeaveFieldFunction="loadAccountName" />
+              <bean parent="MaintainableFieldDefinition"
+              		p:name="account.accountName"
+              		p:unconditionallyReadOnly="true" />                      
               <bean parent="MaintainableFieldDefinition" 
                     p:name="active"
                     p:defaultValue="true" />                                                  

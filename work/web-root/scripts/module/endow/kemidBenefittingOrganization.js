@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 function loadKemidBenefittingOrgLastChangeDate(kemidBenePctFieldName) {
-
 	var elPrefix = findElPrefix(kemidBenePctFieldName.name);
 	var kemidBeneLastChangeDateFieldName = elPrefix + ".lastChangeDate";
-	
 	setLastChangeDate( kemidBeneLastChangeDateFieldName);
 }
 
@@ -36,24 +34,22 @@ function setLastChangeDate( kemidBeneLastChangeDateFieldName) {
 	KEMService.getCurrentSystemProcessDate(dwrReply);
 }
 
-function loadBenefittingChartCodeDesc() (benefittingChartCodeFieldName){
+function loadBenefittingChartCodeDesc(benefittingChartCodeFieldName) {
 	var elPrefix = findElPrefix(benefittingChartCodeFieldName.name);
 	var benefittingChartCodeDescFieldName = elPrefix + ".chart.finChartOfAccountDescription";
 	var benefittingChartCode = DWRUtil.getValue(benefittingChartCodeFieldName);
-	
+
 	setBenefittingChartCodeDescription(benefittingChartCode, benefittingChartCodeDescFieldName);
 }
 
-function setBenefittingChartCodeDescription(code, codeDescriptionFieldName){	 
-
-	alert(code + "-" + codeDescriptionFieldName);
- 	if (code == '') {
+function setBenefittingChartCodeDescription(code, codeDescriptionFieldName) {	 
+	if (code == '') {
  		clearRecipients(codeDescriptionFieldName);
  	} else {
  		var dwrReply = {
  			callback:function(data) {
  				if ( data != null && typeof data == 'object') {
- 					setRecipientValue(codeDescriptionFieldName, data.name);
+ 					setRecipientValue(codeDescriptionFieldName, data.finChartOfAccountDescription); 					
  				} else {
  					setRecipientValue(codeDescriptionFieldName, wrapError("Chart Code not found"), true);			
  				} },
@@ -61,30 +57,29 @@ function setBenefittingChartCodeDescription(code, codeDescriptionFieldName){
  				setRecipientValue(codeDescriptionFieldName, wrapError("Chart Code not found"), true);
  			}
  		};
- 		ChartService.getByPrimaryKey(code.toUpperCase(), dwrReply);
+ 		ChartService.getByPrimaryId(code.toUpperCase(), dwrReply);
  	}
 } 
  
-function loadBenefittingOrganizationName() (benefittingOrganizationCodeFieldName){
+function loadBenefittingOrganizationName(benefittingOrganizationCodeFieldName) {
 	var elPrefix = findElPrefix(benefittingOrganizationCodeFieldName.name);
 	var benefittingOrganizationNameFieldName = elPrefix + ".organization.organizationName";
-	var benefittingChartOfAccountsCodeFieldName = elPrefix + ".chartOfAccountsCode";
+	var benefittingChartOfAccountsCodeFieldName = elPrefix + ".benefittingChartCode";
 	var organizationCode = DWRUtil.getValue(benefittingOrganizationCodeFieldName);
 	var chartOfAccountCode = DWRUtil.getValue(benefittingChartOfAccountsCodeFieldName);
 	
-	setUseCriteriaCodeDescription(chartOfAccountCode, organizationCode, benefittingOrganizationNameFieldName);
+	setBenefittingOrganizationName(chartOfAccountCode, organizationCode, benefittingOrganizationNameFieldName);
 }
 
-function setUseCriteriaCodeDescription(chartOfAccountCode, organizationCode, codeDescriptionFieldName){	 
+function setBenefittingOrganizationName(chartOfAccountCode, organizationCode, codeDescriptionFieldName) {	 
 
-	alert(chartOfAccountCode + "-" + organizationCode + "-" + codeDescriptionFieldName);
  	if (chartOfAccountCode == '' || organizationCode == '') {
  		clearRecipients(codeDescriptionFieldName);
  	} else {
  		var dwrReply = {
  			callback:function(data) {
  				if ( data != null && typeof data == 'object') {
- 					setRecipientValue(codeDescriptionFieldName, data.name);
+ 					setRecipientValue(codeDescriptionFieldName, data.organizationName);
  				} else {
  					setRecipientValue(codeDescriptionFieldName, wrapError("Organization Code not found"), true);			
  				} },
@@ -92,7 +87,6 @@ function setUseCriteriaCodeDescription(chartOfAccountCode, organizationCode, cod
  				setRecipientValue(codeDescriptionFieldName, wrapError("Organization Code not found"), true);
  			}
  		};
- 		OrganizationService.getByPrimaryKey(chartOfAccountCode.toUpperCase(), organizationCode.toUpperCase(), dwrReply);
+ 		OrganizationService.getByPrimaryId(chartOfAccountCode.toUpperCase(), organizationCode.toUpperCase(), dwrReply);
  	}
 } 
-

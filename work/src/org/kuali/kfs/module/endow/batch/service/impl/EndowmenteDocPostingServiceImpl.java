@@ -120,7 +120,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 // Step 3.
                 processCashSubTypes(lineDoc, tranLine, documentType);
                 // Step 4.
-                processSecurityRecords(lineDoc, tranLine);
+                processSecurityRecords(lineDoc, tranLine, documentType);
                 // Step 5.
                 tranLine.setLinePosted(true);
                 businessObjectService.save(tranLine);
@@ -139,14 +139,22 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranDoc
      * @param tranLine
      */
-    private void processSecurityRecords(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine) {
+    private void processSecurityRecords(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documentType) {
         LOG.info("Entering \"processSecurityRecords\"");
         EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine);
         if (tranSecurity != null) {
             Security security = findSecurityRecord(tranSecurity.getSecurityID());
             if (security != null) {
                 HoldingLotValues holdingLotValues = calculateLotValues(tranLine);
-                security.setUnitsHeld((security.getUnitsHeld() == null ? BigDecimal.ZERO : security.getUnitsHeld()).add(holdingLotValues.getLotUnits()));
+                
+                // Per specification, if the document type is EHA, the units
+                // held will not be modified (no units added).
+                if (documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_HOLDING_ADJUSTMENT)) {                    
+                    security.setUnitsHeld(security.getUnitsHeld() == null ? BigDecimal.ZERO : security.getUnitsHeld());
+                }
+                else {
+                    security.setUnitsHeld((security.getUnitsHeld() == null ? BigDecimal.ZERO : security.getUnitsHeld()).add(holdingLotValues.getLotUnits()));
+                }
                 security.setCarryValue((security.getCarryValue() == null ? BigDecimal.ZERO : security.getCarryValue()).add(holdingLotValues.getLotHoldingCost()));
                 security.setLastTransactionDate(kemService.getCurrentDate());
 
@@ -162,7 +170,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranDoc
      * @param tranLine
      */
-    private void processCashSubTypes(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documenType) {
+    private void processCashSubTypes(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documentType) {
         LOG.info("Entering \"processCashSubTypes\"");
         if (tranDoc.getTransactionSubTypeCode().equals(EndowConstants.TransactionSubTypeCode.CASH)) {
             String kemid = tranLine.getKemid();
@@ -173,10 +181,10 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             // TODO: this is a quick fix. Norm will upload the updated spec soon (Date: Oct 25, 2010 by Bonnie)
             if (kemidCurrentCash != null) {
                 if (piCode.equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-                    if (documenType.equals("EAI") || documenType.equals("ELD") || documenType.equals("ECDD")) {
+                    if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
                         kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
                     }
-                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documenType.equals("ECT") || documenType.equals("EGLT"))) {
+                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
                         kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
                     }
                     else {
@@ -186,10 +194,10 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 }
                 else {
                     // Deal with Principal
-                    if (documenType.equals("EAI") || documenType.equals("ELD") || documenType.equals("ECDD")) {
+                    if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
                         kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
                     }
-                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documenType.equals("ECT") || documenType.equals("EGLT"))) {
+                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
                         kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
                     }
                     else {
@@ -220,7 +228,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         // END_TRAN_SEC_T
         EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine);
         if (tranSecurity != null) {
-            TransactionArchiveSecurity tranArchiveSecurity = createTranArchiveSecurity(tranSecurity, tranLine);
+            TransactionArchiveSecurity tranArchiveSecurity = createTranArchiveSecurity(tranSecurity, tranLine, documentType);
             businessObjectService.save(tranArchiveSecurity);
 
             // END_HLDG_TAX_LOT_T
@@ -249,11 +257,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             // Determine the next available tax lot number based on the current highest tax lot number. This
             // list is already sorted in ASC per OJB mapping XML file, so I need to grab the last element and
             // increment its value by 1 to get the next available tax lot number.
-
-            // TODO: Remove commented code.
-            // Integer nextHoldingLotNumber = taxLotLines.get(taxLotLines.size() - 1).getTransactionHoldingLotNumber();
-            // nextHoldingLotNumber++;
-
             for (EndowmentTransactionTaxLotLine taxLotLine : tranLine.getTaxLotLines()) {
 
                 Integer holdingLotNumber = taxLotLine.getTransactionHoldingLotNumber();
@@ -268,7 +271,12 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 // If we find an existing one, then modify it.
                 if (holdingTaxLot != null && !isNewLot) {
 
-                    holdingTaxLot.setUnits(holdingTaxLot.getUnits().add(taxLotLine.getLotUnits()));
+                    // Per specification, if the document type is EHA, the units
+                    // held will not be modified (no units added).
+                    if (!documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_HOLDING_ADJUSTMENT)) {                    
+                        holdingTaxLot.setUnits(holdingTaxLot.getUnits().add(taxLotLine.getLotUnits()));
+                    }
+                    
                     holdingTaxLot.setCost(holdingTaxLot.getCost().add(taxLotLine.getLotHoldingCost()));
 
                     // For EAD, units and holding costs cannot be less than zero.
@@ -288,9 +296,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                     holdingTaxLot.setAcquiredDate(kemService.getCurrentDate());
 
                     holdingTaxLot.setLotNumber(new KualiInteger(taxLotLine.getTransactionHoldingLotNumber()));
-
-                    // TODO: Remove commented code.
-                    // nextHoldingLotNumber++;
                 }
                 // One doesn't exist, and it doesn't fall under the document type criteria.
                 else {
@@ -491,7 +496,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return TransactionArchiveSecurity
      */
-    private TransactionArchiveSecurity createTranArchiveSecurity(EndowmentTransactionSecurity tranSecurity, EndowmentTransactionLine tranLine) {
+    private TransactionArchiveSecurity createTranArchiveSecurity(EndowmentTransactionSecurity tranSecurity, EndowmentTransactionLine tranLine, String documentType) {
         TransactionArchiveSecurity tranArchiveSecurity = new TransactionArchiveSecurity();
         tranArchiveSecurity.setDocumentNumber(tranLine.getDocumentNumber());
         tranArchiveSecurity.setLineNumber(tranLine.getTransactionLineNumber());
@@ -506,8 +511,18 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
         // Calculate all the lot values.
         HoldingLotValues holdingLotValues = calculateLotValues(tranLine);
-        tranArchiveSecurity.setUnitsHeld(holdingLotValues.getLotUnits());
-        tranArchiveSecurity.setUnitValue(holdingLotValues.getLotUnitValue());
+        
+        // Per specification, if the document type is EHA, then the units and 
+        // value should be zero.
+        if (documentType.equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_HOLDING_ADJUSTMENT)) {
+            tranArchiveSecurity.setUnitsHeld(BigDecimal.ZERO);
+            tranArchiveSecurity.setUnitValue(BigDecimal.ZERO);
+        }
+        else {
+            tranArchiveSecurity.setUnitsHeld(holdingLotValues.getLotUnits());
+            tranArchiveSecurity.setUnitValue(holdingLotValues.getLotUnitValue());
+        }
+        
         tranArchiveSecurity.setHoldingCost(holdingLotValues.getLotHoldingCost());
         tranArchiveSecurity.setLongTermGainLoss(holdingLotValues.getLotLongTermGainLoss());
         tranArchiveSecurity.setShortTermGainLoss(holdingLotValues.getLotShortTermGainLoss());

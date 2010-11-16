@@ -31,10 +31,10 @@
  				if ( data != null && typeof data == 'object') {
  					setRecipientValue(codeDescriptionFieldName, data.name);
  				} else {
- 					setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);			
+ 					setRecipientValue(codeDescriptionFieldName, wrapError("Use Criteria Code not found"), true);			
  				} },
  			errorHandler:function(errorMessage) { 
- 				setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);
+ 				setRecipientValue(codeDescriptionFieldName, wrapError("Use Criteria Code not found"), true);
  			}
  		};
  		UseCriteriaCodeService.getByPrimaryKey(code.toUpperCase(), dwrReply);

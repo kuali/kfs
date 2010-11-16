@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  */
 
- function loadAgreementSpecialInstructionCodeDesc(codeFieldName){
+ function loadAgreementSpecialInstructionCodeDesc(codeFieldName) {
 	var elPrefix = findElPrefix(codeFieldName.name);
 	var codeDescriptionFieldName = elPrefix + ".agreementSpecialInstruction.name";
 	var code = DWRUtil.getValue(codeFieldName);
@@ -21,8 +21,8 @@
 	setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName);
 }
 
-function setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName){	 
-
+function setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName) {	 
+alert(code);
  	if (code == '') {
  		clearRecipients(codeDescriptionFieldName);
  	} else {
@@ -31,16 +31,15 @@ function setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFiel
  				if ( data != null && typeof data == 'object') {
  					setRecipientValue(codeDescriptionFieldName, data.name);
  				} else {
- 					setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);			
+ 					setRecipientValue(codeDescriptionFieldName, wrapError("Agreement Special Instruction Code not found"), true);			
  				} },
  			errorHandler:function(errorMessage) { 
- 				setRecipientValue(codeDescriptionFieldName, wrapError("Code not found"), true);
+ 				setRecipientValue(codeDescriptionFieldName, wrapError("Agreement Special Instruction Code not found"), true);
  			}
  		};
  		AgreementSpecialInstructionService.getByPrimaryKey(code.toUpperCase(), dwrReply);
  	}
 }
- 
 
  
  

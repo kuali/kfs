@@ -154,45 +154,45 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.KEMIDDocumentPresentationController" />
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/TypeCodeService.js</value>
-        <value>../scripts/module/endow/kemidObjectInfo.js</value>
-        <value>../dwr/interface/KEMService.js</value>
-        <value>../dwr/interface/FeeMethodService.js</value>
-        <value>../dwr/interface/KEMIDService.js</value>
-        <value>../scripts/module/endow/kemidFee.js</value>
-        <value>../scripts/module/endow/kemidAgreement.js</value>
-        <value>../scripts/module/endow/kemidBenefittingOrganization.js</value>
-        <value>../scripts/module/endow/kemidPayoutInstructions.js</value>
-        <value>../dwr/interface/PurposeCodeService.js</value>
-        <value>../dwr/interface/AgreementTypeService.js</value>
+      	<value>../dwr/interface/AccountService.js</value>
+        <value>../dwr/interface/AgreementSpecialInstructionService.js</value>
         <value>../dwr/interface/AgreementStatusService.js</value>
-        <value>../scripts/module/endow/purposeCode.js</value>
+        <value>../dwr/interface/AgreementTypeService.js</value>        
+        <value>../dwr/interface/CAECodeService.js</value>
+        <value>../dwr/interface/ChartService.js</value>        
+        <value>../dwr/interface/CombineGroupCodeService.js</value>
+        <value>../dwr/interface/DonorLabelService.js</value>
+        <value>../dwr/interface/DonorService.js</value>
+        <value>../dwr/interface/DonorStatementCodeService.js</value>
+        <value>../dwr/interface/FeeMethodService.js</value>
+        <value>../dwr/interface/FundSourceService.js</value>        
+        <value>../dwr/interface/KEMIDService.js</value>        
+        <value>../dwr/interface/KEMService.js</value>
+        <value>../dwr/interface/OrganizationService.js</value>                
+        <value>../dwr/interface/PurposeCodeService.js</value>
+        <value>../dwr/interface/ResponsibleAdministrationCodeService.js</value>
+        <value>../dwr/interface/TransactionRestrictionCodeService.js</value>      
+        <value>../dwr/interface/TypeCodeService.js</value>
+        <value>../dwr/interface/UseCriteriaCodeService.js</value>
         <value>../scripts/module/endow/agreementTypeCode.js</value>
         <value>../scripts/module/endow/agreementStatusCode.js</value>
-        <value>../dwr/interface/FundSourceService.js</value>
-        <value>../scripts/module/endow/fundSourceCode.js</value>
-        <value>../dwr/interface/CAECodeService.js</value>
         <value>../scripts/module/endow/caeCode.js</value>
-        <value>../dwr/interface/TransactionRestrictionCodeService.js</value>
-        <value>../scripts/module/endow/transactionRestrictionCode.js</value>
-        <value>../dwr/interface/ResponsibleAdministrationCodeService.js</value>
-        <value>../scripts/module/endow/responsibleAdministrationCode.js</value>   
-        <value>../dwr/interface/CombineGroupCodeService.js</value>
-        <value>../scripts/module/endow/kemidCombineGroupCode.js</value>    
-        <value>../dwr/interface/DonorStatementCodeService.js</value>
-        <value>../dwr/interface/DonorService.js</value>
-        <value>../dwr/interface/DonorLabelService.js</value>
-        <value>../scripts/module/endow/kemidDonorStatement.js</value>  
-        <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>
-        <value>../scripts/module/endow/kemidUseCriteriaCode.js</value> 
-        <value>../scripts/module/endow/kemidAgreementSpecialInstruction.js</value>
-        <value>../dwr/interface/AgreementSpecialInstructionService.js</value>
-        <value>../dwr/interface/UseCriteriaCodeService.js</value>
-        <value>../scripts/module/endow/kemidGeneralLedgerAccounts.js</value>
-        <value>../dwr/interface/ChartService.js</value>
-        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/module/endow/fundSourceCode.js</value>
         <value>../scripts/module/endow/kemid.js</value>
-        <value>../dwr/interface/OrganizationService.js</value>
+        <value>../scripts/module/endow/kemidAgreementSpecialInstruction.js</value>        
+        <value>../scripts/module/endow/kemidAgreement.js</value>
+        <value>../scripts/module/endow/kemidBenefittingOrganization.js</value>
+        <value>../scripts/module/endow/kemidCombineDonorStatements.js</value>        
+        <value>../scripts/module/endow/kemidCombineGroupCode.js</value>    
+        <value>../scripts/module/endow/kemidDonorStatement.js</value>  
+        <value>../scripts/module/endow/kemidFee.js</value> 
+        <value>../scripts/module/endow/kemidGeneralLedgerAccounts.js</value>       
+        <value>../scripts/module/endow/kemidObjectInfo.js</value>        
+        <value>../scripts/module/endow/kemidPayoutInstructions.js</value>        
+        <value>../scripts/module/endow/kemidUseCriteriaCode.js</value> 
+        <value>../scripts/module/endow/purposeCode.js</value>
+        <value>../scripts/module/endow/responsibleAdministrationCode.js</value>                   
+        <value>../scripts/module/endow/transactionRestrictionCode.js</value>
       </list>
     </property>
     <property name="workflowAttributes">

@@ -18,12 +18,10 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

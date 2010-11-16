@@ -49,7 +49,6 @@ import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 /*
@@ -237,7 +236,8 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
 
         // set security and add a transaction line 
-        populateECI(cashIncreaseDocument, pooledFundControl, totalAmount, securityLineTypeCode, incomePrincipalIndicator);
+        String etranTypeCode = getEtranTypeCode(pooledFundControl, paramDescriptionName);
+        populateECI(cashIncreaseDocument, pooledFundControl, totalAmount, securityLineTypeCode, incomePrincipalIndicator, etranTypeCode);
 
         // if there are transaction lines, proceed.   
         if (cashIncreaseDocument.getNextTargetLineNumber() > 1) {            
@@ -280,7 +280,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         LOG.info("Creating ECDD ...");
         
         CashDecreaseDocument cashDecreaseDocument = null; 
-        
+    
         // initialize CashDecreaseDocument        
         cashDecreaseDocument = initializeCashDocument(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, EndowConstants.MAXMUM_NUMBER_OF_EDOC_INITIALIZATION_TRY);
         if (ObjectUtils.isNull(cashDecreaseDocument)) {
@@ -289,8 +289,9 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         cashDecreaseDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(PooledFundControlTransactionsStep.class, paramDescriptionName));
         cashDecreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
     
-        // set security and a transaction line 
-        populateECDD(cashDecreaseDocument, pooledFundControl, totalAmount, securityLineType, incomePrincipalIndicator);
+        // set security and a transaction line
+        String etranTypeCode = getEtranTypeCode(pooledFundControl, paramDescriptionName);        
+        populateECDD(cashDecreaseDocument, pooledFundControl, totalAmount, securityLineType, incomePrincipalIndicator, etranTypeCode);
 
         // if there are transaction lines, proceed.   
         if (cashDecreaseDocument.getNextTargetLineNumber() > 1) {
@@ -326,18 +327,17 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param securityLineTypeCode
      * @param transactionIPIndicatorCode
      */
-    protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
+    protected void populateECI(CashIncreaseDocument cashIncreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode, String etranTypeCode) {
         
         // create a transaction line - needs only one for this batch job
         EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
         endowmentTargetTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentTargetTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        endowmentTargetTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+        endowmentTargetTransactionLine.setEtranCode(etranTypeCode);
         endowmentTargetTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
-        //endowmentTargetTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentTargetTransactionLine.setTransactionAmount(totalAmount);
         
-        GlobalVariables.clear();
+        GlobalVariables.clear();        
         if (validateTransactionLine(cashIncreaseDocument, endowmentTargetTransactionLine, EndowConstants.NEW_TARGET_TRAN_LINE_PROPERTY_NAME)) {
             // add a transaction line -  only one for this batch            
             cashIncreaseDocument.addTargetTransactionLine(endowmentTargetTransactionLine);
@@ -359,13 +359,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      * @param securityLineTypeCode
      * @param transactionIPIndicatorCode
      */
-    protected void populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode) {
+    protected void populateECDD(CashDecreaseDocument cashDecreaseDocument, PooledFundControl pooledFundControl, KualiDecimal totalAmount, String securityLineTypeCode, String transactionIPIndicatorCode, String etranTypeCode) {
         
         // create a transaction line - needs only one for this batch job
         EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
         endowmentSourceTransactionLine.setTransactionLineNumber(new Integer(1));
         endowmentSourceTransactionLine.setKemid(pooledFundControl.getFundKEMID());
-        endowmentSourceTransactionLine.setEtranCode(pooledFundControl.getFundAssetPurchaseOffsetTranCode());
+        endowmentSourceTransactionLine.setEtranCode(etranTypeCode);
         endowmentSourceTransactionLine.setTransactionIPIndicatorCode(transactionIPIndicatorCode);
         //endowmentSourceTransactionLine.setTransactionLineTypeCode(securityLineTypeCode);
         endowmentSourceTransactionLine.setTransactionAmount(totalAmount);
@@ -472,6 +472,21 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
      */
     protected boolean validateECDD(CashDecreaseDocument cashDecreaseDocument) {
         return kualiRuleService.applyRules(new RouteDocumentEvent(cashDecreaseDocument));
+    }
+    
+    protected String getEtranTypeCode(PooledFundControl pooledFundControl, String docComponentType) {
+        String etranTypeCode = "";
+        if (docComponentType.equalsIgnoreCase(EndowParameterKeyConstants.PURCHASE_DESCRIPTION)) {
+            etranTypeCode = pooledFundControl.getFundAssetPurchaseOffsetTranCode();
+        } else if (docComponentType.equalsIgnoreCase(EndowParameterKeyConstants.SALE_DESCRIPTION)) {
+            etranTypeCode = pooledFundControl.getFundAssetSaleOffsetTranCode();
+        } else if (docComponentType.equalsIgnoreCase(EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION)) {
+            etranTypeCode = pooledFundControl.getFundSaleGainLossOffsetTranCode();
+        } else if (docComponentType.equalsIgnoreCase(EndowParameterKeyConstants.INCOME_DESCRIPTION)) {
+            etranTypeCode = pooledFundControl.getFundCashDepositOffsetTranCode();
+        }
+        
+        return etranTypeCode;
     }
     
     /**

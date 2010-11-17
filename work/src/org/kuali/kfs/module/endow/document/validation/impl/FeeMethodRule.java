@@ -116,7 +116,8 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         rulesPassed &= checkFeeRateAndBreakpointAmounts(feeMethod); // rule #17, rule #18, rule #19
         rulesPassed &= validFeeTransactionTypeEntered(feeMethod); // rule #20
         rulesPassed &= checkFrequencyCodeNotChangedIfFeeMethodUsedOnAnyKemid(document);
-
+        rulesPassed &= validFeeExpenseETranCodeEntered(feeMethod); //new rule added by Norm. Per KULENDOW-564
+        
         return rulesPassed;
     }
 
@@ -957,4 +958,17 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Check to see if fee method etran code has a valiD expense etran code type = E
+     */
+    private boolean validFeeExpenseETranCodeEntered(FeeMethod feeMethod) {
+        boolean valid = true;
+        
+        if (!EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE.equalsIgnoreCase(feeMethod.getEndowmentTransactionCode().getEndowmentTransactionTypeCode())) {
+            valid = false;
+            putFieldError(EndowPropertyConstants.FEE_EXPENSE_ENDOWMENT_TRANSACTION_CODE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_TYPE_CODE_FOR_EXPENSE_ETRANCODE);
+        }
+        
+        return valid;
+    }
 }

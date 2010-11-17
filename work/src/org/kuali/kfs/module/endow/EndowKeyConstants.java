@@ -106,6 +106,7 @@ public class EndowKeyConstants {
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.noRecord";
         public static final String ERROR_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.yesRecord";
         public static final String ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED = "error.document.feeMethod.feeByTransactionType.invalid";
+        public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_FOR_EXPENSE_ETRANCODE="error.document.feeMethod.feeByTransactionType.expenseTypeCode.shouldBeE";
         public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.invalidETranCode";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
         public static final String ERROR_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.yesRecord";

@@ -519,6 +519,7 @@ public class EndowPropertyConstants {
     public static final String FEE_BASE_CODE = "feeBaseCode";
     public static final String FEE_BY_TRANSACTION_TYPE_CODE = "feeByTransactionType";
     public static final String FEE_BY_ENDOWMENT_TRANSACTION_TYPE_CODE = "feeByETranCode";
+    public static final String FEE_EXPENSE_ENDOWMENT_TRANSACTION_CODE = "feeExpenseETranCode";
     public static final String FEE_BY_CLASS_CODE = "feeByClassCode";
     public static final String FEE_BY_SECURITY_CODE = "feeBySecurityCode";
     public static final String FEE_BALANCE_TYPES_CODE = "feeBalanceTypeCode";

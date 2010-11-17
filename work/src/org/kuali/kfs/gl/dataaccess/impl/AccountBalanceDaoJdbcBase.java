@@ -80,7 +80,7 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @return true if this inquiring user has temporary pending entries, false otherwise
      */
     protected boolean hasEntriesInPendingTable(String sessionId) {
-        return getSimpleJdbcTemplate().queryForInt("select count(*) as COUNT from gl_pending_entry_mt WHERE sesid = ?", sessionId) != 0;
+        return getSimpleJdbcTemplate().queryForInt("select count(*) as COUNT from GL_PENDING_ENTRY_MT WHERE sesid = ?", sessionId) != 0;
     }
 
     /**
@@ -91,7 +91,7 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      */
     protected void fixPendingEntryDisplay(Integer universityFiscalYear, String sessionId) {
         getSimpleJdbcTemplate().update("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = ? where SESID = ?", universityFiscalYear, sessionId);
-        getSimpleJdbcTemplate().update("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
+        getSimpleJdbcTemplate().update("update GL_PENDING_ENTRY_MT set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
     }
 
     /**

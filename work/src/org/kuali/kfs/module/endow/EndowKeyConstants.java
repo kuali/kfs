@@ -185,6 +185,7 @@ public class EndowKeyConstants {
         public static final String ERROR_TRANSACTION_LINE_ETRAN_BLANK = "error.document.transactionLine.etran.blank";
         public static final String ERROR_TRANSACTION_LINE_ETRAN_INVALID = "error.document.transactionLine.etran.invalid";
         public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY = "error.document.transactionLine.etran.typecode.validity";
+        public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY_INCOME_EXPENSE_ASSET = "error.document.transactionLine.etran.typecode.validityIncomeExpenseOrAsset";
         public static final String ERROR_TRANSACTION_SECURITY_REQUIRED = "error.document.transaction.security.required";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_REQUIRED = "error.document.transaction.registrationCode.required";
         public static final String ERROR_TRANSACTION_SECURITY_INVALID = "error.document.transaction.security.invalid";

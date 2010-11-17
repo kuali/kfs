@@ -47,7 +47,7 @@ public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentAccounti
                 return false;
 
             // Validate ETran code as E or I
-            isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+            isValid &= validateEndowmentTransactionTypeCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
 
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))

@@ -73,4 +73,13 @@ public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
         return GlobalVariables.getMessageMap().getErrorCount() == 0;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateEndowmentTransactionTypeCode(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.String)
+     */
+    @Override
+    protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix) {
+
+        return super.validateEtranTypeBasedOnDocSource(endowmentTransactionLinesDocument, line, prefix);
+    }
+
 }

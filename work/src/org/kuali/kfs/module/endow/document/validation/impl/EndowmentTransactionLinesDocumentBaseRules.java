@@ -245,7 +245,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
                     return false;
 
                 // Validate ETran code as E or I
-                isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+                isValid &= validateEndowmentTransactionTypeCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
 
                 // Validate if a KEMID can have a principal transaction when IP indicator is P
                 if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))
@@ -441,7 +441,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
      * @param line
      * @return
      */
-    protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLine line, String prefix) {
+    protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix) {
         if (line.getEtranCodeObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE) || line.getEtranCodeObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowConstants.EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE))
             return true;
         else {

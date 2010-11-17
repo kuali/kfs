@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -53,4 +54,13 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
         return isValid;
     }
 
+    /**
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateEndowmentTransactionTypeCode(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, java.lang.String)
+     */
+    @Override
+    protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix) {
+
+        return validateEtranTypeBasedOnDocSource(endowmentTransactionLinesDocument, line, prefix);
+    }
 }

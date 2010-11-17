@@ -25,7 +25,8 @@ import org.kuali.rice.kns.document.Document;
 public class GLToEndowmentTransferOfFundsDocumentRules extends EndowmentAccountingLinesDocumentBaseRules {
 
     /**
-     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
+     * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#validateTransactionLine(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
+     *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine, int)
      */
     @Override
     protected boolean validateTransactionLine(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
@@ -44,7 +45,7 @@ public class GLToEndowmentTransferOfFundsDocumentRules extends EndowmentAccounti
                 return false;
 
             // Validate ETran code as E or I
-            isValid &= validateEndowmentTransactionTypeCode(line, ERROR_PREFIX);
+            isValid &= validateEndowmentTransactionTypeCode(endowmentTransactionLinesDocument, line, ERROR_PREFIX);
 
             // Validate if a KEMID can have a principal transaction when IP indicator is P
             if (!canKEMIDHaveAPrincipalTransaction(line, ERROR_PREFIX))

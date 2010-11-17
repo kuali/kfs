@@ -29,7 +29,9 @@ datasets/demo/         - Demo dataset useful for a quick start with enhancing or
                        - application without having to develop your data imports first.
 datasets/bootstrap/    - An almost completely empty database except for the base configuration and
                          reference data.  Use this when you are ready to import your insitution's data.
-datasets/rice/         - A clean rice server database onto which either of the above datasets can be overlaid.
+datasets/rice-demo/    - A rice server database onto which either of the above datasets can be overlaid.  
+                         This contains some of the rice sampleapp data.
+datasets/rice-bootstrap/ - A clean rice server database onto which either of the above datasets can be overlaid.
 
 demo-impex-build-embedded-rice.properties 
 					   - Configuration file for the impex tool to import the demo bootstrap into a 

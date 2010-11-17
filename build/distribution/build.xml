@@ -28,6 +28,8 @@
 			<!-- datasets -->
 			<export srcurl="${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}"
 					destpath="${all.temp.directory}/datasets" />
+			<delete dir="${all.temp.directory}/datasets/development" />
+			<delete dir="${all.temp.directory}/datasets/rice" />
 			<!-- impex tool -->
 			<export srcurl="${kuali.svn.root}/${impex.tool.svn.module}/${impex.tool.svn.path}"
 					destpath="${all.temp.directory}/kul-cfg-dbs" />

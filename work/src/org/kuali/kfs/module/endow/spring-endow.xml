@@ -979,7 +979,7 @@
 
 	<bean id="incomeDistributionForPooledFundExceptionReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException_"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundException-"/>
         <property name="title" value="Income Distribution"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
@@ -990,7 +990,7 @@
 
 	<bean id="incomeDistributionForPooledFundTotalReportWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>
-		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal_"/>
+		<property name="fileNamePrefix" value="incomeDistributionForPooledFundTotal-"/>
         <property name="title" value="Income Distribution"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>

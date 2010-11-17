@@ -85,10 +85,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         initializeReports();
         
         // All the jobs should be attempted. If one should fail, that would be an exception to report and then return false.
-        if (!createCashDocumentByTrasnactionSecurityCostForEAI()) return false;   
-        if (!createCashDocumentByTrasnactionSecurityCostForEAD()) return false;
-        if (!createCashDocumentByTransactionSecurityGainLossForEAD()) return false;
-        if (!createCashDocumentByTrasnactionCashAmount()) return false;
+        if (!createCashDocumentForPurchase()) return false;   
+        if (!createCashDocumentForSale()) return false;
+        if (!createCashDocumentForSaleGainLoss()) return false;
+        if (!createCashDocumentForIncomeDistribution()) return false;
 
         LOG.info("The batch Generate Pooled Fund Control Transactions was finished"); 
         
@@ -98,14 +98,14 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAI
      */
-    protected boolean createCashDocumentByTrasnactionSecurityCostForEAI() {
+    protected boolean createCashDocumentForPurchase() {
         return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE, EndowParameterKeyConstants.PURCHASE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_TARGET, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);       
     }
 
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of holding cost for EAD
      */
-    protected boolean createCashDocumentByTrasnactionSecurityCostForEAD() {        
+    protected boolean createCashDocumentForSale() {        
         return createCashDocumentBasedOnHoldingCost(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE, EndowParameterKeyConstants.SALE_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.SALE_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);          
     }
     
@@ -149,7 +149,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of gain/loss for transaction type EAD
      */
-    protected boolean createCashDocumentByTransactionSecurityGainLossForEAD() {
+    protected boolean createCashDocumentForSaleGainLoss() {
         
         List<String> documentTypeNames = new ArrayList<String>();
         documentTypeNames.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
@@ -183,7 +183,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
     /**
      * Creates an ECI or an ECDD eDoc according to the total amount of income/principle cash for transaction type ECI and ECDD
      */
-    protected boolean createCashDocumentByTrasnactionCashAmount() {
+    protected boolean createCashDocumentForIncomeDistribution() {
         
         List<String> documentTypeNames = new ArrayList<String>();
         documentTypeNames.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
@@ -294,7 +294,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         populateECDD(cashDecreaseDocument, pooledFundControl, totalAmount, securityLineType, incomePrincipalIndicator, etranTypeCode);
 
         // if there are transaction lines, proceed.   
-        if (cashDecreaseDocument.getNextTargetLineNumber() > 1) {
+        if (cashDecreaseDocument.getNextSourceLineNumber() > 1) {
             // validate and submit it. Since we have only one transaction line for each ECDD, we do not need to validate the transaction line separately
             GlobalVariables.clear();
             if (validateECDD(cashDecreaseDocument)) {
@@ -313,7 +313,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 } 
             }
         } else {
-            LOG.error("ECI was not sumitted because no transaction lines are found in document# " + cashDecreaseDocument.getDocumentNumber());
+            LOG.error("ECDD was not sumitted because no transaction lines are found in document# " + cashDecreaseDocument.getDocumentNumber());
         }
 
         return true;

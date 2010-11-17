@@ -43,20 +43,20 @@ import org.kuali.kfs.sys.batch.dataaccess.impl.AbstractPreparedStatementCachingD
 public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends AbstractPreparedStatementCachingDaoJdbc implements LedgerReferenceValuePreparedStatementCachingDao {
     static final Map<String,String> sql = new HashMap<String,String>();
     static {
-        sql.put(RETRIEVE_PREFIX + Chart.class, "select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from ca_chart_t where fin_coa_cd = ?");
-        sql.put(RETRIEVE_PREFIX + Account.class, "select acct_expiration_dt, acct_closed_ind, sub_fund_grp_cd, org_cd, cont_fin_coa_cd, cont_account_nbr, fin_series_id, acct_icr_typ_cd, acct_sf_cd from ca_account_t where fin_coa_cd = ? and account_nbr = ?");
-        sql.put(RETRIEVE_PREFIX + SubAccount.class, "select sub_acct_actv_cd from ca_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
-        sql.put(RETRIEVE_PREFIX + ObjectCode.class, "select fin_obj_typ_cd, fin_obj_sub_typ_cd, fin_obj_level_cd, fin_obj_active_cd, rpts_to_fin_coa_cd, rpts_to_fin_obj_cd from ca_object_code_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
-        sql.put(RETRIEVE_PREFIX + SubObjectCode.class, "select fin_subobj_actv_cd from ca_sub_object_cd_t where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
-        sql.put(RETRIEVE_PREFIX + ProjectCode.class, "select proj_active_cd from ca_project_t where project_cd = ?");
-        sql.put(RETRIEVE_PREFIX + Organization.class, "select org_plnt_coa_cd, org_plnt_acct_nbr, cmp_plnt_coa_cd, cmp_plnt_acct_nbr from ca_org_t where fin_coa_cd = ? and org_cd = ?");
-        sql.put(RETRIEVE_PREFIX + SubFundGroup.class, "select fund_grp_cd from ca_sub_fund_grp_t where sub_fund_grp_cd = ?");
-        sql.put(RETRIEVE_PREFIX + OffsetDefinition.class, "select fin_object_cd from gl_offset_defn_t where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
-        sql.put(RETRIEVE_PREFIX + A21SubAccount.class, "select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from ca_a21_sub_acct_t where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
-        sql.put(RETRIEVE_PREFIX + ObjectType.class, "select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from ca_obj_type_t where fin_obj_typ_cd = ?");
-        sql.put(RETRIEVE_PREFIX + ObjectLevel.class, "select fin_cons_obj_cd from ca_obj_level_t where fin_coa_cd = ? and fin_obj_level_cd = ?");
-        sql.put(RETRIEVE_PREFIX + BalanceType.class, "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from ca_balance_type_t where fin_balance_typ_cd = ?");
-        sql.put(RETRIEVE_PREFIX + AccountingPeriod.class, "select row_actv_ind from sh_acct_period_t where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
+        sql.put(RETRIEVE_PREFIX + Chart.class, "select fin_coa_active_cd, fin_cash_obj_cd, fin_ap_obj_cd, FND_BAL_OBJ_CD from CA_CHART_T where fin_coa_cd = ?");
+        sql.put(RETRIEVE_PREFIX + Account.class, "select acct_expiration_dt, acct_closed_ind, sub_fund_grp_cd, org_cd, cont_fin_coa_cd, cont_account_nbr, fin_series_id, acct_icr_typ_cd, acct_sf_cd from CA_ACCOUNT_T where fin_coa_cd = ? and account_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + SubAccount.class, "select sub_acct_actv_cd from CA_SUB_ACCT_T where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectCode.class, "select fin_obj_typ_cd, fin_obj_sub_typ_cd, fin_obj_level_cd, fin_obj_active_cd, rpts_to_fin_coa_cd, rpts_to_fin_obj_cd from CA_OBJECT_CODE_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fin_object_cd = ?");
+        sql.put(RETRIEVE_PREFIX + SubObjectCode.class, "select fin_subobj_actv_cd from CA_SUB_OBJECT_CD_T where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ?");
+        sql.put(RETRIEVE_PREFIX + ProjectCode.class, "select proj_active_cd from CA_PROJECT_T where project_cd = ?");
+        sql.put(RETRIEVE_PREFIX + Organization.class, "select org_plnt_coa_cd, org_plnt_acct_nbr, cmp_plnt_coa_cd, cmp_plnt_acct_nbr from CA_ORG_T where fin_coa_cd = ? and org_cd = ?");
+        sql.put(RETRIEVE_PREFIX + SubFundGroup.class, "select fund_grp_cd from CA_SUB_FUND_GRP_T where sub_fund_grp_cd = ?");
+        sql.put(RETRIEVE_PREFIX + OffsetDefinition.class, "select fin_object_cd from GL_OFFSET_DEFN_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + A21SubAccount.class, "select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from CA_A21_SUB_ACCT_T where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectType.class, "select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from CA_OBJ_TYPE_T where fin_obj_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + ObjectLevel.class, "select fin_cons_obj_cd from CA_OBJ_LEVEL_T where fin_coa_cd = ? and fin_obj_level_cd = ?");
+        sql.put(RETRIEVE_PREFIX + BalanceType.class, "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from CA_BALANCE_TYPE_T where fin_balance_typ_cd = ?");
+        sql.put(RETRIEVE_PREFIX + AccountingPeriod.class, "select row_actv_ind from SH_ACCT_PERIOD_T where univ_fiscal_yr = ? and univ_fiscal_prd_cd = ?");
         sql.put(RETRIEVE_PREFIX + IndirectCostRecoveryType.class, "select ACCT_ICR_TYP_ACTV_IND from CA_ICR_TYPE_T where acct_icr_typ_cd = ?");
     }
 

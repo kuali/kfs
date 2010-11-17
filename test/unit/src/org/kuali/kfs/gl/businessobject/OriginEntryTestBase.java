@@ -254,14 +254,14 @@ public class OriginEntryTestBase extends KualiTestBase {
      * Deletes everything in the expenditure transaction table
      */
     protected void clearExpenditureTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
+        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_T");
     }
     
     /**
      * Deletes everything in the sufficient fund balance table
      */
     protected void clearSufficientFundBalanceTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T");
     }
 
     /**
@@ -271,35 +271,35 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @param account_nbr the account number of entries to delete
      */
     protected void clearGlEntryTable(String fin_coa_cd, String account_nbr) {
-        unitTestSqlDao.sqlCommand("delete from gl_entry_t where fin_coa_cd = '" + fin_coa_cd + "' and account_nbr = '" + account_nbr + "'");
+        unitTestSqlDao.sqlCommand("delete from GL_ENTRY_T where fin_coa_cd = '" + fin_coa_cd + "' and account_nbr = '" + account_nbr + "'");
     }
 
     /**
      * Deletes everything in the gl reversal table
      */
     protected void clearReversalTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_reversal_t");
+        unitTestSqlDao.sqlCommand("delete from GL_REVERSAL_T");
     }
 
     /**
      * Deletes everything in the gl balance table
      */
     protected void clearGlBalanceTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_balance_t");
+        unitTestSqlDao.sqlCommand("delete from GL_BALANCE_T");
     }
 
     /**
      * Deletes everything in the gl encumbrance table.
      */
     protected void clearEncumbranceTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_encumbrance_t");
+        unitTestSqlDao.sqlCommand("delete from GL_ENCUMBRANCE_T");
     }
 
     /**
      * Deletes everything in the gl account balance table
      */
     protected void clearGlAccountBalanceTable() {
-        unitTestSqlDao.sqlCommand("delete from gl_acct_balances_t");
+        unitTestSqlDao.sqlCommand("delete from GL_ACCT_BALANCES_T");
     }
     
     /**

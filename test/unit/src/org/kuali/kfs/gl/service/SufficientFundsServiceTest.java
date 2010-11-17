@@ -65,17 +65,17 @@ public class SufficientFundsServiceTest extends KualiTestBase {
      * @param createPles true if pending ledger entries should also be created, false otherwise
      */
     private void prepareSufficientFundsData(String accountNumber, String sfType, String sfObjCd, Integer budgetAmt, Integer actualAmt, Integer encAmt, boolean createPles) {
-        unitTestSqlDao.sqlCommand("delete from gl_pending_entry_t");
+        unitTestSqlDao.sqlCommand("delete from GL_PENDING_ENTRY_T");
 
         if (createPles)
             insertPendingLedgerEntries(accountNumber, sfObjCd);
 
         
         final Integer currentFiscalYear = TestUtils.getFiscalYearForTesting();
-        unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t where univ_fiscal_yr = '" + currentFiscalYear + "' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
-        unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t where univ_fiscal_yr = '"+ (currentFiscalYear-1) +"' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where univ_fiscal_yr = '" + currentFiscalYear + "' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where univ_fiscal_yr = '"+ (currentFiscalYear-1) +"' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '" + accountNumber + "', '" + sfObjCd + "', '" + sfType + "', " + budgetAmt + ", " + actualAmt + ", " + encAmt + ", null)");
-        unitTestSqlDao.sqlCommand("update ca_account_t set ACCT_SF_CD = '" + sfType + "', ACCT_PND_SF_CD = 'Y' where FIN_COA_CD = 'BL' and ACCOUNT_NBR = '" + accountNumber + "'");
+        unitTestSqlDao.sqlCommand("update CA_ACCOUNT_T set ACCT_SF_CD = '" + sfType + "', ACCT_PND_SF_CD = 'Y' where FIN_COA_CD = 'BL' and ACCOUNT_NBR = '" + accountNumber + "'");
 
     }
 
@@ -88,8 +88,8 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     private void insertPendingLedgerEntries(String accountNumber, String sfObjCd) {
         String documentHeaderId = "1";
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        unitTestSqlDao.sqlCommand("delete from krns_doc_hdr_t where doc_hdr_id = '" + documentHeaderId + "'");
-        unitTestSqlDao.sqlCommand("delete from fs_doc_header_t where fdoc_nbr = '" + documentHeaderId + "'");
+        unitTestSqlDao.sqlCommand("delete from KRNS_DOC_HDR_T where doc_hdr_id = '" + documentHeaderId + "'");
+        unitTestSqlDao.sqlCommand("delete from FS_DOC_HEADER_T where fdoc_nbr = '" + documentHeaderId + "'");
         unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (DOC_HDR_ID, OBJ_ID, VER_NBR, FDOC_DESC, ORG_DOC_HDR_ID, TMPL_DOC_HDR_ID) values ('" + documentHeaderId + "','" + new Guid().toString() + "', 1, 'test', '', '')");
         unitTestSqlDao.sqlCommand("insert into FS_DOC_HEADER_T (FDOC_NBR, FDOC_STATUS_CD, FDOC_TOTAL_AMT, FDOC_IN_ERR_NBR, TEMP_DOC_FNL_DT) values ('" + documentHeaderId + "', 'A', 0, '', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
         unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',1,'" + new Guid().toString() + "',2,'BL','" + accountNumber + "','-----','5000','---','AC','EX',"+currentFiscalYear+",null,               'test',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','" + sfObjCd + "','N'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");

@@ -5,6 +5,7 @@
 		 from KualiDocument in the baseline Rice distribution. -->
     <documentType>
       <name>KFS</name>
+      <parent>KualiDocument</parent>
       <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
     </documentType>
 
@@ -13,28 +14,32 @@
 		 attempted to customize a parent document's workflow. -->
     <documentType>
       <name>VNSM</name>
+      <parent>FSSM</parent>
     </documentType>
     <documentType>
       <name>CGSM</name>
+      <parent>FSSM</parent>
     </documentType>
     <documentType>
       <name>PRSM</name>
+      <parent>FSSM</parent>
     </documentType>
 
 	<!-- Add help URLs -->
-    <documentType>
+    <documentType overwriteMode="true">
       <name>BC</name>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm</helpDefinitionURL>
       <postProcessorName />
       <routePaths />
     </documentType>
-    <documentType>
+
+    <documentType overwriteMode="true">
       <name>PVEN</name>
       <helpDefinitionURL>default.htm?turl=WordDocuments%2Fvendor2.htm</helpDefinitionURL>
     </documentType>
 
 	<!-- Update the label on these documents -->
-    <documentType>
+    <documentType overwriteMode="true">
       <name>RA</name>
       <label>Research Administration</label>
     </documentType>

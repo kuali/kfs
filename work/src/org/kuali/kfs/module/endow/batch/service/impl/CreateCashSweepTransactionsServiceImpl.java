@@ -559,6 +559,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         KemidCurrentCash kemidCurrentCash = businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid.getKemid());
 
         if (kemidCurrentCash == null) {
+            writeExceptionTableReason("Unable to calculate current cash amount: END_CRNT_CSH_T is \'null\' for KEMID \'" + kemid.getKemid() + "\'");
             return null;
         }
 

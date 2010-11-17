@@ -124,12 +124,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         LOG.debug("createRequisitionsFromCxml() started");
         // for returning requisitions
         ArrayList requisitions = new ArrayList();
-
+        boolean dunsNumberEnabled = isDunsNumberEnabled();
+        
         // get items from the cart
         List items = message.getItems();
             
         // get vendor(s) for the items
-        List vendors = getAllVendors(items);
+        List vendors = getAllVendors(items, dunsNumberEnabled);
 
         // create requisition(s) (one per vendor)
         for (Iterator iter = vendors.iterator(); iter.hasNext();) {
@@ -158,10 +159,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // determine if the system is configured to use DUNS numbers, rather than VendorNumbers, if so, use that to 
             // filter vendor-specific items off the cart
-            String vendorNumberOrDUNS = (isDunsNumberEnabled() ? vendor.getVendorDunsNumber() : vendor.getVendorNumber());
+            String vendorNumberOrDUNS = (dunsNumberEnabled ? vendor.getVendorDunsNumber() : vendor.getVendorNumber());
 
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, vendorNumberOrDUNS);
+            List itemsForVendor = getAllVendorItems(items, vendorNumberOrDUNS, dunsNumberEnabled);
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
@@ -248,13 +249,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param items Items in the shopping cart
      * @return List of VendorDetails for each vendor in the shopping cart
      */
-    protected List getAllVendors(List items) {
+    protected List getAllVendors(List items, boolean dunsNumberEnabled) {
         LOG.debug("getAllVendors() started");
 
         Set vendorIdentifiers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
-            vendorIdentifiers.add( getVendorNumber(item) );
+            vendorIdentifiers.add( getVendorNumber(item, dunsNumberEnabled) );
         }
 
         ArrayList vendors = new ArrayList();
@@ -289,14 +290,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param vendorId  String containing "vendorHeaderId-vendorDetailId"
      * @return list of RequisitionItems for a specific vendor id
      */
-    protected List getAllVendorItems(List items, String vendorId) {
+    protected List getAllVendorItems(List items, String vendorId, boolean dunsNumberEnabled) {
         LOG.debug("getAllVendorItems() started");        
         
         // First get all the ShoppingCartItems for this vendor in a list
         List scItems = new ArrayList();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
-            if ( StringUtils.equals(vendorId, getVendorNumber(item)) ) {
+            if ( StringUtils.equals(vendorId, getVendorNumber(item, dunsNumberEnabled)) ) {
                 scItems.add(item);
             }
         }
@@ -342,10 +343,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param item the specified B2BShoppingCartItem.
      * @return the Vendor number retrieved from the B2BShoppingCartItem.
      */    
-    protected String getVendorNumber(B2BShoppingCartItem item){       
+    protected String getVendorNumber(B2BShoppingCartItem item, boolean dunsNumberEnabled){       
         String vendorNumber = null;
                 
-        if (isDunsNumberEnabled()) {
+        if (dunsNumberEnabled) {
             vendorNumber = item.getSupplier("DUNS");
         }
         else {

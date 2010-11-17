@@ -253,21 +253,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
         Set vendorIdentifiers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
-            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            
-            String vendorIdentifier = "";
-            if (isDunsNumberEnabled()){
-                //duns number
-                vendorIdentifier = item.getSupplier("DUNS");
-            }else{
-                //vendor number
-                vendorIdentifier = item.getExtrinsic("ExternalSupplierId");
-            }
-            
-            if (StringUtils.isBlank(vendorIdentifier)){
-                throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
-            }
-            vendorIdentifiers.add(vendorIdentifier);
+            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
+            vendorIdentifiers.add( getVendorNumber(item) );
         }
 
         ArrayList vendors = new ArrayList();
@@ -303,13 +290,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @return list of RequisitionItems for a specific vendor id
      */
     protected List getAllVendorItems(List items, String vendorId) {
-        LOG.debug("getAllVendorItems() started");
-
+        LOG.debug("getAllVendorItems() started");        
+        
         // First get all the ShoppingCartItems for this vendor in a list
         List scItems = new ArrayList();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
-            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();
-            if (vendorId.equals(item.getExtrinsic("ExternalSupplierId"))) {
+            B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
+            if ( StringUtils.equals(vendorId, getVendorNumber(item)) ) {
                 scItems.add(item);
             }
         }
@@ -346,6 +333,32 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         return reqItem;
     }
 
+
+    /**
+     * Gets the vendor number from the specified B2BShoppingCartItem, depending on whether DUNS is enabled for B2B:
+     * If yes, vendor DUNS number is retrieved from the SupplierId-DUNS tag in the B2B cxml file;
+     * otherwise vendor ID is retrieved from the Extrinsic-ExternalSupplierId tag.
+     *
+     * @param item the specified B2BShoppingCartItem.
+     * @return the Vendor number retrieved from the B2BShoppingCartItem.
+     */    
+    protected String getVendorNumber(B2BShoppingCartItem item){       
+        String vendorNumber = null;
+                
+        if (isDunsNumberEnabled()) {
+            vendorNumber = item.getSupplier("DUNS");
+        }
+        else {
+            vendorNumber = item.getExtrinsic("ExternalSupplierId");
+        }
+        
+        if (StringUtils.isBlank(vendorNumber)){
+            throw new B2BShoppingException(PurapConstants.B2B_VENDOR_CONTRACT_NOT_FOUND_ERROR_MESSAGE);
+        }
+        
+        return vendorNumber;
+    } 
+    
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -415,4 +428,3 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     }
 
 }
-

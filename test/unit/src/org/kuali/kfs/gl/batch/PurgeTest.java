@@ -81,7 +81,7 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for current fiscal year)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_entry_t group by univ_fiscal_yr order by univ_fiscal_yr");
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_ENTRY_T group by univ_fiscal_yr order by univ_fiscal_yr");
         assertEquals("Wrong number of years found in gl_entry_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
@@ -104,10 +104,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("delete from GL_balance_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values ("+pastFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_BALANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values ("+pastFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values ("+currentFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_BALANCE_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, " + "ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, " + "MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT, TIMESTAMP) " + "values ("+currentFiscalYear+", 'BL', '1031400', '-----', '5000', '---', 'AC', 'EX'," + " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = BatchSpringContext.getStep("purgeBalanceStep");
         TestUtils.setSystemParameter(AopUtils.getTargetClass(purgeStep), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
@@ -116,8 +116,8 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_balance_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_balance_t", 1, counts.size());
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_BALANCE_T group by univ_fiscal_yr order by univ_fiscal_yr");
+        assertEquals("Wrong number of years found in GL_BALANCE_T", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", currentFiscalYear, getInt(count1999, "UNIV_FISCAL_YR"));
@@ -152,7 +152,7 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_acct_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_ACCT_BALANCES_T group by univ_fiscal_yr order by univ_fiscal_yr");
         assertEquals("Wrong number of years found in gl_acct_balances_t", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
@@ -188,7 +188,7 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 2002)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_encumbrance_t group by univ_fiscal_yr order by univ_fiscal_yr");
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_ENCUMBRANCE_T group by univ_fiscal_yr order by univ_fiscal_yr");
         assertEquals("Wrong number of years found in gl_encumbrance_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
@@ -224,7 +224,7 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 2002)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_id_bill_t group by univ_fiscal_yr order by univ_fiscal_yr");
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_ID_BILL_T group by univ_fiscal_yr order by univ_fiscal_yr");
         assertEquals("Wrong number of years found in gl_id_bill_t", 1, counts.size());
 
         Map count2002 = (Map) counts.get(0);
@@ -247,10 +247,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_SF_BALANCES_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+pastFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+pastFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into gl_sf_balances_t (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = BatchSpringContext.getStep("purgeSufficientFundBalancesStep");
         Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass(); 
@@ -260,8 +260,8 @@ public class PurgeTest extends KualiTestBase {
         assertTrue("Should return true", purgeStep.execute(getClass().getName(), dateTimeService.getCurrentDate()));
 
         // Check the results (should be 1 row for 1999)
-        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from gl_sf_balances_t group by univ_fiscal_yr order by univ_fiscal_yr");
-        assertEquals("Wrong number of years found in gl_sf_balances_t", 1, counts.size());
+        List counts = unitTestSqlDao.sqlSelect("select univ_fiscal_yr,count(*) from GL_SF_BALANCES_T group by univ_fiscal_yr order by univ_fiscal_yr");
+        assertEquals("Wrong number of years found in GL_SF_BALANCES_T", 1, counts.size());
 
         Map count1999 = (Map) counts.get(0);
         assertEquals("Selected year is wrong", currentFiscalYear, getInt(count1999, "UNIV_FISCAL_YR"));

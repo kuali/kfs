@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.CreateCashSweepTransactionsStep;
 import org.kuali.kfs.module.endow.batch.reporter.ReportDocumentStatistics;
 import org.kuali.kfs.module.endow.batch.service.CreateCashSweepTransactionsService;
@@ -37,8 +38,10 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
+import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentExceptionReportLine;
 import org.kuali.kfs.module.endow.businessobject.TransactionDocumentTotalReportLine;
 import org.kuali.kfs.module.endow.dataaccess.CashSweepModelDao;
@@ -47,6 +50,7 @@ import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetDecreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
@@ -75,6 +79,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private UpdateAssetDecreaseDocumentTaxLotsService updateEadTaxLotService;
     private ReportWriterService createCashSweepExceptionReportWriterService;
     private ReportWriterService createCashSweepProcessedReportWriterService;
+    private PooledFundControlService pooledFundControlService;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private KualiConfigurationService configService;
@@ -154,7 +159,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         // Step 2. Get security and registration code from cash sweep.
         String sweepRegistraionCode = cashSweepModel.getIncomeSweepRegistrationCode();
         String sweepSecurityId = cashSweepModel.getIncomeSweepInvestment();
-
+        
         // Steps 4 - 12.
         processAssetDecreaseDocuments(cashSweepModel.getCashSweepModelID(), sweepRegistraionCode, sweepSecurityId, cashSweepModel.getSweepIncomeCashLimit(), true);
 
@@ -212,7 +217,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 }
 
                 // Create, validate, and add the transaction line to the eDoc.
-                addTransactionLineForAssetDecrease(assetDecreaseDoc, kemid, cashLimit, currentCash, isIncome);
+                addTransactionLineForAssetDecrease(assetDecreaseDoc, kemid, cashLimit, currentCash, sweepSecurityId, isIncome);
 
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc. If so, validate, and submit the current eDoc and start
@@ -268,7 +273,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
                 }
 
                 // Create, validate, and add the transaction line to the eDoc.
-                addTransactionLineForAssetIncrease(assetIncreaseDoc, kemid, cashLimit, currentCash, isIncome);
+                addTransactionLineForAssetIncrease(assetIncreaseDoc, kemid, cashLimit, currentCash, sweepSecurityId, isIncome);
 
                 // Check to see if we've reached our max number of transaction lines
                 // per eDoc. If so, validate, and submit the current eDoc and start
@@ -290,6 +295,31 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
             routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
         }
     }
+    
+    /**
+     * 
+     * Calculates the number of units available.
+     *
+     * @param kemid
+     * @param sweepSecurityId
+     * @return
+     */
+    private KualiDecimal calculateAvailableKemidSecurities(KEMID kemid, String sweepSecurityId) {
+        
+        BigDecimal unitsAvailable = BigDecimal.ZERO;
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid.getKemid());
+
+        List<HoldingTaxLot> holdingTaxLots = (List<HoldingTaxLot>)businessObjectService.findMatching(HoldingTaxLot.class, criteria);
+        for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+            if(holdingTaxLot.getSecurityId().equalsIgnoreCase(sweepSecurityId)) {
+                unitsAvailable = unitsAvailable.add(holdingTaxLot.getUnits());
+            }
+        }
+        
+        return (new KualiDecimal(unitsAvailable));
+    }
 
     /**
      * This method...
@@ -300,10 +330,17 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param currentCash
      * @param isIncome
      */
-    private void addTransactionLineForAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, boolean isIncome) {
+    private void addTransactionLineForAssetDecrease(AssetDecreaseDocument assetDecreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, String sweepSecurityId, boolean isIncome) {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, false);
-
+        
+        // Calculate available units and determine the transaction amount.  
+        // If the units needed are equal to or less than the units held then 
+        // use the calculated units.  If the units needed are greater than the 
+        // units held, then use the units held as the transaction amount.
+        KualiDecimal available = calculateAvailableKemidSecurities(kemid, sweepSecurityId);
+        if (amount.compareTo(available) > 0) { amount = available; }
+        
         // Create the correct transaction line based on if it's a source or target type.
         EndowmentTransactionLine transactionLine = createTransactionLine(assetDecreaseDoc.getDocumentNumber(), kemid.getKemid(), amount, true, isIncome);
 
@@ -334,7 +371,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param currentCash
      * @param isIncome
      */
-    private void addTransactionLineForAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, boolean isIncome) {
+    private void addTransactionLineForAssetIncrease(AssetIncreaseDocument assetIncreaseDoc, KEMID kemid, BigDecimal cashLimit, BigDecimal currentCash, String sweepSecurityId, boolean isIncome) {
         // Calculate the amount.
         KualiDecimal amount = calculateCashAvailable(cashLimit, currentCash, true);
 

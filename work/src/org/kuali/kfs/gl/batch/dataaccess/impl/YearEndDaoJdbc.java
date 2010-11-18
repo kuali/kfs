@@ -112,7 +112,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      */
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForBalances(Integer balanceFiscalYear) {
         // see algorithm for findKeysOfMissingPriorYearAccountsForBalances
-        List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from CA_PRIOR_YR_ACCT_T, GL_BALANCE_T where ca_prior_yr_acct_t.fin_coa_cd = gl_balance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_balance_t.account_nbr and gl_balance_t.univ_fiscal_yr = ? and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { balanceFiscalYear }, subFundGroupRowMapper);
+        List subFundGroupKeys = getJdbcTemplate().query("select distinct CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd from CA_PRIOR_YR_ACCT_T, GL_BALANCE_T where CA_PRIOR_YR_ACCT_T.fin_coa_cd = GL_BALANCE_T.fin_coa_cd and CA_PRIOR_YR_ACCT_T.account_nbr = GL_BALANCE_T.account_nbr and GL_BALANCE_T.univ_fiscal_yr = ? and CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd is not null order by CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd", new Object[] { balanceFiscalYear }, subFundGroupRowMapper);
         return selectMissingSubFundGroups(subFundGroupKeys);
     }
 
@@ -155,7 +155,7 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
      * @see org.kuali.kfs.gl.batch.dataaccess.YearEndDao#findKeysOfMissingSubFundGroupsForOpenEncumbrances(java.lang.Integer)
      */
     public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForOpenEncumbrances(Integer encumbranceFiscalYear) {
-        List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from CA_PRIOR_YR_ACCT_T, GL_ENCUMBRANCE_T where ca_prior_yr_acct_t.fin_coa_cd = gl_encumbrance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_encumbrance_t.account_nbr and gl_encumbrance_t.univ_fiscal_yr = ? and gl_encumbrance_t.acln_encum_amt <> gl_encumbrance_t.acln_encum_cls_amt and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { encumbranceFiscalYear }, subFundGroupRowMapper);
+        List subFundGroupKeys = getJdbcTemplate().query("select distinct CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd from CA_PRIOR_YR_ACCT_T, GL_ENCUMBRANCE_T where CA_PRIOR_YR_ACCT_T.fin_coa_cd = GL_ENCUMBRANCE_T.fin_coa_cd and CA_PRIOR_YR_ACCT_T.account_nbr = GL_ENCUMBRANCE_T.account_nbr and GL_ENCUMBRANCE_T.univ_fiscal_yr = ? and GL_ENCUMBRANCE_T.acln_encum_amt <> GL_ENCUMBRANCE_T.acln_encum_cls_amt and CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd is not null order by CA_PRIOR_YR_ACCT_T.sub_fund_grp_cd", new Object[] { encumbranceFiscalYear }, subFundGroupRowMapper);
         return selectMissingSubFundGroups(subFundGroupKeys);
     }
 

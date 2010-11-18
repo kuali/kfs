@@ -582,7 +582,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
     
     private void createFlexibleOffsetAccounts() {
         // clear the flexible offsets table
-        unitTestSqlDao.sqlCommand("delete from fp_ofst_acct_t");
+        unitTestSqlDao.sqlCommand("delete from FP_OFST_ACCT_T");
         // save our offsets
         boService.save(FLEXIBLE_OFFSET_ACCOUNT_FIXTURE.FLEXIBLE_ACTIVITY_CLOSING_OFFSET_ACCOUNT.convertToOffsetAccount());
         boService.save(FLEXIBLE_OFFSET_ACCOUNT_FIXTURE.FLEXIBLE_ENCUMBRANCE_FORWARD_OFFSET_ACCOUNT.convertToOffsetAccount());

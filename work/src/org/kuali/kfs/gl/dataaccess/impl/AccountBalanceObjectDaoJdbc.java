@@ -65,7 +65,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
             clearTempTable("FP_INTERIM1_OBJ_MT", "SESID", sessionId);
 
             // Add in all the data we need
-            getSimpleJdbcTemplate().update("INSERT INTO FP_INTERIM1_OBJ_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR,FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT," + " ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP,SESID) " + " SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR," + " A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT,A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, ?" + " FROM gl_acct_balances_t a, ca_object_code_t o WHERE a.univ_fiscal_yr = ? " + " AND a.fin_coa_cd = ?" + " AND a.account_nbr = ?" + " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd " + "AND o.fin_obj_level_cd = ?", sessionId, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode);
+            getSimpleJdbcTemplate().update("INSERT INTO FP_INTERIM1_OBJ_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR,FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT," + " ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP,SESID) " + " SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR," + " A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT,A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, ?" + " FROM GL_ACCT_BALANCES_T a, CA_OBJECT_CODE_T o WHERE a.univ_fiscal_yr = ? " + " AND a.fin_coa_cd = ?" + " AND a.account_nbr = ?" + " AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd " + "AND o.fin_obj_level_cd = ?", sessionId, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode);
 
             // Summarize pending entries into fp_interim1_level_mt if necessary
             if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
@@ -81,10 +81,10 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
             // Summarize
             if (isConsolidated) {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_OBJ_MT (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " + "SESID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt)," + "'B', ? " + " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = ?" + " GROUP BY fin_object_cd", sessionId, sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_OBJ_MT (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " + "SESID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt)," + "'B', ? " + " FROM FP_INTERIM1_OBJ_MT WHERE FP_INTERIM1_OBJ_MT.SESID  = ?" + " GROUP BY fin_object_cd", sessionId, sessionId);
             }
             else {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_OBJ_MT (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " + "SESID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), " + " 'B', ? " + " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID = ? " + " GROUP BY sub_acct_nbr, fin_object_cd", sessionId, sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_OBJ_MT (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " + "SESID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), " + " 'B', ? " + " FROM FP_INTERIM1_OBJ_MT WHERE FP_INTERIM1_OBJ_MT.SESID = ? " + " GROUP BY sub_acct_nbr, fin_object_cd", sessionId, sessionId);
             }
 
             // Here's the data

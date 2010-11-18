@@ -83,10 +83,10 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
 
             // Summarize
             if (isConsolidated) {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_LEVEL_MT (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " + "TYP_FIN_REPORT_SORT_CD, SESID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),?, ?" + " FROM FP_INTERIM1_LEVEL_MT " + " WHERE fp_interim1_level_mt.SESID = ? " + " GROUP BY fin_report_sort_cd, fin_obj_level_cd", financialReportingSortCode, sessionId, sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_LEVEL_MT (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " + "TYP_FIN_REPORT_SORT_CD, SESID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),?, ?" + " FROM FP_INTERIM1_LEVEL_MT " + " WHERE FP_INTERIM1_LEVEL_MT.SESID = ? " + " GROUP BY fin_report_sort_cd, fin_obj_level_cd", financialReportingSortCode, sessionId, sessionId);
             }
             else {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_LEVEL_MT (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " + "TYP_FIN_REPORT_SORT_CD, SESID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), ?, ? " + " FROM FP_INTERIM1_LEVEL_MT " + " WHERE fp_interim1_level_mt.SESID = ? " + " GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd", financialReportingSortCode, sessionId, sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_LEVEL_MT (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " + "TYP_FIN_REPORT_SORT_CD, SESID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), ?, ? " + " FROM FP_INTERIM1_LEVEL_MT " + " WHERE FP_INTERIM1_LEVEL_MT.SESID = ? " + " GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd", financialReportingSortCode, sessionId, sessionId);
             }
 
             // Here's the data

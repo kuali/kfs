@@ -365,14 +365,14 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getTransferDocLockedAssetCount()
      */
     public Integer getTransferDocLockedAssetCount() {
-        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
+        return getJdbcTemplate().queryForInt("select count(1) from CM_AST_TRNFR_DOC_T t inner join FS_DOC_HEADER_T h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
     }
 
     /**
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getRetireDocLockedAssetCount()
      */
     public Integer getRetireDocLockedAssetCount() {
-        return getJdbcTemplate().queryForInt("select count(1) from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
+        return getJdbcTemplate().queryForInt("select count(1) from CM_AST_RETIRE_DTL_T t inner join FS_DOC_HEADER_T h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd  ='" + KFSConstants.DocumentStatusCodes.ENROUTE + "'");
     }
 
     /**
@@ -380,7 +380,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      */
     public Set<Long> getLockedAssets() {
         final Set<Long> assets = new HashSet<Long>();
-        getJdbcTemplate().query("select t.cptlast_nbr from cm_ast_retire_dtl_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' union select t.cptlast_nbr from cm_ast_trnfr_doc_t t inner join fs_doc_header_t h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "'", new ResultSetExtractor() {
+        getJdbcTemplate().query("select t.cptlast_nbr from CM_AST_RETIRE_DTL_T t inner join FS_DOC_HEADER_T h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "' union select t.cptlast_nbr from CM_AST_TRNFR_DOC_T t inner join FS_DOC_HEADER_T h on t.fdoc_nbr = h.fdoc_nbr where h.fdoc_status_cd = '" + KFSConstants.DocumentStatusCodes.ENROUTE + "'", new ResultSetExtractor() {
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 assets.add(rs.getLong(1));
                 return assets;

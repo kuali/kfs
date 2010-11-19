@@ -32,7 +32,6 @@
 	} else if (pooledSecurityID == '' ){
 	    clearRecipients(pooledSecurityIDFieldName, "");	    
 	} else {
-		pooledSecurityID = pooledSecurityID.toUpperCase();
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null ) {
@@ -44,6 +43,6 @@
 				setRecipientValue( valueEffectiveDateFieldName, wrapError( "fail to display Value Effective Date" ), true );
 			}
 		};
-		PooledFundValueService.calculateValueEffectiveDateForAjax( valuationDate, pooledSecurityID, dwrReply );
+		PooledFundValueService.calculateValueEffectiveDateForAjax( valuationDate, pooledSecurityID.toUpperCase(), dwrReply );
 	}
 }

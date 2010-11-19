@@ -15,24 +15,16 @@
  */
 package org.kuali.kfs.module.endow.document.authorization;
 
-import java.math.BigDecimal;
-import java.util.Set;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
+import java.util.Set;
 
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
-import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -60,13 +52,12 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
             /*
              * Business Rule:If the date for the distribution is prior to the current system Process Date and the Process Complete
              * flag is Yes, the distribution amount and date cannot be changed.
-             * 
              */
             KEMService kemService = SpringContext.getBean(KEMService.class);
             Date currentDate = kemService.getCurrentDate();
             Date distributIncomeOnDate = oldPooledFundValue.getDistributeIncomeOnDate();
 
-            if (oldPooledFundValue.isIncomeDistributionComplete() && distributIncomeOnDate.before(currentDate)) {
+            if (oldPooledFundValue.isIncomeDistributionComplete() && distributIncomeOnDate != null && distributIncomeOnDate.before(currentDate)) {
                 fields.add(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE);
                 fields.add(EndowPropertyConstants.INCOME_DISTRIBUTION_PER_UNIT);
             }
@@ -87,8 +78,8 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
         }
 
         /*
-         * Rule: In the pooled fund control, if the Distribute Gains And Losses = "N", LT_GAIN_LOSS / LT_PROC_ON_DT and ST_GAIN_LOSS /
-         * ST_PROC_ON_DT fields in the PooledFundValue should be read only in the create/copy mode.
+         * Rule: In the pooled fund control, if the Distribute Gains And Losses = "N", LT_GAIN_LOSS / LT_PROC_ON_DT and ST_GAIN_LOSS
+         * / ST_PROC_ON_DT fields in the PooledFundValue should be read only in the create/copy mode.
          */
         if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             PooledFundValue newPooledFundValue = (PooledFundValue) document.getNewMaintainableObject().getBusinessObject();
@@ -108,5 +99,4 @@ public class PooledFundValueDocumentPresentationController extends FinancialSyst
         }
         return fields;
     }
-
 }

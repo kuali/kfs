@@ -15,24 +15,23 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.Map;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
-import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -45,19 +44,16 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * Overrides the parent method to check the status of the Pooled Fund Value Maintenance document. Business Rule 1: Saving a new
-     * or changed unit value will result in changes to the Security unit values and the associated holding market values.
-     * 
-     * Once the document has been approved, If it is in the edit-maintenance doc mode, compare unit value between old and new pooled
-     * fund value BOs. If it is in the create-new or copy maintenance doc mode, compare unit value in the new pooled fund value BO
-     * with unit value in the referred Security record. When saving a new or changed unit value 1) Copy current Security Unit Value
-     * to Previous Unit Value 2) Copy current Security Price Date to Previous Price dAte 3) Copy PooledFundValue.POOL_FND_UNIT_VAL
-     * to current Security Unit Price 4) Copy PooledFundValue.VAL_EFF_DT to current Security Price Date 5) Update Security.Security
-     * Source to Pooled Fund Value
-     * 
-     * Business Rule 2:When the DSTRB_AMT is updated, the amount of the distribution is multiplied by the number of times per year
-     * that the institution will distribute income to the account holders (this is an institution specified parameter:
-     * DISTRIBUTION_TIMES_PER_YEAR stored in the KFS parameter table) and the result is copied to END_SEC_T: SEC_RT for the Pooled
-     * Fund SEC_ID.
+     * or changed unit value will result in changes to the Security unit values and the associated holding market values. Once the
+     * document has been approved, If it is in the edit-maintenance doc mode, compare unit value between old and new pooled fund
+     * value BOs. If it is in the create-new or copy maintenance doc mode, compare unit value in the new pooled fund value BO with
+     * unit value in the referred Security record. When saving a new or changed unit value 1) Copy current Security Unit Value to
+     * Previous Unit Value 2) Copy current Security Price Date to Previous Price dAte 3) Copy PooledFundValue.POOL_FND_UNIT_VAL to
+     * current Security Unit Price 4) Copy PooledFundValue.VAL_EFF_DT to current Security Price Date 5) Update Security.Security
+     * Source to Pooled Fund Value Business Rule 2:When the DSTRB_AMT is updated, the amount of the distribution is multiplied by
+     * the number of times per year that the institution will distribute income to the account holders (this is an institution
+     * specified parameter: DISTRIBUTION_TIMES_PER_YEAR stored in the KFS parameter table) and the result is copied to END_SEC_T:
+     * SEC_RT for the Pooled Fund SEC_ID.
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
@@ -97,7 +93,6 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                  * in the referred Security object. A business rule has to be added for Security impl -- when a Security has the
                  * class code type equals to Pooled Investment, the unit value can't be modify directly through Security maintenance
                  * doc.
-                 * 
                  */
                 if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction())) {
                     oldUnitValue = oldPooledFundValue.getUnitValue();
@@ -138,6 +133,29 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
 
     }
 
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        initializeAttributes(document);
+
+        // clear out all fields except unit value and income distribution per unit
+        newPooledFundValue.setDistributeIncomeOnDate(null);
+        newPooledFundValue.setDistributeLongTermGainLossOnDate(null);
+        newPooledFundValue.setDistributeShortTermGainLossOnDate(null);
+        newPooledFundValue.setIncomeDistributionComplete(false);
+        newPooledFundValue.setLongTermGainLossDistributionComplete(false);
+        newPooledFundValue.setLongTermGainLossDistributionPerUnit(BigDecimal.ZERO);
+        newPooledFundValue.setShortTermGainLossDistributionComplete(false);
+        newPooledFundValue.setShortTermGainLossDistributionPerUnit(BigDecimal.ZERO);
+        newPooledFundValue.setValuationDate(null);
+        newPooledFundValue.setValueEffectiveDate(null);
+
+    }
+
 
     /**
      * Initializes newSecurity and oldSecurity.
@@ -151,7 +169,5 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
         if (oldPooledFundValue == null) {
             oldPooledFundValue = (PooledFundValue) document.getOldMaintainableObject().getBusinessObject();
         }
-
-
     }
 }

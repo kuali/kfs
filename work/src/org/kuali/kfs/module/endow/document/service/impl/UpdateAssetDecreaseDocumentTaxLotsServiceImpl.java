@@ -66,8 +66,8 @@ public class UpdateAssetDecreaseDocumentTaxLotsServiceImpl implements UpdateAsse
             taxLotLine.setIpIndicator(transLine.getTransactionIPIndicatorCode());
         }
 
-        taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue());
-        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount().bigDecimalValue());
+        taxLotLine.setLotUnits(transLine.getTransactionUnits().bigDecimalValue().negate());
+        taxLotLine.setLotHoldingCost(transLine.getTransactionAmount().bigDecimalValue().negate());
 
         // set the tax lot acquired date
         setTaxLotAcquiredDate(taxLotLine, adDocument, transLine);

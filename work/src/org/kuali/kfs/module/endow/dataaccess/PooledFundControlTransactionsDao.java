@@ -36,7 +36,7 @@ public interface PooledFundControlTransactionsDao {
      * @param documentTypeNames
      * @return
      */
-    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames, Date currentDate);
+    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(PooledFundControl pooledFundControl, List<String> documentTypeNames, Date currentDate);
     
     /**
      * Gets all transaction archive with security id and document names
@@ -44,5 +44,5 @@ public interface PooledFundControlTransactionsDao {
      * @param documentTypeNames
      * @return
      */
-    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames, Date currentDate);
+    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(PooledFundControl pooledFundControl, List<String> documentTypeNames, Date currentDate);
 }

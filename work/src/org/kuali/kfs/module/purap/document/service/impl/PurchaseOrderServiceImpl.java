@@ -916,12 +916,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Break up the note into multiple pieces if the note is too large to fit in the database field.
                 while (noteText.length() > noteMaxSize) {
                     int fromIndex = 0;
-                    fromIndex = noteText.lastIndexOf(';', noteMaxSize);
-
-                    String noteText1 = noteText.substring(0, fromIndex);
+                    String noteText1 = noteText.substring(0, noteMaxSize);
                     Note note1 = documentService.createNoteFromDocument(po, noteText1);
                     documentService.addNoteToDocument(po, note1);
-                    noteText = noteText.substring(fromIndex);
+                    noteText = noteText.substring(noteMaxSize);
                 }
 
                 Note note = documentService.createNoteFromDocument(po, noteText);

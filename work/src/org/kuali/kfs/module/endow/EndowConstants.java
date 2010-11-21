@@ -327,5 +327,6 @@ public class EndowConstants extends JSTLConstants {
         public static final String ENDOWMENT_HOLDING_ADJUSTMENT = "EHA";
         public static final String ENDOWMENT_SECURITY_TRANSFER = "EST";
         public static final String ENDOWMENT_CORPORATE_REORGANZATION = "ECR";
+        public static final String ENDOWNENT_HOLDING_VALUE_ADJUSTMENT = "EHVA";
     }
 }

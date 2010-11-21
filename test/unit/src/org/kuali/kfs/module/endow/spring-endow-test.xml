@@ -31,4 +31,11 @@
 	<bean id="mockCurrentTaxLotBalanceUpdateService" parent="currentTaxLotBalanceUpdateService">
 	</bean>
     
+    <bean id="mockReportWriterService" class="org.kuali.kfs.gl.service.impl.MockReportWriterService" />
+    
+    <bean id="mockHoldingHistoryMarketValuesUpdateService" parent="holdingHistoryMarketValuesUpdateService">
+    	<property name="holdingHistoryMarketValuesExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
 </beans>

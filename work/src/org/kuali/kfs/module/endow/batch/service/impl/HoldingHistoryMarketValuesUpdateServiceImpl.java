@@ -180,6 +180,8 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * @return true if the market value is updated else false
      */
     protected boolean updateHoldingHistoryRecords(HoldingHistoryValueAdjustmentDocument ehva) {
+        LOG.info("Updating HoldingHistoryValueAdjustment document with Security Id: " + ehva.getSecurityId());
+
         boolean success = true;
         
         getExceptionReportTableRowValues(ehva);

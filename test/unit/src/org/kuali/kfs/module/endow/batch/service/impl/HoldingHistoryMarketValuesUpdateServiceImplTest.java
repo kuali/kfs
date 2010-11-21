@@ -27,6 +27,7 @@ import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument
 import org.kuali.kfs.module.endow.fixture.EndowmentHoldingValueAdjustmentDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -57,9 +58,11 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         }
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         holdingHistoryMarketValuesUpdateService = (HoldingHistoryMarketValuesUpdateServiceImpl) TestUtils.getUnproxiedService("mockHoldingHistoryMarketValuesUpdateService");
-
-        unitTestSqlDao.sqlCommand("insert into END_SEC_T columns(SEC_ID, SEC_CLS_CD, SEC_UNIT_VAL, SEC_INC_PAY_FREQ, SEC_INC_NEXT_PAY_DT, SEC_RT, ROW_ACTV_IND, OBJ_ID, VER_NBR, NXT_FSCL_YR_DSTRB_AMT) values ('TESTSECID', '025', '1', 'M01', TO_DATE('08/01/2010', 'mm/dd/yyyy'), '20', 'Y', sys_guid(), '1', '100.20')");
-      //  security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
+        
+        //update holdinghistoryvalueadjustment records SET transactionPosted = 'Y'
+        unitTestSqlDao.sqlCommand("update END_HIST_VAL_ADJ_DOC_T set TRAN_PSTD = 'Y'");
+        
+        security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
         kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
         ehva = EndowmentHoldingValueAdjustmentDocumentFixture.EHVA_ONLY_REQUIRED_FIELDS.createHoldingHistoryValueAdjustmentDocument();
         ehva.refreshNonUpdateableReferences();
@@ -69,25 +72,33 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
      * Test to find the document from the workflow
      */
     public final void testFindDocumentForMarketValueUpdate() {
+        LOG.info("testFindDocumentForMarketValueUpdate() entered.");
         String documentHeaderId = ehva.getDocumentNumber();
         HoldingHistoryValueAdjustmentDocument ehvaFromWorkFlow = (HoldingHistoryValueAdjustmentDocument) holdingHistoryMarketValuesUpdateService.findDocumentForMarketValueUpdate(documentHeaderId);
         assertTrue("The document from workflow is not the same.", ehva == ehvaFromWorkFlow);
+        LOG.info("testFindDocumentForMarketValueUpdate() exited.");
     }
     
     /**
      * Test to check the market value method
      */
     public final void testGetMarketValue() {
+        LOG.info("testGetMarketValue() entered.");
+        
         BigDecimal marketValue = BigDecimal.ONE;
         ehva.refreshNonUpdateableReferences();
+        
         BigDecimal marketValueFromService = holdingHistoryMarketValuesUpdateService.getMarketValue(ehva, BigDecimal.valueOf(100L));
         assertTrue("Market Value should be equal to 1.00", (marketValue.compareTo(marketValueFromService) == 0));
+        LOG.info("testGetMarketValue() exited.");
     }
     
     /**
      * Test to check sure updateHoldingHistoryRecords method from the service.
      */
     public final void testUpdateHoldingHistoryRecords() {
+        LOG.info("testUpdateHoldingHistoryRecords() entered.");
+        
         Collection<HoldingHistory> holdingHistoryRecords = holdingHistoryMarketValuesUpdateService.holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(ehva.getSecurityId(), ehva.getHoldingMonthEndDate());
         assertTrue("There should not be any records in HoldingHistory table.", !holdingHistoryMarketValuesUpdateService.updateHoldingHistoryRecords(ehva));
         
@@ -101,15 +112,20 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         for (HoldingHistory holdingHistory : holdingHistoryRecords ) {
             assertTrue("Market Value should be 2.00", holdingHistory.getMarketValue().compareTo(BigDecimal.valueOf(2L)) == 0);
         }
+        
+        LOG.info("testUpdateHoldingHistoryRecords() exited.");        
     }
     
     /**
      * Test to do updateHoldingHistoryMarketValues from the service.
      */
     public final void testUpdateHoldingHistoryMarketValues() {
+        LOG.info("testUpdateHoldingHistoryMarketValues() entered.");
+        
         HoldingHistoryFixture.HOLDING_HISTORY_RECORD.createHoldingHistoryRecord();
         
         ehva.refreshNonUpdateableReferences();
         assertTrue("Update of Holding History Market Vales failed.", holdingHistoryMarketValuesUpdateService.updateHoldingHistoryMarketValues());
+        LOG.info("testUpdateHoldingHistoryMarketValues() exited.");        
     }
 }

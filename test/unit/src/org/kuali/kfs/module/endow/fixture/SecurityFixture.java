@@ -71,6 +71,7 @@ public enum SecurityFixture {
         securityRecord.setIncomeRate(this.securityRate);
         securityRecord.setActive(this.rowActiveIndicator);
         securityRecord.setNextFiscalYearDistributionAmount(this.nextFiscalYearDisbursementAmount);
+        securityRecord.refreshReferenceObject("classCode");
         
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(securityRecord);

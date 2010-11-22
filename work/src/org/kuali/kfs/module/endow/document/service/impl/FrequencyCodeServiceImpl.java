@@ -86,7 +86,54 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
         
         return currentDate;
     }
+    
+    public Date getNextDueDate(String frequencyCode) {
+        Date currentDate = kemService.getCurrentDate();
+        
+        String frequencyType = frequencyCode.substring(0, 1);
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
+            return calculateNextDate(currentDate);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
+            String dayOfWeek =  frequencyCode.substring(1, 4).toUpperCase();
+            return calculateNextWeeklyDate(dayOfWeek, currentDate);
+        }
+        
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
+            String dayOfSemiMonthly =  frequencyCode.substring(1, 3);
+            return calculateNextSemiMonthlyDate(dayOfSemiMonthly, currentDate);
+        }
 
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
+            String dayOfMonth =  frequencyCode.substring(1, 3);
+            return calculateNextMonthlyDate(dayOfMonth, currentDate);
+        }
+
+        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY) || 
+            frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY) ||
+            frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
+            String month = frequencyCode.substring(1, 2);
+            String dayOfMonth =  frequencyCode.substring(2, 4);
+            return calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(month, dayOfMonth, frequencyType, currentDate);
+        }
+        
+        return currentDate;
+    }
+
+    /**
+     * Calculates the next date
+     * @param currentDate
+     * @return
+     */
+    protected Date calculateNextDate(Date currentDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, 1);
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+    
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date

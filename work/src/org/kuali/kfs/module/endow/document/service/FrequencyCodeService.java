@@ -34,5 +34,12 @@ public interface FrequencyCodeService {
      * @return next process date
      */
     public Date calculateProcessDate(String frequencyCode);
+    
+    /**
+     * Gets the next due date according to the frequency code
+     * @param frequenctCode
+     * @return
+     */
+    public Date getNextDueDate(String frequenctCode);
 
 }

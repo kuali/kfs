@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
@@ -25,5 +26,5 @@ public interface CashSweepModelDao {
      * 
      * @return List<CashSweepModel>
      */
-    public List<CashSweepModel> getCashSweepModelWithNextPayDateEqualToCurrentDate();
+    public List<CashSweepModel> getCashSweepModelWithNextPayDateEqualToCurrentDate(Date currentDate);
 }

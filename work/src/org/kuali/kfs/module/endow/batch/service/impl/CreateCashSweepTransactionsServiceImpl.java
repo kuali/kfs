@@ -636,7 +636,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return Collection of CashSweepModel business objects
      */
     private Collection<CashSweepModel> getCashSweepModelMatchingCurrentDate() {
-        return cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate();
+        return cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
     }
 
     /**

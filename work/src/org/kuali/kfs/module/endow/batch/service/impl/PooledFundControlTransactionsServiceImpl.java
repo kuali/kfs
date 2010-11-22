@@ -139,6 +139,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             if (totalAmount.isPositive()) {
                 if (!createECI(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd)) return false;                                
             } else if (totalAmount.isNegative()) {
+                totalAmount = totalAmount.negated();
                 if (!createECDD(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd)) return false;
             }
         }   
@@ -173,6 +174,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             if (totalAmount.isPositive()) {
                 if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
             } else if (totalAmount.isNegative()) {
+                totalAmount = totalAmount.negated();
                 if (createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
             }
         }    
@@ -204,6 +206,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             if (totalAmount.isPositive()) {
                 if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;                
             } else if (totalAmount.isNegative()) {
+                totalAmount = totalAmount.negated();
                 if (!createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
             }
         }

@@ -106,6 +106,8 @@ public enum KemIdFixture {
         kemidRecord.setIncomeRestrictionCode(this.incomeRestrictionCode);
         kemidRecord.setPrincipalRestrictionCode(this.principalRestrictionCode);
 
+        kemidRecord.refreshNonUpdateableReferences();
+        kemidRecord.refreshReferenceObject("typeRestrictionCodeForPrincipalRestrictionCode");
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(kemidRecord);
         

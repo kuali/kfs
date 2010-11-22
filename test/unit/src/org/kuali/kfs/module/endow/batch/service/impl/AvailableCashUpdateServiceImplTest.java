@@ -18,15 +18,22 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.fixture.CurrentCashFixture;
+import org.kuali.kfs.module.endow.fixture.CurrentTaxLotBalanceFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotRebalanceFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.util.KualiInteger;
 
 @ConfigureContext(session = kfs)
 public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
@@ -34,6 +41,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
 
     private UnitTestSqlDao unitTestSqlDao;
     private AvailableCashUpdateServiceImpl availableCashUpdateService;    
+    private KEMID kemid;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -44,6 +52,32 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         availableCashUpdateService = (AvailableCashUpdateServiceImpl) TestUtils.getUnproxiedService("mockAvailableCashUpdateService");
+    }
+    
+    private void createDataFixtures() {
+        //setup dummy data so the method can test the method getAvailableIncomeCash()
+        //setup dummy kemid record
+        kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
+        
+        //setup a record in END_CRNT_CSH_T record
+        CurrentCashFixture.CURRENT_CASH_RECORD.createKemidCurrentCashRecord();
+        
+        //need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord();
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "0AI", "I", new KualiInteger(2), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00));
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "0AI", "P", new KualiInteger(3), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00));
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "REI", "P", new KualiInteger(4), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00));
+
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord();
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "0AI", "I", new KualiInteger(2), Date.valueOf("2009-11-23"), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00), BigDecimal.ZERO, BigDecimal.ZERO,  Date.valueOf("2009-11-23"));
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "0AI", "P", new KualiInteger(3), Date.valueOf("2009-11-23"), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00), BigDecimal.ZERO, BigDecimal.valueOf(1.2),  Date.valueOf("2009-11-23"));
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "REI", "P", new KualiInteger(4), Date.valueOf("2009-11-23"), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00), BigDecimal.ZERO, BigDecimal.ZERO,  Date.valueOf("2009-11-23"));
+        
+        //insert into current tax lot balance table...
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord();       
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "0AI", new KualiInteger(2), "I", BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-11-23"), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), Date.valueOf("2009-11-23"), BigDecimal.valueOf(282586.00));
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "0AI", new KualiInteger(3), "P", BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-12-10"), BigDecimal.valueOf(1.20), BigDecimal.valueOf(0.00), Date.valueOf("2009-12-10"), BigDecimal.valueOf(23123.00));
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "REI", new KualiInteger(4), "P", BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-09-30"), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), Date.valueOf("2008-09-30"), BigDecimal.valueOf(10000.00));
     }
     
     /**
@@ -108,30 +142,8 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testGetAvilableIncomeCash() {
         LOG.info("testGetAvilableIncomeCash() method entered.");
         
-        //setup dummy data so the method can test the method getAvailableIncomeCash()
-        //setup dummy kemid record
-        unitTestSqlDao.sqlCommand("insert into END_KEMID_T columns (KEMID, SHRT_TTL, LONG_TTL, OPND_DT, ESTBL_DT, TYP_CD, PRPS_CD, INC_CAE_CD, PRIN_CAE_CD, RESP_ADMIN_CD, TRAN_RESTR_CD, CSH_SWEEP_MDL_ID, INC_ACI_MDL_ID, PRIN_ACI_MDL_ID, DORMANT_IND, CLOSED_IND, CLOSED_TO_KEMID, CLOSE_CD, FND_DISP, CLOSE_DT, OBJ_ID, TYP_INC_RESTR_CD, TYP_PRIN_RESTR_CD) values ('TESTKEMID', 'Gift Annuity Trust 3', 'Gift Annuity Trust 3', TO_DATE('2/23/2006', 'mm/dd/yyyy'), TO_DATE('2/23/2006', 'mm/dd/yyyy'), '046', 'MR', '9', 'Q', 'TRST', 'NTRAN', '1', null, null, 'N', 'Y', '038B011179', 'T', 'Matured trust created new KEMID', TO_DATE('07/25/2007', 'mm/dd/yyyy'),sys_guid(), 'TRU', 'TRU')");
-
-        //setup a record in END_CRNT_CSH_T record
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_CSH_T values ('TESTKEMID', 1250.80, 1000.21, sys_guid(), 1)");
-
-        //need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', 'I', '1', '20', '10000', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'I', '2', '282586', '282586', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'P', '3', '23123', '23123', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', 'P', '4', '10000', '10000', sys_guid())");
-        
-        //setup records in END_HLDG_TAX_LOT_T to get the totals by Income or Principal indicators.
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '20', '10000', '0', '0',  TO_DATE('6/27/2002', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586', '282586', '0', '0',  TO_DATE('11/23/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123', '23123', '0', '1.2',  TO_DATE('12/10/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000', '10000', '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'),sys_guid())");
-        
-        //insert into current tax lot balance table...
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', '20', '10000', '0', '0', '0', '500', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '0', '0', TO_DATE('6/27/2002', 'mm/dd/yyyy'), '10000',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', '282586', '282586', '0', '0', '0', '1', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '0', '0', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', '23123', '23123', '0', '0', '0', '1', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '1.2', '0', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', '10000', '10000', '0', '0', '0', '1', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000',sys_guid())");
+        //create records to test...
+        createDataFixtures();
         
         BigDecimal availableCashIncomeTotal = new BigDecimal("1250.80");
         availableCashIncomeTotal = availableCashIncomeTotal.add(new BigDecimal("10000").add(new BigDecimal("282586")));
@@ -149,30 +161,8 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testGetAvailablePrincipalCash() {
         LOG.info("testGetAvailablePrincipalCash() method entered.");
         
-        //setup dummy data so the method can test the method getAvailablePrincipalCash()
-        //setup dummy kemid record
-        unitTestSqlDao.sqlCommand("insert into END_KEMID_T columns (KEMID, SHRT_TTL, LONG_TTL, OPND_DT, ESTBL_DT, TYP_CD, PRPS_CD, INC_CAE_CD, PRIN_CAE_CD, RESP_ADMIN_CD, TRAN_RESTR_CD, CSH_SWEEP_MDL_ID, INC_ACI_MDL_ID, PRIN_ACI_MDL_ID, DORMANT_IND, CLOSED_IND, CLOSED_TO_KEMID, CLOSE_CD, FND_DISP, CLOSE_DT, OBJ_ID, TYP_INC_RESTR_CD, TYP_PRIN_RESTR_CD) values ('TESTKEMID', 'Gift Annuity Trust 3', 'Gift Annuity Trust 3', TO_DATE('2/23/2006', 'mm/dd/yyyy'), TO_DATE('2/23/2006', 'mm/dd/yyyy'), '046', 'MR', '9', 'Q', 'TRST', 'NTRAN', '1', null, null, 'N', 'Y', '038B011179', 'T', 'Matured trust created new KEMID', TO_DATE('07/25/2007', 'mm/dd/yyyy'),sys_guid(), 'TRU', 'TRU')");
-
-        //setup a record in END_CRNT_CSH_T record
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_CSH_T values ('TESTKEMID', 1250.80, 1000.21, sys_guid(), 1)");
-
-        //need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', 'I', '1', '20', '10000', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'I', '2', '282586', '282586', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'P', '3', '23123', '23123', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', 'P', '4', '10000', '10000', sys_guid())");
-        
-        //setup records in END_HLDG_TAX_LOT_T to get the totals by Income or Principal indicators.
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '20', '10000', '0', '0',  TO_DATE('6/27/2002', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586', '282586', '0', '0',  TO_DATE('11/23/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123', '23123', '0', '1.2',  TO_DATE('12/10/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000', '10000', '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'),sys_guid())");
-        
-        //insert into current tax lot balance table...
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', '20', '10000', '0', '0', '0', '500', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '0', '0', TO_DATE('6/27/2002', 'mm/dd/yyyy'), '10000',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', '282586', '282586', '0', '0', '0', '1', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '0', '0', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', '23123', '23123', '0', '0', '0', '1', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '1.2', '0', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', '10000', '10000', '0', '0', '0', '1', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000',sys_guid())");
+        //create records to test...
+        createDataFixtures();
         
         BigDecimal availableCashIncomeTotal = new BigDecimal("1000.21"); //principal amount...
         availableCashIncomeTotal = availableCashIncomeTotal.add(new BigDecimal("23123").add(new BigDecimal("10000")));
@@ -191,33 +181,8 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testSummarizeAvailableSpendableFunds() {
         LOG.info("testSummarizeAvailableSpendableFunds() method entered.");
         
-        //update END_KEMID_T table CLOSED_IND = 'Y' so we can test what we are adding to the table...
-        unitTestSqlDao.sqlCommand("UPDATE END_KEMID_T SET CLOSED_IND = 'Y'");
-        
-        //setup dummy data so the method can test the method getAvailablePrincipalCash()
-        //setup dummy kemid record
-        unitTestSqlDao.sqlCommand("insert into END_KEMID_T columns (KEMID, SHRT_TTL, LONG_TTL, OPND_DT, ESTBL_DT, TYP_CD, PRPS_CD, INC_CAE_CD, PRIN_CAE_CD, RESP_ADMIN_CD, TRAN_RESTR_CD, CSH_SWEEP_MDL_ID, INC_ACI_MDL_ID, PRIN_ACI_MDL_ID, DORMANT_IND, CLOSED_IND, CLOSED_TO_KEMID, CLOSE_CD, FND_DISP, CLOSE_DT, OBJ_ID, TYP_INC_RESTR_CD, TYP_PRIN_RESTR_CD) values ('TESTKEMID', 'Gift Annuity Trust 3', 'Gift Annuity Trust 3', TO_DATE('2/23/2006', 'mm/dd/yyyy'), TO_DATE('2/23/2006', 'mm/dd/yyyy'), '046', 'MR', '9', 'Q', 'TRST', 'NTRAN', '1', null, null, 'N', 'N', '038B011179', 'T', 'Matured trust created new KEMID', TO_DATE('07/25/2007', 'mm/dd/yyyy'),sys_guid(), 'TRU', 'TRU')");
-
-        //setup a record in END_CRNT_CSH_T record
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_CSH_T values ('TESTKEMID', 1250.80, 1000.21, sys_guid(), 1)");
-
-        //need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', 'I', '1', '20', '10000', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'I', '2', '282586', '282586', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', 'P', '3', '23123', '23123', sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_REBAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_IP_IND, TOT_HLDG_LOT_NBR, TOT_HLDG_UNITS, TOT_HLDG_COST, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', 'P', '4', '10000', '10000', sys_guid())");
-        
-        //setup records in END_HLDG_TAX_LOT_T to get the totals by Income or Principal indicators.
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '20', '10000', '0', '0',  TO_DATE('6/27/2002', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586', '282586', '0', '0',  TO_DATE('11/23/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123', '23123', '0', '1.2',  TO_DATE('12/10/2009', 'mm/dd/yyyy'),sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_HLDG_TAX_LOT_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000', '10000', '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'),sys_guid())");
-        
-        //insert into current tax lot balance table...
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0NI', '1', 'I', '20', '10000', '0', '0', '0', '500', TO_DATE('11/1/2005', 'mm/dd/yyyy'), '0', '0', TO_DATE('6/27/2002', 'mm/dd/yyyy'), '10000',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '2', 'I', '282586', '282586', '0', '0', '0', '1', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '0', '0', TO_DATE('11/23/2009', 'mm/dd/yyyy'), '282586',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', '0AI', '3', 'P', '23123', '23123', '0', '0', '0', '1', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '1.2', '0', TO_DATE('12/10/2009', 'mm/dd/yyyy'), '23123',sys_guid())");
-        unitTestSqlDao.sqlCommand("insert into END_CRNT_TAX_LOT_BAL_T columns (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, LAST_TRAN_DT, HLDG_MVAL, OBJ_ID) values ('TESTKEMID', '99PETTY12', 'REI', '4', 'P', '10000', '10000', '0', '0', '0', '1', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '10000',sys_guid())");
+        //create records to test...
+        createDataFixtures();
         
         //The count of rows in the table should be 1 
         List kemidRecords = unitTestSqlDao.sqlSelect("SELECT * FROM END_KEMID_T WHERE CLOSED_IND = 'N'");

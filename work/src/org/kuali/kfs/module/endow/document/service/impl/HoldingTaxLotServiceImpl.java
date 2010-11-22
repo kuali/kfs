@@ -171,7 +171,6 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
         }
 
         return marketValue;
-
     }
 
     /**

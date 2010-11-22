@@ -308,11 +308,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
                 }
             } else {
                 writeDocumentValdiationErrorReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
-                LOG.error("createECI() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber());
+                LOG.error("createECDD() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber());
                 try {
                     documentService.saveDocument(cashDecreaseDocument);
                 } catch (WorkflowException wfe) {
-                    LOG.error("createECI() Saving Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());
+                    LOG.error("createECDD() Saving Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());
                 } 
             }
         } else {

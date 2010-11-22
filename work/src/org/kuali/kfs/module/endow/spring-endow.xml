@@ -694,6 +694,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>
 		<property name="frequencyCodeService">
 			<ref bean="frequencyCodeService" />
 		</property>	
@@ -747,17 +750,9 @@
 		</property>	
 	</bean>
 	
-	<bean id="automatedCashInvestmentModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.AutomatedCashInvestmentModelDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="automatedCashInvestmentModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.AutomatedCashInvestmentModelDaoOjb" />
 	
-		<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb" />
 		
 	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
 		<property name="kemService">

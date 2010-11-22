@@ -870,7 +870,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @return Collection of CashSweepModel business objects
      */
     private Collection<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelMatchingCurrentDate() {
-        return automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate();
+        return automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
     }
 
     /**

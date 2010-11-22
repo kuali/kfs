@@ -236,6 +236,9 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             for (String incomePrincipalIndicator : kemidMap.get(kemid).keySet()) {
                 List<HoldingTaxLot> holdingTaxLotGroupedByIPInd = kemidMap.get(kemid).get(incomePrincipalIndicator);
                 KualiDecimal transactionAmount = getTransactionAmount(holdingTaxLotGroupedByIPInd, effectiveDate);
+                if (transactionAmount.isLessThan(KualiDecimal.ZERO)) {
+                    transactionAmount = transactionAmount.negated();
+                }
                 if (holdingTaxLotGroupedByIPInd != null && transactionAmount.isGreaterThan(KualiDecimal.ZERO)) {
                     int maxNumberOfTranLines = kemService.getMaxNumberOfTransactionLinesPerDocument();
                     for (HoldingTaxLot holdingTaxLot : holdingTaxLotGroupedByIPInd) {

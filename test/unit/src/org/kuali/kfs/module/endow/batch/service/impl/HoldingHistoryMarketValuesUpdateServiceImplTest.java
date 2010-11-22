@@ -20,10 +20,12 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
+import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
 import org.kuali.kfs.module.endow.fixture.EndowmentHoldingValueAdjustmentDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
@@ -33,6 +35,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
@@ -60,12 +63,29 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         holdingHistoryMarketValuesUpdateService = (HoldingHistoryMarketValuesUpdateServiceImpl) TestUtils.getUnproxiedService("mockHoldingHistoryMarketValuesUpdateService");
         
         //update holdinghistoryvalueadjustment records SET transactionPosted = 'Y'
-        unitTestSqlDao.sqlCommand("update END_HIST_VAL_ADJ_DOC_T set TRAN_PSTD = 'Y'");
+        UpdateTransactionPostedToTrue();
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
         kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
         ehva = EndowmentHoldingValueAdjustmentDocumentFixture.EHVA_ONLY_REQUIRED_FIELDS.createHoldingHistoryValueAdjustmentDocument();
         ehva.refreshNonUpdateableReferences();
+    }
+    /**
+     * This method gets all EHVA documents where transactionPosted = N and sets to Y
+     * so we can add just our EHVA document and run the batch job on that document.
+     */
+    private void UpdateTransactionPostedToTrue() {
+        LOG.info("UpdateTransactionPostedToTrue() entered.");
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        
+        Collection<HoldingHistoryValueAdjustmentDocument> holdingHistoryValueAdjustmentDocuments = holdingHistoryMarketValuesUpdateService.holdingHistoryValueAdjustmentDocumentService.getHoldingHistoryValueAdjustmentDocument(EndowConstants.HoldingHistoryValueAdjustmentDocument.TRANSACTION_POSTED_NO);
+        for (HoldingHistoryValueAdjustmentDocument ehva : holdingHistoryValueAdjustmentDocuments) {
+            ehva.setTransactionPosted(true);
+            businessObjectService.save(ehva);
+        }
+        
+        LOG.info("UpdateTransactionPostedToTrue() exited.");
     }
     
     /**
@@ -73,9 +93,11 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
      */
     public final void testFindDocumentForMarketValueUpdate() {
         LOG.info("testFindDocumentForMarketValueUpdate() entered.");
+        
         String documentHeaderId = ehva.getDocumentNumber();
         HoldingHistoryValueAdjustmentDocument ehvaFromWorkFlow = (HoldingHistoryValueAdjustmentDocument) holdingHistoryMarketValuesUpdateService.findDocumentForMarketValueUpdate(documentHeaderId);
         assertTrue("The document from workflow is not the same.", ehva == ehvaFromWorkFlow);
+
         LOG.info("testFindDocumentForMarketValueUpdate() exited.");
     }
     
@@ -90,6 +112,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         
         BigDecimal marketValueFromService = holdingHistoryMarketValuesUpdateService.getMarketValue(ehva, BigDecimal.valueOf(100L));
         assertTrue("Market Value should be equal to 1.00", (marketValue.compareTo(marketValueFromService) == 0));
+
         LOG.info("testGetMarketValue() exited.");
     }
     
@@ -126,6 +149,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         
         ehva.refreshNonUpdateableReferences();
         assertTrue("Update of Holding History Market Vales failed.", holdingHistoryMarketValuesUpdateService.updateHoldingHistoryMarketValues());
+        
         LOG.info("testUpdateHoldingHistoryMarketValues() exited.");        
     }
 }

@@ -68,16 +68,16 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         LOG.info("Begin the batch Roll Frequncy Dates ...");
         
         // update Security Income Next Pay Dates
-//        updateSecurityIncomeNextPayDates();
+        updateSecurityIncomeNextPayDates();
                        
         // update Tickler Next Due Dates
-//        updateTicklerNextDueDates();
+        updateTicklerNextDueDates();
         
         // update Fee Next Process Dates
-//        updateFeeProcessDates();
+        updateFeeProcessDates();
         
         // update Recurring Cash Transfer Next Process Dates
-//        updateRecurringCashTransferProcessDates();
+        updateRecurringCashTransferProcessDates();
 
         // update Cash Sweep Model Next Due Dates
         updateCashSweepModelNextDueDates();

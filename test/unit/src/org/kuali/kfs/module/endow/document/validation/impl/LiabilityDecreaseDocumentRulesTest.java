@@ -1,0 +1,222 @@
+/*
+ * Copyright 2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.endow.document.validation.impl;
+
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+import org.apache.log4j.Logger;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurityBase;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionSecurityFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.KualiDecimal;
+
+/**
+ * This class tests the rules in LiabilityDecreaseDocumentRules class
+ */
+@ConfigureContext(session = khuntley)
+public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
+    private static final Logger LOG = Logger.getLogger(LiabilityDecreaseDocumentRulesTest.class);
+
+    private LiabilityDecreaseDocumentRules rule;
+    private LiabilityDecreaseDocument document;
+    private DocumentService documentService;
+    private UnitTestSqlDao unitTestSqlDao;
+    private Security security;
+    private KEMID kemid;
+    
+    private static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;
+    private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal("-1.00");
+    private static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal("2.00");
+    private static final KualiDecimal NEGATIVE_UNITS = new KualiDecimal("-1.00");
+    private static final KualiDecimal POSITIVE_UNITS = new KualiDecimal("2.00");
+
+    private static final String REFERENCE_DOCUMENT_NUMBER = "123456";
+    private static final String REFERENCE_DOCUMENT_DESCRIPTION = "Document Description - Unit Test";
+    private static final String INVALID_REGISTRATION_CODE = "...";
+    private static final String INVALID_SECURITY_ID = "WRONG_ID";
+    private static final String KEM_ID = "046G007720";
+    private static final String SECURITY_ID = "99BTIP011";
+    private static final String REGISTRATION_CODE= "0CP";
+    private static final String IP_INDICATOR = "P";
+    private static final String ETRAN_CODE = "42020";
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        rule = new LiabilityDecreaseDocumentRules();
+        documentService = SpringContext.getBean(DocumentService.class);
+        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
+        
+        security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord("TESTSECID", "910", BigDecimal.ONE, "M01", Date.valueOf("2010-01-01"), BigDecimal.valueOf(20L), true, BigDecimal.valueOf(100.20));
+        kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
+
+        //create the Liability Decrease document
+        document = createLiabilityDecreaseDocument();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        rule = null;
+        document = null;
+        documentService = null;
+        
+        super.tearDown();
+    }
+
+    /**
+     * create a LiabilityDecreaseDocument
+     * @return doc
+     */
+    protected LiabilityDecreaseDocument createLiabilityDecreaseDocument() throws WorkflowException {
+        LOG.info("createLiabilityDecreaseDocument() entered.");
+        
+        LiabilityDecreaseDocument doc = (LiabilityDecreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(LiabilityDecreaseDocument.class);
+        doc.getDocumentHeader().setDocumentDescription("This is a test Liability Decrease document.");
+
+        EndowmentTransactionSecurityBase etsb = (EndowmentSourceTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(true);
+        etsb.setDocumentNumber(doc.getDocumentNumber());
+        etsb.setRegistrationCode(REGISTRATION_CODE);
+        etsb.refreshNonUpdateableReferences();
+        
+        doc.setSourceTransactionSecurity(etsb);
+        
+        return doc;
+    }
+    
+    /**
+     * Test validateSecurity method in the rule class
+     */
+    public void testValidateSecurity() {
+        LOG.info("testValidateSecurity() entered.");
+        
+        String securityId = document.getSourceTransactionSecurity().getSecurityID();
+        document.getSourceTransactionSecurity().setSecurityID(INVALID_SECURITY_ID);
+        
+        document.getSourceTransactionSecurity().setSecurityID(securityId);        
+        assertTrue(rule.validateSecurity(true, document, true));
+    }
+    
+    /**
+     * Test validateRegistration method in the rule class
+     */
+    public void testValidateRegistration() {
+        LOG.info("testValidateRegistration() entered.");
+        
+        String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
+        document.getSourceTransactionSecurity().setRegistrationCode(INVALID_REGISTRATION_CODE);
+        
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode);        
+        assertTrue(rule.validateRegistration(true, document, true));
+        
+    }
+    
+    /**
+     * Test checkCashTransactionEndowmentCode method in the rule class
+     */
+    public void testCheckCashTransactionEndowmentCode() {
+        LOG.info("testCheckCashTransactionEndowmentCode() entered.");
+        
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        line.setEtranCode(ETRAN_CODE);
+        assertFalse(rule.checkCashTransactionEndowmentCode(document, line, null));
+        
+        line.setEtranCode(null);
+        assertTrue(rule.checkCashTransactionEndowmentCode(document, line, null));
+    }
+    
+    /**
+     * Test to check validateTransactionAmountLessThanZero method in the rule class
+     */
+    public void testValidateTransactionAmount() {
+        LOG.info("testValidateTransactionAmount() entered.");
+        
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        
+        if (document.isErrorCorrectedDocument()) {
+            line.setTransactionAmount(POSITIVE_AMOUNT);
+            assertFalse(rule.validateTransactionAmountLessThanZero(line, null));
+            
+            line.setTransactionAmount(NEGATIVE_AMOUNT);
+            assertTrue(rule.validateTransactionAmountLessThanZero(line, null));
+        }
+        else {
+            line.setTransactionAmount(POSITIVE_AMOUNT);
+            assertTrue(rule.validateTransactionAmountGreaterThanZero(line, null));
+            
+            line.setTransactionAmount(NEGATIVE_AMOUNT);
+            assertFalse(rule.validateTransactionAmountGreaterThanZero(line, null));
+        }
+    }
+    
+    /**
+     * Test to check units are positive or negative by calling the methods in the rule class
+     */
+    public void testValidateTransactionUnits() {
+        LOG.info("testValidateTransactionUnits() entered.");
+        
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        
+        if (document.isErrorCorrectedDocument()) {
+            line.setTransactionUnits(POSITIVE_UNITS);
+            assertFalse(rule.validateTransactionUnitsLessThanZero(line, null));
+            
+            line.setTransactionUnits(NEGATIVE_UNITS);
+            assertTrue(rule.validateTransactionUnitsLessThanZero(line, null));
+        }
+        else {
+            line.setTransactionUnits(POSITIVE_UNITS);
+            assertTrue(rule.validateTransactionUnitsGreaterThanZero(line, null));
+            
+            line.setTransactionUnits(NEGATIVE_UNITS);
+            assertFalse(rule.validateTransactionUnitsGreaterThanZero(line, null));
+        }
+    }
+    
+    /**
+     * Test to see if units and amounts entered are equal.
+     */
+    public void testValidateTransactionUnitsAmountEqual() {
+        LOG.info("testValidateTransactionUnitsAmountEqual() entered.");
+        
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionUnits(NEGATIVE_UNITS);
+        assertFalse(rule.validateTransactionUnitsAmountEqual(line, null));
+        
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionUnits(POSITIVE_UNITS);
+        assertTrue(rule.validateTransactionUnitsAmountEqual(line, null));
+    }
+}

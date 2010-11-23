@@ -44,9 +44,6 @@ public enum RegistrationCodeFixture {
         registrationCodeRecord.setCode(this.code);
         registrationCodeRecord.setName(this.description);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(registrationCodeRecord);
-
         return registrationCodeRecord;
     }
 }

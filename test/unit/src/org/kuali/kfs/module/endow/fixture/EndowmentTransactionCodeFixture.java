@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum EndowmentTransactionCodeFixture {
-    INCOME_TRANSACTION_CODE("tst123",// code
+    INCOME_TRANSACTION_CODE("TST123",// code
             "Test transaction code",// desc
             "I",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
@@ -50,7 +50,7 @@ public enum EndowmentTransactionCodeFixture {
         endowmentTransactionCode.setEndowmentTransactionTypeCode(this.endowmentTransactionTypeCode);
         endowmentTransactionCode.setCorpusIndicator(this.corpusIndicator);
         endowmentTransactionCode.setActive(this.active);
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(endowmentTransactionCode);
 

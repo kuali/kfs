@@ -23,23 +23,22 @@ public enum ClassCodeFixture {
 
     LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
-            "tst12",// securityReportingGrp;
+            "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;
-            "tst123", // securityEndowmentTransactionCode;
-            "tst123", // securityIncomeEndowmentTransactionPostCode;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
             true, // taxLotIndicator;
             "L",// classCodeType;
-            "A"// valuationMethod;
-    ),
-    NOT_LIABILITY_CLASS_CODE("TST", // code
+            "M"// valuationMethod;
+    ), NOT_LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
-            "tst12",// securityReportingGrp;
+            "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;
-            "tst123", // securityEndowmentTransactionCode;
-            "tst123", // securityIncomeEndowmentTransactionPostCode;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
             true, // taxLotIndicator;
             "B",// classCodeType;
-            "A"// valuationMethod;
+            "M"// valuationMethod;
     );
 
     public final String code;
@@ -77,7 +76,7 @@ public enum ClassCodeFixture {
         classCodeRecord.setTaxLotIndicator(this.taxLotIndicator);
         classCodeRecord.setClassCodeType(this.classCodeType);
         classCodeRecord.setValuationMethod(this.valuationMethod);
-
+        
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(classCodeRecord);
 

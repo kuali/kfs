@@ -17,12 +17,25 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
+import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
@@ -31,6 +44,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     private AssetIncreaseDocumentRules rule;
     private AssetIncreaseDocument document;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     private UpdateAssetIncreaseDocumentTaxLotsService assetIncreaseDocumentTaxLotsService;
 
 
@@ -43,6 +57,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         super.setUp();
         rule = new AssetIncreaseDocumentRules();
         documentService = SpringContext.getBean(DocumentService.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         assetIncreaseDocumentTaxLotsService = SpringContext.getBean(UpdateAssetIncreaseDocumentTaxLotsService.class);
         document = createAssetIncreaseDocument();
     }
@@ -52,6 +67,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         rule = null;
         document = null;
         documentService = null;
+        businessObjectService = null;
         assetIncreaseDocumentTaxLotsService = null;
         super.tearDown();
     }
@@ -99,18 +115,18 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testActiveSecurity_True() {
         // add security details
-        // SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        // EndowmentTransactionCode endowmentTransactionCode =
-        // EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        // ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
-        // Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
-        // EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        // targetTransactionSecurity.setSecurityID(security.getId());
-        // targetTransactionSecurity.setSecurity(security);
-        //
-        // document.setTargetTransactionSecurity(targetTransactionSecurity);
-        //
-        // assertTrue(rule.isSecurityActive(document, false));
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertTrue(rule.isSecurityActive(document, false));
     }
 
     /**
@@ -118,18 +134,17 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testActiveSecurity_False() {
         // add security details
-        // SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        // EndowmentTransactionCode endowmentTransactionCode =
-        // EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        // ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
-        // Security security = SecurityFixture.INACTIVE_SECURITY.createSecurityRecord();
-        // EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        // targetTransactionSecurity.setSecurityID(security.getId());
-        // targetTransactionSecurity.setSecurity(security);
-        //
-        // document.setTargetTransactionSecurity(targetTransactionSecurity);
-        //
-        // assertFalse(rule.isSecurityActive(document, false));
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.INACTIVE_SECURITY.createSecurityRecord();
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertFalse(rule.isSecurityActive(document, false));
     }
 
     /**
@@ -138,21 +153,20 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     public void testLiabilityClassCode_True() {
         // add security details
 
-        // SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        // EndowmentTransactionCode endowmentTransactionCode =
-        // EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        // ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
-        // Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
-        //
-        // security.setClassCode(classCode);
-        // security.setSecurityClassCode(classCode.getCode());
-        //
-        // EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        // targetTransactionSecurity.setSecurityID(security.getId());
-        //
-        // document.getTargetTransactionSecurities().add(targetTransactionSecurity);
-        //
-        // assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, false));
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        security.setClassCode(classCode);
+        security.setSecurityClassCode(classCode.getCode());
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+
+        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
+
+        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, false));
     }
 
     /**
@@ -160,22 +174,21 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testLiabilityClassCode_False() {
         // add security details
-        // SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        // EndowmentTransactionCode endowmentTransactionCode =
-        // EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        // ClassCode classCode = ClassCodeFixture.NOT_LIABILITY_CLASS_CODE.createClassCodeRecord();
-        // Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
-        //
-        //
-        // security.setClassCode(classCode);
-        // security.setSecurityClassCode(classCode.getCode());
-        //
-        // EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        // targetTransactionSecurity.setSecurityID(security.getId());
-        //
-        // document.getTargetTransactionSecurities().add(targetTransactionSecurity);
-        //
-        // assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
+//        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+//        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+//        ClassCode classCode = ClassCodeFixture.NOT_LIABILITY_CLASS_CODE.createClassCodeRecord();
+//        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+//
+//
+//        security.setClassCode(classCode);
+//        security.setSecurityClassCode(classCode.getCode());
+//
+//        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+//        targetTransactionSecurity.setSecurityID(security.getId());
+//
+//        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
+//
+//        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
     }
 
     // validate transaction lines
@@ -186,13 +199,12 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testTransactionsNotAllowedForNTRANKemid_False() {
 
-        // KEMID ntranKemid = KemIdFixture.NO_TRAN_KEMID_RECORD.createKemidRecord();
-        // EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-        // endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
-        // endowmentTargetTransactionLine.setKemidObj(ntranKemid);
-        //
-        // assertFalse(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine,
-        // rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+//        KEMID ntranKemid = KemIdFixture.NO_TRAN_KEMID_RECORD.createKemidRecord();
+//        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+//        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
+//        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
+//
+//        assertFalse(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
 
     }
 
@@ -201,13 +213,12 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testTransactionsNotAllowedForNTRANKemid_True() {
 
-        // KEMID ntranKemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
-        // EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-        // endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
-        // endowmentTargetTransactionLine.setKemidObj(ntranKemid);
-        //
-        // assertTrue(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine,
-        // rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+//        KEMID ntranKemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
+//        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+//        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
+//        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
+//
+//        assertTrue(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
 
     }
 

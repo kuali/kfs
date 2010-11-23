@@ -21,7 +21,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum SecurityReportingGroupFixture {
 
-    REPORTING_GROUP("tst12",// code
+    REPORTING_GROUP("TST12",// code
             "Test reporting group",// desc
             1,// securityReportingGrpOrder
             true // active

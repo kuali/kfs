@@ -135,7 +135,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
         // set incomeDistributionComplete to 'Y' and save
         pooledFundValueService.setIncomeDistributionCompleted(pooledFundValueList, true);
 
-        // TODO: write the sub total and grand total
+        // TODO: write the sub total and grand total if necessary
 
         LOG.info("The Income Distribution for Pooled Fund Transactions Batch Job was finished.");
 
@@ -204,7 +204,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             // write the total report
             incomeDistributionForPooledFundTotalReportWriterService.writeTableRow(totalReportLine);
 
-            // TODO: prepare for sub total by security id and grand total
+            // TODO: prepare for sub total by security id and grand total if necessary
 
         }
         else {
@@ -267,7 +267,6 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                             else {
                                 writeValidationErrorReason();
                                 LOG.error("Failed to validate ECI: Document # " + cashIncreaseDocument.getDocumentNumber());
-                                // TODO: should we continue?
                             }
                         }
 
@@ -393,7 +392,6 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                     cashTransferDocument.addSourceTransactionLine(sourceTransactionLine);
                     cashTransferDocument.addTargetTransactionLine(targetTransactionLine);
 
-                    // TODO: verify what to put - income or principal; what about units?
                     prepareTotalReport(toalTransactionAmount.multiply(kemidPayoutInstruction.getPercentOfIncomeToPayToKemid()), new KualiDecimal(holdingTaxLot.getUnits()));
 
                 }

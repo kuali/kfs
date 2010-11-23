@@ -163,20 +163,17 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
         
-        if (document.isErrorCorrectedDocument()) {
-            line.setTransactionAmount(POSITIVE_AMOUNT);
-            assertFalse(rule.validateTransactionAmountLessThanZero(line, null));
-            
-            line.setTransactionAmount(NEGATIVE_AMOUNT);
-            assertTrue(rule.validateTransactionAmountLessThanZero(line, null));
-        }
-        else {
-            line.setTransactionAmount(POSITIVE_AMOUNT);
-            assertTrue(rule.validateTransactionAmountGreaterThanZero(line, null));
-            
-            line.setTransactionAmount(NEGATIVE_AMOUNT);
-            assertFalse(rule.validateTransactionAmountGreaterThanZero(line, null));
-        }
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        assertFalse(rule.validateTransactionAmountLessThanZero(line, null));
+        
+        line.setTransactionAmount(NEGATIVE_AMOUNT);
+        assertTrue(rule.validateTransactionAmountLessThanZero(line, null));
+
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        assertTrue(rule.validateTransactionAmountGreaterThanZero(line, null));
+        
+        line.setTransactionAmount(NEGATIVE_AMOUNT);
+        assertFalse(rule.validateTransactionAmountGreaterThanZero(line, null));
     }
     
     /**
@@ -187,20 +184,17 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
         
-        if (document.isErrorCorrectedDocument()) {
-            line.setTransactionUnits(POSITIVE_UNITS);
-            assertFalse(rule.validateTransactionUnitsLessThanZero(line, null));
-            
-            line.setTransactionUnits(NEGATIVE_UNITS);
-            assertTrue(rule.validateTransactionUnitsLessThanZero(line, null));
-        }
-        else {
-            line.setTransactionUnits(POSITIVE_UNITS);
-            assertTrue(rule.validateTransactionUnitsGreaterThanZero(line, null));
-            
-            line.setTransactionUnits(NEGATIVE_UNITS);
-            assertFalse(rule.validateTransactionUnitsGreaterThanZero(line, null));
-        }
+        line.setTransactionUnits(POSITIVE_UNITS);
+        assertFalse(rule.validateTransactionUnitsLessThanZero(line, null));
+        
+        line.setTransactionUnits(NEGATIVE_UNITS);
+        assertTrue(rule.validateTransactionUnitsLessThanZero(line, null));
+
+        line.setTransactionUnits(POSITIVE_UNITS);
+        assertTrue(rule.validateTransactionUnitsGreaterThanZero(line, null));
+        
+        line.setTransactionUnits(NEGATIVE_UNITS);
+        assertFalse(rule.validateTransactionUnitsGreaterThanZero(line, null));
     }
     
     /**

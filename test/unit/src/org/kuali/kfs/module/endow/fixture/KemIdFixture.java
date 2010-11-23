@@ -108,10 +108,55 @@ public enum KemIdFixture {
 
         kemidRecord.refreshNonUpdateableReferences();
         kemidRecord.refreshReferenceObject("typeRestrictionCodeForPrincipalRestrictionCode");
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(kemidRecord);
+
+        saveKemidRecord(kemidRecord);
         
         return kemidRecord;
+    }
+    
+    /**
+     * This method creates a KEMID record and saves it to table
+     * @return kemid record
+     */
+    public KEMID createKemidRecord(String kemid, String shortTitle, String longTitle,
+                                   Date dateOpened, Date dateEstablished, String typeCode,
+                                   String purposeCode, String responsibleAdminCode,
+                                   String transactionRestrictionCode, Integer cashSweepModelId,
+                                   boolean dormantIndicator, boolean close,
+                                   String closedToKEMID, String closeCode,
+                                   String incomeRestrictionCode, String principalRestrictionCode) {
+        KEMID kemidRecord = new KEMID();
+        kemidRecord.setKemid(kemid);
+        kemidRecord.setShortTitle(shortTitle);
+        kemidRecord.setLongTitle(longTitle);
+        kemidRecord.setDateOpened(dateOpened);
+        kemidRecord.setDateEstablished(dateEstablished);
+        kemidRecord.setTypeCode(typeCode);
+        kemidRecord.setPurposeCode(purposeCode);
+        kemidRecord.setResponsibleAdminCode(responsibleAdminCode);
+        kemidRecord.setTransactionRestrictionCode(transactionRestrictionCode);
+        kemidRecord.setCashSweepModelId(cashSweepModelId);
+        kemidRecord.setDormantIndicator(dormantIndicator);
+        kemidRecord.setClose(close);
+        kemidRecord.setClosedToKEMID(closedToKEMID);
+        kemidRecord.setCloseCode(closeCode);
+        kemidRecord.setIncomeRestrictionCode(incomeRestrictionCode);
+        kemidRecord.setPrincipalRestrictionCode(principalRestrictionCode);
+
+        kemidRecord.refreshNonUpdateableReferences();
+        kemidRecord.refreshReferenceObject("typeRestrictionCodeForPrincipalRestrictionCode");
+
+        saveKemidRecord(kemidRecord);
+        
+        return kemidRecord;
+    }
+    
+    /**
+     * Method to save the business object....
+     */
+    private void saveKemidRecord(KEMID kemidRecord) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(kemidRecord);
     }
 }
 

@@ -39,8 +39,7 @@ public enum CurrentCashFixture {
 
     /**
      * This method creates a Security record and saves it to table
-     * @param clazz
-     * @return security record
+     * @return current cash record
      */
     public KemidCurrentCash createKemidCurrentCashRecord() {
         KemidCurrentCash kemidCurrentCash = new KemidCurrentCash();
@@ -49,10 +48,33 @@ public enum CurrentCashFixture {
         kemidCurrentCash.setCurrentIncomeCash(this.currentIncomeCash);
         kemidCurrentCash.setCurrentPrincipalCash(this.currentPrincipalCash);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(kemidCurrentCash);
+        saveCurrentCashRecord(kemidCurrentCash);
         
         return kemidCurrentCash;
+    }
+    
+    /**
+     * This method creates a Security record and saves it to table
+     * @return current cash record
+     */
+    public KemidCurrentCash createKemidCurrentCashRecord(String kemid, KualiDecimal currentIncomeCash, KualiDecimal currentPrincipalCash) {
+        KemidCurrentCash kemidCurrentCash = new KemidCurrentCash();
+
+        kemidCurrentCash.setKemid(kemid);
+        kemidCurrentCash.setCurrentIncomeCash(currentIncomeCash);
+        kemidCurrentCash.setCurrentPrincipalCash(currentPrincipalCash);
+
+        saveCurrentCashRecord(kemidCurrentCash);
+        
+        return kemidCurrentCash;
+    }
+    
+    /**
+     * Method to save the business object....
+     */
+    private void saveCurrentCashRecord(KemidCurrentCash kemidCurrentCash) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(kemidCurrentCash);
     }
 }
 

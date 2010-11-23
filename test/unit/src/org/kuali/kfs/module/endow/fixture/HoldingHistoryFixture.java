@@ -94,8 +94,7 @@ public enum HoldingHistoryFixture {
 
     /**
      * This method creates a Security record and saves it to table
-     * @param clazz
-     * @return security record
+     * @return holdingHistory record
      */
     public HoldingHistory createHoldingHistoryRecord() {
         HoldingHistory holdingHistoryRecord = new HoldingHistory();
@@ -119,10 +118,54 @@ public enum HoldingHistoryFixture {
         holdingHistoryRecord.setRemainderOfFYEstimatedIncome(this.remainderOfFYEstimatedIncome);
         holdingHistoryRecord.setNextFYEstimatedIncome(this.nextFYEstimatedIncome);        
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(holdingHistoryRecord);
+        saveHoldingHistoryRecord(holdingHistoryRecord);        
         
         return holdingHistoryRecord;
+    }
+
+    /**
+     * This method creates a Security record and saves it to table
+     * @return holdingHistory record
+     */
+    public HoldingHistory createHoldingHistoryRecord(String kemid, String securityId, String registrationCode,
+                                                     KualiInteger lotNumber, String incomePrincipalIndicator,
+                                                     Date acquiredDate,BigDecimal units,BigDecimal cost,
+                                                     BigDecimal currentAccrual, BigDecimal priorAccrual,
+                                                     Date lastTransactionDate, KualiInteger monthEndDateId,
+                                                     BigDecimal estimatedIncome, BigDecimal securityUnitVal,
+                                                     BigDecimal marketValue, BigDecimal averageMarketValue,
+                                                     BigDecimal remainderOfFYEstimatedIncome, BigDecimal nextFYEstimatedIncome) {
+        HoldingHistory holdingHistoryRecord = new HoldingHistory();
+
+        holdingHistoryRecord.setKemid(kemid);
+        holdingHistoryRecord.setSecurityId(securityId);
+        holdingHistoryRecord.setRegistrationCode(registrationCode);
+        holdingHistoryRecord.setLotNumber(lotNumber);
+        holdingHistoryRecord.setIncomePrincipalIndicator(incomePrincipalIndicator);
+        holdingHistoryRecord.setAcquiredDate(acquiredDate);
+        holdingHistoryRecord.setUnits(units);
+        holdingHistoryRecord.setCost(cost);
+        holdingHistoryRecord.setCurrentAccrual(currentAccrual);
+        holdingHistoryRecord.setPriorAccrual(priorAccrual);
+        holdingHistoryRecord.setLastTransactionDate(lastTransactionDate);
+        holdingHistoryRecord.setMonthEndDateId(monthEndDateId);
+        holdingHistoryRecord.setEstimatedIncome(estimatedIncome);
+        holdingHistoryRecord.setSecurityUnitVal(securityUnitVal);
+        holdingHistoryRecord.setMarketValue(marketValue);
+        holdingHistoryRecord.setAverageMarketValue(averageMarketValue);
+        holdingHistoryRecord.setRemainderOfFYEstimatedIncome(remainderOfFYEstimatedIncome);
+        holdingHistoryRecord.setNextFYEstimatedIncome(nextFYEstimatedIncome);        
+
+        saveHoldingHistoryRecord(holdingHistoryRecord);        
+        return holdingHistoryRecord;
+    }
+
+    /**
+     * Method to save the business object....
+     */
+    private void saveHoldingHistoryRecord(HoldingHistory holdingHistoryRecord) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(holdingHistoryRecord);
     }
 }
 

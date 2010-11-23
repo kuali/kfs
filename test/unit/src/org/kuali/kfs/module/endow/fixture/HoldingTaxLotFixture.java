@@ -88,7 +88,7 @@ public enum HoldingTaxLotFixture {
         holdingTaxLot.setPriorAccrual(this.priorAccrual);
         holdingTaxLot.setLastTransactionDate(this.lastTransactionDate);
 
-        saveHoldingTaxLotRebalanceRecord(holdingTaxLot);        
+        saveHoldingTaxLotRecord(holdingTaxLot);        
         return holdingTaxLot;
     }
     
@@ -114,14 +114,14 @@ public enum HoldingTaxLotFixture {
         holdingTaxLot.setPriorAccrual(priorAccrual);
         holdingTaxLot.setLastTransactionDate(lastTransactionDate);
 
-        saveHoldingTaxLotRebalanceRecord(holdingTaxLot);        
+        saveHoldingTaxLotRecord(holdingTaxLot);        
         return holdingTaxLot;
     }
 
     /**
      * Method to save the business object....
      */
-    private void saveHoldingTaxLotRebalanceRecord(HoldingTaxLot holdingTaxLot) {
+    private void saveHoldingTaxLotRecord(HoldingTaxLot holdingTaxLot) {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(holdingTaxLot);
     }

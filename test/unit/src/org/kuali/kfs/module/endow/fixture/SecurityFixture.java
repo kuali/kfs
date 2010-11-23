@@ -58,7 +58,6 @@ public enum SecurityFixture {
 
     /**
      * This method creates a Security record and saves it to table
-     * @param clazz
      * @return security record
      */
     public Security createSecurityRecord() {
@@ -73,10 +72,41 @@ public enum SecurityFixture {
         securityRecord.setNextFiscalYearDistributionAmount(this.nextFiscalYearDisbursementAmount);
         securityRecord.refreshReferenceObject("classCode");
         
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        businessObjectService.save(securityRecord);
+        saveSecurityRecord(securityRecord);
         
         return securityRecord;
     }
+    
+    /**
+     * This method creates a Security record and saves it to table
+     * @return security record
+     */
+    public Security createSecurityRecord(String securityId, String securityClassCode, BigDecimal securityUnitValue,
+                                         String securityIncomePayFrequencyCode, Date  securityIncomeNextPayDate,
+                                         BigDecimal securityRate, Boolean rowActiveIndicator, BigDecimal nextFiscalYearDisbursementAmount) {
+        Security securityRecord = new Security();
+        securityRecord.setId(securityId);
+        securityRecord.setSecurityClassCode(securityClassCode);
+        securityRecord.setUnitValue(securityUnitValue);
+        securityRecord.setIncomePayFrequency(securityIncomePayFrequencyCode);
+        securityRecord.setIncomeNextPayDate(securityIncomeNextPayDate);
+        securityRecord.setIncomeRate(securityRate);
+        securityRecord.setActive(rowActiveIndicator);
+        securityRecord.setNextFiscalYearDistributionAmount(nextFiscalYearDisbursementAmount);
+        securityRecord.refreshReferenceObject("classCode");
+        
+        saveSecurityRecord(securityRecord);
+        
+        return securityRecord;
+    }
+    
+    /**
+     * Method to save the business object....
+     */
+    private void saveSecurityRecord(Security securityRecord) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(securityRecord);
+    }
+    
 }
 

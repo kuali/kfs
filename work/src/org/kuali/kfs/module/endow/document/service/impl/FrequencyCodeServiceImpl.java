@@ -87,39 +87,41 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
         return currentDate;
     }
     
-    public Date getNextDueDate(String frequencyCode) {
-        Date currentDate = kemService.getCurrentDate();
-        
-        String frequencyType = frequencyCode.substring(0, 1);
-        
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
-            return calculateNextDate(currentDate);
-        }
-        
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
-            String dayOfWeek =  frequencyCode.substring(1, 4).toUpperCase();
-            return calculateNextWeeklyDate(dayOfWeek, currentDate);
-        }
-        
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
-            String dayOfSemiMonthly =  frequencyCode.substring(1, 3);
-            return calculateNextSemiMonthlyDate(dayOfSemiMonthly, currentDate);
-        }
+    public Date calculateNextDueDate(String frequencyCode, Date currentDate) {
 
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
-            String dayOfMonth =  frequencyCode.substring(1, 3);
-            return calculateNextMonthlyDate(dayOfMonth, currentDate);
-        }
-
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY) || 
-            frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY) ||
-            frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
-            String month = frequencyCode.substring(1, 2);
-            String dayOfMonth =  frequencyCode.substring(2, 4);
-            return calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(month, dayOfMonth, frequencyType, currentDate);
+        if (currentDate != null) {
+        
+            String frequencyType = frequencyCode.substring(0, 1);
+            
+            if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.DAILY)) {
+                return calculateNextDate(currentDate);
+            }
+            
+            if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.WEEKLY)) {
+                String dayOfWeek =  frequencyCode.substring(1, 4).toUpperCase();
+                return calculateNextWeeklyDate(dayOfWeek, currentDate);
+            }
+            
+            if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_MONTHLY)) {
+                String dayOfSemiMonthly =  frequencyCode.substring(1, 3);
+                return calculateNextSemiMonthlyDate(dayOfSemiMonthly, currentDate);
+            }
+    
+            if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
+                String dayOfMonth =  frequencyCode.substring(1, 3);
+                return calculateNextMonthlyDate(dayOfMonth, currentDate);
+            }
+    
+            if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY) || 
+                frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY) ||
+                frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
+                String month = frequencyCode.substring(1, 2);
+                String dayOfMonth =  frequencyCode.substring(2, 4);
+                return calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(month, dayOfMonth, frequencyType, currentDate);
+            }
         }
         
-        return currentDate;
+        return null;
     }
 
     /**

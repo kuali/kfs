@@ -38,8 +38,9 @@ public interface FrequencyCodeService {
     /**
      * Gets the next due date according to the frequency code
      * @param frequenctCode
-     * @return
+     * @param currentDate
+     * @return next due date
      */
-    public Date getNextDueDate(String frequenctCode);
+    public Date calculateNextDueDate(String frequenctCode, Date currentDate);
 
 }

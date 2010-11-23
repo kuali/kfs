@@ -100,7 +100,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (securityRecords != null) {
             for (Security security : securityRecords) {
                 String frequencyCode = security.getIncomePayFrequency();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode);
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
                 if (nextDate != null) {
                     security.setIncomeNextPayDate(nextDate);
                     if (updateBusinessObject(security)) {
@@ -128,7 +128,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (ticklerRecords != null) {
             for (Tickler tickler : ticklerRecords) {
                 String frequencyCode = tickler.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     tickler.setNextDueDate(nextDate);
                     if (updateBusinessObject(tickler)) {
@@ -155,7 +155,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (feeMethodRecords != null) {
             for (FeeMethod feeMethod : feeMethodRecords) {                        
                 String frequencyCode = feeMethod.getFeeFrequencyCode();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                     feeMethod.setFeeNextProcessDate(nextDate);
@@ -183,7 +183,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (recurringCashTransferRecords != null) {
             for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
                 String frequencyCode = recurringCashTransfer.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                     recurringCashTransfer.setNextProcessDate(nextDate);
@@ -208,7 +208,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (csmRecords != null) {
             for (CashSweepModel csm : csmRecords) {                        
                 String frequencyCode = csm.getCashSweepFrequencyCode();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     csm.setCashSweepNextDueDate(nextDate);
                     if (updateBusinessObject(csm)) {
@@ -232,7 +232,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (aciRecords != null) {
             for (AutomatedCashInvestmentModel aci : aciRecords) {                        
                 String frequencyCode = aci.getAciFrequencyCode();           
-                Date nextDate = frequencyCodeService.getNextDueDate(frequencyCode); 
+                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     aci.setAciNextDueDate(nextDate);
                     if (updateBusinessObject(aci)) {

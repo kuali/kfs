@@ -79,7 +79,7 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord("TESTSECID", "910", BigDecimal.ONE, "M01", Date.valueOf("2010-01-01"), BigDecimal.valueOf(20L), true, BigDecimal.valueOf(100.20));
-        kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
+        kemid = KemIdFixture.CLOSED_KEMID_RECORD.createKemidRecord();
 
         //create the Liability Decrease document
         document = createLiabilityDecreaseDocument();

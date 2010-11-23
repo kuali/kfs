@@ -24,28 +24,42 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum SecurityFixture {
     // Security Record FIXTURE
-    ENDOWMENT_SECURITY_RECORD("TESTSECID", //securityId 
-            "025", //securityClassCode
-            BigDecimal.ONE, //securityUnitValue
-            "M01", //securityIncomePayFrequencyCode
-            Date.valueOf("2010-01-01"), //securityIncomeNextPayDate
-            BigDecimal.valueOf(20L), //securityRate
-            true, //rowActiveIndicator
-            BigDecimal.valueOf(100.20) //nextFiscalYearDisbursementAmount
+    ENDOWMENT_SECURITY_RECORD("TESTSECID", // securityId
+            "025", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ), ACTIVE_SECURITY("TESTSECID", // securityId
+            "TST", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ), INACTIVE_SECURITY("TESTSECID", // securityId
+            "TST", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            false, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
     );
-   
+
     public final String securityId;
     public final String securityClassCode;
     public final BigDecimal securityUnitValue;
     public final String securityIncomePayFrequencyCode;
-    public final Date  securityIncomeNextPayDate;
+    public final Date securityIncomeNextPayDate;
     public final BigDecimal securityRate;
     public final Boolean rowActiveIndicator;
     public final BigDecimal nextFiscalYearDisbursementAmount;
 
-    private SecurityFixture(String securityId, String securityClassCode, BigDecimal securityUnitValue,
-                            String securityIncomePayFrequencyCode, Date  securityIncomeNextPayDate,
-                            BigDecimal securityRate, Boolean rowActiveIndicator, BigDecimal nextFiscalYearDisbursementAmount) {
+    private SecurityFixture(String securityId, String securityClassCode, BigDecimal securityUnitValue, String securityIncomePayFrequencyCode, Date securityIncomeNextPayDate, BigDecimal securityRate, Boolean rowActiveIndicator, BigDecimal nextFiscalYearDisbursementAmount) {
         this.securityId = securityId;
         this.securityClassCode = securityClassCode;
         this.securityUnitValue = securityUnitValue;
@@ -71,7 +85,7 @@ public enum SecurityFixture {
         securityRecord.setActive(this.rowActiveIndicator);
         securityRecord.setNextFiscalYearDistributionAmount(this.nextFiscalYearDisbursementAmount);
         securityRecord.refreshReferenceObject("classCode");
-        
+
         saveSecurityRecord(securityRecord);
         
         return securityRecord;
@@ -107,6 +121,5 @@ public enum SecurityFixture {
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(securityRecord);
     }
-    
-}
 
+}

@@ -57,7 +57,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     private void createDataFixtures() {
         //setup dummy data so the method can test the method getAvailableIncomeCash()
         //setup dummy kemid record
-        kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
+        kemid = KemIdFixture.CLOSED_KEMID_RECORD.createKemidRecord();
         
         //setup a record in END_CRNT_CSH_T record
         CurrentCashFixture.CURRENT_CASH_RECORD.createKemidCurrentCashRecord();

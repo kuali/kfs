@@ -23,24 +23,78 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum KemIdFixture {
     // Security Record FIXTURE
-    KEMID_RECORD("TESTKEMID", //kemid
-            "Test Kemid for Unit test", //shortTitle
-            "Long Title for Kemid", //longTitle
-            Date.valueOf("2006-02-01"), //dateOpened
-            Date.valueOf("2006-02-01"), //dateEstablished
-            "046", //typeCode
-            "MR", //purposeCode
-            "TRST", //responsibleAdminCode
-            "NTRAN", //transactionRestrictionCode
-            new Integer(1), //cashSweepModelId
-            false, //dormantIndicator
-            true, //close
-            "038B011179", //closedToKEMID
-            "T", //closeCode
-            "TRU", //incomeRestrictionCode
-            "TRU" //principalRestrictionCode
+    CLOSED_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NTRAN", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            true, // close
+            "038B011179", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
+    ),
+
+    OPEN_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NTRAN", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
+    ),
+
+    ALLOW_TRAN_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "TST", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
+    ),
+
+    NO_TRAN_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "TST", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
     );
-    
+
     public final String kemid;
     public final String shortTitle;
     public final String longTitle;
@@ -58,13 +112,7 @@ public enum KemIdFixture {
     public final String incomeRestrictionCode;
     public final String principalRestrictionCode;
 
-    private KemIdFixture(String kemid, String shortTitle, String longTitle,
-                         Date dateOpened, Date dateEstablished, String typeCode,
-                         String purposeCode, String responsibleAdminCode,
-                         String transactionRestrictionCode, Integer cashSweepModelId,
-                         boolean dormantIndicator, boolean close,
-                         String closedToKEMID, String closeCode,
-                         String incomeRestrictionCode, String principalRestrictionCode) {
+    private KemIdFixture(String kemid, String shortTitle, String longTitle, Date dateOpened, Date dateEstablished, String typeCode, String purposeCode, String responsibleAdminCode, String transactionRestrictionCode, Integer cashSweepModelId, boolean dormantIndicator, boolean close, String closedToKEMID, String closeCode, String incomeRestrictionCode, String principalRestrictionCode) {
         this.kemid = kemid;
         this.shortTitle = shortTitle;
         this.longTitle = longTitle;
@@ -85,6 +133,7 @@ public enum KemIdFixture {
 
     /**
      * This method creates a KEMID record and saves it to table
+     * 
      * @return kemid record
      */
     public KEMID createKemidRecord() {
@@ -155,8 +204,7 @@ public enum KemIdFixture {
      * Method to save the business object....
      */
     private void saveKemidRecord(KEMID kemidRecord) {
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+          BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(kemidRecord);
     }
 }
-

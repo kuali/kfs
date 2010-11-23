@@ -66,7 +66,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         UpdateTransactionPostedToTrue();
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
-        kemid = KemIdFixture.KEMID_RECORD.createKemidRecord();
+        kemid = KemIdFixture.CLOSED_KEMID_RECORD.createKemidRecord();
         ehva = EndowmentHoldingValueAdjustmentDocumentFixture.EHVA_ONLY_REQUIRED_FIELDS.createHoldingHistoryValueAdjustmentDocument();
         ehva.refreshNonUpdateableReferences();
     }

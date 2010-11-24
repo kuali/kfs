@@ -43,6 +43,26 @@ public enum HoldingHistoryFixture {
             BigDecimal.valueOf(1L), // averageMarketValue
             BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
             BigDecimal.valueOf(1L) // nextFYEstimatedIncome
+            ), 
+            
+            HOLDING_HISTORY_RECORD2("TESTKEMID", //kemid
+                    "TESTSECID", //securityId
+                    "0NI", //registrationCode
+                    new KualiInteger(1), //lotNumber
+                    "I", // incomePrincipalIndicator
+                    Date.valueOf("2006-01-01"), // acquiredDate 
+                    BigDecimal.valueOf(200L), // units
+                    BigDecimal.valueOf(1L), // cost
+                    BigDecimal.valueOf(1L), // currentAccrual
+                    BigDecimal.valueOf(1L), // priorAccrual
+                    Date.valueOf("2006-01-01"), // lastTransactionDate
+                    new KualiInteger(0), //monthEndDateId
+                    BigDecimal.valueOf(1L), // estimatedIncome 
+                    BigDecimal.valueOf(1L), // securityUnitVal
+                    BigDecimal.valueOf(1L), // marketValue
+                    BigDecimal.valueOf(1L), // averageMarketValue
+                    BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
+                    BigDecimal.valueOf(1L) // nextFYEstimatedIncome
     );
     
     public final String kemid;

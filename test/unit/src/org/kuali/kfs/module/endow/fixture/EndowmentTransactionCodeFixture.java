@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
@@ -42,6 +41,11 @@ public enum EndowmentTransactionCodeFixture {
         this.active = active;
     }
 
+    /**
+     * This method creates a EndowmentTransactionCode record and saves it to the DB table.
+     * 
+     * @return EndowmentTransactionCode
+     */
     public EndowmentTransactionCode createEndowmentTransactionCode() {
         EndowmentTransactionCode endowmentTransactionCode = new EndowmentTransactionCode();
 

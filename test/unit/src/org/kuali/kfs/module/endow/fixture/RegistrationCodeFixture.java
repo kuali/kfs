@@ -34,15 +34,18 @@ public enum RegistrationCodeFixture {
     }
 
     /**
-     * This method...
+     * This method creates a RegistrationCode record and saves it to the DB table.
      * 
-     * @return
+     * @return a RegistrationCode
      */
     public RegistrationCode createRegistrationCode() {
         RegistrationCode registrationCodeRecord = new RegistrationCode();
         registrationCodeRecord.setActive(this.active);
         registrationCodeRecord.setCode(this.code);
         registrationCodeRecord.setName(this.description);
+
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(registrationCodeRecord);
 
         return registrationCodeRecord;
     }

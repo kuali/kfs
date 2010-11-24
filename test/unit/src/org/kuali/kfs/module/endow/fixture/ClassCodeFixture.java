@@ -63,6 +63,11 @@ public enum ClassCodeFixture {
         this.valuationMethod = valuationMethod;
     }
 
+    /**
+     * This method creates a ClassCode record and saves it to the DB table.
+     * 
+     * @return ClassCode record
+     */
     public ClassCode createClassCodeRecord() {
         ClassCode classCodeRecord = new ClassCode();
 
@@ -76,7 +81,7 @@ public enum ClassCodeFixture {
         classCodeRecord.setTaxLotIndicator(this.taxLotIndicator);
         classCodeRecord.setClassCodeType(this.classCodeType);
         classCodeRecord.setValuationMethod(this.valuationMethod);
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(classCodeRecord);
 

@@ -39,6 +39,11 @@ public enum SecurityReportingGroupFixture {
         this.active = active;
     }
 
+    /**
+     * This method creates a SecurityReportingGroup record and saves it to the DB table.
+     * 
+     * @return SecurityReportingGroup
+     */
     public SecurityReportingGroup createSecurityReportingGroup() {
         SecurityReportingGroup reportingGroup = new SecurityReportingGroup();
 

@@ -163,10 +163,11 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
 
         EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
         targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
 
         document.getTargetTransactionSecurities().add(targetTransactionSecurity);
 
-        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, false));
+        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
     }
 
     /**
@@ -174,21 +175,21 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testLiabilityClassCode_False() {
         // add security details
-//        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-//        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-//        ClassCode classCode = ClassCodeFixture.NOT_LIABILITY_CLASS_CODE.createClassCodeRecord();
-//        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
-//
-//
-//        security.setClassCode(classCode);
-//        security.setSecurityClassCode(classCode.getCode());
-//
-//        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-//        targetTransactionSecurity.setSecurityID(security.getId());
-//
-//        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
-//
-//        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.NOT_LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        security.setClassCode(classCode);
+        security.setSecurityClassCode(classCode.getCode());
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
+
+        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
+
+        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, false));
     }
 
     // validate transaction lines
@@ -199,12 +200,12 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testTransactionsNotAllowedForNTRANKemid_False() {
 
-//        KEMID ntranKemid = KemIdFixture.NO_TRAN_KEMID_RECORD.createKemidRecord();
-//        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-//        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
-//        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
-//
-//        assertFalse(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+        KEMID ntranKemid = KemIdFixture.NO_TRAN_KEMID_RECORD.createKemidRecord();
+        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
+        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
+
+        assertFalse(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
 
     }
 
@@ -213,12 +214,12 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testTransactionsNotAllowedForNTRANKemid_True() {
 
-//        KEMID ntranKemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
-//        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-//        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
-//        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
-//
-//        assertTrue(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+        KEMID ntranKemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
+        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
+        endowmentTargetTransactionLine.setKemid(ntranKemid.getKemid());
+        endowmentTargetTransactionLine.setKemidObj(ntranKemid);
+
+        assertTrue(rule.validateNoTransactionRestriction(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
 
     }
 

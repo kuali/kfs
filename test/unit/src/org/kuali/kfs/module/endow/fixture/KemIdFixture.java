@@ -85,7 +85,7 @@ public enum KemIdFixture {
             "046", // typeCode
             "MR", // purposeCode
             "TRST", // responsibleAdminCode
-            "NONE", // transactionRestrictionCode
+            "NTRAN", // transactionRestrictionCode
             new Integer(1), // cashSweepModelId
             false, // dormantIndicator
             false, // close

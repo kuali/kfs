@@ -25,13 +25,19 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurityBase;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionSecurityFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotRebalanceFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -65,10 +71,6 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
     private static final String REFERENCE_DOCUMENT_DESCRIPTION = "Document Description - Unit Test";
     private static final String INVALID_REGISTRATION_CODE = "...";
     private static final String INVALID_SECURITY_ID = "WRONG_ID";
-    private static final String KEM_ID = "046G007720";
-    private static final String SECURITY_ID = "99BTIP011";
-    private static final String REGISTRATION_CODE= "0CP";
-    private static final String IP_INDICATOR = "P";
     private static final String ETRAN_CODE = "42020";
     
     @Override
@@ -79,10 +81,14 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord("TESTSECID", "910", BigDecimal.ONE, "M01", Date.valueOf("2010-01-01"), BigDecimal.valueOf(20L), true, BigDecimal.valueOf(100.20));
-        kemid = KemIdFixture.CLOSED_KEMID_RECORD.createKemidRecord();
+        kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
 
         //create the Liability Decrease document
         document = createLiabilityDecreaseDocument();
+        
+        //add a corresponding tax lot record so it can be updated by the rules class..
+        HoldingTaxLotRebalance holdingTaxLotRebalance = HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_LIABILITY.createHoldingTaxLotRebalanceRecord();
+        HoldingTaxLot holdingTaxLot = HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD_FOR_LIABILITY.createHoldingTaxLotRecord();
     }
 
     @Override
@@ -102,11 +108,13 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         LOG.info("createLiabilityDecreaseDocument() entered.");
         
         LiabilityDecreaseDocument doc = (LiabilityDecreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(LiabilityDecreaseDocument.class);
-        doc.getDocumentHeader().setDocumentDescription("This is a test Liability Decrease document.");
+        doc.getDocumentHeader().setDocumentDescription("Testing Liability Decrease document.");
 
         EndowmentTransactionSecurityBase etsb = (EndowmentSourceTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(true);
         etsb.setDocumentNumber(doc.getDocumentNumber());
-        etsb.setRegistrationCode(REGISTRATION_CODE);
+        
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+        etsb.setRegistrationCode(registrationCode.getCode());
         etsb.refreshNonUpdateableReferences();
         
         doc.setSourceTransactionSecurity(etsb);
@@ -212,5 +220,51 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         line.setTransactionAmount(POSITIVE_AMOUNT);
         line.setTransactionUnits(POSITIVE_UNITS);
         assertTrue(rule.validateTransactionUnitsAmountEqual(line, null));
+    }
+    
+    /**
+     * Test to check transactionLineSizeGreaterThanZero method in the rule class
+     */
+    public void testTransactionLineSizeGreaterThanZero() {
+        LOG.info("testTransactionLineSizeGreaterThanZero() entered.");
+        
+        assertFalse(rule.transactionLineSizeGreaterThanZero(document, true)); //no transaction lines in the document
+
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        document.getSourceTransactionLines().add(line);
+        
+        assertTrue(rule.transactionLineSizeGreaterThanZero(document, true)); //no transaction lines in the document
+    }
+    
+    /**
+     * test to add a transaction line..
+     */
+    public void testProcessAddTransactionLineRules() {
+        LOG.info("testProcessAddTransactionLineRules() entered.");
+        
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        line.setDocumentNumber(document.getDocumentNumber());
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionUnits(POSITIVE_UNITS);
+
+        assertTrue(rule.processAddTransactionLineRules(document, line));
+    }
+    
+    /**
+     * Test to check processCustomRouteDocumentBusinessRules in the rule class...
+     */
+    public void testProcessCustomRouteDocumentBusinessRules() {
+        LOG.info("testProcessCustomRouteDocumentBusinessRules() entered.");
+
+        EndowmentTransactionLineBase line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        line.setDocumentNumber(document.getDocumentNumber());
+        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionUnits(POSITIVE_UNITS);
+
+        assertTrue(rule.processAddTransactionLineRules(document, line));
+        document.getSourceTransactionLines().add(line);
+        
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(document));
     }
 }

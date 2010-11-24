@@ -67,7 +67,7 @@ public enum KemIdFixture {
             "046", // typeCode
             "MR", // purposeCode
             "TRST", // responsibleAdminCode
-            "TST", // transactionRestrictionCode
+            "NONE", // transactionRestrictionCode
             new Integer(1), // cashSweepModelId
             false, // dormantIndicator
             false, // close
@@ -85,7 +85,7 @@ public enum KemIdFixture {
             "046", // typeCode
             "MR", // purposeCode
             "TRST", // responsibleAdminCode
-            "TST", // transactionRestrictionCode
+            "NONE", // transactionRestrictionCode
             new Integer(1), // cashSweepModelId
             false, // dormantIndicator
             false, // close

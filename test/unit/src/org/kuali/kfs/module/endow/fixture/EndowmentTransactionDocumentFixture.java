@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase;
-import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;

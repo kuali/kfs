@@ -21,7 +21,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum RegistrationCodeFixture {
 
-    REGISTRATION_CODE_RECORD("TEST", "Test RegistrationCode", true);
+    REGISTRATION_CODE_RECORD("TEST", "Test RegistrationCode", true), 
+    
+    REGISTRATION_CODE_RECORD_FOR_LIABILITY("TEST", // code
+            "Test RegistrationCode", // description
+            true //active
+    );
 
     public String code;
     public String description;

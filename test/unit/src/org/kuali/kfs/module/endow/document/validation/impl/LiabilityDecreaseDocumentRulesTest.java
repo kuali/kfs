@@ -42,7 +42,6 @@ import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -57,7 +56,6 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
     private LiabilityDecreaseDocumentRules rule;
     private LiabilityDecreaseDocument document;
     private DocumentService documentService;
-    private UnitTestSqlDao unitTestSqlDao;
     private Security security;
     private KEMID kemid;
     
@@ -78,7 +76,6 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         super.setUp();
         rule = new LiabilityDecreaseDocumentRules();
         documentService = SpringContext.getBean(DocumentService.class);
-        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord("TESTSECID", "910", BigDecimal.ONE, "M01", Date.valueOf("2010-01-01"), BigDecimal.valueOf(20L), true, BigDecimal.valueOf(100.20));
         kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
@@ -113,7 +110,7 @@ public class LiabilityDecreaseDocumentRulesTest extends KualiTestBase {
         EndowmentTransactionSecurityBase etsb = (EndowmentSourceTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(true);
         etsb.setDocumentNumber(doc.getDocumentNumber());
         
-        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD_FOR_LIABILITY.createRegistrationCode();
         etsb.setRegistrationCode(registrationCode.getCode());
         etsb.refreshNonUpdateableReferences();
         

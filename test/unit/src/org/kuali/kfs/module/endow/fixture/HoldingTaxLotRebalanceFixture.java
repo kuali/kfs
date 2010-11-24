@@ -35,7 +35,7 @@ public enum HoldingTaxLotRebalanceFixture {
     
     HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
             "TESTSECID", //securityId
-            "000", //registrationCode
+            "TEST", //registrationCode
             "P", //incomePrincipalIndicator
             new KualiInteger(1), //totalLotNumber
             BigDecimal.valueOf(20.00), // totalUnits

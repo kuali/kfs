@@ -41,7 +41,7 @@ public enum HoldingTaxLotFixture {
     
     HOLDING_TAX_LOT_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
             "TESTSECID", //securityId
-            "000", //registrationCode
+            "TEST", //registrationCode
             "P", //incomePrincipalIndicator
             new KualiInteger(1), //lotNumber
             Date.valueOf("2005-11-01"), //acquiredDate

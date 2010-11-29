@@ -15,97 +15,121 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
-import java.math.BigDecimal;
-
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurityBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum EndowmentTransactionLineFixture {
     // Endowment Transaction Line Fixture
-    ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD(new Integer(1), //transactionLineNumber
-            "TESTKEMID", //kemid
-            "P", //transactionIPIndicatorCode 
+    ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "P", // transactionIPIndicatorCode
             new KualiDecimal("100.20"), // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_ZERO_AMT(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "P", // transactionIPIndicatorCode
+            KualiDecimal.ZERO, // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_ZERO_UNITS(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "P", // transactionIPIndicatorCode
+            KualiDecimal.ZERO, // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_UNITS(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "P", // transactionIPIndicatorCode
+            KualiDecimal.ZERO, // transactionAmount
+            new KualiDecimal("100"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
     );
-    
+
     public final Integer transactionLineNumber;
     public final String kemid;
     public final String transactionIPIndicatorCode;
     public final KualiDecimal transactionAmount;
+    private KualiDecimal transactionUnits;
     public final boolean corpusIndicator;
     public final boolean linePosted;
 
-    private EndowmentTransactionLineFixture(Integer transactionLineNumber,
-                                            String kemid, String transactionIPIndicatorCode,
-                                            KualiDecimal transactionAmount,
-                                            boolean corpusIndicator, boolean linePosted) {
+    private EndowmentTransactionLineFixture(Integer transactionLineNumber, String kemid, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
         this.transactionLineNumber = transactionLineNumber;
         this.kemid = kemid;
         this.transactionIPIndicatorCode = transactionIPIndicatorCode;
         this.transactionAmount = transactionAmount;
+        this.transactionUnits = transactionUnits;
         this.corpusIndicator = corpusIndicator;
         this.linePosted = linePosted;
     }
 
     /**
      * This method creates a Endowment Transaction Line record
+     * 
      * @return endowmentTransactionLine
      */
-    public EndowmentTransactionLineBase createEndowmentTransactionLine(boolean isSource, Integer transactionLineNumber,
-                                                                       String kemid, String transactionIPIndicatorCode,
-                                                                       KualiDecimal transactionAmount,
-                                                                       boolean corpusIndicator, boolean linePosted) {
+    public EndowmentTransactionLineBase createEndowmentTransactionLine(boolean isSource, Integer transactionLineNumber, String kemid, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
         EndowmentTransactionLineBase endowmentTransactionLine = null;
-        
+
         if (isSource) {
             endowmentTransactionLine = (EndowmentTransactionLineBase) new EndowmentSourceTransactionLine();
         }
         else {
             endowmentTransactionLine = (EndowmentTransactionLineBase) new EndowmentTargetTransactionLine();
         }
-        
+
         endowmentTransactionLine.setTransactionLineNumber(this.transactionLineNumber);
         endowmentTransactionLine.setKemid(this.kemid);
         endowmentTransactionLine.setTransactionIPIndicatorCode(this.transactionIPIndicatorCode);
         endowmentTransactionLine.setTransactionAmount(this.transactionAmount);
+        endowmentTransactionLine.setTransactionUnits(transactionUnits);
         endowmentTransactionLine.setCorpusIndicator(this.corpusIndicator);
         endowmentTransactionLine.setLinePosted(this.linePosted);
 
         endowmentTransactionLine.refreshNonUpdateableReferences();
-        
+
         return endowmentTransactionLine;
     }
-    
+
     /**
      * This method creates a Endowment Transaction Line record
+     * 
      * @return endowmentTransactionLine
      */
     public EndowmentTransactionLineBase createEndowmentTransactionLine(boolean isSource) {
         EndowmentTransactionLineBase endowmentTransactionLine = null;
-        
+
         if (isSource) {
             endowmentTransactionLine = (EndowmentTransactionLineBase) new EndowmentSourceTransactionLine();
         }
         else {
             endowmentTransactionLine = (EndowmentTransactionLineBase) new EndowmentTargetTransactionLine();
         }
-        
+
         endowmentTransactionLine.setTransactionLineNumber(this.transactionLineNumber);
         endowmentTransactionLine.setKemid(this.kemid);
         endowmentTransactionLine.setTransactionIPIndicatorCode(this.transactionIPIndicatorCode);
         endowmentTransactionLine.setTransactionAmount(this.transactionAmount);
+        endowmentTransactionLine.setTransactionUnits(this.transactionUnits);
         endowmentTransactionLine.setCorpusIndicator(this.corpusIndicator);
         endowmentTransactionLine.setLinePosted(this.linePosted);
 
         endowmentTransactionLine.refreshNonUpdateableReferences();
-        
+
         return endowmentTransactionLine;
     }
 }

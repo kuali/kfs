@@ -21,14 +21,18 @@ import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -47,10 +51,11 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private UpdateAssetIncreaseDocumentTaxLotsService assetIncreaseDocumentTaxLotsService;
 
-
     // 
     private static final String INCOME_PRINCIPAL_IND = "I";
     private static final String ETRAN_CODE = "42000";
+    private static final String INVALID_SECURITY_ID = "WRONG_ID";
+    private static final String INVALID_REGISTRATION_CODE = "...";
 
     @Override
     protected void setUp() throws Exception {
@@ -78,29 +83,6 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         document = (AssetIncreaseDocument) documentService.getNewDocument(AssetIncreaseDocument.class);
         document.getDocumentHeader().setDocumentDescription("This is a test document.");
 
-        // // add security details
-        // Security security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
-        // EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
-        // sourceTransactionSecurity.setSecurityID(security.getId());
-        //
-        // RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
-        // sourceTransactionSecurity.setRegistrationCode(registrationCode.getCode());
-        //
-        // document.setSourceTransactionSecurity(sourceTransactionSecurity);
-        //
-        // // add transaction lines
-        // KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
-        // EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-        // endowmentTargetTransactionLine.setDocumentNumber(document.getDocumentNumber());
-        // endowmentTargetTransactionLine.setKemid(kemid.getKemid());
-        // endowmentTargetTransactionLine.setTransactionIPIndicatorCode(INCOME_PRINCIPAL_IND);
-        // endowmentTargetTransactionLine.setTransactionAmount(new KualiDecimal(100));
-        // endowmentTargetTransactionLine.setEtranCode(ETRAN_CODE);
-        //
-        // document.addTargetTransactionLine(endowmentTargetTransactionLine);
-        //
-        // assetIncreaseDocumentTaxLotsService.updateTransactionLineTaxLots(document, endowmentTargetTransactionLine);
-
         // TODO do I have to save asset increase doc?
         documentService.saveDocument(document);
 
@@ -109,9 +91,68 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
 
     // validate security details
 
+    public void testValidateSecurity_True() {
+        // add security details
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertTrue(rule.validateSecurityCode(document, false));
+    }
+
     /**
-     * 4. A valid security must be selected or entered in the Security tab. (END_TRAN_SEC_T: SEC_ID must exist in END_SEC_T) and
-     * must be active. Only one security record can be inserted in each transaction eDoc.
+     * Test validateSecurity method in the rule class
+     */
+    public void testValidateSecurity_False() {
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(INVALID_SECURITY_ID);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertFalse(rule.validateSecurityCode(document, false));
+    }
+
+    /**
+     * Test validateRegistration method in the rule class
+     */
+    public void testValidateRegistration_True() {
+
+        // add security details
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setRegistrationCode(registrationCode.getCode());
+        targetTransactionSecurity.setRegistrationCodeObj(registrationCode);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertTrue(rule.validateRegistrationCode(document, false));
+
+    }
+
+    /**
+     * Test validateRegistration method in the rule class
+     */
+    public void testValidateRegistration_False() {
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setRegistrationCode(INVALID_REGISTRATION_CODE);
+
+        document.setTargetTransactionSecurity(targetTransactionSecurity);
+
+        assertFalse(rule.validateRegistrationCode(document, true));
+
+    }
+
+    /**
+     * Validates that isSecurityActive returns true when an active security is added.
      */
     public void testActiveSecurity_True() {
         // add security details
@@ -130,7 +171,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * This method...
+     * Validates that isSecurityActive returns false when an inactive security is added.
      */
     public void testActiveSecurity_False() {
         // add security details
@@ -148,32 +189,10 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * 5. The security entered must NOT have a CLS_CD_TYP equal to L (Liabilities)
+     * Validates that validateSecurityClassCodeTypeNotLiability returns true when a security with a class code other that Liability
+     * is added.
      */
     public void testLiabilityClassCode_True() {
-        // add security details
-
-        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
-        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
-
-        security.setClassCode(classCode);
-        security.setSecurityClassCode(classCode.getCode());
-
-        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        targetTransactionSecurity.setSecurityID(security.getId());
-        targetTransactionSecurity.setSecurity(security);
-
-        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
-
-        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
-    }
-
-    /**
-     * This method...
-     */
-    public void testLiabilityClassCode_False() {
         // add security details
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
         EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
@@ -192,11 +211,36 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, false));
     }
 
+    /**
+     * Validates that validateSecurityClassCodeTypeNotLiability returns false when a security with a class code of Liability is
+     * added.
+     */
+    public void testLiabilityClassCode_False() {
+        // add security details
+
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        security.setClassCode(classCode);
+        security.setSecurityClassCode(classCode.getCode());
+
+        EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
+        targetTransactionSecurity.setSecurityID(security.getId());
+        targetTransactionSecurity.setSecurity(security);
+
+        document.getTargetTransactionSecurities().add(targetTransactionSecurity);
+
+        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, false));
+
+    }
+
     // validate transaction lines
-    // If the END_KEMID_T: TRAN_RESTR_CD is NTRAN, no transactions are allowed for the KEMID.
 
     /**
-     * If the END_KEMID_T: TRAN_RESTR_CD is NTRAN, no transactions are allowed for the KEMID.
+     * Validates that validateNoTransactionRestriction returns false when the KEMID has a transaction restriction code equal to
+     * NTRAN.
      */
     public void testTransactionsNotAllowedForNTRANKemid_False() {
 
@@ -210,7 +254,8 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * This method...
+     * Validates that validateNoTransactionRestriction returns true when the KEMID has a transaction restriction code different from
+     * NTRAN.
      */
     public void testTransactionsNotAllowedForNTRANKemid_True() {
 
@@ -223,7 +268,51 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
 
     }
 
-    // All values entered must be positive values.
+
+    /**
+     * Validates that validateTransactionAmountGreaterThanZero returns true when transaction amount is greater than zero.
+     */
+    public void testTransactionsLineAmountPositive_True() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
+
+        assertTrue(rule.validateTransactionAmountGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
+
+    /**
+     * Validates that validateTransactionAmountGreaterThanZero returns false when transaction amount is zero.
+     */
+    public void testTransactionsLineAmountPositive_False() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_ZERO_AMT.createEndowmentTransactionLine(false);
+
+        assertFalse(rule.validateTransactionAmountGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
+
+    /**
+     * Validates that validateTransactionUnitsGreaterThanZero returns true when transaction units is greater than zero.
+     */
+    public void testTransactionUnitsPositive_True() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_UNITS.createEndowmentTransactionLine(false);
+
+        assertTrue(rule.validateTransactionUnitsGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
+
+
+    /**
+     * Validates that validateTransactionUnitsGreaterThanZero returns false when transaction units is zero.
+     */
+    public void testTransactionUnitsPositive_False() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_ZERO_UNITS.createEndowmentTransactionLine(false);
+
+        assertFalse(rule.validateTransactionUnitsGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
 
     // The ETRAN code used in the Transaction Line must have an ETRAN Type code equal to I ( Income ) or E (Expense)
 

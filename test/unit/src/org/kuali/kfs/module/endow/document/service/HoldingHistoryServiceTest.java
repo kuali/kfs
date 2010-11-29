@@ -17,12 +17,11 @@ package org.kuali.kfs.module.endow.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.math.BigDecimal;
 
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
@@ -34,8 +33,8 @@ import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Contains methods that test the HoldingHistoryService.
@@ -45,7 +44,6 @@ public class HoldingHistoryServiceTest extends KualiTestBase {
 
     private HoldingHistoryService holdingHistoryService;
     private BusinessObjectService businessObjectService;
-    private UnitTestSqlDao unitTestSqlDao;
     
     /**
      * 
@@ -56,7 +54,6 @@ public class HoldingHistoryServiceTest extends KualiTestBase {
         super.setUp();
         holdingHistoryService = SpringContext.getBean(HoldingHistoryService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);        
     }
     
     @Override
@@ -91,9 +88,9 @@ public class HoldingHistoryServiceTest extends KualiTestBase {
         KEMID kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
         
         //insert into end_hldg_hist_t a dummy record so it can be queries.
-        HoldingHistory eh = HoldingHistoryFixture.HOLDING_HISTORY_RECORD2.createHoldingHistoryRecord();
+        HoldingHistory hh = HoldingHistoryFixture.HOLDING_HISTORY_RECORD2.createHoldingHistoryRecord();
         
-        String securityId = eh.getSecurityId();
+        String securityId = hh.getSecurityId();
         KualiInteger monthEndId = monthEndDate.getMonthEndDateId();
         
         holdingHistory = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(securityId, monthEndId);

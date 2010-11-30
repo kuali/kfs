@@ -54,7 +54,7 @@ public enum KemIdFixture {
             false, // dormantIndicator
             false, // close
             "", // closedToKEMID
-            "", // closeCode
+            null, // closeCode
             "TRU", // incomeRestrictionCode
             "TRU" // principalRestrictionCode
     ),
@@ -72,7 +72,7 @@ public enum KemIdFixture {
             false, // dormantIndicator
             false, // close
             "", // closedToKEMID
-            "", // closeCode
+            null, // closeCode
             "TRU", // incomeRestrictionCode
             "TRU" // principalRestrictionCode
     ),
@@ -90,7 +90,7 @@ public enum KemIdFixture {
             false, // dormantIndicator
             false, // close
             "", // closedToKEMID
-            "", // closeCode
+            null, // closeCode
             "TRU", // incomeRestrictionCode
             "TRU" // principalRestrictionCode
     );

@@ -110,8 +110,8 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         if (workflowDocumentTypeNames.size() > 0) {
             try{
                 //If documents are parent docs, then they aren't superfluous.
-                String queryString = "select distinct doc_typ_nm from krew_doc_typ_t"
-                    +" where doc_typ_id in (select parnt_id from krew_doc_typ_t"
+                String queryString = "select distinct doc_typ_nm from KREW_DOC_TYP_T"
+                    +" where doc_typ_id in (select parnt_id from KREW_DOC_TYP_T"
                     +" where actv_ind = 1"
                     +" and cur_ind = 1)";
                 Statement dbAsk = dbCon.createStatement();

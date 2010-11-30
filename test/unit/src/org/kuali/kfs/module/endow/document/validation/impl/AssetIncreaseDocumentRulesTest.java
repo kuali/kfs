@@ -408,31 +408,36 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         assertFalse(rule.validateChartMatch(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
     }
 
-
-    // -If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I, the chart must match the chart of the active END_KEMID_GL_LNK_T record
-    // where the IP_IND_CD is equal to I.
-    // - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, the chart must match the chart of the active END_KEMID_GL_LNK_T record
-    // where the IP_IND_CD is equal to P.
-
-    // If the END_KEMID_T: PRIN_RESTR_CD has the END_TYP_RESTR_CD_T: PERM equal to Yes, AND if the ETRAN code record has the
-    // END_ETRAN_CD_T: CORPUS_IND set to Yes, then transaction lines where the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P will
-    // affect the corpus value for the KEMID. Upon adding the transaction line, the END_TRAN_LN_T: CORPUS_IND for the transaction
-    // line will be set to Yes.
-
     // IF the END _TRAN_LN_T: TRAN_IP_IND_CD for the transaction line is equal to P, then the KEMID must have a principal
     // restriction (END_KEMID_T: TYP_PRIN_RESTR_CD) that is not equal to NA which implies that the KEMID cannot have any activity in
     // Principal. This would guarantee that the KEMID has an active general ledger account with the Income/Principal indicator equal
     // to “P”.
 
-    // The initiator must enter a number greater than zero for the security units in the transaction line.
+    /**
+     * Validates that canKEMIDHaveAPrincipalTransaction returns true when the transaction line IP indicator is P and the principal
+     * restriction code is not NA.
+     */
+    public void testKemidPrincRestrNotNAWhenTransLinePrincipal_True() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(false);
+        KEMID kemid = KemIdFixture.NOT_NA_PRINC_RESTR_KEMID_RECORD.createKemidRecord();
+        endowmentTransactionLine.setKemid(kemid.getKemid());
+        endowmentTransactionLine.setKemidObj(kemid);
 
-    // The Etran Codes for the Security must have an appropriately identified general ledger object code record; one that matches
-    // the Chart for the KEMID associated general ledger account in the transaction line.
-    // -If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I, the chart must match the chart of the active END_KEMID_GL_LNK_T record
-    // where the IP_IND_CD is equal to I.
-    // - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, the chart must match the chart of the active END_KEMID_GL_LNK_T record
-    // where the IP_IND_CD is equal to P.
+        assertTrue(rule.canKEMIDHaveAPrincipalTransaction(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
 
+    /**
+     * Validates that canKEMIDHaveAPrincipalTransaction returns false when the transaction line IP indicator is P and the principal
+     * restriction code is NA.
+     */
+    public void testKemidPrincRestrNotNAWhenTransLinePrincipal_False() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(false);
+        KEMID kemid = KemIdFixture.NA_PRINC_RESTR_KEMID_RECORD.createKemidRecord();
+        endowmentTransactionLine.setKemid(kemid.getKemid());
+        endowmentTransactionLine.setKemidObj(kemid);
+
+        assertFalse(rule.canKEMIDHaveAPrincipalTransaction(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
 
     // validate document
 

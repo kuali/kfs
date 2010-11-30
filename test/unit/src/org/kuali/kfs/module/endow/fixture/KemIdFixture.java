@@ -93,7 +93,43 @@ public enum KemIdFixture {
             "T", // closeCode
             "TRU", // incomeRestrictionCode
             "TRU" // principalRestrictionCode
+    ),
+    NA_PRINC_RESTR_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "NA" // principalRestrictionCode
+    ),
+    NOT_NA_PRINC_RESTR_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "NON" // principalRestrictionCode
     );
+    
+    
 
     public final String kemid;
     public final String shortTitle;

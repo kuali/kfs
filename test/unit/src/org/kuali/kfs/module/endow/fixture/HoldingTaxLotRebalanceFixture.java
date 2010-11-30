@@ -33,6 +33,33 @@ public enum HoldingTaxLotRebalanceFixture {
             BigDecimal.valueOf(10000.00) // totalCost
     ), 
     
+    HOLDING_TAX_LOT_REBALANCE_RECORD_2("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            "I", //incomePrincipalIndicator
+            new KualiInteger(2), //totalLotNumber
+            BigDecimal.valueOf(282586.00), // totalUnits
+            BigDecimal.valueOf(282586.00) // totalCost
+    ), 
+    
+    HOLDING_TAX_LOT_REBALANCE_RECORD_3("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(3), //totalLotNumber
+            BigDecimal.valueOf(23123.00), // totalUnits
+            BigDecimal.valueOf(23123.00) // totalCost
+    ), 
+    
+    HOLDING_TAX_LOT_REBALANCE_RECORD_4("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "REI", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(4), //totalLotNumber
+            BigDecimal.valueOf(10000.00), // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost
+    ), 
+    
     HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
             "TESTSECID", //securityId
             "TEST", //registrationCode
@@ -86,29 +113,6 @@ public enum HoldingTaxLotRebalanceFixture {
         return holdingTaxLotRebalance;
     }
     
-    /**
-     * This method creates a HoldingHistoryRebalance record and saves it to table
-     * @return holdingTaxLotRebalance record
-     */
-    public HoldingTaxLotRebalance createHoldingTaxLotRebalanceRecord(String kemid, String securityId,
-                                                                     String registrationCode, String incomePrincipalIndicator, 
-                                                                     KualiInteger totalLotNumber, BigDecimal totalUnits,
-                                                                     BigDecimal totalCost) {
-        HoldingTaxLotRebalance holdingTaxLotRebalance = new HoldingTaxLotRebalance();
-
-        holdingTaxLotRebalance.setKemid(kemid);
-        holdingTaxLotRebalance.setSecurityId(securityId);
-        holdingTaxLotRebalance.setRegistrationCode(registrationCode);
-        holdingTaxLotRebalance.setIncomePrincipalIndicator(incomePrincipalIndicator);
-        holdingTaxLotRebalance.setTotalLotNumber(totalLotNumber);
-        holdingTaxLotRebalance.setTotalUnits(totalUnits);
-        holdingTaxLotRebalance.setTotalCost(totalCost);
-
-        saveHoldingTaxLotRebalanceRecord(holdingTaxLotRebalance);
-        
-        return holdingTaxLotRebalance;
-    }
-
     /**
      * Method to save the business object....
      */

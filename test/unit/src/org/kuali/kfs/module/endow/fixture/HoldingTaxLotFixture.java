@@ -39,6 +39,45 @@ public enum HoldingTaxLotFixture {
             Date.valueOf("2002-06-27") //lastTransactionDate
     ), 
     
+    HOLDING_TAX_LOT_RECORD_2("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            "I", //incomePrincipalIndicator
+            new KualiInteger(2), //lotNumber
+            Date.valueOf("2009-11-23"), //acquiredDate
+            BigDecimal.valueOf(282586.00), // units
+            BigDecimal.valueOf(282586.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") //lastTransactionDate
+    ), 
+
+    HOLDING_TAX_LOT_RECORD_3("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(3), //lotNumber
+            Date.valueOf("2009-11-23"), //acquiredDate
+            BigDecimal.valueOf(23123.00), // units
+            BigDecimal.valueOf(23123.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(1.20), // priorAccrual
+            Date.valueOf("2009-11-23") //lastTransactionDate
+    ), 
+    
+    HOLDING_TAX_LOT_RECORD_4("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "REI", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(4), //lotNumber
+            Date.valueOf("2009-11-23"), //acquiredDate
+            BigDecimal.valueOf(10000.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") //lastTransactionDate
+    ), 
+    
     HOLDING_TAX_LOT_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
             "TESTSECID", //securityId
             "TEST", //registrationCode
@@ -105,32 +144,6 @@ public enum HoldingTaxLotFixture {
         return holdingTaxLot;
     }
     
-    /**
-     * This method creates a Holding Tax Lot record and saves it to table
-     * @return HoldingTaxLot record
-     */
-    public HoldingTaxLot createHoldingTaxLotRecord(String kemid, String securityId, String registrationCode, 
-                                                   String incomePrincipalIndicator, KualiInteger lotNumber,  
-                                                   Date acquiredDate, BigDecimal units, BigDecimal cost, 
-                                                   BigDecimal currentAccrual, BigDecimal priorAccrual, Date lastTransactionDate) {
-        HoldingTaxLot holdingTaxLot = new HoldingTaxLot();
-
-        holdingTaxLot.setKemid(kemid);
-        holdingTaxLot.setSecurityId(securityId);
-        holdingTaxLot.setRegistrationCode(registrationCode);
-        holdingTaxLot.setIncomePrincipalIndicator(incomePrincipalIndicator);
-        holdingTaxLot.setLotNumber(lotNumber);
-        holdingTaxLot.setAcquiredDate(acquiredDate);
-        holdingTaxLot.setUnits(units);
-        holdingTaxLot.setCost(cost);
-        holdingTaxLot.setCurrentAccrual(currentAccrual);
-        holdingTaxLot.setPriorAccrual(priorAccrual);
-        holdingTaxLot.setLastTransactionDate(lastTransactionDate);
-
-        saveHoldingTaxLotRecord(holdingTaxLot);        
-        return holdingTaxLot;
-    }
-
     /**
      * Method to save the business object....
      */

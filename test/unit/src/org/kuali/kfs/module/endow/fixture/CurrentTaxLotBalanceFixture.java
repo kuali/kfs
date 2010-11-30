@@ -41,6 +41,60 @@ public enum CurrentTaxLotBalanceFixture {
             BigDecimal.valueOf(0.00), // priorAccrual
             Date.valueOf("2002-06-01"), //lastTransactionDate
             BigDecimal.valueOf(10000.00) // holdingMarketValue
+    ), 
+    
+    CURRENT_TAX_LOT_BALANCE_RECORD_2("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            new KualiInteger(2), //lotNumber
+            "I", //incomePrincipalIndicator
+            BigDecimal.valueOf(282586.00), // units
+            BigDecimal.valueOf(282586.00), // cost
+            BigDecimal.valueOf(0.00), // annualEstimatedIncome
+            BigDecimal.valueOf(0.00), //remainderOfFYEstimatedIncome
+            BigDecimal.valueOf(0.00), // nextFYEstimatedIncome
+            BigDecimal.valueOf(1.00), //securityUnitVal
+            Date.valueOf("2009-11-23"), //acquiredDate
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23"), //lastTransactionDate
+            BigDecimal.valueOf(282586.00) // holdingMarketValue
+    ),
+    
+    CURRENT_TAX_LOT_BALANCE_RECORD_3("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "0AI", //registrationCode
+            new KualiInteger(3), //lotNumber
+            "P", //incomePrincipalIndicator
+            BigDecimal.valueOf(23123.00), // units
+            BigDecimal.valueOf(23123.00), // cost
+            BigDecimal.valueOf(0.00), // annualEstimatedIncome
+            BigDecimal.valueOf(0.00), //remainderOfFYEstimatedIncome
+            BigDecimal.valueOf(0.00), // nextFYEstimatedIncome
+            BigDecimal.valueOf(1.00), //securityUnitVal
+            Date.valueOf("2009-12-10"), //acquiredDate
+            BigDecimal.valueOf(1.20), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-12-10"), //lastTransactionDate
+            BigDecimal.valueOf(23123.00) // holdingMarketValue
+    ), 
+
+    CURRENT_TAX_LOT_BALANCE_RECORD_4("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "REI", //registrationCode
+            new KualiInteger(4), //lotNumber
+            "P", //incomePrincipalIndicator
+            BigDecimal.valueOf(10000.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // annualEstimatedIncome
+            BigDecimal.valueOf(0.00), //remainderOfFYEstimatedIncome
+            BigDecimal.valueOf(0.00), // nextFYEstimatedIncome
+            BigDecimal.valueOf(1.00), //securityUnitVal
+            Date.valueOf("2009-09-30"), //acquiredDate
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2008-09-30"), //lastTransactionDate
+            BigDecimal.valueOf(10000.00) // holdingMarketValue
     );
     
     public final String kemid;
@@ -115,40 +169,6 @@ public enum CurrentTaxLotBalanceFixture {
         return currentTaxLotBalance;
     }
     
-    /**
-     * This method creates a Holding Tax Lot record and saves it to table
-     * @return HoldingTaxLot record
-     */
-    public CurrentTaxLotBalance createCurrentTaxLotBalanceRecord(String kemid, String securityId, String registrationCode, 
-                                                                 KualiInteger lotNumber, String incomePrincipalIndicator,   
-                                                                 BigDecimal units, BigDecimal cost, BigDecimal annualEstimatedIncome, 
-                                                                 BigDecimal remainderOfFYEstimatedIncome, BigDecimal nextFYEstimatedIncome,
-                                                                 BigDecimal securityUnitVal, Date acquiredDate,
-                                                                 BigDecimal currentAccrual, BigDecimal priorAccrual, Date lastTransactionDate,
-                                                                 BigDecimal holdingMarketValue) {
-        CurrentTaxLotBalance currentTaxLotBalance = new CurrentTaxLotBalance();
-
-        currentTaxLotBalance.setKemid(kemid);
-        currentTaxLotBalance.setSecurityId(securityId);
-        currentTaxLotBalance.setRegistrationCode(registrationCode);
-        currentTaxLotBalance.setIncomePrincipalIndicator(incomePrincipalIndicator);
-        currentTaxLotBalance.setLotNumber(lotNumber);
-        currentTaxLotBalance.setUnits(units);
-        currentTaxLotBalance.setCost(cost);
-        currentTaxLotBalance.setAcquiredDate(acquiredDate);        
-        currentTaxLotBalance.setCurrentAccrual(currentAccrual);
-        currentTaxLotBalance.setPriorAccrual(priorAccrual);
-        currentTaxLotBalance.setLastTransactionDate(lastTransactionDate);
-        currentTaxLotBalance.setAnnualEstimatedIncome(annualEstimatedIncome);
-        currentTaxLotBalance.setRemainderOfFYEstimatedIncome(remainderOfFYEstimatedIncome);
-        currentTaxLotBalance.setNextFYEstimatedIncome(nextFYEstimatedIncome);
-        currentTaxLotBalance.setSecurityUnitVal(securityUnitVal);
-        currentTaxLotBalance.setHoldingMarketValue(holdingMarketValue);
-
-        saveHoldingTaxLotRebalanceRecord(currentTaxLotBalance);        
-        return currentTaxLotBalance;
-    }
-
     /**
      * Method to save the business object....
      */

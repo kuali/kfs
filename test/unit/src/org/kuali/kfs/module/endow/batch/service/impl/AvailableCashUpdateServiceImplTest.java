@@ -64,20 +64,20 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         
         //need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
         HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord();
-        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "0AI", "I", new KualiInteger(2), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00));
-        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "0AI", "P", new KualiInteger(3), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00));
-        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD.createHoldingTaxLotRebalanceRecord("TESTKEMID", "99PETTY12", "REI", "P", new KualiInteger(4), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00));
-
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_2.createHoldingTaxLotRebalanceRecord();
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_3.createHoldingTaxLotRebalanceRecord();
+        HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_4.createHoldingTaxLotRebalanceRecord();
+        
         HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord();
-        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "0AI", "I", new KualiInteger(2), Date.valueOf("2009-11-23"), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00), BigDecimal.ZERO, BigDecimal.ZERO,  Date.valueOf("2009-11-23"));
-        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "0AI", "P", new KualiInteger(3), Date.valueOf("2009-11-23"), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00), BigDecimal.ZERO, BigDecimal.valueOf(1.2),  Date.valueOf("2009-11-23"));
-        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD.createHoldingTaxLotRecord("TESTKEMID", "99PETTY12", "REI", "P", new KualiInteger(4), Date.valueOf("2009-11-23"), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00), BigDecimal.ZERO, BigDecimal.ZERO,  Date.valueOf("2009-11-23"));
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD_2.createHoldingTaxLotRecord();
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD_3.createHoldingTaxLotRecord();
+        HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD_4.createHoldingTaxLotRecord();
         
         //insert into current tax lot balance table...
-        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord();       
-        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "0AI", new KualiInteger(2), "I", BigDecimal.valueOf(282586.00), BigDecimal.valueOf(282586.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-11-23"), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), Date.valueOf("2009-11-23"), BigDecimal.valueOf(282586.00));
-        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "0AI", new KualiInteger(3), "P", BigDecimal.valueOf(23123.00), BigDecimal.valueOf(23123.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-12-10"), BigDecimal.valueOf(1.20), BigDecimal.valueOf(0.00), Date.valueOf("2009-12-10"), BigDecimal.valueOf(23123.00));
-        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord("TESTKEMID", "99PETTY12", "REI", new KualiInteger(4), "P", BigDecimal.valueOf(10000.00), BigDecimal.valueOf(10000.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), BigDecimal.valueOf(1.00), Date.valueOf("2009-09-30"), BigDecimal.valueOf(0.00), BigDecimal.valueOf(0.00), Date.valueOf("2008-09-30"), BigDecimal.valueOf(10000.00));
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD.createCurrentTaxLotBalanceRecord();
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD_2.createCurrentTaxLotBalanceRecord();
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD_3.createCurrentTaxLotBalanceRecord();
+        CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD_4.createCurrentTaxLotBalanceRecord();
     }
     
     /**

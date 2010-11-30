@@ -40,7 +40,8 @@ public class CfdaServiceTest extends KualiTestBase {
 //    }
 
     public void testUpdate() throws IOException {
-        CfdaUpdateResults results = SpringContext.getBean(CfdaService.class).update();
+        // Commented out since causing unit tests to pause for 15 minutes (and doesn't really test anything anyway)
+        //CfdaUpdateResults results = SpringContext.getBean(CfdaService.class).update();
     }
 
 }

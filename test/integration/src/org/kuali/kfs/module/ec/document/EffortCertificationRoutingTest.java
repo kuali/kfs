@@ -76,12 +76,12 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
             Statement dbAsk = dbCon.createStatement();
 
             String query = "select nd.nm ";
-            query = query + "from krew_rte_node_t nd, krew_doc_typ_t doc ";
+            query = query + "from KREW_RTE_NODE_T nd, KREW_DOC_TYP_T doc ";
             query = query + "where nd.rte_mthd_nm is not null ";
             query = query + "and doc.doc_typ_id = nd.doc_typ_id ";
             query = query + "and doc.doc_typ_nm = '" + documentType + "' ";
             query = query + "and doc.cur_ind = 1 ";
-            query = query + "and exists (select * from krew_rte_node_lnk_t ";
+            query = query + "and exists (select * from KREW_RTE_NODE_LNK_T ";
             query = query + "where to_rte_node_id=nd.rte_node_id) ";
             dbAnswer = dbAsk.executeQuery(query);
         }

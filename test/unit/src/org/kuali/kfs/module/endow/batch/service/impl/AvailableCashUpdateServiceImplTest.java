@@ -86,7 +86,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testCheckSystemParameterExists() {
         LOG.info("testCheckSystemParameterExists() method entered");
         
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AvailableCashUpdateStep' and parm_nm = 'AVAILABLE_CASH_PERCENT'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AvailableCashUpdateStep' and parm_nm = 'AVAILABLE_CASH_PERCENT'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = availableCashUpdateService.systemParametersForSummarizeAvailableSpendableFundsJobExist();

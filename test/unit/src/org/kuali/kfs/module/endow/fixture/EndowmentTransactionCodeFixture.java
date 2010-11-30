@@ -25,7 +25,18 @@ public enum EndowmentTransactionCodeFixture {
             "I",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
             true// active
+    ), EXPENSE_TRANSACTION_CODE("TST124",// code
+            "Test transaction code",// desc
+            "E",// endowmentTransactionTypeCode;
+            true,// corpusIndicator;
+            true// active
+    ), ASSET_TRANSACTION_CODE("TST125",// code
+            "Test transaction code",// desc
+            "A",// endowmentTransactionTypeCode;
+            true,// corpusIndicator;
+            true// active
     );
+
 
     public final String code;
     public final String desc;

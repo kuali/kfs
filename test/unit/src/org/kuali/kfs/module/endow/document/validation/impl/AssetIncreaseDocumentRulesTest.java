@@ -22,7 +22,9 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
@@ -31,7 +33,9 @@ import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTa
 import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
+import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.KemidGeneralLedgerAccountFixture;
 import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
@@ -91,6 +95,9 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
 
     // validate security details
 
+    /**
+     * Validates that validateSecurityCode returns true when a valid security is set.
+     */
     public void testValidateSecurity_True() {
         // add security details
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
@@ -108,7 +115,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * Test validateSecurity method in the rule class
+     * Validates that validateSecurityCode returns false when an invalid security is set.
      */
     public void testValidateSecurity_False() {
         EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
@@ -120,7 +127,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * Test validateRegistration method in the rule class
+     * Validates that validateRegistrationCode returns true when a valid registration code is set.
      */
     public void testValidateRegistration_True() {
 
@@ -138,7 +145,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * Test validateRegistration method in the rule class
+     * Validates that validateRegistrationCode returns false when a valid registration code is set.
      */
     public void testValidateRegistration_False() {
 
@@ -315,9 +322,93 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     // The ETRAN code used in the Transaction Line must have an ETRAN Type code equal to I ( Income ) or E (Expense)
+    /**
+     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is income.
+     */
+    public void testEtranCodeIncome_True() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
+        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
+
+        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
+
+    /**
+     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is expense.
+     */
+    public void testEtranCodeExpense_True() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
+        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
+        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
+
+        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
+
+    /**
+     * Validates that validateEndowmentTransactionTypeCode returns false when the etran code type is not income or expense.
+     */
+    public void testEtranCodeIncomeOrExpense_False() {
+
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE.createEndowmentTransactionCode();
+        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
+        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
+
+        assertFalse(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+
+    }
 
     // The ETRAN Code used must have an appropriately identified general ledger object code record; one that matches the Chart for
     // the KEMID associated general ledger account.
+
+    /**
+     * Validates that validateChartMatch returns true when etran code gl chart matches the chart for KEMID general ledger account.
+     */
+    public void testKemidEtranCodeMatch_True() {
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+        GLLink glLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
+        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
+
+        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
+        endowmentTransactionCode.getGlLinks().add(glLink);
+        endowmentTargetTransactionLine.setKemid(kemid.getKemid());
+        endowmentTargetTransactionLine.setKemidObj(kemid);
+        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
+        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
+
+        assertTrue(rule.validateChartMatch(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+    }
+
+    /**
+     * Validates that validateChartMatch returns false when etran code gl chart does not match the chart for KEMID general ledger
+     * account.
+     */
+    public void testKemidEtranCodeMatch_False() {
+        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+        GLLink glLink = GLLinkFixture.GL_LINK_UA_CHART.createGLLink();
+        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
+
+        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
+        endowmentTransactionCode.getGlLinks().add(glLink);
+        endowmentTargetTransactionLine.setKemid(kemid.getKemid());
+        endowmentTargetTransactionLine.setKemidObj(kemid);
+        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
+        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
+
+        assertFalse(rule.validateChartMatch(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
+    }
+
+
     // -If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to I, the chart must match the chart of the active END_KEMID_GL_LNK_T record
     // where the IP_IND_CD is equal to I.
     // - If the END_TRAN_LN_T: TRAN_IP_IND_CD is equal to P, the chart must match the chart of the active END_KEMID_GL_LNK_T record

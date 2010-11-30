@@ -26,6 +26,7 @@ import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocument
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityDecreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.LiabilityIncreaseDocumentRulesTest;
 
 /**
  * Runs all endowment tests.
@@ -47,6 +48,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
         suite.addTestSuite(LiabilityDecreaseDocumentRulesTest.class);
+        suite.addTestSuite(LiabilityIncreaseDocumentRulesTest.class);
         suite.addTestSuite(AvailableCashUpdateServiceImplTest.class);
         suite.addTestSuite(CurrentTaxLotBalanceUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryMarketValuesUpdateServiceImplTest.class);
@@ -63,5 +65,4 @@ public class AllEndowmentTests {
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }
-
 }

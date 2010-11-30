@@ -520,7 +520,7 @@ KFS-PURAP,Document,TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET,KFS472,1,CONFG,,the ob
 KFS-PURAP,Document,TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE,KFS473,1,CONFG,,the object code to be used for the trade in item accounts if the object code subtype of the account is Capital Lease,A,KFS
 KFS-PURAP,Document,VALIDATE_ACCOUNT_DISTRIBUTION_IND,KFS474,1,CONFG,Y,Indicator whether the distribute accounts functionality should perform validations upon the addition of a new accounting line to the distribution account list.,A,KFS
 KFS-PURAP,ElectronicInvoiceReject,OVERRIDE_DOCUMENT_TITLE_IND,KFS609,1,CONFG,N,"Indicator related default document titles. Set to ""N"" if accepting the Kuali default document title, related to Contract Manager Assignment, as listed in the Document Search results.",A,KFS
-KFS-PURAP,ElectronicInvoiceReject,SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL,KFS677,1,CONFG,AGUV,Specifies which types of EIRT reject reasons should be ignored when an EIRT document is Approved.,A,KFS
+KFS-PURAP,ElectronicInvoiceReject,SUPPRESS_REJECT_REASON_CODES_ON_EIRT_APPROVAL,KFS677,1,CONFG,,Specifies which types of EIRT reject reasons should be ignored when an EIRT document is Approved.,A,KFS
 KFS-PURAP,ElectronicInvoiceStep,DAILY_SUMMARY_REPORT_FROM_EMAIL_ADDRESS,KFS475,1,CONFG,,Send the Electronic Invoice daily summary report from these email address,A,KFS
 KFS-PURAP,ElectronicInvoiceStep,DAILY_SUMMARY_REPORT_TO_EMAIL_ADDRESSES,KFS476,1,CONFG,,Email addresses to send the Electronic Invoice daily summary report,A,KFS
 KFS-PURAP,ElectronicInvoiceStep,FILE_MOVE_AFTER_LOAD_IND,KFS477,1,CONFG,Y,Value indicating whether the loaded eInvoice cxml file shall be moved to the accept/reject directory.,A,KFS

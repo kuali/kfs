@@ -54,10 +54,10 @@ import org.kuali.rice.kns.service.PersistenceService;
  */
 @ConfigureContext
 public class ScrubberServiceTest extends OriginEntryTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
-    private ScrubberService scrubberService = null;
-    private BusinessObjectService businessObjectService;
+    protected ScrubberService scrubberService = null;
+    protected BusinessObjectService businessObjectService;
 
     @Override
     protected void setUp() throws Exception {
@@ -1516,16 +1516,24 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      */
     public void testInvalidObjectType() throws Exception {
         String[] inputTransactions = { 
-                testingYear + "BL1031400-----4100---ACXX07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42D" + testingYear + "-01-05          ----------                                                                               ",
-                testingYear + "BL1031400-----9892---ACFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42C" + testingYear + "-01-05          ----------                                                                               " };
+                testingYear + "BL1031400-----4100---EXXX07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42D" + testingYear + "-01-05          ----------                                                                               ",
+                testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42C" + testingYear + "-01-05          ----------                                                                               " };
 
-        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---ACFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031400-----9892---ACFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "), 
+        EntryHolder[] outputTransactions = { 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), 
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
+                
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
+                
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---ACFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "), 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
+                
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear + "BL1031400-----9892---ACFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       ") };
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       ") 
+                };
 
         scrub(inputTransactions);
         assertOriginEntries(7, outputTransactions);

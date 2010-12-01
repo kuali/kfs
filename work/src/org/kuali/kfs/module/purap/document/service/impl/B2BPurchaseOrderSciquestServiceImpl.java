@@ -54,11 +54,9 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
     // injected values
     private String b2bEnvironment;
-    private String b2bPunchoutURL;
-    private String b2bPunchbackURL;
     private String b2bUserAgent;
-    private String b2bShoppingPassword;
     private String b2bPurchaseOrderURL;
+    private String b2bPurchaseOrderIdentity;
     private String b2bPurchaseOrderPassword;
 
     /**
@@ -81,7 +79,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-        LOG.debug("sendPurchaseOrder(): punchoutUrl is " + b2bPunchoutURL);
+        LOG.debug("sendPurchaseOrder(): b2bPurchaseOrderURL is " + b2bPurchaseOrderURL);
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
         if (!StringUtils.isEmpty(validateErrors)) {
@@ -97,7 +95,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
             String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPurchaseOrderURL);
 
-            LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
+            LOG.info("sendPurchaseOrder(): Response cXML for po #" + purchaseOrder.getPurapDocumentIdentifier() + ":\n" + responseCxml);
 
             PurchaseOrderResponse poResponse = B2BParserHelper.getInstance().parsePurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
@@ -159,7 +157,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("    <Timestamp>").append(date.format(d)).append("T").append(time.format(d)).append("+05:30").append("</Timestamp>\n");
 
         cxml.append("    <Authentication>\n");
-        cxml.append("      <Identity>KualiDemo</Identity>\n");
+        cxml.append("      <Identity>").append(b2bPurchaseOrderIdentity).append("</Identity>\n");
         cxml.append("      <SharedSecret>").append(password).append("</SharedSecret>\n");
         cxml.append("    </Authentication>\n");
         cxml.append("  </Header>\n");
@@ -174,7 +172,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("      <AccountingDate>").append(purchaseOrder.getPurchaseOrderCreateTimestamp()).append("</AccountingDate>\n");
 
         /** *** SUPPLIER SECTION **** */
-        cxml.append("      <Supplier>\n");
+        cxml.append("      <Supplier id=\"").append(purchaseOrder.getExternalOrganizationB2bSupplierIdentifier()).append("\">\n");
         cxml.append("        <DUNS>").append(vendorDuns).append("</DUNS>\n");
         cxml.append("        <SupplierNumber>").append(purchaseOrder.getVendorNumber()).append("</SupplierNumber>\n");
 
@@ -493,34 +491,6 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         this.b2bDao = b2bDao;
     }
 
-    public void setB2bEnvironment(String environment) {
-        b2bEnvironment = environment;
-    }
-
-    public void setB2bPunchoutURL(String punchoutURL) {
-        b2bPunchoutURL = punchoutURL;
-    }
-
-    public void setB2bPunchbackURL(String punchbackURL) {
-        b2bPunchbackURL = punchbackURL;
-    }
-
-    public void setB2bUserAgent(String userAgent) {
-        b2bUserAgent = userAgent;
-    }
-
-    public void setB2bShoppingPassword(String password) {
-        b2bShoppingPassword = password;
-    }
-
-    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
-        b2bPurchaseOrderURL = purchaseOrderURL;
-    }
-
-    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
-        b2bPurchaseOrderPassword = purchaseOrderPassword;
-    }
-
     /**
      * @return Returns the personService.
      */
@@ -528,6 +498,26 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
+    }
+    
+    public void setB2bEnvironment(String environment) {
+        b2bEnvironment = environment;
+    }
+
+    public void setB2bUserAgent(String userAgent) {
+        b2bUserAgent = userAgent;
+    }
+
+    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
+        b2bPurchaseOrderURL = purchaseOrderURL;
+    }
+    
+    public void setB2bPurchaseOrderIdentity(String b2bPurchaseOrderIdentity) {
+        this.b2bPurchaseOrderIdentity = b2bPurchaseOrderIdentity;
+    }
+
+    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
+        b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
 }

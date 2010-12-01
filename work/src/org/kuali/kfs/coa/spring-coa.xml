@@ -578,6 +578,15 @@
 				p:localServiceName="organizationGroupTypeService" />
 		</property>
 	</bean>
+	
+	<bean id="contractsAndGrantsResponsibilityRoleTypeService" class="org.kuali.kfs.coa.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl" />
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="contractsAndGrantsResponsibilityRoleTypeService"
+	      p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
+	  </property>
+	</bean>
 
 	<bean id="organizationReversionFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion" /> 

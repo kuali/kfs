@@ -20,8 +20,6 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
 import org.kuali.rice.core.util.JSTLConstants;
 
 /**
@@ -138,4 +136,8 @@ public class EffortConstants extends JSTLConstants {
     }
     
     public static final String SORT_DETAIL_LINE_BY_COLUMN_METHOD_NAME = "sortDetailLineByColumn";
+    
+    public static class EffortDocumentTypes {
+        public static final String EFFORT_CERTIFICATION_DOCUMENT = "ECD";
+    }
 }

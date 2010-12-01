@@ -352,6 +352,9 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
             customerCreditMemoDetail.setDocumentNumber(this.documentNumber);
             customerCreditMemoDetail.setFinancialDocumentReferenceInvoiceNumber(this.financialDocumentReferenceInvoiceNumber);
 
+            // this is a hookup for institution custom to update financial object code for prior year(s) invoice
+            //customerInvoiceDetailService.updateFinancialObjectCode(customerCreditMemoDetail);
+            
             creditMemoDetails.add(customerCreditMemoDetail);
         }
 
@@ -394,6 +397,9 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
                 crmTotalTaxAmount = crmTotalTaxAmount.add(creditMemoTaxAmount);
                 crmTotalAmount = crmTotalAmount.add(creditMemoItemAmount.add(creditMemoTaxAmount));
             }
+            
+            // this is a hookup for institution custom to update financial object code for prior year(s) invoice
+            //customerInvoiceDetailService.updateFinancialObjectCode(creditMemoDetail);
         }
     }
     

@@ -73,7 +73,7 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "ECD";
+        return EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT;
     }
     
     /**

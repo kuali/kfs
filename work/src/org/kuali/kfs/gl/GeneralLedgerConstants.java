@@ -313,6 +313,15 @@ public class GeneralLedgerConstants {
         static final public String FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE = "FORWARD_ENCUMBRANCE_BALANCE_TYPE_AND_ORIGIN_CODE";
     }
 
+    public static class Reconciliation {
+        // the case of these strings is not important
+        public static final String TABLE_DEF_STRING = "c";
+        public static final String COLUMN_DEF_STRING = "s";
+        public static final String CHECKSUM_DEF_STRING = "e";
+
+        public static final String COMMENT_STRING = "#";
+    }
+    
     // Some static method calls below that could be done in static variables instead but isn't safe to do during class loading
     // w/SpringContext.
     private static String SPACE_UNIVERSITY_FISCAL_PERIOD_CODE = null;

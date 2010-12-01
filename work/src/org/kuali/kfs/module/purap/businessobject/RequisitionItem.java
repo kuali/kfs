@@ -25,6 +25,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
+    private String holdSupplierId; //not persisted
         
     /**
      * Default constructor.
@@ -40,6 +41,14 @@ public class RequisitionItem extends PurchasingItemBase {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
     }   
 
+    public String getHoldSupplierId() {
+        return holdSupplierId;
+    }
+
+    public void setHoldSupplierId(String holdSupplierId) {
+        this.holdSupplierId = holdSupplierId;
+    }
+    
     public RequisitionDocument getRequisition() {
         return super.getPurapDocument();
     }
@@ -62,5 +71,5 @@ public class RequisitionItem extends PurchasingItemBase {
     public Class getUseTaxClass() {
         return PurchaseRequisitionItemUseTax.class;
     }
-    
+
 }

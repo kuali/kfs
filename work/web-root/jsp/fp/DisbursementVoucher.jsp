@@ -60,7 +60,7 @@
 	<fp:dvPrePaidTravel />
     <fp:dvPDPStatus />
 	<gl:generalLedgerPendingEntries />
-	<kul:notes />
+	<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
 	<kul:adHocRecipients />
 
 	<kul:routeLog />

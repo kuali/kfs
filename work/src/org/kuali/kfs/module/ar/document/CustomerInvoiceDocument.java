@@ -1340,7 +1340,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         CustomerInvoiceDetail customerInvoiceDetail;
         for (Iterator i = getSourceAccountingLines().iterator(); i.hasNext();) {
             customerInvoiceDetail = (CustomerInvoiceDetail) i.next();
-            SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForErrorCorrection(customerInvoiceDetail, this);            
+            customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
+            
+            //clear the old CustomerInvoiceDocument
+            customerInvoiceDetail.setCustomerInvoiceDocument(null);
+
+            // revert changes for custom invoice error correction
+            //SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForErrorCorrection(customerInvoiceDetail, this);            
         }
     }
 

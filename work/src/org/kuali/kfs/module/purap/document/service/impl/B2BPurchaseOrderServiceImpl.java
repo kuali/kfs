@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -51,15 +52,13 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     private B2BDao b2bDao;
     private RequisitionService requisitionService;
     private ParameterService parameterService;
-    private org.kuali.rice.kim.service.PersonService personService;
+    private PersonService<Person> personService;
 
     // injected values
     private String b2bEnvironment;
-    private String b2bPunchoutURL;
-    private String b2bPunchbackURL;
     private String b2bUserAgent;
-    private String b2bShoppingPassword;
     private String b2bPurchaseOrderURL;
+    private String b2bPurchaseOrderIdentity;
     private String b2bPurchaseOrderPassword;
 
     /**
@@ -82,7 +81,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-        LOG.debug("sendPurchaseOrder(): punchoutUrl is " + b2bPunchoutURL);
+        LOG.debug("sendPurchaseOrder(): b2bPurchaseOrderURL is " + b2bPurchaseOrderURL);
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
         if (StringUtils.isEmpty(validateErrors)) {
@@ -98,7 +97,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
             String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPurchaseOrderURL);
 
-            LOG.info("sendPurchaseOrder(): Response cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":" + responseCxml);
+            LOG.info("sendPurchaseOrder(): Response cXML for po #" + purchaseOrder.getPurapDocumentIdentifier() + ":\n" + responseCxml);
 
             PurchaseOrderResponse poResponse = B2BParserHelper.getInstance().parsePurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
@@ -165,7 +164,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("    </To>\n");
         cxml.append("    <Sender>\n");
         cxml.append("      <Credential domain=\"NetworkUserId\">\n");
-        cxml.append("        <Identity>KFS</Identity>\n");
+        cxml.append("        <Identity>").append(b2bPurchaseOrderIdentity).append("</Identity>\n");
         cxml.append("        <SharedSecret>").append(password).append("</SharedSecret>\n");
         cxml.append("      </Credential>\n");
         cxml.append("      <UserAgent>Ariba.com Network V1.0</UserAgent>\n");
@@ -447,15 +446,20 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      * Retrieve the Contract Manager's email
      */
     protected String getContractManagerEmail(ContractManager cm) {
-        Person contractManager = personService.getPerson(cm.getContractManagerUserIdentifier());
+        Person contractManager = getPersonService().getPerson(cm.getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager.getEmailAddressUnmasked();
         }
         return "";
     }
 
-    public void setPersonService(org.kuali.rice.kim.service.PersonService personService) {
-        this.personService = personService;
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService<Person> getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
     }
 
     public void setRequisitionService(RequisitionService requisitionService) {
@@ -482,24 +486,16 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         b2bEnvironment = environment;
     }
 
-    public void setB2bPunchoutURL(String punchoutURL) {
-        b2bPunchoutURL = punchoutURL;
-    }
-
-    public void setB2bPunchbackURL(String punchbackURL) {
-        b2bPunchbackURL = punchbackURL;
-    }
-
     public void setB2bUserAgent(String userAgent) {
         b2bUserAgent = userAgent;
     }
 
-    public void setB2bShoppingPassword(String password) {
-        b2bShoppingPassword = password;
-    }
-
     public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
         b2bPurchaseOrderURL = purchaseOrderURL;
+    }
+    
+    public void setB2bPurchaseOrderIdentity(String b2bPurchaseOrderIdentity) {
+        this.b2bPurchaseOrderIdentity = b2bPurchaseOrderIdentity;
     }
 
     public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {

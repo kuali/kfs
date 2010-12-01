@@ -185,7 +185,7 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @param environment            The current environment used (e.g. DEV if it is a development environment).
      * @param retransmitItems        The items selected by the user to be retransmitted.
      */
-    public void generatePdf(PurchaseOrderDocument po, PurchaseOrderPdfParameters pdfParameters, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
+    public void generatePdf(PurchaseOrderDocument po, PurchaseOrderTransmitParameters pdfParameters, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
         LOG.debug("generatePdf() started for po number " + po.getPurapDocumentIdentifier());
 
         this.isRetransmit = isRetransmit;
@@ -226,20 +226,22 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @param isRetransmit   The boolean to indicate whether this is for a retransmit purchase order document.
      * @param environment    The current environment used (e.g. DEV if it is a development environment).
      */
-    public void savePdf(PurchaseOrderDocument po, PurchaseOrderPdfParameters pdfParameters, boolean isRetransmit, String environment) {
+    public void savePdf(PurchaseOrderDocument po, PurchaseOrderParameters pdfParameters, boolean isRetransmit, String environment) {
         LOG.debug("savePdf() started for po number " + po.getPurapDocumentIdentifier());
 
+        PurchaseOrderTransmitParameters pdfTransmitParameters = (PurchaseOrderTransmitParameters)pdfParameters;        
+        
         this.isRetransmit = isRetransmit;
-        String statusInquiryUrl = pdfParameters.getStatusInquiryUrl();
-        String campusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
-        String contractLanguage = pdfParameters.getContractLanguage();
-        String logoImage = pdfParameters.getLogoImage();
-        String directorSignatureImage = pdfParameters.getDirectorSignatureImage();
-        String directorName = pdfParameters.getCampusParameter().getCampusPurchasingDirectorName();
-        String directorTitle = pdfParameters.getCampusParameter().getCampusPurchasingDirectorTitle();
-        String contractManagerSignatureImage = pdfParameters.getContractManagerSignatureImage();
-        String pdfFileLocation = pdfParameters.getPdfFileLocation();
-        String pdfFileName = pdfParameters.getPdfFileName();
+        String statusInquiryUrl = pdfTransmitParameters.getStatusInquiryUrl();
+        String campusName = pdfTransmitParameters.getCampusParameter().getCampus().getCampusName();
+        String contractLanguage = pdfTransmitParameters.getContractLanguage();
+        String logoImage = pdfTransmitParameters.getLogoImage();
+        String directorSignatureImage = pdfTransmitParameters.getDirectorSignatureImage();
+        String directorName = pdfTransmitParameters.getCampusParameter().getCampusPurchasingDirectorName();
+        String directorTitle = pdfTransmitParameters.getCampusParameter().getCampusPurchasingDirectorTitle();
+        String contractManagerSignatureImage = pdfTransmitParameters.getContractManagerSignatureImage();
+        String pdfFileLocation = pdfTransmitParameters.getPdfFileLocation();
+        String pdfFileName = pdfTransmitParameters.getPdfFileName();
 
         try {
             Document doc = this.getDocument(9, 9, 70, 36);

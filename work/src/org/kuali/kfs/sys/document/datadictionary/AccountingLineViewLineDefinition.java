@@ -31,7 +31,7 @@ import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
  * Data dictionary definition of a collection of elements which will be rendered as one table row in the table of each accounting line.
  */
 public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBase implements AccountingLineViewLineFillingDefinition {
-    private List<AccountingLineViewFieldDefinition> fields;
+    private List<? extends AccountingLineViewRenderableElementDefinition> cells;
     private String elementName;
 
     /**
@@ -40,7 +40,7 @@ public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBa
      * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
-        if (fields == null || fields.size() == 0) {
+        if (cells == null || cells.size() == 0) {
             throw new AttributeValidationException("At least one field must be specified to live within an AccountingLineViewLine"+(!StringUtils.isBlank(elementName) ? " ("+elementName+")" : ""));
         }
     }
@@ -49,16 +49,16 @@ public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBa
      * Gets the fields attribute. 
      * @return Returns the fields.
      */
-    public List<AccountingLineViewFieldDefinition> getFields() {
-        return fields;
+    public List<? extends AccountingLineViewRenderableElementDefinition> getFields() {
+        return cells;
     }
 
     /**
      * Sets the fields attribute value.
      * @param fields The fields to set.
      */
-    public void setFields(List<AccountingLineViewFieldDefinition> fields) {
-        this.fields = fields;
+    public void setFields(List<? extends AccountingLineViewRenderableElementDefinition> fields) {
+        this.cells = fields;
     }
 
     /**
@@ -94,8 +94,8 @@ public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBa
      */
     protected List<RenderableElement> getChildrenRenderableElements(Class<? extends AccountingLine> accountingLineClass) {
         List<RenderableElement> elements = new ArrayList<RenderableElement>();
-        for (AccountingLineViewFieldDefinition fieldDefinition : fields) {
-            final RenderableElement element = (RenderableElement)fieldDefinition.createLayoutElement(accountingLineClass);
+        for (AccountingLineViewRenderableElementDefinition cellDefinition : cells) {
+            final RenderableElement element = (RenderableElement)cellDefinition.createLayoutElement(accountingLineClass);
             if (element != null) {
                 elements.add(element);
             }

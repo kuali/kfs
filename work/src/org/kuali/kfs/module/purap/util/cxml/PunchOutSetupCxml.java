@@ -64,12 +64,12 @@ public class PunchOutSetupCxml {
     cxml.append("  <Header>\n");
     cxml.append("    <From>\n");
     cxml.append("      <Credential domain=\"NetworkId\">\n");
-    cxml.append("        <Identity>KualiDemo</Identity>\n");
+    cxml.append("        <Identity>").append(b2bInformation.getIdentity()).append("</Identity>\n");
     cxml.append("      </Credential>\n");
     cxml.append("    </From>\n");
     cxml.append("    <To>\n");
     cxml.append("      <Credential domain=\"DUNS\">\n");
-    cxml.append("        <Identity>KualiDemo</Identity>\n");
+    cxml.append("        <Identity>").append(b2bInformation.getIdentity()).append("</Identity>\n");
     cxml.append("      </Credential>\n");
     cxml.append("      <Credential domain=\"internalsupplierid\">\n");
     cxml.append("        <Identity>1016</Identity>\n");

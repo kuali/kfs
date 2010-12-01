@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
@@ -289,6 +289,26 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         return getCustomerInvoiceDetailsForInvoice(customerInvoiceDocument.getDocumentNumber());
     }
 
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getFinancialObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
+     *
+    public String getFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail) {
+        // this implementation directly returns the FinancialObjectCode contained in the ref obj  
+        // customerInvoiceDetail in the customerCreditMemoDetail
+        return customerCreditMemoDetail.getCustomerInvoiceDetail().getFinancialObjectCode();
+    }
+    */
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateFinancialObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
+     *
+    public void updateFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail) {
+        // this implementation directly returns without changing FinancialObjectCode contained in the ref obj customerInvoiceDetail
+        return;
+    }
+    */
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#updateAccountsReceivableObjectCode(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
@@ -328,7 +348,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#prepareCustomerInvoiceDetailForErrorCorrection(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail,org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
-     */
+     *
     public void prepareCustomerInvoiceDetailForErrorCorrection(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument) {
         // negate unit price
         customerInvoiceDetail.setInvoiceItemUnitPrice(customerInvoiceDetail.getInvoiceItemUnitPrice().negate());
@@ -336,6 +356,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         //clear the old CustomerInvoiceDocument
         customerInvoiceDetail.setCustomerInvoiceDocument(null);
     }
+    */
     
     public DateTimeService getDateTimeService() {
         return dateTimeService;

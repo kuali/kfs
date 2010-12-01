@@ -26,23 +26,8 @@ public class B2BInformation implements Serializable {
     private String punchbackURL;
     private String environment;
     private String userAgent;
+    private String identity;
     private String password;
-
-    public String getEnvironment() {
-        return environment;
-    }
-
-    public void setEnvironment(String environment) {
-        this.environment = environment;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getPunchbackURL() {
         return punchbackURL;
@@ -60,12 +45,36 @@ public class B2BInformation implements Serializable {
         this.punchoutURL = punchoutURL;
     }
 
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+        
     public String getUserAgent() {
         return userAgent;
     }
 
     public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

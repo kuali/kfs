@@ -17,12 +17,10 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Date;
 
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class provides services related to the customer invoice document
@@ -94,7 +92,7 @@ public interface CustomerInvoiceDetailService {
     public CustomerInvoiceDetail getDiscountCustomerInvoiceDetailForCurrentYear(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
-     * This method returns a customer invoice detail for the current year
+     * This method returns a customer invoice detail based on invoice document number and invoice item sequence number
      * 
      * @param documentNumber
      * @param sequenceNumber
@@ -102,6 +100,7 @@ public interface CustomerInvoiceDetailService {
      */
     public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber, Integer sequenceNumber);
 
+    
     /**
      * This method is used to recalculate a customer invoice detail based on updated values
      * 
@@ -117,7 +116,7 @@ public interface CustomerInvoiceDetailService {
     public void updateAccountsForCorrespondingDiscount(CustomerInvoiceDetail parentDiscountCustomerInvoiceDetail);
 
     /**
-     * This method is used update the accounts receivable object code if receivable options 1 or 2 are selected.
+     * This method is used to update the accounts receivable object code if receivable options 1 or 2 are selected.
      * 
      * @param customerInvoiceDetail
      */
@@ -143,9 +142,10 @@ public interface CustomerInvoiceDetailService {
      * 
      * @param customerInvoiceDetail the specified customerInvoiceDetail to be updated.
      * @param customerInvoiceDocument the associated customerInvoiceDocument being corrected.
-     */
+     *
     public void prepareCustomerInvoiceDetailForErrorCorrection(CustomerInvoiceDetail customerInvoiceDetail, CustomerInvoiceDocument customerInvoiceDocument);
-    
+     */
+        
     /**
      * @param customerInvoiceDocument
      * @return
@@ -166,4 +166,20 @@ public interface CustomerInvoiceDetailService {
      */
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber);
 
+    /**
+     * Gets the financial object code for the specified customerCreditMemoDetail.   
+     *
+     * @param customerInvoiceDetail the specified customerCreditMemoDetail
+     * @return the financial object code for the specified customerCreditMemoDetail
+     *
+    public String getFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail);
+     */
+    
+    /**
+     * Updates the financial object code for the specified customerCreditMemoDetail if it's for a prior year(s) customer invoice.
+     *
+     * @param customerInvoiceDetail the specified customerCreditMemoDetail
+     *
+    public void updateFinancialObjectCode(CustomerCreditMemoDetail customerCreditMemoDetail);
+     */
 }

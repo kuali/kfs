@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.ReconciliationParserService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -65,12 +66,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
         INIT, TABLE_DEF, COLUMN_DEF, CHECKSUM_DEF;
     };
 
-    // the case of these strings is not important
-    private static final String TABLE_DEF_STRING = "c";
-    private static final String COLUMN_DEF_STRING = "s";
-    private static final String CHECKSUM_DEF_STRING = "e";
 
-    private static final String COMMENT_STRING = "#";
 
     /**
      * Parses a reconciliation file
@@ -109,13 +105,13 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
                 throw new RuntimeException();
             }
             String command = strTok.nextToken();
-            if (command.equalsIgnoreCase(TABLE_DEF_STRING)) {
+            if (command.equalsIgnoreCase(GeneralLedgerConstants.Reconciliation.TABLE_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
                     LOG.error("Cannot find TABLE_DEF_STRING");
                     throw new RuntimeException();
                 }
                 String parsedTableId = strTok.nextToken();
-                if (parsedTableId.equals(tableId)) {
+                if (parsedTableId.equalsIgnoreCase(tableId)) {
                     if (!strTok.hasMoreTokens()) {
                         LOG.error("Cannot find Parsed Table Id");
                         throw new RuntimeException();
@@ -155,7 +151,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
             }
 
             String command = strTok.nextToken();
-            if (command.equalsIgnoreCase(COLUMN_DEF_STRING)) {
+            if (command.equalsIgnoreCase(GeneralLedgerConstants.Reconciliation.COLUMN_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
                     LOG.error("Cannot find COLUMN_DEF_STRING");
                     throw new RuntimeException();
@@ -175,7 +171,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
                 reconciliationBlock.addColumn(columnReconciliation);
                 linesInBlock++;
             }
-            else if (command.equalsIgnoreCase(CHECKSUM_DEF_STRING)) {
+            else if (command.equalsIgnoreCase(GeneralLedgerConstants.Reconciliation.CHECKSUM_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
                     LOG.error("Cannot find CHECKSUM_DEF_STRING");
                     throw new RuntimeException();
@@ -208,7 +204,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
      * @return stripped and trimmed line
      */
     protected String stripCommentsAndTrim(String line) {
-        int commentIndex = line.indexOf(COMMENT_STRING);
+        int commentIndex = line.indexOf(GeneralLedgerConstants.Reconciliation.COMMENT_STRING);
         if (commentIndex > -1) {
             // chop off comments
             line = line.substring(0, commentIndex);

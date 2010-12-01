@@ -15,23 +15,33 @@
  */
 package org.kuali.kfs.sys.batch;
 
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
@@ -47,8 +57,10 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public static final String JOB_RUN_START_STEP = "JOB_RUN_START_STEP";
     public static final String JOB_RUN_END_STEP = "JOB_RUN_END_STEP";
-    public static final String STEP_RUN_PARM_NM = "RUN_IND";
+    public static final String STEP_RUN_PARM_NM = "RUN_IND";    
+    public static final String STEP_RUN_ON_DATE_PARM_NM = "RUN_DATE";
     public static final String STEP_USER_PARM_NM = "USER";
+    
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;
@@ -136,23 +148,20 @@ public class Job implements StatefulJob, InterruptableJob {
     }
 
     public static boolean runStep(ParameterService parameterService, String jobName, int currentStepNumber, Step step, Date jobRunDate) throws InterruptedException, WorkflowException {
+        
         boolean continueJob = true;
         if (GlobalVariables.getUserSession() == null) {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user <unknown>"));
         }
         else {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
-        }
+        }        
         
-        Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-        Class stepClass = unProxiedStep.getClass();
-        
-        if (parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM) && !parameterService.getIndicatorParameter(stepClass, STEP_RUN_PARM_NM)) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM);
-            }
-        }
-        else {
+        if (!skipStep(parameterService, step, jobRunDate)) {
+            
+            Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
+            Class stepClass = unProxiedStep.getClass();
+            
             GlobalVariables.setErrorMap(new ErrorMap());
             GlobalVariables.setMessageList(new MessageList());
             
@@ -186,8 +195,54 @@ public class Job implements StatefulJob, InterruptableJob {
                 LOG.info("Stopping job after successful step execution");
             }
         }
+        
         LOG.info(new StringBuffer("Finished processing step ").append(currentStepNumber).append(": ").append(step.getName()));
         return continueJob;
+    }
+    
+    /**
+     * This method determines whether the Job should not run the Step based on the RUN_IND and RUN_DATE Parameters.
+     * When RUN_IND exists and equals 'Y' it takes priority and does not consult RUN_DATE. 
+     * If RUN_DATE exists, but contains an empty value the step will not be skipped.
+     */
+    protected static boolean skipStep(ParameterService parameterService, Step step, Date jobRunDate) {
+        Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
+        Class stepClass = unProxiedStep.getClass();
+        
+        DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
+        String dateFormat = parameterService.getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.ALL_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        
+        //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
+        //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step
+        
+        boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
+        boolean runInd = (runIndExists ? parameterService.getIndicatorParameter(stepClass, STEP_RUN_PARM_NM) : true);
+        
+        boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
+        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValue(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
+        boolean runDateContainsTodaysDate = (runDateExists ? parameterService.getParameterValues(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true);
+
+        if (!runInd && !runDateExists) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM +" for "+ stepClass.getName());
+            }            
+            return true;
+        }
+        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + " and " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
+            }
+            return true;
+        }
+        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Skipping step due to system parameter: " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
+            }
+            return true;
+        }
+        else { //run step
+            return false;
+        }
     }
 
     /**

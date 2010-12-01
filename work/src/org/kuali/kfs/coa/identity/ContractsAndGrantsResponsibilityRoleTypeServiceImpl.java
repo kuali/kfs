@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.identity;
+package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+    public static final String AWARD_ROUTE_NODE_NAME = "Award";
 
     @Override
     public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
         // special handling for where the code is being called for a particular route node
         // and the code is blank
         if ( qualification != null ) {
-            if ( StringUtils.equals( qualification.get(KimAttributes.ROUTE_NODE_NAME), CGConstants.CGKimConstants.AWARD_ROUTING_NODE_NAME) ) {
-                if ( StringUtils.isBlank(qualification.get(CgKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID)) ) {
+            if ( StringUtils.equals( qualification.get(KimAttributes.ROUTE_NODE_NAME), AWARD_ROUTE_NODE_NAME) ) {
+                if ( StringUtils.isBlank(qualification.get(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID)) ) {
                     return new ArrayList<RoleMembershipInfo>(0);
                 }
             }

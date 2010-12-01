@@ -82,9 +82,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private String b2bPunchoutURL;
     private String b2bPunchbackURL;
     private String b2bUserAgent;
+    private String b2bShoppingIdentity;
     private String b2bShoppingPassword;
-    private String b2bPurchaseOrderURL;
-    private String b2bPurchaseOrderPassword;
 
     protected B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
@@ -92,6 +91,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         b2b.setPunchbackURL(b2bPunchbackURL);
         b2b.setEnvironment(b2bEnvironment);
         b2b.setUserAgent(b2bUserAgent);
+        b2b.setIdentity(b2bShoppingIdentity);
         b2b.setPassword(b2bShoppingPassword);
         return b2b;
     }
@@ -207,6 +207,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
             req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
+
+            //retrieve from an item (sent in cxml at item level, but stored in db at REQ level)
+            req.setExternalOrganizationB2bSupplierIdentifier(getSupplierIdFromFirstItem(itemsForVendor));
 
             // retrieve default PO address and set address
             VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.PURCHASE_ORDER, user.getCampusCode());
@@ -331,9 +334,26 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         reqItem.setExternalOrganizationB2bProductReferenceNumber(item.getExtrinsic("SystemProductID"));
         reqItem.setItemRestrictedIndicator(false);
 
+        //returned in cxml at item level, but stored in db at REQ level
+        reqItem.setHoldSupplierId(item.getSupplier("SystemSupplierID"));
+
         return reqItem;
     }
 
+    /**
+     * The supplier id is received on the cxml at the item level, but we store it at the Requisition
+     * at the document level.  Supplier id should be the same for each item received for a vendor so 
+     * just return the id held on the first item.
+     * 
+     * @param reqItems
+     * @return
+     */
+    protected String getSupplierIdFromFirstItem(List reqItems) {
+        if (ObjectUtils.isNotNull(reqItems) && !reqItems.isEmpty()) {
+            return ((RequisitionItem)reqItems.get(0)).getHoldSupplierId();
+        }
+        return "";
+    }    
 
     /**
      * Gets the vendor number from the specified B2BShoppingCartItem, depending on whether DUNS is enabled for B2B:
@@ -416,16 +436,12 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         b2bUserAgent = userAgent;
     }
 
+    public void setB2bShoppingIdentity(String b2bShoppingIdentity) {
+        this.b2bShoppingIdentity = b2bShoppingIdentity;
+    }
+
     public void setB2bShoppingPassword(String password) {
         b2bShoppingPassword = password;
-    }
-
-    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
-        b2bPurchaseOrderURL = purchaseOrderURL;
-    }
-
-    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
-        b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
 }

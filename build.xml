@@ -170,9 +170,14 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
-	<target name="init-property-files" depends="check-for-kfs-build">
-		<echo message="Reading Properties: ${local.env.config.file}" />
-		<property file="${local.env.config.file}" />
+	<target name="init-property-files">
+		<if>
+			<available file="${user.home}/${ant.project.name}-build.properties" />
+			<then>
+				<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
+				<property file="${user.home}/${ant.project.name}-build.properties" />
+			</then>
+		</if>
 		<if>
 			<available file="${institution.build.properties.file}" />
 			<then>
@@ -251,10 +256,18 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
 		<property name="b2b.environment" value="${b2b.test.environment}" />
+		<condition property="b2b.purchase.order.identity" value="${b2b.production.purchase.order.identity}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<property name="b2b.purchase.order.identity" value="${b2b.test.purchase.order.identity}" />
 		<condition property="b2b.purchase.order.password" value="${b2b.production.purchase.order.password}">
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
 		<property name="b2b.purchase.order.password" value="${b2b.test.purchase.order.password}" />
+		<condition property="b2b.shopping.identity" value="${b2b.production.shopping.identity}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<property name="b2b.shopping.identity" value="${b2b.test.shopping.identity}" />
 		<condition property="b2b.shopping.password" value="${b2b.production.shopping.password}">
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>

@@ -193,16 +193,6 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
-	    
-    <bean id="contractsAndGrantsResponsibilityRoleTypeService" class="org.kuali.kfs.module.cg.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="contractsAndGrantsResponsibilityRoleTypeService"
-	      p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
-	  </property>
-	</bean>
-	
    
     <bean id="researchRiskReviewRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl"/>    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

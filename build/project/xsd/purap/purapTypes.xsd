@@ -4,7 +4,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:simpleType name="statusCodeType">
-        <xsd:restriction base="xsd:string">
+        <xsd:restriction base="xsd:token">
             <xsd:pattern value="[0-9]{3}"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -18,7 +18,7 @@
     <xsd:simpleType name="dunsNumberType">
         <xsd:restriction base="xsd:string">
             <!-- In DB, it's declared as 9 chars, but in b2b we're getting 10 chars(15996366-t Eg) -->        
-            <xsd:maxLength value="10"/>
+            <xsd:maxLength value="50"/>
         </xsd:restriction>
     </xsd:simpleType>
     
@@ -61,7 +61,7 @@
 
     <xsd:simpleType name="domainType">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="DUNS|NetworkId"/>
+            <xsd:pattern value="DUNS|NetworkId|AribaNetworkUserId"/>
         </xsd:restriction>
     </xsd:simpleType>
     

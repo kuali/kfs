@@ -24,12 +24,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase
@@ -45,6 +48,7 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
     private String contractManagerFaxNumber;
     private KualiDecimal contractManagerDelegationDollarLimit;
     private boolean active;
+    
 
     /**
      * Default constructor.
@@ -113,6 +117,14 @@ public class ContractManager extends PersistableBusinessObjectBase implements In
         }
 
         return contractManagerId;
+    }
+    
+    public Person getContractManagerPerson() {
+        Person contractManager = SpringContext.getBean(PersonService.class).getPerson(getContractManagerUserIdentifier());
+        if (ObjectUtils.isNotNull(contractManager)) {
+            return contractManager;
+        }
+        return null; 
     }
     
     /**

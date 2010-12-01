@@ -31,6 +31,7 @@ import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.integration.ld.LaborModuleService;
+import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
@@ -91,7 +92,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     @Logged
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
-            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortCertificationDocument.class);
+            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT);
             this.populateEffortCertificationDocument(effortCertificationDocument, effortCertificationDocumentBuild);
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }

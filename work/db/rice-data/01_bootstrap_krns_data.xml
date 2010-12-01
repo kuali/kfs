@@ -28,7 +28,8 @@
 			</delete>
 		</rollback>
     </changeSet>
-	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_PARM_T">
+
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_PARM_T_oracle" dbms="oracle">
 		<loadData tableName="KRNS_PARM_T" file="bootstrap/krns_parm_t.csv">
 			<column header="NMSPC_CD" type="string" />
 			<column header="OBJ_ID" type="string" />
@@ -46,6 +47,29 @@
 			</delete>
 		</rollback>
     </changeSet>
+
+	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRNS_PARM_T_mysql" dbms="mysql">
+		<sql>
+		   SET sql_mode='NO_BACKSLASH_ESCAPES'
+		</sql>
+		<loadData tableName="KRNS_PARM_T" file="bootstrap/krns_parm_t.csv">
+			<column header="NMSPC_CD" type="string" />
+			<column header="OBJ_ID" type="string" />
+			<column header="PARM_DTL_TYP_CD" type="string" />
+			<column header="PARM_NM" type="string" />
+			<column header="PARM_TYP_CD" type="string" />
+			<column header="TXT" type="string" />
+			<column header="PARM_DESC_TXT" type="string" />
+			<column header="CONS_CD" type="string" />
+			<column header="APPL_NMSPC_CD" type="string" />
+		</loadData>
+		<rollback>
+			<delete tableName="KRNS_PARM_T">
+				<where>APPL_NMSPC_CD = 'KFS'</where>
+			</delete>
+		</rollback>
+    </changeSet>
+
 	<changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KR_COUNTY_T">
 		<loadData tableName="KR_COUNTY_T" file="bootstrap/kr_county_t.csv">
 			<column header="COUNTY_CD" type="string" />

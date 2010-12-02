@@ -18,11 +18,14 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.fixture.CurrentCashFixture;
 import org.kuali.kfs.module.endow.fixture.CurrentTaxLotBalanceFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
@@ -32,14 +35,13 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 @ConfigureContext(session = kfs)
 public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AvailableCashUpdateServiceImplTest.class);
 
-    private UnitTestSqlDao unitTestSqlDao;
+    private BusinessObjectService businessObjectService;
     private AvailableCashUpdateServiceImpl availableCashUpdateService;    
     private KEMID kemid;
     
@@ -50,7 +52,7 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         availableCashUpdateService = (AvailableCashUpdateServiceImpl) TestUtils.getUnproxiedService("mockAvailableCashUpdateService");
     }
     
@@ -86,12 +88,8 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testCheckSystemParameterExists() {
         LOG.info("testCheckSystemParameterExists() method entered");
         
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AvailableCashUpdateStep' and parm_nm = 'AVAILABLE_CASH_PERCENT'");
-        
-        if (!systemParameters.isEmpty()) {
-            boolean parameterExists = availableCashUpdateService.systemParametersForSummarizeAvailableSpendableFundsJobExist();
-            assertTrue("AVAILABLE_CASH_PERCENT System parameter does not exist.", parameterExists);
-        }
+        boolean parameterExists = availableCashUpdateService.systemParametersForSummarizeAvailableSpendableFundsJobExist();
+        assertTrue("AVAILABLE_CASH_PERCENT System parameter does not exist.", parameterExists);
 
         LOG.info("testCheckSystemParameterExists() method completed.");
     }
@@ -107,10 +105,23 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
       //Step 1: remove all the records from END_AVAIL_CSH_T table        
         availableCashUpdateService.kEMIDCurrentAvailableBalanceService.clearAllAvailableCash();
 
-        List availableCashRecords = unitTestSqlDao.sqlSelect("select * from END_AVAIL_CSH_T");
+        Collection availableCashRecords = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
         assertTrue("Records in END_AVAIL_CSH_T table were not deleted by clearAllAvailableCash() method.", availableCashRecords.size() == 0);
 
         LOG.info("testClearAllAvailableCash() method finished.");
+    }
+    
+    private void updateKemIdClosedIndicator(String closedIndicator) {
+        boolean close = (closedIndicator.equals(EndowConstants.YES) ? true : false);
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, closedIndicator);
+        
+        Collection<KEMID> kemIdRecords = businessObjectService.findMatching(KEMID.class, fieldValues);
+        for (KEMID kemId : kemIdRecords) {
+            kemId.setClose(close);
+            businessObjectService.save(kemId);
+        }
     }
     
     /**
@@ -119,15 +130,21 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
     public final void testGetAllKemidWithClosedIndicatorNo() {
         LOG.info("testGetAllKemidWithClosedIndicatorNo() method entered.");
         
-        unitTestSqlDao.sqlCommand("Update END_KEMID_T set CLOSED_IND = 'N'");
-        List kemidRecordsInTable = unitTestSqlDao.sqlSelect("select * from END_KEMID_T WHERE CLOSED_IND = 'N'");
+    //    unitTestSqlDao.sqlCommand("Update END_KEMID_T set CLOSED_IND = 'N'");
+        updateKemIdClosedIndicator(EndowConstants.NO);
+        Map fieldValues = new HashMap();
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.NO);
+        Collection<KEMID> kemidRecordsInTable = businessObjectService.findMatching(KEMID.class, fieldValues);
         
         //Step 2: Retrieve all KEMID records where CLOSED_IND set to N
         Collection<KEMID> kemIdRecords = availableCashUpdateService.kEMIDService.getAllKemIdWithClosedIndicatorNo();
         assertTrue("KEMID record total retrived from getAllKemIdWithClosedIndicatorNo() does not match with records in the table END_KEMID_T with closed indicator = 'N'", kemidRecordsInTable.size() == kemIdRecords.size());
         
-        unitTestSqlDao.sqlCommand("Update END_KEMID_T set CLOSED_IND = 'Y'");
-        kemidRecordsInTable = unitTestSqlDao.sqlSelect("select * from END_KEMID_T WHERE CLOSED_IND = 'Y'");
+        updateKemIdClosedIndicator(EndowConstants.YES);
+        fieldValues = new HashMap();
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.YES);
+        kemidRecordsInTable = businessObjectService.findMatching(KEMID.class, fieldValues);
+        
         kemIdRecords = availableCashUpdateService.kEMIDService.getAllKemIdWithClosedIndicatorNo();
         assertFalse("getAllKemIdWithClosedIndicatorNo() method should not have retrieved any records. ", kemidRecordsInTable.size() == kemIdRecords.size());
 
@@ -185,13 +202,14 @@ public class AvailableCashUpdateServiceImplTest extends KualiTestBase {
         createDataFixtures();
         
         //The count of rows in the table should be 1 
-        List kemidRecords = unitTestSqlDao.sqlSelect("SELECT * FROM END_KEMID_T WHERE CLOSED_IND = 'N'");
+        Map fieldValues = new HashMap();
+        fieldValues.put(EndowPropertyConstants.KEMID_CLOSED, EndowConstants.NO);
+        Collection<KEMID> kemidRecords = businessObjectService.findMatching(KEMID.class, fieldValues);
         
         availableCashUpdateService.summarizeAvailableSpendableFunds();
         
       //The count of rows in the table should be 1 
-        List availableCashRecords = unitTestSqlDao.sqlSelect("SELECT * FROM END_AVAIL_CSH_T");
-        
+        Collection availableCashRecords = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
         assertTrue("Total Records in END_AVAIL_CSH_T should be equal to Total Open Records in END_KEMID_T", availableCashRecords.size() == kemidRecords.size());
         
         LOG.info("testSummarizeAvailableSpendableFunds() method finished.");        

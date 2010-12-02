@@ -31,7 +31,7 @@ import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
-import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.FrequencyDatesService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -47,7 +47,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     
     protected BusinessObjectService businessObjectService;
     protected KEMService kemService;
-    protected FrequencyCodeService frequencyCodeService;
+    protected FrequencyDatesService frequencyDatesService;
     
     protected SecurityDao securityDao;
     protected FeeMethodDao feeMethodDao;
@@ -100,7 +100,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (securityRecords != null) {
             for (Security security : securityRecords) {
                 String frequencyCode = security.getIncomePayFrequency();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
                 if (nextDate != null) {
                     security.setIncomeNextPayDate(nextDate);
                     if (updateBusinessObject(security)) {
@@ -128,7 +128,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (ticklerRecords != null) {
             for (Tickler tickler : ticklerRecords) {
                 String frequencyCode = tickler.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     tickler.setNextDueDate(nextDate);
                     if (updateBusinessObject(tickler)) {
@@ -155,7 +155,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (feeMethodRecords != null) {
             for (FeeMethod feeMethod : feeMethodRecords) {                        
                 String frequencyCode = feeMethod.getFeeFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                     feeMethod.setFeeNextProcessDate(nextDate);
@@ -183,7 +183,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (recurringCashTransferRecords != null) {
             for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
                 String frequencyCode = recurringCashTransfer.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                     recurringCashTransfer.setNextProcessDate(nextDate);
@@ -208,7 +208,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (csmRecords != null) {
             for (CashSweepModel csm : csmRecords) {                        
                 String frequencyCode = csm.getCashSweepFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     csm.setCashSweepNextDueDate(nextDate);
                     if (updateBusinessObject(csm)) {
@@ -232,7 +232,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         if (aciRecords != null) {
             for (AutomatedCashInvestmentModel aci : aciRecords) {                        
                 String frequencyCode = aci.getAciFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     aci.setAciNextDueDate(nextDate);
                     if (updateBusinessObject(aci)) {
@@ -386,18 +386,18 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     }
     
     /**
-     * Gets the frequencyCodeService attribute. 
-     * @return Returns the frequencyCodeService.
+     * Gets the frequencyDatesService attribute. 
+     * @return Returns the frequencyDatesService.
      */
-    protected FrequencyCodeService getFrequencyCodeService() {
-        return frequencyCodeService;
+    protected FrequencyDatesService getFrequencyDatesService() {
+        return frequencyDatesService;
     }
 
     /**
-     * Sets the frequencyCodeService attribute value.
-     * @param frequencyCodeService The frequencyCodeService to set.
+     * Sets the frequencyDatesService attribute value.
+     * @param frequencyDatesService The frequencyDatesService to set.
      */
-    public void setFrequencyCodeService(FrequencyCodeService frequencyCodeService) {
-        this.frequencyCodeService = frequencyCodeService;
+    public void setFrequencyDatesService(FrequencyDatesService frequencyDatesService) {
+        this.frequencyDatesService = frequencyDatesService;
     }
 }

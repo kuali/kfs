@@ -38,4 +38,14 @@
     		<ref bean="mockReportWriterService"/>
     	</property>
     </bean>
+    
+    <bean id="mockRollFrequencyDatesService" parent="rollFrequencyDatesService">
+    	<property name="rollFrequencyDatesTotalReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="rollFrequencyDatesExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+    
 </beans>

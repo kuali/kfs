@@ -697,8 +697,8 @@
 		<property name="kemService">
 			<ref bean="kemService"/>
 		</property>
-		<property name="frequencyCodeService">
-			<ref bean="frequencyCodeService" />
+		<property name="frequencyDatesService">
+			<ref bean="frequencyDatesService" />
 		</property>	
 		<property name="rollFrequencyDatesTotalReportWriterService">
 			<ref bean="rollFrequencyDatesTotalReportWriterService" />
@@ -1550,7 +1550,19 @@
 			<ref bean="kemService" />
 		</property>	
 	</bean>
-	
+
+    <bean id="frequencyDatesService" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyDatesServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>	
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>	
+	</bean>
+		
     <bean id="feeMethodService" class="org.kuali.kfs.module.endow.document.service.impl.FeeMethodServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

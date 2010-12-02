@@ -17,12 +17,12 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import org.kuali.kfs.module.endow.batch.service.RollFrequencyDatesService;
-import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.FrequencyDatesService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.fixture.RollFrequencyCodeFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,7 +31,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 public class RollFrequencyDatesServiceTest extends KualiTestBase {
 
     protected RollFrequencyDatesService rollFrequencyDatesService;
-    protected FrequencyCodeService frequencyCodeService;
+    protected FrequencyDatesService frequencyDatesService;
     protected KEMService kemService;
     
     /**
@@ -41,8 +41,8 @@ public class RollFrequencyDatesServiceTest extends KualiTestBase {
     protected void setUp() throws Exception { 
     
         // Initialize service objects.
-        rollFrequencyDatesService = SpringContext.getBean(RollFrequencyDatesService.class);
-        frequencyCodeService = SpringContext.getBean(FrequencyCodeService.class);
+        frequencyDatesService = SpringContext.getBean(FrequencyDatesService.class);
+        rollFrequencyDatesService = SpringContext.getBean(RollFrequencyDatesService.class);        
         kemService = SpringContext.getBean(KEMService.class);
                         
         super.setUp();
@@ -54,33 +54,100 @@ public class RollFrequencyDatesServiceTest extends KualiTestBase {
      */
     @Override
     protected void tearDown() throws Exception {
+        frequencyDatesService = null;
+        rollFrequencyDatesService = null;        
+        kemService = null;
         super.tearDown();
     }
 
-    /**
-     * check the invalid frequency code
-     */
-    public void testGetNextDueDate_InvalidFrequencyCode() {
-        Date currentDate = kemService.getCurrentDate();
-        assertNull("K is not a valid frequency code.", frequencyCodeService.calculateNextDueDate("K", currentDate));
+    public void testCalculateNextDueDate_InvalidFrequency() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.INVALID_FREQUENCY_CODE;
+        Calendar cal = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        assertNull(frequencyCode + " must be invalid", frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(cal.getTimeInMillis())));        
     }
     
     /**
-     * check the next due date 
+     * checks the next due date for daily code 
      */
-    public void testGetNextDueDate_ValidNextDueDate() {
-        Calendar cal = Calendar.getInstance();  // target date - 2012 is a leap year
-        cal.set(2012,Calendar.FEBRUARY,28);
-        Calendar cal2 = Calendar.getInstance(); // expected date        
-        cal2.set(2012,Calendar.FEBRUARY,29);
-        assertEquals(new java.sql.Date(cal2.getTimeInMillis()), frequencyCodeService.calculateNextDueDate("D", new java.sql.Date(cal.getTimeInMillis())));        
+    public void testCalculateNextDueDate_Daily() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.DAILY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.DAILY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+  
+    /**
+     * checks the next due date for weekly code 
+     */
+    public void testCalculateNextDueDate_Weekly() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.WEEKLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.WEEKLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+ 
+    /**
+     * checks the next due date for semi-monthly code 
+     */
+    public void testCalculateNextDueDate_SemiMonthly() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.SEMI_MONTHLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.SEMI_MONTHLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
     
     /**
-     * Tests  
+     * checks the next due date for monthly code 
      */
-    public void testRollFrequencyDatesService() {
-        
+    public void testCalculateNextDueDate_Monthly() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.MONTHLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.MONTHLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+
+    /**
+     * checks the next due date for quarterly code 
+     */
+    public void testCalculateNextDueDate_Quarterly() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.QUARTERLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.QUARTERLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+    
+    /**
+     * checks the next due date for semi-annual code 
+     */
+    public void testCalculateNextDueDate_SemiAnnually() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.SEMI_ANNUALLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.SEMI_ANNUALLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+    
+    /**
+     * checks the next due date for annual code 
+     */
+    public void testCalculateNextDueDate_Annually() {
+        RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.ANNUALLY_TARGET_DATE;
+        Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
+        String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
+        Calendar expectedCalednar = RollFrequencyCodeFixture.ANNUALLY_EXPECTED_DATE.getCalendar();
+        assertEquals(new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+    }
+    
+    /**
+     * tests RollFrequencyDatesService
+     */
+    public void testRollFrequencyDatesService() {        
         //assertTrue(rollFrequencyDatesService.updateFrequencyDate());        
     }
 }

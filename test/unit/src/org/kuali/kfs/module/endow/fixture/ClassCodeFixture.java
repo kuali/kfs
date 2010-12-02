@@ -74,6 +74,16 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "B",// classCodeType;
             "M"// valuationMethod;
+    ),
+    ALTERNATIVE_INVESTMENT_CLASS_CODE("TST", // code  dummy record
+            "Test Alternative Investments Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "A",// classCodeType;
+            "M"// valuationMethod;
     );
 
     public final String code;

@@ -58,7 +58,17 @@ public enum SecurityFixture {
             BigDecimal.valueOf(20L), // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount    
-    );
+    ),
+    ALTERNATIVE_INVEST_ACTIVE_SECURITY("TESTSECID", // securityId
+            "TST", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount    
+    )
+    ;
 
     public final String securityId;
     public final String securityClassCode;

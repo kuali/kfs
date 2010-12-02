@@ -260,6 +260,20 @@ public class HoldingTaxLotServiceImpl implements HoldingTaxLotService {
     }
 
     /**
+     * @see org.kuali.kfs.module.endow.document.service.HoldingTaxLotService#removeAllHoldingTaxLots()
+     */
+    public boolean removeAllHoldingTaxLots() {
+        boolean success = true;
+        
+        List<HoldingTaxLot> allTaxLots = getAllTaxLots();
+        for (HoldingTaxLot holdingTaxLot : allTaxLots) {
+            businessObjectService.delete(holdingTaxLot);
+        }
+        
+        return success;
+    }
+    
+    /**
      * Gets the businessObjectService.
      * 
      * @return businessObjectService

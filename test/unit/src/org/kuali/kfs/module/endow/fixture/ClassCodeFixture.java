@@ -21,6 +21,17 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum ClassCodeFixture {
 
+    LIABILITY_CLASS_CODE_CURRENT_TAX_LOT("TST", // code
+            "Test Liability Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "O",// classCodeType;
+            "M"// valuationMethod;
+    ),
+    
     LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
@@ -30,7 +41,9 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "L",// classCodeType;
             "M"// valuationMethod;
-    ), NOT_LIABILITY_CLASS_CODE("TST", // code
+    ), 
+    
+    NOT_LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;

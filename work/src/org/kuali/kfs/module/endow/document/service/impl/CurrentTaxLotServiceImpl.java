@@ -1071,7 +1071,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         }
         
         //other cases...
-        if (!EndowConstants.ClassCodeTypes.OTHER.equalsIgnoreCase(classCodeType)) {
+        if (EndowConstants.ClassCodeTypes.OTHER.equalsIgnoreCase(classCodeType)) {
             holdingMarketValue = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getUnitValue(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             return holdingMarketValue;            
         }

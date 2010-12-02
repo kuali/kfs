@@ -158,4 +158,9 @@ public interface HoldingTaxLotService {
      */
     public List<HoldingTaxLot> getTaxLotsPerSecurityIDWithUnitsGreaterThanZero(String securityId);
 
+    /**
+     * Removes all HoldingTaxLot records from END_HLDG_TAX_LOT_T
+     * @return true is successfully removed the records, else false
+     */
+    public boolean removeAllHoldingTaxLots();
 }

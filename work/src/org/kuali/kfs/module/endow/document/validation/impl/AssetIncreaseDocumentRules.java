@@ -15,9 +15,15 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
+import java.math.BigDecimal;
+
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.rice.kns.document.Document;
@@ -65,6 +71,10 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
             }
             // Checks if registration code is active
             isValid &= isRegistrationCodeActive(assetIncreaseDoc, false);
+        }
+
+        if (isValid) {
+            isValid = validateTaxLotsCostAndTransactionAmountLessOrEqualToSecurityCommitment(assetIncreaseDoc);
         }
 
         return isValid;
@@ -154,4 +164,49 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
         return isValid;
     }
 
+    /**
+     * Validates that If the SECURITY_ID has a class code type of A (Alternative Investments), the system must validate that the
+     * total END_HLDG_TAX_LOT_T: HLDG_COST for the SECURITY_ID plus the END_TRAN_LN_T: TRAN_AMT does not exceed the value in
+     * END_SEC_T: CMTMNT_AMT for the Security. If it does, the transaction should not be allowed.
+     * 
+     * @return true if valid, false otherwise
+     */
+    protected boolean validateTaxLotsCostAndTransactionAmountLessOrEqualToSecurityCommitment(AssetIncreaseDocument assetIncreaseDocument) {
+        boolean isValid = true;
+
+        if (assetIncreaseDocument.getTargetTransactionSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getClassCode() != null && EndowConstants.ClassCodeTypes.ALTERNATIVE_INVESTMENT.equalsIgnoreCase(assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getClassCode().getClassCodeType())) {
+
+            BigDecimal totalHoldingTaxLotsCost = BigDecimal.ZERO;
+            BigDecimal totalTransactionLinesAmt = BigDecimal.ZERO;
+            BigDecimal securityCommitmentAmt = BigDecimal.ZERO;
+
+            if (assetIncreaseDocument.getTargetTransactionLines() != null) {
+                for (EndowmentTransactionLine transactionLine : assetIncreaseDocument.getTargetTransactionLines()) {
+
+                    // add to total amount
+                    totalTransactionLinesAmt = totalTransactionLinesAmt.add(transactionLine.getTransactionAmount().bigDecimalValue());
+
+                    if (transactionLine.getTaxLotLines() != null) {
+                        for (EndowmentTransactionTaxLotLine taxLotLine : transactionLine.getTaxLotLines()) {
+                            // add to total holding cost
+                            totalHoldingTaxLotsCost = totalHoldingTaxLotsCost.add(taxLotLine.getLotHoldingCost());
+
+                        }
+                    }
+                }
+            }
+
+            if (assetIncreaseDocument.getTargetTransactionSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getCommitmentAmount() != null) {
+                securityCommitmentAmt = assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getCommitmentAmount();
+            }
+
+            isValid = (totalHoldingTaxLotsCost.add(totalTransactionLinesAmt)).compareTo(securityCommitmentAmt) <= 0;
+
+            if (!isValid) {
+                putFieldError(getErrorPrefix(assetIncreaseDocument.getTargetTransactionLine(0), 0) + EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_COMMITMENT_AMT);
+            }
+        }
+
+        return isValid;
+    }
 }

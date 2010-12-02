@@ -15,20 +15,18 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
-
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.bo.Parameter;
+import java.util.Date;
 
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.batch.service.RollProcessDateService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.rice.kns.bo.Parameter;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class RollProcessDateServiceImpl implements RollProcessDateService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpdateHistoryCashServiceImpl.class);
     private ParameterService parameterService;
@@ -48,7 +46,7 @@ public class RollProcessDateServiceImpl implements RollProcessDateService {
         Parameter theCurrentProcessDate = parameterService.retrieveParameter("KFS-ENDOW", "All", EndowParameterKeyConstants.CURRENT_PROCESS_DATE);
         theCurrentProcessDate.setParameterValue(nextDate); 
         businessObjectService.save(theCurrentProcessDate);
-        LOG.info("Roll the value of CURRENT_PROCESS_DATE to "+theCurrentProcessDate.getParameterValue());
+        LOG.info("Roll the value of CURRENT_PROCESS_DATE to " + theCurrentProcessDate.getParameterValue());
         return success;
     }
     

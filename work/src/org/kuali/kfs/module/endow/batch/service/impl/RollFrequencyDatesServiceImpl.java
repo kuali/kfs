@@ -73,8 +73,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         // update Tickler Next Due Dates
         updateTicklerNextDueDates();
         
-        // update Fee Next Process Dates
-        updateFeeProcessDates();
+        // update Fee Method Next Process Dates
+        updateFeeMethodProcessDates();
         
         // update Recurring Cash Transfer Next Process Dates
         updateRecurringCashTransferProcessDates();
@@ -93,7 +93,9 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     /**
      * This method updates the income next pay dates in Security
      */
-    protected void updateSecurityIncomeNextPayDates() {
+    protected boolean updateSecurityIncomeNextPayDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
@@ -109,19 +111,23 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update Security " + security.getId());
                         generateExceptionReport("END_SEC_T", security.getId());
-                        
+                        success = false; 
                     }
                 }
             }
         }
         
-        LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter); 
+        LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next due dates in Tickler
      */
-    protected void updateTicklerNextDueDates() {
+    protected boolean updateTicklerNextDueDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<Tickler> ticklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
@@ -137,18 +143,23 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update Tickler " + tickler.getNumber());
                         generateExceptionReport("END_TKLR_T", tickler.getNumber());
+                        success = false;
                     }
                 }                
             }
         }
         
         LOG.info("Total Tickler Next Due Dates updated in END_TKLR_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next process dates in FeeMethod
      */
-    protected void updateFeeProcessDates() {
+    protected boolean updateFeeMethodProcessDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<FeeMethod> feeMethodRecords = feeMethodDao.getFeeMethodWithNextPayDateEqualToCurrentDate();
@@ -165,18 +176,23 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update FeeMethod " + feeMethod.getCode());
                         generateExceptionReport("END_FEE_MTHD_T", feeMethod.getCode());
+                        success = false;
                     }
                 }
             }
         }
         
         LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated in END_FEE_MTHD_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next process dates in EndowmentRecurringCashTransfer
      */
-    protected void updateRecurringCashTransferProcessDates() {
+    protected boolean updateRecurringCashTransferProcessDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
@@ -193,15 +209,20 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update EndowmentRecurringCashTransfer " + recurringCashTransfer.getTransferNumber());
                         generateExceptionReport("END_REC_CSH_XFR_T", recurringCashTransfer.getTransferNumber());
+                        success = false;
                     }
                 }                
             }
         }
         
         LOG.info("Total Next Process Dates and Last Process Dates updated in END_REC_CSH_XFR_T: " + counter);
+        
+        return success;
     }
  
-    protected void updateCashSweepModelNextDueDates() {
+    protected boolean updateCashSweepModelNextDueDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<CashSweepModel> csmRecords = cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
@@ -217,15 +238,20 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update FeeMethod " + csm.getCashSweepModelID());
                         generateExceptionReport("END_CSH_SWEEP_MDL_T", csm.getCashSweepModelID().toString());
+                        success = false;
                     }
                 }
             }
         }
        
         LOG.info("Total Cash Sweep Model Next Due Dates updated in END_CSH_SWEEP_MDL_T: " + counter);
+        
+        return success;
     }
     
-    protected void updateAutomatedCashInvestmentModelNextDueDates() {
+    protected boolean updateAutomatedCashInvestmentModelNextDueDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<AutomatedCashInvestmentModel> aciRecords = automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
@@ -241,12 +267,15 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update FeeMethod " + aci.getAciModelID());
                         generateExceptionReport("END_AUTO_CSH_INVEST_MDL_T", aci.getAciModelID().toString());
+                        success = false;
                     }
                 }
             }
         }
         
         LOG.info("Total ACI Next Due Dates updated in END_AUTO_CSH_INVEST_MDL_T: " + counter);
+        
+        return success;
     }
     
     /**

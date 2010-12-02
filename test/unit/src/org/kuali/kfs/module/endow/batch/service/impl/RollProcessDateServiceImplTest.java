@@ -62,9 +62,11 @@ public class RollProcessDateServiceImplTest extends KualiTestBase {
         super.tearDown();
     }
     
+    /**
+     * checks rollProcessDateService#rollDate
+     * But this batch does not anything because it  
+     */
     public void testProcessDate() {
-        Date currentProcessDate = kemService.getCurrentDate();
-        System.out.println(currentProcessDate.toString());
-        rollProcessDateService.rollDate();
+//        rollProcessDateService.rollDate();
     }
 }

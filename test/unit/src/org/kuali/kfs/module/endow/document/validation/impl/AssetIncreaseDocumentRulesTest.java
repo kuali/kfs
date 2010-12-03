@@ -35,6 +35,7 @@ import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTaxLotsService;
 import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
 import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
@@ -48,8 +49,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 
 /**
  * This class...
@@ -59,13 +58,9 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
 
     private AssetIncreaseDocumentRules rule;
     private AssetIncreaseDocument document;
-    private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
     private UpdateAssetIncreaseDocumentTaxLotsService assetIncreaseDocumentTaxLotsService;
 
     // 
-    private static final String INCOME_PRINCIPAL_IND = "I";
-    private static final String ETRAN_CODE = "42000";
     private static final String INVALID_SECURITY_ID = "WRONG_ID";
     private static final String INVALID_REGISTRATION_CODE = "...";
 
@@ -73,8 +68,6 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         rule = new AssetIncreaseDocumentRules();
-        documentService = SpringContext.getBean(DocumentService.class);
-        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         assetIncreaseDocumentTaxLotsService = SpringContext.getBean(UpdateAssetIncreaseDocumentTaxLotsService.class);
         document = createAssetIncreaseDocument();
     }
@@ -83,8 +76,6 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     protected void tearDown() throws Exception {
         rule = null;
         document = null;
-        documentService = null;
-        businessObjectService = null;
         assetIncreaseDocumentTaxLotsService = null;
         super.tearDown();
     }
@@ -92,11 +83,8 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     private AssetIncreaseDocument createAssetIncreaseDocument() throws WorkflowException {
 
         // create an asset increase document
-        document = (AssetIncreaseDocument) documentService.getNewDocument(AssetIncreaseDocument.class);
-        document.getDocumentHeader().setDocumentDescription("This is a test document.");
-
-        // TODO do I have to save asset increase doc?
-        documentService.saveDocument(document);
+        document = (AssetIncreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_ASSET_INCREASE.createEndowmentTransactionDocument(AssetIncreaseDocument.class);
+        document.getDocumentHeader().setDocumentDescription("This is a test Asset Increase document.");
 
         return document;
     }

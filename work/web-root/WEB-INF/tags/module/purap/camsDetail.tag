@@ -50,7 +50,11 @@
 	    <tr>
           <th align="right" valign="middle" class="datacell">Add Asset Number:</th>
 	      <td class="datacell" align="left" colspan="3">
-			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 0}"/>		
+			<kul:htmlControlAttribute attributeEntry="${camsAssetAttributes.capitalAssetNumber}" property="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+              <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
+                  <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" fieldConversions="capitalAssetNumber:document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber" lookupParameters="document.purchasingCapitalAssetItems[${camsItemIndex}].newPurchasingItemCapitalAssetLine.capitalAssetNumber:capitalAssetNumber"/>
+              </c:if>
+					
 	      	&nbsp;
 	      	<c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive}">
 			    <html:image property="${addItemAssetUrl}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Item Capital Asset" title="Add an Item Capital Asset" styleClass="tinybutton" />
@@ -156,7 +160,7 @@
           <td align="right" valign="middle" class="datacell">
               <kul:htmlControlAttribute attributeEntry="${camsSystemAttributes.capitalAssetTypeCode}" property="${camsAssetSystemProperty}.capitalAssetTypeCode" readOnly="${!(fullEntryMode or amendmentEntry) or poItemInactive or notCurrentYear}" tabindexOverride="${tabindexOverrideBase + 0}"/>		
               <c:if test="${(fullEntryMode or amendmentEntry) and !poItemInactive and !notCurrentYear}">
-                  <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode"/>
+                  <kul:lookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" fieldConversions="capitalAssetTypeCode:${camsAssetSystemProperty}.capitalAssetTypeCode" lookupParameters="${camsAssetSystemProperty}.capitalAssetTypeCode:capitalAssetTypeCode"/>
               </c:if>
           </td>
           <th width="20%" align=right valign=middle class="bord-l-b">

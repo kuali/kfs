@@ -358,8 +358,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        }
+        }else{        
+            Map<String, String> params = new HashMap<String, String>();
+            params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+            Asset retrievedAsset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
+            if (ObjectUtils.isNull(retrievedAsset)) {
+                valid = false;
+                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
+                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine." + KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+            }
+
+        }
         return valid;
     }
 

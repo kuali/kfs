@@ -11,6 +11,17 @@
         <ref bean="RequisitionItemCapitalAsset-itemCapitalAssetIdentifier"/>
       </list>
     </property>
+	<property name="relationships">
+  	<list>
+      <bean parent="RelationshipDefinition" p:objectAttributeName="asset">
+          <property name="primitiveAttributes">
+              <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="capitalAssetNumber" p:targetName="capitalAssetNumber" />
+              </list>
+          </property>
+      </bean>
+   	</list>
+  	</property>    
   </bean>
 
 <!-- Attribute Definitions -->

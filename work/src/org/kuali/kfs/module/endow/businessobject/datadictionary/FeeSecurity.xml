@@ -110,7 +110,14 @@
   	<bean id="FeeSecurity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Fee Security Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>feeMethodCode</value>
+          	      <value>securityCode</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

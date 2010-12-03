@@ -116,6 +116,12 @@
 
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+          	<value>code</value>
+          	<value>feeMethodCode</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

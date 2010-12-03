@@ -119,7 +119,13 @@
   	<bean id="DonorStatementCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Donor Statement Code Lookup"/>    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition"/>
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>code</value>
+          	    </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

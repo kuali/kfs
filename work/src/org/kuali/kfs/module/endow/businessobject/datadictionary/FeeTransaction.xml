@@ -86,7 +86,14 @@
   	<bean id="FeeTransaction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Fee Transaction Document Type Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>feeMethodCode</value>
+          	      <value>transactionTypeCode</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

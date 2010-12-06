@@ -63,6 +63,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     // 
     private static final String INVALID_SECURITY_ID = "WRONG_ID";
     private static final String INVALID_REGISTRATION_CODE = "...";
+    private static final String INVALID_KEMID = "WRONG_ID";
 
     @Override
     protected void setUp() throws Exception {
@@ -240,6 +241,47 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     }
 
     // validate transaction lines
+
+    /**
+     * Validates that validateKemId returns true when the kemid on the transaction line exists in the db.
+     */
+    public void testValidateKemId_True() {
+
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+
+        assertTrue(rule.validateKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
+
+    /**
+     * Validates that validateKemId returns false when the kemid on the transaction line does not exist in the db.
+     */
+    public void testValidateKemId_False() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+        endowmentTransactionLine.setKemid(INVALID_KEMID);
+
+        assertFalse(rule.validateKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
+
+    /**
+     * Validates that isActiveKemId returns true when the KEMID is open (closed indicator is false).
+     */
+    public void testIsActiveKemId_True() {
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+
+        assertTrue(rule.isActiveKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
+
+    /**
+     * Validates that isActiveKemId returns false when the KEMID is closed (closed indicator is true).
+     */
+    public void testIsActiveKemId_False() {
+        KEMID kemid = KemIdFixture.CLOSED_KEMID_RECORD.createKemidRecord();
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+
+        assertFalse(rule.isActiveKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
 
     /**
      * Validates that validateNoTransactionRestriction returns false when the KEMID has a transaction restriction code equal to

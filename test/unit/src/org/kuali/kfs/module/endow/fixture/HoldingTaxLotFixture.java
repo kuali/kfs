@@ -19,82 +19,94 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public enum HoldingTaxLotFixture {
     // Holding Tax Lot Fixture
-    HOLDING_TAX_LOT_RECORD("TESTKEMID", //kemid
-            "99PETTY12", //securityId
-            "0NI", //registrationCode
-            "I", //incomePrincipalIndicator
-            new KualiInteger(1), //lotNumber
-            Date.valueOf("2005-11-01"), //acquiredDate
+    HOLDING_TAX_LOT_RECORD("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "0NI", // registrationCode
+            "I", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
             BigDecimal.valueOf(20.00), // units
             BigDecimal.valueOf(10000.00), // cost
             BigDecimal.valueOf(0.00), // currentAccrual
             BigDecimal.valueOf(0.00), // priorAccrual
-            Date.valueOf("2002-06-27") //lastTransactionDate
-    ), 
-    
-    HOLDING_TAX_LOT_RECORD_2("TESTKEMID", //kemid
-            "99PETTY12", //securityId
-            "0AI", //registrationCode
-            "I", //incomePrincipalIndicator
-            new KualiInteger(2), //lotNumber
-            Date.valueOf("2009-11-23"), //acquiredDate
+            Date.valueOf("2002-06-27") // lastTransactionDate
+    ),
+
+    HOLDING_TAX_LOT_RECORD_2("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "0AI", // registrationCode
+            "I", // incomePrincipalIndicator
+            new KualiInteger(2), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
             BigDecimal.valueOf(282586.00), // units
             BigDecimal.valueOf(282586.00), // cost
             BigDecimal.valueOf(0.00), // currentAccrual
             BigDecimal.valueOf(0.00), // priorAccrual
-            Date.valueOf("2009-11-23") //lastTransactionDate
-    ), 
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
 
-    HOLDING_TAX_LOT_RECORD_3("TESTKEMID", //kemid
-            "99PETTY12", //securityId
-            "0AI", //registrationCode
-            "P", //incomePrincipalIndicator
-            new KualiInteger(3), //lotNumber
-            Date.valueOf("2009-11-23"), //acquiredDate
+    HOLDING_TAX_LOT_RECORD_3("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "0AI", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(3), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
             BigDecimal.valueOf(23123.00), // units
             BigDecimal.valueOf(23123.00), // cost
             BigDecimal.valueOf(0.00), // currentAccrual
             BigDecimal.valueOf(1.20), // priorAccrual
-            Date.valueOf("2009-11-23") //lastTransactionDate
-    ), 
-    
-    HOLDING_TAX_LOT_RECORD_4("TESTKEMID", //kemid
-            "99PETTY12", //securityId
-            "REI", //registrationCode
-            "P", //incomePrincipalIndicator
-            new KualiInteger(4), //lotNumber
-            Date.valueOf("2009-11-23"), //acquiredDate
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
+
+    HOLDING_TAX_LOT_RECORD_4("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "REI", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(4), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
             BigDecimal.valueOf(10000.00), // units
             BigDecimal.valueOf(10000.00), // cost
             BigDecimal.valueOf(0.00), // currentAccrual
             BigDecimal.valueOf(0.00), // priorAccrual
-            Date.valueOf("2009-11-23") //lastTransactionDate
-    ), 
-    
-    HOLDING_TAX_LOT_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
-            "TESTSECID", //securityId
-            "TEST", //registrationCode
-            "P", //incomePrincipalIndicator
-            new KualiInteger(1), //lotNumber
-            Date.valueOf("2005-11-01"), //acquiredDate
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
+
+    HOLDING_TAX_LOT_RECORD_FOR_LIABILITY("TESTKEMID", // kemid
+            "TESTSECID", // securityId
+            "TEST", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
             BigDecimal.valueOf(20.00), // units
             BigDecimal.valueOf(10000.00), // cost
             BigDecimal.valueOf(0.00), // currentAccrual
             BigDecimal.valueOf(0.00), // priorAccrual
-            Date.valueOf("2002-06-27") //lastTransactionDate)            
+            Date.valueOf("2002-06-27") // lastTransactionDate)
+    ),
+
+    HOLDING_TAX_LOT_RECORD_FOR_EAD("TESTKEMID", // kemid
+            "TESTSECID", // securityId
+            "TEST", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
+            BigDecimal.valueOf(20.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2002-06-27") // lastTransactionDate)
     );
-    
+
     public final String kemid;
     public final String securityId;
     public final String registrationCode;
-    public final String incomePrincipalIndicator; 
+    public final String incomePrincipalIndicator;
     public final KualiInteger lotNumber;
     public final Date acquiredDate;
     public final BigDecimal units;
@@ -102,16 +114,13 @@ public enum HoldingTaxLotFixture {
     public final BigDecimal currentAccrual;
     public final BigDecimal priorAccrual;
     public final Date lastTransactionDate;
-    
-    //default record...
-    private HoldingTaxLotFixture(String kemid, String securityId, String registrationCode, 
-                                 String incomePrincipalIndicator, KualiInteger lotNumber,  
-                                 Date acquiredDate, BigDecimal units,BigDecimal cost, 
-                                 BigDecimal currentAccrual, BigDecimal priorAccrual, Date lastTransactionDate) {
+
+    // default record...
+    private HoldingTaxLotFixture(String kemid, String securityId, String registrationCode, String incomePrincipalIndicator, KualiInteger lotNumber, Date acquiredDate, BigDecimal units, BigDecimal cost, BigDecimal currentAccrual, BigDecimal priorAccrual, Date lastTransactionDate) {
         this.kemid = kemid;
         this.securityId = securityId;
         this.registrationCode = registrationCode;
-        this.incomePrincipalIndicator = incomePrincipalIndicator; 
+        this.incomePrincipalIndicator = incomePrincipalIndicator;
         this.lotNumber = lotNumber;
         this.acquiredDate = acquiredDate;
         this.units = units;
@@ -123,6 +132,7 @@ public enum HoldingTaxLotFixture {
 
     /**
      * This method creates a default Holding Tax Lot record and saves it to table
+     * 
      * @return HoldingTaxLot record
      */
     public HoldingTaxLot createHoldingTaxLotRecord() {
@@ -140,10 +150,10 @@ public enum HoldingTaxLotFixture {
         holdingTaxLot.setPriorAccrual(this.priorAccrual);
         holdingTaxLot.setLastTransactionDate(this.lastTransactionDate);
 
-        saveHoldingTaxLotRecord(holdingTaxLot);        
+        saveHoldingTaxLotRecord(holdingTaxLot);
         return holdingTaxLot;
     }
-    
+
     /**
      * Method to save the business object....
      */
@@ -152,4 +162,3 @@ public enum HoldingTaxLotFixture {
         businessObjectService.save(holdingTaxLot);
     }
 }
-

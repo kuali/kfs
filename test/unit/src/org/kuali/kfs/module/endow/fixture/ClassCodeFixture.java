@@ -31,7 +31,7 @@ public enum ClassCodeFixture {
             "O",// classCodeType;
             "M"// valuationMethod;
     ),
-    
+
     LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
@@ -41,8 +41,8 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "L",// classCodeType;
             "M"// valuationMethod;
-    ), 
-    
+    ),
+
     NOT_LIABILITY_CLASS_CODE("TST", // code
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
@@ -53,8 +53,8 @@ public enum ClassCodeFixture {
             "B",// classCodeType;
             "M"// valuationMethod;
     ),
-    
-    LIABILITY_INCREASE_LIABILITY_CLASS_CODE_2("AAA", // code  dummy record
+
+    LIABILITY_INCREASE_LIABILITY_CLASS_CODE_2("AAA", // code dummy record
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;
@@ -63,9 +63,9 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "L",// classCodeType;
             "M"// valuationMethod;
-    ), 
-    
-    LIABILITY_INCREASE_NOT_LIABILITY_CLASS_CODE_2("ABC", // code  dummy record
+    ),
+
+    LIABILITY_INCREASE_NOT_LIABILITY_CLASS_CODE_2("ABC", // code dummy record
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;
@@ -75,8 +75,20 @@ public enum ClassCodeFixture {
             "B",// classCodeType;
             "M"// valuationMethod;
     ),
-    ALTERNATIVE_INVESTMENT_CLASS_CODE("TST", // code  dummy record
+
+    ALTERNATIVE_INVESTMENT_CLASS_CODE("TST", // code dummy record
             "Test Alternative Investments Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "A",// classCodeType;
+            "M"// valuationMethod;
+    ),
+
+    TEST_CLASS_CODE("TST", // code dummy record
+            "Test Class Code", // desc
             "TST12",// securityReportingGrp;
             "A",// securityAccrualMethod;
             "TST123", // securityEndowmentTransactionCode;

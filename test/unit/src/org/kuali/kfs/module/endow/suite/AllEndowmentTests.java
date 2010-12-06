@@ -22,6 +22,7 @@ import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceI
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
+import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRuleTest;
@@ -43,7 +44,8 @@ public class AllEndowmentTests {
 
         // Daniela's unit tests....
         suite.addTestSuite(AssetIncreaseDocumentRulesTest.class);
-        
+        suite.addTestSuite(AssetDecreaseDocumentRulesTest.class);
+
         // Muddu's unit tests....
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
@@ -53,7 +55,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(CurrentTaxLotBalanceUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryMarketValuesUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryServiceTest.class);
-        
+
         return suite;
     }
 

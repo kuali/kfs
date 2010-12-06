@@ -477,6 +477,10 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
         assertFalse(rule.canKEMIDHaveAPrincipalTransaction(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
     }
 
+    /**
+     * Validates that validateSufficientUnits returns true when the tax lots for the given kemid has enough units to perform the
+     * given transaction.
+     */
     public void testValidateSufficientUnits_True() {
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(true);
         KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
@@ -502,6 +506,10 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
 
     }
 
+    /**
+     * Validates that validateSufficientUnits returns false when the tax lots for the given kemid does not have enough units to
+     * perform the given transaction.
+     */
     public void testValidateSufficientUnits_False() {
 
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(true);

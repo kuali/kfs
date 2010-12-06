@@ -1596,12 +1596,6 @@
 		</property>				
 	</bean>
 
-	<bean id="transactionTypeService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionTypeServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>				
-	</bean>
-	
 	<bean id="classCodeService" class="org.kuali.kfs.module.endow.document.service.impl.ClassCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -69,8 +69,6 @@
         <value>../scripts/module/endow/classCode.js</value>
         <value>../dwr/interface/SecurityService.js</value>
         <value>../scripts/module/endow/feeSecurity.js</value>
-        <value>../dwr/interface/TransactionTypeService.js</value>
-        <value>../scripts/module/endow/transactionType.js</value>
         <value>../dwr/interface/FeeTypeService.js</value>
         <value>../scripts/module/endow/feeType.js</value>
       </list>
@@ -332,14 +330,14 @@
           <property name="summaryFields">
             <list>
 		        <bean parent="MaintainableFieldDefinition"
-		              p:name="transactionTypeCode"
+		              p:name="documentTypeName"
 		              p:required="true" />
             </list>
           </property>
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="transactionTypeCode" 
+                    p:name="documentTypeName" 
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition" 
                     p:name="include" p:required="false" 
@@ -353,7 +351,7 @@
           		<bean parent="MaintainableFieldDefinition" 
           		      p:name="feeMethodCode" />
           		<bean parent="MaintainableFieldDefinition" 
-          			  p:name="transactionTypeCode" />
+          			  p:name="documentTypeName" />
           	</list>
           </property>
         </bean>

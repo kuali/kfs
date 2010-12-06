@@ -103,12 +103,14 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
+<!--
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode" table="END_TRAN_TYP_CD_T">
 	<field-descriptor name="code" column="TRAN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="description" column="TRAN_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
+-->
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.FundSourceCode" table="END_FND_SRC_CD_T">
 	<field-descriptor name="code" column="FND_SRC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -238,27 +240,10 @@
 	</reference-descriptor>		
 
 </class-descriptor>
-<!--
-<class-descriptor class="org.kuali.kfs.module.endow.businessobject.FeeTransaction" table="END_FEE_TRAN_TYP_T">
-	<field-descriptor name="feeMethodCode" column="FEE_MTHD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="transactionTypeCode" column="TRAN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="include" column="INCL" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-
-	<reference-descriptor name="feeMethod" class-ref="org.kuali.kfs.module.endow.businessobject.FeeMethod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="feeMethodCode"/>
-	</reference-descriptor>		
-	<reference-descriptor name="transactionType" class-ref="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="transactionTypeCode"/>
-	</reference-descriptor>		
-
-</class-descriptor>
--->
 
 <class-descriptor class="org.kuali.kfs.module.endow.businessobject.FeeTransaction" table="END_FEE_TRAN_DOC_TYP_T">
 	<field-descriptor name="feeMethodCode" column="FEE_MTHD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="transactionTypeCode" column="DOC_TYP_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="documentTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="include" column="INCL" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

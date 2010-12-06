@@ -354,6 +354,7 @@ public class EndowPropertyConstants {
 
     // KEMID Fee Transaction Type
     public static final String FEE_TRANSACTION_TYPE_CODE = "transactionTypeCode";
+    public static final String FEE_TRANSACTION_DOCUMENT_TYPE_CODE = "documentTypeName";
     public static final String FEE_TRANSACTION_INCLUDE = "include";
 
     // KEMID Fee Rate Definition Code
@@ -514,6 +515,8 @@ public class EndowPropertyConstants {
     public static final String FEE_CLASS_CODE_ATTRIBUTE = "feeClassCode";
     public static final String FEE_SECURITY_CODE_ATTRIBUTE = "securityCode";
     public static final String FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE = "transactionTypeCode";
+    public static final String FEE_TRANSACTION_DOCUMENT_TYPE_NAME_ATTRIBUTE = "documentTypeName";
+    
     public static final String FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE = "endowmentTransactionCode";
     public static final String FEE_TYPE_CODE = "feeTypeCode";
     public static final String FEE_BASE_CODE = "feeBaseCode";

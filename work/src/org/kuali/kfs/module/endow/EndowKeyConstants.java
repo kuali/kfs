@@ -95,8 +95,10 @@ public class EndowKeyConstants {
         public static final String ERROR_INVALID_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.inValid";
         public static final String ERROR_DUPLICATE_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.duplicateEntered";
         public static final String ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.cannotBeBlank";
+        public static final String ERROR_BLANK_DOCUMENT_TYPE_NAME_ENTERED = "error.document.feeTransactions.documentTypeName.cannotBeBlank";
         public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.inValid";
         public static final String ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.duplicateEntered";
+        public static final String ERROR_DUPLICATE_TRANSACTION_TYPE_NAME_ENTERED = "error.document.feeTransactions.documentTypeName.duplicateEntered";
         public static final String ERROR_BLANK_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.cannotBeBlank";
         public static final String ERROR_BLANK_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.cannotBeBlank";
         public static final String ERROR_DUPLICATE_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.duplicateEntered";

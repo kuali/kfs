@@ -23,7 +23,7 @@
     	<property name="attributes">
       		<list>
         		<ref bean="FeeTransaction-feeMethodCode" />
-        		<ref bean="FeeTransaction-transactionTypeCode" />
+        		<ref bean="FeeTransaction-documentTypeName" />
 		        <ref bean="FeeTransaction-include" />
         		<ref bean="FeeTransaction-newCollectionRecord" />		        
       		</list>
@@ -36,10 +36,10 @@
 
   	<bean id="FeeTransaction-feeMethodCode-parentBean" abstract="true" parent="FeeMethodCodeBase-feeMethodCode">
 	</bean>
-	<bean id="FeeTransaction-transactionTypeCode" parent="FeeTransaction-transactionTypeCode-parentBean" />
+	<bean id="FeeTransaction-documentTypeName" parent="FeeTransaction-documentTypeName-parentBean" />
 
- 	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="TransactionArchive-typeCode">
-    	<property name="name" value="transactionTypeCode" />
+ 	<bean id="FeeTransaction-documentTypeName-parentBean" abstract="true" parent="TransactionArchive-typeCode">
+    	<property name="name" value="documentTypeName" />
     	<property name="label" value="Transaction Document Type" />
         <property name="forceUppercase" value="true" />
         <property name="required" value="true" />
@@ -69,7 +69,7 @@
               				<bean parent="FieldDefinition" 
               				      p:attributeName="feeMethodCode" />
               				<bean parent="FieldDefinition" 
-              				      p:attributeName="transactionTypeCode" />
+              				      p:attributeName="documentTypeName" />
               				<bean parent="FieldDefinition" 
               				      p:attributeName="include" />
             			</list>
@@ -90,7 +90,7 @@
 	      	  <property name="attributeNames" >
                 <list>
           	      <value>feeMethodCode</value>
-          	      <value>transactionTypeCode</value>
+          	      <value>documentTypeName</value>
                 </list>
               </property>
 	      	</bean>
@@ -100,7 +100,7 @@
             	<bean parent="FieldDefinition" 
               		  p:attributeName="feeMethodCode" />
               	<bean parent="FieldDefinition" 
-              		  p:attributeName="transactionTypeCode" />
+              		  p:attributeName="documentTypeName" />
               	<bean parent="FieldDefinition" 
               		  p:attributeName="include" />
       		</list>
@@ -110,7 +110,7 @@
             	<bean parent="FieldDefinition" 
               		  p:attributeName="feeMethodCode" />
               	<bean parent="FieldDefinition" 
-              		  p:attributeName="transactionTypeCode" />
+              		  p:attributeName="documentTypeName" />
               	<bean parent="FieldDefinition" 
               		  p:attributeName="include" />
       		</list>

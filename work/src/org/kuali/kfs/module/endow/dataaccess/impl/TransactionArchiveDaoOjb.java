@@ -215,7 +215,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             
             feeTransactions = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeTransaction feeTransaction : feeTransactions) {
-                typeCodes.add(feeTransaction.getTransactionTypeCode());
+                typeCodes.add(feeTransaction.getDocumentTypeName());
             }
         }
         

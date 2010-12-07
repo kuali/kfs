@@ -29,6 +29,7 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.module.external.kc.fixture.BudgetAdjustmentParameterDTOFixture;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceTest;
@@ -73,41 +74,8 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
      * @return accountParameters
      */
     public BudgetAdjustmentParametersDTO getBudgetAdjustmentParameters() {
-        
-        BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
-        budgetAdjustmentParametersDTO.setPrincipalId("6162502038");
-        budgetAdjustmentParametersDTO.setPostingPeriodCode("10");
-        budgetAdjustmentParametersDTO.setPostingYear("2010");
-        budgetAdjustmentParametersDTO.setAwardDocumentNumber("1234");
-        budgetAdjustmentParametersDTO.setBudgetVersionNumber("1.0");
-        budgetAdjustmentParametersDTO.setComment("Mock BudgetAdjustment test data");
-  
-        List<BudgetAdjustmentParametersDTO.Details> details = new ArrayList<BudgetAdjustmentParametersDTO.Details>();
-        budgetAdjustmentParametersDTO.setDetails(details);
-        
-        BudgetAdjustmentParametersDTO.Details detail = new BudgetAdjustmentParametersDTO.Details();
-      
-        detail.setLineType("F");
-        detail.setChart("BL");
-        detail.setAccount("2231473");
-        detail.setObjectCode("5197");
-        detail.setAmount("0.00");
-        detail.setCurrentBudgetAdjustAmount("100.00");
-        detail.setBaseBudgetAdjustAmount("0");
-        details.add(detail);
+        return BudgetAdjustmentParameterDTOFixture.CONTROL_1.createBudgetAdjustmentParameters();
  
-        BudgetAdjustmentParametersDTO.Details detailF = new BudgetAdjustmentParametersDTO.Details();
-        detailF.setLineType("T");
-        detailF.setChart("BL");
-        detailF.setAccount("0142900");
-        //detailF.setObjectCode("1697");
-        //detailF.setAccount("4631640");
-        detailF.setObjectCode("5000");
-        detailF.setAmount("0.00");
-        detailF.setCurrentBudgetAdjustAmount("100.00");
-        detailF.setBaseBudgetAdjustAmount("0");
-        details.add(detailF);
-        return budgetAdjustmentParametersDTO;
     }
    
     

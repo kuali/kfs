@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
@@ -64,18 +65,6 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
     private KEMID kemid;
     private SecurityReportingGroup reportingGroup;
     private EndowmentTransactionCode endowmentTransactionCode;
-    
-    private static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;
-    private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal("-1.00");
-    private static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal("2.00");
-    private static final KualiDecimal NEGATIVE_UNITS = new KualiDecimal("-1.00");
-    private static final KualiDecimal POSITIVE_UNITS = new KualiDecimal("2.00");
-
-    private static final String REFERENCE_DOCUMENT_NUMBER = "123456";
-    private static final String REFERENCE_DOCUMENT_DESCRIPTION = "Document Description - Unit Test";
-    private static final String INVALID_REGISTRATION_CODE = "...";
-    private static final String INVALID_SECURITY_ID = "WRONG_ID";
-    private static final String ETRAN_CODE = "42020";
     
     @Override
     protected void setUp() throws Exception {
@@ -134,7 +123,7 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         LOG.info("testValidateSecurity() entered.");
         
         String securityId = document.getTargetTransactionSecurity().getSecurityID();
-        document.getTargetTransactionSecurity().setSecurityID(INVALID_SECURITY_ID);
+        document.getTargetTransactionSecurity().setSecurityID(EndowTestConstants.INVALID_SECURITY_ID);
         
         document.getTargetTransactionSecurity().setSecurityID(securityId);        
         assertTrue(rule.validateSecurity(true, document, false));
@@ -147,7 +136,7 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         LOG.info("testValidateRegistration() entered.");
         
         String registrationCode = document.getTargetTransactionSecurity().getRegistrationCode();
-        document.getTargetTransactionSecurity().setRegistrationCode(INVALID_REGISTRATION_CODE);
+        document.getTargetTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
         
         document.getTargetTransactionSecurity().setRegistrationCode(registrationCode);        
         assertTrue(rule.validateRegistration(true, document, false));
@@ -161,7 +150,7 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         LOG.info("testCheckCashTransactionEndowmentCode() entered.");
         
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
-        line.setEtranCode(ETRAN_CODE);
+        line.setEtranCode(EndowTestConstants.ETRAN_CODE);
         assertFalse(rule.checkCashTransactionEndowmentCode(document, line, null));
         
         line.setEtranCode(null);
@@ -176,16 +165,16 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         
-        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
         assertFalse(rule.validateTransactionAmountLessThanZero(line, null));
         
-        line.setTransactionAmount(NEGATIVE_AMOUNT);
+        line.setTransactionAmount(EndowTestConstants.NEGATIVE_AMOUNT);
         assertTrue(rule.validateTransactionAmountLessThanZero(line, null));
 
-        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
         assertTrue(rule.validateTransactionAmountGreaterThanZero(line, null));
         
-        line.setTransactionAmount(NEGATIVE_AMOUNT);
+        line.setTransactionAmount(EndowTestConstants.NEGATIVE_AMOUNT);
         assertFalse(rule.validateTransactionAmountGreaterThanZero(line, null));
     }
     
@@ -197,16 +186,16 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         
-        line.setTransactionUnits(POSITIVE_UNITS);
+        line.setTransactionUnits(EndowTestConstants.POSITIVE_UNITS);
         assertFalse(rule.validateTransactionUnitsLessThanZero(line, null));
         
-        line.setTransactionUnits(NEGATIVE_UNITS);
+        line.setTransactionUnits(EndowTestConstants.NEGATIVE_UNITS);
         assertTrue(rule.validateTransactionUnitsLessThanZero(line, null));
 
-        line.setTransactionUnits(POSITIVE_UNITS);
+        line.setTransactionUnits(EndowTestConstants.POSITIVE_UNITS);
         assertTrue(rule.validateTransactionUnitsGreaterThanZero(line, null));
         
-        line.setTransactionUnits(NEGATIVE_UNITS);
+        line.setTransactionUnits(EndowTestConstants.NEGATIVE_UNITS);
         assertFalse(rule.validateTransactionUnitsGreaterThanZero(line, null));
     }
     
@@ -218,12 +207,12 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         
-        line.setTransactionAmount(POSITIVE_AMOUNT);
-        line.setTransactionUnits(NEGATIVE_UNITS);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        line.setTransactionUnits(EndowTestConstants.NEGATIVE_UNITS);
         assertFalse(rule.validateTransactionUnitsAmountEqual(line, null));
         
-        line.setTransactionAmount(POSITIVE_AMOUNT);
-        line.setTransactionUnits(POSITIVE_UNITS);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        line.setTransactionUnits(EndowTestConstants.POSITIVE_UNITS);
         assertTrue(rule.validateTransactionUnitsAmountEqual(line, null));
     }
     
@@ -236,7 +225,7 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         assertFalse(rule.transactionLineSizeGreaterThanZero(document, false)); //no transaction lines in the document
 
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
-        line.setTransactionAmount(POSITIVE_AMOUNT);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
         document.getTargetTransactionLines().add(line);
         
         assertTrue(rule.transactionLineSizeGreaterThanZero(document, false)); //no transaction lines in the document
@@ -250,8 +239,8 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
         
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         line.setDocumentNumber(document.getDocumentNumber());
-        line.setTransactionAmount(POSITIVE_AMOUNT);
-        line.setTransactionUnits(POSITIVE_UNITS);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        line.setTransactionUnits(EndowTestConstants.POSITIVE_UNITS);
 
         assertTrue(rule.processAddTransactionLineRules(document, line));
     }
@@ -264,8 +253,8 @@ public class LiabilityIncreaseDocumentRulesTest extends KualiTestBase {
 
         EndowmentTransactionLineBase line = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
         line.setDocumentNumber(document.getDocumentNumber());
-        line.setTransactionAmount(POSITIVE_AMOUNT);
-        line.setTransactionUnits(POSITIVE_UNITS);
+        line.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        line.setTransactionUnits(EndowTestConstants.POSITIVE_UNITS);
 
         assertTrue(rule.processAddTransactionLineRules(document, line));
         document.getTargetTransactionLines().add(line);

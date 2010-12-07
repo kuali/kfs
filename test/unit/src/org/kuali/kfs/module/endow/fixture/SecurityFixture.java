@@ -67,8 +67,27 @@ public enum SecurityFixture {
             BigDecimal.valueOf(20L), // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount    
-    )
-    ;
+    ),
+    
+    HOLDING_HISTORY_VALUE_ADJUSTMENT_ACTIVE_SECURITY("TESTSECID", // securityId
+            "AAA", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ), 
+    
+    HOLDING_HISTORY_VALUE_ADJUSTMENT_ACTIVE_SECURITY_2("TESTSEC2", // securityId
+            "ABC", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount    
+    );
 
     public final String securityId;
     public final String securityClassCode;

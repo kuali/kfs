@@ -96,6 +96,28 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "A",// classCodeType;
             "M"// valuationMethod;
+    ),
+    
+    HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2("AAA", // code dummy record
+            "Test Liability Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "L",// classCodeType;
+            "M"// valuationMethod;
+    ),
+    
+    HOLDING_HISTORY_VALUE_ADJUSTMENT_NOT_LIABILITY_CLASS_CODE_2("ABC", // code dummy record
+            "Test Liability Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "B",// classCodeType;
+            "M"// valuationMethod;
     );
 
     public final String code;

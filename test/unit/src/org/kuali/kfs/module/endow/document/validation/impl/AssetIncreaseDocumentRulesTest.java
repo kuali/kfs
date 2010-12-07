@@ -65,6 +65,9 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     private static final String INVALID_REGISTRATION_CODE = "...";
     private static final String INVALID_KEMID = "WRONG_ID";
 
+    /**
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -73,6 +76,9 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         document = createAssetIncreaseDocument();
     }
 
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
     @Override
     protected void tearDown() throws Exception {
         rule = null;
@@ -81,6 +87,12 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
         super.tearDown();
     }
 
+    /**
+     * Creates an Asset Increase document
+     * 
+     * @return an Asset Increase document
+     * @throws WorkflowException
+     */
     private AssetIncreaseDocument createAssetIncreaseDocument() throws WorkflowException {
 
         // create an asset increase document

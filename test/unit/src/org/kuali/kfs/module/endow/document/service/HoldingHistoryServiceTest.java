@@ -94,6 +94,6 @@ public class HoldingHistoryServiceTest extends KualiTestBase {
         KualiInteger monthEndId = monthEndDate.getMonthEndDateId();
         
         holdingHistory = holdingHistoryService.getHoldingHistoryBySecuritIdAndMonthEndId(securityId, monthEndId);
-        assertTrue("There should have been atleast one record since we just added it!", !holdingHistory.isEmpty());
+        assertTrue("There should have been at least one record since we just added it!", !holdingHistory.isEmpty());
     }
 }

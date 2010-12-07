@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
@@ -538,6 +539,33 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
 
     }
 
+    // if Sub-Type Cash
+    // The initiator cannot enter an Etran Code in the transaction line.
+    /**
+     * Validates that checkCashTransactionEndowmentCode returns true if the transaction line is sub type is cash and the user did
+     * not enter an endowment transaction code.
+     */
+    public void testCheckCashTransactionEndowmentCodeSubTypeCash_True() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_EAD_NO_ETRAN_CD.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        document.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
+
+        assertTrue(rule.checkCashTransactionEndowmentCode(document, endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
+
+    /**
+     * Validates that checkCashTransactionEndowmentCode returns false if the transaction line is sub type is cash and the user did
+     * enter an endowment transaction code.
+     */
+    public void testCheckCashTransactionEndowmentCodeSubTypeCash_False() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_EAD_WITH_ETRAN_CD.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        document.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
+
+        assertFalse(rule.checkCashTransactionEndowmentCode(document, endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
+    }
 
     // validate document
 

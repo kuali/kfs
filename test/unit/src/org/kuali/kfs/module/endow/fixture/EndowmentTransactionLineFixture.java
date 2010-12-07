@@ -24,6 +24,7 @@ public enum EndowmentTransactionLineFixture {
     // Endowment Transaction Line Fixture
     ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "P", // transactionIPIndicatorCode
             new KualiDecimal("100.20"), // transactionAmount
             KualiDecimal.ZERO, // transactionUnits
@@ -31,6 +32,7 @@ public enum EndowmentTransactionLineFixture {
             false // linePosted
     ), ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "P", // transactionIPIndicatorCode
             new KualiDecimal("100"), // transactionAmount
             KualiDecimal.ZERO, // transactionUnits
@@ -38,6 +40,7 @@ public enum EndowmentTransactionLineFixture {
             false // linePosted
     ), ENDOWMENT_TRANSACTIONAL_LINE_ZERO_AMT(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "P", // transactionIPIndicatorCode
             KualiDecimal.ZERO, // transactionAmount
             KualiDecimal.ZERO, // transactionUnits
@@ -45,6 +48,7 @@ public enum EndowmentTransactionLineFixture {
             false // linePosted
     ), ENDOWMENT_TRANSACTIONAL_LINE_ZERO_UNITS(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "P", // transactionIPIndicatorCode
             KualiDecimal.ZERO, // transactionAmount
             KualiDecimal.ZERO, // transactionUnits
@@ -52,22 +56,39 @@ public enum EndowmentTransactionLineFixture {
             false // linePosted
     ), ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_UNITS(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "P", // transactionIPIndicatorCode
             KualiDecimal.ZERO, // transactionAmount
             new KualiDecimal("100"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
-    ),
-    ENDOWMENT_TRANSACTIONAL_LINE_INCOME(new Integer(1), // transactionLineNumber
+    ), ENDOWMENT_TRANSACTIONAL_LINE_INCOME(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
             "I", // transactionIPIndicatorCode
             new KualiDecimal("100"), // transactionAmount
             new KualiDecimal("10"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
-    ),
-    ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL(new Integer(1), // transactionLineNumber
+    ), ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
+            "",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            new KualiDecimal("10"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_EAD_NO_ETRAN_CD(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            null,// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            new KualiDecimal("10"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_EAD_WITH_ETRAN_CD(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "TST123",// etranCode
             "P", // transactionIPIndicatorCode
             new KualiDecimal("100"), // transactionAmount
             new KualiDecimal("10"), // transactionUnits
@@ -77,15 +98,17 @@ public enum EndowmentTransactionLineFixture {
 
     public final Integer transactionLineNumber;
     public final String kemid;
+    private String etranCode;
     public final String transactionIPIndicatorCode;
     public final KualiDecimal transactionAmount;
     private KualiDecimal transactionUnits;
     public final boolean corpusIndicator;
     public final boolean linePosted;
 
-    private EndowmentTransactionLineFixture(Integer transactionLineNumber, String kemid, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
+    private EndowmentTransactionLineFixture(Integer transactionLineNumber, String kemid, String etranCode, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
         this.transactionLineNumber = transactionLineNumber;
         this.kemid = kemid;
+        this.etranCode = etranCode;
         this.transactionIPIndicatorCode = transactionIPIndicatorCode;
         this.transactionAmount = transactionAmount;
         this.transactionUnits = transactionUnits;
@@ -98,7 +121,7 @@ public enum EndowmentTransactionLineFixture {
      * 
      * @return endowmentTransactionLine
      */
-    public EndowmentTransactionLineBase createEndowmentTransactionLine(boolean isSource, Integer transactionLineNumber, String kemid, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
+    public EndowmentTransactionLineBase createEndowmentTransactionLine(boolean isSource, Integer transactionLineNumber, String kemid, String etranCode, String transactionIPIndicatorCode, KualiDecimal transactionAmount, KualiDecimal transactionUnits, boolean corpusIndicator, boolean linePosted) {
         EndowmentTransactionLineBase endowmentTransactionLine = null;
 
         if (isSource) {
@@ -110,6 +133,7 @@ public enum EndowmentTransactionLineFixture {
 
         endowmentTransactionLine.setTransactionLineNumber(this.transactionLineNumber);
         endowmentTransactionLine.setKemid(this.kemid);
+        endowmentTransactionLine.setEtranCode(this.etranCode);
         endowmentTransactionLine.setTransactionIPIndicatorCode(this.transactionIPIndicatorCode);
         endowmentTransactionLine.setTransactionAmount(this.transactionAmount);
         endowmentTransactionLine.setTransactionUnits(transactionUnits);
@@ -138,6 +162,7 @@ public enum EndowmentTransactionLineFixture {
 
         endowmentTransactionLine.setTransactionLineNumber(this.transactionLineNumber);
         endowmentTransactionLine.setKemid(this.kemid);
+        endowmentTransactionLine.setEtranCode(this.etranCode);
         endowmentTransactionLine.setTransactionIPIndicatorCode(this.transactionIPIndicatorCode);
         endowmentTransactionLine.setTransactionAmount(this.transactionAmount);
         endowmentTransactionLine.setTransactionUnits(this.transactionUnits);

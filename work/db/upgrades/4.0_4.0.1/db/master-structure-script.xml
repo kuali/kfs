@@ -15,7 +15,7 @@
 	<include file="01_structure/cam-module-structure-updates.xml"/>
 	<include file="01_structure/purap-module-structure-updates.xml"/>
 
-	<include file="01_structure/endowment-schema.xml"/>
+	<include file="01_structure/endowment-module-structure-updates.xml"/>
 -->
 </databaseChangeLog>
 	

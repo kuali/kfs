@@ -567,6 +567,97 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
         assertFalse(rule.checkCashTransactionEndowmentCode(document, endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
     }
 
+    /**
+     * Validates that validateTotalAmountAndUnits returns true when transaction line units and amount equal the tax lot lines units
+     * and cost.
+     */
+    public void testValidateTotalAmountAndUnits_True() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        assetDecreaseDocumentTaxLotsService.updateTransactionLineTaxLots(document, endowmentTransactionLine);
+
+        assertTrue(rule.validateTotalAmountAndUnits(document, endowmentTransactionLine, 0));
+    }
+
+    /**
+     * Validates that validateTotalAmountAndUnits returns false when transaction line units and amount do not equal the tax lot
+     * lines units and cost.
+     */
+    public void testValidateTotalAmountAndUnits_False() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        // do not update the tax lot lines
+
+        assertFalse(rule.validateTotalAmountAndUnits(document, endowmentTransactionLine, 0));
+    }
+
+    /**
+     * Validates that validateTaxLots returns true when transaction line has same kemid, security, registration code and IP
+     * indicator as the tax lot lines.
+     */
+    public void testValidateTaxLots_True() {
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        EndowmentSourceTransactionSecurity sourcetTransactionSecurity = new EndowmentSourceTransactionSecurity();
+        sourcetTransactionSecurity.setSecurityID(security.getId());
+        sourcetTransactionSecurity.setSecurity(security);
+
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+
+        sourcetTransactionSecurity.setRegistrationCode(registrationCode.getCode());
+        sourcetTransactionSecurity.setRegistrationCodeObj(registrationCode);
+
+        document.setSourceTransactionSecurity(sourcetTransactionSecurity);
+
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        assetDecreaseDocumentTaxLotsService.updateTransactionLineTaxLots(document, endowmentTransactionLine);
+
+        assertTrue(rule.validateTaxLots(document, endowmentTransactionLine, 0));
+    }
+
+    /**
+     * Validates thatvalidateTaxLots returns false when transaction line does not have same kemid, security, registration code and
+     * IP indicator as the tax lot lines.
+     */
+    public void testValidateTaxLots_False() {
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+
+        EndowmentSourceTransactionSecurity sourcetTransactionSecurity = new EndowmentSourceTransactionSecurity();
+        sourcetTransactionSecurity.setSecurityID(security.getId());
+        sourcetTransactionSecurity.setSecurity(security);
+
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+
+        sourcetTransactionSecurity.setRegistrationCode(registrationCode.getCode());
+        sourcetTransactionSecurity.setRegistrationCodeObj(registrationCode);
+
+        document.setSourceTransactionSecurity(sourcetTransactionSecurity);
+
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
+
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLine);
+        assetDecreaseDocumentTaxLotsService.updateTransactionLineTaxLots(document, endowmentTransactionLine);
+
+        // change registration code after the tax lots have been updated
+        RegistrationCode registrationCode2 = RegistrationCodeFixture.REGISTRATION_CODE_RECORD2.createRegistrationCode();
+
+        sourcetTransactionSecurity.setRegistrationCode(registrationCode2.getCode());
+        sourcetTransactionSecurity.setRegistrationCodeObj(registrationCode2);
+
+        assertFalse(rule.validateTaxLots(document, endowmentTransactionLine, 0));
+    }
+
+
     // validate document
 
     // There must be at least one transaction line in each transaction line section (To and/or From) that is required for the

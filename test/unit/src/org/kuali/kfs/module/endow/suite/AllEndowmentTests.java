@@ -55,7 +55,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(CurrentTaxLotBalanceUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryMarketValuesUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryServiceTest.class);
-
+        suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
         return suite;
     }
 

@@ -63,6 +63,86 @@ public enum HoldingHistoryFixture {
                     BigDecimal.valueOf(1L), // averageMarketValue
                     BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
                     BigDecimal.valueOf(1L) // nextFYEstimatedIncome
+            ),
+                    
+            HOLDING_HISTORY_RECORD1_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT("TESTKEMID", //kemid
+                            "TESTSECID", //securityId
+                            "TST1", //registrationCode
+                            new KualiInteger(1), //lotNumber
+                            "I", // incomePrincipalIndicator
+                            Date.valueOf("2006-01-01"), // acquiredDate 
+                            BigDecimal.valueOf(200L), // units
+                            BigDecimal.valueOf(1L), // cost
+                            BigDecimal.valueOf(1L), // currentAccrual
+                            BigDecimal.valueOf(1L), // priorAccrual
+                            Date.valueOf("2006-01-01"), // lastTransactionDate
+                            new KualiInteger(1), //monthEndDateId
+                            BigDecimal.valueOf(1L), // estimatedIncome 
+                            BigDecimal.valueOf(1L), // securityUnitVal
+                            BigDecimal.valueOf(1L), // marketValue
+                            BigDecimal.valueOf(1L), // averageMarketValue
+                            BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
+                            BigDecimal.valueOf(1L) // nextFYEstimatedIncome
+            ),
+            
+            HOLDING_HISTORY_RECORD2_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT("TESTKEMID", //kemid
+                                    "TESTSECID", //securityId
+                                    "TST2", //registrationCode
+                                    new KualiInteger(1), //lotNumber
+                                    "I", // incomePrincipalIndicator
+                                    Date.valueOf("2006-01-01"), // acquiredDate 
+                                    BigDecimal.valueOf(200L), // units
+                                    BigDecimal.valueOf(1L), // cost
+                                    BigDecimal.valueOf(1L), // currentAccrual
+                                    BigDecimal.valueOf(1L), // priorAccrual
+                                    Date.valueOf("2006-01-01"), // lastTransactionDate
+                                    new KualiInteger(1), //monthEndDateId
+                                    BigDecimal.valueOf(1L), // estimatedIncome 
+                                    BigDecimal.valueOf(1L), // securityUnitVal
+                                    BigDecimal.valueOf(1L), // marketValue
+                                    BigDecimal.valueOf(1L), // averageMarketValue
+                                    BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
+                                    BigDecimal.valueOf(1L) // nextFYEstimatedIncome
+            ),
+            
+            HOLDING_HISTORY_RECORD3_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT("TESTKEMID", //kemid
+                    "TESTSEC2", //securityId
+                    "TST1", //registrationCode
+                    new KualiInteger(1), //lotNumber
+                    "I", // incomePrincipalIndicator
+                    Date.valueOf("2006-01-01"), // acquiredDate 
+                    BigDecimal.valueOf(200L), // units
+                    BigDecimal.valueOf(1L), // cost
+                    BigDecimal.valueOf(1L), // currentAccrual
+                    BigDecimal.valueOf(1L), // priorAccrual
+                    Date.valueOf("2006-01-01"), // lastTransactionDate
+                    new KualiInteger(1), //monthEndDateId
+                    BigDecimal.valueOf(1L), // estimatedIncome 
+                    BigDecimal.valueOf(1L), // securityUnitVal
+                    BigDecimal.valueOf(1L), // marketValue
+                    BigDecimal.valueOf(1L), // averageMarketValue
+                    BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
+                    BigDecimal.valueOf(1L) // nextFYEstimatedIncome
+            ),
+            
+            HOLDING_HISTORY_RECORD4_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT("TESTKEMID", //kemid
+                    "TESTSEC2", //securityId
+                    "TST2", //registrationCode
+                    new KualiInteger(1), //lotNumber
+                    "I", // incomePrincipalIndicator
+                    Date.valueOf("2006-01-01"), // acquiredDate 
+                    BigDecimal.valueOf(200L), // units
+                    BigDecimal.valueOf(1L), // cost
+                    BigDecimal.valueOf(1L), // currentAccrual
+                    BigDecimal.valueOf(1L), // priorAccrual
+                    Date.valueOf("2006-01-01"), // lastTransactionDate
+                    new KualiInteger(1), //monthEndDateId
+                    BigDecimal.valueOf(1L), // estimatedIncome 
+                    BigDecimal.valueOf(1L), // securityUnitVal
+                    BigDecimal.valueOf(1L), // marketValue
+                    BigDecimal.valueOf(1L), // averageMarketValue
+                    BigDecimal.valueOf(1L), // remainderOfFYEstimatedIncome
+                    BigDecimal.valueOf(1L) // nextFYEstimatedIncome
     );
     
     public final String kemid;

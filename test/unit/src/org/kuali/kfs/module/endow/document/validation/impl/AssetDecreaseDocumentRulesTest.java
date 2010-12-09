@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
@@ -59,11 +60,6 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
     private AssetDecreaseDocumentRules rule;
     private AssetDecreaseDocument document;
     private UpdateAssetDecreaseDocumentTaxLotsService assetDecreaseDocumentTaxLotsService;
-
-    // 
-    private static final String INVALID_SECURITY_ID = "WRONG_ID";
-    private static final String INVALID_REGISTRATION_CODE = "...";
-    private static final String INVALID_KEMID = "WRONG_ID";
 
     @Override
     protected void setUp() throws Exception {
@@ -116,7 +112,7 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testValidateSecurity_False() {
         EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
-        sourceTransactionSecurity.setSecurityID(INVALID_SECURITY_ID);
+        sourceTransactionSecurity.setSecurityID(EndowTestConstants.INVALID_SECURITY_ID);
 
         document.setSourceTransactionSecurity(sourceTransactionSecurity);
 
@@ -147,7 +143,7 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
     public void testValidateRegistration_False() {
 
         EndowmentSourceTransactionSecurity sourceTransactionSecurity = new EndowmentSourceTransactionSecurity();
-        sourceTransactionSecurity.setRegistrationCode(INVALID_REGISTRATION_CODE);
+        sourceTransactionSecurity.setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
 
         document.setSourceTransactionSecurity(sourceTransactionSecurity);
 
@@ -259,7 +255,7 @@ public class AssetDecreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testValidateKemId_False() {
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
-        endowmentTransactionLine.setKemid(INVALID_KEMID);
+        endowmentTransactionLine.setKemid(EndowTestConstants.INVALID_KEMID);
 
         assertFalse(rule.validateKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
     }

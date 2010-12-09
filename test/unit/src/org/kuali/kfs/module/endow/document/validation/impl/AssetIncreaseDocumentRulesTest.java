@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionSecurity;
@@ -60,10 +61,6 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     private AssetIncreaseDocument document;
     private UpdateAssetIncreaseDocumentTaxLotsService assetIncreaseDocumentTaxLotsService;
 
-    // 
-    private static final String INVALID_SECURITY_ID = "WRONG_ID";
-    private static final String INVALID_REGISTRATION_CODE = "...";
-    private static final String INVALID_KEMID = "WRONG_ID";
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -128,7 +125,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testValidateSecurity_False() {
         EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        targetTransactionSecurity.setSecurityID(INVALID_SECURITY_ID);
+        targetTransactionSecurity.setSecurityID(EndowTestConstants.INVALID_SECURITY_ID);
 
         document.setTargetTransactionSecurity(targetTransactionSecurity);
 
@@ -159,7 +156,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
     public void testValidateRegistration_False() {
 
         EndowmentTargetTransactionSecurity targetTransactionSecurity = new EndowmentTargetTransactionSecurity();
-        targetTransactionSecurity.setRegistrationCode(INVALID_REGISTRATION_CODE);
+        targetTransactionSecurity.setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
 
         document.setTargetTransactionSecurity(targetTransactionSecurity);
 
@@ -270,7 +267,7 @@ public class AssetIncreaseDocumentRulesTest extends KualiTestBase {
      */
     public void testValidateKemId_False() {
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
-        endowmentTransactionLine.setKemid(INVALID_KEMID);
+        endowmentTransactionLine.setKemid(EndowTestConstants.INVALID_KEMID);
 
         assertFalse(rule.validateKemId(endowmentTransactionLine, rule.getErrorPrefix(endowmentTransactionLine, -1)));
     }

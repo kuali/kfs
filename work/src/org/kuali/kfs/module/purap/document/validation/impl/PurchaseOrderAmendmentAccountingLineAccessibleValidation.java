@@ -55,7 +55,9 @@ public class PurchaseOrderAmendmentAccountingLineAccessibleValidation extends Pu
         if( purapService.isDocumentStoppedInRouteNode((PurchasingAccountsPayableDocument)event.getDocument(), "New Unordered Items") ){
             //DO NOTHING: do not check that user owns acct lines; at this level, they can edit all accounts on PO amendment
             return true;
-        }else{
+        } else if (event.getDocument().getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
+            return true;
+        } else {
             return super.validate(event);
         }
     }

@@ -24,6 +24,7 @@ import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesU
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.CorpusAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityDecreaseDocumentRulesTest;
@@ -56,6 +57,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(HoldingHistoryMarketValuesUpdateServiceImplTest.class);
         suite.addTestSuite(HoldingHistoryServiceTest.class);
         suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
+        suite.addTestSuite(CorpusAdjustmentDocumentRulesTest.class);
         return suite;
     }
 

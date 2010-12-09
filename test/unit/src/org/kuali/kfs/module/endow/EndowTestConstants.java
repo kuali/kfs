@@ -33,6 +33,9 @@ public class EndowTestConstants extends JSTLConstants {
     public static final String REFERENCE_DOCUMENT_DESCRIPTION = "Document Description - Unit Test";
     public static final String INVALID_REGISTRATION_CODE = "...";
     public static final String INVALID_SECURITY_ID = "WRONG_ID";
+    public static final String INVALID_KEMID = "WRONG_ID";
+    public static final String INVALID_TRANSACTION_CODE = "NTRAN";
+    public static final String NOT_APPLICABLE_TYPE_RESTRICTION_CODE = "NA";
     public static final String ETRAN_CODE = "42020";
     
     public static final KualiInteger FIRST_MONTH_END_DATE_ID = new KualiInteger(1);

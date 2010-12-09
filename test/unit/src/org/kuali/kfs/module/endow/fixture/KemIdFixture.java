@@ -128,8 +128,6 @@ public enum KemIdFixture {
             "TRU", // incomeRestrictionCode
             "NON" // principalRestrictionCode
     );
-    
-    
 
     public final String kemid;
     public final String shortTitle;

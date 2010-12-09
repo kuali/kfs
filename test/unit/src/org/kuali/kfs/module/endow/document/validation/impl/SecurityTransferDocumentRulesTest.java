@@ -494,10 +494,10 @@ public class SecurityTransferDocumentRulesTest extends KualiTestBase {
      * Validates that transactionLineSizeGreaterThanZero returns true if the document has at least one source transaction line.
      */
     public void testTransactionLineSizeGreaterThanZero_True() {
-        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
         document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
 
-        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
+        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(false);
         document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
 
 
@@ -513,26 +513,58 @@ public class SecurityTransferDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * Validates that transactionLineSizeGreaterThanZero returns true if the document has at least one source transaction line.
+     * Validates that validateOnlyOneSourceTransactionLine returns true if the document has one source transaction line.
      */
     public void testValidateOnlyOneSourceTransactionLine_True() {
-        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
         document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
 
         assertTrue(rule.validateOnlyOneSourceTransactionLine(false, document, endowmentTransactionLineFrom, -1));
     }
 
     /**
-     * Validates that transactionLineSizeGreaterThanZero returns false if the document has no source transaction lines.
+     * Validates that validateOnlyOneSourceTransactionLine returns false if the document has a number of source transaction lines
+     * different from one.
      */
     public void testValidateOnlyOneSourceTransactionLine_False() {
-        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
         document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
-        EndowmentTransactionLine endowmentTransactionLineFrom2 = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
+
+        EndowmentTransactionLine endowmentTransactionLineFrom2 = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
         endowmentTransactionLineFrom2.setTransactionLineNumber(new Integer(2));
         document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom2);
 
         assertFalse(rule.validateOnlyOneSourceTransactionLine(false, document, endowmentTransactionLineFrom, -1));
+    }
+
+    /**
+     * Validates that validateSourceTargetUnitsEqual returns true if the units in the from section equals the units in the to
+     * section.
+     */
+    public void testValidateSourceTargetUnitsEqual_True() {
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
+
+        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(false);
+        document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
+
+        assertTrue(rule.validateSourceTargetUnitsEqual(document));
+    }
+
+    /**
+     * Validates that validateSourceTargetUnitsEqual returns false if he units in the from section do not equal the units in the to
+     * section
+     */
+    public void testValidateSourceTargetUnitsEqual_False() {
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
+        endowmentTransactionLineFrom.setTransactionUnits(new KualiDecimal(20));
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
+
+        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(false);
+        endowmentTransactionLineTo.setTransactionUnits(new KualiDecimal(30));
+        document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
+
+        assertFalse(rule.validateSourceTargetUnitsEqual(document));
     }
 
 }

@@ -94,6 +94,14 @@ public enum EndowmentTransactionLineFixture {
             new KualiDecimal("10"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC(new Integer(1), // transactionLineNumber
+            "TESTKEMID", // kemid
+            "TST123",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            new KualiDecimal("10"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
     );
 
     public final Integer transactionLineNumber;

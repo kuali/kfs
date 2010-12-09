@@ -41,6 +41,12 @@ public enum EndowmentTransactionDocumentFixture {
             false, // transactionPosted
             "1234567890", // objectId
             new Long(1) // versionNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_SECURITY_TRANSFER("EST-TEST", // documentNumber
+            "C", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
     );
 
     public final String documentNumber;

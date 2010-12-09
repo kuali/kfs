@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocu
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.SecurityTransferDocumentRulesTest;
 
 /**
  * Runs all endowment tests.
@@ -46,6 +47,7 @@ public class AllEndowmentTests {
         // Daniela's unit tests....
         suite.addTestSuite(AssetIncreaseDocumentRulesTest.class);
         suite.addTestSuite(AssetDecreaseDocumentRulesTest.class);
+        suite.addTestSuite(SecurityTransferDocumentRulesTest.class);
 
         // Muddu's unit tests....
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);

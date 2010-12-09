@@ -552,7 +552,7 @@ public class SecurityTransferDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * Validates that validateSourceTargetUnitsEqual returns false if he units in the from section do not equal the units in the to
+     * Validates that validateSourceTargetUnitsEqual returns false if the units in the from section do not equal the units in the to
      * section
      */
     public void testValidateSourceTargetUnitsEqual_False() {
@@ -565,6 +565,36 @@ public class SecurityTransferDocumentRulesTest extends KualiTestBase {
         document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
 
         assertFalse(rule.validateSourceTargetUnitsEqual(document));
+    }
+
+    /**
+     * Validates that validateSourceTargetAmountEqual returns true if the amount in the from section equals the amount in the to
+     * section.
+     */
+    public void testValidateSourceTargetAmountEqual_True() {
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
+
+        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(false);
+        document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
+
+        assertTrue(rule.validateSourceTargetAmountEqual(document));
+    }
+
+    /**
+     * Validates that validateSourceTargetAmountEqual returns false if the amount in the from section does not equal the amount in
+     * the to section
+     */
+    public void testValidateSourceTargetAmountEqual_False() {
+        EndowmentTransactionLine endowmentTransactionLineFrom = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(true);
+        endowmentTransactionLineFrom.setTransactionAmount(new KualiDecimal(20));
+        document.addSourceTransactionLine((EndowmentSourceTransactionLine) endowmentTransactionLineFrom);
+
+        EndowmentTransactionLine endowmentTransactionLineTo = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_STD_BASIC.createEndowmentTransactionLine(false);
+        endowmentTransactionLineTo.setTransactionAmount(new KualiDecimal(30));
+        document.addTargetTransactionLine((EndowmentTargetTransactionLine) endowmentTransactionLineTo);
+
+        assertFalse(rule.validateSourceTargetAmountEqual(document));
     }
 
 }

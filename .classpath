@@ -22,8 +22,8 @@
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jaxrpc-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-1.8.jar" />
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-api-1.0.3.jar" />
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-impl-1.0.3.jar" />
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-api-1.0.3.1.jar" />
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-impl-1.0.3.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xml-apis-1.3.02.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/antlr-2.7.6.jar" />
@@ -97,7 +97,6 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xalan-2.7.0.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xercesImpl-2.9.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlbeans-2.4.0.jar" />
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlunit-1.3.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xom-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xstream-1.2.2.jar" />
 	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar" />

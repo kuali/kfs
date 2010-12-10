@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Sam' id='KFS_401_cm_asset_type_t_UpdateColumn_CPTLAST_RQDBLDG_CD' failOnError='true'>
+    <comment>KFSMI-6306 Update Asset Type Null data to N</comment>
+    <update tableName='cm_asset_type_t'>
+      <column name='CPTLAST_RQDBLDG_CD' value='N' />
+      <where>CPTLAST_RQDBLDG_CD IS NULL</where>
+    </update>
+  </changeSet>
+  <changeSet author='Sam' id='KFS_401_cm_asset_type_t_UpdateColumn_CPTLAST_MOVING_CD' failOnError='true'>
+    <comment>KFSMI-6306 Update Asset Type Null data to N</comment>
+    <update tableName='cm_asset_type_t'>
+      <column name='CPTLAST_MOVING_CD' value='N' />
+      <where>CPTLAST_MOVING_CD IS NULL</where>
+    </update>
+  </changeSet>
+  <changeSet author='Sam' id='KFS_401_cm_asset_type_t_UpdateColumn_ROW_ACTV_IND' failOnError='true'>
+    <comment>KFSMI-6306 Update Asset Type Null data to N</comment>
+    <update tableName='cm_asset_type_t'>
+      <column name='ROW_ACTV_IND' value='N' />
+      <where>CPTLAST_TYP_DESC like '%INACTIVE%' and CPTLAST_TYP_CD != '710'</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

@@ -43,7 +43,6 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.PersistenceService;
 
 /**
@@ -54,6 +53,8 @@ import org.kuali.rice.kns.service.PersistenceService;
  */
 @ConfigureContext
 public class ScrubberServiceTest extends OriginEntryTestBase {
+    protected static final String DATE_FORMAT = "yyyy-MM-dd";
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
     protected ScrubberService scrubberService = null;
@@ -148,8 +149,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         // Inputs.
         String[] stringInput = new String[] { testingYear + "BL4831496CS0018000---PEAS07PE  01CSENCPE       00000TP Generated Offset                                   1650.00C" + testingYear + "-01-05          ----------                                      D                                ",
@@ -183,8 +184,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         String[] stringInput = new String[] { testingYear + "BL4831496CS0014190---IEEX07PE  01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                           40.72C" + testingYear + "-01-05          ----------                                      D                                ",
                 testingYear + "BL4831496CS0018000---IEAS07PE  01CSENCIE       00000TP Generated Offset                                     40.72D" + testingYear + "-01-05          ----------                                      D                                " };
@@ -307,8 +308,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForActuals() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -383,8 +384,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareOther() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -418,8 +419,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrin() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -453,8 +454,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrex() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -488,8 +489,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrav() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -529,8 +530,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTran() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -569,8 +570,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelSaap() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -606,8 +607,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelResv() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -649,8 +650,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPrsa() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -687,8 +688,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPart() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -722,8 +723,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelIcoe() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -765,8 +766,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForEncumbranceTransactions() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -1012,8 +1013,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -1045,8 +1046,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleReversalDates() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
         final String formattedOffsetDate = new SimpleDateFormat("MMdd").format(scrubberDate);
         final String docTypeOffsetDate = new SimpleDateFormat("MM/dd").format(scrubberDate);
 
@@ -1329,8 +1330,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // by setting it equal to the current date. This test was not updated, and has been broken for a while. I am going to fix the test
         // by updating the expected results.
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String strToday = df.format(new java.util.Date());
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+        String strToday = df.format(dateTimeService.getCurrentDate());
 
         String[] fixedTransactionDatesAndAmounts = { testingYear + "BL1031497-----4100---ACEX07DI  LGINVALDATE     00000Rite Quality Office Supplies Inc.       +00000000000000043.42D" + strToday + "          ----------                                                                               ",
                 testingYear + "BL1031497-----9892---ACFB07DI  LGINVALDATE     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + strToday + "          ----------                                                                               " };
@@ -1548,8 +1549,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         final int testingYearAsInt = Integer.parseInt(testingYear);
         final String previousTestingYear = new Integer(testingYearAsInt - 1).toString();
 
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         String[] inputTransactions = { testingYear + "BL1031420-----4110---XXEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224               241.75D" + previousTestingYear + "-11-30          ----------                                                                               ",
                 testingYear + "BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237               241.75C" + previousTestingYear + "-11-30          ----------                                                                               " };
@@ -1572,8 +1573,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] inputTransactions = { testingYear + "BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      00000FRICKA FRACKA                                        45995.84C" + testingYear + "-01-05          ----------                                                                               ",
                 testingYear + "BL2231423-----8000---ACAS  CR  PLINVALOBJ      00000TP Generated Offset                                  45995.84D" + testingYear + "-01-05          ----------                                                                               " };
 
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear + "BL2231423-----8000---ACAS04CR  PLINVALOBJ      00000TP Generated Offset                     +00000000000045995.84D" + testingYear + "-01-05          ----------                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, inputTransactions[0]),
@@ -1713,7 +1714,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] inputTransactions = { "    BA6044900-----5300---ACEE07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                     1445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       ",
                 "    BA6044900-----8000---ACAS07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                     1445.00C" + testingYear + "-01-05ABCDEFGHIG----------12345678                                                                       " };
 
-        final AccountingPeriod currentAccountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        final AccountingPeriod currentAccountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(dateTimeService.getCurrentSqlDate());
 
         EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BA6044900-----5300---ACEE" + currentAccountingPeriod.getUniversityFiscalPeriodCode() + "CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.       +00000000000001445.00D" + testingYear + "-01-05ABCDEFGHIJ----------12345678                                                                       "),
@@ -1789,8 +1790,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] inputTransactions = { testingYear + "BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224               241.75D" + previousTestingYear + "-11-30          ----------                                                                               ",
                 testingYear + "BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237               241.75C" + previousTestingYear + "-11-30          ----------                                                                               " };
 
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031420-----8000---ACAS07DI  EUINVALBALT     00000GENERATED OFFSET                        +00000000000000241.75D" + formattedRunDate + "          ----------                                       "),
@@ -1817,8 +1818,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] inputTransactions = { testingYear + "BL1031420-----4110---ACEX07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2224               241.75D" + previousTestingYear + "-11-30          ----------                                                                               ",
                 testingYear + "BL1031420-----8000---ACAS07DI  EUINVALBALT     00000NOV-05 IMU Business Office          2237               241.75C" + previousTestingYear + "-11-30          ----------                                                                               " };
 
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031420-----8000---ACAS07DI  EUINVALBALT     00000GENERATED OFFSET                        +00000000000000241.75D" + formattedRunDate + "          ----------                                       "),
@@ -1890,7 +1891,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         String[] input = new String[] { testingYear + "BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                        45995.84C" + testingYear + "-01-05          ----------                                                                       ",
                 testingYear + "BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                                  45995.84D" + testingYear + "-01-05          ----------                                                                       " };
 
-        final AccountingPeriod currentAccountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        final AccountingPeriod currentAccountingPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(dateTimeService.getCurrentSqlDate());
 
         EntryHolder[] output = new EntryHolder[] { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear + "BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                        45995.84C" + testingYear + "-01-05          ----------                                                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear + "BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                                  45995.84D" + testingYear + "-01-05          ----------                                                                       "),
@@ -1951,8 +1952,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
-        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(SpringContext.getBean(DateTimeService.class).getCurrentDate())).getTime());
-        final String formattedRunDate = new SimpleDateFormat("yyyy-MM-dd").format(scrubberDate);
+        final java.sql.Date scrubberDate = new java.sql.Date((SpringContext.getBean(RunDateService.class).calculateRunDate(dateTimeService.getCurrentDate())).getTime());
+        final String formattedRunDate = new SimpleDateFormat(DATE_FORMAT).format(scrubberDate);
 
         String[] input = new String[] { testingYear + "BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       ",
                 testingYear + "BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                              294.64D" + testingYear + "-01-05          ----------                                                                       " };

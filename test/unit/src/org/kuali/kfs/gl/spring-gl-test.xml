@@ -327,5 +327,33 @@
 	</bean>
 	            
     <bean id="mockMailService" class="org.kuali.kfs.gl.batch.service.impl.MockMailServiceImpl"/>     
-        
+
+	<bean id="testDateTimeService" class="org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl">
+		<!-- just need to make sure this property is not null -->
+		<property name="currentDate" value="2010-01-01" />
+	</bean>
+	<alias name="testDateTimeService" alias="dateTimeService"/>
+
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor">
+	
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyy-MM-dd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.util.Date">
+					<ref local="dateEditor" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+           
 </beans>

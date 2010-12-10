@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.JiraRelatedSuite;
 import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -93,6 +94,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         ConfigureContext contextConfiguration = getMethod(getName()).getAnnotation(ConfigureContext.class) != null ? getMethod(getName()).getAnnotation(ConfigureContext.class) : getMethod("setUp").getAnnotation(ConfigureContext.class) != null ? getMethod("setUp").getAnnotation(ConfigureContext.class) : getClass().getAnnotation(ConfigureContext.class);
         if (contextConfiguration != null) {
             configure(contextConfiguration);
+            SpringContext.getBean(ConfigurableDateService.class).setCurrentDate(new java.util.Date());
         }
         try {
             setUp();

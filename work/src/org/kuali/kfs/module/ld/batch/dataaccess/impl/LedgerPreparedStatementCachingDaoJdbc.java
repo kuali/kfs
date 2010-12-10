@@ -59,6 +59,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 laborObject.setUniversityFiscalYear(fiscalYear);
                 laborObject.setChartOfAccountsCode(chartCode);
                 laborObject.setFinancialObjectCode(objectCode);
+                laborObject.setFinancialObjectFringeOrSalaryCode(resultSet.getString(1)); 
                 return laborObject;
             }
         }.get(LaborObject.class);

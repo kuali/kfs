@@ -60,15 +60,15 @@ public class AccountDelegateModelTest extends KualiTestBase {
     private boolean loadModel(String name, Class clazz) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("ORG_RTNG_MDL_NM", name);
+        fieldValues.put("accountDelegateModelName", name);
 
         Collection<AccountDelegateModelDetail> foundModel = SpringContext.getBean(BusinessObjectService.class).findMatching(clazz, fieldValues);
 
-        List<AccountDelegateGlobalDetail> delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
-
-        for (AccountDelegateModelDetail model : foundModel) {
-            delegateGlobals.add(new AccountDelegateGlobalDetail(model));
-        }
+//        List<AccountDelegateGlobalDetail> delegateGlobals = new ArrayList<AccountDelegateGlobalDetail>();
+//
+//        for (AccountDelegateModelDetail model : foundModel) {
+//            delegateGlobals.add(new AccountDelegateGlobalDetail(model));
+//        }
 
         return (foundModel != null && !foundModel.isEmpty());
 

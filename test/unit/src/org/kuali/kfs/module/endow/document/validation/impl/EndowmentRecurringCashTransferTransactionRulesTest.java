@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class EndowmentRecurringCashTransferTransactionRulesTest extends KualiTestBase {

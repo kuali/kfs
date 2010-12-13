@@ -15,17 +15,7 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
-import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum EndowmentRecurringCashTransferKemidTargetFixture {

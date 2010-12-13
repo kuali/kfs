@@ -20,7 +20,6 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.kuali.kfs.module.endow.batch.service.CreateRecurringCashTransferTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
 import org.kuali.kfs.module.endow.businessobject.KEMID;

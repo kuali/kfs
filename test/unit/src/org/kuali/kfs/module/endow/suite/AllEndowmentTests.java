@@ -60,6 +60,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(HoldingHistoryServiceTest.class);
         suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
         suite.addTestSuite(CorpusAdjustmentDocumentRulesTest.class);
+        suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         return suite;
     }
 

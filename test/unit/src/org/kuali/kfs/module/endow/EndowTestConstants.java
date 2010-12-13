@@ -37,6 +37,7 @@ public class EndowTestConstants extends JSTLConstants {
     public static final String INVALID_TRANSACTION_CODE = "NTRAN";
     public static final String NOT_APPLICABLE_TYPE_RESTRICTION_CODE = "NA";
     public static final String ETRAN_CODE = "42020";
+    public static final String LIABILITY_CLASS_TYPE_CODE = "L";
     
     public static final KualiInteger FIRST_MONTH_END_DATE_ID = new KualiInteger(1);
     public static final String UNIT_VALUATION_METHOD_CODE = "U";

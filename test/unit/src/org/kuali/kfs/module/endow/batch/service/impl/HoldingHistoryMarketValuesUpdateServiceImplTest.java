@@ -62,7 +62,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImplTest extends KualiTestBa
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         holdingHistoryMarketValuesUpdateService = (HoldingHistoryMarketValuesUpdateServiceImpl) TestUtils.getUnproxiedService("mockHoldingHistoryMarketValuesUpdateService");
         
-        //update holdinghistoryvalueadjustment records SET transactionPosted = 'Y'
+        //update holding history value adjustment records SET transactionPosted = 'Y'
         UpdateTransactionPostedToTrue();
         
         security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();

@@ -48,4 +48,11 @@
     	</property>
     </bean>
     
+    <bean id="mockCreateRecurringCashTransferTransactionsService" parent="createRecurringCashTransferTransactionsService" >
+    	<property name="recurringCashTransferTransactionsTotalReportWriterService">
+			<ref bean="mockReportWriterService" />
+		</property>
+    
+    </bean>
+    
 </beans>

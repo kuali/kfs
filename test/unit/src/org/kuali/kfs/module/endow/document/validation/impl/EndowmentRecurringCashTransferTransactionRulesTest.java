@@ -19,14 +19,17 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
 import org.kuali.kfs.module.endow.fixture.EndowmentRecurringCashTransferFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentRecurringCashTransferGlTargetFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentRecurringCashTransferKemidTargetFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class EndowmentRecurringCashTransferTransactionRulesTest extends KualiTestBase {
@@ -82,10 +85,8 @@ public class EndowmentRecurringCashTransferTransactionRulesTest extends KualiTes
         assertTrue(rule.checkFrequencyCodeReferenceExists(endowmentRecurringCashTransfer));
 
         // KEMIDTarget rules
-        int kemidIndex = 0;
         for (EndowmentRecurringCashTransferKEMIDTarget endowmentRecurringCashTransferKEMIDTarget : endowmentRecurringCashTransfer.getKemidTarget()) {
             assertTrue(rule.validateKEMIDTarget(endowmentRecurringCashTransferKEMIDTarget));
-            kemidIndex++;
         }
         
         assertTrue(rule.checkKemidAllPercent(endowmentRecurringCashTransfer.getKemidTarget()));
@@ -94,5 +95,41 @@ public class EndowmentRecurringCashTransferTransactionRulesTest extends KualiTes
         
         LOG.info("testValidEntriesForKEMID() method finished.");  
     }
-  
+    
+    public void testValidEntriesForGl() {
+        LOG.info("testValidEntriesForGl() method entered.");
+        
+        // create an asset decrease document
+        endowmentRecurringCashTransfer = (EndowmentRecurringCashTransfer) EndowmentRecurringCashTransferFixture.VALID_EGLT_SOURCE_2.createEndowmentRecurringCashTransfer();
+        EndowmentRecurringCashTransferGLTarget glTarget3 = EndowmentRecurringCashTransferGlTargetFixture.VALID_GL_TARGET_3.createEndowmentRecurringCashTransferGlTarget();
+        
+        endowmentRecurringCashTransfer.getGlTarget().add(glTarget3);
+        
+        // check target existence
+        assertTrue(rule.checkTargetExistence(endowmentRecurringCashTransfer));
+        
+        assertTrue(rule.checkTransactionType(endowmentRecurringCashTransfer));
+        
+        // check eTran code
+        String kemid = endowmentRecurringCashTransfer.getSourceKemid();
+        String etranCode = endowmentRecurringCashTransfer.getSourceEtranCode();
+        String ipIndicator = endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal();
+        // refresh Etran obj
+        endowmentRecurringCashTransfer.refreshReferenceObject(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_ETRAN_CODE_OBJ);
+        
+        assertTrue(rule.checkEtranCodeWithChart(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_SOURCE_ETRAN_CODE, kemid, etranCode, ipIndicator));
+        
+        assertTrue(rule.checkFrequencyCodeReferenceExists(endowmentRecurringCashTransfer));
+
+        // GLTarget rules
+        for (EndowmentRecurringCashTransferGLTarget endowmentRecurringCashTransferGLTarget : endowmentRecurringCashTransfer.getGlTarget()) {
+            assertTrue(rule.validateGlTarget(endowmentRecurringCashTransferGLTarget));
+        }
+
+        assertTrue(rule.checkGlAllPercent(endowmentRecurringCashTransfer.getGlTarget()));
+
+        assertTrue(rule.checkGlPercentForSameEtranCode(endowmentRecurringCashTransfer.getGlTarget()));
+        
+        LOG.info("testValidEntriesForGl() method finished.");  
+    }
 }

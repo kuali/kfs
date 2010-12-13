@@ -15,20 +15,11 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum EndowmentRecurringCashTransferGlTargetFixture {
-    VALID_KEMID_TARGET_1("1", // Target Sequence Number     
+    VALID_GL_TARGET_1("1", // Target Sequence Number     
             "BL",                   // Target ChartOfAccountsCode
             "1023200",              // Target Accounts Number
             null,                   // Target SubAccount Number
@@ -42,7 +33,7 @@ public enum EndowmentRecurringCashTransferGlTargetFixture {
             true                    // Active Indicator
     ),
     
-    VALID_KEMID_TARGET_2("2", // Target Sequence Number     
+    VALID_GL_TARGET_2("2", // Target Sequence Number     
             "BL",                   // Target ChartOfAccountsCode
             "1024600",              // Target Accounts Number
             null,                   // Target SubAccount Number
@@ -56,7 +47,7 @@ public enum EndowmentRecurringCashTransferGlTargetFixture {
             true                    // Active Indicator
     ),
     
-    VALID_KEMID_TARGET_3("1", // Target Sequence Number     
+    VALID_GL_TARGET_3("1", // Target Sequence Number     
             "BL",                   // Target ChartOfAccountsCode
             "2924608",              // Target Accounts Number
             null,                   // Target SubAccount Number
@@ -97,6 +88,24 @@ public enum EndowmentRecurringCashTransferGlTargetFixture {
         this.targetUseEtranCode = targetUseEtranCode;
         this.active = active;
     }
+    
+    public EndowmentRecurringCashTransferGLTarget createEndowmentRecurringCashTransferGlTarget(){
+        EndowmentRecurringCashTransferGLTarget glTarget = new EndowmentRecurringCashTransferGLTarget();
+        glTarget.setTargetSequenceNumber(this.targetSequenceNumber);
+        glTarget.setTargetChartOfAccountsCode(this.targetChartOfAccountsCode);
+        glTarget.setTargetAccountsNumber(this.targetAccountsNumber);
+        glTarget.setTargetFinancialObjectCode(this.targetFinancialObjectCode);
+        glTarget.setTargetFdocLineAmount(this.targetFdocLineAmount);
+        glTarget.setTargetSubAccountNumber(this.targetSubAccountNumber);
+        glTarget.setTargetFinancialSubObjectCode(this.targetFinancialSubObjectCode);
+        glTarget.setTargetProjectCode(this.targetProjectCode);
+        glTarget.setTargetOrgReferenceId(this.targetOrgReferenceId);
+        glTarget.setTargetPercent(this.targetPercent);
+        glTarget.setTargetUseEtranCode(this.targetUseEtranCode);
+        glTarget.setActive(this.active);
+        return glTarget;
+    }
+    
 }
 
 

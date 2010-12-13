@@ -70,7 +70,7 @@ public class EndowmentToGLTransferOfFundsDocumentRulesTest extends KualiTestBase
 
     private EndowmentToGLTransferOfFundsDocument createEndowmentToGLTransferOfFundsDocument() throws WorkflowException {
 
-        // create an security transfer document
+        // create an EndowmentToGLTransferOfFundsDocument
         document = (EndowmentToGLTransferOfFundsDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_ENDOWMENT_TO_GL_TRANSFER.createEndowmentTransactionDocument(EndowmentToGLTransferOfFundsDocument.class);
         document.getDocumentHeader().setDocumentDescription("This is a test Endowment To GL Transfer Of Funds document.");
 

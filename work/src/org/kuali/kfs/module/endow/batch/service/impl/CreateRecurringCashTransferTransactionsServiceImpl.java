@@ -64,7 +64,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
-
+import org.springframework.transaction.annotation.Transactional;
+@Transactional
 public class CreateRecurringCashTransferTransactionsServiceImpl implements CreateRecurringCashTransferTransactionsService {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateCashSweepTransactionsServiceImpl.class);
@@ -146,7 +147,6 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     protected void calculateCashTransfers(Collection<EndowmentRecurringCashTransfer> cashTransfers) {
 
         for (EndowmentRecurringCashTransfer cashTransfer : cashTransfers) {
-            String sourceTransactionType = cashTransfer.getTransactionType();
             String sourceKemid = cashTransfer.getSourceKemid();
             String transferNumber = cashTransfer.getTransferNumber();
             Date lastProcessDate = cashTransfer.getLastProcessDate();
@@ -158,42 +158,15 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             CashTransferDocument cashTransferDoc = createCashTransferDocument(sourceKemid, transferNumber);
             List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = cashTransfer.getKemidTarget();
 
+            
             for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets) {
-                KualiDecimal transactionAmount = KualiDecimal.ZERO;
-                // check if it is calculation scenario 1
-                if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetUseEtranCode())) {
-                    // retrieves transactionArchives and calculated source cash
-                    KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
+                KualiDecimal transactionAmount = calculateCashTransferTransactionAmount(kemidTarget, cashEquivalents, sourceKemid, lastProcessDate);
 
-                    List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, kemidTarget.getTargetUseEtranCode());
-                    // if transactionArchives exist, then calculate total income and total percent of same etran code in target
-                    if (transactionArchiveList.size() > 0) {
-                        // need to change name...like cashIncrease..
-                        totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
+                // from spec, total of source and target are same, but totalTargetTransaction will be useful for implementing
+                // total part.
+                totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
 
-                    }
-                    transactionAmount = totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent());
-
-                    // from spec, total of source and target are same, but totalTargetTransaction will be useful for implementing
-                    // total
-                    // part.
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-
-                    // check if it is calculation scenario 2
-                }
-                else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())) {
-                    transactionAmount = cashEquivalents.multiply(kemidTarget.getTargetPercent());
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-
-                    // check if it is calculation scenario 3
-                }
-                else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())) {
-                    transactionAmount = kemidTarget.getTargetAmount();
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                }
                 // add target line
                 boolean addTransactionLine = addKemidTargetTransactionLine(kemidTarget, cashTransferDoc, transactionAmount, sourceKemid, transferNumber);
                 if (!addTransactionLine) {
@@ -224,7 +197,33 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         allTotalReportLine.incrementTotalTransferAmount(subTotalReportLine.getTotalTransferAmount());
         allTotalReportLine.incrementTargetLinesGenerated(subTotalReportLine.getTargetLinesGenerated());
     }
+    
+    protected KualiDecimal calculateCashTransferTransactionAmount(EndowmentRecurringCashTransferKEMIDTarget kemidTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate){
+        
+        // check if it is calculation scenario 1
+        if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetUseEtranCode())) {
+            // retrieves transactionArchives and calculated source cash
+            KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
 
+            List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, kemidTarget.getTargetUseEtranCode());
+            // if transactionArchives exist, then calculate total income and total percent of same etran code in target
+            if (transactionArchiveList.size() > 0) {
+                // need to change name...like cashIncrease..
+                totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
+            }
+            return totalCashIncomeEtranCode.multiply(kemidTarget.getTargetPercent());
+        }
+        // check if it is calculation scenario 2
+        else if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent())) {
+            return cashEquivalents.multiply(kemidTarget.getTargetPercent());
+        }
+        // check if it is calculation scenario 3
+        else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())) {
+            return kemidTarget.getTargetAmount();
+        } else return KualiDecimal.ZERO;
+    }
+    
+    
     // calculate when EGLT
     protected void calculateGlCashTransfers(Collection<EndowmentRecurringCashTransfer> glCashTransfers) {
         for (EndowmentRecurringCashTransfer glCashTransfer : glCashTransfers) {
@@ -242,36 +241,10 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             List<EndowmentRecurringCashTransferGLTarget> glTargets = glCashTransfer.getGlTarget();
 
             for (EndowmentRecurringCashTransferGLTarget glTarget : glTargets) {
-                KualiDecimal transactionAmount = KualiDecimal.ZERO;
-                // check if it is calculation scenario 1
-                if (ObjectUtils.isNotNull(glTarget.getTargetPercent()) && ObjectUtils.isNotNull(glTarget.getTargetUseEtranCode())) {
-                    // retrieves transactionArchives and calculated source cash
-                    KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
+                KualiDecimal transactionAmount = calculateGlCashTransferTransactionAmount(glTarget, cashEquivalents, sourceKemid, lastProcessDate);
 
-                    List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, glTarget.getTargetUseEtranCode());
-                    // if transactionArchives exist, then calculate total income and total percent of same etran code in target
-                    if (transactionArchiveList.size() > 0) {
-                        totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
-
-                    }
-                    transactionAmount = totalCashIncomeEtranCode.multiply(glTarget.getTargetPercent());
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-
-                    // check if it is calculation scenario 2
-                }
-                else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())) {
-                    transactionAmount = cashEquivalents.multiply(glTarget.getTargetPercent());
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-
-                    // check if it is calculation scenario 3
-                }
-                else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())) {
-                    transactionAmount = glTarget.getTargetFdocLineAmount();
-                    totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
-                    totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
-                }
+                totalSourceTransaction = totalSourceTransaction.add(transactionAmount);
+                totalTargetTransaction = totalTargetTransaction.add(transactionAmount);
 
                 // add target line
                 boolean addTransactionLine = addGlTransactionLine(glTarget, gLTransferOfFundsDocument, transactionAmount, sourceKemid, transferNumber);
@@ -304,7 +277,29 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         allTotalReportLine.incrementTotalTransferAmount(subTotalReportLine.getTotalTransferAmount());
         allTotalReportLine.incrementTargetLinesGenerated(subTotalReportLine.getTargetLinesGenerated());
     }
+    
+    protected KualiDecimal calculateGlCashTransferTransactionAmount(EndowmentRecurringCashTransferGLTarget glTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate){
+        // check if it is calculation scenario 1
+        if (ObjectUtils.isNotNull(glTarget.getTargetPercent()) && ObjectUtils.isNotNull(glTarget.getTargetUseEtranCode())) {
+            // retrieves transactionArchives and calculated source cash
+            KualiDecimal totalCashIncomeEtranCode = KualiDecimal.ZERO;
 
+            List<TransactionArchive> transactionArchiveList = retrieveTransactionArchives(sourceKemid, lastProcessDate, glTarget.getTargetUseEtranCode());
+            // if transactionArchives exist, then calculate total income and total percent of same etran code in target
+            if (transactionArchiveList.size() > 0) {
+                totalCashIncomeEtranCode = calculateTotalIncomeTransactionArchives(transactionArchiveList);
+            }
+            return totalCashIncomeEtranCode.multiply(glTarget.getTargetPercent());
+        }
+        // check if it is calculation scenario 2
+        else if (ObjectUtils.isNotNull(glTarget.getTargetPercent())) {
+            return cashEquivalents.multiply(glTarget.getTargetPercent());
+        }
+        // check if it is calculation scenario 3
+        else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())) {
+            return glTarget.getTargetFdocLineAmount();
+        } else return KualiDecimal.ZERO;
+    }
 
     protected KualiDecimal calculateTotalCashEquivalents(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
         // spec 10.2

@@ -47,7 +47,13 @@ public enum EndowmentTransactionDocumentFixture {
             false, // transactionPosted
             "1234567890", // objectId
             new Long(1) // versionNumber
-    ),  ENDOWMENT_TRANSACTIONAL_DOCUMENT_ENDOWMENT_TO_GL_TRANSFER("EGLT-TEST", // documentNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_ENDOWMENT_TO_GL_TRANSFER("EGLT-TEST", // documentNumber
+            "C", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_GL_TO_ENDOWMENT_TRANSFER("GLET-TEST", // documentNumber
             "C", // transactionSubTypeCode
             "M", // transactionSourceTypeCode
             false, // transactionPosted

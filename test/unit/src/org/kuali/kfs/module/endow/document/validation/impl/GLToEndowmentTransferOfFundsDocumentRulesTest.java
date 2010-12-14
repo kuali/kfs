@@ -415,7 +415,7 @@ public class GLToEndowmentTransferOfFundsDocumentRulesTest extends KualiTestBase
     }
 
     /**
-     * Validates that endowmentAccountingLine returns true if the document has at least one accounting line.
+     * Validates that validateAccountingLinesSizeGreaterThanZero returns true if the document has at least one accounting line.
      */
     public void testValidateAccountingLinesSizeGreaterThanZero_True() {
         EndowmentAccountingLine endowmentAccountingLine = EndowmentAccountingLineFixture.ENDOWMENT_ACCOUNTING_LINE_EGLT_BASIC.createEndowmentAccountingLine(true);
@@ -426,7 +426,7 @@ public class GLToEndowmentTransferOfFundsDocumentRulesTest extends KualiTestBase
     }
 
     /**
-     * Validates that endowmentAccountingLine returns false if the document has no accounting lines.
+     * Validates that validateAccountingLinesSizeGreaterThanZero returns false if the document has no accounting lines.
      */
     public void testValidateAccountingLinesSizeGreaterThanZero_False() {
 
@@ -450,7 +450,7 @@ public class GLToEndowmentTransferOfFundsDocumentRulesTest extends KualiTestBase
 
     /**
      * Validates that validateGLTotalAmountMatchesKEMTotalAmount returns false if the amount in the from section does not equal the
-     * amount in the to section
+     * amount in the to section.
      */
     public void testValidateGLTotalAmountMatchesKEMTotalAmount_False() {
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_EGLT_BASIC.createEndowmentTransactionLine(false);

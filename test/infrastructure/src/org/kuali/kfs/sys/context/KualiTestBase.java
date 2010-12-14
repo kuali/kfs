@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.sys.context;
 
-import static org.kuali.kfs.sys.suite.JiraRelatedSuite.State.OPEN_OR_IN_PROGRESS_OR_REOPENED;
-
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,8 +28,6 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.kfs.sys.suite.JiraRelatedSuite;
-import org.kuali.kfs.sys.suite.RelatesTo;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.ConfigurableDateService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -53,7 +48,6 @@ import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 public abstract class KualiTestBase extends TestCase implements KualiTestConstants {
     private static final Logger LOG = Logger.getLogger(KualiTestBase.class);
-    public static final String SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES = "KualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues";
     private static boolean log4jConfigured = false;
     private static RuntimeException configurationFailure;
     private static boolean springContextInitialized = false;
@@ -77,15 +71,6 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             log4jConfigured = true;
         }
         final String testName = getClass().getName() + "." + getName();
-        if (System.getProperty(SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES) != null) {
-            Set<RelatesTo.JiraIssue> openOrInProgressOrReopened = JiraRelatedSuite.getMatchingIssues(getRelatedJiraIssues(), OPEN_OR_IN_PROGRESS_OR_REOPENED);
-            if (!openOrInProgressOrReopened.isEmpty()) {
-                if ( LOG.isInfoEnabled() ) {
-                    LOG.info("Skipping test '" + testName + "' because of JIRA issues open or in progress or reopened: " + openOrInProgressOrReopened);
-                }
-                return; // let this test method pass without running it
-            }
-        }
 
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Entering test '" + testName + "'");
@@ -133,13 +118,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
         }
         catch (Throwable t) {
-            Set<RelatesTo.JiraIssue> issues = getRelatedJiraIssues();
-            if (issues.isEmpty()) {
-                throw t;
-            }
-            else {
-                throw new Exception("JIRA issues thought to be related to this test not passing: " + issues, t);
-            }
+            throw t;
         }
         finally {
             if (contextConfiguration != null) {
@@ -259,25 +238,5 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
         }
         throw new RuntimeException("KualiTestBase was unable to getMethod: " + methodName);
-    }
-
-    private Set<RelatesTo.JiraIssue> getRelatedJiraIssues() {
-        HashSet<RelatesTo.JiraIssue> issues = new HashSet<RelatesTo.JiraIssue>();
-        addJiraIssues(this.getClass().getAnnotation(RelatesTo.class), issues);
-        // Test methods must be public, so we can use getMethod(), which handles inheritence. (I recommend not inheriting test
-        // methods, however.)
-        try {
-            addJiraIssues(this.getClass().getMethod(getName()).getAnnotation(RelatesTo.class), issues);
-        }
-        catch (NoSuchMethodException e) {
-            throw new AssertionError("Impossible because tests are named after their test method: " + e.getMessage());
-        }
-        return issues;
-    }
-
-    private static void addJiraIssues(RelatesTo annotation, HashSet<RelatesTo.JiraIssue> issues) {
-        if (annotation != null) {
-            issues.addAll(Arrays.asList(annotation.value()));
-        }
     }
 }

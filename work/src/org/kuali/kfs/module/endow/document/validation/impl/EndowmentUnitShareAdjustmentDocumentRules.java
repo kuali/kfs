@@ -130,7 +130,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param document
      * @return true if valid, false otherwise
      */
-    private boolean hasAtLeastOneTransactionLine(EndowmentTransactionLinesDocumentBase document) {
+    protected boolean hasAtLeastOneTransactionLine(EndowmentTransactionLinesDocumentBase document) {
 
         List<EndowmentTransactionLine> transactionLineList = new ArrayList<EndowmentTransactionLine>();
         transactionLineList.addAll(document.getSourceTransactionLines());
@@ -169,7 +169,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param endowmentTransactionLinesDocument
      * @return true if valid, false otherwise
      */
-    private boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
+    protected boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
         boolean isValid = true;
 
         boolean hasSourceTransLines = endowmentTransactionLinesDocument.getSourceTransactionLines() != null && endowmentTransactionLinesDocument.getSourceTransactionLines().size() > 0;

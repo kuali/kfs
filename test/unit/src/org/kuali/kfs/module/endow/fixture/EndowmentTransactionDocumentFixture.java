@@ -59,6 +59,13 @@ public enum EndowmentTransactionDocumentFixture {
             false, // transactionPosted
             "1234567890", // objectId
             new Long(1) // versionNumber
+    ),
+    ENDOWMENT_TRANSACTIONAL_DOCUMENT_UNIT_SHARE_ADJ("EUSA-TEST", // documentNumber
+            "N", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
     );
 
     public final String documentNumber;

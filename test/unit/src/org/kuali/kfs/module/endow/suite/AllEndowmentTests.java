@@ -52,6 +52,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(SecurityTransferDocumentRulesTest.class);
         suite.addTestSuite(EndowmentToGLTransferOfFundsDocumentRulesTest.class);
         suite.addTestSuite(GLToEndowmentTransferOfFundsDocumentRulesTest.class);
+        suite.addTestSuite(EndowmentToGLTransferOfFundsDocumentRulesTest.class);
 
         // Muddu's unit tests....
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);

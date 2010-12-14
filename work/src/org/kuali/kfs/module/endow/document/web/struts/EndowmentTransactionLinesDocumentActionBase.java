@@ -32,7 +32,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
@@ -648,7 +647,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
 
         // now add required parameters
         Properties params = new Properties();
@@ -661,13 +660,6 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         if (StringUtils.isNotBlank(etLine.getKemid())) {
             params.put(EndowPropertyConstants.KEMID, etLine.getKemid());
         }
-
-        // anchor, if it exists
-        // this doesn't seem to work with the balance inquiry infrastructure, so added hack above
-        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            params.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
-        }
-
 
         String lookupUrl = UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
 

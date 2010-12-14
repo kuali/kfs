@@ -15,22 +15,12 @@
  */
 package org.kuali.kfs.module.ec.businessobject.inquiry;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
-import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the Position Inquiry screen. It extends the

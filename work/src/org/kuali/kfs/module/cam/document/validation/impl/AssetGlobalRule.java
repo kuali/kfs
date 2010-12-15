@@ -602,9 +602,11 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
             assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET);
             if (ObjectUtils.isNotNull(assetGlobal.getSeparateSourceCapitalAsset())) {
                 if (!getAssetService().isCapitalAsset(assetGlobal.getSeparateSourceCapitalAsset())) {
-                    GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetGlobal.SEPARATE_SOURCE_CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED, assetGlobal.getSeparateSourceCapitalAssetNumber().toString());
+                    if (StringUtils.isNotBlank(assetGlobal.getAcquisitionTypeCode())) {
+                    putFieldError(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE_CODE, CamsKeyConstants.AssetSeparate.ERROR_NON_CAPITAL_ASSET_SEPARATE_REQUIRED);
                     success &= false;
-                }
+                    }
+                }      
             }
 
             // validate required fields within "Asset Unique Information" tab

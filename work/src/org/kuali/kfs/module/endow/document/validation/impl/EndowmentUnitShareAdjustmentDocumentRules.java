@@ -222,7 +222,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param index
      * @return true if there are tax lots that meet the criteria, false otherwise
      */
-    private boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
+    protected boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
         boolean isValid = true;
         HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
         EndowmentUnitShareAdjustmentDocument unitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) endowmentTransactionLinesDocument;

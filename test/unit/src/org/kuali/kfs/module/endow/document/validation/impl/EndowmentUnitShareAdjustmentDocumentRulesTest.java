@@ -24,10 +24,8 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecur
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
-import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
@@ -36,18 +34,15 @@ import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
-import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingTaxLotRebalanceFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
-import org.kuali.kfs.module.endow.fixture.KemidGeneralLedgerAccountFixture;
 import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
 public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase {
@@ -373,51 +368,6 @@ public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase
 
     }
 
-
-    /**
-     * Validates that validateTransactionAmountGreaterThanZero returns true when transaction amount is greater than zero.
-     */
-    public void testTransactionsLineAmountPositiveSource_True() {
-
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
-
-        assertTrue(rule.validateTransactionAmountGreaterThanZero(endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateTransactionAmountGreaterThanZero returns true when transaction amount is greater than zero.
-     */
-    public void testTransactionsLineAmountPositiveTarget_True() {
-
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
-
-        assertTrue(rule.validateTransactionAmountGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateTransactionAmountGreaterThanZero returns false when transaction amount is zero.
-     */
-    public void testTransactionsLineAmountPositiveSource_False() {
-
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_ZERO_AMT.createEndowmentTransactionLine(true);
-
-        assertFalse(rule.validateTransactionAmountGreaterThanZero(endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateTransactionAmountGreaterThanZero returns false when transaction amount is zero.
-     */
-    public void testTransactionsLineAmountPositiveTarget_False() {
-
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_ZERO_AMT.createEndowmentTransactionLine(false);
-
-        assertFalse(rule.validateTransactionAmountGreaterThanZero(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-
-    }
-
     /**
      * Validates that validateTransactionUnitsGreaterThanZero returns true when transaction units is greater than zero.
      */
@@ -463,173 +413,6 @@ public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase
 
     }
 
-    // The ETRAN code used in the Transaction Line must have an ETRAN Type code equal to I ( Income ) or E ( Expense )
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is income.
-     */
-    public void testEtranCodeIncomeSource_True() {
-
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentSourceTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentSourceTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-    }
-
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is income.
-     */
-    public void testEtranCodeIncomeTarget_True() {
-
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-    }
-
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is expense.
-     */
-    public void testEtranCodeExpenseSource_True() {
-
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentSourceTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentSourceTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns true when the etran code type is expense.
-     */
-    public void testEtranCodeExpenseTarget_True() {
-
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns false when the etran code type is not income or expense.
-     */
-    public void testEtranCodeIncomeOrExpenseSource_False() {
-
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(true);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentSourceTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentSourceTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertFalse(rule.validateEndowmentTransactionTypeCode(document, endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-
-    }
-
-    /**
-     * Validates that validateEndowmentTransactionTypeCode returns false when the etran code type is not income or expense.
-     */
-    public void testEtranCodeIncomeOrExpenseTarget_False() {
-
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_POSITIVE_AMT.createEndowmentTransactionLine(false);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE.createEndowmentTransactionCode();
-        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertFalse(rule.validateEndowmentTransactionTypeCode(document, endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-
-    }
-
-    // The ETRAN Code used must have an appropriately identified general ledger object code record; one that matches the Chart for
-    // the KEMID associated general ledger account.
-
-    /**
-     * Validates that validateChartMatch returns true when etran code gl chart matches the chart for KEMID general ledger account.
-     */
-    public void testKemidEtranCodeMatchSource_True() {
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
-        GLLink glLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
-        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
-
-        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
-        endowmentTransactionCode.getGlLinks().add(glLink);
-        endowmentSourceTransactionLine.setKemid(kemid.getKemid());
-        endowmentSourceTransactionLine.setKemidObj(kemid);
-        endowmentSourceTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentSourceTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateChartMatch(endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-    }
-
-    /**
-     * Validates that validateChartMatch returns true when etran code gl chart matches the chart for KEMID general ledger account.
-     */
-    public void testKemidEtranCodeMatchTarget_True() {
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
-        GLLink glLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
-        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
-
-        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
-        endowmentTransactionCode.getGlLinks().add(glLink);
-        endowmentTargetTransactionLine.setKemid(kemid.getKemid());
-        endowmentTargetTransactionLine.setKemidObj(kemid);
-        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertTrue(rule.validateChartMatch(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-    }
-
-    /**
-     * Validates that validateChartMatch returns false when etran code gl chart does not match the chart for KEMID general ledger
-     * account.
-     */
-    public void testKemidEtranCodeMatchSource_False() {
-        EndowmentTransactionLine endowmentSourceTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(true);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
-        GLLink glLink = GLLinkFixture.GL_LINK_UA_CHART.createGLLink();
-        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
-
-        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
-        endowmentTransactionCode.getGlLinks().add(glLink);
-        endowmentSourceTransactionLine.setKemid(kemid.getKemid());
-        endowmentSourceTransactionLine.setKemidObj(kemid);
-        endowmentSourceTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentSourceTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertFalse(rule.validateChartMatch(endowmentSourceTransactionLine, rule.getErrorPrefix(endowmentSourceTransactionLine, -1)));
-    }
-
-    /**
-     * Validates that validateChartMatch returns false when etran code gl chart does not match the chart for KEMID general ledger
-     * account.
-     */
-    public void testKemidEtranCodeMatchTarget_False() {
-        EndowmentTransactionLine endowmentTargetTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_INCOME.createEndowmentTransactionLine(false);
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
-        GLLink glLink = GLLinkFixture.GL_LINK_UA_CHART.createGLLink();
-        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
-
-        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
-        endowmentTransactionCode.getGlLinks().add(glLink);
-        endowmentTargetTransactionLine.setKemid(kemid.getKemid());
-        endowmentTargetTransactionLine.setKemidObj(kemid);
-        endowmentTargetTransactionLine.setEtranCode(endowmentTransactionCode.getCode());
-        endowmentTargetTransactionLine.setEtranCodeObj(endowmentTransactionCode);
-
-        assertFalse(rule.validateChartMatch(endowmentTargetTransactionLine, rule.getErrorPrefix(endowmentTargetTransactionLine, -1)));
-    }
 
     // IF the END _TRAN_LN_T: TRAN_IP_IND_CD for the transaction line is equal to P, then the KEMID must have a principal
     // restriction (END_KEMID_T: TYP_PRIN_RESTR_CD) that is not equal to NA which implies that the KEMID cannot have any activity in
@@ -689,10 +472,9 @@ public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase
     }
 
     /**
-     * Validates that validateSufficientUnits returns true when the tax lots for the given kemid has enough units to perform the
-     * given transaction.
+     * Validates that validateKemidHasTaxLots returns true when the given kemid has tax lots.
      */
-    public void testValidateSufficientUnits_True() {
+    public void testValidateKemidHasTaxLotsSource_True() {
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(true);
         KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
 
@@ -713,17 +495,41 @@ public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase
         endowmentTransactionLine.setKemid(kemid.getKemid());
         endowmentTransactionLine.setKemidObj(kemid);
 
-        assertTrue(rule.validateSufficientUnits(true, document, endowmentTransactionLine, -1, -1));
+        assertTrue(rule.validateKemidHasTaxLots(document, endowmentTransactionLine, -1));
 
     }
 
     /**
-     * Validates that validateSufficientUnits returns false when the tax lots for the given kemid does not have enough units to
-     * perform the given transaction.
+     * Validates that validateKemidHasTaxLots returns false when the given kemid does not have tax lots.
      */
-    public void testValidateSufficientUnits_False() {
+    public void testValidateKemidHasTaxLotsSource_False() {
 
         EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(true);
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.TEST_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+
+        document.getSourceTransactionSecurity().setSecurityID(security.getId());
+        document.getSourceTransactionSecurity().setSecurity(security);
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode.getCode());
+        document.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
+
+        endowmentTransactionLine.setKemid(kemid.getKemid());
+        endowmentTransactionLine.setKemidObj(kemid);
+
+        assertFalse(rule.validateKemidHasTaxLots(document, endowmentTransactionLine, -1));
+
+    }
+
+    /**
+     * Validates that validateKemidHasTaxLots returns true when the given kemid has tax lots.
+     */
+    public void testValidateKemidHasTaxLotsTarget_True() {
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(false);
         KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
 
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
@@ -743,11 +549,36 @@ public class EndowmentUnitShareAdjustmentDocumentRulesTest extends KualiTestBase
         endowmentTransactionLine.setKemid(kemid.getKemid());
         endowmentTransactionLine.setKemidObj(kemid);
 
-        endowmentTransactionLine.setTransactionUnits(new KualiDecimal(1000000));
-
-        assertFalse(rule.validateSufficientUnits(true, document, endowmentTransactionLine, -1, -1));
+        assertTrue(rule.validateKemidHasTaxLots(document, endowmentTransactionLine, -1));
 
     }
+
+    /**
+     * Validates that validateKemidHasTaxLots returns false when the given kemid does not have tax lots.
+     */
+    public void testValidateKemidHasTaxLotsTarget_False() {
+
+        EndowmentTransactionLine endowmentTransactionLine = EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_PRINCIPAL.createEndowmentTransactionLine(false);
+        KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
+
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.TEST_CLASS_CODE.createClassCodeRecord();
+        Security security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
+
+        document.getSourceTransactionSecurity().setSecurityID(security.getId());
+        document.getSourceTransactionSecurity().setSecurity(security);
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode.getCode());
+        document.getSourceTransactionSecurity().setRegistrationCodeObj(registrationCode);
+
+        endowmentTransactionLine.setKemid(kemid.getKemid());
+        endowmentTransactionLine.setKemidObj(kemid);
+
+        assertFalse(rule.validateKemidHasTaxLots(document, endowmentTransactionLine, -1));
+
+    }
+
 
     // validate document
 

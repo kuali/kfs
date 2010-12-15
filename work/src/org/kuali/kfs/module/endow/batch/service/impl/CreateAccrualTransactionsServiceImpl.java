@@ -196,7 +196,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param taxLots
      * @return a map from registration code to taxlots
      */
-    private Map<String, List<HoldingTaxLot>> groupTaxLotsBasedOnRegistrationCode(List<HoldingTaxLot> taxLots) {
+    protected Map<String, List<HoldingTaxLot>> groupTaxLotsBasedOnRegistrationCode(List<HoldingTaxLot> taxLots) {
         // build a map that groups tax lots based on registration code ( a map from registration code to taxlots)
         Map<String, List<HoldingTaxLot>> regCodeMap = new HashMap<String, List<HoldingTaxLot>>();
 
@@ -221,7 +221,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param taxLots
      * @return a map from kemid and IP to taxlots
      */
-    private Map<String, List<HoldingTaxLot>> groupTaxLotsBasedOnKemidAndIPIndicator(List<HoldingTaxLot> taxLots) {
+    protected Map<String, List<HoldingTaxLot>> groupTaxLotsBasedOnKemidAndIPIndicator(List<HoldingTaxLot> taxLots) {
         // group tax lots by kemid and ip indicator
         Map<String, List<HoldingTaxLot>> kemidIpMap = new HashMap<String, List<HoldingTaxLot>>();
 
@@ -249,7 +249,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param totalAmount
      * @return true if transaction line successfully added, false otherwise
      */
-    private boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount) {
+    protected boolean addTransactionLine(CashIncreaseDocument cashIncreaseDocument, Security security, String kemid, KualiDecimal totalAmount) {
         boolean success = true;
 
         // Create a new transaction line
@@ -293,7 +293,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param securityId
      * @return a new CashIncreaseDocument
      */
-    private CashIncreaseDocument createNewCashIncreaseDocument(String securityId, String registrationCode) {
+    protected CashIncreaseDocument createNewCashIncreaseDocument(String securityId, String registrationCode) {
         CashIncreaseDocument cashIncreaseDocument = null;
         try {
 
@@ -332,7 +332,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param cashIncreaseDocument
      * @param taxLotsForUpdate
      */
-    private void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
+    protected void submitCashIncreaseDocumentAndUpdateTaxLots(CashIncreaseDocument cashIncreaseDocument, List<HoldingTaxLot> taxLotsForUpdate) {
 
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(cashIncreaseDocument));
 
@@ -419,7 +419,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * 
      * @return
      */
-    private List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate() {
+    protected List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate() {
         List<Security> result = new ArrayList<Security>();
 
         result = securityDao.getAllSecuritiesWithNextPayDateEqualCurrentDate();
@@ -433,7 +433,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * @param theDocumentId
      * @param theSecurityId
      */
-    private void initializeTotalAndExceptionReportLines(String theDocumentId, String theSecurityId) {
+    protected void initializeTotalAndExceptionReportLines(String theDocumentId, String theSecurityId) {
         // create a new totalReportLine for each new CashIncreaseDocument
         this.totalReportLine = new TransactionDocumentTotalReportLine(getCashIncreaseDocumentType(), theDocumentId, theSecurityId);
 

@@ -75,8 +75,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.DAILY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.DAILY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next daily date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.DAILY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next daily date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
   
     /**
@@ -86,8 +86,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.WEEKLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.WEEKLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next weekly date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.WEEKLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next weekly date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
  
     /**
@@ -97,8 +97,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.SEMI_MONTHLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.SEMI_MONTHLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next semi-monthly date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.SEMI_MONTHLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next semi-monthly date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
     
     /**
@@ -108,8 +108,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.MONTHLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.MONTHLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next monthly date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.MONTHLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next monthly date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
 
     /**
@@ -119,8 +119,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.QUARTERLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.QUARTERLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next quarterly date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.QUARTERLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next quarterly date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
     
     /**
@@ -130,8 +130,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.SEMI_ANNUALLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.SEMI_ANNUALLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next semi-annual date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.SEMI_ANNUALLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next semi-annual date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
     
     /**
@@ -141,8 +141,8 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         RollFrequencyCodeFixture rollFrequencyCodeFixture = RollFrequencyCodeFixture.ANNUALLY_TARGET_DATE;
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
-        Calendar expectedCalednar = RollFrequencyCodeFixture.ANNUALLY_EXPECTED_DATE.getCalendar();
-        assertEquals("The calculation of the next annual date is incorect.", new java.sql.Date(expectedCalednar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
+        Calendar expectedCalendar = RollFrequencyCodeFixture.ANNUALLY_EXPECTED_DATE.getCalendar();
+        assertEquals("The calculation of the next annual date is incorect.", new java.sql.Date(expectedCalendar.getTimeInMillis()), frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())));        
     }
     
     /**
@@ -156,34 +156,34 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
      * tests RollFrequencyDatesService#updateTicklerNextDueDates
      */   
     public void testRollFrequencyDatesService_updateTicklerNextDueDates() {        
-        assertTrue("updateTicklerNextDueDates() faild.", rollFrequencyDatesService.updateTicklerNextDueDates());        
+        assertTrue("updateTicklerNextDueDates() failed.", rollFrequencyDatesService.updateTicklerNextDueDates());        
     }
     
     /**
      * tests RollFrequencyDatesService#updateFeeMethodProcessDates
      */
     public void testRollFrequencyDatesService_updateFeeMethodProcessDates() {        
-        assertTrue("updateFeeMethodProcessDates faild.", rollFrequencyDatesService.updateFeeMethodProcessDates());        
+        assertTrue("updateFeeMethodProcessDates failed.", rollFrequencyDatesService.updateFeeMethodProcessDates());        
     }
     
     /**
      * tests RollFrequencyDatesService#updateRecurringCashTransferProcessDates
      */
     public void testRollFrequencyDatesService_updateRecurringCashTransferProcessDates() {        
-        assertTrue("updateRecurringCashTransferProcessDates faild.", rollFrequencyDatesService.updateRecurringCashTransferProcessDates());        
+        assertTrue("updateRecurringCashTransferProcessDates failed.", rollFrequencyDatesService.updateRecurringCashTransferProcessDates());        
     }
     
     /**
      * tests RollFrequencyDatesService#updateCashSweepModelNextDueDates
      */
     public void testRollFrequencyDatesService_updateCashSweepModelNextDueDates() {        
-        assertTrue("updateCashSweepModelNextDueDates() faild.", rollFrequencyDatesService.updateCashSweepModelNextDueDates());        
+        assertTrue("updateCashSweepModelNextDueDates() failed.", rollFrequencyDatesService.updateCashSweepModelNextDueDates());        
     }
     
     /**
      * tests RollFrequencyDatesService#updateAutomatedCashInvestmentModelNextDueDates
      */
     public void testRollFrequencyDatesService_updateAutomatedCashInvestmentModelNextDueDates() {        
-        assertTrue("updateAutomatedCashInvestmentModelNextDueDates faild.", rollFrequencyDatesService.updateAutomatedCashInvestmentModelNextDueDates());        
+        assertTrue("updateAutomatedCashInvestmentModelNextDueDates failed.", rollFrequencyDatesService.updateAutomatedCashInvestmentModelNextDueDates());        
     }
 }

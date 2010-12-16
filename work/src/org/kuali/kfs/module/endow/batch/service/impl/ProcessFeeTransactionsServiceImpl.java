@@ -107,12 +107,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
     
     //the properties to hold count, total amounts and fee etc.
-    private long totalNumberOfRecords = 0;
-    private BigDecimal totalAmountCalculated = BigDecimal.ZERO;
-    private BigDecimal feeToBeCharged = BigDecimal.ZERO;    
-    private BigDecimal transactionIncomeAmount = BigDecimal.ZERO;
-    private BigDecimal transacationPrincipalAmount = BigDecimal.ZERO;
-    private BigDecimal totalHoldingUnits = BigDecimal.ZERO;
+    protected long totalNumberOfRecords = 0;
+    protected BigDecimal totalAmountCalculated = BigDecimal.ZERO;
+    protected BigDecimal feeToBeCharged = BigDecimal.ZERO;    
+    protected BigDecimal transactionIncomeAmount = BigDecimal.ZERO;
+    protected BigDecimal transacationPrincipalAmount = BigDecimal.ZERO;
+    protected BigDecimal totalHoldingUnits = BigDecimal.ZERO;
     
     //properties to help in writing subtotals and grand totals lines.
     //lines generated
@@ -863,12 +863,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         boolean saved = true;
         
         try {
-            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
-            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
-            
             documentService.saveDocument(cashDecreaseDocument);
         }
         catch (WorkflowException wfe) {
+            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
+            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
             return false;
         }
         catch (Exception ex) {

@@ -39,6 +39,18 @@
     	</property>
     </bean>
     
+    <bean id="mockProcessFeeTransactionsService" parent="processFeeTransactionsService">
+    	<property name="processFeeTransactionsExceptionReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="processFeeTransactionsTotalProcessedReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="processFeeTransactionsWaivedAndAccruedFeesReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+    
     <bean id="mockRollFrequencyDatesService" parent="rollFrequencyDatesService">
     	<property name="rollFrequencyDatesTotalReportWriterService">
     		<ref bean="mockReportWriterService"/>

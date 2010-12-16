@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
@@ -66,6 +67,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(HoldingHistoryValueAdjustmentDocumentRuleTest.class);
         suite.addTestSuite(CorpusAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
+        suite.addTestSuite(ProcessFeeTransactionsServiceImplTest.class);
         return suite;
     }
 

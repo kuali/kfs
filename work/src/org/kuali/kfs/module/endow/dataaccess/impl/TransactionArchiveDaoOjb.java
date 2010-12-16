@@ -46,7 +46,13 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public Collection<TransactionArchive> getAllTransactionArchives() {
         Collection<TransactionArchive> transactionArchives = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull(EndowPropertyConstants.DOCUMENT_NUMBER);
 
+        QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        transactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
         return transactionArchives;
     }
     
@@ -140,7 +146,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         Collection<TransactionArchive> transactionArchives = new ArrayList();        
         transactionArchives = getTransactionArchivesForTransactions(feeMethod);
         for (TransactionArchive transactionArchive : transactionArchives) {
-            incomeCashAmount.add(transactionArchive.getIncomeCashAmount());
+            incomeCashAmount = incomeCashAmount.add(transactionArchive.getIncomeCashAmount());
         }
         
         return incomeCashAmount;
@@ -155,7 +161,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         Collection<TransactionArchive> transactionArchives = new ArrayList();        
         transactionArchives = getTransactionArchivesForTransactions(feeMethod);
         for (TransactionArchive transactionArchive : transactionArchives) {
-            principalCashAmount.add(transactionArchive.getPrincipalCashAmount());
+            principalCashAmount = principalCashAmount.add(transactionArchive.getPrincipalCashAmount());
         }
         
         return principalCashAmount;
@@ -165,8 +171,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod)
      */
     public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod) {
-        BigDecimal incomeCashAmount = new BigDecimal("0");
-        BigDecimal principalCashAmount = new BigDecimal("0");
+        BigDecimal incomeCashAmount = BigDecimal.ZERO;
+        BigDecimal principalCashAmount = BigDecimal.ZERO;
         
         HashMap<String, BigDecimal> incomeAndPrincipalCashAmounts = new HashMap();
         
@@ -198,7 +204,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @return typeCodes
      */
     protected Collection getTypeCodes(String feeMethodCode) {
-        Collection typeCodes = null;
+        Collection typeCodes = new ArrayList();
         Collection<FeeTransaction> feeTransactions = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -245,7 +251,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     protected Collection getETranCodes(String feeMethodCode) {
         Collection<FeeEndowmentTransactionCode> feeEndowmentTransactions = new ArrayList();
-        Collection etranCodes = null;
+        Collection etranCodes = new ArrayList();
         
         if (StringUtils.isNotBlank(feeMethodCode)) {        
             Map<String, String>  crit = new HashMap<String, String>();

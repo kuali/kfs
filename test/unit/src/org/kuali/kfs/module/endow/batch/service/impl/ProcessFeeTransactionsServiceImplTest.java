@@ -18,24 +18,41 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
+import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.FeeClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeEndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeMethodFixture;
+import org.kuali.kfs.module.endow.fixture.FeeSecurityFixture;
 import org.kuali.kfs.module.endow.fixture.FeeTransactionFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.MonthEndDateFixture;
+import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.module.endow.fixture.TransactionArchiveFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -73,10 +90,15 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         processFeeTransactionsServiceImpl = (ProcessFeeTransactionsServiceImpl) TestUtils.getUnproxiedService("mockProcessFeeTransactionsService");
-
+        
         EndowmentTransactionCode endowmentTransactionCode1 = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
         EndowmentTransactionCode endowmentTransactionCode2 = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
         EndowmentTransactionCode endowmentTransactionCode3 = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE.createEndowmentTransactionCode();
+        
+        SecurityReportingGroup securityReportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        
+        ClassCode classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2.createClassCodeRecord();
+        
         
         feeMethod1 = FeeMethodFixture.FEE_METHOD_RECORD1.createFeeMethodRecord();
         feeMethod2 = FeeMethodFixture.FEE_METHOD_RECORD2.createFeeMethodRecord();
@@ -178,4 +200,36 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
 
         LOG.info("method testProcessTransactionArchivesCountForTransactionsFeeType() exited.");
     }
+    
+    /**
+     * test processBalanceFeeType() method 
+     * when when FEE_BAL_TYP_CD = AU OR CU, then method performFeeRateDefintionForCountCalculations() is tested.
+     * when when FEE_BAL_TYP_CD = CU, then method performFeeRateDefintionForValueCalculations is tested.
+     */
+    public void testProcessBalanceFeeType() {
+        LOG.info("method testProcessBalanceFeeType() entered.");
+
+        BigDecimal totalHoldingUnits = BigDecimal.ZERO;
+        
+        feeMethod1.setFeeBySecurityCode(true);
+        feeMethod1.setFeeByClassCode(true);
+        feeMethod1.setFeeLastProcessDate(Date.valueOf("2010-04-25"));
+        
+        Security security = SecurityFixture.LIABILITY_INCREASE_ACTIVE_SECURITY.createSecurityRecord();
+        
+        MonthEndDate monthEndDate = MonthEndDateFixture.MONTH_END_DATE_TEST_RECORD.createMonthEndDate();
+        
+        FeeClassCode feeClassCode1 = FeeClassCodeFixture.FEE_CLASS_CODE_RECORD_1.createFeeClassCodeRecord();
+        FeeSecurity feeSecurity1 = FeeSecurityFixture.FEE_SECURITY_RECORD_1.createFeeSecurityRecord();
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createRegistrationCode();
+        HoldingHistory holdingHistory1 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createHoldingHistoryRecord();
+        
+        processFeeTransactionsServiceImpl.processBalanceFeeType(feeMethod1);
+        totalHoldingUnits = BigDecimal.valueOf(200.00000);
+        
+        assertTrue("totalHoldingUnits should be 200.00000", (processFeeTransactionsServiceImpl.totalHoldingUnits.compareTo(totalHoldingUnits) == 0));
+
+        LOG.info("method testProcessBalanceFeeType() exited.");
+    }
+    
 }

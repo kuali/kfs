@@ -85,14 +85,14 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
             }
         }
         else {
-            if (feeMethod.getFeeByTransactionType()) {
+            if (feeMethod.getFeeByClassCode()) {
                 securityClassCodes = getSecurityClassCodes(feeMethod.getCode());
                 if (securityClassCodes.size() > 0) {
                    criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityClassCodes);
                 }
             }
             
-            if (feeMethod.getFeeByETranCode()) {
+            if (feeMethod.getFeeBySecurityCode()) {
                 securityIds = getSecurityIds(feeMethod.getCode());                
                 if (securityIds.size() > 0) {
                     criteria.addIn(EndowPropertyConstants.HOLDING_HISTORY_SECURITY_ID, securityIds);
@@ -188,10 +188,10 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
             Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
 
             if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingUnits.add(holdingHistory.getUnits());    
+                totalHoldingUnits = totalHoldingUnits.add(holdingHistory.getUnits());    
             }
             if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingUnits.add(holdingHistory.getUnits());    
+                totalHoldingUnits = totalHoldingUnits.add(holdingHistory.getUnits());    
             }
         }
         
@@ -217,10 +217,10 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         for (HoldingHistory holdingHistory : holdingHistoryRecords) {
             Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
             if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
+                totalHoldingMarkteValue = totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
             if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (monthEndDate.compareTo(mostRecentDate) > 0)) {
-                totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
+                totalHoldingMarkteValue = totalHoldingMarkteValue.add(holdingHistory.getMarketValue());    
             }
         }
         

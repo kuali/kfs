@@ -97,7 +97,7 @@ public enum ClassCodeFixture {
             "A",// classCodeType;
             "M"// valuationMethod;
     ),
-    
+
     HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2("AAA", // code dummy record
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
@@ -108,7 +108,7 @@ public enum ClassCodeFixture {
             "L",// classCodeType;
             "M"// valuationMethod;
     ),
-    
+
     HOLDING_HISTORY_VALUE_ADJUSTMENT_NOT_LIABILITY_CLASS_CODE_2("ABC", // code dummy record
             "Test Liability Class Code", // desc
             "TST12",// securityReportingGrp;
@@ -117,6 +117,17 @@ public enum ClassCodeFixture {
             "TST123", // securityIncomeEndowmentTransactionPostCode;
             true, // taxLotIndicator;
             "B",// classCodeType;
+            "M"// valuationMethod;
+    ),
+
+    ACCRUAL_PROCESSING_CLASS_CODE("TST", // code dummy record
+            "Test accrual method Class Code for accrual processing", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "A",// classCodeType;
             "M"// valuationMethod;
     );
 

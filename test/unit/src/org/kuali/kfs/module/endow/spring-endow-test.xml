@@ -67,4 +67,10 @@
     
     </bean>
     
+    <bean id="mockAccrualProcessingService" parent="accrualProcessingService">
+        <property name="accrualProcessingReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+	</bean>
+    
 </beans>

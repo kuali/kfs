@@ -76,6 +76,15 @@ public enum HoldingTaxLotRebalanceFixture {
             new KualiInteger(1), //totalLotNumber
             BigDecimal.valueOf(20.00), // totalUnits
             BigDecimal.valueOf(10000.00) // totalCost    
+    ),
+    
+    HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_ACCRUAL_PROC("TESTKEMID", //kemid
+            "TESTSECID", //securityId
+            "TEST", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.valueOf(20.00), // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost    
     );
     
     public final String kemid;

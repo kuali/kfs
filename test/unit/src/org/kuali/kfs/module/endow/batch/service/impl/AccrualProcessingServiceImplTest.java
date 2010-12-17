@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
@@ -101,7 +102,7 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
 
         BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal(20 * 20), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
 
-        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey("TESTKEMID", "TESTSECID", "TEST", 1, "P");
+        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
     }
@@ -120,9 +121,10 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
 
         accrualProcessingService.processAccrualForDividends(security);
 
+        // compute accrual amount= (security rate * holding units)/nr of days in year
         BigDecimal accrual = KEMCalculationRoundingHelper.multiply(new BigDecimal(20), new BigDecimal(20), 5);
 
-        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey("TESTKEMID", "TESTSECID", "TEST", 1, "P");
+        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
     }
@@ -138,9 +140,10 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
 
         accrualProcessingService.processAccrualForTimeDeposits(security);
 
+        // compute accrual amount= (security rate * holding units)/nr of days in year
         BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal(20 * 20), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
 
-        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey("TESTKEMID", "TESTSECID", "TEST", 1, "P");
+        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
     }
@@ -154,14 +157,14 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.DISCOUNT_BONDS);
         security.getClassCode().refreshReferenceObject("accrualMethod");
 
-        security.setIncomePayFrequency("IM15");
-        security.setIncomeNextPayDate(Date.valueOf("2010-09-15"));
+        security.setIncomePayFrequency(EndowTestConstants.FREQ_CD_SEMIANUALLY_MARCH_15);
+        security.setIncomeNextPayDate(Date.valueOf(EndowTestConstants.SEPT_15_2010_TEST_DATE));
 
         accrualProcessingService.processAccrualForTreasuryNotesAndBonds(security);
         // compute accrual amount as ((holding units * security rate)/2)/number of days since last income paid date
-        BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal((20 * 20) / 2), new BigDecimal(184), 5);
+        BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal((20 * 20) / 2), new BigDecimal(EndowTestConstants.NR_OF_DAY_IN_SEMIANNUAL_INTERVAL), 5);
 
-        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey("TESTKEMID", "TESTSECID", "TEST", 1, "P");
+        HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
     }

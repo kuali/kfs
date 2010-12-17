@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -32,12 +33,12 @@ public enum SecurityFixture {
             BigDecimal.valueOf(20L), // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
-    ), ACTIVE_SECURITY("TESTSECID", // securityId
+    ), ACTIVE_SECURITY(EndowTestConstants.TEST_SEC_ID, // securityId
             "TST", // securityClassCode
             BigDecimal.ONE, // securityUnitValue
             "M01", // securityIncomePayFrequencyCode
             Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
-            BigDecimal.valueOf(20L), // securityRate
+            EndowTestConstants.SECURITY_RATE, // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
     ), INACTIVE_SECURITY("TESTSECID", // securityId

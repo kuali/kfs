@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.suite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
@@ -54,6 +55,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(EndowmentToGLTransferOfFundsDocumentRulesTest.class);
         suite.addTestSuite(GLToEndowmentTransferOfFundsDocumentRulesTest.class);
         suite.addTestSuite(EndowmentToGLTransferOfFundsDocumentRulesTest.class);
+        suite.addTestSuite(AccrualProcessingServiceImplTest.class);
 
         // Muddu's unit tests....
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);

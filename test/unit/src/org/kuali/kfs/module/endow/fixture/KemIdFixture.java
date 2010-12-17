@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.fixture;
 
 import java.sql.Date;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -41,7 +42,7 @@ public enum KemIdFixture {
             "TRU" // principalRestrictionCode
     ),
 
-    OPEN_KEMID_RECORD("TESTKEMID", // kemid
+    OPEN_KEMID_RECORD(EndowTestConstants.TEST_KEMID, // kemid
             "Test Kemid for Unit test", // shortTitle
             "Long Title for Kemid", // longTitle
             Date.valueOf("2006-02-01"), // dateOpened

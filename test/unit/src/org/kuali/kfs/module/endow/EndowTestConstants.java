@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow;
 
+import java.math.BigDecimal;
+
 import org.apache.bcel.generic.NEW;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.util.JSTLConstants;
@@ -42,5 +44,15 @@ public class EndowTestConstants extends JSTLConstants {
     public static final KualiInteger FIRST_MONTH_END_DATE_ID = new KualiInteger(1);
     public static final String UNIT_VALUATION_METHOD_CODE = "U";
     public static final String MARKET_VALUATION_METHOD_CODE = "M";
+    
+    public static final String TEST_KEMID = "TESTKEMID";
+    public static final String TEST_SEC_ID = "TESTSECID";
+    public static final String TEST_REGISTRATION_CD = "TEST";
+    public static final String FREQ_CD_SEMIANUALLY_MARCH_15 = "IM15";
+    public static final String SEPT_15_2010_TEST_DATE = "2010-09-15";
+    public static final int NR_OF_DAY_IN_SEMIANNUAL_INTERVAL = 184; 
+    public static final BigDecimal HOLDING_UNITS = new BigDecimal(20);
+    public static final BigDecimal SECURITY_RATE = new BigDecimal(20);
+   
     
 }

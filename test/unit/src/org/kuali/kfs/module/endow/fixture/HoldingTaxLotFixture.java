@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -102,17 +103,17 @@ public enum HoldingTaxLotFixture {
             BigDecimal.valueOf(0.00), // priorAccrual
             Date.valueOf("2002-06-27") // lastTransactionDate)
     ),
-    
-    HOLDING_TAX_LOT_RECORD_FOR_ACCRUAL_PROC("TESTKEMID", // kemid
-            "TESTSECID", // securityId
-            "TEST", // registrationCode
+
+    HOLDING_TAX_LOT_RECORD_FOR_ACCRUAL_PROC(EndowTestConstants.TEST_KEMID, // kemid
+            EndowTestConstants.TEST_SEC_ID, // securityId
+            EndowTestConstants.TEST_REGISTRATION_CD, // registrationCode
             "P", // incomePrincipalIndicator
             new KualiInteger(1), // lotNumber
             Date.valueOf("2005-11-01"), // acquiredDate
-            BigDecimal.valueOf(20.00), // units
+            EndowTestConstants.HOLDING_UNITS, // units
             BigDecimal.valueOf(10000.00), // cost
-            BigDecimal.valueOf(0.00), // currentAccrual
-            BigDecimal.valueOf(0.00), // priorAccrual
+            BigDecimal.ZERO, // currentAccrual
+            BigDecimal.ZERO, // priorAccrual
             Date.valueOf("2002-06-27") // lastTransactionDate)
     );
 

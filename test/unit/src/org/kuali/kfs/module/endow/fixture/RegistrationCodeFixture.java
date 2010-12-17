@@ -15,13 +15,14 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public enum RegistrationCodeFixture {
 
-    REGISTRATION_CODE_RECORD("TEST", "Test RegistrationCode", true),
+    REGISTRATION_CODE_RECORD(EndowTestConstants.TEST_REGISTRATION_CD, "Test RegistrationCode", true),
 
     REGISTRATION_CODE_RECORD_FOR_LIABILITY("TEST", // code
             "Test RegistrationCode", // description

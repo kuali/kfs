@@ -71,14 +71,13 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
      */
     private void createDataFixtures() {
 
-        // setup dummy data so the method can test the method getAvailableIncomeCash()
+        // setup dummy data
         RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD.createRegistrationCode();
         KEMID kemid = KemIdFixture.OPEN_KEMID_RECORD.createKemidRecord();
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
         EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
 
         ClassCode classCode = ClassCodeFixture.ACCRUAL_PROCESSING_CLASS_CODE.createClassCodeRecord();
-
 
         security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
         security.setClassCode(classCode);
@@ -100,7 +99,8 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
 
         accrualProcessingService.processAccrualForAutomatedCashManagement(security);
 
-        BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal(20 * 20), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
+        // compute accrual amount= (security rate * holding units)/nr of days in year
+        BigDecimal accrual = KEMCalculationRoundingHelper.divide(EndowTestConstants.SECURITY_RATE.multiply(EndowTestConstants.HOLDING_UNITS), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
 
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
@@ -116,13 +116,13 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.DIVIDENDS);
         security.getClassCode().refreshReferenceObject("accrualMethod");
 
-        security.setDividendAmount(new BigDecimal(20));
+        security.setDividendAmount(EndowTestConstants.SECURITY_DVND_AMT);
         security.setExDividendDate(kemService.getCurrentDate());
 
         accrualProcessingService.processAccrualForDividends(security);
 
-        // compute accrual amount= (security rate * holding units)/nr of days in year
-        BigDecimal accrual = KEMCalculationRoundingHelper.multiply(new BigDecimal(20), new BigDecimal(20), 5);
+        // calculate the accrual amound as: holding units * security dividend amount
+        BigDecimal accrual = KEMCalculationRoundingHelper.multiply(EndowTestConstants.SECURITY_RATE, EndowTestConstants.SECURITY_DVND_AMT, 5);
 
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
@@ -141,7 +141,7 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         accrualProcessingService.processAccrualForTimeDeposits(security);
 
         // compute accrual amount= (security rate * holding units)/nr of days in year
-        BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal(20 * 20), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
+        BigDecimal accrual = KEMCalculationRoundingHelper.divide(EndowTestConstants.SECURITY_RATE.multiply(EndowTestConstants.HOLDING_UNITS), new BigDecimal(kemService.getNumberOfDaysInCalendarYear()), 5);
 
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
@@ -161,8 +161,9 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         security.setIncomeNextPayDate(Date.valueOf(EndowTestConstants.SEPT_15_2010_TEST_DATE));
 
         accrualProcessingService.processAccrualForTreasuryNotesAndBonds(security);
+
         // compute accrual amount as ((holding units * security rate)/2)/number of days since last income paid date
-        BigDecimal accrual = KEMCalculationRoundingHelper.divide(new BigDecimal((20 * 20) / 2), new BigDecimal(EndowTestConstants.NR_OF_DAY_IN_SEMIANNUAL_INTERVAL), 5);
+        BigDecimal accrual = KEMCalculationRoundingHelper.divide(EndowTestConstants.HOLDING_UNITS.multiply(EndowTestConstants.SECURITY_RATE).divide(new BigDecimal(2)), new BigDecimal(EndowTestConstants.NR_OF_DAY_IN_SEMIANNUAL_INTERVAL), 5);
 
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 

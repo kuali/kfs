@@ -53,6 +53,7 @@ public class EndowTestConstants extends JSTLConstants {
     public static final int NR_OF_DAY_IN_SEMIANNUAL_INTERVAL = 184; 
     public static final BigDecimal HOLDING_UNITS = new BigDecimal(20);
     public static final BigDecimal SECURITY_RATE = new BigDecimal(20);
+    public static final BigDecimal SECURITY_DVND_AMT = new BigDecimal(20);
    
     
 }

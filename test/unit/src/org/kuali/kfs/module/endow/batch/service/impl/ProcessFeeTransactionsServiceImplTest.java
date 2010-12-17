@@ -26,6 +26,7 @@ import java.util.Map;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
@@ -41,6 +42,7 @@ import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
+import org.kuali.kfs.module.endow.fixture.CurrentTaxLotBalanceFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeEndowmentTransactionCodeFixture;
@@ -202,14 +204,15 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
     }
     
     /**
-     * test processBalanceFeeType() method 
-     * when when FEE_BAL_TYP_CD = AU OR CU, then method performFeeRateDefintionForCountCalculations() is tested.
-     * when when FEE_BAL_TYP_CD = CU, then method performFeeRateDefintionForValueCalculations is tested.
+     * test to validate method performFeeRateDefintionForCountCalculations()
+     * fee rate defintion code is C
+     * when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
      */
-    public void testProcessBalanceFeeType() {
-        LOG.info("method testProcessBalanceFeeType() entered.");
+    public void testPerformFeeRateDefintionForCountCalculations() {
+        LOG.info("method testPerformFeeRateDefintionForCountCalculations() entered.");
 
         BigDecimal totalHoldingUnits = BigDecimal.ZERO;
+        BigDecimal totalAmountCalculated = BigDecimal.ZERO;
         
         feeMethod1.setFeeBySecurityCode(true);
         feeMethod1.setFeeByClassCode(true);
@@ -224,12 +227,75 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createRegistrationCode();
         HoldingHistory holdingHistory1 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createHoldingHistoryRecord();
         
-        processFeeTransactionsServiceImpl.processBalanceFeeType(feeMethod1);
+      //when FEE_BAL_TYP_CD = AU OR MU then total END_HLDG_HIST_T:HLDG_UNITS column
+        processFeeTransactionsServiceImpl.performFeeRateDefintionForCountCalculations(feeMethod1);
         totalHoldingUnits = BigDecimal.valueOf(200.00000);
-        
+        //totalHoldingUnits should be 200.00000
         assertTrue("totalHoldingUnits should be 200.00000", (processFeeTransactionsServiceImpl.totalHoldingUnits.compareTo(totalHoldingUnits) == 0));
+        //totalAmountCalculated should be 1.00
+        totalAmountCalculated = BigDecimal.valueOf(1.00);
+        assertTrue("totalAmountCalculated should be 1.00", (processFeeTransactionsServiceImpl.totalAmountCalculated.compareTo(totalAmountCalculated) == 0));
+     
+        //when FEE_BAL_TYP_CD = CU, totalHoldingUnits is calculated using records from current tax lot balance..
+        feeMethod1.setFeeBalanceTypeCode(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS);
+        CurrentTaxLotBalance currentTaxLotBalance = CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD_FOR_FEE_PROCESSING.createCurrentTaxLotBalanceRecord();
+        processFeeTransactionsServiceImpl.performFeeRateDefintionForCountCalculations(feeMethod1);
 
-        LOG.info("method testProcessBalanceFeeType() exited.");
+        //totalHoldingUnits should be 10000.00
+        totalHoldingUnits = BigDecimal.valueOf(10000.00);
+        assertTrue("totalHoldingUnits should be 10000.00", (processFeeTransactionsServiceImpl.totalHoldingUnits.compareTo(totalHoldingUnits) == 0));
+        //totalAmountCalculated should be 50.00
+        totalAmountCalculated = BigDecimal.valueOf(50.00);
+        assertTrue("totalAmountCalculated should be 50.00", (processFeeTransactionsServiceImpl.totalAmountCalculated.compareTo(totalAmountCalculated) == 0));
+
+        LOG.info("method testPerformFeeRateDefintionForCountCalculations() exited.");
+    }
+    
+    /**
+     * test to validate performFeeRateDefintionForValueCalculations() method in the impl class
+     * fee rate defintion code is V
+     * when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+     */
+    public void testPerformFeeRateDefintionForValueCalculations() {
+        LOG.info("method testPerformFeeRateDefintionForValueCalculations() entered.");
+
+        BigDecimal totalHoldingUnits = BigDecimal.ZERO;
+        BigDecimal totalAmountCalculated = BigDecimal.ZERO;
+        
+        feeMethod1.setFeeBySecurityCode(true);
+        feeMethod1.setFeeByClassCode(true);
+        feeMethod1.setFeeLastProcessDate(Date.valueOf("2010-04-25"));
+        
+        Security security = SecurityFixture.LIABILITY_INCREASE_ACTIVE_SECURITY.createSecurityRecord();
+        MonthEndDate monthEndDate = MonthEndDateFixture.MONTH_END_DATE_TEST_RECORD.createMonthEndDate();
+        FeeClassCode feeClassCode1 = FeeClassCodeFixture.FEE_CLASS_CODE_RECORD_1.createFeeClassCodeRecord();
+        FeeSecurity feeSecurity1 = FeeSecurityFixture.FEE_SECURITY_RECORD_1.createFeeSecurityRecord();
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createRegistrationCode();
+        HoldingHistory holdingHistory1 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD1_FOR_PROCESS_FEE_TRANSACTIONS.createHoldingHistoryRecord();
+        feeMethod1.setFeeBalanceTypeCode(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE);
+        
+      //when FEE_BAL_TYP_CD = AMV OR MMV then total END_HLDG_HIST_T:HLDG_UNITS column
+        processFeeTransactionsServiceImpl.performFeeRateDefintionForValueCalculations(feeMethod1);
+        totalHoldingUnits = BigDecimal.valueOf(1.00000);
+        //totalHoldingUnits should be 200.00000
+        assertTrue("totalHoldingUnits should be 1.00000", (processFeeTransactionsServiceImpl.totalHoldingUnits.compareTo(totalHoldingUnits) == 0));
+        //totalAmountCalculated should be 1.00
+        totalAmountCalculated = BigDecimal.valueOf(0.01);
+        assertTrue("totalAmountCalculated should be 0.01", (processFeeTransactionsServiceImpl.totalAmountCalculated.compareTo(totalAmountCalculated) == 0));
+     
+        //when FEE_BAL_TYP_CD = CMV, totalHoldingUnits is calculated using records from current tax lot balance..
+        feeMethod1.setFeeBalanceTypeCode(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE);
+        CurrentTaxLotBalance currentTaxLotBalance = CurrentTaxLotBalanceFixture.CURRENT_TAX_LOT_BALANCE_RECORD_FOR_FEE_PROCESSING.createCurrentTaxLotBalanceRecord();
+        processFeeTransactionsServiceImpl.performFeeRateDefintionForValueCalculations(feeMethod1);
+
+        //totalHoldingUnits should be 10000.00
+        totalHoldingUnits = BigDecimal.valueOf(10000.00);
+        assertTrue("totalHoldingUnits should be 10000.00", (processFeeTransactionsServiceImpl.totalHoldingUnits.compareTo(totalHoldingUnits) == 0));
+        //totalAmountCalculated should be 50.00
+        totalAmountCalculated = BigDecimal.valueOf(50.00);
+        assertTrue("totalAmountCalculated should be 50.00", (processFeeTransactionsServiceImpl.totalAmountCalculated.compareTo(totalAmountCalculated) == 0));
+
+        LOG.info("method testPerformFeeRateDefintionForCountCalculations() exited.");
     }
     
 }

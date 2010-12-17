@@ -386,12 +386,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * performs calculations when Fee Rate Definition Code is C
+     * performs calculations when Fee Rate Definition Code is V
      */
     protected void performFeeRateDefintionForValueCalculations(FeeMethod feeMethod) {
         String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
         
-        //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+        //when FEE_BAL_TYP_CD = AMV OR MMV then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
             feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
             totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);

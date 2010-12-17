@@ -95,6 +95,24 @@ public enum CurrentTaxLotBalanceFixture {
             BigDecimal.valueOf(0.00), // priorAccrual
             Date.valueOf("2008-09-30"), //lastTransactionDate
             BigDecimal.valueOf(10000.00) // holdingMarketValue
+    ),
+    
+    CURRENT_TAX_LOT_BALANCE_RECORD_FOR_FEE_PROCESSING("TESTKEMID", //kemid
+            "TESTSECID", //securityId
+            "TST1", //registrationCode
+            new KualiInteger(1), //lotNumber
+            "P", //incomePrincipalIndicator
+            BigDecimal.valueOf(10000.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // annualEstimatedIncome
+            BigDecimal.valueOf(0.00), //remainderOfFYEstimatedIncome
+            BigDecimal.valueOf(0.00), // nextFYEstimatedIncome
+            BigDecimal.valueOf(1.00), //securityUnitVal
+            Date.valueOf("2009-09-30"), //acquiredDate
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2008-09-30"), //lastTransactionDate
+            BigDecimal.valueOf(10000.00) // holdingMarketValue
     );
     
     public final String kemid;

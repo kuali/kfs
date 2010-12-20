@@ -59,7 +59,7 @@ public enum FeeMethodFixture {
             "V", // feeRateDefinitionCode
             BigDecimal.valueOf(0.0050), // firstFeeRate
             new KualiDecimal(999999999999.99), // firstFeeBreakpoint
-            BigDecimal.valueOf(0.005), // secondFeeRate
+            BigDecimal.valueOf(0.05), // secondFeeRate
             new KualiDecimal(999999999999.99), // secondFeeBreakpoint
             BigDecimal.valueOf(0.00), // thirdFeeRate
             new KualiDecimal(0.00), //minimumFeeThreshold

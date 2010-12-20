@@ -50,6 +50,7 @@ import org.kuali.kfs.module.endow.fixture.FeeMethodFixture;
 import org.kuali.kfs.module.endow.fixture.FeeSecurityFixture;
 import org.kuali.kfs.module.endow.fixture.FeeTransactionFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFeeFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
 import org.kuali.kfs.module.endow.fixture.MonthEndDateFixture;
 import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
@@ -63,6 +64,7 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiInteger;
 
 @ConfigureContext(session = kfs)
 public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
@@ -100,7 +102,6 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         SecurityReportingGroup securityReportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
         
         ClassCode classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2.createClassCodeRecord();
-        
         
         feeMethod1 = FeeMethodFixture.FEE_METHOD_RECORD1.createFeeMethodRecord();
         feeMethod2 = FeeMethodFixture.FEE_METHOD_RECORD2.createFeeMethodRecord();
@@ -296,6 +297,136 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         assertTrue("totalAmountCalculated should be 50.00", (processFeeTransactionsServiceImpl.totalAmountCalculated.compareTo(totalAmountCalculated) == 0));
 
         LOG.info("method testPerformFeeRateDefintionForCountCalculations() exited.");
+    }
+    
+    /**
+     * test to validate performCalculationsAgainstTotalAmountCalculated() method in the impl class
+     */
+    public void testPerformCalculationsAgainstTotalAmountCalculated() {
+        LOG.info("method testPerformCalculationsAgainstTotalAmountCalculated() entered.");
+        
+        processFeeTransactionsServiceImpl.totalAmountCalculated = BigDecimal.valueOf(50.00);
+        BigDecimal feeToBeCharged = BigDecimal.valueOf(0.25);
+        
+        processFeeTransactionsServiceImpl.performCalculationsAgainstTotalAmountCalculated(feeMethod1);
+        assertTrue("totalAmountCalculated is not less than First Fee Break Point value", processFeeTransactionsServiceImpl.feeToBeCharged.compareTo(feeToBeCharged) ==0);
+        
+        feeMethod2.setFirstFeeBreakpoint(new KualiDecimal(25.00));
+        feeToBeCharged = BigDecimal.valueOf(2.50);
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.ZERO;
+        
+        //it should hit second if condition in the called method....
+        processFeeTransactionsServiceImpl.performCalculationsAgainstTotalAmountCalculated(feeMethod2);
+        assertTrue("totalAmountCalculated is not less than Second Fee Break Point value", processFeeTransactionsServiceImpl.feeToBeCharged.compareTo(feeToBeCharged) ==0);
+        
+        feeMethod2.setSecondFeeBreakpoint(new KualiDecimal(25.00));
+        feeMethod2.setThirdFeeRate(BigDecimal.ONE);
+        feeToBeCharged = BigDecimal.valueOf(50.00);
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.ZERO;
+        
+        //it should hit third if condition in the called method....
+        processFeeTransactionsServiceImpl.performCalculationsAgainstTotalAmountCalculated(feeMethod2);
+        assertTrue("totalAmountCalculated is not less than Third Fee Break Point value", processFeeTransactionsServiceImpl.feeToBeCharged.compareTo(feeToBeCharged) ==0);
+
+        LOG.info("method testPerformCalculationsAgainstTotalAmountCalculated() exited.");
+    }
+    
+    /**
+     * test to validate calculateMinumumFeeAmount() method in the impl class.
+     */
+    public void testCalculateMinumumFeeAmount() {
+        LOG.info("method testcalculateMinumumFeeAmount() entered.");
+
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.ZERO;        
+        processFeeTransactionsServiceImpl.totalAmountCalculated = BigDecimal.valueOf(50.00);
+        BigDecimal feeToBeCharged = BigDecimal.ZERO;
+        //not less than minimum fee so should equal to 0....
+        processFeeTransactionsServiceImpl.calculateMinumumFeeAmount(feeMethod1);
+        assertTrue("feeToBeCharged is calculated.  It should not be.", processFeeTransactionsServiceImpl.feeToBeCharged.compareTo(feeToBeCharged) ==0);
+        
+        processFeeTransactionsServiceImpl.totalAmountCalculated = BigDecimal.valueOf(0.50);
+        feeToBeCharged = BigDecimal.ONE;
+        //less than minimum fee so should equal to 1.00....
+        processFeeTransactionsServiceImpl.calculateMinumumFeeAmount(feeMethod1);
+        assertTrue("feeToBeCharged is not calculated.  It should be 1.00.", processFeeTransactionsServiceImpl.feeToBeCharged.compareTo(feeToBeCharged) ==0);
+
+        LOG.info("method testcalculateMinumumFeeAmount() exited.");
+    }
+    
+    /**
+     * test to validate checkForMinimumThresholdAmount() method in the impl class
+     */
+    public void testCheckForMinimumThresholdAmount() {
+        LOG.info("method testCheckForMinimumThresholdAmount() entered.");
+        
+        KemidFee kemidFee1 = KemIdFeeFixture.KEMID_FEE_RECORD1.createKemidFeeRecord();
+        
+        feeMethod1.setMinimumFeeThreshold(new KualiDecimal(2.00));
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.valueOf(1.00);
+        //feeToBeCharged less than minimum threshold fee so should return false...
+        processFeeTransactionsServiceImpl.calculateMinumumFeeAmount(feeMethod1);
+        assertFalse("feeToBeCharged is not less than minimum fee threshold.", processFeeTransactionsServiceImpl.checkForMinimumThresholdAmount(feeMethod1, kemidFee1));
+
+        feeMethod1.setMinimumFeeThreshold(new KualiDecimal(0.00));
+        assertTrue("feeToBeCharged is less than minimum fee threshold.", processFeeTransactionsServiceImpl.checkForMinimumThresholdAmount(feeMethod1, kemidFee1));
+        
+        LOG.info("method testCheckForMinimumThresholdAmount() exited.");
+    }
+    
+    /**
+     * private method to get the kemidFee record using businessObjectService
+     */
+    private KemidFee getKemidFeeRecord(String kemid, String feeMethodCode, KualiInteger feeMethodSeq) {
+        Map criteria = new HashMap();
+        criteria.put("kemid", kemid);
+        criteria.put("feeMethodCode", feeMethodCode);
+        criteria.put("feeMethodSeq", feeMethodSeq);
+        
+        return (KemidFee) businessObjectService.findByPrimaryKey(KemidFee.class, criteria);
+    }
+    
+    /**
+     * test to validate processFeeAccrual() method in the impl class..
+     */
+    public void testProcessFeeAccrual() {
+        LOG.info("method testProcessFeeAccrual() entered.");
+        
+        KemidFee kemidFee1 = KemIdFeeFixture.KEMID_FEE_RECORD1.createKemidFeeRecord();
+        BigDecimal totalAccruedFees = BigDecimal.valueOf(110.00);
+        
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.valueOf(100.00);
+        
+        //total accrued fees should be 10+100 = 110.00 after the method called.
+        processFeeTransactionsServiceImpl.processFeeAccrual(feeMethod1, kemidFee1);
+
+        KemidFee kemidFee = getKemidFeeRecord(kemidFee1.getKemid(), kemidFee1.getFeeMethodCode(), kemidFee1.getFeeMethodSeq());
+        
+        assertTrue("Total Accrued Fees Should be equal to 110.00", (kemidFee.getTotalAccruedFees().bigDecimalValue().compareTo(totalAccruedFees) == 0));
+
+        LOG.info("method testProcessFeeAccrual() exited.");
+    }
+    
+    /**
+     * test to validate processFeeWaiver() method in the impl class..
+     */
+    public void testProcessFeeWaiver() {
+        LOG.info("method testProcessFeeWaiver() entered.");
+        
+        KemidFee kemidFee1 = KemIdFeeFixture.KEMID_FEE_RECORD1.createKemidFeeRecord();
+        BigDecimal totalWaivedFeesThisFiscalYear = BigDecimal.valueOf(110.00);
+        BigDecimal totalWaivedFees = BigDecimal.valueOf(110.00);
+        
+        processFeeTransactionsServiceImpl.feeToBeCharged = BigDecimal.valueOf(100.00);
+        
+        //total accrued fees should be 10+100 = 110.00 after the method called.
+        processFeeTransactionsServiceImpl.processFeeWaiver(feeMethod1, kemidFee1);
+
+        KemidFee kemidFee = getKemidFeeRecord(kemidFee1.getKemid(), kemidFee1.getFeeMethodCode(), kemidFee1.getFeeMethodSeq());
+        
+        assertTrue("Total waived Fees this fiscal year should be equal to 110.00", (kemidFee.getTotalWaivedFeesThisFiscalYear().bigDecimalValue().compareTo(totalWaivedFeesThisFiscalYear) == 0));
+        assertTrue("Total waived Fees should be equal to 110.00", (kemidFee.getTotalWaivedFees().bigDecimalValue().compareTo(totalWaivedFees) == 0));
+
+        LOG.info("method testProcessFeeAccrual() exited.");
     }
     
 }

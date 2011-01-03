@@ -64,7 +64,7 @@ public class RollProcessDateServiceImplTest extends KualiTestBase {
     
     /**
      * checks rollProcessDateService#rollDate
-     * But this batch does not anything because it  
+     * But, this batch can be run only when the database is initialized. Thus, the unit-test is meaningless. 
      */
     public void testProcessDate() {
 //        rollProcessDateService.rollDate();

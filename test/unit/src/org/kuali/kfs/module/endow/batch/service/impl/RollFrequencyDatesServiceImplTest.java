@@ -39,14 +39,13 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception { 
-    
+    protected void setUp() throws Exception {        
+        super.setUp();
+        
         // Initialize service objects.
         frequencyDatesService = SpringContext.getBean(FrequencyDatesService.class);
         rollFrequencyDatesService = (RollFrequencyDatesServiceImpl) TestUtils.getUnproxiedService("mockRollFrequencyDatesService");       
         kemService = SpringContext.getBean(KEMService.class);
-                        
-        super.setUp();
     }
     
     /**

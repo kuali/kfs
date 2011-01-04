@@ -116,20 +116,20 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     
     //properties to help in writing subtotals and grand totals lines.
     //lines generated
-    private int totalProcessedLinesGeneratedSubTotal = 0;
-    private int totalProcessedLinesGeneratedGrandTotal = 0;
+    protected int totalProcessedLinesGeneratedSubTotal = 0;
+    protected int totalProcessedLinesGeneratedGrandTotal = 0;
     
     //income, principal subtotals at the eDoc level
-    private BigDecimal totalProcessedIncomeAmountSubTotalEDoc = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountSubTotalEDoc = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = BigDecimal.ZERO; 
     
     //income, principal subtotals at the fee method level
-    private BigDecimal totalProcessedIncomeAmountSubTotal = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountSubTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountSubTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountSubTotal = BigDecimal.ZERO; 
     
     //income, principal subtotals at the grand total level
-    private BigDecimal totalProcessedIncomeAmountGrandTotal = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountGrandTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountGrandTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountGrandTotal = BigDecimal.ZERO; 
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance

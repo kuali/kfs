@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,31 +28,40 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
+import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
+import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
+import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
+import org.kuali.kfs.module.endow.document.validation.impl.CashDecreaseDocumentRuleValidationsForBatchProcess;
 import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.CurrentTaxLotBalanceFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
 import org.kuali.kfs.module.endow.fixture.FeeClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeEndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.FeeMethodFixture;
 import org.kuali.kfs.module.endow.fixture.FeeSecurityFixture;
 import org.kuali.kfs.module.endow.fixture.FeeTransactionFixture;
+import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFeeFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.KemidGeneralLedgerAccountFixture;
 import org.kuali.kfs.module.endow.fixture.MonthEndDateFixture;
 import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
@@ -61,10 +71,17 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+
 
 @ConfigureContext(session = kfs)
 public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
@@ -72,6 +89,7 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
 
     private ProcessFeeTransactionsServiceImpl processFeeTransactionsServiceImpl;    
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
     
     //the properties to hold count, total amounts and fee etc.
     private long totalNumberOfRecords = 0;
@@ -84,6 +102,11 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
     private FeeMethod feeMethod1;
     private FeeMethod feeMethod2;
     private KEMID kemid;
+    private EndowmentTransactionCode endowmentTransactionCode1;
+    private EndowmentTransactionCode endowmentTransactionCode2;
+    private EndowmentTransactionCode endowmentTransactionCode3;
+    private KemidGeneralLedgerAccount kemidGeneralLedgerAccount;
+    private GLLink gLLink;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -95,18 +118,23 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         processFeeTransactionsServiceImpl = (ProcessFeeTransactionsServiceImpl) TestUtils.getUnproxiedService("mockProcessFeeTransactionsService");
         
-        EndowmentTransactionCode endowmentTransactionCode1 = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
-        EndowmentTransactionCode endowmentTransactionCode2 = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
-        EndowmentTransactionCode endowmentTransactionCode3 = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE.createEndowmentTransactionCode();
+        endowmentTransactionCode1 = EndowmentTransactionCodeFixture.EXPENSE_TRANSACTION_CODE.createEndowmentTransactionCode();
+        endowmentTransactionCode2 = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        gLLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
         
         SecurityReportingGroup securityReportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        
         ClassCode classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2.createClassCodeRecord();
         
         feeMethod1 = FeeMethodFixture.FEE_METHOD_RECORD1.createFeeMethodRecord();
         feeMethod2 = FeeMethodFixture.FEE_METHOD_RECORD2.createFeeMethodRecord();
+
         kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
-        
+        kemidGeneralLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
     
     /**
@@ -148,21 +176,20 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         
         setTotalWaivedFeesThisFiscalYearInKemidFee();
         
-        //intentionally setting incorrect values to the update will not happen
-        setSystemParameters("N", "07/02/2010", "0530");
-        boolean updated = processFeeTransactionsServiceImpl.updateKemidFeeWaivedYearToDateAmount();
+        //prepare a generic date string without year. The year is calculated from the current system date.
+        Calendar calendar = Calendar.getInstance();
+        String testDate = ("0701");
+        testDate =  testDate.substring(0, 2).concat("/").concat(testDate.substring(2, 4)).concat("/") + calendar.get(Calendar.YEAR);
         
         Map criteria = new HashMap();
         criteria.put("totalWaivedFeesThisFiscalYear", 1000);
         
-        Collection <KemidFee> kemidRecords = businessObjectService.findMatching(KemidFee.class, criteria);
-        assertFalse("The field totalWaivedFeesThisFiscalYear should not have been set to 0", kemidRecords.size() == 0);
-
         //setting correct values to the update will not happen
-        setSystemParameters("Y", "07/01/2010", "0630");
-        updated = processFeeTransactionsServiceImpl.updateKemidFeeWaivedYearToDateAmount();
-        kemidRecords = businessObjectService.findMatching(KemidFee.class, criteria);
-        assertTrue("The field totalWaivedFeesThisFiscalYear should have been set to 0", kemidRecords.size() == 0);
+        setSystemParameters("Y", testDate, "0630");
+        boolean updated = processFeeTransactionsServiceImpl.updateKemidFeeWaivedYearToDateAmount();
+        Collection <KemidFee> kemidRecords = businessObjectService.findMatching(KemidFee.class, criteria);
+
+        assertTrue("There should not be any records that has WAIVED_FEE_YTD <> 0.", kemidRecords.size() == 0);
         
         LOG.info("method testUpdateKemidFeeWaivedYearToDateAmount() exited.");
     }
@@ -427,6 +454,84 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         assertTrue("Total waived Fees should be equal to 110.00", (kemidFee.getTotalWaivedFees().bigDecimalValue().compareTo(totalWaivedFees) == 0));
 
         LOG.info("method testProcessFeeAccrual() exited.");
+    }
+    
+    /**
+     * create a LiabilityDecreaseDocument
+     * @return doc
+     */
+    @ConfigureContext(session = kfs, shouldCommitTransactions = true)
+    protected CashDecreaseDocument createCashDecreaseDocumentDocument() throws WorkflowException {
+        LOG.info("createCashDecreaseDocumentDocument() entered.");
+        
+        CashDecreaseDocument doc = (CashDecreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(CashDecreaseDocument.class);
+        doc.getDocumentHeader().setDocumentDescription("Testing Liability Decrease document.");
+        return doc;
+    }
+    
+    /**
+     * test to validate method setDocumentOverviewAndDetails() in the impl class
+     */
+    public void testSetDocumentOverviewAndDetails() throws Exception {
+        LOG.info("testSetDocumentOverviewAndDetails() entered.");
+        
+        CashDecreaseDocument cashDecreaseDocument = createCashDecreaseDocumentDocument();
+        processFeeTransactionsServiceImpl.setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod1.getName());
+        
+        assertTrue(cashDecreaseDocument.getTransactionSourceTypeCode().equalsIgnoreCase(EndowConstants.TransactionSourceTypeCode.AUTOMATED) &&
+                   cashDecreaseDocument.getTransactionSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH));
+        
+        LOG.info("testSetDocumentOverviewAndDetails() exited.");
+    }
+    
+    /**
+     * test to validate addTransactionLineToDocument method in the impl class.
+     * @see org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImpl#addTransactionLineToDocument(CashDecreaseDocument, org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine, int, String)
+     */
+    public void testAddTransactionLineToDocument() throws Exception {
+        LOG.info("testAddTransactionLineToDocument() entered.");
+    
+        CashDecreaseDocument cashDecreaseDocument = createCashDecreaseDocumentDocument();
+        processFeeTransactionsServiceImpl.setDocumentOverviewAndDetails(cashDecreaseDocument, feeMethod1.getName());
+        
+        EndowmentSourceTransactionLine line = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_ECDD_WITH_ETRAN_CD.createEndowmentTransactionLine(true);
+        line.setDocumentNumber(cashDecreaseDocument.getDocumentNumber());
+        
+        assertTrue("Source Transaction Line not added.", checkvalidateCashTransactionLine(cashDecreaseDocument, line));        
+
+        LOG.info("testAddTransactionLineToDocument() exited.");
+    }
+    
+    /*
+     * The static method uses the methods in CashDecreaseDocumentRuleValidatiionsForBatchProcess
+     * which basically calls individual methods in cash document base rule class to
+     * validate validateCashTransactionLine method.  The reason we are doing this way so that
+     * the method validateChartMatch() can be ignored.  This method will always fail in unit tests
+     * since END_KEMID_T and END_KEMID_GL_LNK_T tables have an inverse key KEMID and collection
+     * records for a given kemid in END_KEMID_GL_LNK_T will not be visible during validateChartMatch
+     * method so instead of calling validateCashTransactionLine, we validate the 
+     * individual methods to make sure validateCashTransactionLine passes.
+     */
+    private static boolean checkvalidateCashTransactionLine(CashDecreaseDocument cashDecreaseDocument, EndowmentSourceTransactionLine line) throws Exception {
+        boolean isValid = true;
+
+        CashDecreaseDocumentRuleValidationsForBatchProcess ruleTest = new CashDecreaseDocumentRuleValidationsForBatchProcess();
+
+        return ruleTest.checkValidateCashTransactionLine(cashDecreaseDocument, line, 0);
+    }
+    
+    /**
+     * Sets the documentService attribute value.
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    /**
+     * Gets the documentService attribute value.
+     */
+    protected DocumentService getDocumentService() {
+        return documentService;
     }
     
 }

@@ -35,6 +35,11 @@ public enum EndowmentTransactionCodeFixture {
             "A",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
             true// active
+    ), INVALID_TRANSACTION_TYPE_CODE("TST200",// code
+            "Test transaction code",// desc
+            "X",// endowmentTransactionTypeCode;
+            true,// corpusIndicator;
+            true// active
     );
 
 

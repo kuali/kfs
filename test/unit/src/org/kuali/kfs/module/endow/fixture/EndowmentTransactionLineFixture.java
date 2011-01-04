@@ -129,6 +129,22 @@ public enum EndowmentTransactionLineFixture {
             new KualiDecimal("10"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_FOR_ECI(new Integer(1), // transactionLineNumber
+            "032A017014", // kemid
+            "42020",// etranCode
+            "I", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            new KualiDecimal("10"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ), ENDOWMENT_TRANSACTIONAL_LINE_FOR_ECDD(new Integer(1), // transactionLineNumber
+            "032A017014", // kemid
+            "42020",// etranCode
+            "I", // transactionIPIndicatorCode
+            new KualiDecimal("100"), // transactionAmount
+            new KualiDecimal("10"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
     );
 
     public final Integer transactionLineNumber;

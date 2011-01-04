@@ -41,6 +41,24 @@ public enum EndowmentTransactionDocumentFixture {
             false, // transactionPosted
             "1234567890", // objectId
             new Long(1) // versionNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_CASH_INCREASE("ECI-TEST", // documentNumber
+            "C", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_CASH_DECREASE("ECDD-TEST", // documentNumber
+            "C", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
+    ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_CASH_TRANSFER("ECT-TEST", // documentNumber
+            "C", // transactionSubTypeCode
+            "M", // transactionSourceTypeCode
+            false, // transactionPosted
+            "1234567890", // objectId
+            new Long(1) // versionNumber
     ), ENDOWMENT_TRANSACTIONAL_DOCUMENT_SECURITY_TRANSFER("EST-TEST", // documentNumber
             "N", // transactionSubTypeCode
             "M", // transactionSourceTypeCode

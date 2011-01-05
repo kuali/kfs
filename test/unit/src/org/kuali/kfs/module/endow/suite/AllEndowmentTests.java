@@ -22,10 +22,16 @@ import org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImp
 import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImplTest;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.CashDecreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.CashIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.CashTransferDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CorpusAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.EndowmentToGLTransferOfFundsDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.GLToEndowmentTransferOfFundsDocumentRulesTest;
@@ -70,6 +76,15 @@ public class AllEndowmentTests {
         suite.addTestSuite(CorpusAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(ProcessFeeTransactionsServiceImplTest.class);
+        
+        // David's unit tests
+        suite.addTestSuite(CashIncreaseDocumentRulesTest.class);
+        suite.addTestSuite(CashDecreaseDocumentRulesTest.class);
+        suite.addTestSuite(CashTransferDocumentRulesTest.class);
+        suite.addTestSuite(RollProcessDateServiceImplTest.class);
+        suite.addTestSuite(RollFrequencyDatesServiceImplTest.class);
+        suite.addTestSuite(PooledFundControlTransactionsServiceImplTest.class);
+        
         return suite;
     }
 

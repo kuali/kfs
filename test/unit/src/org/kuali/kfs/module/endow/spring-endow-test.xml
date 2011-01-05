@@ -80,5 +80,15 @@
     	<property name="accrualTransactionsTotalReportWriterService">
     		<ref bean="mockReportWriterService"/>
     	</property>
-    </bean>    
+    </bean>  
+    
+    <bean id="mockpooledFundControlTransactionsService" parent="pooledFundControlTransactionsService">
+    	<property name="pooledFundControlTransactionsTotalReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="pooledFundControlTransactionsExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+    
 </beans>

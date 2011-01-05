@@ -17,28 +17,27 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
-import org.kuali.kfs.module.endow.batch.service.IncomeDistributionForPooledFundService;
 import org.kuali.kfs.module.endow.batch.service.PooledFundControlTransactionsService;
+import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
+import org.kuali.kfs.module.endow.fixture.PooledFundControlTransactionFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = kfs)
 public class PooledFundControlTransactionsServiceImplTest extends KualiTestBase {
 
-    protected PooledFundControlTransactionsService pooledFundControlTransactionsService;
-    protected IncomeDistributionForPooledFundService incomeDistributionForPooledFundService; 
+    protected PooledFundControlTransactionsServiceImpl pooledFundControlTransactionsService;
+    
     /**
      * @see junit.framework.TestCase#setUp()
      */
     @Override
     protected void setUp() throws Exception { 
-    
-        // Initialize service objects.
-        pooledFundControlTransactionsService = SpringContext.getBean(PooledFundControlTransactionsService.class);
-        incomeDistributionForPooledFundService = SpringContext.getBean(IncomeDistributionForPooledFundService.class);
-        
-        super.setUp();
+        super.setUp();        
+        pooledFundControlTransactionsService = (PooledFundControlTransactionsServiceImpl) TestUtils.getUnproxiedService("mockpooledFundControlTransactionsService");
+        pooledFundControlTransactionsService.initializeReports();
     }
     
     /**
@@ -48,14 +47,34 @@ public class PooledFundControlTransactionsServiceImplTest extends KualiTestBase 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        pooledFundControlTransactionsService = null;
     }
 
-    
-    public void testPooledFundControlTransactionsService() {
-//        assertTrue(pooledFundControlTransactionsService.generatePooledFundControlTransactions());
+    /**
+     * Validates CreateECDD()
+     */
+    public void testCreateECDD() {
+        PooledFundControlTransactionFixture pooledFundControlTransactionFixture = PooledFundControlTransactionFixture.ECDD_DATA;
+        PooledFundControl pooledFundControl = pooledFundControlTransactionFixture.createPooledFundControl();
+        KualiDecimal totalAmount = pooledFundControlTransactionFixture.getTotalAmount();
+        String paramDescriptionName = pooledFundControlTransactionFixture.getParamDescriptionName();
+        String securityLineType = pooledFundControlTransactionFixture.getSecurityLineType();
+        String paramNoRouteInd = pooledFundControlTransactionFixture.getParamNoRouteInd();
+        String incomePrincipalIndicator = pooledFundControlTransactionFixture.getIncomePrincipalIndicator();
+        assertTrue("Failed to create ECDD", pooledFundControlTransactionsService.createECDD(pooledFundControl, totalAmount, paramDescriptionName, securityLineType, paramNoRouteInd, incomePrincipalIndicator));
     }
-//    
-//    public void testIncomeDistributionForPooledFundService() {
-//        incomeDistributionForPooledFundService.createIncomeDistributionForPooledFund();
-//    }
+
+    /**
+     * Validates CreateECI()
+     */
+    public void testCreateECI() {
+        PooledFundControlTransactionFixture pooledFundControlTransactionFixture = PooledFundControlTransactionFixture.ECI_DATA;
+        PooledFundControl pooledFundControl = pooledFundControlTransactionFixture.createPooledFundControl();
+        KualiDecimal totalAmount = pooledFundControlTransactionFixture.getTotalAmount();
+        String paramDescriptionName = pooledFundControlTransactionFixture.getParamDescriptionName();
+        String securityLineType = pooledFundControlTransactionFixture.getSecurityLineType();
+        String paramNoRouteInd = pooledFundControlTransactionFixture.getParamNoRouteInd();
+        String incomePrincipalIndicator = pooledFundControlTransactionFixture.getIncomePrincipalIndicator();
+        assertTrue("Failed to create ECI", pooledFundControlTransactionsService.createECI(pooledFundControl, totalAmount, paramDescriptionName, securityLineType, paramNoRouteInd, incomePrincipalIndicator));
+    }
 }

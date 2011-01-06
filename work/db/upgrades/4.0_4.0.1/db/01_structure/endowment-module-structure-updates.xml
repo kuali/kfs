@@ -4,4 +4,11 @@
     <comment>Remove table END_TRAN_TYP_CD_T from Endowment schema</comment>
     <dropTable tableName='END_TRAN_TYP_CD_T' />
   </changeSet>
+  <changeSet author="kfs" id="KFS_401_DROP_ENDOW_TO_KNS_CONSTRAINTS" failOnError="false">
+  	<comment>KFSMI-6395 : Drop Foreign Key Constraints between Endowment tables and the KNS document header table.</comment>
+  	<dropForeignKeyConstraint baseTableName="END_PENDING_TRAN_DOC_T" constraintName="END_PENDING_TRAN_DOC_TR1"/>
+  	<dropForeignKeyConstraint baseTableName="END_TRAN_ARCHV_T" constraintName="END_TRAN_ARCHV_TR1"/>
+  	<dropForeignKeyConstraint baseTableName="END_TRAN_DOC_T" constraintName="END_TRAN_DOC_TR1"/>
+  	<dropForeignKeyConstraint baseTableName="END_HIST_VAL_ADJ_DOC_T" constraintName="END_HIST_VAL_ADJ_DOC_TR1"/>
+  </changeSet>
 </databaseChangeLog>

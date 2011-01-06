@@ -82,7 +82,7 @@
     	</property>
     </bean>  
     
-    <bean id="mockpooledFundControlTransactionsService" parent="pooledFundControlTransactionsService">
+    <bean id="mockPooledFundControlTransactionsService" parent="pooledFundControlTransactionsService">
     	<property name="pooledFundControlTransactionsTotalReportWriterService">
     		<ref bean="mockReportWriterService"/>
     	</property>

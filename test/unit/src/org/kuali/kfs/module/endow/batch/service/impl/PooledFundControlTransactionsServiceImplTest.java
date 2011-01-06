@@ -36,7 +36,7 @@ public class PooledFundControlTransactionsServiceImplTest extends KualiTestBase 
     @Override
     protected void setUp() throws Exception { 
         super.setUp();        
-        pooledFundControlTransactionsService = (PooledFundControlTransactionsServiceImpl) TestUtils.getUnproxiedService("mockpooledFundControlTransactionsService");
+        pooledFundControlTransactionsService = (PooledFundControlTransactionsServiceImpl) TestUtils.getUnproxiedService("mockPooledFundControlTransactionsService");
         pooledFundControlTransactionsService.initializeReports();
     }
     

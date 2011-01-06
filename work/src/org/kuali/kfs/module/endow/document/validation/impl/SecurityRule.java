@@ -36,15 +36,15 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class SecurityRule extends MaintenanceDocumentRuleBase {
 
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(SecurityRule.class);
-    private Security newSecurity;
-    private Security oldSecurity;
+    protected Security newSecurity;
+    protected Security oldSecurity;
 
     /**
      * This method initializes the old and new security.
      * 
      * @param document
      */
-    private void initializeAttributes(MaintenanceDocument document) {
+    protected void initializeAttributes(MaintenanceDocument document) {
         if (newSecurity == null) {
             newSecurity = (Security) document.getNewMaintainableObject().getBusinessObject();
         }
@@ -86,7 +86,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
      * @param newSecurity
      * @return true if required fields entered, false otherwise
      */
-    private boolean checkCustomRequiredFields() {
+    protected boolean checkCustomRequiredFields() {
 
         boolean isValid = true;
         ClassCode classCode = newSecurity.getClassCode();
@@ -153,7 +153,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if valid, false otherwise
      */
-    private boolean checkUnitValue() {
+    protected boolean checkUnitValue() {
         boolean isValid = true;
         ClassCode classCode = newSecurity.getClassCode();
 
@@ -182,7 +182,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
      * 
      * @return true if they belong to the same class code type, false otherwise.
      */
-    private boolean checkClassCode() {
+    protected boolean checkClassCode() {
         boolean isValid = true;
 
         newSecurity.refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
@@ -191,6 +191,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             String oldClassCodeType = oldSecurity.getClassCode().getClassCodeType();
             if (!oldClassCodeType.equalsIgnoreCase(newSecurity.getClassCode().getClassCodeType())) {
                 putFieldError(EndowPropertyConstants.SECURITY_CLASS_CODE, EndowKeyConstants.SecurityConstants.EROR_NEW_SECURITY_CLASS_CODE_TYPE_MUST_EQUAL_OLD_SEC_CLASS_CODE_TYPE);
+                isValid = false;
             }
         }
 
@@ -205,7 +206,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
      * 
      * @return
      */
-    private boolean checkValuesBasedOnValuationMethod() {
+    protected boolean checkValuesBasedOnValuationMethod() {
 
         boolean isValid = true;
 
@@ -217,6 +218,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
         if (classCode != null && EndowConstants.ValuationMethod.UNITS.equalsIgnoreCase((classCode.getValuationMethod()))) {
             if (newSecurity.getSecurityValueByMarket() != null) {
                 putFieldError(EndowPropertyConstants.SECURITY_VALUE_BY_MARKET, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_VAL_BY_MKT_MUST_BE_EMPTY_WHEN_VAL_MTHD_UNITS);
+                isValid = false;
             }
         }
         // If the class code for the security has a valuation method of M (Market Value), the user can only enter a value in the
@@ -224,6 +226,7 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
         if (classCode != null && EndowConstants.ValuationMethod.MARKET.equalsIgnoreCase((classCode.getValuationMethod()))) {
             if (newSecurity.getUnitValue() != null) {
                 putFieldError(EndowPropertyConstants.SECURITY_UNIT_VALUE, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_UNIT_VAL_MUST_BE_EMPTY_WHEN_VAL_MTHD_MARKET);
+                isValid = false;
             }
         }
 
@@ -241,8 +244,8 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             String incomePayFrequencyCode = newSecurity.getIncomePayFrequency();
 
             if (StringUtils.isEmpty(incomePayFrequencyCode)) {
-                isValid = false;
                 putFieldError(EndowPropertyConstants.SECURITY_INCOME_PAY_FREQUENCY, EndowKeyConstants.SecurityConstants.ERROR_SECURITY_INCOME_PAY_FREQUENCY_CODE_NOT_ENTERED);
+                isValid = false;
             }
         }
 

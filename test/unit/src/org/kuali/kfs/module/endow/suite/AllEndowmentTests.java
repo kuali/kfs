@@ -30,6 +30,7 @@ import org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImplT
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.SecurityRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashIncreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashTransferDocumentRulesTest;
@@ -86,6 +87,9 @@ public class AllEndowmentTests {
         suite.addTestSuite(RollProcessDateServiceImplTest.class);
         suite.addTestSuite(RollFrequencyDatesServiceImplTest.class);
         suite.addTestSuite(PooledFundControlTransactionsServiceImplTest.class);
+        
+        //Suma's unit tests....
+        suite.addTestSuite(SecurityRuleTest.class);
         
         return suite;
     }

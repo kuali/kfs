@@ -19,6 +19,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.ParseException;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowTestConstants;
@@ -44,15 +46,18 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 @ConfigureContext(session = kfs)
 public class AccrualProcessingServiceImplTest extends KualiTestBase {
-
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccrualProcessingServiceImplTest.class);
     private Security security;
     private HoldingTaxLotService holdingTaxLotService;
     private KEMService kemService;
     private AccrualProcessingServiceImpl accrualProcessingService;
-
+    private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -61,6 +66,8 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        dateTimeService = SpringContext.getBean(DateTimeService.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
         kemService = SpringContext.getBean(KEMService.class);
         accrualProcessingService = (AccrualProcessingServiceImpl) TestUtils.getUnproxiedService("mockAccrualProcessingService");
@@ -81,7 +88,11 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
 
         security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
         security.setClassCode(classCode);
-
+        security.setUnitsHeld(BigDecimal.valueOf(1000));
+        
+        //save the security with changes made..
+        businessObjectService.save(security);
+        
         // need to insert into END_HLDG_TAX_LOT_REBAL_T TABLE because of constraints....
         HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_ACCRUAL_PROC.createHoldingTaxLotRebalanceRecord();
 
@@ -89,10 +100,46 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
     }
 
     /**
+     * Method to gather all security records in the database and update the
+     * units help column value to zero so that in our test cases, getSecuritiesToProcess()
+     * method will fetch just our test record only.
+     */
+    private void setSecuritiesUnitsHeldValueToZero() {
+        LOG.info("test method setSecuritiesUnitsHeldValueToZero() entered");
+        
+        //set all units in securites to zero so that after we add our test security,
+        // the method call will fetch just exactly one record.
+        List<Security> securities = (List<Security>) businessObjectService.findAll(Security.class);
+        for (Security security : securities) {
+            security.setUnitsHeld(BigDecimal.ZERO);
+            businessObjectService.save(security);
+        }
+        
+        LOG.info("test method setSecuritiesUnitsHeldValueToZero() exited");
+    }
+    
+    /**
+     * test getSecuritiesToProcess method
+     * @see org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl#getSecuritiesToProcess()
+     */
+    public void testGetSecuritiesToProcess() {
+        LOG.info("test method testGetSecuritiesToProcess() entered");
+        
+        setSecuritiesUnitsHeldValueToZero();
+        
+        createDataFixtures();
+        List<Security> securities = accrualProcessingService.getSecuritiesToProcess();
+        assertTrue("There are no securities to process.", securities.size() == 1);
+        
+        LOG.info("test method testGetSecuritiesToProcess() exited.");        
+    }
+    
+    /**
      * Validates that processAccrualForAutomatedCashManagement computes the accrual amount correctly.
      */
     public void testProcessAccrualForAutomatedCashManagement() {
-
+        LOG.info("test method testProcessAccrualForAutomatedCashManagement() entered.");
+        
         createDataFixtures();
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.AUTOMATED_CASH_MANAGEMENT);
         security.getClassCode().refreshReferenceObject("accrualMethod");
@@ -105,13 +152,14 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
+        LOG.info("test method testProcessAccrualForAutomatedCashManagement() exited");        
     }
 
     /**
      * Validates that processAccrualForDividends computes the accrual amount correctly.
      */
     public void testProcessAccrualForDividends() {
-
+        LOG.info("test method testProcessAccrualForDividends() entered.");
         createDataFixtures();
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.DIVIDENDS);
         security.getClassCode().refreshReferenceObject("accrualMethod");
@@ -127,13 +175,15 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
+        LOG.info("test method testProcessAccrualForDividends() exited");        
     }
 
     /**
      * Validates that processAccrualForTimeDeposits computes the accrual amount correctly.
      */
     public void testProcessAccrualForTimeDeposits() {
-
+        LOG.info("test method testProcessAccrualForTimeDeposits() entered.");
+        
         createDataFixtures();
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.TIME_DEPOSITS);
         security.getClassCode().refreshReferenceObject("accrualMethod");
@@ -146,13 +196,15 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
+        LOG.info("test method testProcessAccrualForTimeDeposits() exited.");        
     }
 
     /**
      * Validates that processAccrualForTreasuryNotesAndBonds computes the accrual amount correctly.
      */
     public void testProcessAccrualForTreasuryNotesAndBonds() {
-
+        LOG.info("test method testProcessAccrualForTreasuryNotesAndBonds() entered.");
+        
         createDataFixtures();
         security.getClassCode().setSecurityAccrualMethod(EndowConstants.AccrualMethod.DISCOUNT_BONDS);
         security.getClassCode().refreshReferenceObject("accrualMethod");
@@ -168,6 +220,27 @@ public class AccrualProcessingServiceImplTest extends KualiTestBase {
         HoldingTaxLot holdingTaxLot = holdingTaxLotService.getByPrimaryKey(EndowTestConstants.TEST_KEMID, EndowTestConstants.TEST_SEC_ID, EndowTestConstants.TEST_REGISTRATION_CD, 1, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
 
         assertTrue(accrual.compareTo(holdingTaxLot.getCurrentAccrual()) == 0);
+        LOG.info("test method testProcessAccrualForTreasuryNotesAndBonds() exited.");        
     }
 
+    /**
+     * test to check the method getNumberOfDaysSinceLastDateIncomeWasPaid()
+     * @see org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl#getNumberOfDaysSinceLastDateIncomeWasPaid(String, Date)
+     */
+    public void testGetNumberOfDaysSinceLastDateIncomeWasPaid() throws ParseException {
+        LOG.info("test method testGetNumberOfDaysSinceLastDateIncomeWasPaid() entered.");
+        
+        String incomePayFrequency = "D";
+        
+        Date nextIncomePayDate = dateTimeService.convertToSqlDate("01/07/2011");
+        
+        //should return zero since we are sending frequency code = D
+        assertTrue(accrualProcessingService.getNumberOfDaysSinceLastDateIncomeWasPaid(incomePayFrequency, nextIncomePayDate) == 0);
+        
+        //should return nextIncomePayDate - 6 months...
+        incomePayFrequency  = "I"; //semi annual code...
+        long totalDays = accrualProcessingService.getNumberOfDaysSinceLastDateIncomeWasPaid(incomePayFrequency, nextIncomePayDate);
+        assertTrue(totalDays != 0);
+        LOG.info("test method testGetNumberOfDaysSinceLastDateIncomeWasPaid() exited.");        
+    }
 }

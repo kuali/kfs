@@ -115,6 +115,19 @@ public enum HoldingTaxLotFixture {
             BigDecimal.ZERO, // currentAccrual
             BigDecimal.ZERO, // priorAccrual
             Date.valueOf("2002-06-27") // lastTransactionDate)
+    ), 
+    
+    HOLDING_TAX_LOT_RECORD_FOR_CREATE_ACCRUAL_TRANSACTIONS(EndowTestConstants.TEST_KEMID, // kemid
+            EndowTestConstants.TEST_SEC_ID, // securityId
+            EndowTestConstants.TEST_REGISTRATION_CD, // registrationCode
+            "I", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
+            EndowTestConstants.HOLDING_UNITS, // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(1000.00), // currentAccrual
+            BigDecimal.ZERO, // priorAccrual
+            Date.valueOf("2002-06-27") // lastTransactionDate)    
     );
 
     public final String kemid;

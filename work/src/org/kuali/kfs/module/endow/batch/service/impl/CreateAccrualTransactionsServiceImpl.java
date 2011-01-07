@@ -68,20 +68,20 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     private KualiRuleService kualiRuleService;
     protected ParameterService parameterService;
 
-    private ReportWriterService accrualTransactionsExceptionReportWriterService;
-    private ReportWriterService accrualTransactionsTotalReportWriterService;
+    protected ReportWriterService accrualTransactionsExceptionReportWriterService;
+    protected ReportWriterService accrualTransactionsTotalReportWriterService;
 
-    private TransactionDocumentExceptionReportLine exceptionReportLine = null;
-    private TransactionDocumentTotalReportLine totalReportLine = null;
+    protected TransactionDocumentExceptionReportLine exceptionReportLine = null;
+    protected TransactionDocumentTotalReportLine totalReportLine = null;
 
-    private boolean isFistTimeForWritingTotalReport = true;
-    private boolean isFistTimeForWritingExceptionReport = true;
+    protected boolean isFistTimeForWritingTotalReport = true;
+    protected boolean isFistTimeForWritingExceptionReport = true;
 
     /**
      * Constructs a CreateAccrualTransactionsServiceImpl.java.
      */
     public CreateAccrualTransactionsServiceImpl() {
-
+        
     }
 
     /**
@@ -153,7 +153,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                         if (counter == maxNumberOfTranLines) {
                             // submit the current ECI doc and update the values in the tax lots used already
                             submitCashIncreaseDocumentAndUpdateTaxLots(cashIncreaseDocument, taxLotsForUpdate);
-
+                            
                             // clear tax lots for update and create a new Cash Increase document
                             taxLotsForUpdate.clear();
                             cashIncreaseDocument = createNewCashIncreaseDocument(security.getId(), registrationCode);
@@ -364,6 +364,13 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
                 businessObjectService.save(taxLotsForUpdate);
             }
             catch (WorkflowException ex) {
+                // save document if it can not be routed....
+                try {
+                    documentService.saveDocument(cashIncreaseDocument);
+                } catch (WorkflowException savewfe) {
+                    
+                }
+                
                 if (isFistTimeForWritingExceptionReport) {
                     accrualTransactionsExceptionReportWriterService.writeTableHeader(exceptionReportLine);
                     isFistTimeForWritingExceptionReport = false;

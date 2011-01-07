@@ -20,6 +20,7 @@ import junit.framework.TestSuite;
 
 import org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImplTest;
@@ -76,6 +77,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(CorpusAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(ProcessFeeTransactionsServiceImplTest.class);
+        suite.addTestSuite(CreateAccrualTransactionsServiceImplTest.class);
         
         // David's unit tests
         suite.addTestSuite(CashIncreaseDocumentRulesTest.class);

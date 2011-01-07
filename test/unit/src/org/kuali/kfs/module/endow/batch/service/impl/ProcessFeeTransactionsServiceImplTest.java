@@ -104,7 +104,6 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
     private KEMID kemid;
     private EndowmentTransactionCode endowmentTransactionCode1;
     private EndowmentTransactionCode endowmentTransactionCode2;
-    private EndowmentTransactionCode endowmentTransactionCode3;
     private KemidGeneralLedgerAccount kemidGeneralLedgerAccount;
     private GLLink gLLink;
     
@@ -457,7 +456,7 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
     }
     
     /**
-     * create a LiabilityDecreaseDocument
+     * create a CashDecreaseDocument
      * @return doc
      */
     @ConfigureContext(session = kfs, shouldCommitTransactions = true)
@@ -465,7 +464,7 @@ public class ProcessFeeTransactionsServiceImplTest extends KualiTestBase {
         LOG.info("createCashDecreaseDocumentDocument() entered.");
         
         CashDecreaseDocument doc = (CashDecreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(CashDecreaseDocument.class);
-        doc.getDocumentHeader().setDocumentDescription("Testing Liability Decrease document.");
+        doc.getDocumentHeader().setDocumentDescription("Testing Cash Decrease document.");
         return doc;
     }
     

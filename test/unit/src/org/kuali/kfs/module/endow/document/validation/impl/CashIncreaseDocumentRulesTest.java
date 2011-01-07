@@ -19,11 +19,20 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.GLLink;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
+import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionSecurityFixture;
+import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.KemidGeneralLedgerAccountFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -61,22 +70,38 @@ public class CashIncreaseDocumentRulesTest extends KualiTestBase {
      * @return
      * @throws WorkflowException
      */
-    private CashIncreaseDocument createCashIncreaseDocument() throws WorkflowException {
-        document = (CashIncreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_CASH_INCREASE.createEndowmentTransactionDocument(CashIncreaseDocument.class);
-        document.getDocumentHeader().setDocumentDescription("Cash Increase Document Test");
-        document.setTargetTransactionSecurity(EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(false));        
-        transactionLine = (EndowmentTargetTransactionLine)EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_ECDD.createEndowmentTransactionLine(false);
+    private CashIncreaseDocument createCashIncreaseDocument() throws WorkflowException {       
+ 
+        Security security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();        
+        KEMID kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
+        GLLink glLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
+        KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();
+
+        kemid.getKemidGeneralLedgerAccounts().add(generalLedgerAccount);
+        endowmentTransactionCode.getGlLinks().add(glLink);
+        
+        transactionLine = (EndowmentTargetTransactionLine)EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_ECI.createEndowmentTransactionLine(false);
         transactionLine.setTransactionLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
+//        transactionLine.setKemid(kemid.getKemid());
+//        transactionLine.setKemidObj(kemid);
+//        transactionLine.setEtranCode(endowmentTransactionCode.getCode());
+//        transactionLine.setEtranCodeObj(endowmentTransactionCode);
+        
+        document = (CashIncreaseDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_CASH_INCREASE.createEndowmentTransactionDocument(CashIncreaseDocument.class);
+        document.getDocumentHeader().setDocumentDescription("Cash Increase Document Test");        
+        document.setTargetTransactionSecurity(EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(false));        
         document.addTargetTransactionLine(transactionLine);
+        
         return document;
     }
     
     /**
      * validates security code
-     * should return false since the security code is invalid
+     * should return true
      */
     public void testValidateSecurityCode() {        
-        assertFalse(rule.validateSecurityCode(document, false));
+        assertTrue(rule.validateSecurityCode(document, false));
     }
     
     /**
@@ -84,7 +109,6 @@ public class CashIncreaseDocumentRulesTest extends KualiTestBase {
      * should return true
      */
     public void testValidateCashTransactionLine() {
-        assertTrue(rule.transactionLineSizeGreaterThanZero(document, false));
         assertTrue(rule.validateCashTransactionLine(document, transactionLine, 0));
     }
     
@@ -93,7 +117,6 @@ public class CashIncreaseDocumentRulesTest extends KualiTestBase {
      * should return true
      */
     public void testValidateEndowmentTransactionTypeCode() {
-        transactionLine.setEtranCodeObj(EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode());
         assertTrue(rule.validateEndowmentTransactionTypeCode(document, transactionLine, ""));        
     }
 

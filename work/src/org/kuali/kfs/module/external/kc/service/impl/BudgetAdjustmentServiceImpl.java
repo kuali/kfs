@@ -15,21 +15,28 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.dto.KcObjectCode;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -60,7 +67,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     private ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
-       
+
     /**
      * This is the web service method that facilitates budget adjustment  
      * 1. Creates a Budget Adjustment Doc using the parameters from KC 
@@ -354,11 +361,18 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     public List<KcObjectCode> lookupObjectCodes(java.util.List<HashMapElement> searchCriteria) {
         HashMap <String, String> hashMap = new HashMap();
-        for (HashMapElement hashMapElement: searchCriteria) {
-            hashMap.put(hashMapElement.getKey(), hashMapElement.getValue());
-        }
+        List <ObjectCode> objCodeList = new ArrayList<ObjectCode>();       
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        List <ObjectCode> objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, hashMap));
+        
+        if ((searchCriteria == null) || (searchCriteria.size() == 0)) {
+            objCodeList = (List<ObjectCode>) boService.findAll(ObjectCode.class);
+            
+        } else {
+            for (HashMapElement hashMapElement: searchCriteria) {
+                hashMap.put(hashMapElement.getKey(), hashMapElement.getValue());
+            }
+            objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, hashMap));
+        }
         List <KcObjectCode> kcObjectCodeList = new ArrayList();
         for (ObjectCode objectCode : objCodeList) {
             kcObjectCodeList.add( createKcObjectCode(objectCode));

@@ -17,11 +17,13 @@ package org.kuali.kfs.module.external.kc.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
@@ -42,5 +44,5 @@ public interface BudgetAdjustmentService {
             @WebParam(name="financialObjectCode") String financialObjectCode);
   
     public List<KcObjectCode> lookupObjectCodes( @WebParam(name="searchCriteria") java.util.List <HashMapElement> searchCriteria);
-     
+
 }

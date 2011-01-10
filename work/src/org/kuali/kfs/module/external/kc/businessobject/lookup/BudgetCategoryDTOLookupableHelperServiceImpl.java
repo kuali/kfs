@@ -16,13 +16,20 @@
 package org.kuali.kfs.module.external.kc.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
+import org.kuali.kfs.module.external.kc.service.UnitService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -44,20 +51,19 @@ public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupabl
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
-     
-        //TODO: budgetCategoryServiceSOAP should be up
-        List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//        BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE));
-//        budgetCategoryList = budgetCategoryService.lookupBudgetCategories(parameters);
-//        
-//        return budgetCategoryList;
-               
-        // for test
-        BudgetCategoryDTO bc = new BudgetCategoryDTO();
-        bc.setBudgetCategoryCode("BA1");
-        bc.setBudgetCategoryTypeCode("BATY1");
-        budgetCategoryList.add(bc);
+        List budgetCategories = new ArrayList();
+        try {
+            BudgetCategoryService budgetCategoryService = SpringContext.getBean(BudgetCategoryService.class);
+            budgetCategories = budgetCategoryService.lookupBudgetCategories(parameters);
+           if (budgetCategories == null) return Collections.EMPTY_LIST;
+           return budgetCategories;
+            
+        } catch (Exception ex) {
+            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+            GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit" + ex.getMessage());
+        }
         
-        return budgetCategoryList;
+        return Collections.EMPTY_LIST;
     }
+
 }

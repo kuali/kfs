@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,9 @@ import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -715,18 +719,23 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         
         String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
         
-//        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
-//            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//            HashMap<String, String> criteria = new HashMap<String, String>();
-//            criteria.put("budgetCategoryCode", budgetCategoryCode); 
-//            BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE));
-//            budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-//            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-//                GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
-//                return false;
-//            }                
-//        }        
-        
+        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
+            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
+            HashMap<String, String> criteria = new HashMap<String, String>();
+            criteria.put("budgetCategoryCode", budgetCategoryCode); 
+            try {
+                BudgetCategoryService budgetCategoryService = SpringContext.getBean(BudgetCategoryService.class);
+                budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
+                if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
+                    return false;
+                }                
+            } catch (Exception ex) {
+                LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+                GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit" + ex.getMessage());
+                return false;
+            }
+        }  
         return true;
     }
 

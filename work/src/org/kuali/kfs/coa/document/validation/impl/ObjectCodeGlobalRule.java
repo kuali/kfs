@@ -36,8 +36,7 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
+
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -718,11 +717,12 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     protected boolean checkResearchAdminAttributes(ObjectCodeGlobal objectCodeGlobal) {
         
         String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
-        
+        /*
         if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
             List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
             HashMap<String, String> criteria = new HashMap<String, String>();
             criteria.put("budgetCategoryCode", budgetCategoryCode); 
+            
             try {
                 BudgetCategoryService budgetCategoryService = SpringContext.getBean(BudgetCategoryService.class);
                 budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
@@ -736,6 +736,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
                 return false;
             }
         }  
+        */
         return true;
     }
 

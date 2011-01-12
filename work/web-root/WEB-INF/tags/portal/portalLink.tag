@@ -20,6 +20,23 @@
 <%@ attribute name="displayTitle" required="false" %>
 <%@ attribute name="prefix" required="false" %>
 
+<c:set var="backdoorPortalUrlAddition" value="" />
+<c:set var="backdoorMainUrlAddition" value="" />
+<c:if test="${UserSession.backdoorInUse}">
+	<%-- Can't add this.  If on the main (portal) request, it assumes this was a
+	 backdoor login request and appends an additional parameter which causes some forms to blow 
+	<c:set var="backdoorPortalUrlAddition" value="&backdoorId=${UserSession.principalName}" />
+	 --%>
+	<c:choose>
+		<c:when test="${fn:contains(url,'?')}">
+			<c:set var="backdoorMainUrlAddition" value="&backdoorId=${UserSession.principalName}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="backdoorMainUrlAddition" value="?backdoorId=${UserSession.principalName}" />
+		</c:otherwise>
+	</c:choose>
+</c:if>
+
 <c:if test="${displayTitle}" >
   <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}"  title="${title}">${title}</a>
 </c:if>

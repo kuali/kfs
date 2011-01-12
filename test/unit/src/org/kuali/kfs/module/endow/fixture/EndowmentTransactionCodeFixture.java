@@ -30,7 +30,14 @@ public enum EndowmentTransactionCodeFixture {
             "E",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
             true// active
-    ), ASSET_TRANSACTION_CODE("TST125",// code
+    ), 
+    EXPENSE_TRANSACTION_CODE_COMMITTED("TST124",// code
+            "Test transaction code",// desc
+            "E",// endowmentTransactionTypeCode;
+            true,// corpusIndicator;
+            true// active
+    ),    
+    ASSET_TRANSACTION_CODE("TST125",// code
             "Test transaction code",// desc
             "A",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
@@ -38,6 +45,13 @@ public enum EndowmentTransactionCodeFixture {
     ), INVALID_TRANSACTION_TYPE_CODE("TST200",// code
             "Test transaction code",// desc
             "X",// endowmentTransactionTypeCode;
+            true,// corpusIndicator;
+            true// active
+    ),
+    
+    INCOME_TRANSACTION_CODE_COMMITTED("123TST",// code
+            "Test transaction code",// desc
+            "I",// endowmentTransactionTypeCode;
             true,// corpusIndicator;
             true// active
     );

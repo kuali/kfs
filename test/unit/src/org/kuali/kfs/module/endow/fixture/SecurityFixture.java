@@ -87,7 +87,17 @@ public enum SecurityFixture {
             Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
             BigDecimal.valueOf(20L), // securityRate
             true, // rowActiveIndicator
-            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount    
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount   
+    ),
+    
+    ACTIVE_SECURITY_COMMITTED("DUMMYID", // securityId
+            "CBA", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            EndowTestConstants.SECURITY_RATE, // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
     );
 
     public final String securityId;

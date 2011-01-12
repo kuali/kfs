@@ -143,6 +143,8 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
     }
     
     private void changeNextPayDateAllSecurityRecords() {
+        LOG.info("method changeNextPayDateAllSecurityRecords() entered.");
+        
         Collection<Security> allSecurities = businessObjectService.findAll(Security.class);
         Date incomeNextPayDate = null;
         
@@ -150,6 +152,8 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
             security.setIncomeNextPayDate(incomeNextPayDate);
             businessObjectService.save(security);
         }
+
+        LOG.info("method changeNextPayDateAllSecurityRecords() exited.");
     }
     
     /**
@@ -157,14 +161,20 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
      * one record that we inserted in the setup method
      */
     public void testGetAllSecuritiesWithNextPayDateEqualCurrentDate() {
+        LOG.info("method testGetAllSecuritiesWithNextPayDateEqualCurrentDate() entered.");
+        
         List<Security> result = createAccrualTransactionsServiceImpl.getAllSecuritiesWithNextPayDateEqualCurrentDate();
         assertTrue("There should be just one record in the Security table.", result.size() == 1);
+
+        LOG.info("method testGetAllSecuritiesWithNextPayDateEqualCurrentDate() exited.");        
     }
     
     /**
      * @see org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl#groupTaxLotsBasedOnRegistrationCode(List)
      */
     public void testGroupTaxLotsBasedOnRegistrationCode() {
+        LOG.info("method testGroupTaxLotsBasedOnRegistrationCode() entered.");
+        
         List<HoldingTaxLot> taxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
         
         Map<String, List<HoldingTaxLot>> regCodeMap = createAccrualTransactionsServiceImpl.groupTaxLotsBasedOnRegistrationCode(taxLots);
@@ -172,12 +182,16 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
         for (String registrationCode : regCodeMap.keySet()) {
             assertTrue("Unable to create group tax lots based on registration code.", EndowTestConstants.TEST_REGISTRATION_CD.equalsIgnoreCase(registrationCode));
         }
+
+        LOG.info("method testGroupTaxLotsBasedOnRegistrationCode() exited.");        
     }
 
     /**
      * @see org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl#groupTaxLotsBasedOnKemidAndIPIndicator(List)
      */
     public void testGroupTaxLotsBasedOnKemidAndIPIndicator() {
+        LOG.info("method testGroupTaxLotsBasedOnKemidAndIPIndicator() entered.");
+        
         List<HoldingTaxLot> taxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
         String kemidAndIp = "";
         for (HoldingTaxLot holdingTaxLot : taxLots) {
@@ -189,12 +203,15 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
             assertTrue("Kemid and IP in the key set do not match with holding tax record.", kemidAndIp.equalsIgnoreCase(kemidIp));
         }
             
+        LOG.info("method testGroupTaxLotsBasedOnKemidAndIPIndicator() exited.");        
     }
     
     /**
      * test createNewCashIncreaseDocument() method
      */
     public void testCreateNewCashIncreaseDocument() {
+        LOG.info("method testCreateNewCashIncreaseDocument() entered.");
+        
         List<HoldingTaxLot> taxLots = SpringContext.getBean(HoldingTaxLotService.class).getAllTaxLotsWithAccruedIncomeGreaterThanZeroPerSecurity(security.getId());
 
         String registrationCode = "";
@@ -205,6 +222,8 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
         if (ObjectUtils.isNotNull(doc)) {
             assertTrue("Unable to create the cash increase docuemnt correctly.", doc.getTargetTransactionSecurity().getSecurityID().equalsIgnoreCase(security.getId()));
         }
+        
+        LOG.info("method testCreateNewCashIncreaseDocument() exited.");        
     }
     
     /**
@@ -212,10 +231,14 @@ public class CreateAccrualTransactionsServiceImplTest extends KualiTestBase {
      * a transaction line can be added to the cash increase document....
      */
     public void testAddTransactionLine() throws Exception {
+        LOG.info("method testAddTransactionLine() entered.");
+        
         if (doc.getTargetTransactionLine(0) != null) {
             boolean lineValid = checkvalidateCashTransactionLine(doc, doc.getTargetTransactionLine(0));
             assertTrue("The business rules failed.", lineValid);
         }
+        
+        LOG.info("method testAddTransactionLine() exited.");        
     }
     
     /*

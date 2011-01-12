@@ -52,6 +52,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -293,6 +294,48 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         // add it to the document
         holdingAdjustmentDocument.setSourceTransactionSecurity(endowmentSourceTransactionSecurity);
     }
+    
+    /**
+     * creates a transaction line and setups the data based on isLoss
+     * if isLoss = true then creates source line else creates target line.
+     */
+    protected EndowmentTransactionLine createEndowmentTransactionLine(boolean isLoss, boolean isShortTerm, HoldingAdjustmentDocument holdingAdjustmentDocument, HoldingTaxLot holdingTaxLot, PooledFundValue pooledFundValue) {
+        EndowmentTransactionLine endowmentTransactionLine = null;
+        
+        if (isLoss) {
+            // loss
+            endowmentTransactionLine = new EndowmentSourceTransactionLine();
+        }
+        else {
+            //gain
+            endowmentTransactionLine = new EndowmentTargetTransactionLine();
+        }
+        
+        if (isShortTerm) {
+            if (isLoss) {
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate());
+            }
+            else {
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit());
+            }
+        }
+        else {
+            if (isLoss) {
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit().negate());
+            }
+            else {
+                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit());
+            }
+        }
+
+        // populate transaction line
+        endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
+        endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
+        endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
+        endowmentTransactionLine.setTransactionIPIndicatorCode(holdingTaxLot.getIncomePrincipalIndicator());
+        
+        return endowmentTransactionLine; 
+    }
 
 
     /**
@@ -305,49 +348,79 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
      */
     protected boolean addTransactionLine(boolean isShortTerm, HoldingAdjustmentDocument holdingAdjustmentDocument, HoldingTaxLot holdingTaxLot, PooledFundValue pooledFundValue) {
         boolean result = false;
-        EndowmentTransactionLine endowmentTransactionLine = null;
-        boolean isLoss = true;
-
-
+        boolean isLoss = false;
+        
         if (isShortTerm) {
-            if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == -1) {
-                // loss
-                isLoss = true;
-                endowmentTransactionLine = new EndowmentSourceTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate());
-
+            if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == 0) {
+                return false;    
             }
-            if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == 1) {
-                // gain
-                isLoss = false;
-                endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit());
+            if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == -1) {
+                isLoss = true; 
             }
         }
         else {
-            if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == -1) {
-                // loss
-                isLoss = true;
-                endowmentTransactionLine = new EndowmentSourceTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit().negate());
-
+            if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == 0) {
+                return false;    
             }
-            if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == 1) {
-                // gain
-                isLoss = false;
-                endowmentTransactionLine = new EndowmentTargetTransactionLine();
-                endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit());
+            if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == -1) {
+                isLoss = true; 
             }
         }
 
-        // populate transaction line
-        endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
-        endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
-        endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
-        endowmentTransactionLine.setTransactionIPIndicatorCode(holdingTaxLot.getIncomePrincipalIndicator());
+        EndowmentTransactionLine endowmentTransactionLine = createEndowmentTransactionLine(isLoss, isShortTerm, holdingAdjustmentDocument, holdingTaxLot, pooledFundValue);
+        
+        if (ObjectUtils.isNull(endowmentTransactionLine)) {
+            exceptionReportLine.setKemid(holdingTaxLot.getKemid());
+            exceptionReportLine.setSecurityId(pooledFundValue.getPooledSecurityID());
+            if (isFistTimeForWritingExceptionReport) {
+                gainLossDistributionExceptionReportWriterService.writeTableHeader(exceptionReportLine);
+                isFistTimeForWritingExceptionReport = false;
+            }
+            gainLossDistributionExceptionReportWriterService.writeTableRow(exceptionReportLine);
+            gainLossDistributionExceptionReportWriterService.writeFormattedMessageLine("Reason:  %s", "Unable to create the transaction line to add to the document.");
+            gainLossDistributionExceptionReportWriterService.writeNewLines(1);
+            
+            return false;
+        }
+        
+   //     if (isShortTerm) {
+   //         if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() == -1) {
+   //             // loss
+   //             isLoss = true;
+   //             endowmentTransactionLine = new EndowmentSourceTransactionLine();
+   //             endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit().negate());
+//
+   //         }
+   //         if (pooledFundValue.getShortTermGainLossDistributionPerUnit().signum() >= 0) {
+    //            // gain
+    //            isLoss = false;
+    //            endowmentTransactionLine = new EndowmentTargetTransactionLine();
+    //            endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getShortTermGainLossDistributionPerUnit());
+    //        }
+    //    }
+   //     else {
+   //         if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() == -1) {
+   //             // loss
+   //             isLoss = true;
+   //             endowmentTransactionLine = new EndowmentSourceTransactionLine();
+   //             endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit().negate());
+//
+    //        }
+    //        if (pooledFundValue.getLongTermGainLossDistributionPerUnit().signum() >= 0) {
+    //            // gain
+    //            isLoss = false;
+     //           endowmentTransactionLine = new EndowmentTargetTransactionLine();
+     //           endowmentTransactionLine.setUnitAdjustmentAmount(pooledFundValue.getLongTermGainLossDistributionPerUnit());
+     //       }
+     //   }
+
+    //    // populate transaction line
+    //    endowmentTransactionLine.setDocumentNumber(holdingAdjustmentDocument.getDocumentNumber());
+    //    endowmentTransactionLine.setKemid(holdingTaxLot.getKemid());
+   //     endowmentTransactionLine.setEtranCode(pooledFundValue.getPooledFundControl().getFundSaleGainLossOffsetTranCode());
+    //    endowmentTransactionLine.setTransactionIPIndicatorCode(holdingTaxLot.getIncomePrincipalIndicator());
 
         // add transaction line
-
         String errorPrefix = KFSConstants.EMPTY_STRING;
         if (endowmentTransactionLine instanceof EndowmentTargetTransactionLine) {
             errorPrefix = NEW_TARGET_TRAN_LINE_PROPERTY_NAME;
@@ -391,7 +464,6 @@ public class CreateGainLossDistributionTransactionsServiceImpl implements Create
         }
 
         return result;
-
     }
 
     /**

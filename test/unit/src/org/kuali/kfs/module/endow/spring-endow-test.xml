@@ -91,4 +91,12 @@
     	</property>
     </bean>
     
+    <bean id="mockCreateGainLossTransactionsService" parent="createGainLossTransactionsService">
+    	<property name="gainLossDistributionExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="gainLossDistributionTotalsReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>     
 </beans>

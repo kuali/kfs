@@ -25,6 +25,13 @@ public enum KemidGeneralLedgerAccountFixture {
             "BL", // chartCode
             ".....", // accountNumber
             true // active
+    ),
+    
+    KEMID_GL_ACCOUNT_FOR_GAIN_LOSS_TRANSACTIONS_COMMITTED("TEST_KEMID", // kemid
+            "I", // incomePrincipalIndicatorCode
+            "BL", // chartCode
+            ".....", // accountNumber
+            true // active    
     );
 
     public final String kemid;

@@ -25,6 +25,11 @@ public enum SecurityReportingGroupFixture {
             "Test reporting group",// desc
             1,// securityReportingGrpOrder
             true // active
+    ),        
+    REPORTING_GROUP_COMMITTED("12TST",// code
+                    "Test reporting group",// desc
+                    1,// securityReportingGrpOrder
+                    true // active            
     );
 
     public final String code;

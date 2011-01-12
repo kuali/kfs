@@ -112,6 +112,24 @@ public enum KemIdFixture {
             "TRU", // incomeRestrictionCode
             "NA" // principalRestrictionCode
     ),
+    
+    ALLOW_TRAN_KEMID_RECORD_COMMITTED("TEST_KEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "046", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            new Integer(1), // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
+    ),    
     NOT_NA_PRINC_RESTR_KEMID_RECORD("TESTKEMID", // kemid
             "Test Kemid for Unit test", // shortTitle
             "Long Title for Kemid", // longTitle

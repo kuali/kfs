@@ -87,6 +87,15 @@ public enum HoldingTaxLotRebalanceFixture {
             BigDecimal.valueOf(10000.00) // totalCost
     ), 
     
+    HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_GAIN_LOSS_COMMITTED("TEST_KEMID", //kemid
+            "DUMMYID", //securityId
+            "2TST", //registrationCode
+            "I", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.valueOf(20.00), // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost
+    ), 
+    
     HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_CREATE_ACCRUAL_TRANSACTIONS("TESTKEMID", //kemid
             "TESTSECID", //securityId
             "TEST", //registrationCode

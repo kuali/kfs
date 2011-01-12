@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
+import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -23,7 +24,25 @@ public enum PooledFundControlTransactionFixture {
     ECDD_DATA("99PSTF018","Pooled Short Term Fund Income Test",new Integer(0),"0AI","099PSTF018","01205","01205","78100","42010",false,false,true,
                 new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","T", "PURCHASE_NO_ROUTE_IND", "P"),
     ECI_DATA("99PSTF018","Pooled Short Term Fund Income Test",new Integer(0),"0AI","099PSTF018","01205","01205","78100","42010",false,false,true,
-            new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","F", "PURCHASE_NO_ROUTE_IND", "I");
+            new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","F", "PURCHASE_NO_ROUTE_IND", "I"), 
+    CAPITAL_GAIN_LOSS_DISTRIBUTION_TRANSACTION_COMMITTED("DUMMYID", //pooledSecurityID
+            "Pooled Short Term Fund Income Test", //pooledFundDescription
+            new Integer(0), //pooledFundDescription
+            "2TST", //fundRegistrationCode
+            "TEST_KEMID", //fundKEMID
+            "01205", //fundAssetPurchaseOffsetTranCode
+            "01205", //fundAssetSaleOffsetTranCode
+            "78100", //fundSaleGainLossOffsetTranCode
+            "42010", //fundCashDepositOffsetTranCode
+            false, //distributeGainsAndLossesIndicator
+            false, //allowFractionalShares
+            true, //active
+            new KualiDecimal(1110.00), //totalAmount
+            "PURCHASE_DESCRIPTION", //paramDescriptionName
+            "F", //securityLineType
+            "PURCHASE_NO_ROUTE_IND", //paramNoRouteInd
+            "I" //incomePrincipalIndicator
+      );
     
     // Pooled Fund Control 
     private String pooledSecurityID;

@@ -24,7 +24,13 @@ public enum GLLinkFixture {
             "BL", // chartCode
             "5000", // object
             true // active
-    ), GL_LINK_UA_CHART("TST123", // endowmentTransactionCode
+    ),
+    GL_LINK_BL_CHART_COMMITTED("123TST", // endowmentTransactionCode
+            "BL", // chartCode
+            "5000", // object
+            true // active
+    ),    
+    GL_LINK_UA_CHART("TST123", // endowmentTransactionCode
             "UA", // chartCode
             "5000", // object
             true // active

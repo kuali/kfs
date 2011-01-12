@@ -129,6 +129,18 @@ public enum ClassCodeFixture {
             true, // taxLotIndicator;
             "A",// classCodeType;
             "M"// valuationMethod;
+    ),
+    
+    CAPITAL_GAIN_LOSS_COMMITTED("CBA", // code dummy record
+            "Test accrual method Class Code for accrual processing", // desc
+            "12TST",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "123TST", // securityEndowmentTransactionCode;
+            "123TST", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "A",// classCodeType;
+            "M"// valuationMethod;
+            
     );
 
     public final String code;

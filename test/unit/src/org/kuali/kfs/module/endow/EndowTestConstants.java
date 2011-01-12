@@ -48,6 +48,7 @@ public class EndowTestConstants extends JSTLConstants {
     public static final String TEST_KEMID = "TESTKEMID";
     public static final String TEST_SEC_ID = "TESTSECID";
     public static final String TEST_REGISTRATION_CD = "TEST";
+    public static final String TEST_REGISTRATION_CD_COMMITTED = "2TST";
     public static final String FREQ_CD_SEMIANUALLY_MARCH_15 = "IM15";
     public static final String SEPT_15_2010_TEST_DATE = "2010-09-15";
     public static final int NR_OF_DAY_IN_SEMIANNUAL_INTERVAL = 184; 

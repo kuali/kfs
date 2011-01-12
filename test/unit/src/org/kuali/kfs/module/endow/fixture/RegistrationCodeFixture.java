@@ -38,6 +38,11 @@ public enum RegistrationCodeFixture {
     REGISTRATION_CODE_RECORD2("TST2", // code
             "Test RegistrationCode2", // description
             true // active
+    ),
+    
+    REGISTRATION_CODE_RECORD_COMMITTED(EndowTestConstants.TEST_REGISTRATION_CD_COMMITTED, // code
+            "Test RegistrationCode2", // description
+            true // active    
     );
 
     public String code;

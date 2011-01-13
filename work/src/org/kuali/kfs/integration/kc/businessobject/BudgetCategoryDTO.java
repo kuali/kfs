@@ -23,33 +23,132 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 public class BudgetCategoryDTO extends BusinessObjectBase implements BudgetCategory,Serializable {
     
-    private String budgetCategoryCode;
-    private String budgetCategoryTypeCode;
-    private String description;
+    protected String authorPersonName;
+    protected String budgetCategoryCode;
+    protected String budgetCategoryTypeCode;
+    protected String budgetCategoryTypeDescription;
+    protected String description;
     
+    /**
+     * Gets the value of the authorPersonName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAuthorPersonName() {
+        return authorPersonName;
+    }
+
+    /**
+     * Sets the value of the authorPersonName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAuthorPersonName(String value) {
+        this.authorPersonName = value;
+    }
+
+    /**
+     * Gets the value of the budgetCategoryCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
     }
-    public void setBudgetCategoryCode(String budgetCategoryCode) {
-        this.budgetCategoryCode = budgetCategoryCode;
+
+    /**
+     * Sets the value of the budgetCategoryCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBudgetCategoryCode(String value) {
+        this.budgetCategoryCode = value;
     }
-        
+
+    /**
+     * Gets the value of the budgetCategoryTypeCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
     public String getBudgetCategoryTypeCode() {
         return budgetCategoryTypeCode;
     }
-    
-    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
-        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+
+    /**
+     * Sets the value of the budgetCategoryTypeCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBudgetCategoryTypeCode(String value) {
+        this.budgetCategoryTypeCode = value;
     }
-    
+
+    /**
+     * Gets the value of the budgetCategoryTypeDescription property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBudgetCategoryTypeDescription() {
+        return budgetCategoryTypeDescription;
+    }
+
+    /**
+     * Sets the value of the budgetCategoryTypeDescription property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBudgetCategoryTypeDescription(String value) {
+        this.budgetCategoryTypeDescription = value;
+    }
+
+    /**
+     * Gets the value of the description property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
     public String getDescription() {
         return description;
     }
-    
-    public void setDescription(String description) {
-        this.description = description;
+
+    /**
+     * Sets the value of the description property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescription(String value) {
+        this.description = value;
     }
-    
+
     public void prepareForWorkflow() {
         // TODO Auto-generated method stub       
     }

@@ -21,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
-import org.kuali.kfs.module.external.kc.service.BudgetCategoryService;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -53,8 +52,8 @@ public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupabl
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
         List budgetCategories = new ArrayList();
         try {
-            BudgetCategoryService budgetCategoryService = SpringContext.getBean(BudgetCategoryService.class);
-            budgetCategories = budgetCategoryService.lookupBudgetCategories(parameters);
+            BudgetCategoryLookupService budgetCategoryService = SpringContext.getBean(BudgetCategoryLookupService.class);
+            budgetCategories = budgetCategoryService.lookupBudgetCategory(parameters);
            if (budgetCategories == null) return Collections.EMPTY_LIST;
            return budgetCategories;
             

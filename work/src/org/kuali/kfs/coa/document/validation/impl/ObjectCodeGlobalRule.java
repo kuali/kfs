@@ -35,11 +35,13 @@ import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
+import org.kuali.kfs.gl.businessobject.AccountBalanceByConsolidation;
 import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
@@ -48,6 +50,8 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -715,28 +719,22 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * @return true if valid
      */
     protected boolean checkResearchAdminAttributes(ObjectCodeGlobal objectCodeGlobal) {
-        
+
         String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
-        /*
+        LookupableHelperService lookupableHelperServiceImpl = LookupableSpringContext.getLookupableHelperService("budgetCategoryDTOLookupableHelperService");
+        if (lookupableHelperServiceImpl == null) return true;
+        lookupableHelperServiceImpl.setBusinessObjectClass(BudgetCategoryDTO.class);
+
         if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
             List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
             HashMap<String, String> criteria = new HashMap<String, String>();
             criteria.put("budgetCategoryCode", budgetCategoryCode); 
-            
-            try {
-                BudgetCategoryService budgetCategoryService = SpringContext.getBean(BudgetCategoryService.class);
-                budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-                if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
-                    return false;
-                }                
-            } catch (Exception ex) {
-                LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-                GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit" + ex.getMessage());
+            budgetCategoryList = (List <BudgetCategoryDTO>) lookupableHelperServiceImpl.getSearchResults(criteria);
+            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
                 return false;
-            }
+            }                
         }  
-        */
+
         return true;
     }
 

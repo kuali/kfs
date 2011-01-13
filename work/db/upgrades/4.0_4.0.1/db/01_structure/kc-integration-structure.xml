@@ -6,7 +6,7 @@
 	<changeSet author="kfs" id="KFS_40_KC_FIX_COL_LENGTH">
 		<comment>Fix column length on auto-creation defaults table</comment>
 	    <modifyColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
-			<column name="CONTR_CTRLACCT_NBR" type="VARCHAR2(7)">
+			<column name="CONTR_CTRLACCT_NBR" type="VARCHAR2(7)" />
 		</modifyColumn>
         <modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />

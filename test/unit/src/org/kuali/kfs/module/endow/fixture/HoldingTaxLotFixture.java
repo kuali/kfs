@@ -77,6 +77,59 @@ public enum HoldingTaxLotFixture {
             BigDecimal.valueOf(0.00), // priorAccrual
             Date.valueOf("2009-11-23") // lastTransactionDate
     ),
+    
+    HOLDING_TAX_LOT_RECORD_ALL_ZERO("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "0AI", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(4), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
+            BigDecimal.ZERO, // units
+            BigDecimal.ZERO, // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
+    
+    HOLDING_TAX_LOT_RECORD_ALL_NEGATIVE("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "REI", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(4), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
+            BigDecimal.valueOf(-1), // units
+            BigDecimal.valueOf(-1), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
+    
+
+    HOLDING_TAX_LOT_RECORD_ZERO_UNIT("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "TEST", // registrationCode
+            "I", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
+            BigDecimal.ZERO, // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
+    
+    HOLDING_TAX_LOT_RECORD_ZERO_COST("TESTKEMID", // kemid
+            "99PETTY12", // securityId
+            "TEST", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(4), // lotNumber
+            Date.valueOf("2009-11-23"), // acquiredDate
+            BigDecimal.valueOf(10000.00), // unit
+            BigDecimal.ZERO, // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2009-11-23") // lastTransactionDate
+    ),
 
     HOLDING_TAX_LOT_RECORD_FOR_LIABILITY("TESTKEMID", // kemid
             "TESTSECID", // securityId

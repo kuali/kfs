@@ -120,7 +120,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total units are balanced
      */
-    private boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject,
+    protected boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject,
                                        HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
@@ -151,7 +151,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total cost is balanced
      */
-    private boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject,
+    protected boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject,
                                       HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
@@ -179,7 +179,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if units is non-negative.
      */
-    private boolean validateUnitValue(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateUnitValue(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
@@ -200,7 +200,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if cost is non-negative.
      */
-    private boolean validateCostValue(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateCostValue(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
@@ -221,7 +221,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return false if only one of the units or cost fields are zero.
      */
-    private boolean validateAllZero(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateAllZero(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {

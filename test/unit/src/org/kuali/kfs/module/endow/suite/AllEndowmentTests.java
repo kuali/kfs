@@ -30,7 +30,6 @@ import org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImplT
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryServiceTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocumentRulesTest;
-import org.kuali.kfs.module.endow.document.validation.impl.SecurityRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashIncreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashTransferDocumentRulesTest;
@@ -39,8 +38,10 @@ import org.kuali.kfs.module.endow.document.validation.impl.EndowmentToGLTransfer
 import org.kuali.kfs.module.endow.document.validation.impl.GLToEndowmentTransferOfFundsDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.HoldingHistoryValueAdjustmentDocumentRuleTest;
+import org.kuali.kfs.module.endow.document.validation.impl.HoldingTaxLotRebalanceRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.LiabilityIncreaseDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.SecurityRuleTest;
 import org.kuali.kfs.module.endow.document.validation.impl.SecurityTransferDocumentRulesTest;
 
 /**
@@ -90,6 +91,9 @@ public class AllEndowmentTests {
         
         //Suma's unit tests....
         suite.addTestSuite(SecurityRuleTest.class);
+        
+        // Samuel's unit tests....
+        suite.addTestSuite(HoldingTaxLotRebalanceRulesTest.class);
         
         return suite;
     }

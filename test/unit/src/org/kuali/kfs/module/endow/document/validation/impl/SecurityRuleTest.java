@@ -102,7 +102,7 @@ public class SecurityRuleTest extends MaintenanceRuleTestBase {
     protected FinancialSystemMaintenanceDocument createFinancialSystemMaintenanceDocument() throws WorkflowException {
         LOG.info("createSecurityRuleDocument() entered.");
 
-        FinancialSystemMaintenanceDocument fsd = EndowmentMaintenanceDocumentFixture.ENDOWMENT_MAINTENANCE_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument();
+        FinancialSystemMaintenanceDocument fsd = EndowmentMaintenanceDocumentFixture.ENDOWMENT_MAINTENANCE_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentMaintenanceDocument();
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
         EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
         ClassCode classCode = ClassCodeFixture.LIABILITY_CLASS_CODE.createClassCodeRecord();

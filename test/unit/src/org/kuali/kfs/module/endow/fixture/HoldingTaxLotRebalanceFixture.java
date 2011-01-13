@@ -60,6 +60,24 @@ public enum HoldingTaxLotRebalanceFixture {
             BigDecimal.valueOf(10000.00) // totalCost
     ), 
     
+    HOLDING_TAX_LOT_REBALANCE_RECORD_ZERO_UNIT("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "TEST", //registrationCode
+            "I", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.ZERO, // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost
+    ), 
+    
+    HOLDING_TAX_LOT_REBALANCE_RECORD_ZERO_COST("TESTKEMID", //kemid
+            "99PETTY12", //securityId
+            "TEST", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.valueOf(10000.00), // totalUnits
+            BigDecimal.ZERO // totalCost
+    ), 
+    
     HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_LIABILITY("TESTKEMID", //kemid
             "TESTSECID", //securityId
             "TEST", //registrationCode

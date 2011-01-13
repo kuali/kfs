@@ -44,11 +44,11 @@ public enum EndowmentMaintenanceDocumentFixture {
     }
 
     /**
-     * This method creates a Endowment Transaction Document Base record
+     * This method creates a Endowment Maintenance Document Base record
      * 
      * @return endowmentTransactionDocument
      */
-    public FinancialSystemMaintenanceDocument createEndowmentTransactionDocument() {
+    public FinancialSystemMaintenanceDocument createEndowmentMaintenanceDocument() {
         FinancialSystemMaintenanceDocument financialSystemMaintenanceDocument = null;
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);

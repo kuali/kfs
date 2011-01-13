@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
+import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 
 /**

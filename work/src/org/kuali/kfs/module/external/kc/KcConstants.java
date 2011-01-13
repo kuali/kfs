@@ -20,6 +20,12 @@ public class KcConstants {
     public static final String MODULE_TARGET_NAMESPACE = "KFS";
     private KcConstants() {}
     
+    public static class KcWebService {
+        public static final String STATUS_KC_SUCCESS = "success";
+        public static final String STATUS_KC_FAILURE = "failure";
+        public static final String STATUS_KC_WARNING = "warning";
+        public static final String ERROR_KC_WEB_SERVICE_FAILURE = "error.kc.document.unable to access the KC web server: ";
+    }
     public static class AccountCreationService {
         
         public static final String WEB_SERVICE_NAME = "accountCreationService";
@@ -31,11 +37,7 @@ public class KcConstants {
         public static final String ADMIN_ADDRESS_TYTPE = "ADMIN";
         public static final String PAYMENT_ADDRESS_TYTPE = "PAYMENT";
         public static final String DEFAULT_ADDRESS_TYTPE = "DEFAULT";
-    
-        public static final String STATUS_KC_ACCOUNT_SUCCESS = "success";
-        public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
-        public static final String STATUS_KC_ACCOUNT_WARNING = "warning";
-        
+            
         public static final String ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.kc.account.params.unit.notfound";
         public static final String ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.notAllowedToCreateCGMaintenanceDocument";
         public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";
@@ -56,11 +58,7 @@ public class KcConstants {
         public static final String PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE = "RESEARCH_ADMIN_BA_DOCUMENT_ROUTE_ACTION";   
         public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
-         
-        public static final String STATUS_KC_BA_SUCCESS = "success";
-        public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
-        public static final String STATUS_KC_ACCOUNT_WARNING = "warning";
-        
+                 
         public static final String ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.kc.account.params.unit.notfound";
         public static final String ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.notAllowedToCreateCGMaintenanceDocument";
         public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";
@@ -75,5 +73,10 @@ public class KcConstants {
         
         public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic BA Document Creation";
     }    
+    
+    public static class BudgetCategoryService {
+        public static final String WEB_SERVICE_NAME = "budgetCategoryDTOLookupableHelperService";
+ 
+    }
 
 }

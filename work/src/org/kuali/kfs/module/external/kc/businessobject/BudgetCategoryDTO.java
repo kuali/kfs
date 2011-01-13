@@ -1,5 +1,5 @@
 
-package org.kuali.kfs.module.external.kc.service.impl.InstitutionalBudgetCategoryServiceImpl;
+package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.io.Serializable;
 

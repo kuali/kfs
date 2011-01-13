@@ -65,7 +65,7 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
             
         } catch (Exception ex) {
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit" + ex.getMessage());
+            GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.KcWebService.ERROR_KC_WEB_SERVICE_FAILURE, ex.getMessage());
         }
         
         return Collections.EMPTY_LIST;

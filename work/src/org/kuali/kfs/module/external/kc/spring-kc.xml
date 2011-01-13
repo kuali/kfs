@@ -38,7 +38,7 @@
         <property name="externalizableBusinessObjectImplementations">
             <map>
 	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.service.impl.InstitutionalBudgetCategoryServiceImpl.BudgetCategoryDTO" />
+       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">

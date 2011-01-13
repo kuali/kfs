@@ -74,13 +74,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
         accountCreationStatus.setErrorMessages(new ArrayList<String>());
-        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
+        accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_SUCCESS);
                 
         // check to see if the user has the permission to create account
         String principalId = accountParameters.getPrincipalId();
         if (!isValidUser(principalId)) {
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return accountCreationStatus;
         }
         
@@ -90,7 +90,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         if (defaults == null) {
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND);
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return accountCreationStatus;
         } 
         
@@ -101,7 +101,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus);
         
         // set required values to AccountCreationStatus
-        if (accountCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
+        if (accountCreationStatus.getStatus().equals(KcConstants.KcWebService.STATUS_KC_SUCCESS)) {
             accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
             accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
         }
@@ -258,7 +258,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
                 accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
                 return;
             }
             
@@ -277,31 +277,31 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         }   catch (WorkflowException wfe) {
 
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+            accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
                 getDocumentService().saveDocument(maintenanceAccountDocument);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+                accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
                 LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
                 accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             }             
             
         }  catch (Exception ex) {
 
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT +  ex.getMessage()); 
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+            accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS+  ex.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
                 getDocumentService().saveDocument(maintenanceAccountDocument);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+                accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
                 LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
                 accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             }             
         }
     }
@@ -321,7 +321,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             
         } catch (Exception e) {
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + e.getMessage());
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
         }
     }       

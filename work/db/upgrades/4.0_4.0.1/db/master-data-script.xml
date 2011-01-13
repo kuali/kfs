@@ -7,7 +7,7 @@
 	
 	<include file="02_data/fp-module-data-updates.xml"/>
 -->
-	<include file="02-data/cam-module-data-updates.xml"/>
-	<include file="02-data/vendor-module-data-updates.xml"/>
+	<include file="02_data/cam-module-data-updates.xml"/>
+	<include file="02_data/vendor-module-data-updates.xml"/>
 </databaseChangeLog>
 	

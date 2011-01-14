@@ -70,7 +70,7 @@ public class CorpusAdjustmentDocumentRulesTest extends KualiTestBase {
         security = SecurityFixture.LIABILITY_INCREASE_ACTIVE_SECURITY.createSecurityRecord();
         kemid = KemIdFixture.NOT_NA_PRINC_RESTR_KEMID_RECORD.createKemidRecord();
 
-        //create the Liability Decrease document
+        //create the Corpus Adjustment Document
         document = createCorpusAdjustmentDocument();
     }
 
@@ -84,14 +84,14 @@ public class CorpusAdjustmentDocumentRulesTest extends KualiTestBase {
     }
 
     /**
-     * create a LiabilityDecreaseDocument
+     * create a CorpusAdjustmentDocument
      * @return doc
      */
     protected CorpusAdjustmentDocument createCorpusAdjustmentDocument() throws WorkflowException {
-        LOG.info("createLiabilityDecreaseDocument() entered.");
+        LOG.info("createCorpusAdjustmentDocument() entered.");
         
         CorpusAdjustmentDocument doc = (CorpusAdjustmentDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(CorpusAdjustmentDocument.class);
-        doc.getDocumentHeader().setDocumentDescription("Testing Liability Increase document.");
+        doc.getDocumentHeader().setDocumentDescription("Testing Corpus Adjustment document.");
         doc.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.NON_CASH);
         doc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
         return doc;

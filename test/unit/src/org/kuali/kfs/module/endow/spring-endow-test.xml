@@ -98,5 +98,6 @@
     	<property name="gainLossDistributionTotalsReportWriterService">
     		<ref bean="mockReportWriterService"/>
     	</property>
-    </bean>     
+    </bean>   
+    
 </beans>

@@ -51,7 +51,6 @@ public class RollProcessDateServiceImplTest extends KualiTestBase {
     }
     
     /**
-     * 
      * @see junit.framework.TestCase#tearDown()
      */
     @Override

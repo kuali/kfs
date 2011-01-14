@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Calendar;
 
 import org.kuali.kfs.module.endow.batch.service.UpdateHistoryCashService;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
@@ -27,16 +26,15 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.module.endow.util.ValidateLastDayOfMonth;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
 public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UpdateHistoryCashServiceImpl.class);
+
     private KEMService kemService;
     private BusinessObjectService businessObjectService;
     private MonthEndDateService monthEndDateService;
-    
     
     /**
      * @see org.kuali.kfs.module.endow.batch.service.UpdateHistoryCashService#updateHistoryCash()
@@ -51,25 +49,38 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
             return appendNewHistoricalCashRecords(monthEndDateId); 
         }
         else {
-            
             LOG.info(currentDate+" is NOT the last day of the month. Update History Cash batch process will do nothing.");
             return true;
         }        
     }    
 
-    private KualiInteger appendNewMonthEndDate(Date monthEndDate){
+    /**
+     * calculates the next month end date id using the month end date service and uses
+     * that value to insert a new record into the month end date table.
+     * 
+     * @param monthEndDate current date
+     * @return KualiInteger
+     */
+    protected KualiInteger appendNewMonthEndDate(Date monthEndDate){
          KualiInteger newMonthEndDateId = monthEndDateService.getNextMonthEndIdForNewRecord();
          MonthEndDate newMonthEndDate = new MonthEndDate();
          newMonthEndDate.setMonthEndDateId(newMonthEndDateId);
          newMonthEndDate.setMonthEndDate(new java.sql.Date(monthEndDate.getTime()));         
          businessObjectService.save(newMonthEndDate);
+
          return newMonthEndDateId;
     }
     
-    
-    private boolean appendNewHistoricalCashRecords(KualiInteger monthEndDateId){
+    /**
+     * For each current cash records, creates a record in historical cash table
+     * 
+     * @param monthEndDateId
+     * @return true
+     */
+    protected boolean appendNewHistoricalCashRecords(KualiInteger monthEndDateId){
         Collection<KemidCurrentCash> kemidCurrentCashRecords = 
                 businessObjectService.findAll(KemidCurrentCash.class);
+
         int counter = 0;
         for (KemidCurrentCash kemidCurrentCashRecord : kemidCurrentCashRecords) {
             KemidHistoricalCash newKemidHistoricalCash = new KemidHistoricalCash();            
@@ -81,10 +92,9 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
             counter++;            
         }
         LOG.info ("UpdateHistoryCash batch process has appended "+counter+" records to the END_HIST_CSH_T table.");
-        return true;
-  
-    }
 
+        return true;
+    }
     
     /**
      * Sets the monthEndDateService.
@@ -113,6 +123,26 @@ public class UpdateHistoryCashServiceImpl implements UpdateHistoryCashService {
         this.businessObjectService = businessObjectService;
     }
     
- 
+    /**
+     * gets kemService
+     * @return kemService
+     */
+    protected KEMService getKemService() {
+        return kemService;
+    }
 
+    /**
+     * gets businessObjectService
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * gets monthEndDateService
+     * @return monthEndDateService
+     */
+    protected MonthEndDateService getMonthEndDateService() {
+        return monthEndDateService;
+    }
 }

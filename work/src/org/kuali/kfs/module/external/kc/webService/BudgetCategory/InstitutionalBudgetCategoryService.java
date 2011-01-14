@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.external.kc.service.impl.InstitutionalBudgetCategoryServiceImpl;
+package org.kuali.kfs.module.external.kc.webService.BudgetCategory;
 
 import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;

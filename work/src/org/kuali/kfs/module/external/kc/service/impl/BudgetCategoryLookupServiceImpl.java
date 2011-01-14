@@ -34,15 +34,15 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
-import org.kuali.kfs.module.external.kc.service.impl.InstitutionalBudgetCategoryServiceImpl.BudgetCategoryService;
-import org.kuali.kfs.module.external.kc.service.impl.InstitutionalBudgetCategoryServiceImpl.BudgetCategorySoapService;
+import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
+import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.sys.KFSConstants;
 
 public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryLookupServiceImpl.class);
 
     private String wsdlLocation;
-    private URL wsdlURL = BudgetCategorySoapService.WSDL_LOCATION;
+    private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;
     private static final QName SERVICE_NAME = new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE);   
     public List <BudgetCategoryDTO> lookupBudgetCategory(Map <String,String>searchCriteria) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
@@ -57,8 +57,8 @@ public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupServ
             }
         }
         if (hashMapList.size() == 0) hashMapList = null;
-        BudgetCategorySoapService ss = new BudgetCategorySoapService(wsdlURL, SERVICE_NAME);
-        BudgetCategoryService port = ss.getBudgetCategoryServicePort();  
+        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
+        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
         
         List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     
         return budgetCategoryDTOs;

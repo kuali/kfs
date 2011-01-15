@@ -746,7 +746,7 @@
 
 	<controller
 		processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor"
-		maxFileSize="5M" />
+		maxFileSize="100M" />
 		
     <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
 

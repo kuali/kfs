@@ -89,13 +89,13 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         TestUtils.setSystemParameter(BudgetAdjustmentDocument.class,  KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
 
         BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
-        assertTrue(status.getErrorMessages().isEmpty());
+        assertTrue("Errors during service call - save only: " + status.getErrorMessages(), status.getErrorMessages().isEmpty());
         
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
         TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
 //      // the document should be submitted....
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
-        assertTrue(status.getErrorMessages().isEmpty());
+        assertTrue("Errors during service call - route: " + status.getErrorMessages(), status.getErrorMessages().isEmpty());
 
       //  TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
      // the document should be blanket approved.....
@@ -106,34 +106,34 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
 //      // the document should be submitted....
          status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
 //       //we want to test for failure of the routing by using routing value not defined for the system parameter...
-        assertTrue( ! status.getErrorMessages().isEmpty());
+        assertFalse( "Service call should have failed.", status.getErrorMessages().isEmpty());
     }
 
     
     /**
      * This method tests the service using KSB, but locally 
      */
-    public void testBudgetAdjustmentServiceWithKSB() {
-        BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
-
-        try {
-            // BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
-
-            
-            URL url = new URL("http://localhost:8080/remoting/budgetAdjustmentServiceSOAP");
-            QName qName = new QName("KFS", "budgetAdjustmentServiceSoap");
- 
-            Service service = Service.create(url, qName);
-            BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) service.getPort(BudgetAdjustmentService.class);
-            BudgetAdjustmentCreationStatusDTO creationStatus = budgetAdjustService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
-                    
-            System.out.println("doc number: " + creationStatus.getDocumentNumber());            
-            assertTrue(creationStatus.getStatus().equals("success"));
-            
-        } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
-        }
-
-    }
+//    public void testBudgetAdjustmentServiceWithKSB() {
+//        BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
+//
+//        try {
+//            // BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_UNIT_SERVICE));
+//
+//            
+//            URL url = new URL("http://localhost:8080/remoting/budgetAdjustmentServiceSOAP");
+//            QName qName = new QName("KFS", "budgetAdjustmentServiceSoap");
+// 
+//            Service service = Service.create(url, qName);
+//            BudgetAdjustmentService budgetAdjustService = (BudgetAdjustmentService) service.getPort(BudgetAdjustmentService.class);
+//            BudgetAdjustmentCreationStatusDTO creationStatus = budgetAdjustService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
+//                    
+//            System.out.println("doc number: " + creationStatus.getDocumentNumber());            
+//            assertTrue(creationStatus.getStatus().equals("success"));
+//            
+//        } catch (Exception e) {
+//            System.out.println("error: " + e.getMessage());
+//        }
+//
+//    }
 
 }

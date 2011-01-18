@@ -271,3 +271,4 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 1103,1103,1,51,KFS-SYS,Add Message to Route Log,Allows user to enter a message on the route log,Y
 1104,1104,1,10,KFS-ENDOW,Initiate Document,Authorizes the initiation of the Endowment Batch created documents.,Y
 1105,1105,1,33,KFS-LD,"Upload Batch Input File(s)","Authorizes user to access the Labor Enterprise Feed Upload page.",Y
+1106,1106,1,10,KFS-COA,Initiate Document,Authorizes the initiation of KFS Account Maintenance Documents.,Y

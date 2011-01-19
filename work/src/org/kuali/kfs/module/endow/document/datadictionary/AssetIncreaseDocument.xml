@@ -39,7 +39,11 @@
         <ref bean="AssetIncreaseDocument-versionNumber"/>
       </list>
     </property>
+        <property name="workflowAttributes">
+    	<ref bean="AssetIncreaseDocument-workflowAttributes"/>
+    </property>
   </bean>
+  
 
 <!-- Attribute Definitions -->
 
@@ -94,4 +98,10 @@
   </bean>
 
   <bean id="AssetIncreaseDocument-versionNumber" parent="GenericAttributes-versionNumber"/>
+  
+  <!-- workflow attributes for routing -->
+  <bean id="AssetIncreaseDocument-workflowAttributes" parent="AssetIncreaseDocument-workflowAttributes-parentBean"/>
+	
+  <bean id="AssetIncreaseDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
+	
 </beans>

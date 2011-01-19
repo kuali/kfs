@@ -24,7 +24,6 @@
       <list>
         <ref bean="ObjectCodeGlobalMaintenanceDocument-GlobalObjectCodeMaintenance"/>
         <ref bean="ObjectCodeGlobalMaintenanceDocument-EditMultipleYearandChart"/>
-        <ref bean="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes"/>
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -118,20 +117,7 @@
     </property>
   </bean>
 
-  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes" parent="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean"/>
-
-  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="researchAdminAttributes"/>
-    <property name="title" value="Research Admin Attributes"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="rschBudgetCategoryCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="rschOnCampusIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="rschObjectCodeDescription" />
-      </list>
-    </property>
-  </bean>
-  
+   
 	<!-- workflow attributes -->
   	<bean id="ObjectCodeGlobalMaintenanceDocument-workflowAttributes" parent="ObjectCodeGlobalMaintenanceDocument-workflowAttributes-parentBean"/>
   

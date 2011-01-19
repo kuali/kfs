@@ -141,6 +141,17 @@ public enum ClassCodeFixture {
             "A",// classCodeType;
             "M"// valuationMethod;
             
+    ),
+
+    ASSET_CLASS_CODE("EAS", // code
+            "Test Liability Class Code", // desc
+            "TST12",// securityReportingGrp;
+            "A",// securityAccrualMethod;
+            "TST123", // securityEndowmentTransactionCode;
+            "TST123", // securityIncomeEndowmentTransactionPostCode;
+            true, // taxLotIndicator;
+            "P",// classCodeType;
+            "M"// valuationMethod;
     );
 
     public final String code;

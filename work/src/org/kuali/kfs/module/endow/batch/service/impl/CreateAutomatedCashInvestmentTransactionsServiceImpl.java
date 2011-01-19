@@ -127,7 +127,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param kemid
      * @param aciModel
      */
-    private void processAssetIncreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
+    protected void processAssetIncreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
 
         // An asset increase document for each of the pooled investments.
         AssetIncreaseDocument assetIncreaseDoc1 = null;
@@ -174,7 +174,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param aciModel
      * @param isIncome
      */
-    private void processAssetDecreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
+    protected void processAssetDecreaseDocs(List<KEMID> kemids, AutomatedCashInvestmentModel aciModel, boolean isIncome) {
 
         // An asset increase document for each of the pooled investments.
         AssetDecreaseDocument assetDecreaseDoc1 = null;
@@ -221,11 +221,16 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param isIncome
      * @param assetIncreaseDoc
      */
-    private void performCleanUpForAssetDecrease(boolean isIncome, AssetDecreaseDocument assetDecreaseDoc) {
+    protected boolean performCleanUpForAssetDecrease(boolean isIncome, AssetDecreaseDocument assetDecreaseDoc) {
+        
+        boolean success = false;
+        
         if (assetDecreaseDoc != null && !assetDecreaseDoc.getSourceTransactionLines().isEmpty()) {
             // Validate and route the document.
-            routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
+            success = routeAssetDecreaseDocument(assetDecreaseDoc, isIncome);
         }
+        
+        return success;
     }
 
     /**
@@ -235,11 +240,16 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * @param isIncome
      * @param assetIncreaseDoc
      */
-    private void performCleanUpForAssetIncrease(boolean isIncome, AssetIncreaseDocument assetIncreaseDoc) {
+    protected boolean performCleanUpForAssetIncrease(boolean isIncome, AssetIncreaseDocument assetIncreaseDoc) {
+        
+        boolean success = false;
+        
         if (assetIncreaseDoc != null && !assetIncreaseDoc.getTargetTransactionLines().isEmpty()) {
             // Validate and route the document.
-            routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
+            success = routeAssetIncreaseDocument(assetIncreaseDoc, isIncome);
         }
+        
+        return success;
     }
 
     /**
@@ -327,9 +337,12 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      * 
      * @param assetDecreaseDoc
      * @param isIncome
+     * @return
      */
-    private void routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
+    protected boolean routeAssetDecreaseDocument(AssetDecreaseDocument assetDecreaseDoc, boolean isIncome) {
 
+        boolean success = false;
+        
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetDecreaseDoc));
 
@@ -340,6 +353,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 assetDecreaseDoc.setNoRouteIndicator(noRouteIndicator);
                 documentService.routeDocument(assetDecreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetDecrease(assetDecreaseDoc, isIncome);
+                success = true;
             }
             catch (WorkflowException ex) {
                 writeExceptionTableReason(assetDecreaseDoc.getDocumentNumber() + " - " + ex.getLocalizedMessage());
@@ -361,15 +375,21 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 LOG.error(we.getLocalizedMessage());
             }
         }
+        
+        return success;
     }
 
     /**
      * Validates the asset increase document and routes it.
      * 
      * @param assetIncreaseDoc
+     * @param isIncome
+     * @return
      */
-    private void routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
+    protected boolean routeAssetIncreaseDocument(AssetIncreaseDocument assetIncreaseDoc, boolean isIncome) {
 
+        boolean success = false;
+        
         // Perform validation on the document.
         boolean rulesPassed = kualiRuleService.applyRules(new RouteDocumentEvent(assetIncreaseDoc));
 
@@ -380,6 +400,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 assetIncreaseDoc.setNoRouteIndicator(noRouteIndicator);
                 documentService.routeDocument(assetIncreaseDoc, SUBMIT_DOCUMENT_DESCRIPTION, null);
                 writeProcessedTableRowAssetIncrease(assetIncreaseDoc, isIncome);
+                success = true;
             }
             catch (WorkflowException we) {
                 writeExceptionTableReason(assetIncreaseDoc.getDocumentNumber() + " - " + we.getLocalizedMessage());
@@ -401,6 +422,8 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
                 LOG.error(we.getLocalizedMessage());
             }
         }
+        
+        return success;
     }
 
     /**

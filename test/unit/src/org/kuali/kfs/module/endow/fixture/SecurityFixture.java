@@ -98,6 +98,15 @@ public enum SecurityFixture {
             EndowTestConstants.SECURITY_RATE, // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ),
+    ENDOWMENT_ASSET_SECURITY_RECORD("TESTSECID", // securityId
+            "EAS", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
     );
 
     public final String securityId;

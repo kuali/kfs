@@ -100,4 +100,12 @@
     	</property>
     </bean>   
     
+    <bean id="mockCreateAutomatedCashInvestmentTransactionsService" parent="createAutomatedCashInvestmentTransactionsService">
+    	<property name="createAutomatedCashInvestmentProcessedReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="createAutomatedCashInvestmentExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
 </beans>

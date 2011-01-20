@@ -34,6 +34,7 @@ import org.kuali.kfs.module.endow.document.validation.impl.AssetIncreaseDocument
 import org.kuali.kfs.module.endow.document.validation.impl.CashDecreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashIncreaseDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CashTransferDocumentRulesTest;
+import org.kuali.kfs.module.endow.document.validation.impl.CorporateReorganizationDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.CorpusAdjustmentDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.EndowmentToGLTransferOfFundsDocumentRulesTest;
 import org.kuali.kfs.module.endow.document.validation.impl.GLToEndowmentTransferOfFundsDocumentRulesTest;
@@ -81,6 +82,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(HoldingAdjustmentDocumentRulesTest.class);
         suite.addTestSuite(ProcessFeeTransactionsServiceImplTest.class);
         suite.addTestSuite(CreateAccrualTransactionsServiceImplTest.class);
+        suite.addTestSuite(CorporateReorganizationDocumentRulesTest.class);
         
         // David's unit tests
         suite.addTestSuite(CashIncreaseDocumentRulesTest.class);

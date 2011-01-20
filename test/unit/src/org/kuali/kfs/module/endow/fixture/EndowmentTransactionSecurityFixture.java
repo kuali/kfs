@@ -26,6 +26,20 @@ public enum EndowmentTransactionSecurityFixture {
             "TESTSECID", // securityID
             "1234567890", // objectId
             new Long(1) // versionNumber
+    ), 
+    
+    ENDOWMENT_TRANSACTIONAL_SOURCE_SECURITY("ABCD-TEST", //documentNumber
+            "F", //securityLineTypeCode - From section
+            "TESTSECID", // securityID
+            "1234567890", // objectId
+            new Long(1) // versionNumber 
+    ), 
+    
+    ENDOWMENT_TRANSACTIONAL_TARGET_SECURITY("ABCD-TEST", //documentNumber
+            "F", //securityLineTypeCode - From section
+            "TESTSEC2", // securityID
+            "1234567890", // objectId
+            new Long(1) // versionNumber 
     );
     
     public final String documentNumber;

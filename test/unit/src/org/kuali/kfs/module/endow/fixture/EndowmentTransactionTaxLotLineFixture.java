@@ -41,6 +41,36 @@ public enum EndowmentTransactionTaxLotLineFixture {
             true //newLotIndicator
     ),
 
+    TAX_LOT_SOURCE_RECORD1(new KualiInteger(1), //documentLineNumber
+            "T", //documentLineTypeCode
+            new KualiInteger(1), //transactionHoldingLotNumber
+            "TESTKEMID", // kemid
+            "TESTSECID", // securityId
+            "TEST", // registrationCode
+            "I", // incomePrincipalIndicator
+            BigDecimal.valueOf(-10.00), // lotUnits
+            BigDecimal.valueOf(10000.00), // lotHoldingCost
+            BigDecimal.valueOf(0.00), // lotLongTermGainLoss
+            BigDecimal.valueOf(0.00), // lotShortTermGainLoss
+            Date.valueOf("2002-06-27"), // lotAcquiredDate
+            true //newLotIndicator
+    ),
+    
+    TAX_LOT_TARGET_RECORD1(new KualiInteger(1), //documentLineNumber
+            "T", //documentLineTypeCode
+            new KualiInteger(1), //transactionHoldingLotNumber
+            "TESTKEMID", // kemid
+            "TESTSECID", // securityId
+            "TEST", // registrationCode
+            "I", // incomePrincipalIndicator
+            BigDecimal.valueOf(10.00), // lotUnits
+            BigDecimal.valueOf(10000.00), // lotHoldingCost
+            BigDecimal.valueOf(0.00), // lotLongTermGainLoss
+            BigDecimal.valueOf(0.00), // lotShortTermGainLoss
+            Date.valueOf("2002-06-27"), // lotAcquiredDate
+            true //newLotIndicator
+    ),
+    
     TAX_LOT_RECORD2(new KualiInteger(1), //documentLineNumber
             "F", //documentLineTypeCode
             new KualiInteger(1), //transactionHoldingLotNumber

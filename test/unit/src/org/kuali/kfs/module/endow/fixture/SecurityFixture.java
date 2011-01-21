@@ -128,6 +128,24 @@ public enum SecurityFixture {
             BigDecimal.valueOf(20L), // securityRate
             true, // rowActiveIndicator
             BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ), 
+    ENDOWMENT_ASSET_INCOME_SECURITY_RECORD("TSTSECID1", // securityId
+            "EAS", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
+    ),
+    ENDOWMENT_ASSET_PRINCIPAL_SECURITY_RECORD("TSTSECID2", // securityId
+            "EAS", // securityClassCode
+            BigDecimal.ONE, // securityUnitValue
+            "M01", // securityIncomePayFrequencyCode
+            Date.valueOf("2010-01-01"), // securityIncomeNextPayDate
+            BigDecimal.valueOf(20L), // securityRate
+            true, // rowActiveIndicator
+            BigDecimal.valueOf(100.20) // nextFiscalYearDisbursementAmount
     );
 
     public final String securityId;

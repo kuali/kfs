@@ -146,6 +146,40 @@ public enum KemIdFixture {
             "T", // closeCode
             "TRU", // incomeRestrictionCode
             "NON" // principalRestrictionCode
+    ),
+    CSM_KEMID_RECORD_1("TSTKEMID1", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-01"), // dateOpened
+            Date.valueOf("2006-02-01"), // dateEstablished
+            "099", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            null, // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
+    ),
+    CSM_KEMID_RECORD_2("TSTKEMID2", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-02"), // dateOpened
+            Date.valueOf("2006-02-02"), // dateEstablished
+            "099", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            null, // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
     );
 
     public final String kemid;

@@ -129,7 +129,23 @@ public enum HoldingTaxLotRebalanceFixture {
             new KualiInteger(1), //totalLotNumber
             BigDecimal.valueOf(20.00), // totalUnits
             BigDecimal.valueOf(10000.00) // totalCost    
-    );
+    ),
+    HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_SALE1("TSTKEMID1", //kemid
+            "TSTSECID1", //securityId
+            "RC1", //registrationCode
+            "I", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.valueOf(2501.00), // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost    
+    ),
+    HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_SALE2("TSTKEMID2", //kemid
+            "TSTSECID2", //securityId
+            "RC2", //registrationCode
+            "P", //incomePrincipalIndicator
+            new KualiInteger(1), //totalLotNumber
+            BigDecimal.valueOf(2501.00), // totalUnits
+            BigDecimal.valueOf(10000.00) // totalCost    
+    ),;
     
     public final String kemid;
     public final String securityId;

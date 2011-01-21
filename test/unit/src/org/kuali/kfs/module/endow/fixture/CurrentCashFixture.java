@@ -25,6 +25,14 @@ public enum CurrentCashFixture {
     CURRENT_CASH_RECORD("TESTKEMID", //kemid
             new KualiDecimal(1250.80), // currentIncomeCash
             new KualiDecimal(1000.21) // currentPrincipalCash
+    ),
+    PRINCIPAL_SALE_ASSET_RECORD("TSTKEMID1", //kemid
+            new KualiDecimal(1001), // currentIncomeCash
+            new KualiDecimal(1001) // currentPrincipalCash
+    ),
+    PRINCIPAL_PURCHASE_ASSET_RECORD("TSTKEMID2", //kemid
+            new KualiDecimal(1002), // currentIncomeCash
+            new KualiDecimal(1002) // currentPrincipalCash
     );
     
     public final String kemid;

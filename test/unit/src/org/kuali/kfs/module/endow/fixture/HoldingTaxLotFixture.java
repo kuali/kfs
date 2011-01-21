@@ -206,7 +206,31 @@ public enum HoldingTaxLotFixture {
             BigDecimal.valueOf(1000.00), // currentAccrual
             BigDecimal.ZERO, // priorAccrual
             Date.valueOf("2002-06-27") // lastTransactionDate)    
-    );
+    ),
+    HOLDING_TAX_LOT_RECORD_FOR_SALE1("TSTKEMID1", // kemid
+            "TSTSECID1", // securityId
+            "RC1", // registrationCode
+            "I", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
+            BigDecimal.valueOf(2501.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2002-06-27") // lastTransactionDate)
+    ),
+    HOLDING_TAX_LOT_RECORD_FOR_SALE2("TSTKEMID2", // kemid
+            "TSTSECID2", // securityId
+            "RC2", // registrationCode
+            "P", // incomePrincipalIndicator
+            new KualiInteger(1), // lotNumber
+            Date.valueOf("2005-11-01"), // acquiredDate
+            BigDecimal.valueOf(2501.00), // units
+            BigDecimal.valueOf(10000.00), // cost
+            BigDecimal.valueOf(0.00), // currentAccrual
+            BigDecimal.valueOf(0.00), // priorAccrual
+            Date.valueOf("2002-06-27") // lastTransactionDate)
+    ),;
 
     public final String kemid;
     public final String securityId;

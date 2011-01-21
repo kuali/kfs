@@ -17,6 +17,8 @@ package org.kuali.kfs.module.endow.fixture;
 
 import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PooledFundControlTransactionFixture {
@@ -25,9 +27,13 @@ public enum PooledFundControlTransactionFixture {
                 new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","T", "PURCHASE_NO_ROUTE_IND", "P"),
     ECI_DATA("99PSTF018","Pooled Short Term Fund Income Test",new Integer(0),"0AI","099PSTF018","01205","01205","78100","42010",false,false,true,
             new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","F", "PURCHASE_NO_ROUTE_IND", "I"), 
+    ASSET_INCOME_DATA("TSTSECID1","Pooled Short Term Fund Income Test",new Integer(0),"RC1","TSTKEMID1","01205","01205","78100","42010",false,false,true,
+            new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","T", "PURCHASE_NO_ROUTE_IND", "P"),
+    ASSET_PURCHASE_DATA("TSTSECID2","Pooled Short Term Fund Income Test",new Integer(0),"RC2","TSTKEMID2","01205","01205","78100","42010",false,false,true,
+        new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","F", "PURCHASE_NO_ROUTE_IND", "I"),             
     CAPITAL_GAIN_LOSS_DISTRIBUTION_TRANSACTION_COMMITTED("DUMMYID", //pooledSecurityID
             "Pooled Short Term Fund Income Test", //pooledFundDescription
-            new Integer(0), //pooledFundDescription
+            new Integer(0), //incrementValuationDays
             "2TST", //fundRegistrationCode
             "TEST_KEMID", //fundKEMID
             "01205", //fundAssetPurchaseOffsetTranCode
@@ -106,7 +112,7 @@ public enum PooledFundControlTransactionFixture {
     }
 
     public PooledFundControl createPooledFundControl() {
-    
+        
         PooledFundControl pooledFundControl = new PooledFundControl();
         pooledFundControl.setPooledSecurityID(pooledSecurityID);
         pooledFundControl.setPooledFundDescription(pooledFundDescription);
@@ -122,6 +128,32 @@ public enum PooledFundControlTransactionFixture {
         pooledFundControl.setActive(active);
                 
         return pooledFundControl;
+    }
+    
+    public PooledFundControl createSavePooledFundControl() {
+    
+        PooledFundControl pooledFundControl = new PooledFundControl();
+        pooledFundControl.setPooledSecurityID(pooledSecurityID);
+        pooledFundControl.setPooledFundDescription(pooledFundDescription);
+        pooledFundControl.setIncrementValuationDays(incrementValuationDays);
+        pooledFundControl.setFundRegistrationCode(fundRegistrationCode);
+        pooledFundControl.setFundKEMID(fundKEMID);
+        pooledFundControl.setFundAssetPurchaseOffsetTranCode(fundAssetPurchaseOffsetTranCode);
+        pooledFundControl.setFundAssetSaleOffsetTranCode(fundAssetSaleOffsetTranCode);
+        pooledFundControl.setFundSaleGainLossOffsetTranCode(fundSaleGainLossOffsetTranCode);
+        pooledFundControl.setFundCashDepositOffsetTranCode(fundCashDepositOffsetTranCode);
+        pooledFundControl.setDistributeGainsAndLossesIndicator(distributeGainsAndLossesIndicator);
+        pooledFundControl.setAllowFractionalShares(allowFractionalShares);
+        pooledFundControl.setActive(active);
+                
+        savePooledFundControl(pooledFundControl);
+        
+        return pooledFundControl;
+    }
+    
+    public void savePooledFundControl(PooledFundControl pooledFundControl) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        businessObjectService.save(pooledFundControl);
     }
     
     /**

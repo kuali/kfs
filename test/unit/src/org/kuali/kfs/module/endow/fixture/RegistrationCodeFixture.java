@@ -43,7 +43,9 @@ public enum RegistrationCodeFixture {
     REGISTRATION_CODE_RECORD_COMMITTED(EndowTestConstants.TEST_REGISTRATION_CD_COMMITTED, // code
             "Test RegistrationCode2", // description
             true // active    
-    );
+    ),
+    ASSET_REGISTRATION_CODE_RECORD_1("RC1", "Test RegistrationCode 1", true),
+    ASSET_REGISTRATION_CODE_RECORD_2("RC2", "Test RegistrationCode 2", true);
 
     public String code;
     public String description;

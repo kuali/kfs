@@ -108,4 +108,14 @@
     		<ref bean="mockReportWriterService"/>
     	</property>
     </bean>
+
+    <bean id="mockCreateCashSweepTransactionsService" parent="createCashSweepTransactionsService">
+    	<property name="createCashSweepProcessedReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="createCashSweepExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+	
 </beans>

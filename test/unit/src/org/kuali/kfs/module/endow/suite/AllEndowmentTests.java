@@ -22,6 +22,7 @@ import org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImp
 import org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImplTest;
@@ -92,6 +93,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(RollFrequencyDatesServiceImplTest.class);
         suite.addTestSuite(PooledFundControlTransactionsServiceImplTest.class);
         suite.addTestSuite(CreateAutomatedCashInvestmentTransactionsServiceImplTest.class);
+        suite.addTestSuite(CreateCashSweepTransactionsServiceImplTest.class); 
         
         //Suma's unit tests....
         suite.addTestSuite(SecurityRuleTest.class);

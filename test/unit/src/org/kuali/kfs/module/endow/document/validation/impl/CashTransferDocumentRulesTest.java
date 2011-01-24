@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
@@ -25,7 +26,9 @@ import org.kuali.kfs.module.endow.businessobject.GLLink;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.document.CashTransferDocument;
+import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
@@ -34,6 +37,7 @@ import org.kuali.kfs.module.endow.fixture.GLLinkFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;
 import org.kuali.kfs.module.endow.fixture.KemidGeneralLedgerAccountFixture;
 import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -74,8 +78,11 @@ public class CashTransferDocumentRulesTest extends KualiTestBase {
      */
     private CashTransferDocument createCashTransferDocument() throws WorkflowException {
 
-        Security security = SecurityFixture.ENDOWMENT_SECURITY_RECORD.createSecurityRecord();
-        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();        
+        SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();       
+        EndowmentTransactionCode endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        ClassCode classCode = ClassCodeFixture.ASSET_CLASS_CODE.createClassCodeRecord();        
+        Security security = SecurityFixture.ENDOWMENT_ASSET_SECURITY_RECORD.createSecurityRecord();
+        
         KEMID kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
         GLLink glLink = GLLinkFixture.GL_LINK_BL_CHART.createGLLink();
         KemidGeneralLedgerAccount generalLedgerAccount = KemidGeneralLedgerAccountFixture.KEMID_GL_ACCOUNT.createKemidGeneralLedgerAccount();

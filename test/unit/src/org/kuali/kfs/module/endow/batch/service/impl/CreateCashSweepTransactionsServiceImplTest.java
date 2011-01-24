@@ -83,7 +83,7 @@ public class CreateCashSweepTransactionsServiceImplTest extends KualiTestBase {
         assetDecreaseDocumentTaxLotsService = SpringContext.getBean(UpdateAssetDecreaseDocumentTaxLotsService.class);
 
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE2.createEndowmentTransactionCode();                
+        endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE_2.createEndowmentTransactionCode();                
         ClassCode classCode = ClassCodeFixture.ASSET_CLASS_CODE.createClassCodeRecord();
         
         security1 = SecurityFixture.ENDOWMENT_ASSET_INCOME_SECURITY_RECORD.createSecurityRecord();

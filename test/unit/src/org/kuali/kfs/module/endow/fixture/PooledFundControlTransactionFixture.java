@@ -23,10 +23,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PooledFundControlTransactionFixture {
 
-    ECDD_DATA("99PSTF018","Pooled Short Term Fund Income Test",new Integer(0),"0AI","099PSTF018","01205","01205","78100","42010",false,false,true,
-                new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","T", "PURCHASE_NO_ROUTE_IND", "P"),
-    ECI_DATA("99PSTF018","Pooled Short Term Fund Income Test",new Integer(0),"0AI","099PSTF018","01205","01205","78100","42010",false,false,true,
-            new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","F", "PURCHASE_NO_ROUTE_IND", "I"), 
     ASSET_INCOME_DATA("TSTSECID1","Pooled Short Term Fund Income Test",new Integer(0),"RC1","TSTKEMID1","01205","01205","78100","42010",false,false,true,
             new KualiDecimal(1110.00),"PURCHASE_DESCRIPTION","T", "PURCHASE_NO_ROUTE_IND", "P"),
     ASSET_PURCHASE_DATA("TSTSECID2","Pooled Short Term Fund Income Test",new Integer(0),"RC2","TSTKEMID2","01205","01205","78100","42010",false,false,true,

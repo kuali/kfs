@@ -226,8 +226,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
-            //if (currentCash != null && currentCash.compareTo(BigDecimal.ZERO) < 0) {
-            if (currentCash != null && currentCash.compareTo(cashLimit) < 0) {    
+            if (currentCash != null && currentCash.compareTo(BigDecimal.ZERO) < 0) {
                 
                 // If this is null that means we need to create a new eDoc for
                 // the first time.
@@ -287,9 +286,8 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
 
             // Get the current income/principle cash for this KEMID and compare it to the cash limit.
             BigDecimal currentCash = getKemidCurrentCash(kemid, isIncome);
-            //if (currentCash != null && ((currentCash.compareTo(cashLimit) > 0 || currentCash.compareTo(cashLimit) == 0))) {
-            if (currentCash != null && currentCash.compareTo(cashLimit) >= 0) {
-
+            if (currentCash != null && ((currentCash.compareTo(cashLimit) > 0 || currentCash.compareTo(cashLimit) == 0))) {
+            
                 // If this is null that means we need to create a new eDoc for
                 // the first time.
                 if (assetIncreaseDoc == null) {

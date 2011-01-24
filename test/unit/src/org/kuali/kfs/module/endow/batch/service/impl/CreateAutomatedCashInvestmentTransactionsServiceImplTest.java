@@ -78,7 +78,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImplTest extends Ku
         assetDecreaseDocumentTaxLotsService = SpringContext.getBean(UpdateAssetDecreaseDocumentTaxLotsService.class);
 
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
-        endowmentTransactionCode = EndowmentTransactionCodeFixture.ACI_TRANSACTION_CODE.createEndowmentTransactionCode();                
+        endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE_2.createEndowmentTransactionCode();                
         ClassCode classCode = ClassCodeFixture.ASSET_CLASS_CODE.createClassCodeRecord();
         
         security = SecurityFixture.ENDOWMENT_ASSET_SECURITY_RECORD.createSecurityRecord();

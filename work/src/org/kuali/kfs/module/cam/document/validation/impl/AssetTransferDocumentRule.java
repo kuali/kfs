@@ -117,17 +117,21 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode()) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
             boolean valid = true;
             List<AssetPayment> assetPayments = asset.getAssetPayments();
+            ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
             for (AssetPayment assetPayment : assetPayments) {
                 if (SpringContext.getBean(AssetPaymentService.class).isPaymentEligibleForGLPosting(assetPayment) && !assetPayment.getAccountChargeAmount().isZero()) {
                     // validate for transfer source
-                    AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    if (valid &= validateAssetObjectCode(originAssetObjectCode, asset.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+
+                    ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
+
+                    AssetObjectCode originAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(asset.getOrganizationOwnerChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode());
+                    if (valid &= validateAssetObjectCode(originAssetObjectCode, asset.getOrganizationOwnerChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode())) {
                         // validate object codes used to generate Capitalization/Accumulated Depreciation/Offset GL Postings.
                         valid &= validateFinancialObjectCodes(asset, assetPayment, originAssetObjectCode);
                     }
                     // validate for transfer target
-                    AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
-                    if (valid &= validateAssetObjectCode(targetAssetObjectCode, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), assetPayment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+                    AssetObjectCode targetAssetObjectCode = SpringContext.getBean(AssetObjectCodeService.class).findAssetObjectCode(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode());
+                    if (valid &= validateAssetObjectCode(targetAssetObjectCode, assetTransferDocument.getOrganizationOwnerChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode())) {
                         // validate object codes used to generate Capitalization/Accumulated Depreciation/Offset GL Postings.
                         valid &= validateFinancialObjectCodes(asset, assetPayment, targetAssetObjectCode);
                     }
@@ -379,10 +383,13 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         Asset asset = assetTransferDocument.getAsset();
         String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
-        if (finObjectSubTypeCode == null && ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
+        if (ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
             AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
             firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-            finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+            ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+
+            ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(),firstAssetPayment.getFinancialObjectCode());
+            finObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
         }
         boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
 

@@ -44,7 +44,7 @@ public enum EndowmentTransactionCodeFixture {
             true,// corpusIndicator;
             true// active
     ), 
-    ASSET_TRANSACTION_CODE2("TST123",// code
+    ACI_TRANSACTION_CODE("TST123",// code
             "Test transaction code",// desc
             "A",// endowmentTransactionTypeCode;
             true,// corpusIndicator;

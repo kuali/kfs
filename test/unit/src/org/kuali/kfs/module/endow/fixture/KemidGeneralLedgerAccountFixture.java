@@ -33,13 +33,13 @@ public enum KemidGeneralLedgerAccountFixture {
             true // active
     ),
     KEMID_GL_ACCOUNT_FOR_ASSET1("TSTKEMID1", // kemid
-            "I", // incomePrincipalIndicatorCode
+            "P", // incomePrincipalIndicatorCode
             "BL", // chartCode
             ".....", // accountNumber
             true // active
     ),
     KEMID_GL_ACCOUNT_FOR_ASSET2("TSTKEMID2", // kemid
-            "P", // incomePrincipalIndicatorCode
+            "I", // incomePrincipalIndicatorCode
             "BL", // chartCode
             ".....", // accountNumber
             true // active

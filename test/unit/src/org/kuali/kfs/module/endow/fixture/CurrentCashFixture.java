@@ -28,11 +28,11 @@ public enum CurrentCashFixture {
     ),
     PRINCIPAL_SALE_ASSET_RECORD("TSTKEMID1", //kemid
             new KualiDecimal(1001), // currentIncomeCash
-            new KualiDecimal(1001) // currentPrincipalCash
+            new KualiDecimal(1002) // currentPrincipalCash
     ),
     PRINCIPAL_PURCHASE_ASSET_RECORD("TSTKEMID2", //kemid
-            new KualiDecimal(1002), // currentIncomeCash
-            new KualiDecimal(1002) // currentPrincipalCash
+            new KualiDecimal(1003), // currentIncomeCash
+            new KualiDecimal(1004) // currentPrincipalCash
     );
     
     public final String kemid;

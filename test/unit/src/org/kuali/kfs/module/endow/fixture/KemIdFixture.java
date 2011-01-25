@@ -16,8 +16,12 @@
 package org.kuali.kfs.module.endow.fixture;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.EndowTestConstants;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -180,6 +184,23 @@ public enum KemIdFixture {
             "T", // closeCode
             "TRU", // incomeRestrictionCode
             "TRU" // principalRestrictionCode
+    ),
+    SAVE_KEMID_RECORD("TESTKEMID", // kemid
+            "Test Kemid for Unit test", // shortTitle
+            "Long Title for Kemid", // longTitle
+            Date.valueOf("2006-02-02"), // dateOpened
+            Date.valueOf("2006-02-02"), // dateEstablished
+            "099", // typeCode
+            "MR", // purposeCode
+            "TRST", // responsibleAdminCode
+            "NONE", // transactionRestrictionCode
+            null, // cashSweepModelId
+            false, // dormantIndicator
+            false, // close
+            "", // closedToKEMID
+            "T", // closeCode
+            "TRU", // incomeRestrictionCode
+            "TRU" // principalRestrictionCode
     );
 
     public final String kemid;
@@ -291,7 +312,88 @@ public enum KemIdFixture {
      * Method to save the business object....
      */
     private void saveKemidRecord(KEMID kemidRecord) {
-          BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         businessObjectService.save(kemidRecord);
     }
+    
+    /**
+     * Method to retrieve KEMID
+     * 
+     * @param kemid
+     * @return
+     */
+    public KEMID getSavedKEMID(String kemid) {
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(EndowPropertyConstants.KEMID, kemid);
+        
+        return (KEMID) businessObjectService.findByPrimaryKey(KEMID.class, primaryKeys);
+    }
+
+    public String getKemid() {
+        return kemid;
+    }
+
+    public String getShortTitle() {
+        return shortTitle;
+    }
+
+    public String getLongTitle() {
+        return longTitle;
+    }
+
+    public Date getDateOpened() {
+        return dateOpened;
+    }
+
+    public Date getDateEstablished() {
+        return dateEstablished;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public String getPurposeCode() {
+        return purposeCode;
+    }
+
+    public String getResponsibleAdminCode() {
+        return responsibleAdminCode;
+    }
+
+    public String getTransactionRestrictionCode() {
+        return transactionRestrictionCode;
+    }
+
+    public Integer getCashSweepModelId() {
+        return cashSweepModelId;
+    }
+
+    public boolean isDormantIndicator() {
+        return dormantIndicator;
+    }
+
+    public boolean isClose() {
+        return close;
+    }
+
+    public String getClosedToKEMID() {
+        return closedToKEMID;
+    }
+
+    public String getCloseCode() {
+        return closeCode;
+    }
+
+    public String getIncomeRestrictionCode() {
+        return incomeRestrictionCode;
+    }
+
+    public String getPrincipalRestrictionCode() {
+        return principalRestrictionCode;
+    }
+        
 }

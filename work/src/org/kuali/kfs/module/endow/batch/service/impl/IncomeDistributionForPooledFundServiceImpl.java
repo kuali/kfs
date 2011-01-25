@@ -325,7 +325,7 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
             cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
             cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
             // add security
-            addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
+            addSecurityDetailToECT(cashTransferDocument, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
             // add transaction lines
             addTransactionLinesToECT(cashTransferDocumentList, cashTransferDocument, holdingTaxLot, kemidPayoutInstructionList, transactionAmount);
             // prepare to submit the current ECT later
@@ -361,9 +361,9 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
                     // add the doc description and security
                     cashTransferDocument.getDocumentHeader().setDocumentDescription(parameterService.getParameterValue(IncomeDistributionForPooledFundStep.class, EndowParameterKeyConstants.INCOME_TRANSFER_DESCRIPTION));
                     cashTransferDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
-                    addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_SOURCE, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
                     // populate security
-                    addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
+                    addSecurityDetailToECT(cashTransferDocument, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());                    
+                    //addSecurityDetailToECT(cashTransferDocument, EndowConstants.TRANSACTION_LINE_TYPE_TARGET, holdingTaxLot.getSecurityId(), holdingTaxLot.getRegistrationCode());
                     // reset reports
                     resetTotalReport(cashTransferDocument);
                     resetExceptionlReport(cashTransferDocument);
@@ -455,12 +455,12 @@ public class IncomeDistributionForPooledFundServiceImpl implements IncomeDistrib
      * @param securityId
      * @param registrationCode
      */
-    protected void addSecurityDetailToECT(CashTransferDocument cashTransferDocument, String typeCode, String securityId, String registrationCode) {
-        cashTransferDocument.getSourceTransactionSecurity().setSecurityLineTypeCode(typeCode);
+    protected void addSecurityDetailToECT(CashTransferDocument cashTransferDocument, String securityId, String registrationCode) {
+        cashTransferDocument.getSourceTransactionSecurity().setSecurityLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE);
         cashTransferDocument.getSourceTransactionSecurity().setSecurityID(securityId);
         cashTransferDocument.getSourceTransactionSecurity().setRegistrationCode(registrationCode);
 
-        cashTransferDocument.getTargetTransactionSecurity().setSecurityLineTypeCode(typeCode);
+        cashTransferDocument.getTargetTransactionSecurity().setSecurityLineTypeCode(EndowConstants.TRANSACTION_LINE_TYPE_TARGET);
         cashTransferDocument.getTargetTransactionSecurity().setSecurityID(securityId);
         cashTransferDocument.getTargetTransactionSecurity().setRegistrationCode(registrationCode);
     }

@@ -58,7 +58,6 @@ public class CreateCashSweepTransactionsServiceImplTest extends KualiTestBase {
     private AssetIncreaseDocument assetIncreaseDocument = null;
     private AssetDecreaseDocument assetDecreaseDocument = null;
     private CreateCashSweepTransactionsServiceImpl createCashSweepTransactionsService;
-    private UpdateAssetDecreaseDocumentTaxLotsService assetDecreaseDocumentTaxLotsService;
 
     private Security security1;
     private Security security2;
@@ -80,7 +79,6 @@ public class CreateCashSweepTransactionsServiceImplTest extends KualiTestBase {
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         createCashSweepTransactionsService = (CreateCashSweepTransactionsServiceImpl) TestUtils.getUnproxiedService("mockCreateCashSweepTransactionsService");
-        assetDecreaseDocumentTaxLotsService = SpringContext.getBean(UpdateAssetDecreaseDocumentTaxLotsService.class);
 
         SecurityReportingGroup reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
         endowmentTransactionCode = EndowmentTransactionCodeFixture.ASSET_TRANSACTION_CODE_2.createEndowmentTransactionCode();                
@@ -129,7 +127,6 @@ public class CreateCashSweepTransactionsServiceImplTest extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         createCashSweepTransactionsService = null;
-        assetDecreaseDocumentTaxLotsService = null;
         super.tearDown();        
     }
     

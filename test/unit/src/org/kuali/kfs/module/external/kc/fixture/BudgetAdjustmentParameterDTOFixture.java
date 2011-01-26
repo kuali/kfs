@@ -19,20 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 public enum BudgetAdjustmentParameterDTOFixture {
     
-    CONTROL_1("6162502038","10","2010","1234","1.0","Mock BudgetAdjustment test data");
+    CONTROL_1(UserNameFixture.khuntley,"10","2011","1234","1.0","Mock BudgetAdjustment test data");
     
-    private String principalId;
+    private UserNameFixture initiator;
     private String postingPeriodCode;
     private String postingYear;
     private String awardDocumentNumber;
     private String budgetVersionNumber;
     private String comment;
     
-    private BudgetAdjustmentParameterDTOFixture(String principalId, String postingPeriodCode, String postingYear, String awardDocumentNumber, String budgetVersionNumber, String comment) {
-        this.principalId = principalId;
+    private BudgetAdjustmentParameterDTOFixture(UserNameFixture initiator, String postingPeriodCode, String postingYear, String awardDocumentNumber, String budgetVersionNumber, String comment) {
+        this.initiator = initiator;
         this.postingPeriodCode = postingPeriodCode;
         this.postingYear = postingYear;
         this.awardDocumentNumber = awardDocumentNumber;
@@ -43,12 +44,12 @@ public enum BudgetAdjustmentParameterDTOFixture {
     public BudgetAdjustmentParametersDTO createBudgetAdjustmentParameters() {
         
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
-        budgetAdjustmentParametersDTO.setPrincipalId(this.principalId);
-        budgetAdjustmentParametersDTO.setPostingPeriodCode(this.postingPeriodCode);
-        budgetAdjustmentParametersDTO.setPostingYear(this.postingYear);
-        budgetAdjustmentParametersDTO.setAwardDocumentNumber(this.awardDocumentNumber);
-        budgetAdjustmentParametersDTO.setBudgetVersionNumber(this.budgetVersionNumber);
-        budgetAdjustmentParametersDTO.setComment(this.comment);
+        budgetAdjustmentParametersDTO.setPrincipalId(initiator.getPerson().getPrincipalId());
+        budgetAdjustmentParametersDTO.setPostingPeriodCode(postingPeriodCode);
+        budgetAdjustmentParametersDTO.setPostingYear(postingYear);
+        budgetAdjustmentParametersDTO.setAwardDocumentNumber(awardDocumentNumber);
+        budgetAdjustmentParametersDTO.setBudgetVersionNumber(budgetVersionNumber);
+        budgetAdjustmentParametersDTO.setComment(comment);
         List<BudgetAdjustmentParametersDTO.Details> details = new ArrayList<BudgetAdjustmentParametersDTO.Details>();
         budgetAdjustmentParametersDTO.setDetails(details);
         details.add( BudgetAdjustmentParameterDTOLineFixture.DETAIL_F_LINE1.createBudgetAdjustmentParameterDTO());

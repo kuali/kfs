@@ -29,6 +29,7 @@ import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
+import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -285,7 +286,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
                 LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
+                accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                 accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             }             
             
@@ -293,6 +294,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
             LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT +  ex.getMessage()); 
             accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
+            accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
             accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS+  ex.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
@@ -300,7 +302,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
                 LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
+                accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                 accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             }             
         }
@@ -320,7 +322,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             return document;      
             
         } catch (Exception e) {
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + e.getMessage());
+            accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
             accountCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
         }
@@ -372,7 +374,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
                 parentUnits = unitService.getParentUnits(unitNumber);
             } catch (Exception ex) {
                 LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+                
                 GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit", ex.getMessage());
+
             }
 
             if (parentUnits != null) {

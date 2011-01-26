@@ -19,23 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 public enum BudgetAdjustmentParameterDTOFixture {
     
-    CONTROL_1(UserNameFixture.khuntley,"10","2011","1234","1.0","Mock BudgetAdjustment test data");
+    CONTROL_1(UserNameFixture.khuntley,"10","1234","1.0","Mock BudgetAdjustment test data");
     
     private UserNameFixture initiator;
     private String postingPeriodCode;
-    private String postingYear;
+    private Integer postingYear;
     private String awardDocumentNumber;
     private String budgetVersionNumber;
     private String comment;
     
-    private BudgetAdjustmentParameterDTOFixture(UserNameFixture initiator, String postingPeriodCode, String postingYear, String awardDocumentNumber, String budgetVersionNumber, String comment) {
+    private BudgetAdjustmentParameterDTOFixture(UserNameFixture initiator, String postingPeriodCode, String awardDocumentNumber, String budgetVersionNumber, String comment) {
         this.initiator = initiator;
         this.postingPeriodCode = postingPeriodCode;
-        this.postingYear = postingYear;
+        this.postingYear = TestUtils.getFiscalYearForTesting();
         this.awardDocumentNumber = awardDocumentNumber;
         this.budgetVersionNumber = budgetVersionNumber;
         this.comment = comment;
@@ -46,7 +47,7 @@ public enum BudgetAdjustmentParameterDTOFixture {
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
         budgetAdjustmentParametersDTO.setPrincipalId(initiator.getPerson().getPrincipalId());
         budgetAdjustmentParametersDTO.setPostingPeriodCode(postingPeriodCode);
-        budgetAdjustmentParametersDTO.setPostingYear(postingYear);
+        budgetAdjustmentParametersDTO.setPostingYear(postingYear.toString());
         budgetAdjustmentParametersDTO.setAwardDocumentNumber(awardDocumentNumber);
         budgetAdjustmentParametersDTO.setBudgetVersionNumber(budgetVersionNumber);
         budgetAdjustmentParametersDTO.setComment(comment);

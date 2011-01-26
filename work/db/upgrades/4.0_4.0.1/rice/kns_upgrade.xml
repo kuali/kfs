@@ -13,10 +13,10 @@
     <comment>KFSMI-KFSMI-6408 Create new system parameters for Endowment Batch Job</comment>
     <insert tableName='KRNS_PARM_DTL_TYP_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name='PARM_DTL_TYP_CD' value='EndowmentGeneralLedgerInterface' />
+      <column name='PARM_DTL_TYP_CD' value='endowmentGeneralLedgerInterfaceJob' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
-      <column name='NM' value='EndowmentGeneralLedgerInterface' />
+      <column name='NM' value='endowmentGeneralLedgerInterfaceJob' />
       <column name='ACTV_IND' value='Y' />
     </insert>
     <modifySql dbms='mysql'>
@@ -33,7 +33,7 @@
     <comment>KFSMI-KFSMI-6408 Create new system parameters for Endowment Batch Job</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name='PARM_DTL_TYP_CD' value='EndowmentGeneralLedgerInterface' />
+      <column name='PARM_DTL_TYP_CD' value='endowmentGeneralLedgerInterfaceJob' />
       <column name='PARM_NM' value='COMBINE_ENDOWMENT_GL_ENTRIES_IND' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
@@ -57,7 +57,7 @@
     <comment>KFSMI-KFSMI-6408 Create new system parameters for Endowment Batch Job</comment>
     <insert tableName='KRNS_PARM_T'>
       <column name='NMSPC_CD' value='KFS-ENDOW' />
-      <column name='PARM_DTL_TYP_CD' value='EndowmentGeneralLedgerInterface' />
+      <column name='PARM_DTL_TYP_CD' value='endowmentGeneralLedgerInterfaceJob' />
       <column name='PARM_NM' value='CASH_SALE_GAIN_LOSS_OBJECT_CODE' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />

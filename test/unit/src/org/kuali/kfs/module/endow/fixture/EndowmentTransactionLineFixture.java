@@ -148,7 +148,7 @@ public enum EndowmentTransactionLineFixture {
     ),
     ENDOWMENT_TRANSACTIONAL_LINE_FOR_EAI(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
-            "",// etranCode
+            null,// etranCode
             "P", // transactionIPIndicatorCode
             new KualiDecimal("100"), // transactionAmount
             new KualiDecimal("10"), // transactionUnits
@@ -157,7 +157,7 @@ public enum EndowmentTransactionLineFixture {
     ),
     ENDOWMENT_TRANSACTIONAL_LINE_FOR_EAD(new Integer(1), // transactionLineNumber
             "TESTKEMID", // kemid
-            "",// etranCode
+            null,// etranCode
             "P", // transactionIPIndicatorCode
             new KualiDecimal("10000"), // transactionAmount
             new KualiDecimal("20"), // transactionUnits

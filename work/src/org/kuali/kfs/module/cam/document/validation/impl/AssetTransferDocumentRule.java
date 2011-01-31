@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
@@ -53,6 +54,7 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -114,7 +116,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
     protected boolean validateAssetObjectCodeDefn(AssetTransferDocument assetTransferDocument, Asset asset) {
 
-        if (StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode()) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
+        if ( !isNonCapitalAsset(asset) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerChartOfAccountsCode()) && StringUtils.isNotBlank(assetTransferDocument.getOrganizationOwnerAccountNumber())) {
             boolean valid = true;
             List<AssetPayment> assetPayments = asset.getAssetPayments();
             ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
@@ -457,6 +459,23 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 
+    private boolean isNonCapitalAsset(Asset asset) {
+        boolean isNonCapitalAsset = false;
+        
+        List<String> capitalAssetStatusCodes = new ArrayList<String>();
+        
+        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM));
+        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM));
+        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM));
+        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.AssetGlobal.FABRICATED_ACQUISITION_CODE));
+        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_CODE));
+        
+        if( capitalAssetStatusCodes.contains(asset.getInventoryStatus().getInventoryStatusCode()) ) isNonCapitalAsset = false;
+        else isNonCapitalAsset = true;
+        
+        return isNonCapitalAsset;
+    }
+    
     public UniversityDateService getUniversityDateService() {
         if (this.universityDateService == null) {
             this.universityDateService = SpringContext.getBean(UniversityDateService.class);

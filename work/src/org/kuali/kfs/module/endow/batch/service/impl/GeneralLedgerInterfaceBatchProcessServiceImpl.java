@@ -15,8 +15,12 @@
  */
 package org.kuali.kfs.module.endow.batch.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.batch.service.GeneralLedgerInterfaceBatchProcessService;
 import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader;
@@ -42,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLedgerInterfaceBatchProcessService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerInterfaceBatchProcessServiceImpl.class);
     
-    protected String batchFileDirectoryName;
+    protected String enterpriseFeedDirectoryName;
     
     protected KemidFeeService kemidFeeService;
     protected FeeMethodService feeMethodService;
@@ -123,10 +127,23 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         LOG.info("processFeeTransactions() started");
         
         boolean success = true;
-        
         writeReportHeaders();
         
+        //main job to process KEM activity...
+        processKEMActivity();
+        
         return success;
+    }
+    
+    /**
+     * process the KEM Activity transactions to create gl entries in the enterprise feed file
+     */
+    public void processKEMActivity() {
+        PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityEnterpriseFeedDataFile();
+        PrintStream OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps = createActivityEnterpriseFeedReconcileFile();
+        
+        OUTPUT_KEM_TO_GL_DATA_FILE_ps.close();
+        OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps.close();
     }
     
     /**
@@ -146,7 +163,40 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         gLInterfaceBatchTotalProcessedReportsWriterService.writeTableHeader(gLInterfaceBatchTotalProcessedReportHeader);
     }
     
+    /**
+     * create the main data file in the gl enterpriseFeed folder
+     */
+    PrintStream createActivityEnterpriseFeedDataFile() {
+        try{
+            PrintStream OUTPUT_KEM_TO_GL_FILE_ps = new PrintStream(enterpriseFeedDirectoryName + File.separator + EndowConstants.KemToGLInterfaceBatchProcess.KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE + EndowConstants.KemToGLInterfaceBatchProcess.DATA_FILE_SUFFIX);
+            return OUTPUT_KEM_TO_GL_FILE_ps;
+            
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("processKEMActivityToCreateGLEntries Stopped: " + e1.getMessage(), e1);
+        }
+    }
+
+    /**
+     * create the main reconciliation file in the gl enterpriseFeed folder
+     */
+    PrintStream createActivityEnterpriseFeedReconcileFile() {
+        try{
+            PrintStream OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps = new PrintStream(enterpriseFeedDirectoryName + File.separator + EndowConstants.KemToGLInterfaceBatchProcess.KEM_TO_GL_ACTIVITY_OUTPUT_RECONCILE_FILE + EndowConstants.KemToGLInterfaceBatchProcess.RECON_FILE_SUFFIX);
+            return OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps;
+            
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException("processKEMActivityToCreateGLEntries Stopped: " + e1.getMessage(), e1);
+        }
+    }
     
+    /**
+     * writeTotalsProcessedDetailTotalsLine method to write details total line.
+     * @param documentNumber
+     * @param feeMethodCode
+     * @param totalLinesGenerated
+     */
     protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int totalLinesGenerated) {
         gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
     //    gLInterfaceBatchTotalProcessedReportsWriterService.writeNewLines(1);
@@ -465,11 +515,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * This method sets the batchFileDirectoryName
-     * @param batchFileDirectoryName
+     * This method sets the enterpriseFeedDirectoryName
+     * @param enterpriseFeedDirectoryName
      */
-    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
-        this.batchFileDirectoryName = batchFileDirectoryName;
+    public void setEnterpriseFeedDirectoryName(String enterpriseFeedDirectoryName) {
+        this.enterpriseFeedDirectoryName = enterpriseFeedDirectoryName;
     }
 }
 

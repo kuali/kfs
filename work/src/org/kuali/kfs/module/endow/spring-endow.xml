@@ -1429,7 +1429,7 @@
 		<property name="gLInterfaceBatchExceptionReportsWriterService">
 			<ref bean="gLInterfaceBatchExceptionReportsWriterService" />
 		</property>	
-		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
+		<property name="enterpriseFeedDirectoryName" value="${staging.directory}/gl/enterpriseFeed"/>
 	</bean>
 	<bean id="gLInterfaceBatchStatisticsReportsWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>

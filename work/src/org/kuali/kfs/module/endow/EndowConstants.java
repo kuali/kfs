@@ -56,6 +56,13 @@ public class EndowConstants extends JSTLConstants {
         public static final String CASH_EQUIVALENTS = "CSHEQ";
     }
 
+    public static class KemToGLInterfaceBatchProcess {
+        public static final String DATA_FILE_SUFFIX = ".data";
+        public static final String RECON_FILE_SUFFIX = ".recon";
+        public static final String KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE = "endow_endowentry_entp";
+        public static final String KEM_TO_GL_ACTIVITY_OUTPUT_RECONCILE_FILE = "endow_endowentry_entp";
+    }
+    
     public static class EndowmentTransactionTypeCodes {
         public static final String ASSET_TYPE_CODE = "A";
         public static final String LIABILITY_TYPE_CODE = "L";

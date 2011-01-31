@@ -79,7 +79,8 @@
                 <value>updateHistoryCashJob</value>
                 <value>updateHoldingHistoryJob</value>
                 <value>updateCorpusJob</value>
-                <value>rollProcessDateJob</value>               
+                <value>rollProcessDateJob</value>
+                <value>endowmentGeneralLedgerInterfaceJob</value>               
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -1346,6 +1347,168 @@
           <property name="columnCount" value="6" />
       </bean>
     
+	<!-- endowmentGeneralLedgerInterfaceJob configuration -->	
+ 	<bean id="endowmentGeneralLedgerInterfaceJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="generalLedgerInterfaceBatchProcessStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+            <map>
+                <entry key="postAccrualAndPoolDistributionJob" value="hardDependency" />
+                
+                <entry key="endowmenteDocPostingJob" value="hardDependency" />			
+				<entry key="holdingHisgtoryMarketValueUpdateJob" value="hardDependency" />
+           		<entry key="createAccrualTransactionsJob" value="hardDependency" />	
+           		<entry key="accrualProcessingJob" value="hardDependency" />
+                <entry key="createGainLossTransactionsJob" value="hardDependency" />
+                <entry key="createIncomeDistributionJob" value="hardDependency" />
+                <entry key="postAccrualAndPoolDistributionJob" value="hardDependency" />
+                <entry key="createRecurringCashTransferTransactionsJob" value="hardDependency" />
+                <entry key="processFeeTransactionsJob" value="hardDependency" />
+                <entry key="postRecurringCashTransferAndFeeTransactionsJob" value="hardDependency" />
+                <entry key="createAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="postAutomatedCashInvestmentTransactionsJob" value="hardDependency" />
+                <entry key="createCashSweepTransactionsJob" value="hardDependency" />
+                <entry key="postCashSweepTransactionsJob" value="hardDependency" />
+                <entry key="pooledFundControlTransactionsJob" value="hardDependency" />
+                <entry key="postPooledFundControlTransactionsJob" value="hardDependency" />
+                <entry key="availableCashUpdatesJob" value="hardDependency" />
+                <entry key="currentTaxLotBalancesUpdateJob" value="hardDependency" />
+                <entry key="updateHistoryCashJob" value="hardDependency" />
+                <entry key="updateHoldingHistoryJob" value="hardDependency" />
+                <entry key="updateCorpusJob" value="hardDependency" />
+            </map>
+        </property>
+	</bean>
+	<bean id="generalLedgerInterfaceBatchProcessStep" class="org.kuali.kfs.module.endow.batch.GeneralLedgerInterfaceBatchProcessStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="gLInterfaceBatchStatisticsReportsWriterService" />
+				<ref bean="gLInterfaceBatchTotalProcessedReportsWriterService" />
+				<ref bean="gLInterfaceBatchExceptionReportsWriterService" />
+			</list>
+		</property>
+		<property name="generalLedgerInterfaceBatchProcessService">
+			<ref bean="generalLedgerInterfaceBatchProcessService" />
+		</property>
+	</bean>	
+	<bean id="generalLedgerInterfaceBatchProcessService" class="org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImpl">
+		<property name="kemidFeeService">
+			<ref bean="kemidFeeService" />
+		</property>
+		<property name="feeMethodService">
+			<ref bean="feeMethodService" />
+		</property>
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>			    
+		<property name="transactionArchiveDao">
+			<ref bean="transactionArchiveDao" />
+		</property>	
+		<property name="kemidFeeDao">
+			<ref bean="kemidFeeDao"/>
+		</property>
+		<property name="holdingHistoryDao">
+			<ref bean="holdingHistoryDao" />
+		</property>
+	    <property name="currentTaxLotBalanceDao">
+			<ref bean="currentTaxLotBalanceDao" />
+		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		
+		<property name="gLInterfaceBatchStatisticsReportsWriterService">
+			<ref bean="gLInterfaceBatchStatisticsReportsWriterService" />
+		</property>		
+		<property name="gLInterfaceBatchTotalProcessedReportsWriterService">
+			<ref bean="gLInterfaceBatchTotalProcessedReportsWriterService" />
+		</property>		
+		<property name="gLInterfaceBatchExceptionReportsWriterService">
+			<ref bean="gLInterfaceBatchExceptionReportsWriterService" />
+		</property>	
+		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
+	</bean>
+	<bean id="gLInterfaceBatchStatisticsReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="gLInterfaceBatchStatisticsReport"/>
+        <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH STATISTICS REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader" value="gLInterfaceBatchStatisticsReportHeader"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>	
+	<bean id="gLInterfaceBatchTotalProcessedReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="gLInterfaceBatchTotalProcessedReport"/>
+        <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH TOTALS PROCESSED REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedReportHeader" value="gLInterfaceBatchTotalProcessedReportHeader"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedTableRowValues" value="gLInterfaceBatchTotalsProcessedTableRowValues"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>    
+	<bean id="gLInterfaceBatchExceptionReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="gLInterfaceBatchExceptionReport"/>
+        <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH EXCEPTION REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader" value="gLInterfaceBatchExceptionReportHeader"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" value="gLInterfaceBatchExceptionTableRowValues"/>
+				<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" value="gLInterfaceBatchExceptionRowReason"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>    
+    
+    <!-- updateCorpusJob configuration -->
+    <bean id="updateCorpusJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="updateCorpusStep" />
+            </list>
+        </property>
+        <property name="dependencies">
+            <map>
+                <entry key="updateHoldingHistoryJob" value="hardDependency" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="updateCorpusStep" class="org.kuali.kfs.module.endow.batch.UpdateCorpusStep" parent="step">
+        <property name="updateCorpusService">
+            <ref bean="updateCorpusService" />
+        </property>
+    </bean>
+
+	<bean id="updateCorpusDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.UpdateCorpusDaoJdbc" />
+
+    <bean id="updateCorpusService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>			    
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>		
+		<property name="updateCorpusDao">
+			<ref bean="updateCorpusDao" />
+		</property>				
+    </bean>	
+    <!-- end updateCorpusJob configuration -->
+    
 	<!-- processFeeTransactionsJob configuration -->	
  	<bean id="processFeeTransactionsJob" parent="scheduledJobDescriptor">
 		<property name="steps">
@@ -1457,46 +1620,9 @@
         <property name="aggregationModeOn" value="false"/>
     </bean>    
     
-    <!-- updateCorpusJob configuration -->
-    <bean id="updateCorpusJob" parent="scheduledJobDescriptor">
-        <property name="steps">
-            <list>
-                <ref bean="updateCorpusStep" />
-            </list>
-        </property>
-        <property name="dependencies">
-            <map>
-                <entry key="updateHoldingHistoryJob" value="hardDependency" />
-            </map>
-        </property>
-    </bean>
-
-    <bean id="updateCorpusStep" class="org.kuali.kfs.module.endow.batch.UpdateCorpusStep" parent="step">
-        <property name="updateCorpusService">
-            <ref bean="updateCorpusService" />
-        </property>
-    </bean>
-
-	<bean id="updateCorpusDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.UpdateCorpusDaoJdbc" />
-
-    <bean id="updateCorpusService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>				
-		<property name="kemService">
-			<ref bean="kemService" />
-		</property>			    
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>		
-		<property name="updateCorpusDao">
-			<ref bean="updateCorpusDao" />
-		</property>				
-    </bean>	
-    <!-- end updateCorpusJob configuration -->
+    
+    
+    
     
  	<!--  end core batch jobs --> 
     
@@ -2227,5 +2353,105 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
+	</bean>	
+    
+	<bean id="gLInterfaceBatchStatisticsReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Document Type"/>
+    			<entry key="columnHeading2" value="Number of GL Entries"/>
+    			<entry key="columnHeading3" value="Number of Exceptions"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="3" />
+	</bean>
+	<bean id="gLInterfaceBatchStatisticsReportDetailTableRow" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documentType" value="Document Type"/>
+    			<entry key="gLEntriesGenerated" value="Number of GL Entries"/>
+    			<entry key="numberOfExceptions" value="Number of Exceptions"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="3" />
+	</bean>
+	<bean id="gLInterfaceBatchTotalProcessedReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Document Type"/>
+    			<entry key="columnHeading2" value="Chart"/>
+    			<entry key="columnHeading3" value="Object"/>
+    			<entry key="columnHeading4" value="Debit Amount"/>
+    			<entry key="columnHeading5" value="Credit Amount"/>
+    			<entry key="columnHeading6" value="Number of Entries"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="6" />
+	</bean>
+	<bean id="gLInterfaceBatchTotalsProcessedTableRowValues" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedTableRowValues" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documenType" value="Document Type"/>
+    			<entry key="chartCode" value="Chart Code"/>
+    			<entry key="objectCode" value="Object Code"/>
+    			<entry key="debitAmount" value="Debit Amount"/>
+    			<entry key="creditAmount" value="Credit Amount"/>
+    			<entry key="numberOfEntries" value="Number of Entries"/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="6" />
+	</bean>
+
+	<bean id="gLInterfaceBatchExceptionReportHeader" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="columnHeading1" value="Document Type"/>
+    			<entry key="columnHeading2" value="eDoc Number"/>
+    			<entry key="columnHeading3" value="KEMID"/>
+    			<entry key="columnHeading4" value="Income Amount"/>
+    			<entry key="columnHeading5" value="Principal Amount"/>
+    			<entry key="columnHeading6" value="Security Cost"/>
+    			<entry key="columnHeading7" value="LT Gain/Loss"/>
+    			<entry key="columnHeading8" value="ST Gain/Loss"/>    			
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
+	</bean>	
+	<bean id="gLInterfaceBatchExceptionTableRowValues" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documenType" value="Document Type"/>
+    			<entry key="eDocNumber" value="eDoc Number"/>
+    			<entry key="kEMID" value="KEMID"/>
+    			<entry key="incomeAmount" value="Income Amount"/>
+    			<entry key="principalAmount" value="Principal Amount"/>
+    			<entry key="securityCost" value="Security Cost"/>
+    			<entry key="longTermGainLoss" value="LT Gain/Loss"/>
+    			<entry key="shortTermGainLoss" value="ST Gain/Loss"/>    			
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
+	</bean>	
+	<bean id="gLInterfaceBatchExceptionRowReason" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="documenType" value="Document Type"/>
+    			<entry key="eDocNumber" value="eDoc Number"/>
+    			<entry key="kEMID" value="KEMID"/>
+    			<entry key="incomeAmount" value="Income Amount"/>
+    			<entry key="principalAmount" value="Principal Amount"/>
+    			<entry key="securityCost" value="Security Cost"/>
+    			<entry key="longTermGainLoss" value="LT Gain/Loss"/>
+    			<entry key="shortTermGainLoss" value="ST Gain/Loss"/>    			
+    		</map>
+	    </property>
+	    <property name="columnCount" value="8" />
 	</bean>	
 </beans>

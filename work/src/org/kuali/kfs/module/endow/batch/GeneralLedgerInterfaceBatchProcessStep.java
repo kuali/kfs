@@ -15,19 +15,18 @@
  */
 package org.kuali.kfs.module.endow.batch;
 
-import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
+import org.kuali.kfs.module.endow.batch.service.GeneralLedgerInterfaceBatchProcessService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
 /**
- * The fee process is intended to provide as much flexibility to the institution as 
- * possible when designing the charges to be assessed against a KEMID
+ * The process serves to consolidate the KEM activity for the day into valid 
+ * general ledger debits and credits to update institution's records.
  */
-public class ProcessFeeTransactionsStep extends AbstractWrappedBatchStep {
+public class GeneralLedgerInterfaceBatchProcessStep extends AbstractWrappedBatchStep {
 
-    protected ProcessFeeTransactionsService processFeeTransactionsService;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessFeeTransactionsStep.class);
-    protected String batchFileDirectoryName;
+    protected GeneralLedgerInterfaceBatchProcessService generalLedgerInterfaceBatchProcessService;
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerInterfaceBatchProcessStep.class);
 
     /**
      * Overridden to run the process Fee Transactions.
@@ -38,7 +37,7 @@ public class ProcessFeeTransactionsStep extends AbstractWrappedBatchStep {
         return new CustomBatchExecutor() {
             public boolean execute() {
                 boolean success = true;
-                success = processFeeTransactionsService.processFeeTransactions();                
+                success = generalLedgerInterfaceBatchProcessService.processKEMActivityToCreateGLEntries();                
                 
                 return success;            
             }
@@ -46,18 +45,10 @@ public class ProcessFeeTransactionsStep extends AbstractWrappedBatchStep {
     }
         
     /**
-     * Sets the processFeeTransactionsService attribute value.
-     * @param processFeeTransactionsService The processFeeTransactionsService to set.
+     * Sets the generalLedgerInterfaceBatchProcessService attribute value.
+     * @param generalLedgerInterfaceBatchProcessService The generalLedgerInterfaceBatchProcessService to set.
      */
-    public void setProcessFeeTransactionsService(ProcessFeeTransactionsService processFeeTransactionsService) {
-        this.processFeeTransactionsService = processFeeTransactionsService;
-    }
-    
-    /**
-     * This method sets the batchFileDirectoryName
-     * @param batchFileDirectoryName
-     */
-    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
-        this.batchFileDirectoryName = batchFileDirectoryName;
+    public void setGeneralLedgerInterfaceBatchProcessService(GeneralLedgerInterfaceBatchProcessService generalLedgerInterfaceBatchProcessService) {
+        this.generalLedgerInterfaceBatchProcessService = generalLedgerInterfaceBatchProcessService;
     }
 }

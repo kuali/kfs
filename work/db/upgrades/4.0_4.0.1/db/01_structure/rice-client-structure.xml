@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+
+  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES" failOnError="false">
+        <comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
+        <createSequence sequenceName="KRSB_BAM_PARM_T" startValue="30000" />
+        <createSequence sequenceName="KRSB_BAM_T" startValue="30000" />
+        <createSequence sequenceName="KRSB_MSG_QUE_T" startValue="30000" />
+  </changeSet>
+
+</databaseChangeLog>

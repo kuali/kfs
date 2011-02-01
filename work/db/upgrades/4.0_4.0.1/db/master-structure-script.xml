@@ -5,6 +5,7 @@
 
 	<include file="01_structure/kc-integration-structure.xml"/>
 	<include file="01_structure/endowment-module-structure-updates.xml"/>
+	<include file="01_structure/rice-client-structure.xml"/>
 <!--
 	<include file="01_structure/coa-module-structure-updates.xml"/>
 	<include file="01_structure/fp-module-structure-updates.xml"/>

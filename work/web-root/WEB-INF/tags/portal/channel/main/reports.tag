@@ -45,6 +45,10 @@
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ec.businessobject.OutstandingCertificationsByReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 	</ul>
+	<strong>Endowments</strong></br>
+    <ul class="chan">	
+		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="endowReportTrialBalance.do?methodToCall=start"/></li>
+	</ul>
 	<strong>System</strong></br>
     <ul class="chan">
 	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/kuali_acct_labor_trans.pdf" title="Account Labor Transactions" target="_BLANK">Account Labor Transactions</a></li>

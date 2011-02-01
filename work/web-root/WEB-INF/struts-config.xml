@@ -256,7 +256,9 @@
 		<form-bean name="GLToEndowmentTransferOfFundsDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.GLToEndowmentTransferOfFundsDocumentForm" />
         <form-bean name="CorporateReorganizationDocumentForm"
-            type="org.kuali.kfs.module.endow.document.web.struts.CorporateReorganizationDocumentForm" />       			
+            type="org.kuali.kfs.module.endow.document.web.struts.CorporateReorganizationDocumentForm" />
+        <form-bean name="TrialBalanceForm"
+            type="org.kuali.kfs.module.endow.web.struts.TrialBalanceForm" />            			
 	</form-beans>
 
 	<global-exceptions>
@@ -720,6 +722,15 @@
 			<forward name="basic" path="/jsp/module/endow/{1}.jsp" />
 		</action>	
 
+	    <action path="/endowReportTrialBalance" name="TrialBalanceForm"
+			input="/jsp/module/endow/TrialBalance.jsp"
+			type="org.kuali.kfs.module.endow.web.struts.TrialBalanceAction"
+			scope="request" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/endow/TrialBalance.jsp" />
+		</action>
+		
 		<!-- These are PDP items -->
 		<action path="/pdp/paymentdetail"
 		    name="KualiForm"

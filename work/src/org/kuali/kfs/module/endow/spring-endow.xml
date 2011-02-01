@@ -2454,4 +2454,11 @@
 	    </property>
 	    <property name="columnCount" value="8" />
 	</bean>	
+	
+	<!-- Report Services -->
+	<bean id="trialBalanceReportService" class="org.kuali.kfs.module.endow.report.service.impl.TrialBalanceReportServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 </beans>

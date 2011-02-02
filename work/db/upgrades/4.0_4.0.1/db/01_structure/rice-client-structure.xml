@@ -6,9 +6,9 @@
   	<preConditions onFail="MARK_RAN">
   		<not>
   			<and>
-  				<sequenceExists sequenceName="KRSB_BAM_PARM_T" />
-  				<sequenceExists sequenceName="KRSB_BAM_T" />
-  				<sequenceExists sequenceName="KRSB_MSG_QUE_T" />
+  				<sequenceExists sequenceName="KRSB_BAM_PARM_S" />
+  				<sequenceExists sequenceName="KRSB_BAM_S" />
+  				<sequenceExists sequenceName="KRSB_MSG_QUE_S" />
   			</and>
   		</not>
   	</preConditions>

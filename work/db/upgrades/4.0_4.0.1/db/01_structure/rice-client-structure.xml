@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
 
-  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES" failOnError="false">
-        <comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
-        <createSequence sequenceName="KRSB_BAM_PARM_T" startValue="30000" />
-        <createSequence sequenceName="KRSB_BAM_T" startValue="30000" />
-        <createSequence sequenceName="KRSB_MSG_QUE_T" startValue="30000" />
+  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES_oracle" failOnError="false" dbms="oracle">
+	<comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
+  	<preConditions onFail="MARK_RAN">
+  		<not>
+  			<or>
+  				<sequenceExists sequenceName="KRSB_BAM_PARM_T" />
+  				<sequenceExists sequenceName="KRSB_BAM_T" />
+  				<sequenceExists sequenceName="KRSB_MSG_QUE_T" />
+  			</or>
+  		</not>
+  	</preConditions>
+	<createSequence sequenceName="KRSB_BAM_PARM_T" startValue="30000" />
+	<createSequence sequenceName="KRSB_BAM_T" startValue="30000" />
+	<createSequence sequenceName="KRSB_MSG_QUE_T" startValue="30000" />
+  </changeSet>
+
+  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES_mysql" failOnError="false" dbms="mysql">
+	<comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
+  	<preConditions onFail="MARK_RAN">
+  		<not>
+  			<or>
+  				<tableExists tableName="KRSB_BAM_PARM_T" />
+  				<tableExists tableName="KRSB_BAM_T" />
+  				<tableExists tableName="KRSB_MSG_QUE_T" />
+  			</or>
+  		</not>
+  	</preConditions>
+	<createTable tableName="KRSB_BAM_PARM_T">
+		<column name="id" type="bigint(19)" nullable="false" autoIncrement="true">
+			<constraints primaryKey="true" />
+		</column>
+	</createTable>
+	<createTable tableName="KRSB_BAM_T">
+		<column name="id" type="bigint(19)" nullable="false" autoIncrement="true">
+			<constraints primaryKey="true" />
+		</column>
+	</createTable>
+	<createTable tableName="KRSB_MSG_QUE_T">
+		<column name="id" type="bigint(19)" nullable="false" autoIncrement="true">
+			<constraints primaryKey="true" />
+		</column>
+	</createTable>
+	<modifySql>
+		<append value="ENGINE MyISAM" />
+	</modifySql>
   </changeSet>
 
 </databaseChangeLog>

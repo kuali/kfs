@@ -16,31 +16,22 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.module.external.kc.fixture.BudgetAdjustmentParameterDTOFixture;
-import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceTest;
-import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest {
@@ -85,6 +76,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     public void testBudgetAdjustmentServiceLocally() 
     {  
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
+        GlobalVariables.setUserSession(new UserSession( KIMServiceLocator.getIdentityManagementService().getPrincipal( budgetAdjustmentParametersDTO.getPrincipalId() ).getPrincipalName() ));
         //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
         TestUtils.setSystemParameter(BudgetAdjustmentDocument.class,  KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
 

@@ -248,8 +248,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             return true;
             
         }  catch (WorkflowException wfe) { 
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            LOG.error(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS + " -- User: " + GlobalVariables.getUserSession().getPrincipalName() + " -- " + wfe.getMessage()); 
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS + " -- User: " + GlobalVariables.getUserSession().getPrincipalName() + " -- " + wfe.getMessage());
             budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_WARNING);
             return false;
 

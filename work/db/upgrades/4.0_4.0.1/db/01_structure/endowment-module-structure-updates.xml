@@ -14,15 +14,20 @@
   	<dropForeignKeyConstraint baseTableName="END_TRAN_DOC_T" constraintName="END_TRAN_DOC_TR1"/>
   	<dropForeignKeyConstraint baseTableName="END_HIST_VAL_ADJ_DOC_T" constraintName="END_HIST_VAL_ADJ_DOC_TR1"/>
   </changeSet>
+
   
-  <changeSet author="kfs" id="KFS_401_FIX_ENDOW_CONSTRAINT_ORDER" failOnError="false">
+  <changeSet author="kfs" id="KFS_401_FIX_ENDOW_CONSTRAINT_ORDER_1" failOnError="false">
   	<comment>Replace Foreign Key Constraints which was created in a different order than the primary key.  (Causes problems on MySQL)</comment>
   	<dropForeignKeyConstraint baseTableName="END_TRAN_ARCHV_SEC_T" constraintName="END_TRAN_ARCHV_SEC_TR1"/>
-  	
+  </changeSet>
+
+  <changeSet author="kfs" id="KFS_401_FIX_ENDOW_CONSTRAINT_ORDER_2" failOnError="false">
+  	<comment>Replace Foreign Key Constraints which was created in a different order than the primary key.  (Causes problems on MySQL)</comment>
   	<addForeignKeyConstraint baseTableName="END_TRAN_ARCHV_SEC_T" 
   							 constraintName="END_TRAN_ARCHV_SEC_TR1"
   							 baseColumnNames="FDOC_NBR,FDOC_LN_NBR,FDOC_LN_TYP_CD"
   							 referencedTableName="END_TRAN_ARCHV_T"
   							 referencedColumnNames="FDOC_NBR,FDOC_LN_NBR,FDOC_LN_TYP_CD" />
   </changeSet>
+
 </databaseChangeLog>

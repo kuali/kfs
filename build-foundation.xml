@@ -196,7 +196,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 -->	
   	<macrodef name="maven">
     	<attribute name="goals" />
-    	<attribute name="options" default="--offline" />
+    	<attribute name="options" default="" />
         <attribute name="modulePath" default="" />
     	<sequential>
       		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}@{modulePath}" fork="true" failonerror="true">

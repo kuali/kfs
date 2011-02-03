@@ -59,6 +59,7 @@ import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
 import org.kuali.rice.kew.dto.KeyValueDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.KEWPropertyConstants;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -82,18 +83,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
     
-    public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
+    protected static final String WORKFLOW_SEARCH_RESULT_KEY = KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID;
 
-    private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private DataDictionaryService dataDictionaryService;
-    private DateTimeService dateTimeService;
-    private WorkflowDocumentService workflowDocumentService;
-    private AccountingLineRuleHelperService accountingLineRuleUtil;
-    private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+    protected ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DateTimeService dateTimeService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected AccountingLineRuleHelperService accountingLineRuleUtil;
+    protected CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
 
 
     /**
@@ -105,6 +106,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#createProcurementCardDocuments()
      */
+    @SuppressWarnings("rawtypes")
     public boolean createProcurementCardDocuments() {
         List documents = new ArrayList();
         List cardTransactions = retrieveTransactions();
@@ -280,6 +282,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * 
      * @return List containing transactions for document.
      */
+    @SuppressWarnings("rawtypes")
     protected List retrieveTransactions() {
         List groupedTransactions = new ArrayList();
 

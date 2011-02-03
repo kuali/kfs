@@ -56,7 +56,7 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar" />
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch6.jar" />
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch4.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar" />

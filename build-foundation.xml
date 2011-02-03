@@ -200,6 +200,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
         <attribute name="modulePath" default="" />
     	<sequential>
       		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}@{modulePath}" fork="true" failonerror="true">
+      		    <jvmarg value="-Xmx1g" />
         		<arg line="@{options} @{goals}"/>
         		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
         		<sysproperty key="maven.home" value="${maven.home.directory}"/>

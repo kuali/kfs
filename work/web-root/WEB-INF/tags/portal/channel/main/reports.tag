@@ -48,6 +48,7 @@
 	<strong>Endowments</strong></br>
     <ul class="chan">	
 		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="endowReportTrialBalance.do?methodToCall=start"/></li>
+		<li><a class="portal_link" href="endowReportTrialBalance.do?methodToCall=start" title="Trial Balance" target="BLANK">Trial Balance2</a></li>
 	</ul>
 	<strong>System</strong></br>
     <ul class="chan">

@@ -38,7 +38,7 @@ public class TrialBalanceForm extends KualiForm {
     private String purposeCode;
     private String combineGroupCode;
     private String asOfDate;
-    private String endowmnetOption;
+    private String endowmentOption;
     private String message;
     
     @Override
@@ -97,8 +97,8 @@ public class TrialBalanceForm extends KualiForm {
         this.typeCode = null;
         this.purposeCode = null;
         this.combineGroupCode = null;
-        this.asOfDate = null;
-        this.endowmnetOption = null;
+        //this.asOfDate = null;
+        //this.endowmnetOption = null;
         this.message = null;
     }
 
@@ -217,15 +217,15 @@ public class TrialBalanceForm extends KualiForm {
     /**
      * 
      */
-    public String getEndowmnetOption() {
-        return endowmnetOption;
+    public String getEndowmentOption() {
+        return endowmentOption;
     }
 
     /**
      * 
      */
-    public void setEndowmnetOption(String endowmnetOption) {
-        this.endowmnetOption = endowmnetOption;
+    public void setEndowmentOption(String endowmentOption) {
+        this.endowmentOption = endowmentOption;
     }
 
     /**

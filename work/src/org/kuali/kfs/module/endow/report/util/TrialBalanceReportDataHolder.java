@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.endow.report;
+package org.kuali.kfs.module.endow.report.util;
+
+import java.math.BigDecimal;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class TrialBalanceReport {
+public class TrialBalanceReportDataHolder {
 
     private String kemid;
     private String kemidName;
     private KualiDecimal InocmeCashBalance;
     private KualiDecimal PrincipalcashBalance;
-    private KualiDecimal KemidTotalMarketValue;
-    private KualiDecimal AvailableExpendableFunds;
-    private KualiDecimal FyRemainderEstimatedIncome;
+    private BigDecimal KemidTotalMarketValue;
+    private BigDecimal AvailableExpendableFunds;
+    private BigDecimal FyRemainderEstimatedIncome;
 
     /**
      * 
      */
-    public TrialBalanceReport() {}
+    public TrialBalanceReportDataHolder() {}
 
     /**
      * Constructor
@@ -42,14 +44,14 @@ public class TrialBalanceReport {
      * @param AvailableExpendableFunds
      * @param FyRemainderEstimatedIncome
      */
-    public TrialBalanceReport(
+    public TrialBalanceReportDataHolder(
             String kemid,
             String kemidName,
             KualiDecimal InocmeCashBalance,
             KualiDecimal PrincipalcashBalance,
-            KualiDecimal KemidTotalMarketValue,
-            KualiDecimal AvailableExpendableFunds,
-            KualiDecimal FyRemainderEstimatedIncome) {
+            BigDecimal KemidTotalMarketValue,
+            BigDecimal AvailableExpendableFunds,
+            BigDecimal FyRemainderEstimatedIncome) {
         
         this.kemid = kemid;
         this.kemidName = kemidName;
@@ -111,37 +113,37 @@ public class TrialBalanceReport {
     /**
      * 
      */
-    public KualiDecimal getKemidTotalMarketValue() {
+    public BigDecimal getKemidTotalMarketValue() {
         return KemidTotalMarketValue;
     }
     /**
      * 
      */
-    public void setKemidTotalMarketValue(KualiDecimal kemidTotalMarketValue) {
+    public void setKemidTotalMarketValue(BigDecimal kemidTotalMarketValue) {
         KemidTotalMarketValue = kemidTotalMarketValue;
     }
     /**
      * 
      */
-    public KualiDecimal getAvailableExpendableFunds() {
+    public BigDecimal getAvailableExpendableFunds() {
         return AvailableExpendableFunds;
     }
     /**
      * 
      */
-    public void setAvailableExpendableFunds(KualiDecimal availableExpendableFunds) {
+    public void setAvailableExpendableFunds(BigDecimal availableExpendableFunds) {
         AvailableExpendableFunds = availableExpendableFunds;
     }
     /**
      * 
      */
-    public KualiDecimal getFyRemainderEstimatedIncome() {
+    public BigDecimal getFyRemainderEstimatedIncome() {
         return FyRemainderEstimatedIncome;
     }
     /**
      * 
      */
-    public void setFyRemainderEstimatedIncome(KualiDecimal fyRemainderEstimatedIncome) {
+    public void setFyRemainderEstimatedIncome(BigDecimal fyRemainderEstimatedIncome) {
         FyRemainderEstimatedIncome = fyRemainderEstimatedIncome;
     }
     

@@ -2460,5 +2460,24 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="kemService">
+			<ref bean="kemService"/>
+		</property>	
+		<property name="kemidDao">
+			<ref bean="kemidDao" />
+		</property>
+		<property name="kemidBenefittingOrganizationDao">
+			<ref bean="kemidBenefittingOrganizationDao" />
+		</property>
+		<property name="kemidReportGroupDao">
+			<ref bean="kemidReportGroupDao" />
+		</property>
 	</bean>
+        	
+	<bean id="kemidDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidDaoOjb" />
+	
+	<bean id="kemidBenefittingOrganizationDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidBenefittingOrganizationDaoOjb" />
+	
+	<bean id="kemidReportGroupDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidReportGroupDaoOjb" />
+	
 </beans>

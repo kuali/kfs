@@ -15,11 +15,23 @@
  */
 package org.kuali.kfs.module.endow.report.service;
 
+import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.report.TrialBalanceReport;
+import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 
 public interface TrialBalanceReportService {
 
-    List<TrialBalanceReport> getTrialBalanceReports(List<String> kemids);
+    List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption);
+    
+    List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption);
+        
+    List<TrialBalanceReportDataHolder> getTrialBalanceReportsByOtherCriteria( 
+            List<String> benefittingOrganziationCampuses, 
+            List<String> benefittingOrganziationCharts,
+            List<String> benefittingOrganziations, 
+            List<String> typeCodes, 
+            List<String> purposeCodes, 
+            List<String> combineGroupCodes, 
+            String endowmnetOption);
 }

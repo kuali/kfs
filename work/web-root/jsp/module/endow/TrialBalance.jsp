@@ -33,7 +33,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidAttributes.kemid}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${kemidAttributes.kemid}" property="kemid" />	
+					<%-- <kul:htmlControlAttribute attributeEntry="${kemidAttributes.kemid}" property="kemid" /> --%>
+					<input type="text" name="kemid" size="100" maxlength="100"/>
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"  fieldConversions="kemid:kemid" />
                 </td>				                       
             </tr>
@@ -92,7 +93,7 @@
             </tr>            
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right">As of Date</div>
+                    <div align="right">As of Date:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					11/07/2010
@@ -100,12 +101,12 @@
             </tr> 
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right">Endowment Option</div>
+                    <div align="right">Endowment Option:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<input type="radio" name="endowmentOption" value="Y" />Endowment&nbsp;&nbsp;
 					<input type="radio" name="endowmentOption" value="N" />Non-Endowed&nbsp;&nbsp;
-					<input type="radio" name="endowmentOption" value="B" checked />Both<br/>					
+					<input type="radio" name="endowmentOption" value="B" checked />Both<br/>									
                 </td>				                      
             </tr>             
         </table>

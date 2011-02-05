@@ -28,39 +28,36 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
-import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
+import org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
-public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements TransactionArchiveDao {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveDaoOjb.class);
+public class EndowmentAccountingLineBaseDaoOjb extends PlatformAwareDaoBaseOjb implements EndowmentAccountingLineBaseDao {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentAccountingLineBaseDaoOjb.class);
     
     /**
-     * @@see {@link org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getAllTransactionArchives(Date)
+     * @@see {@link org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao#getAllEndowmentAccountingLines(String)
      */
-    public Collection<TransactionArchive> getAllTransactionArchives(java.util.Date postedDate) {
-        Collection<TransactionArchive> transactionArchives = new ArrayList();
+    public Collection<EndowmentAccountingLineBase> getAllEndowmentAccountingLines(String documentNumber) {
+        Collection<EndowmentAccountingLineBase> endowmentAccountingLines = new ArrayList();
         
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, postedDate);
+        criteria.addEqualTo(EndowPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         
         //sort the data on these columns....
-        QueryByCriteria qbc = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        QueryByCriteria qbc = QueryFactory.newQuery(EndowmentAccountingLineBase.class, criteria);
 
-        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE);
-        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE);
-        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR);
-        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);
-        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE);
+        qbc.addOrderByAscending(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_FDOC_LN_TYP_CD);
 
-        transactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        endowmentAccountingLines = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         
-        return transactionArchives;
+        return endowmentAccountingLines;
     }
 
     /**

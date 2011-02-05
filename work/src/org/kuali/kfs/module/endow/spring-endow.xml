@@ -1395,26 +1395,20 @@
 		</property>
 	</bean>	
 	<bean id="generalLedgerInterfaceBatchProcessService" class="org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImpl">
-		<property name="kemidFeeService">
-			<ref bean="kemidFeeService" />
-		</property>
-		<property name="feeMethodService">
-			<ref bean="feeMethodService" />
-		</property>
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>			    
 		<property name="transactionArchiveDao">
 			<ref bean="transactionArchiveDao" />
 		</property>	
-		<property name="kemidFeeDao">
-			<ref bean="kemidFeeDao"/>
+		<property name="endowmentAccountingLineBaseDao">
+			<ref bean="endowmentAccountingLineBaseDao" />
 		</property>
-		<property name="holdingHistoryDao">
-			<ref bean="holdingHistoryDao" />
+		<property name="gLInterfaceBatchProcessDao">
+			<ref bean="gLInterfaceBatchProcessDao" />
 		</property>
-	    <property name="currentTaxLotBalanceDao">
-			<ref bean="currentTaxLotBalanceDao" />
+	    <property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
@@ -1438,6 +1432,7 @@
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
         		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader" value="gLInterfaceBatchStatisticsReportHeader"/>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow" value="gLInterfaceBatchStatisticsReportDetailTableRow"/>
         	</map>
        	</property>
         <property name="aggregationModeOn" value="false"/>
@@ -1619,10 +1614,6 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>    
-    
-    
-    
-    
     
  	<!--  end core batch jobs --> 
     
@@ -2321,6 +2312,11 @@
 	</bean>
 	<bean id="transactionArchiveDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TransactionArchiveDaoOjb">
 	</bean>
+	<bean id="endowmentAccountingLineBaseDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.EndowmentAccountingLineBaseDaoOjb">
+	</bean>
+	<bean id="gLInterfaceBatchProcessDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.batch.dataaccess.impl.GLInterfaceBatchProcessDaoJdbc">
+	</bean>
+	
 	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
 		<property name="monthEndDateService">
 			<ref bean="monthEndDateService" />
@@ -2370,13 +2366,14 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="documentType" value="Document Type"/>
-    			<entry key="gLEntriesGenerated" value="Number of GL Entries"/>
-    			<entry key="numberOfExceptions" value="Number of Exceptions"/>
+    			<entry key="documentType" value=" "/>
+    			<entry key="gLEntriesGenerated" value=" "/>
+    			<entry key="numberOfExceptions" value=" "/>
     		</map>
 	    </property>
 	    <property name="columnCount" value="3" />
 	</bean>
+	
 	<bean id="gLInterfaceBatchTotalProcessedReportHeader" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedReportHeader" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">

@@ -175,6 +175,10 @@ public class EndowPropertyConstants {
     public static final String KEMID_AGRMNT_COMM = "comments";
     public static final String KEMID_AGRMNT_ACTIVE_IND = "active";
 
+    //KEMID ETRAN GL Link
+    public static final String KEMID_ETRAN_GL_LNK_CHART_CD = "chartCode";
+    public static final String KEMID_ETRAN_GL_LNK_ETRAN_CD = "endowmentTransactionCode";
+    public static final String KEMID_ETRAN_GL_LNK_ROW_ACTIVE_IND = "active";
 
     // KEMID Source Of Funds
     public static final String KEMID_FND_SRC_SEQ_NBR = "kemidFundSourceSequenceNumber";
@@ -203,6 +207,8 @@ public class EndowPropertyConstants {
     public static final String KEMID_GL_ACCOUNT_CHART = "chart";
     public static final String KEMID_GL_ACCOUNT_NBR = "accountNumber";
     public static final String KEMID_GL_ACCOUNT = "account";
+    public static final String KEMID_GL_ACCOUNT_ROW_ACTV_IND = "active";
+    
 
     // KEMID Payout Instructions
     public static final String KEMID_PAY_INC_SEQ_NBR = "payoutIncomeSequenceNumber";
@@ -597,7 +603,6 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_SECURITY = "security";
     public static final String TRANSACTION_REGISTRATION_CD = "registrationCodeObj";
 
-
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
 
@@ -616,10 +621,13 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_ARCHIVE_KEM_ID = "kemid";
     
     public static final String TRANSACTION_ARCHIVE_SECURITY_ID = "securityId";
+    public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_ID = "incomePrincipalIndicatorCode";
+    
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE = "lineTypeCode";
     public static final String TRANSACTION_ARCHIVE_CORPUS_INDICATOR = "corpusIndicator";
+    public static final String TRANSACTION_ARCHIVE_SUB_TYPE_CODE = "subTypeCode";
 
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
@@ -681,6 +689,26 @@ public class EndowPropertyConstants {
             public static final String CRNT_ENDOW_CORPUS_VAL = "CRNT_CORPUS_VAL";
             public static final String CRNT_BALANCE_KEMID = "KEMID";
             public static final String CRNT_BALANCE_PRINCIPAL_AT_MARKET = "PRIN_AT_MARKET";
+        }
+        
+        public static class GlInterfaceBatchProcessLine {
+            public static final String TRANSACTION_ARCHIVE_FDOC_NBR = "FDOC_NBR";
+            public static final String TRANSACTION_ARCHIVE_FDOC_LN_NBR = "FDOC_LN_NBR";
+            public static final String TRANSACTION_ARCHIVE_FDOC_LN_TYP_CD = "FDOC_LN_TYP_CD";
+            public static final String TRANSACTION_ARCHIVE_DOC_TYP_NM = "DOC_TYP_NM";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SUB_TYP_CD = "TRAN_SUB_TYP_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_ETRAN_CD = "TRAN_ETRAN_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_IP_IND_CD = "TRAN_IP_IND_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_PRIN_CSH_AMT = "TRAN_PRIN_CSH_AMT";
+            public static final String TRANSACTION_ARCHIVE_TRAN_INC_CSH_AMT = "TRAN_INC_CSH_AMT";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ID = "TRAN_SEC_ID";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD = "TRAN_SEC_ETRAN_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_COST = "TRAN_SEC_COST";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS = "TRAN_SEC_ST_GAIN_LOSS";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS = "TRAN_SEC_LT_GAIN_LOSS";
+            public static final String TRANSACTION_ARCHIVE_CHRT_CD = "CHRT_CD";
+            public static final String TRANSACTION_ARCHIVE_ACCT_NBR = "ACCT_NBR";
+            public static final String TRANSACTION_ARCHIVE_OBJECT = "OBJECT";
         }
     }
 }

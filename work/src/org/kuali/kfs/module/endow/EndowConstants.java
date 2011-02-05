@@ -61,6 +61,11 @@ public class EndowConstants extends JSTLConstants {
         public static final String RECON_FILE_SUFFIX = ".recon";
         public static final String KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE = "endow_endowentry_entp";
         public static final String KEM_TO_GL_ACTIVITY_OUTPUT_RECONCILE_FILE = "endow_endowentry_entp";
+        public static final String SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT = "EM";
+        public static final String DEBIT_CODE = "D";
+        public static final String CREDIT_CODE = "C";
+        public static final String SUB_TYPE_CASH = "Cash";
+        public static final String SUB_TYPE_NON_CASH = "Non-Cash";
     }
     
     public static class EndowmentTransactionTypeCodes {
@@ -335,5 +340,8 @@ public class EndowConstants extends JSTLConstants {
         public static final String ENDOWMENT_SECURITY_TRANSFER = "EST";
         public static final String ENDOWMENT_CORPORATE_REORGANZATION = "ECR";
         public static final String ENDOWNENT_HOLDING_VALUE_ADJUSTMENT = "EHVA";
+        public static final String ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER = "EGLT";
+        public static final String GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER = "GLET";
+        
     }
 }

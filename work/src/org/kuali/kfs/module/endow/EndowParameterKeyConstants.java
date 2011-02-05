@@ -25,6 +25,11 @@ public class EndowParameterKeyConstants implements ParameterKeyConstants {
         public static final String AVAILABLE_CASH_PERCENT = "AVAILABLE_CASH_PERCENT";
     }
 
+    public static class GLInterfaceBatchProcess {
+        public static final String COMBINE_ENDOWMENT_GL_ENTRIES_IND = "COMBINE_ENDOWMENT_GL_ENTRIES_IND";
+        public static final String CASH_SALE_GAIN_LOSS_OBJECT_CODE = "CASH_SALE_GAIN_LOSS_OBJECT_CODE";
+        
+    }
     public static final String POOLED_FUND_VALUE = "POOLED FUND VALUE";
 
     public static final String DISTRIBUTION_TIMES_PER_YEAR = "DISTRIBUTIONS_PER_YEAR";

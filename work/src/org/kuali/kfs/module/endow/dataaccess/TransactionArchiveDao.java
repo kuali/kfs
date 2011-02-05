@@ -26,6 +26,14 @@ import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 public interface TransactionArchiveDao {
 
     /**
+     * Gets a collection of records from END_TRAN_ARCHV_T table.  The data is sorted by
+     * DOC_TYP_NM, TRAN_SUB_TYP_CD, TRAN_IP_IND_CD, TRAN_KEMID, TRAN_ETRAN_CD
+     * @param postedDate
+     * @return transactionArchives
+     */
+    public Collection<TransactionArchive> getAllTransactionArchives(java.util.Date postedDate);
+    
+    /**
      * Gets a collection of records from END_TRAN_ARCHV_T table
      * @return transactionArchives
      */

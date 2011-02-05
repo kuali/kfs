@@ -17,26 +17,36 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import org.kuali.kfs.module.endow.batch.GeneralLedgerInterfaceBatchProcessStep;
+import org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao;
 import org.kuali.kfs.module.endow.batch.service.GeneralLedgerInterfaceBatchProcessService;
-import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
+import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues;
+import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsTableRowValues;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedTableRowValues;
-import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
-import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
-import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
+import org.kuali.kfs.module.endow.businessobject.GlInterfaceBatchProcessKemLine;
+import org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
-import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,14 +58,12 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     
     protected String enterpriseFeedDirectoryName;
     
-    protected KemidFeeService kemidFeeService;
-    protected FeeMethodService feeMethodService;
     protected KEMService kemService;
     protected TransactionArchiveDao transactionArchiveDao;
-    protected HoldingHistoryDao holdingHistoryDao;
-    protected CurrentTaxLotBalanceDao currentTaxLotBalanceDao;
-    protected KemidFeeDao kemidFeeDao;
+    protected EndowmentAccountingLineBaseDao endowmentAccountingLineBaseDao;
+    protected GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao;
     protected KualiConfigurationService configService;
+    protected ParameterService parameterService;
     
     //report writer services for statistics, totals processed, and exception reports
     protected ReportWriterService gLInterfaceBatchStatisticsReportsWriterService;
@@ -73,9 +81,13 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     
     //Totals Processed report's table row..details, subtotal at chart, subtotal at document type and grand total lines
     protected GLInterfaceBatchTotalsProcessedTableRowValues gLInterfaceBatchTotalsProcessedTableRowValues;
-    
     //statics table row values...bos
-    protected GLInterfaceBatchStatisticsTableRowValues gLInterfaceBatchStatisticsTableRowValues;
+    protected GLInterfaceBatchStatisticsReportDetailTableRow gLInterfaceBatchStatisticsReportDetailTableRow;
+    
+    //the properties to totals processed at chart/object level..sub totals.
+    protected BigDecimal chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+    protected BigDecimal chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+    protected long chartObjectNumberOfRecordsSubTotal = 0;
     
     //the properties to totals processed at chart level..sub totals.
     protected BigDecimal chartDebitAmountSubTotal = BigDecimal.ZERO;
@@ -113,7 +125,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         gLInterfaceBatchTotalsProcessedTableRowValues = new GLInterfaceBatchTotalsProcessedTableRowValues();
         
         //statistics report...
-        gLInterfaceBatchStatisticsTableRowValues = new GLInterfaceBatchStatisticsTableRowValues();
+        gLInterfaceBatchStatisticsReportDetailTableRow = new GLInterfaceBatchStatisticsReportDetailTableRow();
     }
 
     /**
@@ -124,13 +136,16 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * return boolean true if successful else false
      */
     public boolean processKEMActivityToCreateGLEntries() {
-        LOG.info("processFeeTransactions() started");
+        LOG.info("processKEMActivityToCreateGLEntries() started.");
         
         boolean success = true;
+        
         writeReportHeaders();
         
         //main job to process KEM activity...
-        processKEMActivity();
+        success = processKEMActivity();
+        
+        LOG.info("processKEMActivityToCreateGLEntries() exited.");
         
         return success;
     }
@@ -138,13 +153,44 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     /**
      * process the KEM Activity transactions to create gl entries in the enterprise feed file
      */
-    public void processKEMActivity() {
+    public boolean processKEMActivity() {
+        LOG.info("processKEMActivity() started.");
+        
+        boolean success = true;
+        
         PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityEnterpriseFeedDataFile();
         PrintStream OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps = createActivityEnterpriseFeedReconcileFile();
         
+        //Step 1: get records from END_TRAN_ARCH_T for the given posted date
+        String combineTransactions = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
+        java.util.Date postedDate = kemService.getCurrentDate();
+        
+        Collection<GlInterfaceBatchProcessKemLine> transactionArchives = new ArrayList();
+        
+        //get all the available document types names sorted
+        Collection<String> documentTypes = gLInterfaceBatchProcessDao.findDocumentTypes();
+        
+        for (String documentType : documentTypes) {
+            transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
+            if (EndowConstants.YES.equalsIgnoreCase(combineTransactions)) {
+                //combine the entries...GL lines based on chart/account/object code
+                
+            }
+            else {
+                //single transaction gl lines...
+                success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps, postedDate);
+            }
+        }
+        
+        
         OUTPUT_KEM_TO_GL_DATA_FILE_ps.close();
         OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps.close();
+        
+        LOG.info("processKEMActivity() exited.");
+        
+        return success;
     }
+    
     
     /**
      * Writes the reports headers for totals processed, waived and accrued fee, and exceptions reports.
@@ -188,6 +234,244 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
             throw new RuntimeException("processKEMActivityToCreateGLEntries Stopped: " + e1.getMessage(), e1);
+        }
+    }
+    
+    /**
+     * For the transaction archives this method creates gl entries into the output file.
+     * @param documentType
+     * @param transactionArchives transaction archive records sorted by document type name
+     * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps GL enterprise feed file
+     * @param OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps GL reconciliation enterprise feed file
+     * @return success true if enterprise feed files are created, false if files are not created.
+     */
+    public boolean createGlEntriesForTransactionArchives(String documentType, Collection<GlInterfaceBatchProcessKemLine> transactionArchives, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, PrintStream OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps, java.util.Date postedDate) {
+        boolean success = true;
+        
+        for (GlInterfaceBatchProcessKemLine transactionArchive : transactionArchives) {
+            if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
+                //process the cash entry record...
+                createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+            }
+            //process non cash
+            if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
+                //process the non-cash entry record...
+                createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+            }
+            // if GLET or EGLT then create unique document number accounting lines gl entries.....
+            if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER) || 
+                    transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) {
+                //process the GLET or EGLT records..
+                createGLEntriesForEGLTOrGLET(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+            }
+        }
+        
+        return success;
+    }
+    
+    /**
+     * method to create cash entry gl record
+     * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
+     * @return true if successful, else false
+     */
+    protected boolean createCashEntry(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, java.util.Date postedDate) {
+        boolean success = true;
+        
+        OriginEntryFull oef = new OriginEntryFull();
+        oef.setChartOfAccountsCode(transactionArchive.getChartCode());
+        oef.setAccountNumber(transactionArchive.getAccountNumber());
+        oef.setFinancialObjectCode(transactionArchive.getObjectCode());
+        oef.setFinancialDocumentTypeCode(transactionArchive.getTypeCode());
+        oef.setFinancialSystemOriginationCode(EndowConstants.KemToGLInterfaceBatchProcess.SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT);
+        oef.setDocumentNumber(transactionArchive.getDocumentNumber());
+        oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
+        BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
+        oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
+        oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount));
+        
+        try {
+            createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+        } catch (IOException ioe) {
+            return false;
+        }
+        
+        return success;
+    }
+
+    /**
+     * method to create non-cash entry gl record
+     * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
+     * @return true if successful, else false
+     */
+    protected boolean createNonCashEntry(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, java.util.Date postedDate) {
+        boolean success = true;
+        String lossGainObjectCode = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE);
+        
+        OriginEntryFull oef = new OriginEntryFull();
+        
+        oef.setChartOfAccountsCode(transactionArchive.getChartCode());
+        oef.setAccountNumber(transactionArchive.getAccountNumber());
+        oef.setFinancialObjectCode(transactionArchive.getObjectCode());
+        oef.setFinancialDocumentTypeCode(transactionArchive.getTypeCode());
+        oef.setFinancialSystemOriginationCode(EndowConstants.KemToGLInterfaceBatchProcess.SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT);
+        oef.setDocumentNumber(transactionArchive.getDocumentNumber());
+        oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
+        BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
+        oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
+        oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount));
+        
+        try {
+            createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+        } catch (IOException ioe) {
+            return false;
+        }
+        
+        //create the offset or (loss/gain entry for EAD) document types where subtype is Non-Cash
+        if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
+            //need to create an offset entry...
+            if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
+                oef.setFinancialObjectCode(lossGainObjectCode);
+                transactionAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
+                oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
+            }
+            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCodeForOffSetEntry(transactionAmount));
+            try {
+                createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+            } catch (IOException ioe) {
+                return false;
+            }
+        }
+        
+        return success;
+    }
+
+    /**
+     * method to create cash entry gl record for each transaction archive fdoc number
+     * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
+     * @return true if successful, else false
+     */
+    protected boolean createGLEntriesForEGLTOrGLET(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, java.util.Date postedDate) {
+        boolean success = true;
+        
+        Collection<EndowmentAccountingLineBase> endowmentAccountingLines = endowmentAccountingLineBaseDao.getAllEndowmentAccountingLines(transactionArchive.getDocumentNumber());
+        for (EndowmentAccountingLineBase endowmentAccountingLineBase : endowmentAccountingLines) {
+            OriginEntryFull oef = new OriginEntryFull();
+            
+            oef.setChartOfAccountsCode(endowmentAccountingLineBase.getChartOfAccountsCode());
+            oef.setAccountNumber(endowmentAccountingLineBase.getAccountNumber());
+            oef.setSubAccountNumber(endowmentAccountingLineBase.getSubAccountNumber());
+            oef.setFinancialObjectCode(endowmentAccountingLineBase.getFinancialObjectCode());
+            oef.setFinancialSubObjectCode(endowmentAccountingLineBase.getFinancialSubObjectCode());
+            oef.setFinancialDocumentTypeCode(transactionArchive.getTypeCode());
+            oef.setFinancialSystemOriginationCode(EndowConstants.KemToGLInterfaceBatchProcess.SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT);
+            oef.setDocumentNumber(transactionArchive.getDocumentNumber());
+            oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
+            BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
+            oef.setTransactionLedgerEntryAmount(endowmentAccountingLineBase.getAmount());
+            if (endowmentAccountingLineBase.getFinancialDocumentLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE)) {
+                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);    
+            }
+            else {
+                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);    
+            }
+            oef.setProjectCode(endowmentAccountingLineBase.getProjectCode());
+            oef.setOrganizationReferenceId(endowmentAccountingLineBase.getOrganizationReferenceId());
+            
+            try {
+                createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+            } catch (IOException ioe) {
+                return false;
+            }
+        } //end of for loop
+        
+        return success;
+    }
+    
+    /**
+     * method to get transaction description
+     * @param transactionArchive
+     * @return transaction description
+     */
+    protected String getTransactionDescription(GlInterfaceBatchProcessKemLine transactionArchive, java.util.Date postedDate) {
+        String actityType = null;
+        
+        if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
+            actityType = EndowConstants.KemToGLInterfaceBatchProcess.SUB_TYPE_CASH;
+        }
+        else {
+            actityType = EndowConstants.KemToGLInterfaceBatchProcess.SUB_TYPE_NON_CASH;   
+        }
+        
+        return ("Net " + transactionArchive.getTypeCode() + " " + actityType + " Activity for " + postedDate.toString());
+    }
+
+    /**
+     * method to get transaction amount
+     * @param transactionArchive
+     * @return transaction amount
+     */
+    protected BigDecimal getTransactionAmount(GlInterfaceBatchProcessKemLine transactionArchive) {
+        BigDecimal transactionAmount = BigDecimal.ZERO;
+        
+        if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
+            transactionAmount = transactionArchive.getTransactionArchiveIncomeAmount().add(transactionArchive.getTransactionArchivePrincipalAmount());
+        }
+        else {
+            transactionAmount = transactionArchive.getHoldingCost();
+        }
+        
+        return transactionAmount;
+    }
+    
+    /**
+     * method to get transaction debit/credit code
+     * @param transactionAmount
+     * @return transaction debit or credit code
+     */
+    protected String getTransactionDebitCreditCode(BigDecimal transactionAmount) {
+        
+        if (transactionAmount.abs().compareTo(BigDecimal.ZERO) == 1) {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+        }
+        else {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+        }
+    }
+
+    /**
+     * method to get transaction debit/credit code
+     * @param transactionAmount
+     * @return transaction debit or credit code
+     */
+    protected String getTransactionDebitCreditCodeForOffSetEntry(BigDecimal transactionAmount) {
+        
+        if (transactionAmount.abs().compareTo(BigDecimal.ZERO) == 1) {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+        }
+        else {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+        }
+    }
+    
+    protected void createOutputEntry(Transaction entry, PrintStream group) throws IOException {
+        OriginEntryFull oef = new OriginEntryFull();
+        
+        oef.copyFieldsFromTransaction(entry);
+        oef.setUniversityFiscalYear(null);
+        
+        try {
+            group.printf("%s\n", oef.getLine());
+        }
+        catch (Exception e) {
+            throw new IOException(e.toString());
+        }
+    }
+
+    protected void writeErrorEntry(String line, PrintStream invaliGroup) throws IOException {
+        try {
+            invaliGroup.printf("%s\n", line);
+        } catch (Exception e) {
+            throw new IOException(e.toString());
         }
     }
     
@@ -292,38 +576,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * Gets the holdingHistoryService attribute. 
-     * @return Returns the holdingHistoryService.
-     */
-    protected KemidFeeService getKemidFeeService() {
-        return kemidFeeService;
-    }
-
-    /**
-     * Sets the kKemidFeeService attribute value.
-     * @param kemidFeeService The kemidFeeService to set.
-     */
-    public void setKemidFeeService(KemidFeeService kemidFeeService) {
-        this.kemidFeeService = kemidFeeService;
-    }
-    
-    /**
-     * Gets the feeMethodService attribute. 
-     * @return Returns the feeMethodService.
-     */
-    protected FeeMethodService getFeeMethodService() {
-        return feeMethodService;
-    }
-
-    /**
-     * Sets the feeMethodService attribute value.
-     * @param feeMethodService The feeMethodService to set.
-     */
-    public void setFeeMethodService(FeeMethodService feeMethodService) {
-        this.feeMethodService = feeMethodService;
-    }
-    
-    /**
      * Gets the kemService.
      * @return kemService
      */
@@ -420,19 +672,19 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * Gets the gLInterfaceBatchStatisticsTableRowValues attribute. 
-     * @return Returns the gLInterfaceBatchStatisticsTableRowValues.
+     * Gets the gLInterfaceBatchStatisticsReportDetailTableRow attribute. 
+     * @return Returns the gLInterfaceBatchStatisticsReportDetailTableRow.
      */
-    protected GLInterfaceBatchStatisticsTableRowValues getGLInterfaceBatchStatisticsTableRowValues() {
-        return gLInterfaceBatchStatisticsTableRowValues;
+    protected GLInterfaceBatchStatisticsReportDetailTableRow getGLInterfaceBatchStatisticsReportDetailTableRow() {
+        return gLInterfaceBatchStatisticsReportDetailTableRow;
     }
 
     /**
-     * Sets the gLInterfaceBatchStatisticsTableRowValues attribute value.
-     * @param gLInterfaceBatchStatisticsTableRowValues The gLInterfaceBatchStatisticsTableRowValues to set.
+     * Sets the gLInterfaceBatchStatisticsReportDetailTableRow attribute value.
+     * @param gLInterfaceBatchStatisticsReportDetailTableRow The gLInterfaceBatchStatisticsTableRowValues to set.
      */
-    public void setGLInterfaceBatchStatisticsTableRowValues(GLInterfaceBatchStatisticsTableRowValues gLInterfaceBatchStatisticsTableRowValues) {
-        this.gLInterfaceBatchStatisticsTableRowValues = gLInterfaceBatchStatisticsTableRowValues;
+    public void setGLInterfaceBatchStatisticsReportDetailTableRow(GLInterfaceBatchStatisticsReportDetailTableRow gLInterfaceBatchStatisticsReportDetailTableRow) {
+        this.gLInterfaceBatchStatisticsReportDetailTableRow = gLInterfaceBatchStatisticsReportDetailTableRow;
     }
     
     /**
@@ -450,54 +702,23 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
         this.transactionArchiveDao = transactionArchiveDao;
     }
-    /**
-     * Gets the holdingHistoryDao attribute. 
-     * @return Returns the holdingHistoryDao.
-     */
-    protected HoldingHistoryDao getHoldingHistoryDao() {
-        return holdingHistoryDao;
-    }
-
-    /**
-     * Sets the holdingHistoryDao attribute value.
-     * @param holdingHistoryDao The holdingHistoryDao to set.
-     */
-    public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
-        this.holdingHistoryDao = holdingHistoryDao;
-    }
     
     /**
-     * Gets the currentTaxLotBalanceDao attribute. 
-     * @return Returns the currentTaxLotBalanceDao.
+     * Gets the gLInterfaceBatchProcessDao attribute. 
+     * @return Returns the gLInterfaceBatchProcessDao.
      */
-    protected CurrentTaxLotBalanceDao getCurrentTaxLotBalanceDao() {
-        return currentTaxLotBalanceDao;
-    }
+ //   protected GLInterfaceBatchProcessDao getGLInterfaceBatchProcessDao() {
+ //       return gLInterfaceBatchProcessDao;
+ //   }
 
     /**
-     * Sets the currentTaxLotBalanceDao attribute value.
-     * @param currentTaxLotBalanceDao The currentTaxLotBalanceDao to set.
+     * Sets the gLInterfaceBatchProcessDao attribute value.
+     * @param gLInterfaceBatchProcessDao The gLInterfaceBatchProcessDao to set.
      */
-    public void setCurrentTaxLotBalanceDao(CurrentTaxLotBalanceDao currentTaxLotBalanceDao) {
-        this.currentTaxLotBalanceDao = currentTaxLotBalanceDao;
-    }
+ //   public void setGLInterfaceBatchProcessDao(GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao) {
+ //       this.gLInterfaceBatchProcessDao = gLInterfaceBatchProcessDao;
+ //   }
 
-    /**
-     * Gets the kemidFeeDao attribute. 
-     * @return Returns the kemidFeeDao.
-     */
-    protected KemidFeeDao getKemidFeeDao() {
-        return kemidFeeDao;
-    }
-
-    /**
-     * Sets the kemidFeeDao attribute value.
-     * @param kemidFeeDao The kemidFeeDao to set.
-     */
-    public void setKemidFeeDao(KemidFeeDao kemidFeeDao) {
-        this.kemidFeeDao = kemidFeeDao;
-    }
-    
     /**
      * Gets the configService attribute. 
      * @return Returns the configService.
@@ -521,5 +742,56 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     public void setEnterpriseFeedDirectoryName(String enterpriseFeedDirectoryName) {
         this.enterpriseFeedDirectoryName = enterpriseFeedDirectoryName;
     }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */    
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
+     * Gets the endowmentAccountingLineBaseDao attribute. 
+     * @return Returns the endowmentAccountingLineBaseDao.
+     */
+    protected EndowmentAccountingLineBaseDao getEndowmentAccountingLineBaseDao() {
+        return endowmentAccountingLineBaseDao;
+    }
+
+    /**
+     * Sets the endowmentAccountingLineBaseDao attribute value.
+     * @param endowmentAccountingLineBaseDao The endowmentAccountingLineBaseDao to set.
+     */
+    public void setEndowmentAccountingLineBaseDao(EndowmentAccountingLineBaseDao endowmentAccountingLineBaseDao) {
+        this.endowmentAccountingLineBaseDao = endowmentAccountingLineBaseDao;
+    }
+    
+    /**
+     * Gets the gLInterfaceBatchProcessDao attribute. 
+     * @return Returns the gLInterfaceBatchProcessDao.
+     */
+    public GLInterfaceBatchProcessDao getgLInterfaceBatchProcessDao() {
+        return gLInterfaceBatchProcessDao;
+    }
+
+    /**
+     * Sets the gLInterfaceBatchProcessDao attribute value.
+     * @param gLInterfaceBatchProcessDao The gLInterfaceBatchProcessDao to set.
+     */
+    public void setgLInterfaceBatchProcessDao(GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao) {
+        this.gLInterfaceBatchProcessDao = gLInterfaceBatchProcessDao;
+    }
+    
 }
 

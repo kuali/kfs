@@ -119,7 +119,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         postable.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode());
 
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         document.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE);
@@ -432,7 +435,12 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         // set financialObjectSubTypeCode per first payment entry if one exists
         if (!assetGlobal.getAssetPaymentDetails().isEmpty() && ObjectUtils.isNotNull(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode())) {
-            asset.setFinancialObjectSubTypeCode(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode().getFinancialObjectSubTypeCode());
+            ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+            AssetPaymentDetail assetPaymentDetail = assetGlobal.getAssetPaymentDetails().get(0);
+            
+            ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
+
+            asset.setFinancialObjectSubTypeCode(objectCode.getFinancialObjectSubTypeCode());
         }
 
         // create off campus location for each asset only if it was filled in
@@ -503,8 +511,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         KualiDecimal[] amountBuckets = kualiDecimalService.allocateByQuantity(assetGlobalDetailsSize);
 
         assetPayment.setAccountChargeAmount(amountBuckets[assetGlobalDetailsIndex]);
+        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
 
-        boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(assetPaymentDetail.getObjectCode().getFinancialObjectSubTypeCode());
+        boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValue(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
         if (isDepreciablePayment) {
             assetPayment.setPrimaryDepreciationBaseAmount(amountBuckets[assetGlobalDetailsIndex]);
         }

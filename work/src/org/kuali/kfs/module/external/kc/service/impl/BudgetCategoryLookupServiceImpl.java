@@ -43,7 +43,7 @@ public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupServ
 
     private String wsdlLocation;
     private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;
-    private static final QName SERVICE_NAME = new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE);   
+    private static final QName SERVICE_NAME = new QName(KFSConstants.Research.KC_NAMESPACE_URI, KFSConstants.Research.KC_BUDGET_CATEGORY_SERVICE);   
     public List <BudgetCategoryDTO> lookupBudgetCategory(Map <String,String>searchCriteria) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         

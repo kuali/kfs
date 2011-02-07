@@ -338,7 +338,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         PersonService<Person> personService = KIMServiceLocator.getPersonService();
         Person user = personService.getPerson(principalId);
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
-        if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+        if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
             // set the user session so that the user name can be displayed in the saved document        
             GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
             return true;

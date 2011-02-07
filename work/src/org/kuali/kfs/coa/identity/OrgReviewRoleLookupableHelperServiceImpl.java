@@ -439,7 +439,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             if(hasOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
             if(hasAccountingOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
             //readonly
-        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
             roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
             roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         } else{
@@ -469,7 +469,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             //valid
         }else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
           //valid
-        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
           //valid
         } else{
             if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)){

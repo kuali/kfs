@@ -23,7 +23,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
 
-    public static final String KFS_ENDOW_ROLE_NAMESPACE = KFSConstants.ParameterNamespaces.ENDOWMENT;
+    public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
 
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -344,4 +344,6 @@ public class EndowConstants extends JSTLConstants {
         public static final String GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER = "GLET";
         
     }
+    
+    public static final String KUALI_FREQUENCY_LOOKUPABLE_IMPL = "frequencyCodeLookupable";
 }

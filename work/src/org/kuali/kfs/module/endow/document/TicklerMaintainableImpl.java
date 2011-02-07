@@ -97,7 +97,7 @@ public class TicklerMaintainableImpl extends KualiMaintainableImpl
      */
     private void updateNextDueDate(String refreshCaller, Map fieldValues) 
     {
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_FREQUENCY_LOOKUPABLE_IMPL) && fieldValues != null) 
+        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(EndowConstants.KUALI_FREQUENCY_LOOKUPABLE_IMPL) && fieldValues != null) 
         {
             String frequencyCode = newTickler.getFrequencyCode();
             if (StringUtils.isNotEmpty(frequencyCode)) 

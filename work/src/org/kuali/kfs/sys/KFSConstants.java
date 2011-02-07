@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -42,16 +43,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
-        public static final String ENDOWMENT = "KFS-ENDOW";
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
-        public static final String PURCHASING = "KFS-PURAP";
     }
     
     public static class DocumentTypeAttributes {
         public static final String INDICATOR_ATTRIBUTE_TRUE_VALUE = "Y";
 
         public static final String TRANSACTION_SCRUBBER_OFFSET_INDICATOR_ATTRIBUTE_KEY = "TRANSACTION_SCRUBBER_OFFSET_GENERATION";
-        public static final String ACCOUNTING_DOCUMENT_TYPE_NAME = "ACCT";
     }
     
     // special user used in the post-processor
@@ -60,7 +58,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // or in an external system such as LDAP if implemented
     public static final String SYSTEM_USER = "kfs";
 
-    public static final String ACCOUNT_MAINTENANCE_DOCUMENT_TYPE_DD_KEY = "AccountMaintenanceDocument";
     public static final String ENVIRONMENT_KEY = "environment";
     public static final String VERSION_KEY = "version";
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
@@ -78,46 +75,52 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String REPORTS_DIRECTORY_KEY = "reports.directory";
     public static final String WORKFLOW_URL_KEY = "workflow.url";
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
-    public static final String USE_STANDALONE_WORKFLOW = "rice.use.standalone.workflow";
     public static final String BATCH_FILE_LOOKUP_ROOT_DIRECTORIES = "batch.file.lookup.root.directories";
     public static final String BATCH_UPLOAD_HELP_SYS_PARAM_NAME = "BATCH_UPLOAD_HELP_URL";
-
-    public static final String DATABASE_REPOSITORY_FILES_LIST_NAME = "databaseRepositoryFilePaths";
-    public static final String SCRIPT_CONFIGURATION_FILES_LIST_NAME = "scriptConfigurationFilePaths";
-    public static final String JOB_NAMES_LIST_NAME = "jobNames";
-    public static final String TRIGGER_NAMES_LIST_NAME = "triggerNames";
 
     public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "RESULTS_LIMIT";
     public static final String DOCHANDLER_DO_URL = "/DocHandler.do?docId=";
     public static final String DOCHANDLER_URL_CHUNK = "&command=displayDocSearchView";
 
+    @Deprecated
     public static final String ACCOUNT_NUMBER_PROPERTY_NAME = "accountNumber";
-    public static final String MODULE_ID_PROPERTY_NAME = "moduleId";
-    public static final String MODULE_CODE_PROPERTY_NAME = "moduleCode";
     public static final String ACCOUNT_STATUS_CLOSED = "Y";
     public static final String ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD = "active";
     public static final String ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER = "~";
     public static final String ADD_LINE_METHOD = "addLine";
     public static final String ADD_PREFIX = "add";
     public static final String ACTIVE_INDICATOR = "Y";
+    @Deprecated
     public static final String AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE = "EN";
     public static final String AMOUNT_PROPERTY_NAME = "amount";
     public static final String APPROVE_METHOD = "approve";
+    @Deprecated
     public static final String NON_ACTIVE_INDICATOR = "N";
     public static final String BLANK_SPACE = " ";
     public static final String BACK_LOCATION = "backLocation";
     public static final String BACKDOOR_PARAMETER = "backdoorId";
     public static final String BALANCE_INQUIRY_REPORT_MENU_ACTION = "balanceInquiryReportMenu.do";
-    public static final String BALANCE_TYPE_PROPERTY_NAME = "balanceTypeCode";
+//    @Deprecated
+//    public static final String BALANCE_TYPE_PROPERTY_NAME = "balanceTypeCode";
+    @Deprecated
     public static final String BALANCE_TYPE_CURRENT_BUDGET = "CB";
+    @Deprecated
     public static final String BALANCE_TYPE_BASE_BUDGET = "BB";
+    @Deprecated
     public static final String BALANCE_TYPE_MONTHLY_BUDGET = "MB";
+    @Deprecated
     public static final String BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "EX";
+    @Deprecated
     public static final String BALANCE_TYPE_INTERNAL_ENCUMBRANCE = "IE";
+    @Deprecated
     public static final String BALANCE_TYPE_COST_SHARE_ENCUMBRANCE = "CE";
+    @Deprecated
     public static final String BALANCE_TYPE_ACTUAL = "AC";
+    @Deprecated
     public static final String BALANCE_TYPE_AUDIT_TRAIL = "NB";
+    @Deprecated
     public static final String BALANCE_TYPE_A21 = "A2";
+    @Deprecated
     public static final String BALANCE_TYPE_PRE_ENCUMBRANCE = "PE";
     public static final String BLANKET_APPROVE_METHOD = "blanketApprove";
     public static final String BUSINESS_OBJECT_CLASS_ATTRIBUTE = "businessObjectClassName";
@@ -148,6 +151,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String NOTE_TEXT_PROPERTY_NAME = "noteText";
     public static final String DOCUMENT_HEADER_PROPERTY_NAME = "documentHeader";
     public static final String DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION = "DocSaveBeforeClose";
+    @Deprecated
     public static final String EMPLOYEE_ACTIVE_STATUS = "A";
     public static final String EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME = "sourceAccountingLine";
     public static final String EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME = "targetAccountingLine";
@@ -184,7 +188,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String GENERIC_CODE_PROPERTY_NAME = "code";
     public static final String GL_BALANCE_INQUIRY_FLAG = "inquiryFlag";
     public static final String GL_ACCOUNT_BALANCE_BY_CONSOLIDATION_LOOKUP_ACTION = "glAccountBalanceByConsolidationLookup.do";
-    public static final String AR_CUSTOMER_AGING_REPORT_LOOKUP_ACTION = "arCustomerAgingReportLookup.do";
+//    public static final String AR_CUSTOMER_AGING_REPORT_LOOKUP_ACTION = "arCustomerAgingReportLookup.do";
     public static final String GL_BALANCE_INQUIRY_ACTION = "glBalanceInquiry.do";
     public static final String GL_MODIFIED_INQUIRY_ACTION = "glModifiedInquiry.do";
     public static final String GL_PE_OFFSET_STRING = "TP Generated Offset";
@@ -202,16 +206,14 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     public static final String ORGANIZATION_CODE_PROPERTY_NAME = "organizationCode";
     public static final String ORIGIN_CODE_KUALI = "01";
+    @Deprecated
     public static final String TRANSFER_FUNDS = "TF";
+    @Deprecated
     public static final String[] ENCUMBRANCE_BALANCE_TYPE = new String[] { BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, BALANCE_TYPE_INTERNAL_ENCUMBRANCE, BALANCE_TYPE_PRE_ENCUMBRANCE };
-    public static final String LABOR_DISTRIBUTION_ORIGIN_CODE = "LD";
-    public static final String LABOR_MODULE_CODE = "KFS-LD";
     public static final String STAND_IN_BUSINESS_OBJECT_FOR_ATTRIBUTES = "GenericAttributes";
     public static final String LABOR_MODIFIED_INQUIRY_ACTION = "laborModifiedInquiry.do";
-    public static final String LABOR_A2_BALANCE_TYPE = "A2";
     public static final String EMPLOYEE_FUNDING_INQUIRY_ACTION = "employeeFundingInquiry.do";
     public static final String OVERRIDE_KEYS = "overrideKeys";
-    public static final String[] LLCP_GROUP_FILTER_EXCEPTION = new String[] { "LLGL" };
     public static final String PERCENTAGE_SIGN = "%";
     public static final String RICE_PATH_PREFIX = "kr/";
     public static final String USE_CONTINUATION_BANK_QUESTION = "UseContinuationBankQuestion";
@@ -295,8 +297,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String INSERT_SOURCE_LINE_METHOD = "insertSourceLine";
     public static final String INSERT_TARGET_LINE_METHOD = "insertTargetLine";
     public static final String ICR = "Receipt";
-    public static final String PARM_SECTION_NAME_FIELD = "FS_SCR_NM";
-    public static final String PARM_PARM_NAME_FIELD = "FS_PARM_NM";
     public static final String PROJECT_CODE_PROPERTY_NAME = "projectCode";
 
     public static final String INQUIRABLE_ATTRIBUTE_NAME = "kualiInquirable";
@@ -325,7 +325,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String KUALI_USER_LOOKUPABLE_IMPL = "personLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
-    public static final String KUALI_FREQUENCY_LOOKUPABLE_IMPL = "frequencyCodeLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
     public static final String DOC_HANDLER_METHOD = "docHandler";
     public static final String PARAMETER_DOC_ID = "docId";
@@ -537,10 +536,10 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String DV_CHECK_TRAVEL_TOTAL_ERROR = "document.dvNonEmployeeTravel.totalTravelAmount";
 
     // KRA-related constant values
-    public static final KualiDecimal CONTRACTS_AND_GRANTS_FRINGE_RATE_MAX = new KualiDecimal("100.0");
-    public static final KualiDecimal CONTRACTS_AND_GRANTS_COST_SHARE_MAX = new KualiDecimal("100.0");
-    public static final KualiDecimal GRADUATE_ASSISTANT_RATE_MAX = new KualiDecimal("9999.99");
-    public static final String AUDIT_ERRORS = "AuditErrors";
+//    public static final KualiDecimal CONTRACTS_AND_GRANTS_FRINGE_RATE_MAX = new KualiDecimal("100.0");
+//    public static final KualiDecimal CONTRACTS_AND_GRANTS_COST_SHARE_MAX = new KualiDecimal("100.0");
+//    public static final KualiDecimal GRADUATE_ASSISTANT_RATE_MAX = new KualiDecimal("9999.99");
+//    public static final String AUDIT_ERRORS = "AuditErrors";
 
     // Header Tab navigation constant values
     public static final String NAVIGATE_TO = "navigateTo.";
@@ -603,19 +602,20 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String MULTIPLE_VALUE_LABEL = "Lookup initial values";
     public static final String MULTIPLE_VALUE_NAME = "Multiple Value Name";
 
-    // Agency type codes
-    public static final String AGENCY_TYPE_CODE_FEDERAL = "F";
-
     // special chars that I don't know how to put into string literals in JSP expression language
     public static final String NEWLINE = "\n";
 
     // Workflow constants
-    public static final String WORKFLOW_FYI_REQUEST = "F";
-    public static final String WORKFLOW_APPROVE_REQUEST = "A";
+    public static final String WORKFLOW_FYI_REQUEST = KEWConstants.ACTION_REQUEST_FYI_REQ;
+    public static final String WORKFLOW_APPROVE_REQUEST = KEWConstants.ACTION_REQUEST_APPROVE_REQ;
     
+    @Deprecated
     public static final String WORKFLOW_DOCUMENT_SAVE = "Save";
+    @Deprecated
     public static final String WORKFLOW_DOCUMENT_BLANKET_APPROVE = "BlanketApprove";  
+    @Deprecated
     public static final String WORKFLOW_DOCUMENT_ROUTE = "Route";    
+    @Deprecated
     public static final String ACCOUNT_RESTRICTED_STATUS_CODE = "R";
     
     public static class DocumentStatusCodes {
@@ -663,9 +663,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static class CashReceiptConstants {
-        public static final String TEST_CASH_RECEIPT_VERIFICATION_UNIT = "HAWAII_CR_VERIFICATION_UNIT";
-        public static final String TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE = "HI";
-
         public static final String DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE = "??";
 
         public static final String CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME = "campusLocationCode";
@@ -698,6 +695,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS = "CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS";
     }
 
+    @Deprecated
     public static class BudgetConstructionPositionConstants {
         public static final String POSITION_REGULAR_TEMPORARY_REGULAR = "R";
         public static final String POSITION_REGULAR_TEMPORARY_TEMPORARY = "T";
@@ -885,6 +883,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         /*
          * object code which stores amounts by which pending general ledger rows in budget construction are out of balance
          */
+        @Deprecated
         public final static String OBJECT_CODE_2PLG = "2PLG";
         
     }
@@ -986,12 +985,18 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     //AR TAB ERROR KEYS
     
     //Customer Invoice Document
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS = "document.billByChartOfAccountCode,document.billedByOrganizationCode,document.accountsReceivableDocumentHeader.processingChartOfAccountCode";
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_GENERAL_ERRORS = "document.accountsReceivableDocumentHeader.customerNumber,document.invoice*,document.billingDate,document.invoiceDueDate";
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_ADDRESS = "document.customerBillToAddressIdentifier,document.customerShipToAddressIdentifier"; 
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_RECEIVABLE_ACCOUNTING_LINE = "document.payment*";
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DETAIL_ERRORS = "newCustomerInvoiceDetail*,document.sourceAccountingLine*";
     //public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails,document.customerInvoiceRecurrenceDetails.active,document.customerInvoiceRecurrenceDetails.workgroup,document.customerInvoiceRecurrenceDetails.document*,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName";
+    @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails,document.customerInvoiceRecurrenceDetails.*,document.customerInvoiceRecurrenceDetails.document*";
 
     
@@ -1000,14 +1005,19 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
     
     // Customer Credit Memo Document
+    @Deprecated
     public static final String CUSTOMER_CREDIT_MEMO_DETAILS_ERRORS = "document,document.creditMemoDetails*";
+    @Deprecated
     public static final String CUSTOMER_CREDIT_MEMO_DETAIL_PROPERTY_NAME = "creditMemoDetails";
     
     // Customer Invoice Writeoff Document
+    @Deprecated
     public static final String CUSTOMER_INVOICE_WRITEOFF_INIT_ERRORS = "document.financialDocumentReferenceInvoiceNumber*";
+    @Deprecated
     public static final String CUSTOMER_INVOICE_WRITEOFF_DETAILS_ERRORS = "document.customerInvoiceDetailsForWriteoff*";
     
     // Customer Invoice Writeoff Lookup
+    @Deprecated
     public static final String CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS = "customerInvoiceWriteoffLookupResults";
     
     public static final class ReportGeneration{
@@ -1033,11 +1043,13 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String OPEN = "O";
     }
     
+    @Deprecated
     public static final class CustomerParameter {
         public static final String TAX_NUMBER_REQUIRED_IND = "TAX_NUMBER_REQUIRED_IND";
     }
     
     // financial document type codes
+    @Deprecated
     public static final class FinancialDocumentTypeCodes {
         public static final String ALL = "ALL";
         // budget construction
@@ -1087,6 +1099,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
     
     // financial document type names
+    @Deprecated
     public static final class FinancialDocumentTypeNames {
         public static final String GENERAL_ERROR_CORRECTION = "General Error Correction";
         public static final String YEAR_END_GENERAL_ERROR_CORRECTION = "Year End General Error Correction";
@@ -1141,6 +1154,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         }
     }
 
+    @Deprecated
     public static final class CustomerOpenItemReport {
         public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String DOCUMENT_NUMBER = "documentNumber";
@@ -1163,6 +1177,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     }
     
+    @Deprecated
     public static final class CustomerAgingReport {
         public static final String CUSTOMER_NAME = "customerName";
         public static final String UNPAID_BALANCE_0_TO_30 = "unpaidBalance0to30";
@@ -1176,7 +1191,9 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String PAYMENT_OPEN_STATUS_CODE = "OPEN";
     }
 
+    @Deprecated
     public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";
+    @Deprecated
     public static class PaymentApplicationTabErrorCodes {
         public static final String NON_AR_TAB = "nonInvoicedAddLine*";
         public static final String UNAPPLIED_TAB = "document.nonAppliedHolding*";
@@ -1206,7 +1223,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ACTIVE_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME = "Active Employee & Financial System User";
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME = "Active Professional Employee & Financial System User";
         public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
-        public static final String ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE = "KFS-SYS";
+        public static final String ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE = ParameterNamespaces.KFS;
         public static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
         public static final String ORGANIZATION_REVIEWER_ROLE_NAME = "Organization Reviewer";
     } 
@@ -1260,7 +1277,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE = "FSLO";
     
     public static class COAConstants{
-        public static final String FINANCIAL_SYSTEM_DOCUMENT = "KFS";
         public static final String FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT = "KFST";
         public static final String FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT = "KFSM";
         public static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FSSM";
@@ -1274,6 +1290,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String ORG_REVIEW_ROLE_ORG_ONLY_TEXT = "Organization Only";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_CODE = "B";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_BOTH_TEXT = "Both";
+        @Deprecated
         public static final String ORG_REVIEW_ROLE_DOCUMENT_TYPE_NAME = "ORR";
         public static final String ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT = "create delegation";
 
@@ -1299,7 +1316,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     
     public static final String CREATE_TAX_REGION_FROM_LOOKUP_PARM = "createTaxRegionFromLookup";
 
-    public static class Reserch {
+    @Deprecated
+    public static class Research {
         public static final String KC_NAMESPACE_URI = "KC";
         public static final String KC_BUDGET_CATEGORY_SERVICE = "budgetCategorySoapService";
         public static final String KC_UNIT_SERVICE = "institutionalUnitSoapService";

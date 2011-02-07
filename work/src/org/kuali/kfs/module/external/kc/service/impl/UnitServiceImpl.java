@@ -35,7 +35,7 @@ import org.kuali.kfs.sys.KFSConstants;
                       
 public class UnitServiceImpl implements UnitService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);
-    private static final QName SERVICE_NAME = new QName("KC", KFSConstants.Reserch.KC_UNIT_SERVICE);
+    private static final QName SERVICE_NAME = new QName("KC", KFSConstants.Research.KC_UNIT_SERVICE);
     private String wsdlLocation;
     private URL wsdlURL;
     

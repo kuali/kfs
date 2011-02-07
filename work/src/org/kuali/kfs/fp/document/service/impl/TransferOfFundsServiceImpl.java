@@ -17,7 +17,6 @@ package org.kuali.kfs.fp.document.service.impl;
 
 import org.kuali.kfs.fp.document.service.TransferOfFundsService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.EXCEPTIONS;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -51,7 +50,7 @@ public class TransferOfFundsServiceImpl implements TransferOfFundsService {
      */
     protected boolean checkMandatoryTransfersSubType(String objectSubTypeCode, String parameterName) {
         if (objectSubTypeCode == null) {
-            throw new IllegalArgumentException(EXCEPTIONS.NULL_OBJECT_SUBTYPE_MESSAGE);
+            throw new IllegalArgumentException("An illegal argument has been passed. Cannot allow (null) subtypes.");
         }
         ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, objectSubTypeCode);
         boolean returnboolean = evaluator.evaluationSucceeds();

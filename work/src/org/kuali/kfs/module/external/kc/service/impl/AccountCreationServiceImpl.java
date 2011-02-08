@@ -31,7 +31,6 @@ import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;

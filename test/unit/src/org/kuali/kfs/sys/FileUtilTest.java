@@ -40,7 +40,7 @@ public class FileUtilTest extends KualiTestBase {
         super.setUp();
         
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class); 
-        stagingDirectory = kualiConfigurationService.getPropertyString(KFSConstants.STAGING_DIRECTORY_KEY) + "/";
+        stagingDirectory = kualiConfigurationService.getPropertyString("staging.directory") + "/";
     }
     
     public void testGetNewestDataFile() {

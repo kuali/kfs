@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
+import org.kuali.kfs.integration.kc.KcConstants;
+import org.kuali.kfs.integration.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.context.SpringContext;

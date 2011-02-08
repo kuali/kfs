@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.dto.HashMapElement;
+import org.kuali.kfs.integration.kc.KcConstants;
+import org.kuali.kfs.integration.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 
 import org.kuali.kfs.sys.context.SpringContext;

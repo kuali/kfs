@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.integration.kc.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 

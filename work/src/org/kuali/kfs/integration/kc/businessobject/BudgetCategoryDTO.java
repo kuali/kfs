@@ -1,34 +1,57 @@
-/*
- * Copyright 2010 The Kuali Foundation.
- * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.opensource.org/licenses/ecl1.php
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package org.kuali.kfs.integration.kc.businessobject;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.kfs.integration.kc.BudgetCategory;
+import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
-public class BudgetCategoryDTO extends BusinessObjectBase implements BudgetCategory,Serializable {
-    
+
+/**
+ * <p>Java class for budgetCategoryDTO complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="budgetCategoryDTO">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="authorPersonName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="budgetCategoryCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="budgetCategoryTypeCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="budgetCategoryTypeDescription" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "budgetCategoryDTO", propOrder = {
+    "authorPersonName",
+    "budgetCategoryCode",
+    "budgetCategoryTypeCode",
+    "budgetCategoryTypeDescription",
+    "description"
+})
+public class BudgetCategoryDTO extends BusinessObjectBase implements BudgetCategory, Serializable {
+
     protected String authorPersonName;
     protected String budgetCategoryCode;
     protected String budgetCategoryTypeCode;
     protected String budgetCategoryTypeDescription;
     protected String description;
-    
+
     /**
      * Gets the value of the authorPersonName property.
      * 
@@ -149,15 +172,12 @@ public class BudgetCategoryDTO extends BusinessObjectBase implements BudgetCateg
         this.description = value;
     }
 
-    public void prepareForWorkflow() {
-        // TODO Auto-generated method stub       
-    }
+    public void prepareForWorkflow() {}
+    public void refresh() {}
 
-    public void refresh() {
-        // TODO Auto-generated method stub        
-    }
-
-    protected LinkedHashMap<String,String> toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("BudgetCategoryDTO", this.budgetCategoryCode);
         return m;

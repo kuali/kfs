@@ -18,7 +18,7 @@ package org.kuali.kfs.module.external.kc.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.integration.kc.dto.BudgetAdjustmentParametersDTO;
  
 public enum BudgetAdjustmentParameterDTOLineFixture {
     DETAIL_F_LINE1("F","BL","2231473","5197","0.00","100.00", "0"),

@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.kc.KcUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "unitDTO", propOrder = {
     "organizationId",

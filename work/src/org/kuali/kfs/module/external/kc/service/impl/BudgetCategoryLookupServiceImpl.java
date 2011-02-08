@@ -30,9 +30,10 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import javax.xml.namespace.QName;
-import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.module.external.kc.dto.HashMapElement;
+
+import org.kuali.kfs.integration.kc.KcConstants;
+import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;

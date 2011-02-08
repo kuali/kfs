@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.MessageMap;
  * and creates a list of string.
  */
 public class GlobalVariablesExtractHelper {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlobalVariablesExtractHelper.class);
     /**
      * Extracts errors for error report writing.
      * 
@@ -66,7 +66,7 @@ public class GlobalVariablesExtractHelper {
                 else {
                     errorString = errorKeyString;
                 }
-                System.out.println(errorString);
+                LOG.debug(errorString);
                 while (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }

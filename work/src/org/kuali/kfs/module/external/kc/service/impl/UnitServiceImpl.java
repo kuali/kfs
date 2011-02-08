@@ -16,11 +16,11 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.integration.kc.KcConstants;
 import org.kuali.kfs.integration.kc.KcUnit;
-import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
+import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
+import org.kuali.kfs.integration.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
-import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitSoapService;

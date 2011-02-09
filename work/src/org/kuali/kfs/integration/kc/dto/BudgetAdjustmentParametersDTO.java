@@ -16,10 +16,7 @@
 package org.kuali.kfs.integration.kc.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 
 public class BudgetAdjustmentParametersDTO implements Serializable {
     

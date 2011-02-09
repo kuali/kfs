@@ -22,6 +22,7 @@
         <ref bean="PurposeCode-name" />
         <ref bean="PurposeCode-codeAndDescription" />
         <ref bean="PurposeCode-active" />
+        <ref bean="PurposeCode-codeForReport" />
       </list>
     </property>
   </bean>
@@ -82,6 +83,15 @@
     <property name="label" value="Active Indicator" />
   </bean>
 
+  <bean id="PurposeCode-codeForReport" parent="PurposeCode-code-parentBean" >
+    <property name="name" value="codeForReport" />
+  	<property name="maxLength" value="150" />
+    <property name="control" >
+    	<bean parent="TextControlDefinition" 
+    		  p:size="100" />
+    </property> 
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

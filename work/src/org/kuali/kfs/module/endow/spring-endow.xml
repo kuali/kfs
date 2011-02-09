@@ -2392,7 +2392,7 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedTableRowValues" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="documenType" value="Document Type"/>
+    			<entry key="documentType" value="Document Type"/>
     			<entry key="chartCode" value="Chart Code"/>
     			<entry key="objectCode" value="Object Code"/>
     			<entry key="debitAmount" value="Debit Amount"/>

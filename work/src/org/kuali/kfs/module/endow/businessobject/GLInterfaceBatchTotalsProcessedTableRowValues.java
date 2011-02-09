@@ -47,7 +47,7 @@ public class GLInterfaceBatchTotalsProcessedTableRowValues extends TransientBusi
      * Sets the documentType attribute. 
      * @return Returns the documentType.
      */
-    public void setDocumenType(String documentType) {
+    public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
 

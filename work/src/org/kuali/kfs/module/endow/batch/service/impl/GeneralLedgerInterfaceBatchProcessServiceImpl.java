@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -108,6 +110,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     protected long numberOfGLEntriesByDocumentType = 0;
     protected long numberOfExceptionsByDocumentType = 0;
     
+    protected String previousChartCode = null;
+    protected String previousObjectCode = null;
+
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
      */
@@ -180,8 +185,23 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 //single transaction gl lines...
                 success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps, postedDate);
             }
+            
+            if (transactionArchives.size() > 0) {
+                //add to the grand total and write the document subtotals....
+                
+                writeTotalsProcessedChartDetailTotalsLine(); 
+                //add to the document level sub-totals....
+             //   addChartTotalsToDocumentTypeTotals();
+                
+                //write document type line...
+                writeTotalsProcessedDocumentTypeDetailTotalsLine();
+                addDocumentTypeTotalsToGrandTotals();
+            }
         }
         
+        
+        //grand total line...
+        writeTotalsProcessedGrandTotalsLine();
         
         OUTPUT_KEM_TO_GL_DATA_FILE_ps.close();
         OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps.close();
@@ -249,20 +269,30 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         boolean success = true;
         
         for (GlInterfaceBatchProcessKemLine transactionArchive : transactionArchives) {
+            if (previousChartCode == null && previousObjectCode == null) {
+                previousChartCode = transactionArchive.getChartCode();
+                previousObjectCode = transactionArchive.getObjectCode();
+            }
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
                 //process the cash entry record...
-                createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+                if (!createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate)) {
+                    //error exception writing..
+                }
             }
             //process non cash
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
                 //process the non-cash entry record...
-                createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+                if (!createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate)) {
+                    //exception generated...
+                }
             }
             // if GLET or EGLT then create unique document number accounting lines gl entries.....
             if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER) || 
                     transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) {
                 //process the GLET or EGLT records..
-                createGLEntriesForEGLTOrGLET(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate);
+                if (!createGLEntriesForEGLTOrGLET(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate)) {
+                    //exception generated...
+                }
             }
         }
         
@@ -291,6 +321,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         try {
             createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+            updateTotalsProcessed(transactionArchive);            
         } catch (IOException ioe) {
             return false;
         }
@@ -322,6 +353,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         try {
             createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+            updateTotalsProcessed(transactionArchive);             
         } catch (IOException ioe) {
             return false;
         }
@@ -337,6 +369,19 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             oef.setTransactionDebitCreditCode(getTransactionDebitCreditCodeForOffSetEntry(transactionAmount));
             try {
                 createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+                
+                GlInterfaceBatchProcessKemLine transactionArchiveLossGain = new GlInterfaceBatchProcessKemLine();
+                transactionArchiveLossGain.setTypeCode(transactionArchive.getTypeCode());
+                transactionArchiveLossGain.setChartCode(transactionArchive.getChartCode());
+                transactionArchiveLossGain.setObjectCode(lossGainObjectCode);
+                transactionArchiveLossGain.setShortTermGainLoss(transactionArchive.getShortTermGainLoss());
+                transactionArchiveLossGain.setLongTermGainLoss(transactionArchive.getLongTermGainLoss());
+                transactionArchiveLossGain.setSubTypeCode(transactionArchive.getSubTypeCode());
+                transactionArchiveLossGain.setHoldingCost(transactionArchive.getHoldingCost());
+                transactionArchiveLossGain.setTransactionArchiveIncomeAmount(transactionArchive.getTransactionArchiveIncomeAmount());
+                transactionArchiveLossGain.setTransactionArchivePrincipalAmount(transactionArchive.getTransactionArchivePrincipalAmount());
+                
+                updateTotalsProcessed(transactionArchiveLossGain);                 
             } catch (IOException ioe) {
                 return false;
             }
@@ -379,6 +424,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             
             try {
                 createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+                updateTotalsProcessed(transactionArchive);                 
             } catch (IOException ioe) {
                 return false;
             }
@@ -475,27 +521,172 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
     }
     
+    protected void updateTotalsProcessed(GlInterfaceBatchProcessKemLine transactionArchive) {
+        if (StringUtils.equals(previousChartCode, transactionArchive.getChartCode()) &&
+                StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
+            updateTotals(transactionArchive);
+        }
+        else {
+            if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
+                //object code change..reset the total and add the object detail line
+                //current detail totals to the sub totals...
+                writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
+                addTotalsToChartTotals();
+                updateTotals(transactionArchive);                
+                previousObjectCode = transactionArchive.getObjectCode();
+            }
+            if (!StringUtils.equals(previousChartCode, transactionArchive.getChartCode())) {
+                writeTotalsProcessedChartDetailTotalsLine();
+                addChartTotalsToDocumentTypeTotals();
+                updateTotals(transactionArchive);                
+                previousChartCode = transactionArchive.getChartCode();
+                
+                writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
+                //the properties to totals processed at chart level..sub totals.
+                chartDebitAmountSubTotal = chartDebitAmountSubTotal.add(chartObjectDebitAmountSubTotal);
+                chartCreditAmountSubTotal = chartCreditAmountSubTotal.add(chartObjectCreditAmountSubTotal);
+                chartNumberOfRecordsSubTotal += chartObjectNumberOfRecordsSubTotal;
+            }
+        }
+    }
     /**
-     * writeTotalsProcessedDetailTotalsLine method to write details total line.
+     * add debit and credit totals and number of lines processed to detail line.
+     */
+    protected void updateTotals(GlInterfaceBatchProcessKemLine transactionArchive) {
+        BigDecimal totalAmount =  BigDecimal.ZERO;
+        String debitCreditCode = null;
+        
+        String lossGainObjectCode = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE);
+        if (transactionArchive.getObjectCode().equalsIgnoreCase(lossGainObjectCode)) {
+            totalAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
+            debitCreditCode = getTransactionDebitCreditCodeForOffSetEntry(totalAmount);           
+        }
+        else {
+            totalAmount = getTransactionAmount(transactionArchive);
+            debitCreditCode = getTransactionDebitCreditCode(totalAmount);
+        }
+        
+        if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE)) {
+            chartObjectDebitAmountSubTotal = chartObjectDebitAmountSubTotal.add(totalAmount.abs());
+        }
+        if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE)) {
+            chartObjectCreditAmountSubTotal = chartObjectCreditAmountSubTotal.add(totalAmount.abs());
+        }
+        chartObjectNumberOfRecordsSubTotal += 1;
+    }
+    
+    
+    /**
+     * write TotalsProcessedDetailTotalsLine method to write details total line.
      * @param documentNumber
      * @param feeMethodCode
      * @param totalLinesGenerated
      */
-    protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int totalLinesGenerated) {
+    protected void writeTotalsProcessedObjectDetailTotalsLine(String documentTypeCode, String previousChartCode, String previousObjectCode) {
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(documentTypeCode);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode(previousChartCode);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(previousObjectCode);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(chartObjectDebitAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setCreditAmount(new KualiDecimal(chartObjectCreditAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setNumberOfEntries(chartObjectNumberOfRecordsSubTotal);
+        
         gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
-    //    gLInterfaceBatchTotalProcessedReportsWriterService.writeNewLines(1);
-
-        // add the edoc subtotals to fee method subtotal...
     }
     
-    protected void writeTotalsProcessedSubTotalsLine(String feeMethodCode) {
+    /**
+     * write chart TotalsProcessedDetailTotalsLine method to write details total line.
+     */
+    protected void writeTotalsProcessedChartDetailTotalsLine() {
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode("Subtotal by Chart");
+        gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(chartDebitAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setCreditAmount(new KualiDecimal(chartCreditAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setNumberOfEntries(chartNumberOfRecordsSubTotal);
+        
         gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
         gLInterfaceBatchTotalProcessedReportsWriterService.writeNewLines(1);
+    }
+
+    /**
+     * write document type TotalsProcessedDetailTotalsLine method to write details total line.
+     * @param documentNumber
+     * @param feeMethodCode
+     * @param totalLinesGenerated
+     */
+    protected void writeTotalsProcessedDocumentTypeDetailTotalsLine() {
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType("Subtotal by Document Type");
+        gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(documentTypeDebitAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setCreditAmount(new KualiDecimal(documentTypeCreditAmountSubTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setNumberOfEntries(documentTypeNumberOfRecordsSubTotal);
+        gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
+        gLInterfaceBatchTotalProcessedReportsWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * write document TotalsProcessedDetailTotalsLine method to write details total line.
+     * @param documentNumber
+     * @param feeMethodCode
+     * @param totalLinesGenerated
+     */
+    protected void writeTotalsProcessedGrandTotalsLine() {
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType("Grand Total");
+        gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(null);
+        gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(documentTypeDebitAmountGrandTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setCreditAmount(new KualiDecimal(documentTypeCreditAmountGrandTotal));
+        gLInterfaceBatchTotalsProcessedTableRowValues.setNumberOfEntries(documentTypeNumberOfRecordsGrandTotal);
+        gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
+        gLInterfaceBatchTotalProcessedReportsWriterService.writeNewLines(1);
+    }
+    
+    /**
+     * add total to grand totals and reset document level totals...
+     */
+    protected void addDocumentTypeTotalsToGrandTotals() {
+        //the properties to totals processed at Document Type level..sub totals.
+        documentTypeDebitAmountGrandTotal = documentTypeDebitAmountGrandTotal.add(documentTypeDebitAmountSubTotal);
+        documentTypeCreditAmountGrandTotal = documentTypeCreditAmountGrandTotal.add(documentTypeCreditAmountSubTotal);
+        documentTypeNumberOfRecordsGrandTotal += documentTypeNumberOfRecordsSubTotal;    
+
+        documentTypeDebitAmountSubTotal = BigDecimal.ZERO;
+        documentTypeCreditAmountSubTotal = BigDecimal.ZERO;
+        documentTypeNumberOfRecordsSubTotal = 0;
+    }
+    
+    /**
+     * add totals to 
+     */
+    protected void addChartTotalsToDocumentTypeTotals() {
+        //add to the document level subtotals....
+        documentTypeDebitAmountSubTotal = documentTypeDebitAmountSubTotal.add(chartDebitAmountSubTotal);
+        documentTypeCreditAmountSubTotal = documentTypeCreditAmountSubTotal.add(chartCreditAmountSubTotal);
+        documentTypeNumberOfRecordsSubTotal += chartNumberOfRecordsSubTotal;
+        
+        //the properties to totals processed at chart level..sub totals.
+        chartDebitAmountSubTotal = BigDecimal.ZERO;
+        chartCreditAmountSubTotal = BigDecimal.ZERO;
+        chartNumberOfRecordsSubTotal = 0;
+        
+        //reset the object level totals...
+        chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+        chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+        chartObjectNumberOfRecordsSubTotal = 0;
         
     }
     
-    protected void writeTotalsProcessedGrandTotalsLine() {
-        gLInterfaceBatchTotalProcessedReportsWriterService.writeTableRow(gLInterfaceBatchTotalsProcessedTableRowValues);
+    protected void addTotalsToChartTotals() {
+        //the properties to totals processed at chart level..sub totals.
+        chartDebitAmountSubTotal = chartDebitAmountSubTotal.add(chartObjectDebitAmountSubTotal);
+        chartCreditAmountSubTotal = chartCreditAmountSubTotal.add(chartObjectCreditAmountSubTotal);
+        chartNumberOfRecordsSubTotal += chartObjectNumberOfRecordsSubTotal;
+
+        //reset the object level totals...
+        chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+        chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+        chartObjectNumberOfRecordsSubTotal = 0;
     }
     
     /**

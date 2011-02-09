@@ -37,37 +37,38 @@
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-documentType-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
 	<property name="name" value="documentType"></property>	
-	<property name="maxLength" value="10"></property>
+	<property name="maxLength" value="25"></property>
   </bean>
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-chartCode" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-chartCode-parentBean"/>
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-chartCode-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
 	<property name="name" value="chartCode"></property>	
-	<property name="maxLength" value="10"></property>
+	<property name="maxLength" value="20"></property>
   </bean>
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-objectCode" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-objectCode-parentBean"/>
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-objectCode-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
 	<property name="name" value="objectCode"></property>	
-	<property name="maxLength" value="10"></property>
+	<property name="maxLength" value="11"></property>
   </bean>
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-debitAmount" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-debitAmount-parentBean"/>
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-debitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="debitAmount"/>
-    <property name="maxLength" value="20"/>
+    <property name="maxLength" value="22"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount-parentBean"/>
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="creditAmount"/>
-    <property name="maxLength" value="20"/>
+    <property name="maxLength" value="22"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>  
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries-parentBean"/>
 
-  <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+  <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries-parentBean" abstract="true" parent="GenericAttributes-itemSequenceNumber">
     <property name="name" value="numberOfEntries"/>
+	<property name="maxLength" value="15"></property>
   </bean> 
 </beans>

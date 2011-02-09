@@ -188,17 +188,17 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             
             if (transactionArchives.size() > 0) {
                 //add to the grand total and write the document subtotals....
+                writeTotalsProcessedObjectDetailTotalsLine(null, previousChartCode, previousObjectCode);
+                addTotalsToChartTotals();
                 
                 writeTotalsProcessedChartDetailTotalsLine(); 
-                //add to the document level sub-totals....
-             //   addChartTotalsToDocumentTypeTotals();
-                
-                //write document type line...
+                addChartTotalsToDocumentTypeTotals();
                 writeTotalsProcessedDocumentTypeDetailTotalsLine();
                 addDocumentTypeTotalsToGrandTotals();
+                previousChartCode = null;
+                previousObjectCode = null;
             }
         }
-        
         
         //grand total line...
         writeTotalsProcessedGrandTotalsLine();
@@ -336,7 +336,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      */
     protected boolean createNonCashEntry(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, java.util.Date postedDate) {
         boolean success = true;
-        String lossGainObjectCode = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE);
         
         OriginEntryFull oef = new OriginEntryFull();
         
@@ -361,8 +360,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         //create the offset or (loss/gain entry for EAD) document types where subtype is Non-Cash
         if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
             //need to create an offset entry...
+            
             if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
-                oef.setFinancialObjectCode(lossGainObjectCode);
+                oef.setFinancialObjectCode(parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
                 transactionAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
                 oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
             }
@@ -373,7 +373,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 GlInterfaceBatchProcessKemLine transactionArchiveLossGain = new GlInterfaceBatchProcessKemLine();
                 transactionArchiveLossGain.setTypeCode(transactionArchive.getTypeCode());
                 transactionArchiveLossGain.setChartCode(transactionArchive.getChartCode());
-                transactionArchiveLossGain.setObjectCode(lossGainObjectCode);
+                transactionArchiveLossGain.setObjectCode(oef.getFinancialObjectCode());
                 transactionArchiveLossGain.setShortTermGainLoss(transactionArchive.getShortTermGainLoss());
                 transactionArchiveLossGain.setLongTermGainLoss(transactionArchive.getLongTermGainLoss());
                 transactionArchiveLossGain.setSubTypeCode(transactionArchive.getSubTypeCode());
@@ -513,40 +513,40 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
     }
 
-    protected void writeErrorEntry(String line, PrintStream invaliGroup) throws IOException {
-        try {
-            invaliGroup.printf("%s\n", line);
-        } catch (Exception e) {
-            throw new IOException(e.toString());
-        }
-    }
-    
     protected void updateTotalsProcessed(GlInterfaceBatchProcessKemLine transactionArchive) {
         if (StringUtils.equals(previousChartCode, transactionArchive.getChartCode()) &&
                 StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
             updateTotals(transactionArchive);
         }
         else {
-            if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
-                //object code change..reset the total and add the object detail line
-                //current detail totals to the sub totals...
-                writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
-                addTotalsToChartTotals();
-                updateTotals(transactionArchive);                
-                previousObjectCode = transactionArchive.getObjectCode();
-            }
             if (!StringUtils.equals(previousChartCode, transactionArchive.getChartCode())) {
+                if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
+                    //object code change..reset the total and add the object detail line
+                    //current detail totals to the sub totals...
+                    writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
+                    addTotalsToChartTotals();
+                    previousObjectCode = transactionArchive.getObjectCode();
+                    
+                    updateTotals(transactionArchive);                
+                }
+                
                 writeTotalsProcessedChartDetailTotalsLine();
                 addChartTotalsToDocumentTypeTotals();
-                updateTotals(transactionArchive);                
+                updateTotals(transactionArchive);   
                 previousChartCode = transactionArchive.getChartCode();
-                
-                writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
-                //the properties to totals processed at chart level..sub totals.
-                chartDebitAmountSubTotal = chartDebitAmountSubTotal.add(chartObjectDebitAmountSubTotal);
-                chartCreditAmountSubTotal = chartCreditAmountSubTotal.add(chartObjectCreditAmountSubTotal);
-                chartNumberOfRecordsSubTotal += chartObjectNumberOfRecordsSubTotal;
             }
+            else {
+                if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
+                    //object code change..reset the total and add the object detail line
+                    //current detail totals to the sub totals...
+                    writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
+                    addTotalsToChartTotals();
+                    previousObjectCode = transactionArchive.getObjectCode();
+                    
+                    updateTotals(transactionArchive);                
+                }
+            }
+            
         }
     }
     /**

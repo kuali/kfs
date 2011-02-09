@@ -33,4 +33,12 @@ public class CombineGroupCode extends KualiCodeBase {
         return m;
     }
 
+    /**
+     * Gets the code for report
+     * 
+     * @return
+     */
+    public String getCodeForReport() {
+        return code;
+    }
 }

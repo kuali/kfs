@@ -20,32 +20,95 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
+import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements KemidBenefittingOrganizationDao {
 
     public List<String> getKemidsByAttribute(String attributeName, List<String> values) {
         
-        Criteria criteria = new Criteria();
+        Criteria criteria1 = new Criteria();
+        Criteria criteria2 = new Criteria();
+        criteria1.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
         for (String value : values) {
             Criteria c = new Criteria();
-            c.addEqualTo(attributeName, value.trim());
-            criteria.addOrCriteria(c);
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            }            
+            criteria2.addOrCriteria(c);
         }        
-        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidBenefittingOrganization.class, criteria);
+        criteria1.addAndCriteria(criteria2);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidBenefittingOrganization.class, criteria1, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<String> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
         List<String> kemids = new ArrayList<String>();
         while (result.hasNext()) {
-            kemids.add(result.next().toString());
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
         }
         
         return kemids;
+    }
+    
+    public List<String> getAttributeValues(String attributeName, List<String> values) {
+        
+        Criteria criteria1 = new Criteria();
+        Criteria criteria2 = new Criteria();
+        criteria1.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
+        for (String value : values) {
+            Criteria c = new Criteria();
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            }            
+            criteria2.addOrCriteria(c);
+        }        
+        criteria1.addAndCriteria(criteria2);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidBenefittingOrganization.class, criteria1, true);
+        query.setAttributes(new String[] {attributeName});
+
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        
+        List<String> attributeValues = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            attributeValues.add(data[0].toString());
+        }
+        
+        return attributeValues;
+        
+    }
+    
+    public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids) {
+        
+        Criteria criteria = new Criteria();
+        criteria.addIn(EndowPropertyConstants.KEMID, kemids);
+        
+        QueryByCriteria qbc = QueryFactory.newQuery(KemidBenefittingOrganization.class, criteria, true);
+        qbc.addOrderByAscending(EndowPropertyConstants.KEMID);
+        
+        List<KemidBenefittingOrganization> kemidBenefittingOrganizationList = (List<KemidBenefittingOrganization>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        List<KemidsWithMultipleBenefittingOrganizationsDataHolder> kmbodhs = new ArrayList<KemidsWithMultipleBenefittingOrganizationsDataHolder>();
+        for (KemidBenefittingOrganization kemidBenefittingOrganization : kemidBenefittingOrganizationList) {
+            KemidsWithMultipleBenefittingOrganizationsDataHolder kmbo = new KemidsWithMultipleBenefittingOrganizationsDataHolder();
+            kmbo.setKemid(kemidBenefittingOrganization.getKemid());
+            kmbo.setChart(kemidBenefittingOrganization.getBenefittingChartCode());
+            kmbo.setOrganization(kemidBenefittingOrganization.getBenefittingOrgCode());
+            kmbo.setPercent(kemidBenefittingOrganization.getBenefitPrecent());
+            kmbodhs.add(kmbo);
+        }
+        
+        return kmbodhs;
     }
 }

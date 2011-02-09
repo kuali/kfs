@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -33,19 +34,51 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         Criteria criteria = new Criteria();
         for (String value : values) {
             Criteria c = new Criteria();
-            c.addEqualTo(attributeName, value.trim());
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            } 
             criteria.addOrCriteria(c);
         }
-        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<String> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
         List<String> kemids = new ArrayList<String>();
         while (result.hasNext()) {
-            kemids.add(result.next().toString());
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
         }
         
         return kemids;
+    }
+    
+    public List<String> getAttributeValues(String attributeName, List<String> values) {
+        
+        Criteria criteria = new Criteria();
+        for (String value : values) {
+            Criteria c = new Criteria();
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            }            
+            criteria.addOrCriteria(c);
+        }        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
+        query.setAttributes(new String[] {attributeName});
+
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        
+        List<String> attributeValues = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            attributeValues.add(data[0].toString());
+        }
+        
+        return attributeValues;
+        
     }
 }

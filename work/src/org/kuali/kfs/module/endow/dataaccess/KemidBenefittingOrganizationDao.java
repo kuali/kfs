@@ -17,7 +17,13 @@ package org.kuali.kfs.module.endow.dataaccess;
 
 import java.util.List;
 
+import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
+
 public interface KemidBenefittingOrganizationDao {
 
     public List<String> getKemidsByAttribute(String attributeName, List<String> values);
+    
+    public List<String> getAttributeValues(String attributeName, List<String> values);
+    
+    public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids);
 }

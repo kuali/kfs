@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -38,10 +39,9 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
             subCrit.addEqualTo("permanentIndicator", endowmentOption);
         }
         subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit); 
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
         subQuery.setAttributes(new String[] {"code"});
-        
-        
+                
         Criteria criteria = new Criteria();
         if (kemids.isEmpty()) {
             // all records
@@ -58,7 +58,10 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
             c.addIn("principalRestrictionCode", subQuery);            
             criteria.addOrCriteria(c);
         }
-        return (List<KEMID>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(KEMID.class, criteria));  
+        QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.KEMID);
+        
+        return (List<KEMID>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
     
     public List<String> getKemidsByAttribute(String attributeName, List<String> values) {
@@ -66,20 +69,52 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         Criteria criteria = new Criteria();
         for (String value : values) {
             Criteria c = new Criteria();
-            c.addEqualTo(attributeName, value.trim());
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            }            
             criteria.addOrCriteria(c);
-        }
-        ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria);
+        }        
+        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<String> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
         List<String> kemids = new ArrayList<String>();
         while (result.hasNext()) {
-            kemids.add(result.next().toString());
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
         }
         
         return kemids;
     }
 
+    public List<String> getAttributeValues(String attributeName, List<String> values) {
+        
+        Criteria criteria = new Criteria();
+        for (String value : values) {
+            Criteria c = new Criteria();
+            if (value.contains("*")) {
+                c.addLike(attributeName, value.trim().replace('*', '%'));
+            } else {
+                c.addEqualTo(attributeName, value.trim());
+            }            
+            criteria.addOrCriteria(c);
+        }        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
+        query.setAttributes(new String[] {attributeName});
+
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        
+        List<String> attributeValues = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            attributeValues.add(data[0].toString());
+        }
+        
+        return attributeValues;
+        
+    }
 }

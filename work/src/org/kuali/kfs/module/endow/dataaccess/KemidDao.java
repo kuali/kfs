@@ -24,5 +24,7 @@ public interface KemidDao {
     
     public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, Date currentDate); 
     
-    public List<String> getKemidsByAttribute(String attributeName, List<String> values);    
+    public List<String> getKemidsByAttribute(String attributeName, List<String> values);  
+    
+    public List<String> getAttributeValues(String attributeName, List<String> values);
 }

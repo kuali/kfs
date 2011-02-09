@@ -20,4 +20,6 @@ import java.util.List;
 public interface KemidReportGroupDao {
 
     public List<String> getKemidsByAttribute(String attributeName, List<String> values);
+    
+    public List<String> getAttributeValues(String attributeName, List<String> values);
 }

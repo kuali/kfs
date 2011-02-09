@@ -71,6 +71,8 @@
         <ref bean="KEMID-historicalBalances" />
         <ref bean="KEMID-ticklers" />
         <ref bean="KEMID-recurringTransfers" />
+        <ref bean="KEMID-kemidForReport" />
+        
       </list>
     </property>
     <property name="collections">
@@ -98,9 +100,17 @@
 
 <!-- Attribute Definitions -->
 
-
   <bean id="KEMID-kemid" parent="KEMID-kemid-parentBean" />
 
+  <bean id="KEMID-kemidForReport" parent="KEMID-kemid-parentBean">
+  	<property name="name" value="kemidForReport" />
+  	<property name="maxLength" value="150" />
+    <property name="control" >
+    	<bean parent="TextControlDefinition" 
+    		  p:size="100" />
+    </property> 
+  </bean>
+  
   <bean id="KEMID-kemid-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="kemid" />
     <property name="forceUppercase" value="true" />

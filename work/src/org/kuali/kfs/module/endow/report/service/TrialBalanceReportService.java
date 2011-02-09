@@ -15,18 +15,18 @@
  */
 package org.kuali.kfs.module.endow.report.service;
 
-import java.sql.Date;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 
 public interface TrialBalanceReportService {
 
-    List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption);
+    public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption);
     
-    List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption);
+    public List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption);
         
-    List<TrialBalanceReportDataHolder> getTrialBalanceReportsByOtherCriteria( 
+    public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByOtherCriteria( 
             List<String> benefittingOrganziationCampuses, 
             List<String> benefittingOrganziationCharts,
             List<String> benefittingOrganziations, 
@@ -34,4 +34,23 @@ public interface TrialBalanceReportService {
             List<String> purposeCodes, 
             List<String> combineGroupCodes, 
             String endowmnetOption);
+    
+    public String getInstitutionName();
+    
+    public String getReportRequestor();
+    
+    public String getBenefittingCampuses(List<String> campuses);
+    
+    public String getBenefittingCharts(List<String> charts);
+    
+    public String getBenefittingOrganizations(List<String> organizations);
+    
+    public String getKemidTypeCodes(List<String> typeCodes);
+    
+    public String getKemidPurposeCodes(List<String> purposes);
+    
+    public String getCombineGroupCodes(List<String> groupCodes);
+    
+    public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids);
+    
 }

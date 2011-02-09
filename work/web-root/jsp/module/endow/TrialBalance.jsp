@@ -30,11 +30,10 @@
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Trial Balance">
 			<tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidAttributes.kemid}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidAttributes.kemidForReport}" readOnly="true" /></div>
                 </th>
-                <td align=left valign=middle class="grid" style="width: 25%;">
-					<%-- <kul:htmlControlAttribute attributeEntry="${kemidAttributes.kemid}" property="kemid" /> --%>
-					<input type="text" name="kemid" size="100" maxlength="100"/>
+                <td align=left valign=middle class="grid" style="width: 25%;">                
+					<kul:htmlControlAttribute attributeEntry="${kemidAttributes.kemidForReport}" property="kemid" />
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KEMID"  fieldConversions="kemid:kemid" />
                 </td>				                       
             </tr>
@@ -48,46 +47,46 @@
             </tr>                          
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingChartCode}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingChartCodeForReport}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingChartCode}" property="benefittingOrganziationChart" />	
+					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingChartCodeForReport}" property="benefittingOrganziationChart" />	
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization"  fieldConversions="benefittingChartCode:benefittingOrganziationChart" />
                 </td>				                      
             </tr>          
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingOrgCode}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingOrgCodeForReport}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingOrgCode}" property="benefittingOrganziation" />	
+					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingOrgCodeForReport}" property="benefittingOrganziation" />	
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization"  fieldConversions="benefittingOrgCode:benefittingOrganziation" />
                 </td>				                      
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${typeCodeAttributes.code}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${typeCodeAttributes.codeForReport}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${typeCodeAttributes.code}" property="typeCode"  />	
+					<kul:htmlControlAttribute attributeEntry="${typeCodeAttributes.codeForReport}" property="typeCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.TypeCode"  fieldConversions="code:typeCode"  />
                 </td>				                      
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purposeCodeAttributes.code}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purposeCodeAttributes.codeForReport}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${purposeCodeAttributes.code}" property="purposeCode"  />	
+					<kul:htmlControlAttribute attributeEntry="${purposeCodeAttributes.codeForReport}" property="purposeCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.PurposeCode"  fieldConversions="code:purposeCode"  />
                 </td>				                      
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${combineGroupCodeAttributes.code}" readOnly="true" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${combineGroupCodeAttributes.codeForReport}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${combineGroupCodeAttributes.code}" property="combineGroupCode"  />	
+					<kul:htmlControlAttribute attributeEntry="${combineGroupCodeAttributes.codeForReport}" property="combineGroupCode"  />	
                     <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.CombineGroupCode"  fieldConversions="code:combineGroupCode"  />
                 </td>				                      
             </tr>            

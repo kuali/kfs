@@ -1065,4 +1065,13 @@ public class KEMID extends PersistableBusinessObjectBase {
     public void setKemidAuthorizations(List<KemidAuthorizations> kemidAuthorizations) {
         this.kemidAuthorizations = kemidAuthorizations;
     }
+    
+    /**
+     * Gets kemid for report
+     * 
+     * @return kemid
+     */
+    public String getKemidForReport() {
+        return this.kemid;
+    }
 }

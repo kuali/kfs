@@ -1,5 +1,5 @@
 # This script finds references to classes in other optional modules
-
+pushd ../..
 MODULES="ar
 bc
 cg
@@ -36,3 +36,5 @@ echo "Checking for external references to \"$MODULE\" module"
 echo "******************************************************"
 
 grep -rn --include=*.java --color=auto "import org.kuali.kfs.module.${MODULE}." . | grep -v -e "/${MODULE}/" -e /cam/ -e /purap/
+
+popd

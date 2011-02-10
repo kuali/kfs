@@ -146,6 +146,6 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     }
 
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("FinancialSystemTransactionalDocumentBase does not implement the answerSplitNodeQuestion method. Node name specified was: " + nodeName); 
+        throw new UnsupportedOperationException("No split node logic defined for split node "+nodeName+" on " + this.getClass().getSimpleName());
     }
 }

@@ -148,9 +148,10 @@ public class TrialBalanceAction extends KualiAction {
     
             reportRequestHeaderDataHolder.setKemidsWithMultipleBenefittingOrganizationsDataHolders(trialBalanceReportService.getKemidsWithMultipleBenefittingOrganizations(kemidsSelected));
             
+            mapping.findForward("result");
             if (new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReports, response)) {
                 // succeeded
-                return null;
+                return mapping.findForward("result");
             }
         }
         
@@ -173,7 +174,7 @@ public class TrialBalanceAction extends KualiAction {
     
     protected List<String> parseValueString(String valueString, char separater) {        
         
-        List<String> values = new ArrayList<String>();
+        List<String> values = null;
         
         if (StringUtils.isNotBlank(valueString)) {
             values = Arrays.asList(StringUtils.split(valueString.trim(), separater));

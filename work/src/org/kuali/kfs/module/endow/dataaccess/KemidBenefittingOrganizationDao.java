@@ -17,6 +17,11 @@ package org.kuali.kfs.module.endow.dataaccess;
 
 import java.util.List;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 
 public interface KemidBenefittingOrganizationDao {
@@ -26,4 +31,8 @@ public interface KemidBenefittingOrganizationDao {
     public List<String> getAttributeValues(String attributeName, List<String> values);
     
     public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids);
+    
+    public List<KemidBenefittingOrganization> getBenefittingOrganizations(List<String> kemids); 
+    
+    public List<String> getIdsForMultipleBenefittingOrganizations(List<String> kemids);
 }

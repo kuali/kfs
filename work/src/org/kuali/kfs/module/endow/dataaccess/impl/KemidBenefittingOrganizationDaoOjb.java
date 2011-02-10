@@ -49,15 +49,7 @@ public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb 
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidBenefittingOrganization.class, criteria1, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-        
-        List<String> kemids = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            kemids.add(data[0].toString());
-        }
-        
-        return kemids;
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
     public List<String> getAttributeValues(String attributeName, List<String> values) {
@@ -78,31 +70,18 @@ public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb 
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidBenefittingOrganization.class, criteria1, true);
         query.setAttributes(new String[] {attributeName});
 
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-        
-        List<String> attributeValues = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            attributeValues.add(data[0].toString());
-        }
-        
-        return attributeValues;
-        
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);       
     }
     
     public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids) {
         
-        Criteria criteria = new Criteria();
-        criteria.addIn(EndowPropertyConstants.KEMID, kemids);
-        
-        QueryByCriteria qbc = QueryFactory.newQuery(KemidBenefittingOrganization.class, criteria, true);
-        qbc.addOrderByAscending(EndowPropertyConstants.KEMID);
-        
-        List<KemidBenefittingOrganization> kemidBenefittingOrganizationList = (List<KemidBenefittingOrganization>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         List<KemidsWithMultipleBenefittingOrganizationsDataHolder> kmbodhs = new ArrayList<KemidsWithMultipleBenefittingOrganizationsDataHolder>();
+        List<KemidBenefittingOrganization> kemidBenefittingOrganizationList = getBenefittingOrganizations(getIdsForMultipleBenefittingOrganizations(kemids));
+        
         for (KemidBenefittingOrganization kemidBenefittingOrganization : kemidBenefittingOrganizationList) {
             KemidsWithMultipleBenefittingOrganizationsDataHolder kmbo = new KemidsWithMultipleBenefittingOrganizationsDataHolder();
             kmbo.setKemid(kemidBenefittingOrganization.getKemid());
+            kmbo.setCampus("");   // come back later
             kmbo.setChart(kemidBenefittingOrganization.getBenefittingChartCode());
             kmbo.setOrganization(kemidBenefittingOrganization.getBenefittingOrgCode());
             kmbo.setPercent(kemidBenefittingOrganization.getBenefitPrecent());
@@ -110,5 +89,43 @@ public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb 
         }
         
         return kmbodhs;
+    }
+    
+    public List<KemidBenefittingOrganization> getBenefittingOrganizations(List<String> kemids) {
+        
+        Criteria criteria1 = new Criteria();
+        Criteria criteria2 = new Criteria();
+        criteria1.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
+        for (String kemid : kemids) {
+            Criteria c = new Criteria();
+            c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
+            criteria2.addOrCriteria(c);
+        }
+        criteria1.addAndCriteria(criteria2);
+        QueryByCriteria queryByCriteria = QueryFactory.newQuery(KemidBenefittingOrganization.class, criteria1);
+        queryByCriteria.addOrderByAscending(EndowPropertyConstants.KEMID);
+        
+        return (List<KemidBenefittingOrganization>) getPersistenceBrokerTemplate().getCollectionByQuery(queryByCriteria);
+    }
+    
+    public List<String> getIdsForMultipleBenefittingOrganizations(List<String> kemids) {
+        
+        Criteria subCrit = new Criteria();
+        subCrit.addIn(EndowPropertyConstants.KEMID, kemids);        
+        ReportQueryByCriteria reportQueryByCriteria = QueryFactory.newReportQuery(KemidBenefittingOrganization.class, subCrit);
+        reportQueryByCriteria.setAttributes(new String[] {EndowPropertyConstants.KEMID});
+        reportQueryByCriteria.addGroupBy(EndowPropertyConstants.KEMID);  
+        Criteria havingCriteria = new Criteria();
+        havingCriteria.addGreaterThan("count(" + EndowPropertyConstants.KEMID + ")", new Integer(1));
+        reportQueryByCriteria.setHavingCriteria(havingCriteria);
+        reportQueryByCriteria.addOrderByAscending(EndowPropertyConstants.KEMID);
+
+        Iterator<?> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQueryByCriteria);          
+        List<String> kemidsMultiple = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            kemidsMultiple.add(data[0].toString());
+        }
+        return kemidsMultiple;        
     }
 }

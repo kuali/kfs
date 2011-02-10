@@ -237,14 +237,13 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
             for (String groupCode : groupCodeList) {
                 groupCodes.append(groupCode).append(" ");
             }
-        }         
-        return combineGroupCodes.toString();
+        } 
+
+        return groupCodes.toString();
     }
     
     public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids) {
-        List<KemidsWithMultipleBenefittingOrganizationsDataHolder> kemidList = new ArrayList<KemidsWithMultipleBenefittingOrganizationsDataHolder>();
-        
-        return kemidList;
+        return kemidBenefittingOrganizationDao.getKemidsWithMultipleBenefittingOrganizations(kemids);
     }
     
     /**

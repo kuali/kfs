@@ -22,6 +22,7 @@
 	<c:set var="purposeCodeAttributes" value="${DataDictionary.PurposeCode.attributes}" />
 	<c:set var="combineGroupCodeAttributes" value="${DataDictionary.CombineGroupCode.attributes}" />
 	<c:set var="campusAttributes" value="${DataDictionary.CampusImpl.attributes}" />
+	<c:set var="caAttributes" value="${DataDictionary.KEMIDCurrentAvailableBalance.attributes}" />	
 		
 <kul:page  showDocumentInfo="false"
 	headerTitle="Trial Balance Report" docTitle="Trial Balance Report" renderMultipart="true"
@@ -95,7 +96,7 @@
                     <div align="right">As of Date:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					11/07/2010
+					<kul:htmlControlAttribute attributeEntry="${caAttributes.balanceDate}" property="asOfDate"  />
                 </td>				                      
             </tr> 
             <tr>		

@@ -44,15 +44,7 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-        
-        List<String> kemids = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            kemids.add(data[0].toString());
-        }
-        
-        return kemids;
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
     public List<String> getAttributeValues(String attributeName, List<String> values) {
@@ -70,15 +62,6 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
         query.setAttributes(new String[] {attributeName});
 
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-        
-        List<String> attributeValues = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            attributeValues.add(data[0].toString());
-        }
-        
-        return attributeValues;
-        
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

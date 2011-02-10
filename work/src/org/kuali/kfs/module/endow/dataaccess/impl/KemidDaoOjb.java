@@ -80,15 +80,17 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        List<String> kemids = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            kemids.add(data[0].toString());
-        }
-        
-        return kemids;
+//        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+//        
+//        List<String> kemids = new ArrayList<String>();
+//        while (result.hasNext()) {
+//            Object[] data = (Object[]) result.next();
+//            kemids.add(data[0].toString());
+//        }
+//        
+//        return kemids;
     }
 
     public List<String> getAttributeValues(String attributeName, List<String> values) {
@@ -106,15 +108,17 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {attributeName});
 
-        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        List<String> attributeValues = new ArrayList<String>();
-        while (result.hasNext()) {
-            Object[] data = (Object[]) result.next();
-            attributeValues.add(data[0].toString());
-        }
-        
-        return attributeValues;
+//        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+//        
+//        List<String> attributeValues = new ArrayList<String>();
+//        while (result.hasNext()) {
+//            Object[] data = (Object[]) result.next();
+//            attributeValues.add(data[0].toString());
+//        }
+//        
+//        return attributeValues;
         
     }
 }

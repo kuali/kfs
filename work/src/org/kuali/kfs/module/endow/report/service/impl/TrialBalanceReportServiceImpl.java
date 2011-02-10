@@ -42,7 +42,9 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class TrialBalanceReportServiceImpl implements TrialBalanceReportService {
        
     protected BusinessObjectService businessObjectService;

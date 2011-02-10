@@ -26,6 +26,8 @@ are intended for use only by Kuali Foundation developers.
 	<target name="dist-local" />
 	<target name="clean" />
 	<target name="make-source" />
+	<target name="build-eclipse-classpath" />
+	<target name="extract-rice-libraries" />
 
 	<target name="init-additional-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
@@ -76,8 +78,8 @@ are intended for use only by Kuali Foundation developers.
       		<os family="windows"/>
     	</condition>
     	<property name="os.safe.driver.path" location="${drivers.directory}/ojdbc6.jar" />
-    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
-    	<maven goals="clean:clean install source:jar javadoc:jar package" options="-U -Dpackaging=jar" />
+    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" dir="${rice.project.directory}" />
+    	<maven goals="clean:clean install source:jar javadoc:jar package" options="-U -Dpackaging=jar" dir="${rice.project.directory}" />
     	<touch file="${rice.project.directory}/pom.xml" />
 	</target>
   
@@ -88,16 +90,16 @@ are intended for use only by Kuali Foundation developers.
 	<target name="update-rice-basic" depends="init-property-files,init-additional-properties,update-rice-jars,update-rice-server-war" />
   
 	<target name="clean-rice-maven" depends="init-property-files,init-additional-properties" if="clean.rice">
-        <maven goals="clean:clean" modulePath="/${rice.api.module.name}" />
-        <maven goals="clean:clean" modulePath="/${rice.impl.module.name}" />
-        <maven goals="clean:clean" modulePath="/${rice.web.module.name}" />
-        <maven goals="clean:clean" modulePath="/${rice.sampleapp.module.name}" />
+        <maven goals="clean:clean" dir="${rice.project.directory}/${rice.api.module.name}" />
+        <maven goals="clean:clean" dir="${rice.project.directory}/${rice.impl.module.name}" />
+        <maven goals="clean:clean" dir="${rice.project.directory}/${rice.web.module.name}" />
+        <maven goals="clean:clean" dir="${rice.project.directory}/${rice.sampleapp.module.name}" />
 	</target>
 	
 	<target name="update-rice-jars" depends="init-property-files,init-additional-properties,clean-rice-maven">
-        <maven goals="install" modulePath="/${rice.api.module.name}" />
-        <maven goals="install" modulePath="/${rice.impl.module.name}" />
-        <maven goals="install" modulePath="/${rice.sampleapp.module.name}" />
+        <maven goals="install" dir="${rice.project.directory}/${rice.api.module.name}" />
+        <maven goals="install" dir="${rice.project.directory}/${rice.impl.module.name}" />
+        <maven goals="install" dir="${rice.project.directory}/${rice.sampleapp.module.name}" />
     	<delete verbose="true">
       		<fileset dir="${basedir}" includes="${build.kfs.lib.directory}/rice-*.jar" />
     	</delete>
@@ -114,7 +116,7 @@ are intended for use only by Kuali Foundation developers.
 	</target>
   
     <target name="update-rice-server-war" depends="init-property-files,init-additional-properties,clean-rice-maven">
-        <maven goals="package" modulePath="/${rice.web.module.name}" />
+        <maven goals="package" dir="${rice.project.directory}/${rice.web.module.name}" />
     	<delete dir="${build.appserver.directory}" includes="${rice.server.war.file.name.prefix}*.war" />
         <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.war.file.name}" 
         	  tofile="${build.appserver.directory}/${rice.server.war.file.name}" verbose="true" overwrite="true" />
@@ -129,7 +131,7 @@ are intended for use only by Kuali Foundation developers.
       			<include name="rice-*${kfs.rice.version}-*.*" />
       		</fileset>
     	</delete>
-    	<maven goals="compile source:jar javadoc:jar" />
+    	<maven goals="compile source:jar javadoc:jar" dir="${rice.project.directory}" />
 		<echo>
 Copying Files from ${rice.project.directory}/**/target/rice*...
 To: ${dependencies.project.directory}
@@ -160,18 +162,28 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     		 basedir="${rice.project.directory}/${licenses.directory}" />
   	</target>
 		
+	<target name="build-kc-integration-jar" depends="init-properties">
+		<!-- clear the target directory -->
+		<delete dir="${all.temp.directory}" failonerror="false" />
+		<mkdir dir="${all.temp.directory}" />
+		<!-- build the subset of class files -->
+		<javac destdir="${all.temp.directory}" srcdir="${source.directory}" includeantruntime="false"
+			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+			<include name="org/kuali/kfs/integration/kc/**" />
+			<classpath refid="compile.source.classpath" />
+		</javac>
+		<copy todir="${all.temp.directory}/org/kuali/kfs/integration/kc/">
+			<fileset dir="${source.directory}/org/kuali/kfs/integration/kc/" includes="${non.java.resources}" />
+		</copy>
+		<!-- jar them up -->
+		<jar basedir="${all.temp.directory}" destfile="${all.temp.directory}/kfs-kc-integration.jar" />
+	</target>
 	
-	<target name="extract-rice-libraries" depends="init-properties,init-additional-properties">
-		<delete verbose="true" failonerror="false">
-			<fileset dir="${build.rice.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-		</delete>
-
-		<unzip dest="${build.rice.lib.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
-			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
-		    <mapper type="flatten"/>
-		</unzip>
+	<target name="install-kc-integration-jar-to-maven-repo" depends="build-kc-integration-jar">
+		<!-- run the maven install command to get it into the local repository -->
+		<maven goals="install:install-file"
+			   options="-Dfile=${all.temp.directory}/kfs-kc-integration.jar -DgroupId=org.kuali.kfs -DartifactId=kc-integration -Dversion=1.0 -Dpackaging=jar"
+			   dir="${basedir}" />
 	</target>
 	
 <!--	
@@ -197,9 +209,9 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="" />
-        <attribute name="modulePath" default="" />
+        <attribute name="dir" default="" />
     	<sequential>
-      		<java classname="org.codehaus.classworlds.Launcher" dir="${rice.project.directory}@{modulePath}" fork="true" failonerror="true">
+      		<java classname="org.codehaus.classworlds.Launcher" dir="@{dir}" fork="true" failonerror="true">
       		    <jvmarg value="-Xmx1g" />
         		<arg line="@{options} @{goals}"/>
         		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>

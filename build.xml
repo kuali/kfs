@@ -975,6 +975,19 @@ The workflow files you want to run must exist in the pending subdirectory and wi
         </java>
         
     </target>
+
+	<target name="extract-rice-libraries" depends="init-properties,init-additional-properties">
+		<delete verbose="true" failonerror="false">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</delete>
+
+		<unzip dest="${build.rice.lib.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
+		    <mapper type="flatten"/>
+		</unzip>
+	</target>
 	
 	<target name="build-eclipse-classpath" depends="init-properties,init-additional-properties">
 		<!-- this property is here to make it easy to test without replacing the classpath -->

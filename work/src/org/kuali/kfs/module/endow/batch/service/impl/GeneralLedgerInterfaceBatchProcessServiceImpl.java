@@ -110,9 +110,12 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     protected long numberOfGLEntriesByDocumentType = 0;
     protected long numberOfExceptionsByDocumentType = 0;
     
+    protected String previousDocumentTypeCode = null;
     protected String previousChartCode = null;
     protected String previousObjectCode = null;
 
+    protected boolean documentTypeWritten = false ;
+    
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
      */
@@ -174,29 +177,37 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         //get all the available document types names sorted
         Collection<String> documentTypes = gLInterfaceBatchProcessDao.findDocumentTypes();
-        
+
         for (String documentType : documentTypes) {
-            transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
-            if (EndowConstants.YES.equalsIgnoreCase(combineTransactions)) {
-                //combine the entries...GL lines based on chart/account/object code
+            if (!EndowConstants.DocumentTypeNames.ENDOWMENT_CORPUS_ADJUSTMENT.equalsIgnoreCase(documentType) &&
+                    !EndowConstants.DocumentTypeNames.ENDOWMENT_UNIT_SHARE_ADJUSTMENT.equalsIgnoreCase(documentType)) {
+                if (previousDocumentTypeCode == null) {
+                    previousDocumentTypeCode = documentType;
+                }
+                transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
+                if (EndowConstants.YES.equalsIgnoreCase(combineTransactions)) {
+                    //combine the entries...GL lines based on chart/account/object code
+                    
+                }
+                else {
+                    //single transaction gl lines...
+                    success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps, postedDate);
+                }
                 
-            }
-            else {
-                //single transaction gl lines...
-                success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, OUTPUT_KEM_TO_GL_RECONCILE_FILE_ps, postedDate);
-            }
-            
-            if (transactionArchives.size() > 0) {
-                //add to the grand total and write the document subtotals....
-                writeTotalsProcessedObjectDetailTotalsLine(null, previousChartCode, previousObjectCode);
-                addTotalsToChartTotals();
-                
-                writeTotalsProcessedChartDetailTotalsLine(); 
-                addChartTotalsToDocumentTypeTotals();
-                writeTotalsProcessedDocumentTypeDetailTotalsLine();
-                addDocumentTypeTotalsToGrandTotals();
-                previousChartCode = null;
-                previousObjectCode = null;
+                if (transactionArchives.size() > 0) {
+                    //add to the grand total and write the document subtotals....
+                    writeTotalsProcessedObjectDetailTotalsLine(previousDocumentTypeCode, previousChartCode, previousObjectCode);
+                    addTotalsToChartTotals();
+                    documentTypeWritten = false ;
+                    
+                    writeTotalsProcessedChartDetailTotalsLine(); 
+                    addChartTotalsToDocumentTypeTotals();
+                    writeTotalsProcessedDocumentTypeDetailTotalsLine();
+                    addDocumentTypeTotalsToGrandTotals();
+                    previousChartCode = null;
+                    previousObjectCode = null;
+                    previousDocumentTypeCode = null;
+                }
             }
         }
         
@@ -366,6 +377,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 transactionAmount = transactionArchive.getShortTermGainLoss().add(transactionArchive.getLongTermGainLoss());
                 oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
             }
+            else {
+                transactionArchive.setHoldingCost(transactionArchive.getHoldingCost().negate());
+            }
             oef.setTransactionDebitCreditCode(getTransactionDebitCreditCodeForOffSetEntry(transactionAmount));
             try {
                 createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
@@ -476,11 +490,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      */
     protected String getTransactionDebitCreditCode(BigDecimal transactionAmount) {
         
-        if (transactionAmount.abs().compareTo(BigDecimal.ZERO) == 1) {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+        if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
         }
         else {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
         }
     }
 
@@ -491,11 +505,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      */
     protected String getTransactionDebitCreditCodeForOffSetEntry(BigDecimal transactionAmount) {
         
-        if (transactionAmount.abs().compareTo(BigDecimal.ZERO) == 1) {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+        if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
+            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
         }
         else {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
         }
     }
     
@@ -520,15 +534,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         else {
             if (!StringUtils.equals(previousChartCode, transactionArchive.getChartCode())) {
-                if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
-                    //object code change..reset the total and add the object detail line
-                    //current detail totals to the sub totals...
-                    writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
-                    addTotalsToChartTotals();
-                    previousObjectCode = transactionArchive.getObjectCode();
-                    
-                    updateTotals(transactionArchive);                
-                }
+                writeTotalsProcessedObjectDetailTotalsLine(previousDocumentTypeCode, previousChartCode, previousObjectCode);
+                addTotalsToChartTotals();
+                previousObjectCode = transactionArchive.getObjectCode();
+                
+                updateTotals(transactionArchive);                
                 
                 writeTotalsProcessedChartDetailTotalsLine();
                 addChartTotalsToDocumentTypeTotals();
@@ -539,7 +549,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 if (!StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
                     //object code change..reset the total and add the object detail line
                     //current detail totals to the sub totals...
-                    writeTotalsProcessedObjectDetailTotalsLine(transactionArchive.getTypeCode(), previousChartCode, previousObjectCode);
+                    writeTotalsProcessedObjectDetailTotalsLine(previousDocumentTypeCode, previousChartCode, previousObjectCode);
                     addTotalsToChartTotals();
                     previousObjectCode = transactionArchive.getObjectCode();
                     
@@ -563,7 +573,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         else {
             totalAmount = getTransactionAmount(transactionArchive);
-            debitCreditCode = getTransactionDebitCreditCode(totalAmount);
+            debitCreditCode = getTransactionDebitCreditCode(totalAmount);            
         }
         
         if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE)) {
@@ -582,8 +592,14 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * @param feeMethodCode
      * @param totalLinesGenerated
      */
-    protected void writeTotalsProcessedObjectDetailTotalsLine(String documentTypeCode, String previousChartCode, String previousObjectCode) {
-        gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(documentTypeCode);
+    protected void writeTotalsProcessedObjectDetailTotalsLine(String previousDocumentTypeCode, String previousChartCode, String previousObjectCode) {
+        if (!documentTypeWritten) {
+            gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(previousDocumentTypeCode);
+            documentTypeWritten = true;            
+        }
+        else {
+            gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(null);
+        }
         gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode(previousChartCode);
         gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(previousObjectCode);
         gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(chartObjectDebitAmountSubTotal));

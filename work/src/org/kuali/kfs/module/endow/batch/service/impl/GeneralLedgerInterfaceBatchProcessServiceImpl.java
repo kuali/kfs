@@ -22,19 +22,16 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.GeneralLedgerInterfaceBatchProcessStep;
 import org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao;
 import org.kuali.kfs.module.endow.batch.service.GeneralLedgerInterfaceBatchProcessService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase;
-import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues;
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow;
@@ -45,10 +42,7 @@ import org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,13 +54,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLedgerInterfaceBatchProcessService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerInterfaceBatchProcessServiceImpl.class);
     
-    protected String enterpriseFeedDirectoryName;
+    protected String batchFileDirectoryName;
     
     protected KEMService kemService;
     protected TransactionArchiveDao transactionArchiveDao;
     protected EndowmentAccountingLineBaseDao endowmentAccountingLineBaseDao;
     protected GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao;
-    protected KualiConfigurationService configService;
     protected ParameterService parameterService;
     
     //report writer services for statistics, totals processed, and exception reports
@@ -156,14 +149,14 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * process the KEM Activity transactions to create gl entries in the enterprise feed file
+     * process the KEM Activity transactions to create gl entries in the origin entry file
      */
     public boolean processKEMActivity() {
         LOG.info("processKEMActivity() started.");
         
         boolean success = true;
         
-        PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityEnterpriseFeedDataFile();
+        PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityOriginEntryFullStream();
         
         //Step 1: get records from END_TRAN_ARCH_T for the given posted date
         String combineTransactions = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
@@ -212,6 +205,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         //write the statistics report now...
         writeStatisticsReport(statisticsReportRows);
+        
         LOG.info("processKEMActivity() exited.");
         
         return success;
@@ -231,11 +225,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * create the main data file in the gl enterpriseFeed folder
+     * create the main data file in the stating\gl\originEntry folder
      */
-    PrintStream createActivityEnterpriseFeedDataFile() {
+    PrintStream createActivityOriginEntryFullStream() {
         try{
-            PrintStream OUTPUT_KEM_TO_GL_FILE_ps = new PrintStream(enterpriseFeedDirectoryName + File.separator + EndowConstants.KemToGLInterfaceBatchProcess.KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE + EndowConstants.KemToGLInterfaceBatchProcess.DATA_FILE_SUFFIX);
+            PrintStream OUTPUT_KEM_TO_GL_FILE_ps = new PrintStream(batchFileDirectoryName + File.separator + EndowConstants.KemToGLInterfaceBatchProcess.KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE + EndowConstants.KemToGLInterfaceBatchProcess.DATA_FILE_SUFFIX);
             return OUTPUT_KEM_TO_GL_FILE_ps;
             
         } catch (FileNotFoundException e1) {
@@ -248,8 +242,8 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * For the transaction archives this method creates gl entries into the output file.
      * @param documentType
      * @param transactionArchives transaction archive records sorted by document type name
-     * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps GL enterprise feed file
-     * @return success true if enterprise feed files are created, false if files are not created.
+     * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps GL origin entry  file
+     * @return success true if origin entry  files are created, false if files are not created.
      */
     public boolean createGlEntriesForTransactionArchives(String documentType, Collection<GlInterfaceBatchProcessKemLine> transactionArchives, 
                                                          PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, 
@@ -263,24 +257,20 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             }
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
                 //process the cash entry record...
-                if (!createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow)) {
-                    //error exception writing..
-                }
+                success &= createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
             }
+            
             //process non cash
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
                 //process the non-cash entry record...
-                if (!createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow)) {
-                    //exception generated...
-                }
+                success &= createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
             }
+            
             // if GLET or EGLT then create unique document number accounting lines gl entries.....
             if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER) || 
                     transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) {
                 //process the GLET or EGLT records..
-                if (!createGLEntriesForEGLTOrGLET(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow)) {
-                    //exception generated...
-                }
+                success &= createGLEntriesForEGLTOrGLET(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
             }
         }
         
@@ -296,13 +286,16 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                                       java.util.Date postedDate, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
         boolean success = true;
         
-        OriginEntryFull oef = createOriginEntryFull(transactionArchive, postedDate);
+        OriginEntryFull oef = createOriginEntryFull(transactionArchive, postedDate, statisticsDataRow);
         
         try {
             createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
             statisticsDataRow.increaseGLEntriesGeneratedCount();
             updateTotalsProcessed(transactionArchive);            
-        } catch (IOException ioe) {
+        } catch (Exception ex) {
+            //write the error details to the exception report...
+            statisticsDataRow.increaseNumberOfExceptionsCount();
+            writeExceptionRecord(transactionArchive, ex.getMessage());            
             return false;
         }
         
@@ -317,14 +310,17 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     protected boolean createNonCashEntry(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, java.util.Date postedDate, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
         boolean success = true;
         
-        OriginEntryFull oef = createOriginEntryFull(transactionArchive, postedDate);
+        OriginEntryFull oef = createOriginEntryFull(transactionArchive, postedDate, statisticsDataRow);
         BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
         
         try {
             createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
             statisticsDataRow.increaseGLEntriesGeneratedCount();
             updateTotalsProcessed(transactionArchive);             
-        } catch (IOException ioe) {
+        } catch (Exception ex) {
+            //write the error details to the exception report...
+            statisticsDataRow.increaseNumberOfExceptionsCount();
+            writeExceptionRecord(transactionArchive, ex.getMessage());            
             return false;
         }
         
@@ -356,7 +352,10 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 transactionArchiveLossGain.setTransactionArchivePrincipalAmount(transactionArchive.getTransactionArchivePrincipalAmount());
                 
                 updateTotalsProcessed(transactionArchiveLossGain);                 
-            } catch (IOException ioe) {
+            } catch (Exception ex) {
+                //write the error details to the exception report...
+                statisticsDataRow.increaseNumberOfExceptionsCount();
+                writeExceptionRecord(transactionArchive, ex.getMessage());            
                 return false;
             }
         }
@@ -400,7 +399,10 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
                 statisticsDataRow.increaseGLEntriesGeneratedCount();
                 updateTotalsProcessed(transactionArchive);                 
-            } catch (IOException ioe) {
+            } catch (Exception ex) {
+                //write the error details to the exception report...
+                statisticsDataRow.increaseNumberOfExceptionsCount();
+                writeExceptionRecord(transactionArchive, ex.getMessage());            
                 return false;
             }
         } //end of for loop
@@ -413,19 +415,27 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * @param transactionArchive, postedDate
      * @return oef
      */
-    protected OriginEntryFull createOriginEntryFull(GlInterfaceBatchProcessKemLine transactionArchive, java.util.Date postedDate) {
+    protected OriginEntryFull createOriginEntryFull(GlInterfaceBatchProcessKemLine transactionArchive,
+                                                    java.util.Date postedDate, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
+
         OriginEntryFull oef = new OriginEntryFull();
-        
-        oef.setChartOfAccountsCode(transactionArchive.getChartCode());
-        oef.setAccountNumber(transactionArchive.getAccountNumber());
-        oef.setFinancialObjectCode(transactionArchive.getObjectCode());
-        oef.setFinancialDocumentTypeCode(transactionArchive.getTypeCode());
-        oef.setFinancialSystemOriginationCode(EndowConstants.KemToGLInterfaceBatchProcess.SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT);
-        oef.setDocumentNumber(transactionArchive.getDocumentNumber());
-        oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
-        BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
-        oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
-        oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount));
+
+        try {
+            oef.setChartOfAccountsCode(transactionArchive.getChartCode());
+            oef.setAccountNumber(transactionArchive.getAccountNumber());
+            oef.setFinancialObjectCode(transactionArchive.getObjectCode());
+            oef.setFinancialDocumentTypeCode(transactionArchive.getTypeCode());
+            oef.setFinancialSystemOriginationCode(EndowConstants.KemToGLInterfaceBatchProcess.SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT);
+            oef.setDocumentNumber(transactionArchive.getDocumentNumber());
+            oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
+            BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
+            oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
+            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount));
+        }
+        catch (Exception ex) {
+            statisticsDataRow.increaseNumberOfExceptionsCount();
+            writeExceptionRecord(transactionArchive, ex.getMessage());            
+        }
         
         return oef;
     }
@@ -503,8 +513,8 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         try {
             group.printf("%s\n", oef.getLine());
         }
-        catch (Exception e) {
-            throw new IOException(e.toString());
+        catch (Exception ex) {
+            throw new IOException(ex.toString());
         }
     }
 
@@ -762,25 +772,32 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
 
         return separatorLine.toString();
     }
-    
-    /**
-     * Writes the exception report line after setting fee method code and kemid and the reason
-     * @param feeMethodCode
-     * @param kemid
-     * @param reason the reason written on the reason line.
-     */
-    protected void writeExceptionReportLine(String feeMethodCode, String kemid, String reason) {
-        writeTableRowAndTableReason(reason);
-    }
-    
+
     /**
      * writes out the table row values then writes the reason row and inserts a blank line
      * @param reasonMessage the reason message
      */
-    protected void writeTableRowAndTableReason(String reasonMessage) {
+    protected void writeExceptionRecord(GlInterfaceBatchProcessKemLine transactionArchive, String reasonMessage) {
+        gLInterfaceBatchExceptionTableRowValues.setDocumentType(transactionArchive.getDocumentNumber());
+        gLInterfaceBatchExceptionTableRowValues.setEDocNumber(transactionArchive.getDocumentNumber());
+        gLInterfaceBatchExceptionTableRowValues.setKEMID(transactionArchive.getKemid());
+        gLInterfaceBatchExceptionTableRowValues.setIncomeAmount(transactionArchive.getTransactionArchiveIncomeAmount());
+        gLInterfaceBatchExceptionTableRowValues.setPrincipalAmountt(transactionArchive.getTransactionArchivePrincipalAmount());
+        gLInterfaceBatchExceptionTableRowValues.setSecurityCost(transactionArchive.getHoldingCost());
+        gLInterfaceBatchExceptionTableRowValues.setLongTermGainLoss(transactionArchive.getLongTermGainLoss());
+        gLInterfaceBatchExceptionTableRowValues.setShortTermGainLoss(transactionArchive.getShortTermGainLoss());
         gLInterfaceBatchExceptionReportsWriterService.writeTableRow(gLInterfaceBatchExceptionTableRowValues);            
-        setExceptionReportTableRowReason(reasonMessage);
-        gLInterfaceBatchExceptionReportsWriterService.writeTableRow(gLInterfaceBatchExceptionRowReason);            
+
+        // now write the error message line...
+        gLInterfaceBatchExceptionTableRowValues.setDocumentType("Reason: " + reasonMessage);
+        gLInterfaceBatchExceptionTableRowValues.setEDocNumber(null);
+        gLInterfaceBatchExceptionTableRowValues.setKEMID(null);
+        gLInterfaceBatchExceptionTableRowValues.setIncomeAmount(null);
+        gLInterfaceBatchExceptionTableRowValues.setPrincipalAmountt(null);
+        gLInterfaceBatchExceptionTableRowValues.setSecurityCost(null);
+        gLInterfaceBatchExceptionTableRowValues.setLongTermGainLoss(null);
+        gLInterfaceBatchExceptionTableRowValues.setShortTermGainLoss(null);
+        gLInterfaceBatchExceptionReportsWriterService.writeTableRow(gLInterfaceBatchExceptionTableRowValues);            
         gLInterfaceBatchExceptionReportsWriterService.writeNewLines(1);
     }
     
@@ -953,43 +970,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * Gets the gLInterfaceBatchProcessDao attribute. 
-     * @return Returns the gLInterfaceBatchProcessDao.
+     * This method sets the batchFileDirectoryName
+     * @param batchFileDirectoryName
      */
- //   protected GLInterfaceBatchProcessDao getGLInterfaceBatchProcessDao() {
- //       return gLInterfaceBatchProcessDao;
- //   }
-
-    /**
-     * Sets the gLInterfaceBatchProcessDao attribute value.
-     * @param gLInterfaceBatchProcessDao The gLInterfaceBatchProcessDao to set.
-     */
- //   public void setGLInterfaceBatchProcessDao(GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao) {
- //       this.gLInterfaceBatchProcessDao = gLInterfaceBatchProcessDao;
- //   }
-
-    /**
-     * Gets the configService attribute. 
-     * @return Returns the configService.
-     */
-    protected KualiConfigurationService getConfigService() {
-        return configService;
-    }
-
-    /**
-     * Sets the configService.
-     * @param configService
-     */
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
-    }
-    
-    /**
-     * This method sets the enterpriseFeedDirectoryName
-     * @param enterpriseFeedDirectoryName
-     */
-    public void setEnterpriseFeedDirectoryName(String enterpriseFeedDirectoryName) {
-        this.enterpriseFeedDirectoryName = enterpriseFeedDirectoryName;
+    public void setBatchFileDirectoryName(String batchFileDirectoryName) {
+        this.batchFileDirectoryName = batchFileDirectoryName;
     }
 
     /**
@@ -1041,6 +1026,5 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     public void setgLInterfaceBatchProcessDao(GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao) {
         this.gLInterfaceBatchProcessDao = gLInterfaceBatchProcessDao;
     }
-    
 }
 

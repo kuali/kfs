@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
@@ -25,11 +26,11 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     private String documentType;
     private String eDocNumber;
     private String kEMID;
-    private KualiDecimal incomeAmount = KualiDecimal.ZERO;
-    private KualiDecimal principalAmount = KualiDecimal.ZERO;
-    private KualiDecimal securityCost = KualiDecimal.ZERO;
-    private KualiDecimal longTermGainLoss = KualiDecimal.ZERO;    
-    private KualiDecimal shortTermGainLoss = KualiDecimal.ZERO;        
+    private BigDecimal incomeAmount = BigDecimal.ZERO;
+    private BigDecimal principalAmount = BigDecimal.ZERO;
+    private BigDecimal securityCost = BigDecimal.ZERO;
+    private BigDecimal longTermGainLoss = BigDecimal.ZERO;    
+    private BigDecimal shortTermGainLoss = BigDecimal.ZERO;        
     
     public GLInterfaceBatchExceptionTableRowValues() {
         documentType = " ";
@@ -89,7 +90,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Gets the incomeAmount attribute. 
      * @return Returns the incomeAmount.
      */
-    public KualiDecimal getIncomeAmount() {
+    public BigDecimal getIncomeAmount() {
         return incomeAmount;
     }
 
@@ -97,7 +98,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Sets the incomeAmount attribute value.
      * @param incomeAmount The incomeAmount to set.
      */
-    public void setIncomeAmount(KualiDecimal incomeAmount) {
+    public void setIncomeAmount(BigDecimal incomeAmount) {
         this.incomeAmount = incomeAmount;
     }
 
@@ -105,7 +106,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Gets the principalAmount attribute. 
      * @return Returns the principalAmount.
      */
-    public KualiDecimal getPrincipalAmount() {
+    public BigDecimal getPrincipalAmount() {
         return principalAmount;
     }
 
@@ -113,7 +114,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Sets the principalAmount attribute value.
      * @param principalAmount The principalAmount to set.
      */
-    public void setPrincipalAmountt(KualiDecimal principalAmount) {
+    public void setPrincipalAmountt(BigDecimal principalAmount) {
         this.principalAmount = principalAmount;
     }
 
@@ -121,7 +122,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Gets the securityCost attribute. 
      * @return Returns the securityCost.
      */
-    public KualiDecimal getSecurityCost() {
+    public BigDecimal getSecurityCost() {
         return securityCost;
     }
 
@@ -129,7 +130,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Sets the securityCost attribute value.
      * @param securityCost The securityCost to set.
      */
-    public void setSecurityCost(KualiDecimal securityCost) {
+    public void setSecurityCost(BigDecimal securityCost) {
         this.securityCost = securityCost;
     }
     
@@ -137,7 +138,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Gets the longTermGainLoss attribute. 
      * @return Returns the longTermGainLoss.
      */   
-    public KualiDecimal getLongTermGainLoss() {
+    public BigDecimal getLongTermGainLoss() {
         return longTermGainLoss;
     }
 
@@ -145,7 +146,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Sets the longTermGainLoss attribute. 
      * @return Returns the longTermGainLoss.
      */
-    public void setLongTermGainLoss(KualiDecimal longTermGainLoss) {
+    public void setLongTermGainLoss(BigDecimal longTermGainLoss) {
         this.longTermGainLoss = longTermGainLoss;
     }
 
@@ -153,7 +154,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Gets the longTermGainLoss attribute. 
      * @return Returns the longTermGainLoss.
      */   
-    public KualiDecimal getShortTermGainLoss() {
+    public BigDecimal getShortTermGainLoss() {
         return shortTermGainLoss;
     }
 
@@ -161,7 +162,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
      * Sets the shortTermGainLoss attribute. 
      * @return Returns the shortTermGainLoss.
      */
-    public void setShortTermGainLoss(KualiDecimal shortTermGainLoss) {
+    public void setShortTermGainLoss(BigDecimal shortTermGainLoss) {
         this.shortTermGainLoss = shortTermGainLoss;
     }
 

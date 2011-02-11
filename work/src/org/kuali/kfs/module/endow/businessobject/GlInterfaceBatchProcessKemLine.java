@@ -27,6 +27,7 @@ public class GlInterfaceBatchProcessKemLine extends TransientBusinessObjectBase 
     private String lineTypeCode;
     private String typeCode;
     private String subTypeCode;
+    private String kemid;
     private String incomePrincipalIndicatorCode;
     private BigDecimal transactionArchiveIncomeAmount;
     private BigDecimal transactionArchivePrincipalAmount;
@@ -286,6 +287,22 @@ public class GlInterfaceBatchProcessKemLine extends TransientBusinessObjectBase 
     }
 
     /**
+     * gets kemid attribute
+     * @return kemid;
+     */
+    public String getKemid() {
+        return kemid;
+    }
+
+    /**
+     * set kemid attribute
+     * @param kemid
+     */
+    public void setKemid(String kemid) {
+        this.kemid = kemid;
+    }
+    
+    /**
      * A map of the "keys" of this transient business object
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -297,6 +314,7 @@ public class GlInterfaceBatchProcessKemLine extends TransientBusinessObjectBase 
         pks.put("lineNumber", this.getLineNumber());
         pks.put("lineTypeCode", this.getLineTypeCode());
         pks.put("typeCode", this.getTypeCode());
+        pks.put("kemid", this.getKemid());
         pks.put("subTypeCode", this.getSubTypeCode());
         pks.put("incomePrincipalIndicatorCode", this.getIncomePrincipalIndicatorCode());
         pks.put("transactionArchiveIncomeAmount", this.getTransactionArchiveIncomeAmount());

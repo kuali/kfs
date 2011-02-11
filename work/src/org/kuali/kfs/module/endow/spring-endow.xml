@@ -1411,10 +1411,6 @@
 	    <property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
-		<property name="configService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		
 		<property name="gLInterfaceBatchStatisticsReportsWriterService">
 			<ref bean="gLInterfaceBatchStatisticsReportsWriterService" />
 		</property>		
@@ -1424,7 +1420,7 @@
 		<property name="gLInterfaceBatchExceptionReportsWriterService">
 			<ref bean="gLInterfaceBatchExceptionReportsWriterService" />
 		</property>	
-		<property name="enterpriseFeedDirectoryName" value="${staging.directory}/gl/enterpriseFeed"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	<bean id="gLInterfaceBatchStatisticsReportsWriterService" parent="reportWriterService">
 		<property name="filePath" value="${reports.directory}/endow"/>

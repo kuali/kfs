@@ -702,6 +702,7 @@ public class EndowPropertyConstants {
             public static final String TRANSACTION_ARCHIVE_TRAN_PRIN_CSH_AMT = "TRAN_PRIN_CSH_AMT";
             public static final String TRANSACTION_ARCHIVE_TRAN_INC_CSH_AMT = "TRAN_INC_CSH_AMT";
             public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ID = "TRAN_SEC_ID";
+            public static final String TRANSACTION_ARCHIVE_KEM_ID = "TRAN_KEMID";
             public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD = "TRAN_SEC_ETRAN_CD";
             public static final String TRANSACTION_ARCHIVE_TRAN_SEC_COST = "TRAN_SEC_COST";
             public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS = "TRAN_SEC_ST_GAIN_LOSS";

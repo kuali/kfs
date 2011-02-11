@@ -79,6 +79,20 @@ public class GLInterfaceBatchStatisticsReportDetailTableRow extends TransientBus
     }
 
     /**
+     * method to increase the count of number of GL entries
+     */
+    public void increaseGLEntriesGeneratedCount() {
+        this.gLEntriesGenerated++;
+    }
+
+    /**
+     * method to increase the count of number of exceptions
+     */
+    public void increaseNumberOfExceptionsCount() {
+        this.numberOfExceptions++;
+    }
+    
+    /**
      * A map of the "keys" of this transient business object
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

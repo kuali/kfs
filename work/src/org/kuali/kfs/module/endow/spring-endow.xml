@@ -1431,7 +1431,6 @@
         <property name="title" value="KEM TO KFS GENERAL LEDGER INTERFACE BATCH STATISTICS REPORT"/>
         <property name="classToBusinessObjectReportHelperBeanNames">
         	<map>
-        		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader" value="gLInterfaceBatchStatisticsReportHeader"/>
         		<entry key="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow" value="gLInterfaceBatchStatisticsReportDetailTableRow"/>
         	</map>
        	</property>
@@ -2351,17 +2350,6 @@
 		</property>				
 	</bean>	
     
-	<bean id="gLInterfaceBatchStatisticsReportHeader" parent="businessObjectReportHelper">
-        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportHeader" />
-	    <property name="orderedPropertyNameToHeaderLabelMap">
-    		<map>
-    			<entry key="columnHeading1" value="Document Type"/>
-    			<entry key="columnHeading2" value="Number of GL Entries"/>
-    			<entry key="columnHeading3" value="Number of Exceptions"/>
-    		</map>
-	    </property>
-	    <property name="columnCount" value="3" />
-	</bean>
 	<bean id="gLInterfaceBatchStatisticsReportDetailTableRow" parent="businessObjectReportHelper">
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">

@@ -17,7 +17,9 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class GLInterfaceBatchTotalsProcessedReportHeader extends FeeProcessingTotalsProcessedReportHeader {
     private String columnHeading6;
@@ -42,6 +44,49 @@ public class GLInterfaceBatchTotalsProcessedReportHeader extends FeeProcessingTo
         this.columnHeading6 = columnHeading6;
     }
 
+    /**
+     * get max length for column1
+     */
+    public int getColumn1MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading1");
+    }
+    
+    /**
+     * get max length for column2
+     */
+    public int getColumn2MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading2");
+    }
+
+    
+    /**
+     * get max length for column3
+     */
+    public int getColumn3MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading3");
+    }
+    
+    /**
+     * get max length for column4
+     */
+    public int getColumn4MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading4");
+    }
+
+    /**
+     * get max length for column5
+     */
+    public int getColumn5MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading5");
+    }
+
+    /**
+     * get max length for column6
+     */
+    public int getColumn6MaxLength() {
+        return SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(this.getClass(), "columnHeading6");
+    }
+    
     /**
      * A map of the "keys" of this transient business object
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

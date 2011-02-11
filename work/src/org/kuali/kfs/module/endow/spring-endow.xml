@@ -79,8 +79,9 @@
                 <value>updateHistoryCashJob</value>
                 <value>updateHoldingHistoryJob</value>
                 <value>updateCorpusJob</value>
-                <value>rollProcessDateJob</value>
-                <value>endowmentGeneralLedgerInterfaceJob</value>               
+                <value>rollProcessDateJob</value>                                
+                <value>endowmentGeneralLedgerInterfaceJob</value>
+                <value>ticklerDeliveryJob</value>
             </list>
         </property>
         <property name="batchFileDirectories">
@@ -1613,6 +1614,40 @@
        	</property>
         <property name="aggregationModeOn" value="false"/>
     </bean>    
+    
+        <!-- ticklerDeliveryJob configuration -->
+    <bean id="ticklerDeliveryJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="ticklerDeliveryStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ticklerDeliveryStep" class="org.kuali.kfs.module.endow.batch.TicklerDeliveryStep" parent="step">
+        <property name="ticklerDeliveryService">
+            <ref bean="ticklerDeliveryService" />
+        </property>
+    </bean>
+
+    <bean id="ticklerDeliveryService" class="org.kuali.kfs.module.endow.batch.service.impl.TicklerDeliveryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>				
+		<property name="kemService">
+			<ref bean="kemService" />
+		</property>			    		
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>						
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+    </bean>	
+    <!-- end ticklerDeliveryJob configuration -->
     
  	<!--  end core batch jobs --> 
     

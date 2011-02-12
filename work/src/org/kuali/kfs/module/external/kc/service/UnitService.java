@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 
 
 public interface UnitService {
     public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");
     
-    KcUnit getUnit(String unitNumber);
+    ContractsAndGrantsUnit getUnit(String unitNumber);
 
     List lookupUnits(Map<String, String> searchCriteria);
 

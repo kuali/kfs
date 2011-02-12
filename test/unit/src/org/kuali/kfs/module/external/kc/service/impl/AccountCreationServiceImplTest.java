@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.kc.dto.AccountParametersDTO;
+import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;

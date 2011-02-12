@@ -1,5 +1,5 @@
 
-package org.kuali.kfs.integration.kc.dto;
+package org.kuali.kfs.integration.cg.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

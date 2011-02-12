@@ -1,5 +1,5 @@
 
-package org.kuali.kfs.integration.kc.businessobject;
+package org.kuali.kfs.integration.cg.businessobject;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.kfs.integration.kc.BudgetCategory;
-import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 
@@ -44,7 +44,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
     "budgetCategoryTypeDescription",
     "description"
 })
-public class BudgetCategoryDTO extends BusinessObjectBase implements BudgetCategory, Serializable {
+public class BudgetCategoryDTO extends BusinessObjectBase implements ContractsAndGrantsBudgetCategory, Serializable {
 
     protected String authorPersonName;
     protected String budgetCategoryCode;

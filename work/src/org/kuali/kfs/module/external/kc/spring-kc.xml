@@ -25,26 +25,26 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
- 	<bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
-    <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcFinancialSystemModuleConfiguration" abstract="true">
-        <property name="namespaceCode" value="KFS-KC" />
+ 	<bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean" />
+    <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcFinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-CG" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
             <list merge="true">
             	<value>org.kuali.kfs.module.external.kc</value>
-                <value>org.kuali.kfs.integration.kc</value>
+                <value>org.kuali.kfs.integration.cg</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
-            <map>
-	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO" />
+            <map merge="true">
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">
              <map>
-	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="UnitDTO"/>
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="budgetCategoryCode"/>
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="budgetCategoryCode"/>
              </map>
         </property>
  		<property name="dataDictionaryPackages">
@@ -59,10 +59,10 @@
 			</list>
 		</property>
  	</bean>
-    <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
+    <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
 
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
-		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">

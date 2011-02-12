@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc.service;
+package org.kuali.kfs.integration.cg.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,15 +23,15 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.integration.kc.dto.BudgetAdjustmentCreationStatusDTO;
-import org.kuali.kfs.integration.kc.dto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.integration.kc.dto.HashMapElement;
-import org.kuali.kfs.integration.kc.dto.KcObjectCode;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.integration.cg.dto.KcObjectCode;
 
-@WebService(name = KcConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
-            targetNamespace = KcConstants.MODULE_TARGET_NAMESPACE)
+@WebService(name = ContractsAndGrantsConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
+            targetNamespace = ContractsAndGrantsConstants.MODULE_TARGET_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, 
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface BudgetAdjustmentService {

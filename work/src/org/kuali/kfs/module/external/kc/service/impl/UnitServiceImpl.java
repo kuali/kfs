@@ -16,10 +16,10 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.KcUnit;
-import org.kuali.kfs.integration.kc.businessobject.UnitDTO;
-import org.kuali.kfs.integration.kc.dto.HashMapElement;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.businessobject.UnitDTO;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitService;
@@ -47,15 +47,15 @@ public class UnitServiceImpl implements UnitService {
     }
 
 
-    public KcUnit getUnit(String unitNumber) {
+    public ContractsAndGrantsUnit getUnit(String unitNumber) {
         InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
-        KcUnit unitDTO  = port.getUnit(unitNumber);
+        ContractsAndGrantsUnit unitDTO  = port.getUnit(unitNumber);
         return unitDTO;
     }
 
 
-    public List<KcUnit> lookupUnits(Map <String,String>searchCriteria) {
+    public List<ContractsAndGrantsUnit> lookupUnits(Map <String,String>searchCriteria) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
 
         for (String key : searchCriteria.keySet()) {
@@ -87,7 +87,7 @@ public class UnitServiceImpl implements UnitService {
         }
         catch (MalformedURLException ex) {
           
-            LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+            LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
             //ex.printStackTrace();
         }
 

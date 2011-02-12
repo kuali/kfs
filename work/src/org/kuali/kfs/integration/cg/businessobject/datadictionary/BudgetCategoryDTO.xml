@@ -5,7 +5,7 @@
   <bean id="budgetCategoryDTO-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="inquiryDefinition" ref="budgetCategoryDTO-inquiryDefinition"/>
     <property name="lookupDefinition" ref="budgetCategoryDTO-lookupDefinition"/>
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO"/>
     <property name="objectLabel" value="Budget Category Reference"/>
     <property name="attributes">
       <list>

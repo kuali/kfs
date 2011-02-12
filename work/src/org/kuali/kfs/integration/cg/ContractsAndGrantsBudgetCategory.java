@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc;
+package org.kuali.kfs.integration.cg;
 
 import java.util.List;
 
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-public interface BudgetCategory extends ExternalizableBusinessObject {
+public interface ContractsAndGrantsBudgetCategory extends ExternalizableBusinessObject {
     
     public String getBudgetCategoryCode();    
 //    public void setBudgetCategoryCode(String budgetCategoryCode);

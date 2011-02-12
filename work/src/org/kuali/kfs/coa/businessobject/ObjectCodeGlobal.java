@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.integration.kc.BudgetCategory;
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
+import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -80,7 +80,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private String rschBudgetCategoryCode; 
     private boolean rschOnCampusIndicator;
     private String rschObjectCodeDescription;
-    private BudgetCategory budgetCategoryDTO; 
+    private ContractsAndGrantsBudgetCategory budgetCategoryDTO; 
 
     /**
      * Default constructor.
@@ -696,7 +696,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * Gets the budgetCategoryDTO attribute. 
      * @return Returns the budgetCategoryDTO.
      */
-    public BudgetCategory getBudgetCategoryDTO() {
+    public ContractsAndGrantsBudgetCategory getBudgetCategoryDTO() {
         return budgetCategoryDTO;
     }
 
@@ -704,7 +704,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * Sets the budgetCategoryDTO attribute value.
      * @param budgetCategoryDTO The budgetCategoryDTO to set.
      */
-    public void setBudgetCategoryDTO(BudgetCategory budgetCategoryDTO) {
+    public void setBudgetCategoryDTO(ContractsAndGrantsBudgetCategory budgetCategoryDTO) {
         this.budgetCategoryDTO = budgetCategoryDTO;
     }
 

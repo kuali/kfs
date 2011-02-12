@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.integration.kc.BudgetCategory;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -67,7 +67,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     private String rschBudgetCategoryCode; 
     private boolean rschOnCampusIndicator;
     private String rschObjectCodeDescription;
-    private BudgetCategory budgetCategoryDTO; 
+    private ContractsAndGrantsBudgetCategory budgetCategoryDTO; 
     
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
@@ -646,19 +646,19 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     
     protected ModuleService getBudgetCategoryModuleService() {
         if ( budgetCategoryModuleService == null ) {
-            budgetCategoryModuleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(BudgetCategory.class);
+            budgetCategoryModuleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBudgetCategory.class);
         }
         return budgetCategoryModuleService;
     }
     
-    public BudgetCategory getBudgetCategoryDTO() {
+    public ContractsAndGrantsBudgetCategory getBudgetCategoryDTO() {
         if ( getBudgetCategoryModuleService() != null ) {
             budgetCategoryDTO = getBudgetCategoryModuleService().retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
         }
         return budgetCategoryDTO;
     }
 
-    public void setBudgetCategoryDTO(BudgetCategory budgetCategoryDTO) {
+    public void setBudgetCategoryDTO(ContractsAndGrantsBudgetCategory budgetCategoryDTO) {
         this.budgetCategoryDTO = budgetCategoryDTO;
     }
 

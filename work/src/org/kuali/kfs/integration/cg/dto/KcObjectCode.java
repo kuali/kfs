@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc.dto;
+package org.kuali.kfs.integration.cg.dto;
 
 public class KcObjectCode {
     String  objectCodeName;

@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.dto.HashMapElement;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 
 import org.kuali.kfs.sys.context.SpringContext;
@@ -64,8 +64,8 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
            return unitList;
             
         } catch (Exception ex) {
-            LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.KcWebService.ERROR_KC_WEB_SERVICE_FAILURE, ex.getMessage());
+            LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+            GlobalVariables.getMessageMap().putError("errors", "error.blank",ContractsAndGrantsConstants.KcWebService.ERROR_KC_WEB_SERVICE_FAILURE, ex.getMessage());
         }
         
         return Collections.EMPTY_LIST;

@@ -31,9 +31,9 @@ import javax.xml.ws.ResponseWrapper;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.integration.kc.dto.HashMapElement;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
@@ -76,7 +76,7 @@ public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupServ
         }
         catch (MalformedURLException ex) {
           
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
             //ex.printStackTrace();
         }
     }

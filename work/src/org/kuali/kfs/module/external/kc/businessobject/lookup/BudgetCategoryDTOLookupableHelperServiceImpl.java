@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.service.BudgetAdjustmentService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -58,8 +58,8 @@ public class BudgetCategoryDTOLookupableHelperServiceImpl extends KualiLookupabl
            return budgetCategories;
             
         } catch (Exception ex) {
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            GlobalVariables.getMessageMap().putError("errors", "error.blank",KcConstants.KcWebService.ERROR_KC_WEB_SERVICE_FAILURE,  ex.getMessage());
+            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+            GlobalVariables.getMessageMap().putError("errors", "error.blank",ContractsAndGrantsConstants.KcWebService.ERROR_KC_WEB_SERVICE_FAILURE,  ex.getMessage());
         }
         
         return Collections.EMPTY_LIST;

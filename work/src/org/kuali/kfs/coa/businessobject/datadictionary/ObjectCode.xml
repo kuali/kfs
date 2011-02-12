@@ -191,7 +191,7 @@
   </bean>
 
   <bean id="ObjectCode-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>
-  <!-- bean id="ObjectCode-rschBudgetCategoryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.kc.BudgetCategory" p:sourceAttributeName="budgetCategoryCode" -->
+  <!-- bean id="ObjectCode-rschBudgetCategoryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" p:sourceAttributeName="budgetCategoryCode" -->
   <bean id="ObjectCode-rschBudgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="rschBudgetCategoryCode"/>                                                                
     <property name="label" value="Budget Category Code"/>

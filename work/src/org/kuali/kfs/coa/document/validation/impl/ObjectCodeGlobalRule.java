@@ -36,7 +36,7 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.AccountBalanceByConsolidation;
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;

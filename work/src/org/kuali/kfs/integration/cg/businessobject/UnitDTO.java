@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc.businessobject;
+package org.kuali.kfs.integration.cg.businessobject;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 
-import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "unitDTO", propOrder = {
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
     "unitName",
     "unitNumber"
 })
-public class UnitDTO extends BusinessObjectBase implements KcUnit, Serializable {
+public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUnit, Serializable {
 
     private static final long serialVersionUID = 7517946137745989736L;
     

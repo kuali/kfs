@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2007 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc;
+package org.kuali.kfs.integration.cg;
 
-import java.util.List;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-
-public interface KcUnit extends ExternalizableBusinessObject {
-      
-    public String getUnitNumber();
-
-    public String getParentUnitNumber();
-
-     public String getOrganizationId();
-
-    public String getUnitName();
-
-    public List<String> getUnitAdministrators();
-     
+/**
+ * Holds error key constants.
+ */
+public class ContractsAndGrantsKeyConstants {
+    public static final String ERROR_ESTIMATED_FABRICATION_COMPLETION_DATE_PAST = "error.asset.fabrication.completionDate.past";
 }

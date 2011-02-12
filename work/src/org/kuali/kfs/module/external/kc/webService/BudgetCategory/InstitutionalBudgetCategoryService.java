@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.external.kc.webService.BudgetCategory;
 
-import org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO;
-import org.kuali.kfs.integration.kc.dto.HashMapElement;
+import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

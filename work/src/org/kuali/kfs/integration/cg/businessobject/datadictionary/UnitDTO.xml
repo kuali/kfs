@@ -19,7 +19,7 @@
   <bean id="unitDTO-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="inquiryDefinition" ref="unitDTO-inquiryDefinition"/>
     <property name="lookupDefinition" ref="unitDTO-lookupDefinition"/>
-    <property name="businessObjectClass" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO"/>
     <property name="objectLabel" value="KC Unit Reference"/>
     <property name="attributes">
       <list>

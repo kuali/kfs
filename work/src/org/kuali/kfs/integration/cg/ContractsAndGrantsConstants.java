@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.kc;
+package org.kuali.kfs.integration.cg;
 
-public class KcConstants {
+public class ContractsAndGrantsConstants {
     
     public static final String MODULE_TARGET_NAMESPACE = "KFS";
-    private KcConstants() {}
+    private ContractsAndGrantsConstants() {}
     
     public static class KcWebService {
         public static final String STATUS_KC_SUCCESS = "success";

@@ -50,8 +50,16 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award" />
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency" />
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />                
             </map>
-        </property> 
+        </property>
+        <property name="externalizableWebBusinessObjectImplementations">
+             <map>
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="budgetCategoryCode"/>
+             </map>
+        </property>         
     </bean>
 
     <bean id="cgModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
@@ -133,30 +141,4 @@
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
 
-    <bean id="kcModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
-        <property name="moduleConfiguration" ref="kcExternalModuleConfiguration" />
-    </bean>
-    
-   <bean id="kcExternalModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="KFS-KC" />
-        <property name="initializeDataDictionary" value="true" />
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.integration.kc</value>
-            </list>
-        </property>
-  
-        <property name="dataDictionaryPackages">
-            <list>
-                <value>org/kuali/kfs/integration/kc/businessobject/datadictionary</value>
-            </list>
-        </property>
-        <property name="externalizableBusinessObjectImplementations">
-            <map>
-  	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.integration.kc.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.integration.kc.businessobject.BudgetCategoryDTO" /> 
-            </map>
-        </property> 
- 
-    </bean>   	
 </beans>

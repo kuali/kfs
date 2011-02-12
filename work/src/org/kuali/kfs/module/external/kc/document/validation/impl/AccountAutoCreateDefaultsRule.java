@@ -20,8 +20,8 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.kc.KcConstants;
-import org.kuali.kfs.integration.kc.KcUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -268,7 +268,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
 
         boolean result = true;
         if (StringUtils.isBlank(newAccountAutoCreateDefaults.getKcUnit())) {
-            GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+            GlobalVariables.getMessageMap().putError(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
             return false;
 
         }
@@ -278,11 +278,11 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
 
         try {
             UnitService unitService = SpringContext.getBean(UnitService.class);
-            KcUnit unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+            ContractsAndGrantsUnit unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
             if (unitDTO == null) result = false;
             return result;
         } catch (Exception ex) {
-              GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+              GlobalVariables.getMessageMap().putError(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
             return false;
         }
 

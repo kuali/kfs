@@ -76,11 +76,7 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
         accountingPeriod.setUniversityFiscalPeriodName(fiscalPeriodName);
 
         // increment period end date by one year
-
-
-        java.sql.Date newDate = addYearToDate(accountingPeriod.getUniversityFiscalPeriodEndDate());
-        accountingPeriod.setUniversityFiscalPeriodEndDate(newDate);
-
+        accountingPeriod.setUniversityFiscalPeriodEndDate(addYearToDate(accountingPeriod.getUniversityFiscalPeriodEndDate()));
 
         // set status to closed
         accountingPeriod.setActive(false);
@@ -118,24 +114,9 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
     protected java.sql.Date addYearToDate(Date inDate) {
         GregorianCalendar currentCalendarDate = new GregorianCalendar();
         currentCalendarDate.clear();
+
         currentCalendarDate.setTimeInMillis(inDate.getTime());
-
-        int year = currentCalendarDate.get(GregorianCalendar.YEAR);
-        int month = currentCalendarDate.get(GregorianCalendar.MONTH);
-        int day = currentCalendarDate.get(GregorianCalendar.DAY_OF_MONTH);
-
-
-        if (currentCalendarDate.isLeapYear(year) && month == 1) {
-            currentCalendarDate.add(GregorianCalendar.DAY_OF_MONTH, -1); 
-        }
-
         currentCalendarDate.add(GregorianCalendar.YEAR, 1);
-        
-        int nextyear = currentCalendarDate.get(GregorianCalendar.YEAR);
-
-        if (currentCalendarDate.isLeapYear(nextyear) && month == 1) {
-            currentCalendarDate.add(GregorianCalendar.DAY_OF_MONTH, 1);
-        }
 
         return new Date(currentCalendarDate.getTimeInMillis());
     }

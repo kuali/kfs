@@ -247,11 +247,6 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      */
     public void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
-        if (sfrbAccount == null) {
-            String msg = "Account found in SufficientFundsRebuild table that is not in Accounts table [" + sfrb.getChartOfAccountsCode() + "-" + sfrb.getAccountNumberFinancialObjectCode() + "].";
-            LOG.error(msg);
-            throw new RuntimeException(msg);
-        }
         if ((sfrbAccount.getAccountSufficientFundsCode() != null) 
                 && (KFSConstants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) 
                         || KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) 

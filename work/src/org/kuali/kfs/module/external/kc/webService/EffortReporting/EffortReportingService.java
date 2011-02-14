@@ -16,7 +16,6 @@ import javax.xml.ws.ResponseWrapper;
  */
  
 @WebService(targetNamespace = "KC", name = "effortReportingService")
-@XmlSeeAlso({ObjectFactory.class})
 public interface EffortReportingService {
 
     @WebResult(name = "return", targetNamespace = "")

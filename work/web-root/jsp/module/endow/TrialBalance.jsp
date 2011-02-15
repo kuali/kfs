@@ -17,12 +17,12 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 	
 	<c:set var="kemidAttributes" value="${DataDictionary.KEMID.attributes}" />
+	<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
 	<c:set var="kemidBenOrgAttributes" value="${DataDictionary.KemidBenefittingOrganization.attributes}" />
 	<c:set var="typeCodeAttributes" value="${DataDictionary.TypeCode.attributes}" />
 	<c:set var="purposeCodeAttributes" value="${DataDictionary.PurposeCode.attributes}" />
 	<c:set var="combineGroupCodeAttributes" value="${DataDictionary.CombineGroupCode.attributes}" />
 	<c:set var="campusAttributes" value="${DataDictionary.CampusImpl.attributes}" />
-	<c:set var="caAttributes" value="${DataDictionary.KEMIDCurrentAvailableBalance.attributes}" />	
 		
 <kul:page  showDocumentInfo="false"
 	headerTitle="Trial Balance Report" docTitle="Trial Balance Report" renderMultipart="true"
@@ -42,7 +42,7 @@
                     <div align="right">Benefitting Organization Campus</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${campusAttributes.campusCode}" property="benefittingOrganziationCampus" />	
+					<kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationPhysicalCampusCodeForReport}" property="benefittingOrganziationCampus" />	
                     <kul:lookup boClassName="org.kuali.rice.kns.bo.CampusImpl"  fieldConversions="campusCode:benefittingOrganziationCampus" />
                 </td>				                      
             </tr>                          
@@ -96,7 +96,7 @@
                     <div align="right">As of Date:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${caAttributes.balanceDate}" property="asOfDate"  />
+					<kul:htmlControlAttribute attributeEntry="${kemidAttributes.reportDate}" property="asOfDate" />					
                 </td>				                      
             </tr> 
             <tr>		

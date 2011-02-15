@@ -115,10 +115,12 @@ public class EndowPropertyConstants {
     public static final String HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_HISTORY_SECURITY_CLASS_CODE = "feeClassCode";
     public static final String HOLDING_HISTORY_FEE_METHOD_CODE = "feeMethodCode";
+    
     // CurrentTaxLotBalance fields
     public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_ID = "securityId";
     public static final String CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE = "feeClassCode";
+    
     // KEMID
     public static final String KEMID = "kemid";
     public static final String KEMID_TYPE_CODE = "typeCode";
@@ -143,7 +145,9 @@ public class EndowPropertyConstants {
     public static final String KEMID_FEES_TAB = "kemidFees";
     public static final String KEMID_CLOSED = "closed_ind";
     public static final String KEMID_CASH_SWEEP_MDL_ID = "cashSweepModelId";
-
+    public static final String KEMID_TYP_PRIN_RESTR_CD = "principalRestrictionCode";
+    public static final String KEMID_PRPS_CD = "purposeCode";
+    
     // links
     public static final String KEMID_CURRENT_AVAILABLE_FUNDS = "currentAvailableFunds";
     public static final String KEMID_CURRENT_BALANCES = "currentBalances";
@@ -200,6 +204,11 @@ public class EndowPropertyConstants {
     public static final String KEMID_BENE_ORG_START_DATE = "startDate";
     public static final String KEMID_BENE_ORG_LAST_CHG_DATE = "lastChangeDate";
     public static final String KEMID_BENE_ORG_ACTIVE_IND = "active";
+    
+    // Chart of Account Organization - should be moved to the COA module later
+    public static final String CA_ORG_CAMPUS_CD = "organizationPhysicalCampusCode";
+    public static final String CA_ORG_CHRT_CD = "chartOfAccountsCode";
+    public static final String CA_ORG_CD = "organizationCode";
 
     // KEMID General Ledger Account
     public static final String KEMID_GL_ACCOUNT_IP_INDICATOR_CD = "incomePrincipalIndicatorCode";
@@ -338,6 +347,9 @@ public class EndowPropertyConstants {
     public static final String TYPE_INCOME_ACI_MODEL_ID = "incomeACIModelId";
     public static final String TYPE_PRINCIPAL_ACI_MODEL_ID = "principalACIModelId";
 
+    // Type Restrict Code
+    public static final String TYPE_RESTR_PERM_IND = "permanentIndicator";
+    
     // KEMID Type Fee Method
     public static final String FEE_METHOD = "feeMethod";
     public static final String FEE_BASE_CD = "feeBaseCode";

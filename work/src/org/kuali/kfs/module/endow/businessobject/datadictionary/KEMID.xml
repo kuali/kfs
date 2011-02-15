@@ -72,7 +72,7 @@
         <ref bean="KEMID-ticklers" />
         <ref bean="KEMID-recurringTransfers" />
         <ref bean="KEMID-kemidForReport" />
-        
+        <ref bean="KEMID-reportDate" />
       </list>
     </property>
     <property name="collections">
@@ -530,6 +530,18 @@
       <bean parent="TextControlDefinition" p:size="22"/>
     </property>
   </bean>   
+  
+  <bean id="KEMID-reportDate" parent="KEMID-reportDate-parentBean" />
+  
+  <bean id="KEMID-reportDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="reportDate" />
+    <property name="label" value="Report Date" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.BalanceDateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
   
 <!-- Business Object Inquiry Definition -->
 

@@ -22,9 +22,31 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 
 public interface KemidDao {
     
+    /**
+     * Gets KEMIDs by kemids
+     * 
+     * @param kemids
+     * @param endowmentOption
+     * @param currentDate
+     * @return
+     */
     public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, Date currentDate); 
     
+    /**
+     * Gets KEMIDs by the given attribute value strings
+     * 
+     * @param attributeName
+     * @param values
+     * @return
+     */
     public List<String> getKemidsByAttribute(String attributeName, List<String> values);  
     
+    /**
+     * Gets all the values of the attribute by the given value strings 
+     * 
+     * @param attributeName
+     * @param values
+     * @return
+     */
     public List<String> getAttributeValues(String attributeName, List<String> values);
 }

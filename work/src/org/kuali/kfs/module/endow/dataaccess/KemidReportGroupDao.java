@@ -19,7 +19,21 @@ import java.util.List;
 
 public interface KemidReportGroupDao {
 
+    /**
+     * Gets kemids by the given attribute value strings
+     * 
+     * @param attributeName
+     * @param values
+     * @return
+     */
     public List<String> getKemidsByAttribute(String attributeName, List<String> values);
     
+    /**
+     * Gets the attributes value strings
+     * 
+     * @param attributeName
+     * @param values
+     * @return
+     */
     public List<String> getAttributeValues(String attributeName, List<String> values);
 }

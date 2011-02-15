@@ -29,6 +29,10 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements KemidReportGroupDao {
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao#getKemidsByAttribute(java.lang.String, java.util.List)
+     */
     public List<String> getKemidsByAttribute(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
@@ -42,11 +46,23 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
             criteria.addOrCriteria(c);
         }
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
-        query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
+        query.setAttributes(new String[] {EndowPropertyConstants.KEMID});       
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        //return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<String> kemids = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
+        }
+        
+        return kemids;
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao#getAttributeValues(java.lang.String, java.util.List)
+     */
     public List<String> getAttributeValues(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
@@ -61,7 +77,15 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         }        
         ReportQueryByCriteria query = new ReportQueryByCriteria(KemidReportGroup.class, criteria, true);
         query.setAttributes(new String[] {attributeName});
-
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        
+        //return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<String> attributeValues = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            attributeValues.add(data[0].toString());
+        }
+        
+        return attributeValues;
     }
 }

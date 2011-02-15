@@ -32,20 +32,24 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidDao#getKemidRecordsByIds(java.util.List, java.lang.String, java.sql.Date)
+     */
     public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, Date currentDate) {
         
         Criteria subCrit = new Criteria();
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
-            subCrit.addEqualTo("permanentIndicator", endowmentOption);
+            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
         }
         subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
-        subQuery.setAttributes(new String[] {"code"});
+        subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
                 
         Criteria criteria = new Criteria();
         if (kemids.isEmpty()) {
             // all records
-            criteria.addIn("principalRestrictionCode", subQuery); 
+            criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery); 
         }
         for (String kemid : kemids) {
             Criteria c = new Criteria();
@@ -54,8 +58,9 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
             } else {
                 c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
             }
+            //TODO: how is the current date used?
             //c.addEqualTo("dateOpened", currentDate);
-            c.addIn("principalRestrictionCode", subQuery);            
+            c.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);            
             criteria.addOrCriteria(c);
         }
         QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, criteria);
@@ -64,6 +69,10 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         return (List<KEMID>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidDao#getKemidsByAttribute(java.lang.String, java.util.List)
+     */
     public List<String> getKemidsByAttribute(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
@@ -80,19 +89,21 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
         
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
-//        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-//        
-//        List<String> kemids = new ArrayList<String>();
-//        while (result.hasNext()) {
-//            Object[] data = (Object[]) result.next();
-//            kemids.add(data[0].toString());
-//        }
-//        
-//        return kemids;
+        List<String> kemids = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
+        }
+        
+        return kemids;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidDao#getAttributeValues(java.lang.String, java.util.List)
+     */
     public List<String> getAttributeValues(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
@@ -108,17 +119,14 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {attributeName});
 
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
-//        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-//        
-//        List<String> attributeValues = new ArrayList<String>();
-//        while (result.hasNext()) {
-//            Object[] data = (Object[]) result.next();
-//            attributeValues.add(data[0].toString());
-//        }
-//        
-//        return attributeValues;
+        List<String> attributeValues = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            attributeValues.add(data[0].toString());
+        }
         
+        return attributeValues;
     }
 }

@@ -39,6 +39,10 @@ public class TrialBalanceAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceAction.class);
     
     private final String REPORT_NAME = "Trial Balance";
+    private final String ONLY_ENDOWMENT = "Endowmnet";
+    private final String NON_ENDOWED = "Non-Endowed";
+    private final String BOTH_ENDOWMENT_OPTION = "Both";
+    
     private final char KEMID_SEPERATOR = '&';
     private final char OTHER_CRITERIA_SEPERATOR = ',';
     
@@ -46,26 +50,66 @@ public class TrialBalanceAction extends KualiAction {
         super();
     }
 
+    /**
+     * Directs to the start page
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TrialBalanceForm trialBalanceForm = (TrialBalanceForm)form;
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Clears the form when the "clear" button is pressed
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward clear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TrialBalanceForm trialBalanceForm = (TrialBalanceForm) form;
         trialBalanceForm.clear();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Cancels the current page and goes to the start page
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * Generates Trial Balance in the PDF form
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         TrialBalanceReportService trialBalanceReportService = SpringContext.getBean(TrialBalanceReportService.class);
         
-        String basePath = getApplicationBaseUrl();
+        // get all the values from the form
         TrialBalanceForm trialBalanceForm = (TrialBalanceForm) form;
         String kemids = trialBalanceForm.getKemid();
         String benefittingOrganziationCampuses = trialBalanceForm.getBenefittingOrganziationCampus();
@@ -74,12 +118,20 @@ public class TrialBalanceAction extends KualiAction {
         String typeCodes = trialBalanceForm.getTypeCode();
         String purposeCodes = trialBalanceForm.getPurposeCode();
         String combineGroupCodes = trialBalanceForm.getCombineGroupCode();
-        //String asOfDate = trialBalanceForm.getAsOfDate();
+        String asOfDate = trialBalanceForm.getAsOfDate();
         String endowmnetOption = trialBalanceForm.getEndowmentOption();
         String message = trialBalanceForm.getMessage();
 
         List<TrialBalanceReportDataHolder> trialBalanceReports = null;
         
+        /*
+         * Creates the report data based on the selected criteria.
+         * The criteria are selected as follows.
+         * 1. Kemid and the other criteria cannot be selected at the same time.
+         * 2. If none of them are selected, all kemids will be selected.
+         * 3. The other criteria other than kemid are "OR" combined.
+         * 4. All the criteria in the text input can be multiple by the use of wild card or the separator ('&' for kemid, ',' for the others) 
+         */
         if (StringUtils.isNotBlank(kemids)) {
             
             if (( StringUtils.isNotBlank(benefittingOrganziationCampuses) 
@@ -89,6 +141,7 @@ public class TrialBalanceAction extends KualiAction {
                 || StringUtils.isNotBlank(purposeCodes) 
                 || StringUtils.isNotBlank(combineGroupCodes) )) {
             
+                // kemid and the other criteria cannot be selected at the same time 
                 trialBalanceForm.setMessage("The use of the KEMID as a selection criterion casnnot be used in combination with any orther selection criteria");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 
@@ -121,21 +174,26 @@ public class TrialBalanceAction extends KualiAction {
             }
         }
                
-        // print reports
-        
+        // See if you have something to print        
         if (trialBalanceReports != null) {
-            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = new ReportRequestHeaderDataHolder();
-    
+            
+            // There are something to print so prepare the header sheet data
+            
+            // get request report
+            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = new ReportRequestHeaderDataHolder();    
             reportRequestHeaderDataHolder.setInstitutionName(trialBalanceReportService.getInstitutionName());
             reportRequestHeaderDataHolder.setReportRequested(REPORT_NAME);
             reportRequestHeaderDataHolder.setRequestedBy(trialBalanceReportService.getReportRequestor());
             String endowmentOptionDesc = "";
-            if ("Y".equalsIgnoreCase(endowmnetOption)) endowmentOptionDesc = "Endowmnet";
-            else if ("N".equalsIgnoreCase(endowmnetOption)) endowmentOptionDesc = "Non-Endowed";
-            else if ("B".equalsIgnoreCase(endowmnetOption)) endowmentOptionDesc = "Both";
+            if ("B".equalsIgnoreCase(endowmnetOption)) {
+                endowmentOptionDesc = BOTH_ENDOWMENT_OPTION;
+            } else {
+                endowmentOptionDesc = "Y".equalsIgnoreCase(endowmnetOption) ? ONLY_ENDOWMENT : NON_ENDOWED;
+            }
             reportRequestHeaderDataHolder.setEndowmentOption(endowmentOptionDesc);
-            reportRequestHeaderDataHolder.setReportOption("Detail");  // check with Norm
+            reportRequestHeaderDataHolder.setReportOption(""); 
             
+            // get criteria
             reportRequestHeaderDataHolder.setBenefittingCampus(trialBalanceReportService.getBenefittingCampuses(parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR)));
             reportRequestHeaderDataHolder.setBenefittingChart(trialBalanceReportService.getBenefittingCharts(parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR)));
             reportRequestHeaderDataHolder.setBenefittingOrganization(trialBalanceReportService.getBenefittingOrganizations(parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR)));
@@ -143,15 +201,17 @@ public class TrialBalanceAction extends KualiAction {
             reportRequestHeaderDataHolder.setKemidPurposeCode(trialBalanceReportService.getKemidPurposeCodes(parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR)));
             reportRequestHeaderDataHolder.setCombineGroupCode(trialBalanceReportService.getCombineGroupCodes(parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR)));
             
+            // get kemids selected
             List<String> kemidsSelected = getKemidsSelected(trialBalanceReports);
             reportRequestHeaderDataHolder.setKemidsSelected(kemidsSelected);
     
+            // get kemdis with multiple benefittting organizations
             reportRequestHeaderDataHolder.setKemidsWithMultipleBenefittingOrganizationsDataHolders(trialBalanceReportService.getKemidsWithMultipleBenefittingOrganizations(kemidsSelected));
             
-            mapping.findForward("result");
+            // generate the report in PDF 
             if (new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReports, response)) {
                 // succeeded
-                return mapping.findForward("result");
+                return null;
             }
         }
         
@@ -162,6 +222,12 @@ public class TrialBalanceAction extends KualiAction {
         
     }
     
+    /**
+     * Retrieves all the kemids used for the report 
+     * 
+     * @param trialBalanceReports
+     * @return
+     */
     protected List<String> getKemidsSelected(List<TrialBalanceReportDataHolder> trialBalanceReports) {
         
         List<String> kemids = new ArrayList<String>();
@@ -172,14 +238,19 @@ public class TrialBalanceAction extends KualiAction {
         return kemids;        
     }
     
+    /**
+     * Parses the string value, which can include wild cards or separators
+     * 
+     * @param valueString
+     * @param separater
+     * @return
+     */
     protected List<String> parseValueString(String valueString, char separater) {        
         
-        List<String> values = null;
-        
+        List<String> values = null;        
         if (StringUtils.isNotBlank(valueString)) {
             values = Arrays.asList(StringUtils.split(valueString.trim(), separater));
-        }
-        
+        }        
         return values;
     }
 

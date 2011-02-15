@@ -54,10 +54,18 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
     protected KemidBenefittingOrganizationDao kemidBenefittingOrganizationDao;
     protected KemidReportGroupDao kemidReportGroupDao;
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportForAllKemids(java.lang.String)
+     */
     public List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption) {
         return getTrialBalanceReportsByKemidByIds(new ArrayList<String>(), endownmentOption);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportsByKemidByIds(java.util.List, java.lang.String)
+     */
     public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption) {
         
         KualiDecimal totalInocmeCashBalance = KualiDecimal.ZERO;
@@ -70,6 +78,7 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
         List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endownmentOption, kemService.getCurrentDate());
         for (KEMID kemidObj : kemidRecords) {
             
+            // get the kemid and the title
             TrialBalanceReportDataHolder trialBalanceReport = new TrialBalanceReportDataHolder(); 
             trialBalanceReport.setKemid(kemidObj.getKemid());
             trialBalanceReport.setKemidName(kemidObj.getShortTitle());
@@ -77,7 +86,7 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put(EndowPropertyConstants.KEMID, kemidObj.getKemid());
             
-            // get current cash            
+            // get income cash balance, principal cash balance            
             KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findByPrimaryKey(KemidCurrentCash.class, primaryKeys);
             if (ObjectUtils.isNotNull(kemidCurrentCash)) {
                 trialBalanceReport.setInocmeCashBalance(kemidCurrentCash.getCurrentIncomeCash());
@@ -89,7 +98,7 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
                 trialBalanceReport.setPrincipalcashBalance(KualiDecimal.ZERO);  
             }
             
-            // get available cash
+            // get available expendable funds
             KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) businessObjectService.findByPrimaryKey(KEMIDCurrentAvailableBalance.class, primaryKeys);
             if (ObjectUtils.isNotNull(kemidCurrentAvailableBalance)) {
                 trialBalanceReport.setAvailableExpendableFunds(kemidCurrentAvailableBalance.getAvailableTotalCash());
@@ -98,7 +107,7 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
                 trialBalanceReport.setAvailableExpendableFunds(BigDecimal.ZERO);
             }
             
-            // get current tax lot balance
+            // get sub total market value, FY remainder estimated income 
             BigDecimal subTotalKemidTotalMarketValue = BigDecimal.ZERO;            
             BigDecimal subTotalRemainderEstimatedIncome = BigDecimal.ZERO;            
             List<CurrentTaxLotBalance> CurrentTaxLotBalanceRecords = (List<CurrentTaxLotBalance>) businessObjectService.findMatching(CurrentTaxLotBalance.class, primaryKeys);
@@ -111,14 +120,15 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
                 }                
             }
             
-            // add the new one
+            // add this new one
             trialBalanceReportList.add(trialBalanceReport);
 
+            // total market value, total FY remainder estimated income
             totalKemidTotalMarketValue = totalKemidTotalMarketValue.add(subTotalKemidTotalMarketValue);
             totalFyRemainderEstimatedIncome = totalFyRemainderEstimatedIncome.add(subTotalRemainderEstimatedIncome);
         }
         
-        // add the total row
+        // add the totals 
         TrialBalanceReportDataHolder trialBalanceReport = new TrialBalanceReportDataHolder(); 
         trialBalanceReport.setKemid("TOTALS");
         trialBalanceReport.setKemidName("");
@@ -132,6 +142,10 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
         return trialBalanceReportList;
     }
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
+     */
     public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
             List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String endowmnetOption) {
       
@@ -139,75 +153,115 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
         Set<String> kemids = new HashSet<String>();
         
         // 4.1.9 - If any of the non-required criteria are left blank, ignore it as a criterion
-        // 4.1.8 - Collects all related kemdis regardless of the closed status of the KEMID
+        // 4.1.8 - Collects all related kemids regardless of the closed status of the KEMID
         
         if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute("benefittingOrganziationCampusCode", benefittingOrganziationCampusCodes));
+            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
         }
         if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute("benefittingChartCode", benefittingOrganziationChartCodes));
+            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
         }
         if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute("benefittingOrgCode", benefittingOrganziationCodes));
+            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
         }
         if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
             kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
         }
         if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
-            kemids.addAll(kemidDao.getKemidsByAttribute("purposeCode", purposeCodes));
+            kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
         }
         if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
-            kemids.addAll(kemidReportGroupDao.getKemidsByAttribute("combineGroupCode", combineGroupCodes));
+            kemids.addAll(kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
         }
         
+        // Now that we have all the kemids to be reported by the use of the other criteria, go to get the report data 
         if (kemids.size() == 0) {
             return null;
-        } else {
+        } else {            
             return getTrialBalanceReportsByKemidByIds(new ArrayList<String>(kemids), endowmnetOption);
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getInstitutionName()
+     */
     public String getInstitutionName() {
         return parameterService.getParameterValue(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getReportRequestor()
+     */
     public String getReportRequestor() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
         
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingCampuses(java.util.List)
+     */
     public String getBenefittingCampuses(List<String> campuses) {        
         StringBuffer orgCampuses = new StringBuffer();
         if (ObjectUtils.isNotNull(campuses) && !campuses.isEmpty()) {
-            List<String> campusList = kemidBenefittingOrganizationDao.getAttributeValues("benefittingOrganziationCampusCode", campuses);
+            List<String> campusList = kemidBenefittingOrganizationDao.getCampusCodes(EndowPropertyConstants.CA_ORG_CAMPUS_CD, campuses);
             for (String campus : campusList) {
                 orgCampuses.append(campus).append(" ");
             }
-        }         
+        } 
+        
+        if (orgCampuses.toString().isEmpty()) {
+            orgCampuses.append("ALL");    
+        }
+        
         return orgCampuses.toString();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingCharts(java.util.List)
+     */
     public String getBenefittingCharts(List<String> charts) {
         StringBuffer orgCharts = new StringBuffer();
         if (ObjectUtils.isNotNull(charts) && !charts.isEmpty()) {
-            List<String> chartList = kemidBenefittingOrganizationDao.getAttributeValues("benefittingChartCode", charts);
+            List<String> chartList = kemidBenefittingOrganizationDao.getAttributeValues(EndowPropertyConstants.KEMID_BENE_CHRT_CD, charts);
             for (String chart : chartList) {
                 orgCharts.append(chart).append(" ");
             }
-        }         
+        } 
+        
+        if (orgCharts.toString().isEmpty()) {
+            orgCharts.append("ALL");    
+        }
+        
         return orgCharts.toString();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingOrganizations(java.util.List)
+     */
     public String getBenefittingOrganizations(List<String> organizations) {
         StringBuffer orgs = new StringBuffer();
         if (ObjectUtils.isNotNull(organizations) && !organizations.isEmpty()) {
-            List<String> organizationList = kemidBenefittingOrganizationDao.getAttributeValues("benefittingOrgCode", organizations);
+            List<String> organizationList = kemidBenefittingOrganizationDao.getAttributeValues(EndowPropertyConstants.KEMID_BENE_ORG_CD, organizations);
             for (String org : organizationList) {
                 orgs.append(org).append(" ");
             }
-        }         
+        } 
+        
+        if (orgs.toString().isEmpty()) {
+            orgs.append("ALL");    
+        }
+        
         return orgs.toString();   
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidTypeCodes(java.util.List)
+     */
     public String getKemidTypeCodes(List<String> kemidTypeCodes) {
         StringBuffer typeCodes = new StringBuffer();
         if (ObjectUtils.isNotNull(kemidTypeCodes) && !kemidTypeCodes.isEmpty()) {
@@ -215,33 +269,59 @@ public class TrialBalanceReportServiceImpl implements TrialBalanceReportService 
             for (String typeCode : typeCodeList) {
                 typeCodes.append(typeCode).append(" ");
             }
-        }         
+        }
+        
+        if (typeCodes.toString().isEmpty()) {
+            typeCodes.append("ALL");    
+        } 
+        
         return typeCodes.toString();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidPurposeCodes(java.util.List)
+     */
     public String getKemidPurposeCodes(List<String> kemidPurposes) {
         StringBuffer purposes = new StringBuffer();
         if (ObjectUtils.isNotNull(kemidPurposes) && !kemidPurposes.isEmpty()) {
-            List<String> purposeList = kemidDao.getAttributeValues("purposeCode", kemidPurposes);
+            List<String> purposeList = kemidDao.getAttributeValues(EndowPropertyConstants.KEMID_PRPS_CD, kemidPurposes);
             for (String purpose : purposeList) {
                 purposes.append(purpose).append(" ");
             }
-        }         
+        } 
+        
+        if (purposes.toString().isEmpty()) {
+            purposes.append("ALL");    
+        }
+        
         return purposes.toString();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getCombineGroupCodes(java.util.List)
+     */
     public String getCombineGroupCodes(List<String> combineGroupCodes) {
         StringBuffer groupCodes = new StringBuffer();
         if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {
-            List<String> groupCodeList = kemidReportGroupDao.getAttributeValues("combineGroupCode", combineGroupCodes);
+            List<String> groupCodeList = kemidReportGroupDao.getAttributeValues(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes);
             for (String groupCode : groupCodeList) {
                 groupCodes.append(groupCode).append(" ");
             }
         } 
-
+        
+        if (groupCodes.toString().isEmpty()) {
+            groupCodes.append("ALL");    
+        }
+        
         return groupCodes.toString();
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidsWithMultipleBenefittingOrganizations(java.util.List)
+     */
     public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids) {
         return kemidBenefittingOrganizationDao.getKemidsWithMultipleBenefittingOrganizations(kemids);
     }

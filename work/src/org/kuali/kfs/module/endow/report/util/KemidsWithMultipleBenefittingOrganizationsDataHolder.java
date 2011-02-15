@@ -17,6 +17,9 @@ package org.kuali.kfs.module.endow.report.util;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 
+/**
+ * Used to hold the KEMIDs with multiple BenefittingOrganizations data for report
+ */
 public class KemidsWithMultipleBenefittingOrganizationsDataHolder {
 
     private String kemid;

@@ -17,6 +17,9 @@ package org.kuali.kfs.module.endow.report.util;
 
 import java.util.List;
 
+/** 
+ * The data holder for report request headers
+ */
 public class ReportRequestHeaderDataHolder {
 
     private String institutionName;

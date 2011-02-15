@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 
+/**
+ * The data holder for Trial Balance report
+ */
 public class TrialBalanceReportDataHolder {
 
     private String kemid;

@@ -118,6 +118,10 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     }
 
 
+    protected Class getInterfaceToObj(Class ebo) {
+        if (ebo.isInterface()) return ebo;
+        return ebo.getInterfaces()[0];
+    }
   
     /***
      * 
@@ -127,10 +131,8 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      * @see org.kuali.rice.kns.service.ModuleService#retrieveExternalizableBusinessObjectIfNecessary(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
      */
 
-    public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
-        if (! externalizableBusinessObjectInterface.isInterface()) {
-            externalizableBusinessObjectInterface = externalizableBusinessObjectInterface.getInterfaces()[0];
-        }
+    public List listPrimaryKeyFieldNames(Class externalizableBusinessObject){
+        Class externalizableBusinessObjectInterface = getInterfaceToObj(externalizableBusinessObject);
         int classModifiers = externalizableBusinessObjectInterface.getModifiers();
        if (! externalizedWebBOs.containsKey(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
        List primaryKeys = new ArrayList();
@@ -214,8 +216,8 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     @Override
     public boolean isExternalizableBusinessObjectLookupable(Class boClass) {
         // TODO Auto-generated method stub
-        String boName = boClass.getSimpleName();
-        if (externalWebBusinessObjectPrimaryKeys.containsValue(boName)) return true;
+        Class boClassInterface = getInterfaceToObj(boClass);
+        if (externalWebBusinessObjectPrimaryKeys.containsKey(boClassInterface)) return true;
         return super.isExternalizableBusinessObjectLookupable(boClass);
     }
 }

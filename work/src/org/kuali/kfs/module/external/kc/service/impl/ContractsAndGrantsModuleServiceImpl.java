@@ -64,15 +64,14 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         EffortReportingServiceSoapService ss = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
         EffortReportingService port = ss.getEffortReportingServicePort();  
         
-        String projectDirectorAcctNumber = port.getProjectDirector(accountNumber);
-
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        Account projectDirectorAccount = accountService.getByPrimaryId(chartOfAccountsCode, projectDirectorAcctNumber);
+        String projectDirectorId = port.getProjectDirector(accountNumber);
         
-        if (projectDirectorAccount != null) {
-            Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorAccount.getAccountFiscalOfficerSystemIdentifier());
+        if (projectDirectorId != null) {
+            Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
               return projectDirector;
         }
+        Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("khuntley");
+        if (projectDirector != null) return projectDirector;
 
         return null;
     }

@@ -16,9 +16,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.integration.cg.businessobject.UnitDTO;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl;
 import org.kuali.kfs.module.external.kc.service.UnitService;

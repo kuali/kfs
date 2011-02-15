@@ -34,6 +34,8 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.LookupService;
 
@@ -126,6 +128,9 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      */
 
     public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
+        if (! externalizableBusinessObjectInterface.isInterface()) {
+            externalizableBusinessObjectInterface = externalizableBusinessObjectInterface.getInterfaces()[0];
+        }
         int classModifiers = externalizableBusinessObjectInterface.getModifiers();
        if (! externalizedWebBOs.containsKey(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
        List primaryKeys = new ArrayList();

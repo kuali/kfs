@@ -37,14 +37,16 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map merge="true">
-	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">
              <map>
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="budgetCategoryCode"/>
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="BudgetCategoryDTO"/>
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="CFDA"/>
              </map>
         </property>
  		<property name="dataDictionaryPackages">
@@ -60,9 +62,12 @@
 		</property>
  	</bean>
     <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
-
+ 
     <bean id="cgModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
+	</bean>
+	<bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl" >
+		<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/effortReportingServiceSoapService?wsdl"/>
 	</bean>
 	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -119,7 +124,8 @@
 	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
 	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
 	</bean>
-	
+	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
+  	
 	<bean id="unitDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />

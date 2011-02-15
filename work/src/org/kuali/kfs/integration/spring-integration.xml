@@ -54,14 +54,6 @@
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />                
             </map>
         </property>
-        <!-- JHK: I'm not sure what these are, but the property does not exist in the base Module service definition.
-        <property name="externalizableWebBusinessObjectImplementations">
-             <map>
-	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="budgetCategoryCode"/>
-             </map>
-        </property>
-         -->         
     </bean>
 
     <bean id="cgModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">

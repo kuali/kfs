@@ -39,10 +39,23 @@ public interface GLInterfaceBatchProcessDao {
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactions(java.util.Date postedDate);
 
     /**
+     * method to gather all the kem transactions as collection of records
+     * @param postedDate
+     * @return Collection<GlInterfaceBatchProcessKemLine>
+     */
+    public Collection<GlInterfaceBatchProcessKemLine> getAllCombinedKemTransactions(java.util.Date postedDate);
+
+    /**
      * method to gather all the kem transactions as collection of records by a document type
      * @param documentType, postedDate
      * @return Collection<GlInterfaceBatchProcessKemLine>
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactionsByDocumentType(String documentType, java.util.Date postedDate);
-    
+
+    /**
+     * method to gather all the kem transactions as collection of records by a document type
+     * @param documentType, postedDate
+     * @return Collection<GlInterfaceBatchProcessKemLine>
+     */
+    public Collection<GlInterfaceBatchProcessKemLine> getAllKemCombinedTransactionsByDocumentType(String documentType, java.util.Date postedDate);
 }

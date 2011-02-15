@@ -179,15 +179,16 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow = new GLInterfaceBatchStatisticsReportDetailTableRow();
                 statisticsDataRow.setDocumentType(documentType);
                 
-                transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
                 if (EndowConstants.YES.equalsIgnoreCase(combineTransactions)) {
                     //combine the entries...GL lines based on chart/account/object code
-                    
+                    transactionArchives = gLInterfaceBatchProcessDao.getAllKemCombinedTransactionsByDocumentType(documentType, postedDate);
                 }
                 else {
                     //single transaction gl lines...
-                    success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
+                    transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
                 }
+                
+                success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
                 
                 //add the to the collection
                 statisticsReportRows.add(statisticsDataRow);
@@ -567,10 +568,10 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         
         if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE)) {
-            chartObjectDebitAmountSubTotal = chartObjectDebitAmountSubTotal.add(totalAmount.abs());
+            chartObjectDebitAmountSubTotal = chartObjectDebitAmountSubTotal.add(totalAmount);
         }
         if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE)) {
-            chartObjectCreditAmountSubTotal = chartObjectCreditAmountSubTotal.add(totalAmount.abs());
+            chartObjectCreditAmountSubTotal = chartObjectCreditAmountSubTotal.add(totalAmount);
         }
         chartObjectNumberOfRecordsSubTotal += 1;
     }

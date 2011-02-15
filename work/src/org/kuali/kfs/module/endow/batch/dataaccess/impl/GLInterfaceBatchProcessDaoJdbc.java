@@ -31,6 +31,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc implements GLInterfaceBatchProcessDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GLInterfaceBatchProcessDaoJdbc.class);
 
+    private static final String NON_COMBINE_ENTRIES_SORT_ORDER = "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, b.OBJECT, a.TRAN_IP_IND_CD, a.TRAN_KEMID";
+    private static final String COMBINE_ENTRIES_SORT_ORDER = "ORDER BY c.CHRT_CD, c.ACCT_NBR, b.OBJECT";
+
     /**
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
      */
@@ -57,11 +60,11 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         
         for (String documentType : documentTypes) {
             //get the cash activity records...
-            SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate);
+            SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
             
             //get noncash activitiy records....
-            SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate);
+            SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
         }
         
@@ -80,12 +83,12 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         
         for (String documentType : documentTypes) {
             //get the cash activity records...
-            SqlRowSet cashTransactionActivities = getAllCombinedKemTransactionsForCashActivity(documentType, postedDate);
+            SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemArchiveTransactions, true);
             
             //get noncash activitiy records....
-            SqlRowSet nonCashTransactionActivities = getAllCombinedKemTransactionsForNonCashActivity(documentType, postedDate);
+            SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemArchiveTransactions, false);
         }
@@ -100,11 +103,11 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
         
         //get the cash activity records...
-        SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate);
+        SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
         
         //get noncash activitiy records....
-        SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate);
+        SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
         
         return kemArchiveTransactions;
@@ -119,14 +122,14 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         Collection<GlInterfaceBatchProcessKemLine> kemNonCashArchiveTransactions = new ArrayList();;
         
         //get the cash activity records...
-        SqlRowSet cashTransactionActivities = getAllCombinedKemTransactionsForCashActivity(documentType, postedDate);
+        SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemCashArchiveTransactions, cashTransactionActivities, true);
         if (kemCashArchiveTransactions.size() > 0) {
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemCashArchiveTransactions, true);
         }
         
         //get noncash activitiy records....
-        SqlRowSet nonCashTransactionActivities = getAllCombinedKemTransactionsForNonCashActivity(documentType, postedDate);
+        SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemNonCashArchiveTransactions, nonCashTransactionActivities, false);
         if (kemNonCashArchiveTransactions.size() > 0) {
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemNonCashArchiveTransactions, false);
@@ -137,17 +140,18 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     
     /**
      * Method to get the cash activity transactions for a given document type.
-     * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables....
+     * @param documenType, postedDate, sortOrder
+     * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables in the given sort order
      */
-    private SqlRowSet getAllKemTransactionsForCashActivity(String documentType, java.util.Date postedDate) {
+    private SqlRowSet getAllKemTransactionsForCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
         String cashTransactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
-                                         + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
-                                         + "b.OBJECT, c.CHRT_CD, c.ACCT_NBR "
-                                         + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c " 
-                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'C' AND "
-                                         + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-                                         + "c.CHRT_CD = b.CHART_CD AND a.TRAN_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' " 
-                                         + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, b.OBJECT, a.TRAN_IP_IND_CD, a.TRAN_KEMID");
+                                            + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
+                                            + "b.OBJECT, c.CHRT_CD, c.ACCT_NBR "
+                                            + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c " 
+                                            + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'C' AND "
+                                            + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
+                                            + "c.CHRT_CD = b.CHART_CD AND a.TRAN_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' " 
+                                            + sortOrder);
         
         return (getJdbcTemplate().queryForRowSet(cashTransactionArchiveSql, new Object[] { postedDate, documentType }));
     }
@@ -157,16 +161,16 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, 
      * and END_ETRAN_GL_LNK_T, END_TRAN_ARCHV_SEC_T tables....
      */
-    private SqlRowSet getAllKemTransactionsForNonCashActivity(String documentType, java.util.Date postedDate) {
+    private SqlRowSet getAllKemTransactionsForNonCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
         String nonCashTransactionsSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
-                                        + "a.TRAN_KEMID, a.TRAN_IP_IND_CD, b.OBJECT, c.CHRT_CD, c.ACCT_NBR, "
-                                        + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS "
-                                        + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
-                                        + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'N' AND "
-                                        + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD AND "
-                                        + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-                                        + "c.CHRT_CD = b.CHART_CD AND d.TRAN_SEC_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' "
-                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, b.OBJECT, a.TRAN_IP_IND_CD, a.TRAN_KEMID");
+                                         + "a.TRAN_KEMID, a.TRAN_IP_IND_CD, b.OBJECT, c.CHRT_CD, c.ACCT_NBR, "
+                                         + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS "
+                                         + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
+                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'N' AND "
+                                         + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD AND "
+                                         + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
+                                         + "c.CHRT_CD = b.CHART_CD AND d.TRAN_SEC_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' "
+                                         + sortOrder);
         
         return (getJdbcTemplate().queryForRowSet(nonCashTransactionsSql, new Object[] { postedDate,  documentType}));
     }
@@ -209,43 +213,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             
             kemArchiveTransactions.add(glKemLine);
         }
-    }
-    
-    
-    /**
-     * Method to get the cash activity transactions for a given document type combined.
-     * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables....
-     */
-    private SqlRowSet getAllCombinedKemTransactionsForCashActivity(String documentType, java.util.Date postedDate) {
-        String cashTransactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
-                                         + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
-                                         + "b.OBJECT, c.CHRT_CD, c.ACCT_NBR "
-                                         + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c " 
-                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'C' AND "
-                                         + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-                                         + "c.CHRT_CD = b.CHART_CD AND a.TRAN_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' " 
-                                         + "ORDER BY c.CHRT_CD, c.ACCT_NBR, b.OBJECT");
-        
-        return (getJdbcTemplate().queryForRowSet(cashTransactionArchiveSql, new Object[] { postedDate, documentType }));
-    }
-    
-    /**
-     * Method to get the cash activity transactions for a given document type.
-     * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, 
-     * and END_ETRAN_GL_LNK_T, END_TRAN_ARCHV_SEC_T tables....
-     */
-    private SqlRowSet getAllCombinedKemTransactionsForNonCashActivity(String documentType, java.util.Date postedDate) {
-        String nonCashTransactionsSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
-                                        + "a.TRAN_KEMID, a.TRAN_IP_IND_CD, b.OBJECT, c.CHRT_CD, c.ACCT_NBR, "
-                                        + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS "
-                                        + "FROM END_TRAN_ARCHV_T a, END_ETRAN_GL_LNK_T b, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
-                                        + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = 'N' AND "
-                                        + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD AND "
-                                        + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-                                        + "c.CHRT_CD = b.CHART_CD AND d.TRAN_SEC_ETRAN_CD = b.ETRAN_CD AND b.ROW_ACTV_IND = 'Y' "
-                                        + "ORDER BY c.CHRT_CD, c.ACCT_NBR, b.OBJECT");
-        
-        return (getJdbcTemplate().queryForRowSet(nonCashTransactionsSql, new Object[] { postedDate,  documentType}));
     }
     
     /**
@@ -319,13 +286,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setTypeCode(typeCode);
                 glKemLine.setIncomePrincipalIndicatorCode(ipIndicator);
                 glKemLine.setObjectCode(objectCode);
-                
-            //    glKemLine.setLineNumber(kemArchiveTransaction.getLineNumber());
-           //     glKemLine.setLineTypeCode(kemArchiveTransaction.getLineTypeCode());
-           //     glKemLine.setSubTypeCode(kemArchiveTransaction.getSubTypeCode());
-           //     glKemLine.setTypeCode(kemArchiveTransaction.getTypeCode());
-           //     glKemLine.setIncomePrincipalIndicatorCode(kemArchiveTransaction.getIncomePrincipalIndicatorCode());
-           //     glKemLine.setObjectCode(objectCode);
 
                 //get transaction amount....
                 if (cashType) {

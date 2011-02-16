@@ -39,7 +39,14 @@ public enum EndowmentTransactionSecurityFixture {
             "F", //securityLineTypeCode - From section
             "TESTSEC2", // securityID
             "1234567890", // objectId
-            new Long(1) // versionNumber 
+            new Long(1) // versionNumber
+    
+    ),
+    ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAI_NON_CASH("EDOC-TEST", //documentNumber
+            "F", //securityLineTypeCode - From section --> need to check
+            "99PLTF021", // securityID
+            "1234567890", // objectId
+            new Long(1) // versionNumber
     );
     
     public final String documentNumber;
@@ -50,7 +57,7 @@ public enum EndowmentTransactionSecurityFixture {
 
     private EndowmentTransactionSecurityFixture(String documentNumber, 
                                                 String securityLineTypeCode, 
-                                                String  securityID, 
+                                                String securityID, 
                                                 String objectId, Long versionNumber) {
         this.documentNumber = documentNumber;
         this.securityLineTypeCode = securityLineTypeCode;

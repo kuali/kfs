@@ -180,37 +180,43 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, kemid);
             // TODO: this is a quick fix. Norm will upload the updated spec soon (Date: Oct 25, 2010 by Bonnie)
             if (kemidCurrentCash != null) {
-                if (piCode.equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-                    if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
-                        kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
-                    }
-                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
-                        kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
-                    }
-                    else {
-                        kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount()));
-
-                    }
-                }
-                else {
-                    // Deal with Principal
-                    if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
-                        kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
-                    }
-                    else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
-                        kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
-                    }
-                    else {
-                        kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount()));
-
-                    }
-
-                }
+                kemidCurrentCash = checkAndCalculateKemidCurrentCash(kemidCurrentCash, tranLine, documentType, piCode);
 
                 businessObjectService.save(kemidCurrentCash);
             }
         }
         LOG.info("Exit \"processCashSubTypes\"");
+    }
+    
+    // this method was part of processCashSubTypes, but was separated for unit test. 
+    protected KemidCurrentCash checkAndCalculateKemidCurrentCash(KemidCurrentCash kemidCurrentCash, EndowmentTransactionLine tranLine, String documentType, String piCode){
+        if (piCode.equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+            if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
+                kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
+            }
+            else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
+                kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount().negated()));
+            }
+            else {
+                kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount()));
+
+            }
+        }
+        else {
+            // Deal with Principal
+            if (documentType.equals("EAI") || documentType.equals("ELD") || documentType.equals("ECDD")) {
+                kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
+            }
+            else if (tranLine.getTransactionLineTypeCode().equals(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE) && (documentType.equals("ECT") || documentType.equals("EGLT"))) {
+                kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount().negated()));
+            }
+            else {
+                kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount()));
+
+            }
+
+        }
+        return kemidCurrentCash;
     }
 
     /**
@@ -222,7 +228,13 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     private void processTransactionArchives(EndowmentTransactionLinesDocumentBase lineDoc, EndowmentTransactionLine tranLine, PendingTransactionDocumentEntry pendingEntry, String documentType) {
         LOG.info("Entering \"processTransactionArchives\"");
         // END_TRAN_ARCHV_T
-        TransactionArchive tranArchive = createTranArchive(lineDoc, tranLine, pendingEntry.getDocumentType());
+        TransactionArchive tranArchive = createTranArchive(tranLine, pendingEntry.getDocumentType());
+        
+        // this methods were in createTranArchive method, but moved to here for unit test. 
+        tranArchive.setSubTypeCode(lineDoc.getTransactionSubTypeCode());
+        tranArchive.setSrcTypeCode(lineDoc.getTransactionSourceType().getCode());
+        tranArchive.setDescription(lineDoc.getDocumentHeader().getDocumentDescription());
+        
         businessObjectService.save(tranArchive);
 
         // END_TRAN_SEC_T
@@ -469,7 +481,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return EndowmentTransactionSecurity
      */
-    private EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine) {
+    protected EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_DOCUMENT_NUMBER, tranLine.getDocumentNumber());
         primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, tranLine.getTransactionLineTypeCode());
@@ -496,7 +508,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return TransactionArchiveSecurity
      */
-    private TransactionArchiveSecurity createTranArchiveSecurity(EndowmentTransactionSecurity tranSecurity, EndowmentTransactionLine tranLine, String documentType) {
+    protected TransactionArchiveSecurity createTranArchiveSecurity(EndowmentTransactionSecurity tranSecurity, EndowmentTransactionLine tranLine, String documentType) {
         TransactionArchiveSecurity tranArchiveSecurity = new TransactionArchiveSecurity();
         tranArchiveSecurity.setDocumentNumber(tranLine.getDocumentNumber());
         tranArchiveSecurity.setLineNumber(tranLine.getTransactionLineNumber());
@@ -549,7 +561,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return Transaction Archive
      */
-    private TransactionArchive createTranArchive(EndowmentTransactionLinesDocumentBase lineDoc, EndowmentTransactionLine tranLine, String documentType) {
+    protected TransactionArchive createTranArchive(EndowmentTransactionLine tranLine, String documentType) {
         TransactionArchive tranArchive = new TransactionArchive();
         tranArchive.setTypeCode(documentType);
 
@@ -583,10 +595,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             tranArchive.setCorpusAmount(tranLine.getTransactionAmount().bigDecimalValue());
         }
 
-        tranArchive.setSubTypeCode(lineDoc.getTransactionSubTypeCode());
-        tranArchive.setSrcTypeCode(lineDoc.getTransactionSourceType().getCode());
-
-        tranArchive.setDescription(lineDoc.getDocumentHeader().getDocumentDescription());
+        
         tranArchive.setPostedDate(kemService.getCurrentDate());
 
         // If the line type code is F(Decrease), then all the transaction amounts need to be

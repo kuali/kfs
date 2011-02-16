@@ -64,7 +64,6 @@
     	<property name="recurringCashTransferTransactionsTotalReportWriterService">
 			<ref bean="mockReportWriterService" />
 		</property>
-    
     </bean>
     
     <bean id="mockAccrualProcessingService" parent="accrualProcessingService">
@@ -117,5 +116,15 @@
     		<ref bean="mockReportWriterService"/>
     	</property>
     </bean>
+    
+	<bean id="mockEndowmenteDocPostingService" parent="endowmenteDocPostingService" >
+    	<property name="eDocPostingExceptionReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="eDocPostingProcessedReportWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+    
 	
 </beans>

@@ -163,7 +163,54 @@ public enum EndowmentTransactionLineFixture {
             new KualiDecimal("20"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
-    );
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_ECI(new Integer(1), // transactionLineNumber
+            "037B011AG1", // kemid
+            "40000",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("600"), // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_ECDD(new Integer(1), // transactionLineNumber
+            "032A017014", // kemid
+            "40000",// etranCode
+            "I", // transactionIPIndicatorCode
+            new KualiDecimal("75"), // transactionAmount
+            KualiDecimal.ZERO, // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAI_CASH(new Integer(1), // transactionLineNumber
+            "038B011179", // kemid
+            "",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("10000"), // transactionAmount
+            new KualiDecimal("1000"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAI_NON_CASH(new Integer(1), // transactionLineNumber
+            "037A017013", // kemid
+            "40000",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("4000"), // transactionAmount
+            new KualiDecimal("800"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAD_CASH(new Integer(1), // transactionLineNumber
+            "038G003452", // kemid
+            "",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("5000"), // transactionAmount
+            new KualiDecimal("5200"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
+    )
+    
+    ;
 
     public final Integer transactionLineNumber;
     public final String kemid;

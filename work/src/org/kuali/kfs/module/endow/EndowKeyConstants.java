@@ -308,6 +308,11 @@ public class EndowKeyConstants {
         public static final String ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE = "error.document.etran.code.invalid.type";
 
     }
+    
+    public static final class EndowmentReport {
+        public static final String ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA = "error.report.criteria.kemidWithOtherCriteria";
+        public static final String ERROR_REPORT_BEGINNING_ENDING_DATE_REQUIRED = "error.report.criteria.beginningAndEndingDateRequired";
+    }
 
 
 }

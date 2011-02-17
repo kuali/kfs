@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao;
+import org.kuali.kfs.module.endow.businessobject.GLCombinedTransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.GlInterfaceBatchProcessKemLine;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -38,6 +39,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
      */
     public Collection<String> findDocumentTypes() {
+        LOG.info("findDocumentTypes() started");
+        
         Collection<String> documentTypes = new ArrayList();
         
         SqlRowSet documentTypesRowSet = getJdbcTemplate().queryForRowSet("SELECT DISTINCT(DOC_TYP_NM) DOC_TYP_NM FROM END_TRAN_ARCHV_T ORDER BY DOC_TYP_NM"); 
@@ -46,6 +49,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             documentTypes.add(documentTypesRowSet.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_DOC_TYP_NM));
         }
         
+        LOG.info("findDocumentTypes() exited");
+        
         return documentTypes;
     }
     
@@ -53,6 +58,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemTransactions(java.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactions(java.util.Date postedDate) {
+        LOG.info("getAllKemTransactions() started");
+
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
         
         //get all the available document types names sorted
@@ -63,10 +70,12 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
             
-            //get noncash activitiy records....
+            //get non-cash activity records....
             SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
         }
+        
+        LOG.info("getAllKemTransactions() exited");
         
         return kemArchiveTransactions;
     }
@@ -75,6 +84,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllCombinedKemTransactions(java.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllCombinedKemTransactions(java.util.Date postedDate) {
+        LOG.info("getAllCombinedKemTransactions() started");
+
         Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList();
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
         
@@ -87,11 +98,13 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemArchiveTransactions, true);
             
-            //get noncash activitiy records....
+            //get non-cash activity records....
             SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
             buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemArchiveTransactions, false);
         }
+        
+        LOG.info("getAllCombinedKemTransactions() exited.");
         
         return kemCombinedArchiveTransactions;
     }
@@ -100,15 +113,19 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemTransactionsByDocumentType(Stringjava.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
+        LOG.info("getAllKemTransactionsByDocumentType() started");
+
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
         
         //get the cash activity records...
         SqlRowSet cashTransactionActivities = getAllKemTransactionsForCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemArchiveTransactions, cashTransactionActivities, true);
         
-        //get noncash activitiy records....
+        //get non-cash activity records....
         SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, NON_COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
+        
+        LOG.info("getAllKemTransactionsByDocumentType() exited.");
         
         return kemArchiveTransactions;
     }
@@ -117,6 +134,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemCombinedTransactionsByDocumentType(Stringjava.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemCombinedTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
+        LOG.info("getAllKemCombinedTransactionsByDocumentType() started");
+
         Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList();
         Collection<GlInterfaceBatchProcessKemLine> kemCashArchiveTransactions = new ArrayList();;
         Collection<GlInterfaceBatchProcessKemLine> kemNonCashArchiveTransactions = new ArrayList();;
@@ -128,12 +147,14 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemCashArchiveTransactions, true);
         }
         
-        //get noncash activitiy records....
+        //get non-cash activity records....
         SqlRowSet nonCashTransactionActivities = getAllKemTransactionsForNonCashActivity(documentType, postedDate, COMBINE_ENTRIES_SORT_ORDER);
         buildTransactionActivities(kemNonCashArchiveTransactions, nonCashTransactionActivities, false);
         if (kemNonCashArchiveTransactions.size() > 0) {
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemNonCashArchiveTransactions, false);
         }
+        
+        LOG.info("getAllKemCombinedTransactionsByDocumentType() exited.");
         
         return kemCombinedArchiveTransactions;
     }
@@ -143,7 +164,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @param documenType, postedDate, sortOrder
      * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables in the given sort order
      */
-    private SqlRowSet getAllKemTransactionsForCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
+    protected SqlRowSet getAllKemTransactionsForCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
         String cashTransactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
                                             + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
                                             + "b.OBJECT, c.CHRT_CD, c.ACCT_NBR "
@@ -161,7 +182,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, 
      * and END_ETRAN_GL_LNK_T, END_TRAN_ARCHV_SEC_T tables....
      */
-    private SqlRowSet getAllKemTransactionsForNonCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
+    protected SqlRowSet getAllKemTransactionsForNonCashActivity(String documentType, java.util.Date postedDate, String sortOrder) {
         String nonCashTransactionsSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
                                          + "a.TRAN_KEMID, a.TRAN_IP_IND_CD, b.OBJECT, c.CHRT_CD, c.ACCT_NBR, "
                                          + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS "
@@ -178,7 +199,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     /**
      * method to go through the rowset and put into transient bo and add to the collection.
      */
-    private void buildTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, SqlRowSet archiveTransactions, boolean cashType) {
+    protected void buildTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, SqlRowSet archiveTransactions, boolean cashType) {
+        LOG.info("buildTransactionActivities() started");
 
         while (archiveTransactions.next()) {
             GlInterfaceBatchProcessKemLine glKemLine = new GlInterfaceBatchProcessKemLine();
@@ -213,6 +235,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             
             kemArchiveTransactions.add(glKemLine);
         }
+
+        LOG.info("buildTransactionActivities() exited.");
     }
     
     /**
@@ -220,165 +244,36 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * into single data records
      */
     protected void buildCombinedTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions, Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, boolean cashType) {
-        String chartCode = null;
-        String accountNumber = null;
-        String objectCode = null;
-        long combinedEntryCount = 0;
-        boolean recordWritten = true;
-        
-        int lineNumber = 0;
-        String lineTypeCode = null;
-        String subTypeCode = null;
-        String typeCode = null;
-        String ipIndicator = null;
-        String kemid = null;
-        String documentNumber = null;
-        
-        BigDecimal incomeAmount = BigDecimal.ZERO;
-        BigDecimal principalAmount = BigDecimal.ZERO;
-        BigDecimal holdingAmount = BigDecimal.ZERO;
-        BigDecimal longTermAmount = BigDecimal.ZERO;
-        BigDecimal shortTermAmount = BigDecimal.ZERO;
+        LOG.info("buildCombinedTransactionActivities() started");
 
+        GLCombinedTransactionArchive gLCombinedTransactionArchive = new GLCombinedTransactionArchive();
+        
         for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemArchiveTransactions) {
-            GlInterfaceBatchProcessKemLine glKemLine = new GlInterfaceBatchProcessKemLine();
             
-            if (chartCode == null && accountNumber == null && objectCode == null) {
-                chartCode = kemArchiveTransaction.getChartCode();
-                accountNumber = kemArchiveTransaction.getAccountNumber();
-                objectCode = kemArchiveTransaction.getObjectCode();
+            if (gLCombinedTransactionArchive.getChartCode() == null && gLCombinedTransactionArchive.getAccountNumber() == null && gLCombinedTransactionArchive.getObjectCode() == null) {
+                gLCombinedTransactionArchive.copyChartAndAccountNumberAndObjectCodeValues(kemArchiveTransaction);
             } 
-            if (chartCode.compareToIgnoreCase(kemArchiveTransaction.getChartCode()) == 0
-                    && accountNumber.compareToIgnoreCase(kemArchiveTransaction.getAccountNumber()) == 0
-                    && objectCode.compareToIgnoreCase(kemArchiveTransaction.getObjectCode()) == 0) {
-                combinedEntryCount++;
-                recordWritten = false;
-                lineNumber = kemArchiveTransaction.getLineNumber();
-                lineTypeCode = kemArchiveTransaction.getLineTypeCode();
-                subTypeCode = kemArchiveTransaction.getSubTypeCode();
-                typeCode = kemArchiveTransaction.getTypeCode();
-                ipIndicator = kemArchiveTransaction.getIncomePrincipalIndicatorCode();
-                kemid = kemArchiveTransaction.getKemid();
-                documentNumber = kemArchiveTransaction.getDocumentNumber();
-                
-                if (cashType) {
-                    incomeAmount = incomeAmount.add(kemArchiveTransaction.getTransactionArchiveIncomeAmount());
-                    principalAmount = principalAmount.add(kemArchiveTransaction.getTransactionArchivePrincipalAmount());
-                }
-                else {
-                    holdingAmount = holdingAmount.add(kemArchiveTransaction.getHoldingCost());
-                    shortTermAmount = shortTermAmount.add(kemArchiveTransaction.getShortTermGainLoss());
-                    longTermAmount = longTermAmount.add(kemArchiveTransaction.getLongTermGainLoss());
-                }
+            if (gLCombinedTransactionArchive.getChartCode().compareToIgnoreCase(kemArchiveTransaction.getChartCode()) == 0
+                    && gLCombinedTransactionArchive.getAccountNumber().compareToIgnoreCase(kemArchiveTransaction.getAccountNumber()) == 0
+                    && gLCombinedTransactionArchive.getObjectCode().compareToIgnoreCase(kemArchiveTransaction.getObjectCode()) == 0) {
+                gLCombinedTransactionArchive.incrementCombinedEntryCount();
+                gLCombinedTransactionArchive.copyKemArchiveTransactionValues(kemArchiveTransaction, cashType);
             }
             else {
-                if (combinedEntryCount > 1) {
-                    glKemLine.setDocumentNumber("Summary");
-                    glKemLine.setKemid("Summary");
-                }
-                else {
-                    glKemLine.setDocumentNumber(kemArchiveTransaction.getDocumentNumber());
-                    glKemLine.setKemid(kemArchiveTransaction.getKemid());
-                }
-                glKemLine.setLineNumber(lineNumber);
-                glKemLine.setLineTypeCode(lineTypeCode);
-                glKemLine.setSubTypeCode(subTypeCode);
-                glKemLine.setTypeCode(typeCode);
-                glKemLine.setIncomePrincipalIndicatorCode(ipIndicator);
-                glKemLine.setObjectCode(objectCode);
-
-                //get transaction amount....
-                if (cashType) {
-                    glKemLine.setTransactionArchiveIncomeAmount(incomeAmount);
-                    glKemLine.setTransactionArchivePrincipalAmount(principalAmount);
-                    glKemLine.setHoldingCost(BigDecimal.ZERO);
-                    glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
-                    glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
-                }
-                else {
-                    glKemLine.setTransactionArchiveIncomeAmount(BigDecimal.ZERO);
-                    glKemLine.setTransactionArchivePrincipalAmount(BigDecimal.ZERO);
-                    glKemLine.setHoldingCost(holdingAmount);
-                    glKemLine.setShortTermGainLoss(shortTermAmount);
-                    glKemLine.setLongTermGainLoss(longTermAmount);
-                }
-                
-                glKemLine.setChartCode(chartCode);
-                glKemLine.setAccountNumber(accountNumber);
+                GlInterfaceBatchProcessKemLine glKemLine = gLCombinedTransactionArchive.copyValuesToCombinedTransactionArchive(cashType);
                 
                 kemCombinedArchiveTransactions.add(glKemLine);
-                
-                recordWritten = true;
-                combinedEntryCount = 0;
-                
-                chartCode = kemArchiveTransaction.getChartCode();
-                accountNumber = kemArchiveTransaction.getAccountNumber();
-                objectCode = kemArchiveTransaction.getObjectCode();
-
-                incomeAmount = BigDecimal.ZERO;
-                principalAmount = BigDecimal.ZERO;
-                holdingAmount = BigDecimal.ZERO;
-                longTermAmount = BigDecimal.ZERO;
-                shortTermAmount = BigDecimal.ZERO;
-                recordWritten = false;
-                
-                lineNumber = kemArchiveTransaction.getLineNumber();
-                lineTypeCode = kemArchiveTransaction.getLineTypeCode();
-                subTypeCode = kemArchiveTransaction.getSubTypeCode();
-                typeCode = kemArchiveTransaction.getTypeCode();
-                ipIndicator = kemArchiveTransaction.getIncomePrincipalIndicatorCode();
-                kemid = kemArchiveTransaction.getKemid();
-                documentNumber = kemArchiveTransaction.getDocumentNumber();
-                
-                if (cashType) {
-                    incomeAmount = incomeAmount.add(kemArchiveTransaction.getTransactionArchiveIncomeAmount());
-                    principalAmount = principalAmount.add(kemArchiveTransaction.getTransactionArchivePrincipalAmount());
-                }
-                else {
-                    holdingAmount = holdingAmount.add(kemArchiveTransaction.getHoldingCost());
-                    shortTermAmount = shortTermAmount.add(kemArchiveTransaction.getShortTermGainLoss());
-                    longTermAmount = longTermAmount.add(kemArchiveTransaction.getLongTermGainLoss());
-                }
-            } // adding record to the collection
-        } //for loop
+                gLCombinedTransactionArchive.initializeAmounts();
+                gLCombinedTransactionArchive.copyChartAndAccountNumberAndObjectCodeValues(kemArchiveTransaction);
+                gLCombinedTransactionArchive.copyKemArchiveTransactionValues(kemArchiveTransaction, cashType);
+            } 
+        }
         
         //write the last record for the document type....
-        GlInterfaceBatchProcessKemLine glKemLine = new GlInterfaceBatchProcessKemLine();
-            
-        if (combinedEntryCount > 1) {
-            glKemLine.setDocumentNumber("Summary");
-            glKemLine.setKemid("Summary");
-        }
-        else {
-            glKemLine.setDocumentNumber(documentNumber);
-            glKemLine.setKemid(kemid);
-        }
-        glKemLine.setLineNumber(lineNumber);
-        glKemLine.setLineTypeCode(lineTypeCode);
-        glKemLine.setSubTypeCode(subTypeCode);
-        glKemLine.setTypeCode(typeCode);
-        glKemLine.setIncomePrincipalIndicatorCode(ipIndicator);
-        glKemLine.setObjectCode(objectCode);
-
-        //get transaction amount....
-        if (cashType) {
-            glKemLine.setTransactionArchiveIncomeAmount(incomeAmount);
-            glKemLine.setTransactionArchivePrincipalAmount(principalAmount);
-            glKemLine.setHoldingCost(BigDecimal.ZERO);
-            glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
-            glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
-        }
-        else {
-            glKemLine.setTransactionArchiveIncomeAmount(BigDecimal.ZERO);
-            glKemLine.setTransactionArchivePrincipalAmount(BigDecimal.ZERO);
-            glKemLine.setHoldingCost(holdingAmount);
-            glKemLine.setShortTermGainLoss(shortTermAmount);
-            glKemLine.setLongTermGainLoss(longTermAmount);
-        }
-            
-        glKemLine.setChartCode(chartCode);
-        glKemLine.setAccountNumber(accountNumber);
-            
+        
+        GlInterfaceBatchProcessKemLine glKemLine = gLCombinedTransactionArchive.copyValuesToCombinedTransactionArchive(cashType);
         kemCombinedArchiveTransactions.add(glKemLine);
+        
+        LOG.info("buildCombinedTransactionActivities() exited.");
     }
 }   

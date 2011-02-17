@@ -33,6 +33,8 @@ public interface GLInterfaceBatchProcessDao {
     
     /**
      * method to gather all the kem transactions as collection of records
+     * First all the document types are retrieved then for each document type,
+     * all cash activity records are collected and then all non-cash activity records are gathered.
      * @param postedDate
      * @return Collection<GlInterfaceBatchProcessKemLine>
      */
@@ -40,20 +42,30 @@ public interface GLInterfaceBatchProcessDao {
 
     /**
      * method to gather all the kem transactions as collection of records
+     * First all the document types are retrieved then for each document type,
+     * all cash activity records are collected.  The single records are then grouped 
+     * based on chart, account number and object codes.
+     * The same process is done for non-cash activity records.
      * @param postedDate
      * @return Collection<GlInterfaceBatchProcessKemLine>
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllCombinedKemTransactions(java.util.Date postedDate);
 
     /**
-     * method to gather all the kem transactions as collection of records by a document type
+     * method to gather all the kem transactions as collection of records
+     * First all cash activity records are collected for the given document type, 
+     * The single records are then grouped based on chart, account number and object codes.
+     * The same process is done for non-cash activity records.
      * @param documentType, postedDate
      * @return Collection<GlInterfaceBatchProcessKemLine>
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactionsByDocumentType(String documentType, java.util.Date postedDate);
 
     /**
-     * method to gather all the kem transactions as collection of records by a document type
+     * method to gather all the kem transactions as collection of records.
+     * First all cash activity records are collected for the given document type and then these 
+     * records are grouped based on chart, account number and object codes.
+     * The same process is done for non-cash activity records.
      * @param documentType, postedDate
      * @return Collection<GlInterfaceBatchProcessKemLine>
      */

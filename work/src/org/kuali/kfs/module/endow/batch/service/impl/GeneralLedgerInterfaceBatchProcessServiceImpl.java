@@ -108,7 +108,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     protected boolean statisticsHeaderWritten = false;
     
     /**
-     * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
+     * Constructs a GeneralLedgerInterfaceBatchProcessServiceImpl instance
      */
     public GeneralLedgerInterfaceBatchProcessServiceImpl() {
         //report writer headers
@@ -127,10 +127,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
 
     /**
-     * The fee process is intended to provide as much flexibility to the institution as possible when 
-     * designing the charges to be assessed against a KEMID.  The fees can be based on either balances 
-     * or activity and can be charged, accrued or waived at the KEMID level.
-     * @see oorg.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService#processFeeTransactions()\
+     * The process is intended to serve to consolidate KEM activity for the day into  
+     * valid general ledger debits and credits to update the institution's records.
+     * @see oorg.kuali.kfs.module.endow.batch.service.GeneralLedgerInterfaceBatchProcessService#processKEMActivityToCreateGLEntries
      * return boolean true if successful else false
      */
     public boolean processKEMActivityToCreateGLEntries() {
@@ -158,7 +157,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityOriginEntryFullStream();
         
-        //Step 1: get records from END_TRAN_ARCH_T for the given posted date
         String combineTransactions = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
         java.util.Date postedDate = kemService.getCurrentDate();
         
@@ -190,7 +188,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 
                 success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
                 
-                //add the to the collection
+                //add statistics row to the collection
                 statisticsReportRows.add(statisticsDataRow);
                 
                 if (transactionArchives.size() > 0) {
@@ -235,14 +233,16 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
-            throw new RuntimeException("processKEMActivityToCreateGLEntries Stopped: " + e1.getMessage(), e1);
+            throw new RuntimeException("createActivityOriginEntryFullStream Stopped: " + e1.getMessage(), e1);
         }
     }
 
     /**
-     * For the transaction archives this method creates gl entries into the output file.
+     * For the transaction archives this method creates GL entries into the output file.
      * @param documentType
      * @param transactionArchives transaction archive records sorted by document type name
+     * @param postedDate
+     * @param statisticsDataRow to collect the statistics about GL entries, exception entries
      * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps GL origin entry  file
      * @return success true if origin entry  files are created, false if files are not created.
      */
@@ -256,12 +256,13 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                 previousChartCode = transactionArchive.getChartCode();
                 previousObjectCode = transactionArchive.getObjectCode();
             }
+            //process cash activity
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
                 //process the cash entry record...
                 success &= createCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
             }
             
-            //process non cash
+            //process non-cash activity
             if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
                 //process the non-cash entry record...
                 success &= createNonCashEntry(transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
@@ -279,8 +280,8 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * method to create cash entry gl record
-     * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
+     * method to create cash entry GL record
+     * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow
      * @return true if successful, else false
      */
     protected boolean createCashEntry(GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps,
@@ -304,7 +305,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
 
     /**
-     * method to create non-cash entry gl record
+     * method to create non-cash entry GL record
      * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
      * @return true if successful, else false
      */
@@ -365,7 +366,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
 
     /**
-     * method to create cash entry gl record for each transaction archive fdoc number
+     * method to create cash entry GL record for each transaction archive financial doc number
      * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
      * @return true if successful, else false
      */
@@ -455,7 +456,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             actityType = EndowConstants.KemToGLInterfaceBatchProcess.SUB_TYPE_NON_CASH;   
         }
         
-        return ("Net " + transactionArchive.getTypeCode() + " " + actityType + " Activity for " + postedDate.toString());
+        return ("Net " + transactionArchive.getTypeCode() + " " + actityType + " Activity on " + postedDate.toString());
     }
 
     /**
@@ -519,6 +520,15 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
     }
 
+    /**
+     * method to update the totals processed amount variables.
+     * If same chart and object code then update totals, else
+     * if chart is different then first write out the object level totals line, then add the
+     * chart totals and then write the chart level totals line.  If only different object code
+     * then write the object code level totals line and then add the totals to the chart
+     * level totals.
+     * @param transactionArchive
+     */
     protected void updateTotalsProcessed(GlInterfaceBatchProcessKemLine transactionArchive) {
         if (StringUtils.equals(previousChartCode, transactionArchive.getChartCode()) &&
                 StringUtils.equals(previousObjectCode, transactionArchive.getObjectCode())) {
@@ -552,6 +562,11 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     /**
      * add debit and credit totals and number of lines processed to detail line.
+     * If object code equals to loss/gain object code, then total is short term loss/gai added to
+     * long term loss/gain amount else total amount is retrieved by calling
+     * method getTransactionAmount.  The debit or credit code is determined based on
+     * the totalAmount value.
+     * @param transactionArchive
      */
     protected void updateTotals(GlInterfaceBatchProcessKemLine transactionArchive) {
         BigDecimal totalAmount =  BigDecimal.ZERO;
@@ -576,7 +591,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         chartObjectNumberOfRecordsSubTotal += 1;
     }
     
-    
     /**
      * write TotalsProcessedDetailTotalsLine method to write details total line.
      * @param previousDocumentTypeCode
@@ -584,6 +598,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * @param totalLinesGenerated
      */
     protected void writeTotalsProcessedObjectDetailTotalsLine(String previousDocumentTypeCode, String previousChartCode, String previousObjectCode) {
+        //to suppress duplicate document type value on the report. 
         if (!documentTypeWritten) {
             gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(previousDocumentTypeCode);
             documentTypeWritten = true;            
@@ -591,6 +606,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         else {
             gLInterfaceBatchTotalsProcessedTableRowValues.setDocumentType(null);
         }
+        
         gLInterfaceBatchTotalsProcessedTableRowValues.setChartCode(previousChartCode);
         gLInterfaceBatchTotalsProcessedTableRowValues.setObjectCode(previousObjectCode);
         gLInterfaceBatchTotalsProcessedTableRowValues.setDebitAmount(new KualiDecimal(chartObjectDebitAmountSubTotal));
@@ -620,9 +636,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
 
     /**
      * write document type TotalsProcessedDetailTotalsLine method to write details total line.
-     * @param documentNumber
-     * @param feeMethodCode
-     * @param totalLinesGenerated
      */
     protected void writeTotalsProcessedDocumentTypeDetailTotalsLine() {
         //need to write the header line with "-"s.
@@ -660,9 +673,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     
     /**
      * write document TotalsProcessedDetailTotalsLine method to write details total line.
-     * @param documentNumber
-     * @param feeMethodCode
-     * @param totalLinesGenerated
      */
     protected void writeTotalsProcessedGrandTotalsLine() {
         //need to write the header line with "-"s.
@@ -679,7 +689,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * add total to grand totals and reset document level totals...
+     * add totals to grand totals and reset document level totals...
      */
     protected void addDocumentTypeTotalsToGrandTotals() {
         //the properties to totals processed at Document Type level..sub totals.
@@ -693,7 +703,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * add totals to 
+     * add chart level totals to document type totals and reset the chart/object level totals.
      */
     protected void addChartTotalsToDocumentTypeTotals() {
         //add to the document level subtotals....
@@ -707,10 +717,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         chartNumberOfRecordsSubTotal = 0;
         
         //reset the object level totals...
-        chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
-        chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
-        chartObjectNumberOfRecordsSubTotal = 0;
-        
+        initializeChartObjectTotals();
     }
     
     protected void addTotalsToChartTotals() {
@@ -720,6 +727,13 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         chartNumberOfRecordsSubTotal += chartObjectNumberOfRecordsSubTotal;
 
         //reset the object level totals...
+        initializeChartObjectTotals();
+    }
+    
+    /**
+     * method to initialize object level totals....
+     */
+    protected void initializeChartObjectTotals() {
         chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
         chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
         chartObjectNumberOfRecordsSubTotal = 0;
@@ -752,7 +766,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     }
     
     /**
-     * get the separator line
+     * get the separator line - to write a header line in statistics report
      * @return the separator line
      */
     public String getSepartorLine() {
@@ -776,6 +790,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
 
     /**
      * writes out the table row values then writes the reason row and inserts a blank line
+     * @param transactionArchive
      * @param reasonMessage the reason message
      */
     protected void writeExceptionRecord(GlInterfaceBatchProcessKemLine transactionArchive, String reasonMessage) {
@@ -801,14 +816,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         gLInterfaceBatchExceptionReportsWriterService.writeTableRow(gLInterfaceBatchExceptionTableRowValues);            
         gLInterfaceBatchExceptionReportsWriterService.writeNewLines(1);
     }
-    
-    /**
-     * sets the exception message with the passed in value.
-     * @param reasonForException The reason that will be set in the exception report
-     */
-    protected void setExceptionReportTableRowReason(String reasonForException) {
-    }
-
     
     /**
      * Gets the gLInterfaceBatchExceptionReportsWriterService attribute. 

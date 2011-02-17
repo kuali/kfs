@@ -310,8 +310,8 @@ public class EndowKeyConstants {
     }
     
     public static final class EndowmentReport {
-        public static final String ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA = "error.report.criteria.kemidWithOtherCriteria";
-        public static final String ERROR_REPORT_BEGINNING_ENDING_DATE_REQUIRED = "error.report.criteria.beginningAndEndingDateRequired";
+        public static final String ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA = "error.endow.report.criteria.kemidWithOtherCriteria";
+        public static final String ERROR_REPORT_ENDING_DATE_NOT_GREATER_THAN_BEGINNING_DATE = "error.endow.report.endingDateNotAfterBegin";
     }
 
 

@@ -989,7 +989,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		</unzip>
 	</target>
 	
-	<target name="build-eclipse-classpath" depends="init-properties,init-additional-properties">
+	<target name="build-eclipse-classpath" depends="init-properties">
 		<!-- this property is here to make it easy to test without replacing the classpath -->
 		<property name="classpath.file" value=".classpath"/>
     	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />

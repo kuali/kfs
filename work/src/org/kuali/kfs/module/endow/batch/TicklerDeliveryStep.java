@@ -18,16 +18,25 @@ package org.kuali.kfs.module.endow.batch;
 import java.util.Date;
 
 import org.kuali.kfs.module.endow.batch.service.TicklerDeliveryService;
-import org.kuali.kfs.sys.batch.AbstractStep;
+import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
+import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 
-public class TicklerDeliveryStep extends AbstractStep {
+public class TicklerDeliveryStep extends AbstractWrappedBatchStep {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TicklerDeliveryStep.class);
     
     private TicklerDeliveryService ticklerDeliveryService;
     
-    public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        return ticklerDeliveryService.generateTicklerNotices();
+    @Override
+    protected CustomBatchExecutor getCustomBatchExecutor() {
+        return new CustomBatchExecutor() {
+            public boolean execute() {
+                boolean success = true;
+                success = ticklerDeliveryService.generateTicklerNotices();                
+                
+                return success;            
+            }
+        };
     }
 
     public void setTicklerDeliveryService(TicklerDeliveryService ticklerDeliveryService){

@@ -1620,7 +1620,12 @@
         </property>
     </bean>
 
-    <bean id="ticklerDeliveryStep" class="org.kuali.kfs.module.endow.batch.TicklerDeliveryStep" parent="step">
+    <bean id="ticklerDeliveryStep" class="org.kuali.kfs.module.endow.batch.TicklerDeliveryStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="ticklerDeliveryStatisticsReportsWriterService" />
+			</list>
+		</property>
         <property name="ticklerDeliveryService">
             <ref bean="ticklerDeliveryService" />
         </property>
@@ -1642,7 +1647,34 @@
 		<property name="kualiRuleService">
 			<ref bean="kualiRuleService" />
 		</property>
+		<property name="ticklerDeliveryStatisticsReportsWriterService">
+			<ref bean="ticklerDeliveryStatisticsReportsWriterService" />
+		</property>
     </bean>	
+    
+    <bean id="ticklerDeliveryStatisticsReportsWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/endow"/>
+		<property name="fileNamePrefix" value="ticklerDeliveryStatisticsReport"/>
+        <property name="title" value="TICKLER DELIVERY NOTIFICAION STATISTICS REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.module.endow.businessobject.TicklerDeliveryStatisticsReportDetailTableRow" value="ticklerDeliveryStatisticsReportDetailTableRow"/>
+        	</map>
+       	</property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>	
+
+	<bean id="ticklerDeliveryStatisticsReportDetailTableRow" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TicklerDeliveryStatisticsReportDetailTableRow" />
+	    <property name="orderedPropertyNameToHeaderLabelMap">
+    		<map>
+    			<entry key="ticklerDeliveryNotifications" value=" "/>
+    			<entry key="numberOfExceptions" value=" "/>
+    		</map>
+	    </property>
+	    <property name="columnCount" value="2" />
+	</bean>
+    
     <!-- end ticklerDeliveryJob configuration -->
     
  	<!--  end core batch jobs --> 

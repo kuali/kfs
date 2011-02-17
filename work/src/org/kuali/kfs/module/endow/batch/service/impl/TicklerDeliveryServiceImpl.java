@@ -24,12 +24,15 @@ import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.TicklerDeliveryService;
+import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
+import org.kuali.kfs.module.endow.businessobject.TicklerDeliveryStatisticsReportDetailTableRow;
 import org.kuali.kfs.module.endow.businessobject.TicklerRecipientGroup;
 import org.kuali.kfs.module.endow.businessobject.TicklerRecipientPrincipal;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -42,7 +45,6 @@ import org.kuali.rice.kns.rule.event.SendAdHocRequestsEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.LookupService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -59,6 +61,14 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
     private KualiRuleService kualiRuleService;
     private DocumentService documentService;
     private Date currentDate;
+    private ReportWriterService ticklerDeliveryStatisticsReportsWriterService;
+    
+    private TicklerDeliveryStatisticsReportDetailTableRow ticklerDeliveryStatisticsReportDetailTableRow;
+    
+    public TicklerDeliveryServiceImpl(){
+        //statistics report...
+        ticklerDeliveryStatisticsReportDetailTableRow = new TicklerDeliveryStatisticsReportDetailTableRow();
+    }
     
     public boolean generateTicklerNotices() {
 
@@ -72,6 +82,8 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
         
         //route tickler delivery notice
         routeTicklerDeliveryNotice(ticklerBOs);
+        
+        writeStatisticsReport();
         
         LOG.info("End generateTicklerNotices() with notification date of " + currentDate);
         
@@ -135,13 +147,16 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
                 if (rulePassed) {
                     try{
                         //rule passed to send adhoc requests
-                        documentService.routeDocument(ticklerDocument, "Tickler Delivery - " + currentDate, combineAdHocRecipients(ticklerDocument));
+                        documentService.routeDocument(ticklerDocument, "Tickler Notification - " + currentDate, combineAdHocRecipients(ticklerDocument));
+                        ticklerDeliveryStatisticsReportDetailTableRow.increaseTicklerDeliveryNotificationsCount();
                         success = true;
                     }catch(WorkflowException wfe){
+                        ticklerDeliveryStatisticsReportDetailTableRow.increaseNumberOfExceptionsCount();
                         //just warn, but continue routing with other tickler BOs
                         LOG.warn("Failed to route Tickler Delivery notices for Tickler Number " + ticklerBO.getNumber() + " with notification date of " + currentDate);
                     }
                 }else{
+                    ticklerDeliveryStatisticsReportDetailTableRow.increaseNumberOfExceptionsCount();
                     LOG.warn("Invalid recipients for Tickler Delivery notices for Tickler Number " + ticklerBO.getNumber() + " with notification date of " + currentDate);
                 }
                 
@@ -173,7 +188,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
         }
 
         // add all the pieces
-        document.getDocumentHeader().setDocumentDescription("Tickler Delivery - " + currentDate);
+        document.getDocumentHeader().setDocumentDescription("Tickler Notification - " + currentDate);
         document.setOldMaintainableObject(new KualiMaintainableImpl(ticklerBo));
         document.getOldMaintainableObject().setBoClass(ticklerBo.getClass());
         document.setNewMaintainableObject(new KualiMaintainableImpl(ticklerBo));        
@@ -200,8 +215,7 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
                 if(principal.isActive()){
                     person = new AdHocRoutePerson();
                     person.setId(principal.getContact().getPrincipalName());
-                    person.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
-                    
+                    person.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);                    
                     personList.add(person);
                 }
             }
@@ -225,7 +239,9 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
             for(TicklerRecipientGroup group : groups){
                 if(group.isActive()){
                     workgroup = new AdHocRouteWorkgroup();
-                    workgroup.setId(group.getGroupName());
+                    workgroup.setId(group.getGroupId());
+                    workgroup.setRecipientName(group.getAssignedToGroup().getGroupName());
+                    workgroup.setRecipientNamespaceCode(group.getAssignedToGroup().getNamespaceCode());
                     workgroup.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
                     
                     groupList.add(workgroup);
@@ -249,6 +265,26 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
         return adHocRecipients;
     }
 
+    protected void writeStatisticsReport() {
+        //now print the statistics report.....
+        long totalTicklerDeliveryNotifications = 0;
+        long totalNumberOfExceptions = 0;
+                
+        //write the header line....
+        ticklerDeliveryStatisticsReportsWriterService.writeStatisticLine("Number of Tickler Notifications\t\tNumber of Exceptions");
+        ticklerDeliveryStatisticsReportsWriterService.writeStatisticLine("-------------------------------\t\t--------------------");
+            
+        ticklerDeliveryStatisticsReportsWriterService.writeStatisticLine("%31d\t\t%20d", ticklerDeliveryStatisticsReportDetailTableRow.getTicklerDeliveryNotifications(), ticklerDeliveryStatisticsReportDetailTableRow.getNumberOfExceptions());
+    }
+
+    protected TicklerDeliveryStatisticsReportDetailTableRow getTicklerDeliveryStatisticsReportDetailTableRow() {
+        return ticklerDeliveryStatisticsReportDetailTableRow;
+    }
+
+    public void setTicklerDeliveryStatisticsReportDetailTableRow(TicklerDeliveryStatisticsReportDetailTableRow ticklerDeliveryStatisticsReportDetailTableRow) {
+        this.ticklerDeliveryStatisticsReportDetailTableRow = ticklerDeliveryStatisticsReportDetailTableRow;
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -267,6 +303,10 @@ public class TicklerDeliveryServiceImpl implements TicklerDeliveryService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setTicklerDeliveryStatisticsReportsWriterService(ReportWriterService ticklerDeliveryStatisticsReportsWriterService) {
+        this.ticklerDeliveryStatisticsReportsWriterService = ticklerDeliveryStatisticsReportsWriterService;
     }
 
 }

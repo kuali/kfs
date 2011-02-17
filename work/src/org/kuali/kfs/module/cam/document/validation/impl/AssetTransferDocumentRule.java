@@ -462,15 +462,16 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     private boolean isNonCapitalAsset(Asset asset) {
         boolean isNonCapitalAsset = false;
         
-        List<String> capitalAssetStatusCodes = new ArrayList<String>();
+        List<String> capitalAssetAquisitionTypeCodes = new ArrayList<String>();
         
-        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM));
-        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM));
-        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM));
-        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.AssetGlobal.FABRICATED_ACQUISITION_CODE));
-        capitalAssetStatusCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_CODE));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.AssetGlobal.FABRICATED_ACQUISITION_CODE));
+        capitalAssetAquisitionTypeCodes.addAll(SpringContext.getBean(ParameterService.class).getParameterValues(AssetGlobal.class, CamsConstants.AssetGlobal.PRE_TAGGING_ACQUISITION_CODE));
         
-        if( capitalAssetStatusCodes.contains(asset.getInventoryStatus().getInventoryStatusCode()) ) isNonCapitalAsset = false;
+        if( ObjectUtils.isNotNull(asset.getAcquisitionTypeCode()) &&
+                capitalAssetAquisitionTypeCodes.contains(asset.getAcquisitionTypeCode()) ) isNonCapitalAsset = false;
         else isNonCapitalAsset = true;
         
         return isNonCapitalAsset;

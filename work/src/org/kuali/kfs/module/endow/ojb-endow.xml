@@ -782,6 +782,9 @@
     <reference-descriptor name="principalACIModel" class-ref="org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="principalACIModelId" />
 	</reference-descriptor>	
+    <reference-descriptor name="endowmentCorpusValues" class-ref="org.kuali.kfs.module.endow.businessobject.EndowmentCorpusValues" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="kemid" />
+	</reference-descriptor>	
 	
 	<collection-descriptor name="kemidAgreements" element-class-ref="org.kuali.kfs.module.endow.businessobject.KemidAgreement" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
         <orderby name="agreementId" sort="ASC" />

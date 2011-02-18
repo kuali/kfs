@@ -43,7 +43,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency"/>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">

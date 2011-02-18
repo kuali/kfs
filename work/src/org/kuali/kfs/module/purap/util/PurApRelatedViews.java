@@ -276,8 +276,8 @@ public class PurApRelatedViews {
      * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag
      * in relatedPurchaseOrderDocumentsDetail.tag.
      */
-    protected class PurchaseOrderViewGroup {
-        private List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
+    public class PurchaseOrderViewGroup {
+        protected List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
         
         protected PurchaseOrderViewGroup() {
         }
@@ -290,9 +290,9 @@ public class PurApRelatedViews {
     /**
      * A container for a LineItemReceivingView and a list of its associated CorrectionReceivingViews.
      */
-    protected class ReceivingViewGroup {
-        private LineItemReceivingView lineItemView;
-        private List<CorrectionReceivingView> correctionViews = new ArrayList<CorrectionReceivingView>();
+    public class ReceivingViewGroup {
+        protected LineItemReceivingView lineItemView;
+        protected List<CorrectionReceivingView> correctionViews = new ArrayList<CorrectionReceivingView>();
         
         protected ReceivingViewGroup() {
         }

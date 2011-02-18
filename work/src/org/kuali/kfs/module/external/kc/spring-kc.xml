@@ -40,6 +40,10 @@
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
              </map>
         </property>
         <property name="externalizableWebBusinessObjectImplementations">

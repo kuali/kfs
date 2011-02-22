@@ -24,8 +24,7 @@
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
         <ref bean="AccountMaintenanceDocument-AccountResponsibility"/>
-        <ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
-        <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
+          <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
         <ref bean="AccountMaintenanceDocument-AccountDescription"/>
       </list>
     </property>
@@ -160,35 +159,7 @@
       </list>
     </property>
   </bean>
-  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Contracts And Grants"/>
-    <property name="maintainableItems">
-      <list>
-        <dd:maintField attributeName="contractControlFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>contractControlFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
-        <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
-        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>indirectCostRcvyFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
-        <dd:maintField attributeName="accountCfdaNumber"/>
-        <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
-      </list>
-    </property>
-  </bean>
   <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose" parent="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
 
   <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">

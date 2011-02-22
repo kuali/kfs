@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.rice.kns.util.KualiInteger;
+
 
 public class EndowPropertyConstants {
 
@@ -724,4 +726,7 @@ public class EndowPropertyConstants {
             public static final String TRANSACTION_ARCHIVE_OBJECT = "OBJECT";
         }
     }
+    
+    public static final String ENDOWMENT_HIST_CASH_KEMID = "kemid";
+    public static final String ENDOWMENT_HIST_CASH_MED_ID = "monthEndDateId";
 }

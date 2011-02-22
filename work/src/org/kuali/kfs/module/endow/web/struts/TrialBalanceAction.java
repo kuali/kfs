@@ -15,10 +15,11 @@
  */
 package org.kuali.kfs.module.endow.web.struts;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,16 +33,12 @@ import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportPrint;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
-public class TrialBalanceAction extends KualiAction {
+public class TrialBalanceAction extends EndowmentReportBaseAction {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceAction.class);
     
     private final String REPORT_NAME = "Trial Balance";
-    private final String ONLY_ENDOWMENT = "Endowmnet";
-    private final String NON_ENDOWED = "Non-Endowed";
-    private final String BOTH_ENDOWMENT_OPTION = "Both";
     
     private final char KEMID_SEPERATOR = '&';
     private final char OTHER_CRITERIA_SEPERATOR = ',';
@@ -61,7 +58,6 @@ public class TrialBalanceAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TrialBalanceForm trialBalanceForm = (TrialBalanceForm)form;
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -109,7 +105,7 @@ public class TrialBalanceAction extends KualiAction {
         
         TrialBalanceReportService trialBalanceReportService = SpringContext.getBean(TrialBalanceReportService.class);
         
-        // get all the values from the form
+        // get all the value strings from the form
         TrialBalanceForm trialBalanceForm = (TrialBalanceForm) form;
         String kemids = trialBalanceForm.getKemid();
         String benefittingOrganziationCampuses = trialBalanceForm.getBenefittingOrganziationCampus();
@@ -119,10 +115,10 @@ public class TrialBalanceAction extends KualiAction {
         String purposeCodes = trialBalanceForm.getPurposeCode();
         String combineGroupCodes = trialBalanceForm.getCombineGroupCode();
         String asOfDate = trialBalanceForm.getAsOfDate();
-        String endowmnetOption = trialBalanceForm.getEndowmentOption();
+        String endowmentOption = trialBalanceForm.getEndowmentOption();
         String message = trialBalanceForm.getMessage();
 
-        List<TrialBalanceReportDataHolder> trialBalanceReports = null;
+        List<TrialBalanceReportDataHolder> trialBalanceReportDataHolders = null;
         
         /*
          * Creates the report data based on the selected criteria.
@@ -142,13 +138,13 @@ public class TrialBalanceAction extends KualiAction {
                 || StringUtils.isNotBlank(combineGroupCodes) )) {
             
                 // kemid and the other criteria cannot be selected at the same time 
-                trialBalanceForm.setMessage("The use of the KEMID as a selection criterion casnnot be used in combination with any orther selection criteria");
+                trialBalanceForm.setMessage(ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 
             } else {
                 // by kemid only
                 List<String> kemidList = parseValueString(kemids, KEMID_SEPERATOR);                
-                trialBalanceReports = trialBalanceReportService.getTrialBalanceReportsByKemidByIds(kemidList, endowmnetOption);
+                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportsByKemidByIds(kemidList, endowmentOption);
             }
         } else {
             if (( StringUtils.isBlank(benefittingOrganziationCampuses) 
@@ -159,58 +155,46 @@ public class TrialBalanceAction extends KualiAction {
                     && StringUtils.isBlank(combineGroupCodes) )) {
 
                 // for all kemids
-                trialBalanceReports = trialBalanceReportService.getTrialBalanceReportForAllKemids(endowmnetOption);
+                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportForAllKemids(endowmentOption);
                 
             } else {
                 // by other criteria
-                trialBalanceReports = trialBalanceReportService.getTrialBalanceReportsByOtherCriteria(
+                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportsByOtherCriteria(
                     parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR), 
-                    endowmnetOption);
+                    endowmentOption);
             }
         }
                
-        // See if you have something to print        
-        if (trialBalanceReports != null) {
+        // See to see if you have something to print        
+        if (trialBalanceReportDataHolders != null) {
             
-            // There are something to print so prepare the header sheet data
-            
-            // get request report
-            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = new ReportRequestHeaderDataHolder();    
-            reportRequestHeaderDataHolder.setInstitutionName(trialBalanceReportService.getInstitutionName());
-            reportRequestHeaderDataHolder.setReportRequested(REPORT_NAME);
-            reportRequestHeaderDataHolder.setRequestedBy(trialBalanceReportService.getReportRequestor());
-            String endowmentOptionDesc = "";
-            if ("B".equalsIgnoreCase(endowmnetOption)) {
-                endowmentOptionDesc = BOTH_ENDOWMENT_OPTION;
-            } else {
-                endowmentOptionDesc = "Y".equalsIgnoreCase(endowmnetOption) ? ONLY_ENDOWMENT : NON_ENDOWED;
-            }
-            reportRequestHeaderDataHolder.setEndowmentOption(endowmentOptionDesc);
-            reportRequestHeaderDataHolder.setReportOption(""); 
-            
-            // get criteria
-            reportRequestHeaderDataHolder.setBenefittingCampus(trialBalanceReportService.getBenefittingCampuses(parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR)));
-            reportRequestHeaderDataHolder.setBenefittingChart(trialBalanceReportService.getBenefittingCharts(parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR)));
-            reportRequestHeaderDataHolder.setBenefittingOrganization(trialBalanceReportService.getBenefittingOrganizations(parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR)));
-            reportRequestHeaderDataHolder.setKemidTypeCode(trialBalanceReportService.getKemidTypeCodes(parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR)));
-            reportRequestHeaderDataHolder.setKemidPurposeCode(trialBalanceReportService.getKemidPurposeCodes(parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR)));
-            reportRequestHeaderDataHolder.setCombineGroupCode(trialBalanceReportService.getCombineGroupCodes(parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR)));
-            
-            // get kemids selected
-            List<String> kemidsSelected = getKemidsSelected(trialBalanceReports);
-            reportRequestHeaderDataHolder.setKemidsSelected(kemidsSelected);
-    
-            // get kemdis with multiple benefittting organizations
-            reportRequestHeaderDataHolder.setKemidsWithMultipleBenefittingOrganizationsDataHolders(trialBalanceReportService.getKemidsWithMultipleBenefittingOrganizations(kemidsSelected));
+            // prepare the header sheet data
+            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = trialBalanceReportService.createReportHeaderSheetData(
+                    getKemidsSelected(trialBalanceReportDataHolders),
+                    parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
+                    parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
+                    parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR),
+                    parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR),
+                    parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
+                    parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
+                    REPORT_NAME,
+                    endowmentOption);
             
             // generate the report in PDF 
-            if (new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReports, response)) {
-                // succeeded
+            ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders);
+            
+            if (pdfStream != null) {                 
+                response.setContentType("application/pdf");
+                mapping.findForward("result");
+                response.setContentLength(pdfStream.size());
+                ServletOutputStream sos = response.getOutputStream();
+                pdfStream.writeTo(sos);
+                sos.flush();                
                 return null;
             }
         }
@@ -225,33 +209,17 @@ public class TrialBalanceAction extends KualiAction {
     /**
      * Retrieves all the kemids used for the report 
      * 
-     * @param trialBalanceReports
+     * @param trialBalanceReportDataHolder
      * @return
      */
-    protected List<String> getKemidsSelected(List<TrialBalanceReportDataHolder> trialBalanceReports) {
+    protected List<String> getKemidsSelected(List<TrialBalanceReportDataHolder> trialBalanceReportDataHolder) {
         
         List<String> kemids = new ArrayList<String>();
-        for (TrialBalanceReportDataHolder dataHolder : trialBalanceReports) {
+        for (TrialBalanceReportDataHolder dataHolder : trialBalanceReportDataHolder) {
             kemids.add(dataHolder.getKemid());
         }
         
         return kemids;        
-    }
-    
-    /**
-     * Parses the string value, which can include wild cards or separators
-     * 
-     * @param valueString
-     * @param separater
-     * @return
-     */
-    protected List<String> parseValueString(String valueString, char separater) {        
-        
-        List<String> values = null;        
-        if (StringUtils.isNotBlank(valueString)) {
-            values = Arrays.asList(StringUtils.split(valueString.trim(), separater));
-        }        
-        return values;
     }
 
 }

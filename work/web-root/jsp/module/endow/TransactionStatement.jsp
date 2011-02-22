@@ -26,7 +26,7 @@
 	<c:set var="medAttributes" value="${DataDictionary.MonthEndDate.attributes}" />
 		
 <kul:page  showDocumentInfo="false"
-	headerTitle="Trial Balance Report" docTitle="Transaction Statement Report" renderMultipart="true"
+	headerTitle="Transaction Statement Report" docTitle="Transaction Statement Report" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="reportEndowTransactionStatement" errorKey="foo">
 
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Trial Balance">

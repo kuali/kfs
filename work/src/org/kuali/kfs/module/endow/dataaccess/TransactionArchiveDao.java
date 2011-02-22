@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
@@ -116,4 +117,15 @@ public interface TransactionArchiveDao {
      * @return totalCashActivity
      */
     public BigDecimal getTransactionArchivesTotalCashActivity(String kemid, String securityId);
+    
+    /**
+     * Gets a collection of TransactionArchive by kemids and posted dates
+     * 
+     * @param kemids
+     * @param endowmentOption
+     * @param beginningDate
+     * @param endingDate
+     * @return
+     */
+    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(List<String> kemids, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate);
 }

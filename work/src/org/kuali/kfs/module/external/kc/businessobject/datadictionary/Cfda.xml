@@ -35,14 +35,14 @@
 
   <bean id="CFDA-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="CFDA Number"/>
+     <property name="label" value="CFDA Number"/>
     <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
+     <property name="attributeSecurity">
+        <bean parent="AttributeSecurity">
+           <property name="readOnly" value="true"/>
+       </bean>
     </property>
-    <property name="control">
+       <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>

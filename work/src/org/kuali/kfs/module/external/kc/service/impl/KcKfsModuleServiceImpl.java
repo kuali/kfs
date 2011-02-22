@@ -217,7 +217,11 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     public boolean isExternalizableBusinessObjectLookupable(Class boClass) {
         // TODO Auto-generated method stub
         Class boClassInterface = getInterfaceToObj(boClass);
-        if (externalWebBusinessObjectPrimaryKeys.containsKey(boClassInterface)) return true;
+        if (externalWebBusinessObjectPrimaryKeys.containsKey(boClassInterface)) {
+            String primaryKey = externalWebBusinessObjectPrimaryKeys.get(boClassInterface);
+            if (primaryKey.length() > 1) return true;
+            return false;
+         }
         return super.isExternalizableBusinessObjectLookupable(boClass);
     }
 }

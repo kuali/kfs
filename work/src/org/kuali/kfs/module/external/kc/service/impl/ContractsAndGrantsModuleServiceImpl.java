@@ -65,14 +65,11 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         EffortReportingService port = ss.getEffortReportingServicePort();  
         
         String projectDirectorId = port.getProjectDirector(accountNumber);
-        
+        projectDirectorId = "5335901264";  //5430509566
         if (projectDirectorId != null) {
             Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
               return projectDirector;
         }
-        Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName("khuntley");
-        if (projectDirector != null) return projectDirector;
-
         return null;
     }
 

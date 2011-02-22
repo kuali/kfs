@@ -50,7 +50,7 @@
              <map>
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="BudgetCategoryDTO"/>
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="CFDA"/>
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value=""/>
              </map>
         </property>
  		<property name="dataDictionaryPackages">
@@ -128,7 +128,6 @@
 	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
 	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
 	</bean>
-	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	
 	<bean id="unitDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
@@ -148,6 +147,16 @@
 		scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="budgetCategoryDTOLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="cfdaLookupableHelperService"
+		class="org.kuali.kfs.module.external.kc.businessobject.lookup.CfdaLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+	<bean id="cfdaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="cfdaLookupableHelperService" />
 		</property>
 	</bean>
   	

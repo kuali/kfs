@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.endow.report.util;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +25,10 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 
-import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -42,7 +38,7 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  * Helper to print the report in PDF
  */
-public class TrialBalanceReportPrint {
+public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
 
     private final String ZERO_FOR_REPORT = "0.00";
         
@@ -54,57 +50,58 @@ public class TrialBalanceReportPrint {
      * @param response
      * @return
      */
-    public boolean printTrialBalanceReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TrialBalanceReportDataHolder> trialBalanceDataReportHolders, HttpServletResponse response) {
+    public ByteArrayOutputStream printTrialBalanceReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TrialBalanceReportDataHolder> trialBalanceDataReportHolders) {
         
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceReportPrint.class);
-        
-        response.setContentType("application/pdf");
-        
+                
         Document document = new Document();
-        document.setPageSize(PageSize.LETTER);
+        //Document myDoc = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
+        document.setPageSize(pageSize);
         document.addTitle("Endowment Trial Balance");
+        
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+        PdfWriter pdfWriter = null;
 
         try {            
-            if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 1) {            
-                PdfWriter.getInstance(document, response.getOutputStream());
-                document.open();
-    
-                // page
-                HeaderFooter header = new HeaderFooter(new Phrase(new Date().toString() + "     Page: ", EndowmentReportUtils.headerFont), true);
-                header.setBorder(Rectangle.NO_BORDER);
-                header.setAlignment(Element.ALIGN_RIGHT);
-                header.setPageNumber(0);
-                document.setHeader(header);
+            //PdfWriter.getInstance(document, response.getOutputStream());
+            pdfWriter = PdfWriter.getInstance(document, pdfStream);
+            document.open();
+
+            // page
+            HeaderFooter header = new HeaderFooter(new Phrase(new Date().toString() + "     Page: ", headerFont), true);
+            header.setBorder(Rectangle.NO_BORDER);
+            header.setAlignment(Element.ALIGN_RIGHT);
+            header.setPageNumber(0);
+            document.setHeader(header);
                 
-                // print the report header
-                if (new EndowmentReportUtils().printReportHeaderPage(reportRequestHeaderDataHolder, document)) {
+            // print the report header
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, true)) {
                     
-                    // page break
-                    Chunk chunk = new Chunk("");
-                    chunk.setNewPage();
-                    Paragraph newPage= new Paragraph (chunk);
-                    document.add(newPage);
-                    
+                setPageBreak(document);
+                document.resetPageCount();
+                document.setPageCount(1);
+                
+                if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 1) {        
                     // print Trial Balance report
-                    if (printTrialBalanceReport(trialBalanceDataReportHolders, document)) {
-                        LOG.error("Report Body Error");
-                    }                    
+                    if (printTrialBalanceReportBody(trialBalanceDataReportHolders, document)) {
+                        LOG.error("Trial Balance Report Body Error");
+                    } else {
+                        Paragraph message = new Paragraph("No kemids found for Trial Balance report");
+                        document.add(message);                        
+                    }
                 } else {
-                    LOG.error("Report Header Error");
+                    LOG.error("Trial Balance Report Header Error");
                 }
-            } else {
-                Paragraph message = new Paragraph("No kemids found for report");
-                document.add(message);
-            }
-            
+            } 
+        
             document.close();
 
         } catch (Exception e) {
             LOG.error("PDF Error: " + e.getMessage());
-            return false;
+            return null;
         }
         
-        return true;
+        return pdfStream;
     }
     
     /**
@@ -114,7 +111,7 @@ public class TrialBalanceReportPrint {
      * @param document
      * @return
      */
-    public boolean printTrialBalanceReport(List<TrialBalanceReportDataHolder> trialBalanceReports, Document document) {
+    public boolean printTrialBalanceReportBody(List<TrialBalanceReportDataHolder> trialBalanceReports, Document document) {
                 
         try {            
             // title
@@ -128,10 +125,12 @@ public class TrialBalanceReportPrint {
                
             // report table
             PdfPTable table = new PdfPTable(7);
-            table.setWidthPercentage(EndowmentReportUtils.TRIAL_BALANCE_TABLE_WIDTH);
+            table.setWidthPercentage(TRIAL_BALANCE_TABLE_WIDTH);
+            int[] relativeWidths = {12, 13, 15, 15, 15, 15, 15};
+            table.setWidths(relativeWidths);
+            table.getDefaultCell().setPadding(2);
             
             // table titles
-            Font titleFont = EndowmentReportUtils.titleFont;
             table.addCell(new Phrase("KEMID", titleFont));
             table.addCell(new Phrase("KEMID\nName", titleFont));
             table.addCell(new Phrase("Income\nCash\nBalance", titleFont));
@@ -141,9 +140,10 @@ public class TrialBalanceReportPrint {
             table.addCell(new Phrase("FY\nRemainder\nEstimated\nIncome", titleFont));
             
             // table body
-            Font cellFont = EndowmentReportUtils.regularFont;
+            Font cellFont = regularFont;
             for (TrialBalanceReportDataHolder trialBalanceReport : trialBalanceReports) {
                 
+                // totals, which is the last row
                 if (trialBalanceReport.getKemid().equalsIgnoreCase("TOTALS")) {
                     cellFont = titleFont;
                 }
@@ -152,33 +152,33 @@ public class TrialBalanceReportPrint {
                 table.addCell(new Phrase(trialBalanceReport.getKemidName(), cellFont));
                 if (trialBalanceReport.getInocmeCashBalance() != null) { 
                     String amount = formatAmount(trialBalanceReport.getInocmeCashBalance().bigDecimalValue());
-                    table.addCell(new Phrase(amount, cellFont));
+                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else { 
-                    table.addCell(new Phrase(ZERO_FOR_REPORT, cellFont));
+                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getPrincipalcashBalance() != null) {
                     String amount = formatAmount(trialBalanceReport.getPrincipalcashBalance().bigDecimalValue());
-                    table.addCell(new Phrase(amount, cellFont));
+                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
-                    table.addCell(new Phrase(ZERO_FOR_REPORT, cellFont));
+                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getKemidTotalMarketValue() != null) {
                     String amount = formatAmount(trialBalanceReport.getKemidTotalMarketValue());
-                    table.addCell(new Phrase(amount, cellFont));
+                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
-                    table.addCell(new Phrase(ZERO_FOR_REPORT, cellFont));
+                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getAvailableExpendableFunds() != null) {
                     String amount = formatAmount(trialBalanceReport.getAvailableExpendableFunds());
-                    table.addCell(new Phrase(amount, cellFont));
+                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
-                    table.addCell(new Phrase(ZERO_FOR_REPORT, cellFont));
+                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getFyRemainderEstimatedIncome() != null) {
                     String amount = formatAmount(trialBalanceReport.getFyRemainderEstimatedIncome());
-                    table.addCell(new Phrase(amount, cellFont));
+                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
-                    table.addCell(new Phrase(ZERO_FOR_REPORT, cellFont));
+                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
             }
             
@@ -188,28 +188,6 @@ public class TrialBalanceReportPrint {
         }
         
         return true;
-    }
-       
+    }   
 
-    
-    /** 
-     * Format the dollar amount - 19,2 decimal
-     * 
-     * @param amount
-     * @return
-     */
-    protected String formatAmount(BigDecimal amount) {        
-        
-        String amountString = "";;
-        NumberFormat formatter = new DecimalFormat("#,###,###,###,###,###,##0.00");
-        
-        if (amount.doubleValue() < 0) {
-            amount = amount.negate();
-            amountString = "(" + formatter.format(amount.doubleValue()) + ")";
-            
-        } else {
-            amountString = formatter.format(amount.doubleValue());
-        }
-        return amountString;         
-    }
 }

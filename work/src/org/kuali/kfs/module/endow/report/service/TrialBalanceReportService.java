@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 
-public interface TrialBalanceReportService {
+public interface TrialBalanceReportService extends EndowmentReportService {
 
     /**
      * Gets the trial balance data using selected kemids
@@ -59,76 +59,5 @@ public interface TrialBalanceReportService {
             List<String> purposeCodes, 
             List<String> combineGroupCodes, 
             String endowmnetOption);
-    
-    /**
-     * Gets the institution name, using the KFS parameter
-     * See 8 Report Design in the specs
-     * 
-     * @return
-     */
-    public String getInstitutionName();
-    
-    /**
-     * Gets the report name "Trial Balance"
-     * 
-     * @return
-     */
-    public String getReportRequestor();
-    
-    /**
-     * Gets the campus names of selected campuses 
-     * 
-     * @param campuses
-     * @return
-     */
-    public String getBenefittingCampuses(List<String> campuses);
-    
-    /**
-     * Gets the chart names of selected charts
-     * 
-     * @param charts
-     * @return
-     */
-    public String getBenefittingCharts(List<String> charts);
-    
-    /**
-     * Gets the organization names of selected organizations
-     * 
-     * @param organizations
-     * @return
-     */
-    public String getBenefittingOrganizations(List<String> organizations);
-    
-    /**
-     * Gets the selected type codes   
-     * 
-     * @param typeCodes
-     * @return
-     */
-    public String getKemidTypeCodes(List<String> typeCodes);
-    
-    /**
-     * Gets the selected purpose codes
-     * 
-     * @param purposes
-     * @return
-     */
-    public String getKemidPurposeCodes(List<String> purposes);
-    
-    /**
-     * Gets the selected group codes
-     * 
-     * @param groupCodes
-     * @return
-     */
-    public String getCombineGroupCodes(List<String> groupCodes);
-    
-    /**
-     * Gets the KEMIDs with multiple benefitting organizations
-     * 
-     * @param kemids
-     * @return
-     */
-    public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids);
     
 }

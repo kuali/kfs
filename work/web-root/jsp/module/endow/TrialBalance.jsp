@@ -26,7 +26,7 @@
 		
 <kul:page  showDocumentInfo="false"
 	headerTitle="Trial Balance Report" docTitle="Trial Balance Report" renderMultipart="true"
-	transactionalDocument="false" htmlFormAction="endowReportTrialBalance" errorKey="foo">
+	transactionalDocument="false" htmlFormAction="reportEndowTrialBalance" errorKey="foo">
 
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Trial Balance">
 			<tr>		

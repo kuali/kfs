@@ -47,22 +47,20 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
                 
         Criteria criteria = new Criteria();
-        if (kemids.isEmpty()) {
-            // all records
-            criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery); 
-        }
-        for (String kemid : kemids) {
-            Criteria c = new Criteria();
-            if (kemid.contains("*")) {
-                c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace('*', '%'));
-            } else {
-                c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
+        if (kemids != null) {
+            for (String kemid : kemids) {
+                Criteria c = new Criteria();
+                if (kemid.contains("*")) {
+                    c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace('*', '%'));
+                } else {
+                    c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
+                }
+                //TODO: how is the current date used?
+                //c.addEqualTo("dateOpened", currentDate);
+                criteria.addOrCriteria(c);
             }
-            //TODO: how is the current date used?
-            //c.addEqualTo("dateOpened", currentDate);
-            c.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);            
-            criteria.addOrCriteria(c);
         }
+        criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
         QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, criteria);
         qbc.addOrderByAscending(EndowPropertyConstants.KEMID);
         

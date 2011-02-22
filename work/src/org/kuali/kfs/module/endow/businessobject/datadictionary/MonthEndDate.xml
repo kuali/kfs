@@ -21,6 +21,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <ref bean="MonthEndDate-monthEndDateId" />
         <ref bean="MonthEndDate-monthEndDate" />
+        <ref bean="MonthEndDate-beginningDate" />
+        <ref bean="MonthEndDate-endingDate" />
       </list>
     </property>
   </bean>
@@ -53,6 +55,30 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="label" value="Month End Date" />
   </bean>
   
+  <bean id="MonthEndDate-beginningDate" parent="MonthEndDate-beginningDate-parentBean" />
+  
+  <bean id="MonthEndDate-beginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="beginningDate" />
+    <property name="label" value="Beginning Date" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.BeginningDateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+ 
+  <bean id="MonthEndDate-endingDate" parent="MonthEndDate-endingDate-parentBean" />
+  
+  <bean id="MonthEndDate-endingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="endingDate" />
+    <property name="label" value="Endning Date" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.EndingDateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>
+   
 <!-- Business Object Inquiry Definition -->
 
 

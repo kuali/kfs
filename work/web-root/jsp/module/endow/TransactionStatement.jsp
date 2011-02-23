@@ -29,7 +29,7 @@
 	headerTitle="Transaction Statement Report" docTitle="Transaction Statement Report" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="reportEndowTransactionStatement" errorKey="foo">
 
-	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Trial Balance">
+	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Transaction Statement">
 			<tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidAttributes.kemidForReport}" readOnly="true" /></div>
@@ -94,7 +94,7 @@
             </tr>            
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right">* Beginning Date:</div>
+                    <div align="right">Beginning Date:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${medAttributes.beginningDate}" property="beginningDate" /> 
@@ -102,7 +102,7 @@
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right">* Ending Date:</div>
+                    <div align="right">Ending Date:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${medAttributes.endingDate}" property="endingDate" />					
@@ -125,11 +125,11 @@
 	
      <div id="globalbuttons" class="globalbuttons">
 	        	
-	        	<c:if test="${!empty extraButtons}">
-		        	<c:forEach items="${extraButtons}" var="extraButton">
-		        		<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"/>
-		        	</c:forEach>
-	        	</c:if>
+       	<c:if test="${!empty extraButtons}">
+        	<c:forEach items="${extraButtons}" var="extraButton">
+        		<html:image src="${extraButton.extraButtonSource}" styleClass="globalbuttons" property="${extraButton.extraButtonProperty}" title="${extraButton.extraButtonAltText}" alt="${extraButton.extraButtonAltText}"/>
+        	</c:forEach>
+       	</c:if>
 	</div>
 	
 	<div>

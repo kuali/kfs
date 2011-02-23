@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.service.Service;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
@@ -45,6 +46,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -60,12 +62,17 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)
      */
-    public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {     
-        EffortReportingServiceSoapService ss = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-        EffortReportingService port = ss.getEffortReportingServicePort();  
+    public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {  
         
+        EffortReportingService port = (EffortReportingService) SpringContext.getService("effortReportingService");
+        if (port == null) {
+            EffortReportingServiceSoapService ss = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
+            port = ss.getEffortReportingServicePort();  
+        }
+//        Service soapService = (Service) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
+
+    
         String projectDirectorId = port.getProjectDirector(accountNumber);
-        projectDirectorId = "5335901264";  //5430509566
         if (projectDirectorId != null) {
             Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
               return projectDirector;

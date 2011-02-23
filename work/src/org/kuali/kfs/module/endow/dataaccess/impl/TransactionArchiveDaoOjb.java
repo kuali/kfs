@@ -442,18 +442,23 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             Object[] data = (Object[]) result.next();
             kemidsSelected.add(data[0].toString());
         }
-        
-        // get TransactionArchive
-        Criteria criteria = new Criteria();
-        Criteria criteria2 = new Criteria();
-        criteria2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemidsSelected);
-        criteria.addAndCriteria(criteria2);
-        criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
-        criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
-        
-        QueryByCriteria qbc2 = QueryFactory.newQuery(TransactionArchive.class, criteria);
-        qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);
 
-        return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc2);
+        // get TransactionArchive        
+        if (!kemidsSelected.isEmpty()) {
+            Criteria criteria = new Criteria();
+            Criteria criteria2 = new Criteria();
+            criteria2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemidsSelected);
+            criteria.addAndCriteria(criteria2);
+            criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
+            criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
+            
+            QueryByCriteria qbc2 = QueryFactory.newQuery(TransactionArchive.class, criteria);
+            qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);
+    
+            return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc2);
+            
+        } else {
+            return null;
+        }
     }
 }

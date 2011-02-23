@@ -214,19 +214,6 @@ public abstract class EndowmentReportPrintBase {
       return cell;
     } 
     
-    /**
-     * Sets the page break
-     * 
-     * @param document
-     * @throws Exception
-     */
-    protected void setPageBreak(Document document) throws Exception {
-        Chunk chunk = new Chunk("");
-        chunk.setNewPage();
-        Paragraph newPage= new Paragraph (chunk);
-        document.add(newPage);
-    }
-    
     /** 
      * Format the dollar amount - 19,2 decimal
      * 

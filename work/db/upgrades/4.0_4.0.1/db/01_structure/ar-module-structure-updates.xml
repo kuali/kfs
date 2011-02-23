@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Winston' id='KFS_401_AR_OPEN_INV_DTL_MT_DropTable' failOnError='false'>
+    <comment>KFSMI-KFSMI-6468 Drop _MT Tables of AR</comment>
+    <dropTable tableName='AR_OPEN_INV_DTL_MT' />
+  </changeSet>
+  <changeSet author='Winston' id='KFS_401_AR_NON_INV_MT_DropTable' failOnError='false'>
+    <comment>KFSMI-KFSMI-6468 Drop _MT Tables of AR</comment>
+    <dropTable tableName='AR_NON_INV_MT' />
+  </changeSet>
+  <changeSet author='Winston' id='KFS_401_AR_NON_INV_DIST_MT_DropTable' failOnError='false'>
+    <comment>KFSMI-KFSMI-6468 Drop _MT Tables of AR</comment>
+    <dropTable tableName='AR_NON_INV_DIST_MT' />
+  </changeSet>
+  <changeSet author='Winston' id='KFS_401_AR_NON_APLD_DIST_MT_DropTable' failOnError='false'>
+    <comment>KFSMI-KFSMI-6468 Drop _MT Tables of AR</comment>
+    <dropTable tableName='AR_NON_APLD_DIST_MT' />
+  </changeSet>
+  <changeSet author='Winston' id='KFS_401_AR_INV_PD_APLD_MT_DropTable' failOnError='false'>
+    <comment>KFSMI-KFSMI-6468 Drop _MT Tables of AR</comment>
+    <dropTable tableName='AR_INV_PD_APLD_MT' />
+  </changeSet>
+</databaseChangeLog>

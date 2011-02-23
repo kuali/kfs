@@ -37,7 +37,9 @@ import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
+import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 
 public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryLookupServiceImpl.class);
@@ -58,9 +60,11 @@ public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupServ
             }
         }
         if (hashMapList.size() == 0) hashMapList = null;
-        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
-        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
-        
+        InstitutionalBudgetCategoryService port = (InstitutionalBudgetCategoryService) SpringContext.getService("budgetCategoryService");
+        if (port == null) {      
+            InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
+            port = ss.getBudgetCategoryServicePort();  
+        }     
         List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     
         return budgetCategoryDTOs;
     }

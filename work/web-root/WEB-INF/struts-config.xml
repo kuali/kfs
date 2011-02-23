@@ -261,6 +261,10 @@
 			type="org.kuali.kfs.module.endow.web.struts.TrialBalanceForm" />
 		<form-bean name="TransactionStatementForm"
 			type="org.kuali.kfs.module.endow.web.struts.TransactionStatementForm" />
+		<form-bean name="TransactionSummaryForm"
+			type="org.kuali.kfs.module.endow.web.struts.TransactionSummaryForm" />
+		<form-bean name="AssetStatementForm"
+			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />						
 	</form-beans>
 
 	<global-exceptions>

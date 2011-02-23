@@ -47,9 +47,10 @@
 	</ul>
 	<strong>Endowments</strong></br>
     <ul class="chan">	
-		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="reportEndowTrialBalance.do?methodToCall=start"/></li>
-		<li><a class="portal_link" href="reportEndowTrialBalance.do?methodToCall=start" title="Trial Balance" target="_BLANK">Trial Balance2</a></li>	
+		<li><portal:portalLink displayTitle="true" title="Asset Statement" url="reportEndowAssetStatement.do?methodToCall=start"/></li>
 		<li><portal:portalLink displayTitle="true" title="Transaction Statement" url="reportEndowTransactionStatement.do?methodToCall=start"/></li>
+		<li><portal:portalLink displayTitle="true" title="Transaction Summary" url="reportEndowTransactionSummary.do?methodToCall=start"/></li>		
+		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="reportEndowTrialBalance.do?methodToCall=start"/></li>
 	</ul>
 	<strong>System</strong></br>
     <ul class="chan">

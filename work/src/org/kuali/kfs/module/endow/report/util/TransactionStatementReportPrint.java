@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.report.util;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -40,21 +41,21 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
      * 
      * @param reportRequestHeaderDataHolder
      * @param transactionStatementDataReportHolders
-     * @param response
      * @return
      */
-    public boolean printTransactionStatementReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionStatementReportDataHolder> transactionStatementDataReportHolders, HttpServletResponse response) {
+    public ByteArrayOutputStream printTransactionStatementReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionStatementReportDataHolder> transactionStatementDataReportHolders) {
         
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionStatementReportPrint.class);
         
-        response.setContentType("application/pdf");
-        
         Document document = new Document();
+        //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
         document.setPageSize(pageSize);
         document.addTitle("Endowment Transaction Statement");
+        
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
 
         try {            
-            PdfWriter.getInstance(document, response.getOutputStream());
+            PdfWriter.getInstance(document, pdfStream);            
             document.open();
 
             // page
@@ -65,19 +66,9 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
             
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, false)) {
-                
-                setPageBreak(document);
-                document.setPageCount(1);
-  
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, false)) {                
                 if (transactionStatementDataReportHolders != null && transactionStatementDataReportHolders.size() > 0) {            
-                    // print Transaction Statement report
-                    if (!printTransactionStatementReportBody(transactionStatementDataReportHolders, document)) {
-                        LOG.error("Transaction Statement Report Body Error");
-                    }                
-                } else {
-                    Paragraph message = new Paragraph("No kemids found for Transaction Statement report");
-                    document.add(message);
+                    printTransactionStatementReportBody(transactionStatementDataReportHolders, document);
                 } 
             } else {
                 LOG.error("Transaction Statement Report Header Error");
@@ -87,10 +78,10 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
 
         } catch (Exception e) {
             LOG.error("PDF Error: " + e.getMessage());
-            return false;
+            return null;
         }
         
-        return true;
+        return pdfStream;
     }
     
     /**
@@ -101,11 +92,16 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
      * @return
      */
     public boolean printTransactionStatementReportBody(List<TransactionStatementReportDataHolder> transactionStatementReportDataHolders, Document document) {
-                
+            
+        document.setPageCount(0);
+        
         // for each kemid
-        try {                        
+        try {                               
             Font cellFont = regularFont;
             for (TransactionStatementReportDataHolder transactionStatementReport : transactionStatementReportDataHolders) {
+                
+                // new page
+                document.newPage();
                 
                 // header
                 StringBuffer title = new StringBuffer();
@@ -211,8 +207,6 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 }
                 
                 document.add(table);
-                
-                setPageBreak(document);
             }
             
             

@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,12 +32,14 @@ import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportPrint;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.WebUtils;
 
 public class TrialBalanceAction extends EndowmentReportBaseAction {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceAction.class);
     
     private final String REPORT_NAME = "Trial Balance";
+    private final String REPORT_FILE_NAME = "TrialBalanceReport.pdf";
     
     private final char KEMID_SEPERATOR = '&';
     private final char OTHER_CRITERIA_SEPERATOR = ',';
@@ -171,8 +172,8 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
         }
                
         // See to see if you have something to print        
-        if (trialBalanceReportDataHolders != null) {
-            
+        if (trialBalanceReportDataHolders != null && !trialBalanceReportDataHolders.isEmpty()) {
+  
             // prepare the header sheet data
             ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = trialBalanceReportService.createReportHeaderSheetData(
                     getKemidsSelected(trialBalanceReportDataHolders),
@@ -186,21 +187,16 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
                     endowmentOption);
             
             // generate the report in PDF 
-            ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders);
-            
-            if (pdfStream != null) {                 
-                response.setContentType("application/pdf");
-                mapping.findForward("result");
-                response.setContentLength(pdfStream.size());
-                ServletOutputStream sos = response.getOutputStream();
-                pdfStream.writeTo(sos);
-                sos.flush();                
+            ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders);            
+            if (pdfStream != null) {
+                trialBalanceForm.setMessage("Reports Generated");
+                WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
                 return null;
             }
         }
         
         // No report was generated
-        trialBalanceForm.setMessage("Report was not generated");
+        trialBalanceForm.setMessage("Report was not generated for " + kemids + ".");
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
         

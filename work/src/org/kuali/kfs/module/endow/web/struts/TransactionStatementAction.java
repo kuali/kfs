@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.web.struts;
 
-import java.sql.Date;
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,19 +28,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
 import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportPrint;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.util.WebUtils;
 
 public class TransactionStatementAction extends EndowmentReportBaseAction {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionStatementAction.class);
     
     private final String REPORT_NAME = "Transaction Statement";
+    private final String REPORT_FILE_NAME = "TransactionStatementReport.pdf";
     
     public TransactionStatementAction() {
         super();
@@ -197,8 +198,7 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
         }
                
         // See to see if you have something to print        
-        if (transactionStatementReportDataHolders != null) {
-            
+        if (transactionStatementReportDataHolders != null && !transactionStatementReportDataHolders.isEmpty()) {
             // prepare the header sheet data
             ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = transactionStatementReportService.createReportHeaderSheetData(
                     getKemidsSelected(transactionStatementReportDataHolders),
@@ -212,14 +212,16 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                     endowmentOption);
             
             // generate the report in PDF 
-            if (new TransactionStatementReportPrint().printTransactionStatementReport(reportRequestHeaderDataHolder, transactionStatementReportDataHolders, response)) {
-                // succeeded
+            ByteArrayOutputStream pdfStream = new TransactionStatementReportPrint().printTransactionStatementReport(reportRequestHeaderDataHolder, transactionStatementReportDataHolders);            
+            if (pdfStream != null) {
+                transactionStatementForm.setMessage("Reports Generated");
+                WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
                 return null;
             }
         }       
         
         // No report was generated
-        transactionStatementForm.setMessage("Report was not generated");
+        transactionStatementForm.setMessage("Report was not generated for " + kemids + ".");
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
         

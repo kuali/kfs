@@ -19,8 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -47,53 +45,41 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
      * 
      * @param reportRequestHeaderDataHolder
      * @param trialBalanceDataReportHolders
-     * @param response
-     * @return
+     * @return ByteArrayOutputStream
      */
     public ByteArrayOutputStream printTrialBalanceReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TrialBalanceReportDataHolder> trialBalanceDataReportHolders) {
         
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceReportPrint.class);
                 
         Document document = new Document();
-        //Document myDoc = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
+        //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
         document.setPageSize(pageSize);
         document.addTitle("Endowment Trial Balance");
         
+        // get the stream for PDF
         ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
-        PdfWriter pdfWriter = null;
 
         try {            
-            //PdfWriter.getInstance(document, response.getOutputStream());
-            pdfWriter = PdfWriter.getInstance(document, pdfStream);
+            PdfWriter.getInstance(document, pdfStream);
             document.open();
-
+            
             // page
             HeaderFooter header = new HeaderFooter(new Phrase(new Date().toString() + "     Page: ", headerFont), true);
             header.setBorder(Rectangle.NO_BORDER);
             header.setAlignment(Element.ALIGN_RIGHT);
             header.setPageNumber(0);
             document.setHeader(header);
-                
+
             // print the report header
             if (printReportHeaderPage(reportRequestHeaderDataHolder, document, true)) {
                     
-                setPageBreak(document);
-                document.resetPageCount();
-                document.setPageCount(1);
-                
                 if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 1) {        
-                    // print Trial Balance report
-                    if (printTrialBalanceReportBody(trialBalanceDataReportHolders, document)) {
-                        LOG.error("Trial Balance Report Body Error");
-                    } else {
-                        Paragraph message = new Paragraph("No kemids found for Trial Balance report");
-                        document.add(message);                        
-                    }
+                    printTrialBalanceReportBody(trialBalanceDataReportHolders, document);
                 } else {
                     LOG.error("Trial Balance Report Header Error");
                 }
             } 
-        
+            
             document.close();
 
         } catch (Exception e) {
@@ -113,7 +99,11 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
      */
     public boolean printTrialBalanceReportBody(List<TrialBalanceReportDataHolder> trialBalanceReports, Document document) {
                 
-        try {            
+        try {
+            // new page
+            document.setPageCount(0);
+            document.newPage();
+            
             // title
             Paragraph title = new Paragraph("KEMID Trial Balance");
             title.setAlignment(Element.ALIGN_CENTER);

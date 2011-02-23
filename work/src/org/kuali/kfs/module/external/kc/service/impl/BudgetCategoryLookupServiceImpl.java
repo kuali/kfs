@@ -60,11 +60,10 @@ public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupServ
             }
         }
         if (hashMapList.size() == 0) hashMapList = null;
-        InstitutionalBudgetCategoryService port = (InstitutionalBudgetCategoryService) SpringContext.getService("budgetCategoryService");
-        if (port == null) {      
-            InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
-            port = ss.getBudgetCategoryServicePort();  
-        }     
+   
+        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
+        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
+   
         List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     
         return budgetCategoryDTOs;
     }

@@ -71,6 +71,10 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
         
         List<TrialBalanceReportDataHolder> trialBalanceReportList = new ArrayList<TrialBalanceReportDataHolder>();
         List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endownmentOption, kemService.getCurrentDate());
+        if (kemidRecords == null || kemidRecords.isEmpty()) {
+            return null;
+        }
+        
         for (KEMID kemidObj : kemidRecords) {
             
             // get the kemid and the title

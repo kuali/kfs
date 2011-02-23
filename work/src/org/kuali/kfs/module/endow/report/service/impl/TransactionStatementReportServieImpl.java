@@ -71,6 +71,10 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         }
         
         List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate);
+        if (transactionArchiveRecords == null) {
+            return null;
+        }
+        
         for (TransactionArchive transactionArchive : transactionArchiveRecords) {
             
             TransactionStatementReportDataHolder transactionStatementReport = new TransactionStatementReportDataHolder();

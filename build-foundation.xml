@@ -162,29 +162,40 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     		 basedir="${rice.project.directory}/${licenses.directory}" />
   	</target>
 		
-	<target name="build-kc-integration-jar" depends="init-properties">
+	<target name="build-cg-integration-jar" depends="init-properties">
 		<!-- clear the target directory -->
 		<delete dir="${all.temp.directory}" failonerror="false" />
 		<mkdir dir="${all.temp.directory}" />
 		<!-- build the subset of class files -->
-		<javac destdir="${all.temp.directory}" srcdir="${source.directory}" includeantruntime="false"
+		<javac destdir="${all.temp.directory}" srcdir="${source.directory}" includeantruntime="false" target="1.5"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-			<include name="org/kuali/kfs/integration/kc/**" />
+			<include name="org/kuali/kfs/integration/cg/**" />
 			<classpath refid="compile.source.classpath" />
 		</javac>
-		<copy todir="${all.temp.directory}/org/kuali/kfs/integration/kc/">
-			<fileset dir="${source.directory}/org/kuali/kfs/integration/kc/" includes="${non.java.resources}" />
+		<copy todir="${all.temp.directory}/org/kuali/kfs/integration/cg/">
+			<fileset dir="${source.directory}/org/kuali/kfs/integration/cg/" includes="${non.java.resources}" />
 		</copy>
 		<!-- jar them up -->
-		<jar basedir="${all.temp.directory}" destfile="${all.temp.directory}/kfs-kc-integration.jar" />
+		<jar basedir="${all.temp.directory}" destfile="${all.temp.directory}/kfs-cg-integration.jar" />
 	</target>
-	
-	<target name="install-kc-integration-jar-to-maven-repo" depends="build-kc-integration-jar">
+
+	<target name="upload-cg-integration-jar-to-local-repo" depends="init-properties">
+		<loadproperties srcfile="build/distribution/distribution.properties" />
 		<!-- run the maven install command to get it into the local repository -->
 		<maven goals="install:install-file"
-			   options="-Dfile=${all.temp.directory}/kfs-kc-integration.jar -DgroupId=org.kuali.kfs -DartifactId=kc-integration -Dversion=1.0 -Dpackaging=jar"
+			   options="-Dfile=${all.temp.directory}/kfs-cg-integration.jar -DgroupId=org.kuali.kfs -DartifactId=cg-integration -Dversion=${release.version.number} -Dpackaging=jar"
+			   dir="${basedir}" />		
+	</target>
+
+	<target name="upload-cg-integration-jar-to-maven-repo" depends="init-properties">
+		<loadproperties srcfile="build/distribution/distribution.properties" />
+		
+		<maven goals="deploy:deploy-file"
+			   options="-e -Dfile=${all.temp.directory}/kfs-cg-integration.jar -DgroupId=org.kuali.kfs -DartifactId=cg-integration -Dversion=${release.version.number} -Dpackaging=jar -DrepositoryId=kuali.snapshot -Durl=s3://maven.kuali.org/snapshot"
 			   dir="${basedir}" />
 	</target>
+	
+	<target name="install-cg-integration-jar-to-maven-repo" depends="build-cg-integration-jar,upload-cg-integration-jar-to-local-repo,upload-cg-integration-jar-to-maven-repo" />
 	
 <!--	
 	<target name="build-dd-doc" depends="init-properties" description="Builds documentation for the Data Dictionary custom tags.">

@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingService;
 import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingServiceSoapService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -39,6 +40,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -58,13 +60,16 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         
         EffortReportingService port = (EffortReportingService) SpringContext.getService("effortReportingService");
         if (port == null) {
-            EffortReportingServiceSoapService ss = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-            port = ss.getEffortReportingServicePort();  
+            EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
+
+            //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
+            port = soapService.getEffortReportingServicePort();  
         }
 //        Service soapService = (Service) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
 
     
         String projectDirectorId = port.getProjectDirector(accountNumber);
+        LOG.info("sent " + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {
             Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
               return projectDirector;

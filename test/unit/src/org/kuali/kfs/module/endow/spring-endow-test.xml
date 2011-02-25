@@ -51,6 +51,18 @@
     	</property>
     </bean>
     
+    <bean id="mockGeneralLedgerInterfaceBatchProcessService" parent="generalLedgerInterfaceBatchProcessService">
+    	<property name="gLInterfaceBatchStatisticsReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="gLInterfaceBatchTotalProcessedReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    	<property name="gLInterfaceBatchExceptionReportsWriterService">
+    		<ref bean="mockReportWriterService"/>
+    	</property>
+    </bean>
+    
     <bean id="mockRollFrequencyDatesService" parent="rollFrequencyDatesService">
     	<property name="rollFrequencyDatesTotalReportWriterService">
     		<ref bean="mockReportWriterService"/>

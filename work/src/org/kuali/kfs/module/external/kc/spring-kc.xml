@@ -70,9 +70,7 @@
     <bean id="cgModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
-	<bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl" >
-		<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/effortReportingServiceSoapService?wsdl"/>
-	</bean>
+	<bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl"/>
 	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">

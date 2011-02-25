@@ -34,7 +34,6 @@ import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingService;
-import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingServiceSoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,9 +47,6 @@ import org.kuali.rice.kns.service.ParameterService;
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
-    private String wsdlLocation;
-    private URL wsdlURL = EffortReportingServiceSoapService.WSDL_LOCATION;
-    private static final QName SERVICE_NAME = new QName(KFSConstants.Research.KC_NAMESPACE_URI, "effortReportingServiceSoapService");   
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
@@ -58,9 +54,12 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      */
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {  
 
-        EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
+        //EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
         //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-        EffortReportingService port = soapService.getEffortReportingServicePort();  
+        // EffortReportingService port = soapService.getEffortReportingServicePort();  
+
+        QName serviceName = new QName("KC", "effortReportingService");
+        EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
 
 
         String projectDirectorId = port.getProjectDirector(accountNumber);
@@ -88,9 +87,9 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
      *      java.lang.String, java.util.List)
      */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {       
-        EffortReportingServiceSoapService ss = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-        EffortReportingService port = ss.getEffortReportingServicePort();  
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {   
+        QName serviceName = new QName("KC", "effortReportingService");
+        EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
         boolean _isFederalSponsor__return = port.isFederalSponsor(accountNumber);
         if ( _isFederalSponsor__return) return true;
         
@@ -212,21 +211,6 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      */
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
-    }
-    public String getWsdlLocation() {
-        return wsdlLocation;
-    }
-
-    public void setWsdlLocation(String wsdlLocation) {
-        this.wsdlLocation = wsdlLocation;
-        try {
-            wsdlURL = new URL(wsdlLocation);
-        }
-        catch (MalformedURLException ex) {
-          
-            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            //ex.printStackTrace();
-        }
     }
 }
 

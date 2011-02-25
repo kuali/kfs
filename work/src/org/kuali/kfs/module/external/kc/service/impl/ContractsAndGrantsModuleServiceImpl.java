@@ -57,17 +57,12 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      *      java.lang.String)
      */
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {  
-        
-        EffortReportingService port = (EffortReportingService) SpringContext.getService("effortReportingService");
-        if (port == null) {
-            EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
 
-            //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-            port = soapService.getEffortReportingServicePort();  
-        }
-//        Service soapService = (Service) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
+        EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
+        //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
+        EffortReportingService port = soapService.getEffortReportingServicePort();  
 
-    
+
         String projectDirectorId = port.getProjectDirector(accountNumber);
         LOG.info("sent " + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {

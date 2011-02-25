@@ -432,7 +432,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
             BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
             oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
-            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount));
+            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount, transactionArchive.getSubTypeCode()));
         }
         catch (Exception ex) {
             statisticsDataRow.increaseNumberOfExceptionsCount();
@@ -480,15 +480,25 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     /**
      * method to get transaction debit/credit code
      * @param transactionAmount
+     * @param subTypeCode
      * @return transaction debit or credit code
      */
-    protected String getTransactionDebitCreditCode(BigDecimal transactionAmount) {
-        
-        if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+    protected String getTransactionDebitCreditCode(BigDecimal transactionAmount, String subTypeCode) {
+        if (subTypeCode.equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
+            if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
+                return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+            }
+            else {
+                return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+            }
         }
         else {
-            return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+            if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
+                return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+            }
+            else {
+                return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+            }
         }
     }
 
@@ -579,7 +589,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         else {
             totalAmount = getTransactionAmount(transactionArchive);
-            debitCreditCode = getTransactionDebitCreditCode(totalAmount);            
+            debitCreditCode = getTransactionDebitCreditCode(totalAmount, transactionArchive.getSubTypeCode());            
         }
         
         if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE)) {

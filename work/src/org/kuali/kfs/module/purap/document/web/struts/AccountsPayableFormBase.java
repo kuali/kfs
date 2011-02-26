@@ -121,34 +121,6 @@ public class AccountsPayableFormBase extends PurchasingAccountsPayableFormBase {
     }
 
     /**
-     * overridden to make sure accounting lines on items are repopulated
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populateAccountingLinesForResponse(java.lang.String, java.util.Map)
-     */
-    @Override
-    protected void populateAccountingLinesForResponse(String methodToCall, Map parameterMap) {
-        super.populateAccountingLinesForResponse(methodToCall, parameterMap);
-        
-        populateItemAccountingLines(parameterMap);
-    }
-    
-    /**
-     * Populates accounting lines for each item on the AP document
-     * @param parameterMap the map of parameters
-     */
-    protected void populateItemAccountingLines(Map parameterMap) {
-       int itemCount = 0;
-       for (PurApItem item : ((AccountsPayableDocument)getDocument()).getItems()) {
-           populateAccountingLine(item.getNewSourceLine(), KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.ITEM+"["+itemCount+"]."+KFSPropertyConstants.NEW_SOURCE_LINE, parameterMap);
-           
-           int sourceLineCount = 0;
-           for (PurApAccountingLine purApLine : item.getSourceAccountingLines()) {
-               populateAccountingLine(purApLine, KFSPropertyConstants.DOCUMENT+"."+KFSPropertyConstants.ITEM+"["+itemCount+"]."+KFSPropertyConstants.SOURCE_ACCOUNTING_LINE+"["+sourceLineCount+"]", parameterMap);
-               sourceLineCount += 1;
-           }
-       }
-    }
-
-    /**
      * Updates item counts for display
      */
     public void updateItemCounts() {

@@ -137,7 +137,8 @@
 			<ref bean="unitDTOLookupableHelperService" />
 		</property>
 	</bean>
-
+	
+	
   	<bean id="budgetCategoryDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
@@ -148,6 +149,8 @@
 		</property>
 	</bean>
 	
+  	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
+  	
 	<bean id="cfdaLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.CfdaLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />

@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.module.external.kc.service.CfdaLookupService;
+import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
+import org.kuali.kfs.module.external.kc.service.CfdaService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -50,8 +52,21 @@ public class CfdaLookupableHelperServiceImpl extends KualiLookupableHelperServic
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
         List cfdas = new ArrayList();
         try {
-            CfdaLookupService cfdaService = SpringContext.getBean(CfdaLookupService.class);
-            cfdas = cfdaService.lookupCfda(parameters);
+           List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
+           // CfdaService cfdaService = (CfdaService) SpringContext.getService("cfdaService");
+            //List <Cfda> cfdas cfdaService.getByPrimaryId(accountNumber);
+            
+            for (String key : parameters.keySet()) {
+                String val = parameters.get(key);
+                if ( BudgetCategoryLookupService.KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+                    HashMapElement hashMapElement = new HashMapElement();
+                    hashMapElement.setKey(key);
+                    hashMapElement.setValue(val); 
+                    hashMapList.add(hashMapElement);
+                }
+            }
+
+            //cfdas = cfdaService.lookupCfda(parameters);
            if (cfdas == null) return Collections.EMPTY_LIST;
            return cfdas;
             

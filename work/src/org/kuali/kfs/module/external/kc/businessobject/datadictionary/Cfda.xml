@@ -4,6 +4,12 @@
 
   <bean id="CFDA-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.Cfda"/>
+    <property name="inquiryDefinition">
+      <ref bean="CFDA-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="CFDA-lookupDefinition"/>
+    </property>
     <property name="objectLabel" value="CFDA Reference"/>
     <property name="attributes">
       <list>
@@ -61,4 +67,62 @@
     </property>
   </bean>
   
+  <bean id="CFDA-active" parent="CFDA-active-parentBean"/>
+
+  <bean id="CFDA-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	<property name="name" value="active"/>
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CFDA-inquiryDefinition" parent="CFDA-inquiryDefinition-parentBean"/>
+
+  <bean id="CFDA-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CFDA Reference Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Catalog of Federal Domestic Assistance Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CFDA-lookupDefinition" parent="CFDA-lookupDefinition-parentBean"/>
+
+  <bean id="CFDA-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CFDA Reference Lookup"/>
+    <property name="lookupableID" value="cfdaLookupable"/>
+    
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
 </beans>

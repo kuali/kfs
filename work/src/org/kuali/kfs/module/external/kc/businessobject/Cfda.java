@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.module.external.kc.service.CfdaService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
@@ -32,7 +34,7 @@ public class Cfda implements ContractsAndGrantsCfda {
     private String cfdaNumber;
     private String cfdaProgramTitleName;
     private String cfdaMaintenanceTypeId;
-
+    private boolean active;
     /**
      * Default constructor.
      */
@@ -93,7 +95,24 @@ public class Cfda implements ContractsAndGrantsCfda {
     public void setCfdaMaintenanceTypeId(String cfdaMaintenanceTypeId) {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
+    
+    /**
+     * This method gets the active value.
+     * 
+     * @return The value of the active attribute.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
+    /**
+     * This method sets the active for this object.
+     * 
+     * @param active The value to be assigned to the active attribute.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     public void prepareForWorkflow() {}
 
     public void refresh() {}

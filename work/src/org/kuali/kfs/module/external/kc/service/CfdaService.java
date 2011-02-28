@@ -17,15 +17,12 @@ package org.kuali.kfs.module.external.kc.service;
 
 import java.io.IOException;
 
-import org.kuali.kfs.module.cg.businessobject.CFDA;
-import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.external.kc.businessobject.Cfda;
+
 
 /**
  * 
  */
 public interface CfdaService {
-    CfdaUpdateResults update() throws IOException;
-
-    public CFDA getByPrimaryId(String cfdaNumber);
-
+    public Cfda getByPrimaryId(String cfdaNumber);
 }

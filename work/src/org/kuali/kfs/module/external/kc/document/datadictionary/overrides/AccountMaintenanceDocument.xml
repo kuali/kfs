@@ -21,7 +21,8 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-<bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean">
+<bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"
+	p:maintainableClass="org.kuali.kfs.module.external.kc.document.KualiAccountMaintainableImpl">
   	<property name="maintainableSections">
 		<list merge="true">
 			<ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>

@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 
 
 @ConfigureContext(session = kfs)
@@ -40,7 +41,13 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
     
     private static final BigDecimal DEBIT_AMOUNT = BigDecimal.valueOf(123.45);
     private static final BigDecimal CREDIT_AMOUNT = BigDecimal.valueOf(543.21);
+    private static final BigDecimal SHORT_TERM_GAIN_LOSS_AMOUNT = BigDecimal.valueOf(123.45);
+    private static final BigDecimal LONG_TERM_GAIN_LOSS_AMOUNT = BigDecimal.valueOf(543.21);
     private static final int NUMBER_OF_RECORDS = 12;
+    private static final String TEST_OBJECT_CODE = "1890";
+    private static final String TEST_CHART_CODE = "BL";
+    private static final String TEST_DIFFERENT_CHART_CODE = "UA";
+    private static final String TEST_DOCUMENT_TYPE_CODE = "EAD";
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -90,6 +97,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
     
     /**
      * add chart level totals to document type totals and reset the chart/object level totals.
+     * @see org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImpl#addChartTotalsToDocumentTypeTotals()
      */
     public void testAddChartTotalsToDocumentTypeTotals() {
         LOG.info("testAddChartTotalsToDocumentTypeTotals() entered.");
@@ -184,7 +192,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         //positive amount....
         BigDecimal transactionAmount = CREDIT_AMOUNT.add(DEBIT_AMOUNT);
         assertTrue("Credit Code is not returned.", generalLedgerInterfaceBatchProcessServiceImpl.getTransactionDebitCreditCode(transactionAmount, EndowConstants.TransactionSubTypeCode.CASH).equals(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE));
-        //NON-CASH...
+        //CASH...
         assertTrue("Debit Code is not returned.", generalLedgerInterfaceBatchProcessServiceImpl.getTransactionDebitCreditCode(transactionAmount, EndowConstants.TransactionSubTypeCode.NON_CASH).equals(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE));
         
         //negative transaction amount...
@@ -210,5 +218,123 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         assertTrue("Debit Code is not returned.", generalLedgerInterfaceBatchProcessServiceImpl.getTransactionDebitCreditCodeForOffSetEntry(transactionAmount).equals(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE));
         
         LOG.info("testGetTransactionDebitCreditCodeForOffSetEntry() exited.");
+    }
+    
+    /**
+     * test method to check updateTotals
+     */
+    public void testUpdateTotals() {
+        LOG.info("testUpdateTotals() entered.");
+        
+        GlInterfaceBatchProcessKemLine transactionArchive = new GlInterfaceBatchProcessKemLine();
+        
+        //CASH description
+        transactionArchive.setSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
+        transactionArchive.setObjectCode(TEST_OBJECT_CODE);
+        transactionArchive.setTransactionArchiveIncomeAmount(DEBIT_AMOUNT);
+        transactionArchive.setTransactionArchivePrincipalAmount(CREDIT_AMOUNT);
+        transactionArchive.setHoldingCost(CREDIT_AMOUNT);
+        
+        BigDecimal transactionAmount = generalLedgerInterfaceBatchProcessServiceImpl.getTransactionAmount(transactionArchive);
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
+        //rest the values...
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+        
+        transactionArchive.setTransactionArchiveIncomeAmount(DEBIT_AMOUNT.negate());
+        transactionArchive.setTransactionArchivePrincipalAmount(CREDIT_AMOUNT.negate());
+        transactionArchive.setHoldingCost(CREDIT_AMOUNT.negate());
+        transactionAmount = transactionAmount.negate();
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
+        //rest the values...
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+        
+        //non-cash type....
+        transactionArchive.setSubTypeCode(EndowConstants.TransactionSubTypeCode.NON_CASH);
+        //subtype = NON-CASH so the transaction amount should get holding cost.
+        transactionAmount = SHORT_TERM_GAIN_LOSS_AMOUNT.add(LONG_TERM_GAIN_LOSS_AMOUNT);
+        transactionArchive.setObjectCode(SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.CASH_SALE_GAIN_LOSS_OBJECT_CODE));
+        transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT);
+        transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT);
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
+        assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
+        //rest the values...
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
+        
+        transactionAmount = transactionAmount.negate();
+        transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT.negate());
+        transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT.negate());
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
+        assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
+        
+        LOG.info("testUpdateTotals() exited.");        
+    }
+    
+    /**
+     * test method to check the code in the method updateTotalsProcessed()
+     */
+    public void testUpdateTotalsProcessed_SameChartAndObject() {
+        LOG.info("testUpdateTotals() entered.");
+        
+        GlInterfaceBatchProcessKemLine transactionArchive = getGlInterfaceBatchProcessKemLine();
+        //set previous chart, object, and account same as the transaction archive...so update can happen...
+        generalLedgerInterfaceBatchProcessServiceImpl.previousChartCode = TEST_CHART_CODE;
+        generalLedgerInterfaceBatchProcessServiceImpl.previousDocumentTypeCode = TEST_DOCUMENT_TYPE_CODE;
+        generalLedgerInterfaceBatchProcessServiceImpl.previousObjectCode = TEST_OBJECT_CODE;
+        
+        BigDecimal transactionAmount = generalLedgerInterfaceBatchProcessServiceImpl.getTransactionAmount(transactionArchive);
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotalsProcessed(transactionArchive);        
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
+        
+        generalLedgerInterfaceBatchProcessServiceImpl.documentTypeCreditAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.documentTypeDebitAmountSubTotal  = BigDecimal.ZERO;
+    }
+    
+    /**
+     * test method to check the code in the method updateTotalsProcessed()
+     */
+    public void testUpdateTotalsProcessed_DifferentChart() {
+        LOG.info("testUpdateTotals() entered.");
+        
+        generalLedgerInterfaceBatchProcessServiceImpl.initializeChartObjectTotals();
+        generalLedgerInterfaceBatchProcessServiceImpl.chartDebitAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.chartCreditAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.documentTypeDebitAmountSubTotal = BigDecimal.ZERO;
+        generalLedgerInterfaceBatchProcessServiceImpl.documentTypeCreditAmountSubTotal = BigDecimal.ZERO;
+        
+        GlInterfaceBatchProcessKemLine transactionArchive = getGlInterfaceBatchProcessKemLine();
+        //set previous chart, object, and account same as the transaction archive...so update can happen...
+        generalLedgerInterfaceBatchProcessServiceImpl.previousChartCode = TEST_DIFFERENT_CHART_CODE;
+        generalLedgerInterfaceBatchProcessServiceImpl.previousDocumentTypeCode = TEST_DOCUMENT_TYPE_CODE;
+        generalLedgerInterfaceBatchProcessServiceImpl.previousObjectCode = TEST_OBJECT_CODE;
+        
+        BigDecimal transactionAmount = generalLedgerInterfaceBatchProcessServiceImpl.getTransactionAmount(transactionArchive);
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
+        generalLedgerInterfaceBatchProcessServiceImpl.updateTotalsProcessed(transactionArchive);        
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.documentTypeCreditAmountSubTotal));
+    }
+    
+    /**
+     * Helper method to create the transient business object GlInterfaceBatchProcessKemLine
+     * for testing purposes.
+     */
+    private GlInterfaceBatchProcessKemLine getGlInterfaceBatchProcessKemLine() {
+        GlInterfaceBatchProcessKemLine transactionArchive = new GlInterfaceBatchProcessKemLine();
+        
+        transactionArchive.setChartCode(TEST_CHART_CODE);
+        transactionArchive.setSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
+        transactionArchive.setObjectCode(TEST_OBJECT_CODE);
+        transactionArchive.setTransactionArchiveIncomeAmount(DEBIT_AMOUNT);
+        transactionArchive.setTransactionArchivePrincipalAmount(CREDIT_AMOUNT);
+        transactionArchive.setHoldingCost(CREDIT_AMOUNT);
+        transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT);
+        transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT);
+        transactionArchive.setTypeCode(TEST_DOCUMENT_TYPE_CODE);
+        
+        return transactionArchive;
     }
 }

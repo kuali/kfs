@@ -24,6 +24,7 @@ import org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsSe
 import org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImplTest;
+import org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImplTest;
 import org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImplTest;
@@ -85,6 +86,7 @@ public class AllEndowmentTests {
         suite.addTestSuite(ProcessFeeTransactionsServiceImplTest.class);
         suite.addTestSuite(CreateAccrualTransactionsServiceImplTest.class);
         suite.addTestSuite(CorporateReorganizationDocumentRulesTest.class);
+        suite.addTestSuite(GeneralLedgerInterfaceBatchProcessServiceImplTest.class);
         
         // David's unit tests
         suite.addTestSuite(CashIncreaseDocumentRulesTest.class);

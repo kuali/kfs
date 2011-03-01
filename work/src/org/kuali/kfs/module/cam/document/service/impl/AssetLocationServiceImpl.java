@@ -102,9 +102,9 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         if (removableOffCampusLocation != null) {
             asset.getAssetLocations().remove(removableOffCampusLocation);
         }
-        else {
+        else if (!isOffCampusEmpty) { // add the check for off-campus empty  
             // new offCampusLocation, add it into assetLocation List
-            asset.getAssetLocations().add(offLocation);
+            asset.getAssetLocations().add(offLocation); 
         }
 
     }
@@ -121,7 +121,10 @@ public class AssetLocationServiceImpl implements AssetLocationService {
         return false;
     }
 
-    protected boolean isOffCampusLocationEmpty(AssetLocation offCampusLocation) {
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetLocationService#isOffCampusLocationEmpty(org.kuali.kfs.module.cam.businessobject.AssetLocation)
+     */
+    public boolean isOffCampusLocationEmpty(AssetLocation offCampusLocation) {
         if (ObjectUtils.isNotNull(offCampusLocation)) {
             if (StringUtils.isNotBlank(offCampusLocation.getAssetLocationCityName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationContactIdentifier()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationContactName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationCountryCode()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationInstitutionName()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationPhoneNumber()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationStateCode()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationStreetAddress()) || StringUtils.isNotBlank(offCampusLocation.getAssetLocationZipCode())) {
                 return false;

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,7 +24,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
-import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -35,6 +33,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -90,6 +89,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private AssetPaymentService assetPaymentService;
     private AssetObjectCodeService assetObjectCodeService;
     private DateTimeService dateTimeService;
+    private AssetLocationService assetLocationService;
 
 
     /**
@@ -454,6 +454,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
         offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
         offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
+        
+        // remove off Campus Location if it's an empty record. When asset transfer from off to on campus, the off campus location will be removed.
+        if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) { 
+            saveAsset.getAssetLocations().remove(offCampusLocation); 
+        }
     }
 
 
@@ -534,5 +539,23 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the assetLocationService attribute.
+     * 
+     * @return Returns the assetLocationService
+     */
+    public AssetLocationService getAssetLocationService() {
+        return assetLocationService;
+    }
+
+    /**
+     * Sets the assetLocationService attribute.
+     * 
+     * @param assetLocationService  The assetLocationService to set
+     */
+    public void setAssetLocationService(AssetLocationService assetLocationService) {
+        this.assetLocationService = assetLocationService;
     }
 }

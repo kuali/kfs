@@ -307,6 +307,7 @@
     	<property name="assetPaymentService" ref="assetPaymentService" />
     	<property name="assetObjectCodeService" ref="assetObjectCodeService" />
     	<property name="dateTimeService" ref="dateTimeService" />
+      <property name="assetLocationService" ref="assetLocationService" />
     </bean>
     
     <bean id="assetRetirementService" class="org.kuali.kfs.module.cam.document.service.impl.AssetRetirementServiceImpl">

@@ -28,7 +28,9 @@
                            
     <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean" />
 
-    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    <bean id="purapModuleConfiguration-parentBean" parent="purapModuleConfiguration-base-parentBean" abstract="true" />
+
+    <bean id="purapModuleConfiguration-base-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KFS-PURAP" />
 		<property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">

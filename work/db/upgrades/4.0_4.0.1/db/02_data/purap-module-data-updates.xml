@@ -30,3 +30,4 @@
       <replace replace="SYS_GUID()" with="uuid()" />
     </modifySql>
   </changeSet>
+</databaseChangeLog>

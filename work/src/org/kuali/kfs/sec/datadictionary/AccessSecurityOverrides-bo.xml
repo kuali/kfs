@@ -1,0 +1,465 @@
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="Account" parent="Account-SecurityModule-parentBean"/>
+    
+    <bean id="Account-SecurityModule-parentBean" abstract="true" parent="Account-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Account-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Account-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="Account-organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Account-organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>
+    
+    <bean id="AccountDelegate" parent="AccountDelegate-SecurityModule-parentBean"/>
+    <bean id="AccountDelegate-SecurityModule-parentBean" abstract="true" parent="AccountDelegate-parentBean">   
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="AccountDelegate-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountDelegate-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountDelegate-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="AccountDelegate-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountDelegate-accountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountDelegate-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountDelegate-account.organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>  
+    
+    <bean id="AccountDelegateModel" parent="AccountDelegateModel-SecurityModule-parentBean"/>
+    <bean id="AccountDelegateModel-SecurityModule-parentBean" abstract="true" parent="AccountDelegateModel-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountDelegateModel-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountDelegateModel-chartOfAccountsCode"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountDelegateModel-organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountDelegateModel-organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>      
+    
+    <bean id="ObjectCode" parent="ObjectCode-SecurityModule-parentBean"/>
+    <bean id="ObjectCode-SecurityModule-parentBean" abstract="true" parent="ObjectCode-parentBean">   
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="ObjectCode-financialObjectLevel.financialConsolidationObjectCode"/>
+           </list>
+        </property> 
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="ObjectCode-financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="ObjectCode-financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>     
+    
+    <bean id="Organization" parent="Organization-SecurityModule-parentBean"/>
+    <bean id="Organization-SecurityModule-parentBean" abstract="true" parent="Organization-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Organization-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Organization-chartOfAccountsCode"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="Organization-organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Organization-organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>       
+    
+    <bean id="OrgReviewRole" parent="OrgReviewRole-SecurityModule-parentBean"/>
+    <bean id="OrgReviewRole-SecurityModule-parentBean" abstract="true" parent="OrgReviewRole-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="OrgReviewRole-chart.chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-chart.chartOfAccountsCode"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="OrgReviewRole-organization.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-organization.organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>  
+    
+    <bean id="ProjectCode" parent="ProjectCode-SecurityModule-parentBean"/>
+    <bean id="ProjectCode-SecurityModule-parentBean" abstract="true" parent="ProjectCode-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="ProjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ProjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="ProjectCode-organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="ProjectCode-organizationCode"/></bean>
+               <bean parent="ProjectCodeRestriction"><property name="attribute" ref="ProjectCode-code"/></bean> 
+           </list>
+        </property>
+    </bean>        
+    
+    <bean id="SubAccount" parent="SubAccount-SecurityModule-parentBean"/>
+    <bean id="SubAccount-SecurityModule-parentBean" abstract="true" parent="SubAccount-parentBean">   
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="SubAccount-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="SubAccount-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="SubAccount-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="SubAccount-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="SubAccount-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="SubAccount-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="SubAccount-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="SubAccount-account.organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>     
+    
+    <bean id="SubObjectCode" parent="SubObjectCode-SecurityModule-parentBean"/>
+    <bean id="SubObjectCode-SecurityModule-parentBean" abstract="true" parent="SubObjectCode-parentBean">   
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="SubObjectCode-account.organizationCode"/>
+               <ref bean="SubObjectCode-objectCode.financialObjectLevelCode"/>
+               <ref bean="SubObjectCode-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="SubObjectCode-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="SubObjectCode-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="SubObjectCode-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="SubObjectCode-account.organizationCode"/></bean>
+           </list>
+        </property>
+    </bean>    
+    
+    <bean id="Chart" parent="Chart-SecurityModule-parentBean"/>
+    <bean id="Chart-SecurityModule-parentBean" abstract="true" parent="Chart-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Chart-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Chart-chartOfAccountsCode"/></bean>
+           </list>
+        </property>
+    </bean>
+    
+    <bean id="ObjectConsolidation" parent="ObjectConsolidation-SecurityModule-parentBean"/>
+    <bean id="ObjectConsolidation-SecurityModule-parentBean" abstract="true" parent="ObjectConsolidation-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="ObjectConsolidation-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectConsolidation-chartOfAccountsCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="ObjectConsolidation-finConsolidationObjectCode"/></bean>
+           </list>
+        </property>
+    </bean>
+    
+    <bean id="ObjectLevel" parent="ObjectLevel-SecurityModule-parentBean"/>
+    <bean id="ObjectLevel-SecurityModule-parentBean" abstract="true" parent="ObjectLevel-parentBean">   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="ObjectLevel-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectLevel-chartOfAccountsCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="ObjectLevel-financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="ObjectLevel-financialConsolidationObjectCode"/></bean>
+           </list>
+        </property>
+    </bean>    
+    
+    <bean id="SourceAccountingLine" parent="SourceAccountingLine-SecurityModule-parentBean"/>
+    <bean id="SourceAccountingLine-SecurityModule-parentBean" abstract="true" parent="SourceAccountingLine-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="SourceAccountingLine-account.organizationCode"/>
+           </list>
+        </property>   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="SourceAccountingLine-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="SourceAccountingLine-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="SourceAccountingLine-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="SourceAccountingLine-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="SourceAccountingLine-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="SourceAccountingLine-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="SourceAccountingLine-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="SourceAccountingLine-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+               <bean parent="ProjectCodeRestriction"><property name="attribute" ref="SourceAccountingLine-projectCode"/></bean>               
+           </list>
+        </property>    
+    </bean>
+    
+    <bean id="TargetAccountingLine" parent="TargetAccountingLine-SecurityModule-parentBean"/>
+    <bean id="TargetAccountingLine-SecurityModule-parentBean" abstract="true" parent="TargetAccountingLine-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="TargetAccountingLine-objectCode.financialObjectLevelCode"/>
+               <ref bean="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="TargetAccountingLine-account.organizationCode"/>
+           </list>
+        </property>   
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="TargetAccountingLine-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+               <bean parent="ProjectCodeRestriction"><property name="attribute" ref="TargetAccountingLine-projectCode"/></bean>               
+           </list>
+        </property>    
+    </bean>
+    
+    <bean id="AccountBalance" parent="AccountBalance-SecurityModule-parentBean"/>
+    <bean id="AccountBalance-SecurityModule-parentBean" abstract="true" parent="AccountBalance-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="AccountBalance-objectCode.financialObjectLevelCode"/>
+               <ref bean="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="AccountBalance-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalance-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalance-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalance-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalance-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalance-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalance-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalance-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalance-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean> 
+    
+    <bean id="AccountBalanceByConsolidation" parent="AccountBalanceByConsolidation-SecurityModule-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-SecurityModule-parentBean" abstract="true" parent="AccountBalanceByConsolidation-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode"/>
+               <ref bean="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="AccountBalanceByConsolidation-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>  
+    
+    <bean id="AccountBalanceByLevel" parent="AccountBalanceByLevel-SecurityModule-parentBean"/>
+    <bean id="AccountBalanceByLevel-SecurityModule-parentBean" abstract="true" parent="AccountBalanceByLevel-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="AccountBalanceByLevel-objectCode.financialObjectLevelCode"/>
+               <ref bean="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="AccountBalanceByLevel-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalanceByLevel-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalanceByLevel-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalanceByLevel-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalanceByLevel-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalanceByLevel-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalanceByLevel-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalanceByLevel-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalanceByLevel-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>   
+    
+    <bean id="AccountBalanceByObject" parent="AccountBalanceByObject-SecurityModule-parentBean"/>
+    <bean id="AccountBalanceByObject-SecurityModule-parentBean" abstract="true" parent="AccountBalanceByObject-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="AccountBalanceByObject-objectCode.financialObjectLevelCode"/>
+               <ref bean="AccountBalanceByObject-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="AccountBalanceByObject-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalanceByObject-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalanceByObject-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalanceByObject-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalanceByObject-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalanceByObject-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalanceByObject-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalanceByObject-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalanceByObject-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalanceByObject-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>                
+    
+    <bean id="CashBalance" parent="CashBalance-SecurityModule-parentBean"/>
+    <bean id="CashBalance-SecurityModule-parentBean" abstract="true" parent="CashBalance-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="CashBalance-objectCode.financialObjectLevelCode"/>
+               <ref bean="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="CashBalance-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="CashBalance-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="CashBalance-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="CashBalance-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="CashBalance-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="CashBalance-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="CashBalance-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="CashBalance-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="CashBalance-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>   
+ 
+    <bean id="Balance" parent="Balance-SecurityModule-parentBean"/>
+    <bean id="Balance-SecurityModule-parentBean" abstract="true" parent="Balance-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="Balance-objectCode.financialObjectLevelCode"/>
+               <ref bean="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="Balance-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Balance-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Balance-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="Balance-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Balance-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="Balance-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="Balance-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Balance-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Balance-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean>     
+    
+    <bean id="GeneralLedgerPendingEntry" parent="GeneralLedgerPendingEntry-SecurityModule-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-SecurityModule-parentBean" abstract="true" parent="GeneralLedgerPendingEntry-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode"/>
+               <ref bean="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="GeneralLedgerPendingEntry-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+               <bean parent="ProjectCodeRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-projectCode"/></bean> 
+           </list>
+        </property>
+    </bean>  
+    
+    <bean id="Entry" parent="Entry-SecurityModule-parentBean"/>
+    <bean id="Entry-SecurityModule-parentBean" abstract="true" parent="Entry-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="Entry-objectCode.financialObjectLevelCode"/>
+               <ref bean="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="Entry-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Entry-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Entry-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="Entry-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Entry-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="Entry-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="Entry-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Entry-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Entry-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+               <bean parent="ProjectCodeRestriction"><property name="attribute" ref="Entry-projectCode"/></bean> 
+           </list>
+        </property>
+    </bean>  
+    
+    <bean id="Encumbrance" parent="Encumbrance-SecurityModule-parentBean"/>
+    <bean id="Encumbrance-SecurityModule-parentBean" abstract="true" parent="Encumbrance-parentBean"> 
+        <property name="attributes">
+           <list merge="true">
+               <ref bean="Encumbrance-objectCode.financialObjectLevelCode"/>
+               <ref bean="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+               <ref bean="Encumbrance-account.organizationCode"/>
+           </list>
+        </property>    
+        <property name="accessRestrictedAttributes">
+           <list>
+               <bean parent="ChartRestriction"><property name="attribute" ref="Encumbrance-chartOfAccountsCode"/></bean>
+               <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Encumbrance-chartOfAccountsCode"/></bean>
+               <bean parent="AccountRestriction"><property name="attribute" ref="Encumbrance-accountNumber"/></bean>
+               <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Encumbrance-accountNumber"/></bean>
+               <bean parent="SubAccountRestriction"><property name="attribute" ref="Encumbrance-subAccountNumber"/></bean>
+               <bean parent="OrganizationRestriction"><property name="attribute" ref="Encumbrance-account.organizationCode"/></bean>
+               <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Encumbrance-account.organizationCode"/></bean>
+               <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Encumbrance-objectCode.financialObjectLevelCode"/></bean>
+               <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           </list>
+        </property>
+    </bean> 
+                                                
+</beans>        

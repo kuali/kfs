@@ -36,6 +36,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
     public static final String APPLICATION_NAMESPACE_CODE = "KFS";    
     
+    @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces 
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
         public static final String CHART = "KFS-COA";
@@ -44,6 +45,31 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
         public static final String KNS = KNSConstants.KNS_NAMESPACE;
+        public static final String ACCESS_SECURITY = "KFS-SEC";
+    }
+
+    public static class CoreModuleNamespaces {
+        public static final String KFS = "KFS-SYS";
+        public static final String CHART = "KFS-COA";
+        public static final String FINANCIAL = "KFS-FP";
+        public static final String GL = "KFS-GL";
+        public static final String VENDOR = "KFS-VND";
+        public static final String PDP = "KFS-PDP";
+        public static final String KNS = KNSConstants.KNS_NAMESPACE;
+        public static final String ACCESS_SECURITY = "KFS-SEC";
+    }
+    
+    // for ease of reference, a list of the optional modules delivered with and supported by the KFS project
+    public static final class OptionalModuleNamespaces {
+        public static final String LABOR_DISTRIBUTION = "KFS-LD";
+        public static final String PURCHASING_ACCOUNTS_PAYABLE = "KFS-PURAP";
+        public static final String CAPITAL_ASSET = "KFS-CAM";
+        public static final String CAPITAL_ASSET_BUILDER = "KFS-CAB";
+        public static final String ACCOUNTS_RECEIVABLE = "KFS-AR";
+        public static final String EFFORT_COMMITTMENT = "KFS-EC";
+        public static final String BUDGET_CONSTRUCTION = "KFS-BC";
+        public static final String ENDOWMENT = "KFS-ENDOW";
+        public static final String CONTRACTS_AND_GRANTS = "KFS-CG";
     }
     
     // special user used in the post-processor

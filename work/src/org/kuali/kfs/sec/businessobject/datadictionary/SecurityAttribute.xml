@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityAttribute" parent="SecurityAttribute-parentBean"/>
+
+  <bean id="SecurityAttribute-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityAttribute"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityAttribute-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="SecurityAttribute-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Security Attribute"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityAttribute-id"/>
+        <ref bean="SecurityAttribute-name"/>
+        <ref bean="SecurityAttribute-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="SecurityAttribute-id" parent="SecurityAttribute-id-parentBean"/>
+
+  <bean id="SecurityAttribute-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Attribute Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityAttribute-name" parent="SecurityAttribute-name-parentBean"/>
+
+  <bean id="SecurityAttribute-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Attribute Name"/>
+    <property name="shortLabel" value="Attr Nm"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+     
+  <bean id="SecurityAttribute-active" parent="SecurityAttribute-active-parentBean"/>
+
+  <bean id="SecurityAttribute-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityAttribute-inquiryDefinition" parent="SecurityAttribute-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityAttribute-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Attribute Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SecurityAttribute-lookupDefinition" parent="SecurityAttribute-lookupDefinition-parentBean"/>
+
+  <bean id="SecurityAttribute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Security Attribute Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>name</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

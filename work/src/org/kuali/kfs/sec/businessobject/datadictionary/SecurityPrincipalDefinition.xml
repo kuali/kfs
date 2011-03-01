@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityPrincipalDefinition" parent="SecurityPrincipalDefinition-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityPrincipalDefinition-inquiryDefinition"/>
+    </property>
+    <property name="titleAttribute" value="definitionId"/>
+    <property name="objectLabel" value="Security Principal Definition"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityPrincipalDefinition-principalDefinitionId"/>
+        <ref bean="SecurityPrincipalDefinition-principalId"/>
+        <ref bean="SecurityPrincipalDefinition-definitionId"/>
+        <ref bean="SecurityPrincipalDefinition-securityDefinition.name"/>
+        <ref bean="SecurityPrincipalDefinition-constraintCode"/>
+        <ref bean="SecurityPrincipalDefinition-operatorCode"/>
+        <ref bean="SecurityPrincipalDefinition-attributeValue"/>
+        <ref bean="SecurityPrincipalDefinition-overrideDeny"/>
+        <ref bean="SecurityPrincipalDefinition-active"/>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="securityDefinition"/>
+      </list>
+    </property>       
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="SecurityPrincipalDefinition-principalDefinitionId" parent="SecurityPrincipalDefinition-principalDefinitionId-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-principalDefinitionId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="principalDefinitionId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Principal Definition Id"/>
+    <property name="shortLabel" value="Prncpl/Def Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="SecurityPrincipalDefinition-principalId" parent="SecurityPrincipalDefinition-principalId-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="principalId"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-definitionId" parent="SecurityPrincipalDefinition-definitionId-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-definitionId-parentBean" abstract="true" parent="SecurityDefinition-id">
+    <property name="name" value="definitionId"/>
+    <property name="control">
+      <bean parent="HiddenControlDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-securityDefinition.name" parent="SecurityPrincipalDefinition-securityDefinition.name-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-securityDefinition.name-parentBean" abstract="true" parent="SecurityDefinition-name">
+    <property name="name" value="securityDefinition.name"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-constraintCode" parent="SecurityPrincipalDefinition-constraintCode-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-constraintCode-parentBean" abstract="true" parent="SecurityModelDefinition-constraintCode">
+    <property name="name" value="constraintCode"/>
+    <property name="label" value="Constraint Code"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-operatorCode" parent="SecurityPrincipalDefinition-operatorCode-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-operatorCode-parentBean" abstract="true" parent="SecurityModelDefinition-operatorCode">
+    <property name="name" value="operatorCode"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-attributeValue" parent="SecurityPrincipalDefinition-attributeValue-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-attributeValue-parentBean" abstract="true" parent="SecurityModelDefinition-attributeValue">
+    <property name="name" value="attributeValue"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-overrideDeny" parent="SecurityPrincipalDefinition-overrideDeny-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-overrideDeny-parentBean" abstract="true" parent="SecurityModelDefinition-overrideDeny">
+    <property name="name" value="overrideDeny"/>
+  </bean>
+  
+  <bean id="SecurityPrincipalDefinition-active" parent="SecurityPrincipalDefinition-active-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityPrincipalDefinition-inquiryDefinition" parent="SecurityPrincipalDefinition-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityPrincipalDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Principal Definition Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="principalDefinitionId"/>
+              <bean parent="FieldDefinition" p:attributeName="principalId"/>
+              <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
+              <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
+              <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
+              <bean parent="FieldDefinition" p:attributeName="attributeValue"/>  
+              <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>            
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+</beans>

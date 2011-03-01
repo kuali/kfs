@@ -32,3 +32,7 @@
 "65","65","1","Derived Role: Cash Receipt Initiator","cashReceiptInitiatorDerivedRoleTypeService","Y","KFS-FP"
 "68","68","1","Organization Group","organizationGroupTypeService","Y","KFS-COA"
 "69","69","1","Derived Role: Accounts Payable Document Reviewer","accountsPayableDocumentDerivedRoleTypeService","Y","KFS-PURAP"
+"KFSSEC1","KFSSEC1","1","Attribute Name & Document Type","securityAttributeDocTypePermissionTypeService","Y","KFS-SEC"
+"KFSSEC2","KFSSEC2","1","Attribute Name","securityAttributePermissionTypeService","Y","KFS-SEC"
+"KFSSEC3","KFSSEC3","1","Attribute Name & Namespace","securityAttributeNamespacePermissionTypeService","Y","KFS-SEC"
+"KFSSEC4","KFSSEC4","1","Constraint, Operator, & Value","securityAttributeRoleTypeService","Y","KFS-SEC"

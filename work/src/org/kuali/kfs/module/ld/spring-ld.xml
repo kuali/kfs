@@ -18,8 +18,10 @@
 <beans>
 
     <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean" />
+
+    <bean id="ldModuleConfiguration-parentBean" parent="ldModuleConfiguration-base-parentBean" abstract="true" />
     
-    <bean id="ldModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    <bean id="ldModuleConfiguration-base-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-LD" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">

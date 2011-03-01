@@ -136,5 +136,10 @@
         2
       </routingVersion>
     </documentType>
+    <documentType>
+      <name>AccessSecuritySimpleMaintenanceDocument</name>
+      <label>Access Security Simple Maintenance Documents</label>
+      <parent>FSSM</parent>
+    </documentType>
   </documentTypes>
 </data>

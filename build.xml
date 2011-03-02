@@ -240,16 +240,15 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		
 		<!-- update the lib paths for the app server based on the tomcat version -->
 	    <if>
-	        <equals arg1="6" arg2="${tomcat.version}" trim="true" />
+	        <equals arg1="5" arg2="${tomcat.version}" trim="true" />
 	        <then>
-	            <property name="appserver.lib.dir" value="${appserver.home}/lib" />
-	            <property name="appserver.classes.dir" value="${appserver.home}/lib" />
-	        </then>
-            <else> <!-- default back to Tomcat 5 locations -->
 	            <property name="appserver.lib.dir" value="${appserver.home}/common/lib" />
 	            <property name="appserver.classes.dir" value="${appserver.home}/common/classes" />
-            </else>
+	        </then>
         </if>
+		<!-- default to this version unless 5 selected --> 
+        <property name="appserver.lib.dir" value="${appserver.home}/lib" />
+        <property name="appserver.classes.dir" value="${appserver.home}/lib" />
 		
 	</target>
 	

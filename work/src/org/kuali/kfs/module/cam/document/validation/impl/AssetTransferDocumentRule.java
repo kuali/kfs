@@ -397,10 +397,13 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
 
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-
-        if (!assetMovable && !isAuthorizedTransferMovable) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
-            valid &= false;
+        
+        // KFSMI-6169 - Not check permission for Transfer Non-Movable Assets when user approve the doc.
+        if (!assetTransferDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().isApproveRequested()){
+            if (!assetMovable && !isAuthorizedTransferMovable) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.Transfer.ERROR_INVALID_USER_GROUP_FOR_TRANSFER_NONMOVABLE_ASSET, asset.getCapitalAssetNumber().toString());
+                valid &= false;
+            }
         }
 
         // check if account is valid

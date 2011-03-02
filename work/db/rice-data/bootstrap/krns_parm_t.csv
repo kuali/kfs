@@ -662,5 +662,6 @@ KFS-EC,EffortCertification,FEDERAL_SPONSOR_TYPE_CODES,KFS683,1,CONFG,,"This para
 KFS-SEC,All,ACCESS_SECURITY_DOCUMENT_TYPES,KFSSEC1,1,CONFG,AD;AP;AV;BA;BT;CCR;CM;CR;DI;DV;FP;FPYE;GEC;IB;ICA;JV;LD;ND;PCDO;PE;PO;PREQ;REQS;SB;ST;TF,"List of documents that the security can be applied to. The document type can be at the parent level.",A,KFS
 KFS-SEC,All,ENABLE_ACCESS_SECURITY,KFSSEC2,1,CONFG,Y,Enables access security checks in the system.,A,KFS
 KFS-SEC,All,ALWAYS_ALLOW_INITIATOR_DOCUMENT_ACCESS_IND,KFSSEC3,1,CONFG,Y,Allows the document initiator to always view the document and notes/attachments regardless of access permissions.,A,KFS
+KFS-SEC,All,ALWAYS_ALLOW_INITIATOR_LINE_ACCESS_IND,KFSSEC6,1,CONFG,Y,Allows the document initiator to always view the accounting line regardless of access permissions.,A,KFS
 KFS-SEC,All,ALWAYS_ALLOW_FISCAL_OFFICER_LINE_ACCESS_IND,KFSSEC4,1,CONFG,Y,Allows fiscal officers to always view or edit accounting lines for their accounts regardless of access permissions.,A,KFS
 KFS-SEC,All,ALWAYS_ALLOW_PRINCIPAL_INVESTIGATOR_LINE_ACCESS_IND,KFSSEC5,1,CONFG,Y,Allows principal investigators to always view or edit accounting lines for their accounts regardless of access permissions.,A,KFS

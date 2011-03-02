@@ -28,7 +28,7 @@
       Determines if the current user can view a general ledger pending entry based on access security
     </description>
     <name>canViewGLPE</name>
-    <function-class>com.rsmart.kuali.kfs.sec.util.SecUtil</function-class>
+    <function-class>org.kuali.kfs.sec.util.SecUtil</function-class>
     <function-signature>boolean canViewGLPE(org.kuali.rice.kns.document.Document, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)</function-signature>
     <example>
       &lt;c:if test="${sec:canViewGLPE(document, generalLedgerPendingEntry)}"&gt;

@@ -1071,18 +1071,13 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		</path>		  		
 
 		<!-- Convert paths to unix format for replacement -->
-		<pathconvert property="basedir.safe" targetos="unix">
+		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
 			<path location="${basedir}" />
 		</pathconvert>
-		<pathconvert property="kfs.library.jars.safe" targetos="unix">
+		<pathconvert property="kfs.library.jars.safe" dirsep="/" pathsep=";">
 			<path refid="kfs.library.jars" />
 		</pathconvert>
-		<path id="unix.kfs.library.jars">
-		   <pathelement path="${kfs.library.jars.safe}" />
-		</path>
-
-		<for param="jarname">
-			<path refid="unix.kfs.library.jars" />
+		<for list="${kfs.library.jars.safe}" param="jarname" delimiter=";">
 			<sequential>
 				<propertyregex property="file" 
 							 	input="@{jarname}" 

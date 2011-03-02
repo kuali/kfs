@@ -102,8 +102,6 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         lookupProps.put("AccountNumber", accountNumber);
         List list = lookupableImpl.getSearchResults(lookupProps);
         String accountCfdaNumber = (list != null) ? (String) list.get(0) : null;
-       // KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-       // kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).
         return accountCfdaNumber;
     }
 

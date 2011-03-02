@@ -15,47 +15,33 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
-import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.external.kc.businessobject.Cfda;
 import org.kuali.kfs.module.external.kc.service.CfdaService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-
-import au.com.bytecode.opencsv.CSVReader;
+import org.kuali.kfs.module.external.kc.webService.CfdaNumberService;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 
 public class CfdaServiceImpl implements CfdaService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
 
 
-    public Cfda getByPrimaryId(String cfdaNumber) {
-        if (StringUtils.isBlank(cfdaNumber)) {
+    public Cfda getByPrimaryId(String acctNumber) {
+ 
+        if (StringUtils.isBlank(acctNumber)) {
             return null;
         }
+        QName serviceName = new QName("KC", "cfdaNumberService");
+        CfdaNumberService port = (CfdaNumberService) GlobalResourceLoader.getService(serviceName);
+        String cfdaNumber = port.getCfdaNumber(acctNumber);
+        LOG.info("sent " + acctNumber + " got " + cfdaNumber);
+        
         Cfda cfda = new Cfda();
-        cfda.setCfdaNumber("1234567");
-        cfda.setCfdaMaintenanceTypeId("abc");
-        cfda.setCfdaProgramTitleName("title name for cfda");
+        cfda.setCfdaNumber(cfdaNumber);
         return cfda;
     }
 

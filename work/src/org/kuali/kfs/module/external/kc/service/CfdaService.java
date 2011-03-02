@@ -24,5 +24,5 @@ import org.kuali.kfs.module.external.kc.businessobject.Cfda;
  * 
  */
 public interface CfdaService {
-    public Cfda getByPrimaryId(String cfdaNumber);
+    public Cfda getByPrimaryId(String acctNumber);
 }

@@ -5,7 +5,7 @@
 		<comment>Add the new KIM attribute definitions for the Access Security Module</comment>
 		
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="ATTR_DEFN_ID" value="KFSSEC100" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC100" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NMSPC_CD" value="KFS-SEC" />
@@ -15,7 +15,7 @@
 		</insert>
 		
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="ATTR_DEFN_ID" value="KFSSEC101" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC101" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NMSPC_CD" value="KFS-SEC" />
@@ -25,7 +25,7 @@
 		</insert>
 		
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="ATTR_DEFN_ID" value="KFSSEC102" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC102" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NMSPC_CD" value="KFS-SEC" />
@@ -35,7 +35,7 @@
 		</insert>
 
 		<insert tableName="KRIM_ATTR_DEFN_T">
-			<column name="ATTR_DEFN_ID" value="KFSSEC103" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC103" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NMSPC_CD" value="KFS-SEC" />

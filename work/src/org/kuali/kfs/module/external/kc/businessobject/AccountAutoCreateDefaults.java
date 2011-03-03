@@ -25,8 +25,7 @@ import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.integration.cg.businessobject.UnitDTO;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
@@ -34,6 +33,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 
 /**
@@ -109,7 +109,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
-    private UnitDTO unitDTO;
+    private ContractsAndGrantsUnit unitDTO;
 
     /**
      * Default no-arg constructor.
@@ -1177,13 +1177,11 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.accountManagerUser = accountManagerUser;
     }
     
-    public UnitDTO getUnitDTO() {
-       // return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
-
-        return unitDTO;
+    public ContractsAndGrantsUnit getUnitDTO() {
+        return unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(this, unitDTO, "unitDTO");        
     }
 
-    public void setUnitDTO(UnitDTO unitDTO) {
+    public void setUnitDTO(ContractsAndGrantsUnit unitDTO) {
         this.unitDTO = unitDTO;
     }
     

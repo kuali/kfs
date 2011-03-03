@@ -22,6 +22,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -652,10 +653,8 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     }
     
     public ContractsAndGrantsBudgetCategory getBudgetCategoryDTO() {
-        if ( getBudgetCategoryModuleService() != null ) {
-            budgetCategoryDTO = getBudgetCategoryModuleService().retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
-        }
-        return budgetCategoryDTO;
+        return budgetCategoryDTO = (ContractsAndGrantsBudgetCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBudgetCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
+        
     }
 
     public void setBudgetCategoryDTO(ContractsAndGrantsBudgetCategory budgetCategoryDTO) {

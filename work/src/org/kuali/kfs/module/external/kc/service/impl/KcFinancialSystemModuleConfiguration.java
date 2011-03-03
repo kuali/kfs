@@ -17,21 +17,17 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 
 import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.
  */
 public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleConfiguration implements KcFinancialSystemModuleConfig {
     
-    protected Map<Class,String> externalizableWebBusinessObjectImplementations;
+    protected Map<Class,String> externalizableBusinessObjectServiceImplementations;
 
     /**
      * Constructs a FinancialSystemModuleConfiguration.java.
@@ -44,28 +40,18 @@ public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleC
     /**
      * @return the externalizableBusinessObjectImplementations
      */
-    public Map<Class,String> getExternalizableWebBusinessObjectImplementations() {
-        if (this.externalizableBusinessObjectImplementations == null)
+    public Map<Class,String> getExternalizableBusinessObjectServiceImplementations() {
+        if (this.externalizableBusinessObjectServiceImplementations == null)
             return null;
-        return (Map<Class,String>) Collections.unmodifiableMap(this.externalizableWebBusinessObjectImplementations);
+        return (Map<Class,String>) Collections.unmodifiableMap(this.externalizableBusinessObjectServiceImplementations);
     }
 
     /**
      * @param externalizableBusinessObjectImplementations the externalizableBusinessObjectImplementations to set
      */
-    public void setExternalizableWebBusinessObjectImplementations(
-          Map<Class, String> externalizableBusinessObjectImplementations) {
-        if (externalizableBusinessObjectImplementations != null) {
-           Iterable<Class> impClasses =  externalizableBusinessObjectImplementations.keySet();
-              for (Class implClass : impClasses) {
-                int implModifiers = implClass.getModifiers();
-                if (! Modifier.isInterface(implModifiers)) {
-                    throw new RuntimeException("Externalizable Web business object implementation class " +
-                            implClass.getName() + " must be a non-interface, non-abstract class");
-                }
-            }
-        }
-        this.externalizableWebBusinessObjectImplementations = externalizableBusinessObjectImplementations;
+    public void setExternalizableBusinessObjectServiceImplementations(
+          Map<Class, String> externalizableBusinessObjectServiceImplementations) {
+        this.externalizableBusinessObjectServiceImplementations = externalizableBusinessObjectServiceImplementations;
     }
- 
+
 }

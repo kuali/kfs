@@ -51,5 +51,7 @@ public interface ContractsAndGrantsModuleService {
      * @return true if the given account is a contracts & grants account with a valid responsibility id; otherwise, return false
      */
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
+    
+    public List<String> getParentUnits(String unitNumber);
 }
 

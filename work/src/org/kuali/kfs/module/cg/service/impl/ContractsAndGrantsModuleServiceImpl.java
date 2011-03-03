@@ -188,5 +188,9 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
+    
+    public List<String> getParentUnits(String unitNumber) {
+        return null;
+    }
 }
 

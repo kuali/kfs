@@ -18,41 +18,51 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
 
 import javax.xml.namespace.QName;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
-import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
+import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
-import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
-public class BudgetCategoryLookupServiceImpl implements BudgetCategoryLookupService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryLookupServiceImpl.class);
+public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
     private String wsdlLocation;
     private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;
     private static final QName SERVICE_NAME = new QName(KFSConstants.Research.KC_NAMESPACE_URI, KFSConstants.Research.KC_BUDGET_CATEGORY_SERVICE);   
-    public List <BudgetCategoryDTO> lookupBudgetCategory(Map <String,String>searchCriteria) {
+    public static final List <String> KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
+    
+    
+    @Override
+    public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
+        Collection budgetCategoryDTOs = findMatching(primaryKeys);
+        if(budgetCategoryDTOs != null && budgetCategoryDTOs.iterator().hasNext())
+            return (ExternalizableBusinessObject) budgetCategoryDTOs.iterator().next();
+        else
+            return null;
+    }
+
+    @Override
+    public Collection findMatching(Map fieldValues) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         
-        for (String key : searchCriteria.keySet()) {
-            String val = searchCriteria.get(key);
-            if ( BudgetCategoryLookupService.KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+        for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
+            Map.Entry e = (Map.Entry) i.next();
+
+            String key = (String) e.getKey();
+            String val = (String) e.getValue();
+
+            if ( KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                 HashMapElement hashMapElement = new HashMapElement();
                 hashMapElement.setKey(key);
                 hashMapElement.setValue(val); 

@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 
@@ -173,10 +172,9 @@ public class BudgetCategoryDTO extends BusinessObjectBase implements ContractsAn
     }
 
     public void prepareForWorkflow() {}
+    
     public void refresh() {}
 
-    @SuppressWarnings("rawtypes")
-    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("BudgetCategoryDTO", this.budgetCategoryCode);

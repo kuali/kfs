@@ -15,21 +15,8 @@
  */
 package org.kuali.kfs.module.external.kc.businessobject.lookup;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
-import org.kuali.kfs.module.external.kc.service.UnitService;
-
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This class overrids the base getActionUrls method
@@ -53,14 +40,14 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
      * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
-    @Override
+/*
     public List<? extends BusinessObject> getSearchResults(Map<String, String> parameters) {
  
         List unitList = new ArrayList();
         try {
-           UnitService unitService = SpringContext.getBean(UnitService.class);
-           unitList = unitService.lookupUnits(parameters);
-           if (unitList == null) return Collections.EMPTY_LIST;
+            ContractsAndGrantsUnit unitDTO = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).createNewObjectFromExternalizableClass(ContractsAndGrantsUnit.class);
+            unitList = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).getExternalizableBusinessObjectsListForLookup(unitDTO, (Map)parameters, false);
+            if (unitList == null) return Collections.EMPTY_LIST;
            return unitList;
             
         } catch (Exception ex) {
@@ -70,6 +57,6 @@ public class KualiUnitDTOLookupableHelperServiceImpl extends KualiLookupableHelp
         
         return Collections.EMPTY_LIST;
     }
-
+*/
 
 }

@@ -36,7 +36,7 @@
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
-            <map merge="true">
+            <map>
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
@@ -46,11 +46,11 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
              </map>
         </property>
-        <property name="externalizableWebBusinessObjectImplementations">
+        <property name="externalizableBusinessObjectServiceImplementations">
              <map>
-	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="UnitDTO"/>
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="BudgetCategoryDTO"/>
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value=""/>
+	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="cfdaService"/>
              </map>
         </property>
  		<property name="dataDictionaryPackages">
@@ -119,7 +119,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
-	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryLookupServiceImpl">
+	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl">
 		<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl"/>
 	</bean>
 	
@@ -142,6 +142,7 @@
   	<bean id="budgetCategoryDTOLookupableHelperService"
 		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
+		
 	<bean id="budgetCategoryDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
 		<property name="lookupableHelperService">

@@ -51,4 +51,10 @@ public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsMo
         return false;
     }
 
+    @Override
+    public List<String> getParentUnits(String unitNumber) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return null;
+    }
+
 }

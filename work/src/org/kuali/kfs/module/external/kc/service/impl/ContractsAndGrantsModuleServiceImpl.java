@@ -34,6 +34,8 @@ import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.module.external.kc.webService.EffortReporting.EffortReportingService;
+import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitService;
+import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitSoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -47,6 +49,13 @@ import org.kuali.rice.kns.service.ParameterService;
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
+
+    public List<String> getParentUnits(String unitNumber) {        
+        QName serviceName = new QName("KC", KFSConstants.Research.KC_UNIT_SERVICE);
+        InstitutionalUnitService port = (InstitutionalUnitService) GlobalResourceLoader.getService(serviceName);                 
+        List<String> parentUnits  = port.getParentUnits(unitNumber);
+        return parentUnits;
+    }
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,

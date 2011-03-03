@@ -19,19 +19,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.service.UnitService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -265,24 +264,20 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
      */
 
     protected boolean checkRequiredKcUnit(AccountAutoCreateDefaults newAccountAutoCreateDefaults) {
-
+        
         boolean result = true;
-        if (StringUtils.isBlank(newAccountAutoCreateDefaults.getKcUnit())) {
-            GlobalVariables.getMessageMap().putError(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
-            return false;
-
-        }
-      
-        // Check KcUnit required field      
-      //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
-
         try {
-            UnitService unitService = SpringContext.getBean(UnitService.class);
-            ContractsAndGrantsUnit unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
-            if (unitDTO == null) result = false;
+            //UnitService unitService = SpringContext.getBean(UnitService.class);
+            //ContractsAndGrantsUnit unitDTO = unitService.getUnit(newAccountAutoCreateDefaults.getKcUnit());
+            ContractsAndGrantsUnit unitDTO = newAccountAutoCreateDefaults.getUnitDTO();
+            unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(newAccountAutoCreateDefaults, unitDTO, "unitDTO");
+            if (unitDTO == null) {
+                putFieldError("kcUnit", ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());                
+                result = false;
+            }
             return result;
         } catch (Exception ex) {
-              GlobalVariables.getMessageMap().putError(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit");
+            putFieldError("kcUnit", ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
             return false;
         }
 

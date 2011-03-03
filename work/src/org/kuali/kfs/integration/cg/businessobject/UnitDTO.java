@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.rice.kns.bo.BusinessObjectBase;
 @XmlAccessorType(XmlAccessType.FIELD)

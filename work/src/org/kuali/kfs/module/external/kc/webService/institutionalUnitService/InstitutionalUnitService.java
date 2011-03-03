@@ -1,7 +1,5 @@
 package org.kuali.kfs.module.external.kc.webService.institutionalUnitService;
 
-import java.util.HashMap;
-
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;

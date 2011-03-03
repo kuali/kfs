@@ -127,29 +127,6 @@
 	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
 	</bean>
   	
-	<bean id="unitDTOLookupableHelperService"
-		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService" />
-
-	<bean id="unitDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="unitDTOLookupableHelperService" />
-		</property>
-	</bean>
-	
-	
-  	<bean id="budgetCategoryDTOLookupableHelperService"
-		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService" />
-		
-	<bean id="budgetCategoryDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="budgetCategoryDTOLookupableHelperService" />
-		</property>
-	</bean>
-	
   	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	
 	<bean id="cfdaLookupableHelperService"

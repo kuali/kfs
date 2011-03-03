@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
@@ -38,10 +39,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
     private String wsdlLocation;
-    private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;
-    private static final QName SERVICE_NAME = new QName(KFSConstants.Research.KC_NAMESPACE_URI, KFSConstants.Research.KC_BUDGET_CATEGORY_SERVICE);   
-    public static final List <String> KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
-    
+    private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;   
     
     //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
@@ -62,7 +60,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
             String key = (String) e.getKey();
             String val = (String) e.getValue();
 
-            if ( KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+            if ( KcConstants.BudgetCategory.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                 HashMapElement hashMapElement = new HashMapElement();
                 hashMapElement.setKey(key);
                 hashMapElement.setValue(val); 
@@ -71,7 +69,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
         }
         if (hashMapList.size() == 0) hashMapList = null;
    
-        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, SERVICE_NAME);
+        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, KcConstants.BudgetCategory.QUALIFIED_SERVICE_NAME);
         InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
    
         List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     

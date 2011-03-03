@@ -21,6 +21,7 @@ import javax.xml.namespace.QName;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitSoapService;
@@ -35,15 +36,13 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
  */
                       
 public class UnitServiceImpl implements ExternalizableBusinessObjectService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);
-    private static final QName SERVICE_NAME = new QName("KC", KFSConstants.Research.KC_UNIT_SERVICE);
-    public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);     
     private String wsdlLocation;
     private URL wsdlURL;
     
     //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
+        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, KcConstants.Unit.QUALIFIED_SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
         ContractsAndGrantsUnit unitDTO  = port.getUnit((String)primaryKeys.get("unitNumber"));
         return unitDTO;        
@@ -60,14 +59,14 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
             String key = (String) e.getKey();
             String val = (String) e.getValue();
 
-            if ( KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+            if ( KcConstants.Unit.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                 HashMapElement hashMapElement = new HashMapElement();
                 hashMapElement.setKey(key);
                 hashMapElement.setValue(val); 
                 hashMapList.add(hashMapElement);
             }
         }
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, SERVICE_NAME);
+        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, KcConstants.Unit.QUALIFIED_SERVICE_NAME);
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
         List lookupUnitsReturn  = port.lookupUnits( hashMapList);
         return lookupUnitsReturn;
@@ -76,8 +75,6 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
     public String getWsdlLocation() {
         return wsdlLocation;
     }
-
-
 
     public void setWsdlLocation(String wsdlLocation) {
         this.wsdlLocation = wsdlLocation;

@@ -90,7 +90,8 @@
 
   <bean id="budgetCategoryDTO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Category Code Lookup"/>
-    <property name="lookupableID" value="budgetCategoryDTOLookupable"/>
+	<property name="lookupableID" value="kualiLookupable"/>
+	
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>

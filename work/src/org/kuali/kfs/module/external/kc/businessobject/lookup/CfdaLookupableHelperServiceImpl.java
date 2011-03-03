@@ -22,9 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
-import org.kuali.kfs.module.external.kc.service.BudgetCategoryLookupService;
-import org.kuali.kfs.module.external.kc.service.CfdaService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -58,7 +56,7 @@ public class CfdaLookupableHelperServiceImpl extends KualiLookupableHelperServic
             
             for (String key : parameters.keySet()) {
                 String val = parameters.get(key);
-                if ( BudgetCategoryLookupService.KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+                if ( KcConstants.BudgetCategory.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                     HashMapElement hashMapElement = new HashMapElement();
                     hashMapElement.setKey(key);
                     hashMapElement.setValue(val); 

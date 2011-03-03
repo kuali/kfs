@@ -112,11 +112,17 @@ public class EndowPropertyConstants {
     public static final String MONTH_END_DATE = "monthEndDate";
 
     // HoldingHistory fields
+    public static final String HOLDING_HISTORY_KEMID = "kemid";
     public static final String HOLDING_HISTORY_MONTH_END_DATE_ID = "monthEndDateId";
     public static final String HOLDING_HISTORY_SECURITY_ID = "securityId";
     public static final String HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_HISTORY_SECURITY_CLASS_CODE = "feeClassCode";
     public static final String HOLDING_HISTORY_FEE_METHOD_CODE = "feeMethodCode";
+    public static final String HOLDING_HISTORY_UNITS = "units";
+    public static final String HOLDING_HISTORY_ESTIMATED_INCOME = "estimatedIncome";
+    public static final String HOLDING_HISTORY_MARKET_VALUE = "marketValue";
+    public static final String HOLDING_HISTORY_REMAIDER_OF_FY_ESTIMATED_INCOME = "remainderOfFYEstimatedIncome";
+    public static final String HOLDING_HISTORY_NEXT_FY_ESTIMATED_INCOME = "nextFYEstimatedIncome";
     
     // CurrentTaxLotBalance fields
     public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_ID = "securityId";
@@ -630,7 +636,7 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
     public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
     public static final String HOLDING_TAX_LOT_REBAL_KEMID = "kemid";
-
+    
     // Transaction Archive/Security
     public static final String TRANSACTION_ARCHIVE_KEM_ID = "kemid";
     

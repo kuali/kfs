@@ -19,7 +19,7 @@ public class AssetStatementForm extends EndowmentReportBaseForm {
     
     protected String monthEndDate;
     protected String reportOption;
-    protected String listKemidsInHeader;
+    protected String printFileOption;
     
     /**
      * Clears all the fields
@@ -28,7 +28,7 @@ public class AssetStatementForm extends EndowmentReportBaseForm {
         super.clear();
         this.monthEndDate = null;
         this.reportOption = "B";
-        this.listKemidsInHeader = "N";
+        this.printFileOption = "Y";
     }
 
     public String getMonthEndDate() {
@@ -47,12 +47,12 @@ public class AssetStatementForm extends EndowmentReportBaseForm {
         this.reportOption = reportOption;
     }
 
-    public String getListKemidsInHeader() {
-        return listKemidsInHeader;
+    public String getPrintFileOption() {
+        return printFileOption;
     }
 
-    public void setListKemidsInHeader(String listKemidsInHeader) {
-        this.listKemidsInHeader = listKemidsInHeader;
+    public void setPrintFileOption(String printFileOption) {
+        this.printFileOption = printFileOption;
     }
 
 }

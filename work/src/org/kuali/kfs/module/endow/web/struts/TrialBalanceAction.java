@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.module.endow.web.struts;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +33,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.report.service.TrialBalanceReportService;
-import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportPrint;
 import org.kuali.kfs.sys.KFSConstants;
@@ -117,6 +123,8 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
         String combineGroupCodes = trialBalanceForm.getCombineGroupCode();
         String asOfDate = trialBalanceForm.getAsOfDate();
         String endowmentOption = trialBalanceForm.getEndowmentOption();
+        String listKemidsInHeader = trialBalanceForm.getListKemidsInHeader();
+        String closedIndicator = trialBalanceForm.getClosedIndicator();
         String message = trialBalanceForm.getMessage();
 
         List<TrialBalanceReportDataHolder> trialBalanceReportDataHolders = null;
@@ -145,7 +153,7 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
             } else {
                 // by kemid only
                 List<String> kemidList = parseValueString(kemids, KEMID_SEPERATOR);                
-                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportsByKemidByIds(kemidList, endowmentOption);
+                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportsByKemidByIds(kemidList, endowmentOption, closedIndicator);
             }
         } else {
             if (( StringUtils.isBlank(benefittingOrganziationCampuses) 
@@ -156,7 +164,7 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
                     && StringUtils.isBlank(combineGroupCodes) )) {
 
                 // for all kemids
-                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportForAllKemids(endowmentOption);
+                trialBalanceReportDataHolders = trialBalanceReportService.getTrialBalanceReportForAllKemids(endowmentOption, closedIndicator);
                 
             } else {
                 // by other criteria
@@ -167,7 +175,8 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
                     parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR), 
                     parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR), 
-                    endowmentOption);
+                    endowmentOption,
+                    closedIndicator);
             }
         }
                
@@ -175,7 +184,7 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
         if (trialBalanceReportDataHolders != null && !trialBalanceReportDataHolders.isEmpty()) {
   
             // prepare the header sheet data
-            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = trialBalanceReportService.createReportHeaderSheetData(
+            EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = trialBalanceReportService.createReportHeaderSheetData(
                     getKemidsSelected(trialBalanceReportDataHolders),
                     parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
                     parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
@@ -187,10 +196,10 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
                     endowmentOption);
             
             // generate the report in PDF 
-            ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders);            
+            ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders, listKemidsInHeader);            
             if (pdfStream != null) {
                 trialBalanceForm.setMessage("Reports Generated");
-                WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
+                WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);    
                 return null;
             }
         }

@@ -28,7 +28,7 @@ public interface TransactionStatementReportService extends EndowmentReportServic
      * @param endownmentOption
      * @return
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endigDate, String endownmentOption);
+    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endigDate, String endownmentOption, String closedIndicator);
     
     /**
      * Gets the trial balance data for all kemids
@@ -36,7 +36,7 @@ public interface TransactionStatementReportService extends EndowmentReportServic
      * @param endownmentOption
      * @return
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportForAllKemids(String beginningDate, String endigDate, String endownmentOption);
+    public List<TransactionStatementReportDataHolder> getTransactionStatementReportForAllKemids(String beginningDate, String endigDate, String endownmentOption, String closedIndicator);
         
     /**
      * Gets the trial balance data using selected criteria 
@@ -59,5 +59,6 @@ public interface TransactionStatementReportService extends EndowmentReportServic
             List<String> combineGroupCodes, 
             String beginningDate, 
             String endigDate,
-            String endowmnetOption);
+            String endowmnetOption,
+            String closedIndicator);
 }

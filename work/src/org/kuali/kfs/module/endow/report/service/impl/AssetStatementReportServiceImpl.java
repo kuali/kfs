@@ -21,188 +21,220 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
-import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
+import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
+import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.report.service.AssetStatementReportService;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
-import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
+import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder.ReportGroupData;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class AssetStatementReportServiceImpl { //implements AssetStatementReportService {
+public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl implements AssetStatementReportService {
 
     protected DateTimeService dateTimeService;
-    protected TransactionArchiveDao transactionArchiveDao;
-    
+    protected KEMService kemService;
+    protected HoldingHistoryDao holdingHistoryDao;
+    protected KemidHistoricalCashDao kemidHistoricalCashDao;
+        
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportForAllKemids(java.lang.String)
      */
-    public List<AssetStatementReportDataHolder> getTransactionStatementReportForAllKemids(String monthEndDate, String endowmentOption) {
-        return getTransactionStatementReportsByKemidByIds(new ArrayList<String>(), monthEndDate, endowmentOption);
+    public List<AssetStatementReportDataHolder> getAssetStatementReportForAllKemids(String monthEndDate, String endowmentOption, String reportOption, String closedIndicator) {
+        return getAssetStatementReportsByKemidByIds(null, monthEndDate, endowmentOption, reportOption, closedIndicator);
     }
     
     /**
      * 
-     * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByKemidByIds(java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.endow.report.service.AssetStatementReportService#getAssetStatementReportsByKemidByIds(java.util.List, java.lang.String)
      */
-    
-    public List<AssetStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String monthEndDate, String endowmentOption) {
+    public List<AssetStatementReportDataHolder> getAssetStatementReportsByKemidByIds(List<String> kemids, String monthEndDate, String endowmentOption, String reportOption, String closedIndicator) {
         
-        List<AssetStatementReportDataHolder> transactionStatementReportList = new ArrayList<AssetStatementReportDataHolder>();
+        List<AssetStatementReportDataHolder> assetStatementReportList = new ArrayList<AssetStatementReportDataHolder>();
 
-//        Date date = convertStringToDate(monthEndDate);
-//        if (ObjectUtils.isNull(date)) {
-//            return null;
-//        }
-return null;
-        /*
-        List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate);
-        for (TransactionArchive transactionArchive : transactionArchiveRecords) {
-            
-            AssetStatementReportDataHolder transactionStatementReport = new AssetStatementReportDataHolder();
-            
-            // get related objects
-            KEMID kemid = getKemid(transactionArchive.getKemid());
-            TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
-            Security security = getSecurity(transactionArchive);
-            EndowmentTransactionCode endowmentTransactionCode = getEndowmentTransactionCode(transactionArchive.getEtranCode());
-            MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
-            MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
-            KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), beginningMED.getMonthEndDateId());
-            KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), endingMED.getMonthEndDateId());
-            
-            // the header info            
-            transactionStatementReport.setInstitution(getInstitutionName());
-            transactionStatementReport.setKemid(transactionArchive.getKemid());
-            transactionStatementReport.setKemidLongTitle(kemid.getLongTitle());
-            transactionStatementReport.setBeginningDate(beginningDate);
-            transactionStatementReport.setEndingDate(endingDate);
-            
-            // body info            
-            if (ObjectUtils.isNotNull(transactionArchive)) {
-                transactionStatementReport.setPostedDate(convertDateToString(transactionArchive.getPostedDate()));
-                transactionStatementReport.setDocumentName(transactionArchive.getTypeCode());
-                transactionStatementReport.setEtranCode(transactionArchive.getEtranCode());
-                transactionStatementReport.setTransactionDesc(transactionArchive.getDescription());
+        Date date = convertStringToDate(monthEndDate);
+        if (ObjectUtils.isNull(date)) {
+            return null;
+        }
+
+        // get objects used in common
+        List<String> kemidsSelcted = kemidDao.getKemidsByAttributeWithEndowmentOption(EndowPropertyConstants.KEMID, kemids, endowmentOption, closedIndicator);
+        List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endowmentOption, closedIndicator);        
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(monthEndDate));
+        KualiInteger medId = endingMED.getMonthEndDateId();
+        List<KemidHistoricalCash> historyCashRecords = getKemidHistoricalCashRecords(kemidsSelcted, medId);
+        // For Total report
+        //BigDecimal totalHistoryIncomeCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.INCOME);
+        //BigDecimal totalHostoryPrincipalCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.PRINCIPAL);     
+        
+        if ("Y".equalsIgnoreCase(endowmentOption)) {
+            // for endowment
+            for (KEMID kemidOjb : kemidRecords) {
                 
-                transactionStatementReport.setIncomeAmount(transactionArchive.getIncomeCashAmount());
-                transactionStatementReport.setPrincipalAmount(transactionArchive.getPrincipalCashAmount());
-            } 
-            
-            if (ObjectUtils.isNotNull(security)) {
-                transactionStatementReport.setTransactionSecurity(security.getDescription());
-            } 
-            
-            if (ObjectUtils.isNotNull(transactionArchiveSecurity)) {
-                transactionStatementReport.setTransactionSecurityUnits(transactionArchiveSecurity.getUnitsHeld());
-                transactionStatementReport.setTransactionSecurityUnitValue(transactionArchiveSecurity.getUnitValue());
+                AssetStatementReportDataHolder assetStatementReport = new AssetStatementReportDataHolder();
+                
+                // get related objects
+                KemidHistoricalCash historyCash = getKemidHistoricalCash(kemidOjb.getKemid(), medId);
+                if (historyCash == null) continue;
+                
+                List<HoldingHistory> holdingHistoryRecordsForIncome = holdingHistoryDao.getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(kemidOjb.getKemid(), medId, IncomePrincipalIndicator.INCOME);
+                List<HoldingHistory> holdingHistoryRecordsForPrincipal = holdingHistoryDao.getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(kemidOjb.getKemid(), medId, IncomePrincipalIndicator.PRINCIPAL);
+                
+                // create a data holder
+                AssetStatementReportDataHolder dataHolder = new AssetStatementReportDataHolder();
+                dataHolder.setInstitution(getInstitutionName());
+                dataHolder.setKemid(kemidOjb.getKemid());
+                dataHolder.setKemidLongTitle(kemidOjb.getLongTitle());
+                dataHolder.setMonthEndDate(monthEndDate);
+                
+                dataHolder.setHistoryIncomeCash(historyCash.getHistoricalIncomeCash().bigDecimalValue());
+                dataHolder.setHistoryPrincipalCash(historyCash.getHistoricalPrincipalCash().bigDecimalValue());
+                
+                // for income
+                for (HoldingHistory holdingHistory : holdingHistoryRecordsForIncome) {
+                    Security security = getSecurityById(holdingHistory.getSecurityId());
+                    SecurityReportingGroup securityReportingGroup = getSecurityReportingGroupBySecurityId(holdingHistory.getSecurityId());
+                    ReportGroupData rgIncome = dataHolder.createReportGroupData(securityReportingGroup, security, IncomePrincipalIndicator.INCOME);
+
+                    rgIncome.addSumOfUnits(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_UNITS, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.INCOME));
+                    rgIncome.addSumOfMarketValue(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_MARKET_VALUE, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.INCOME));
+                    rgIncome.addSumOfEstimatedIncome(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.INCOME));
+                    rgIncome.addSumOfRemainderOfFYEstimated(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_REMAIDER_OF_FY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.INCOME));
+                    rgIncome.addSumOfNextFYEstimatedIncome(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_NEXT_FY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.INCOME));
+                }
+                
+                // for principal
+                for (HoldingHistory holdingHistory : holdingHistoryRecordsForPrincipal) {
+                    Security security = getSecurityById(holdingHistory.getSecurityId());
+                    SecurityReportingGroup securityReportingGroup = getSecurityReportingGroupBySecurityId(holdingHistory.getSecurityId());
+                    ReportGroupData rgPrincipal = dataHolder.createReportGroupData(securityReportingGroup, security, IncomePrincipalIndicator.PRINCIPAL);
+                
+                    rgPrincipal.addSumOfUnits(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_UNITS, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.PRINCIPAL));
+                    rgPrincipal.addSumOfMarketValue(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_MARKET_VALUE, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.PRINCIPAL));
+                    rgPrincipal.addSumOfEstimatedIncome(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.PRINCIPAL));
+                    rgPrincipal.addSumOfRemainderOfFYEstimated(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_REMAIDER_OF_FY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.PRINCIPAL));
+                    rgPrincipal.addSumOfNextFYEstimatedIncome(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_NEXT_FY_ESTIMATED_INCOME, holdingHistory.getKemid(), medId, holdingHistory.getSecurityId(), IncomePrincipalIndicator.PRINCIPAL));                
+                }
+                
+                // TODO: need beneffiting organization info 
+                // add footer data
+                if ("D".equalsIgnoreCase(reportOption)) {
+                    EndowmentReportFooterDataHolder footerDataHolder = new EndowmentReportFooterDataHolder();
+                    footerDataHolder.setReference(kemidOjb.getKemid());
+                    footerDataHolder.setEstablishedDate(kemidOjb.getDateEstablished().toString());
+                    footerDataHolder.setKemidType(kemidOjb.getTypeCode());
+                    footerDataHolder.setKemidPurpose(kemidOjb.getPurposeCode());
+                    footerDataHolder.setReportRunDate(kemService.getCurrentDate().toString());
+                    footerDataHolder.setCampusName("UMD");
+                    footerDataHolder.setChartName("BL");
+                    footerDataHolder.setOrganizationName("");
+                    footerDataHolder.setBenefittingPercent("");
+                    dataHolder.setFooter(footerDataHolder);
+                }
+                
+                // add this new one
+                assetStatementReportList.add(dataHolder);
             }
             
-            if (ObjectUtils.isNotNull(endowmentTransactionCode)) {
-                transactionStatementReport.setEtranCodeDesc(endowmentTransactionCode.getName());
-            }
             
-            if (ObjectUtils.isNotNull(beginningHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash1(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash1(beginningHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());
-            } else {
-                transactionStatementReport.setHistoryIncomeCash1(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash1(BigDecimal.ZERO);
-            }
-            if (ObjectUtils.isNotNull(endingHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash2(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash2(endingHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());                
-            } else {
-                transactionStatementReport.setHistoryIncomeCash2(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash2(BigDecimal.ZERO);                
-            }
-                                    
-            // add this new one
-            transactionStatementReportList.add(transactionStatementReport);
+        } else if ("N".equalsIgnoreCase(endowmentOption)) {
+          // for non-endowed
+            
+        } else {
+            
         }
         
-        return transactionStatementReportList;
-*/        
+        return assetStatementReportList;      
     }
 
     /**
      * 
-     * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
+     * @see org.kuali.kfs.module.endow.report.service.AssetStatementReportService#getAssetStatementReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
      */
-/*
-    public List<AssetStatementReportDataHolder> getTransactionStatementReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
-            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption) {
-      
-        // Some of kemids returned may be duplicated. Set will remove the duplicated kemids
-        Set<String> kemids = new HashSet<String>();
+    public List<AssetStatementReportDataHolder> getAssetStatementReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
+            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String monthEndDate, String endowmnetOption, 
+            String reportOption, String closedIndicator) {
         
-        // 4.1.9 - If any of the non-required criteria are left blank, ignore it as a criterion
-        // 4.1.8 - Collects all related kemids regardless of the closed status of the KEMID
+        List<String> kemids = getKemidsByOtherCriteria(benefittingOrganziationCampusCodes, benefittingOrganziationChartCodes,
+                benefittingOrganziationCodes, typeCodes, purposeCodes, combineGroupCodes); 
         
-        if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
-        }
-        if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
-        }
-        if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
-        }
-        if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
-            kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
-        }
-        if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
-            kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
-        }
-        if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
-            kemids.addAll(kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
-        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
+//        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
+//        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
+//        }
+//        if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
+//            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
+//        }
+//        if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
+//        }
+//        if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
+//            retainCommonKemids(kemids, kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
+//        }
         
         // Now that we have all the kemids to be reported by the use of the other criteria, go to get the report data 
         if (kemids.size() == 0) {
             return null;
         } else {            
-            return getTransactionStatementReportsByKemidByIds(new ArrayList<String>(kemids), beginningDate, endingDate, endowmnetOption);
+            return getAssetStatementReportsByKemidByIds(kemids, monthEndDate, endowmnetOption, reportOption, closedIndicator);
         }
     }
 
+    protected SecurityReportingGroup getSecurityReportingGroupBySecurityId(String securityId) {
+
+        // get Security
+        Security security = getSecurityById(securityId);
+        // get class code
+        ClassCode classCode = getClassCodeById(security.getSecurityClassCode());
+        // get security report group
+        SecurityReportingGroup securityReportingGroup = getSecurityReportingGroup(classCode.getSecurityReportingGrp());
+        
+        return securityReportingGroup;        
+    }
+    
+    protected Security getSecurityById(String securityId) {
+        Map<String,String> primaryKeys = new HashMap<String,String>();
+        primaryKeys.put(EndowPropertyConstants.SECURITY_ID, securityId);
+        return (Security) businessObjectService.findByPrimaryKey(Security.class, primaryKeys);
+    }
+    
+    protected ClassCode getClassCodeById(String classCode) {
+        Map<String,String> primaryKeys = new HashMap<String,String>();
+        primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, classCode);
+        return (ClassCode) businessObjectService.findByPrimaryKey(ClassCode.class, primaryKeys);
+    }
+    
+    protected SecurityReportingGroup getSecurityReportingGroup(String reportGroup) {
+        Map<String,String> primaryKeys = new HashMap<String,String>();
+        primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, reportGroup);
+        return (SecurityReportingGroup) businessObjectService.findByPrimaryKey(SecurityReportingGroup.class, primaryKeys);
+
+    }
+    
     protected KEMID getKemid(String kemid) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.KEMID, kemid);
         return (KEMID) businessObjectService.findByPrimaryKey(KEMID.class, primaryKeys);
-    }
-    
-    protected TransactionArchiveSecurity  getTransactionArchiveSecurity(TransactionArchive transactionArchive) {
-        Map<String,Object> primaryKeys = new HashMap<String,Object>();
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, transactionArchive.getDocumentNumber());
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, transactionArchive.getLineNumber());
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, transactionArchive.getLineTypeCode());
-        return (TransactionArchiveSecurity) businessObjectService.findByPrimaryKey(TransactionArchiveSecurity.class, primaryKeys);        
-    }
-    
-    protected Security getSecurity(TransactionArchive transactionArchive) {
-        TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
-        return transactionArchiveSecurity.getSecurity();        
-    }
-    
-    protected EndowmentTransactionCode getEndowmentTransactionCode(String etranCcode) {
-        Map<String,String> primaryKeys = new HashMap<String,String>();
-        primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, etranCcode);
-        return (EndowmentTransactionCode) businessObjectService.findByPrimaryKey(EndowmentTransactionCode.class, primaryKeys);
     }
     
     protected KemidHistoricalCash getKemidHistoricalCash(String kemid, KualiInteger medId) {
@@ -211,7 +243,23 @@ return null;
         primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, medId);
         return (KemidHistoricalCash) businessObjectService.findByPrimaryKey(KemidHistoricalCash.class, primaryKeys);
     }
- 
+    
+    protected List<KemidHistoricalCash> getKemidHistoricalCashRecords(List<String> kemids, KualiInteger medId) {
+        return kemidHistoricalCashDao.getHistoricalCashRecords(kemids, medId);
+    }
+    
+    protected BigDecimal getTotalHistoryCash(List<KemidHistoricalCash> historyCashRecords, String ipInd) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (KemidHistoricalCash historicalCash : historyCashRecords) {
+            if ("I".equalsIgnoreCase(ipInd)) {
+                total = total.add(historicalCash.getHistoricalIncomeCash().bigDecimalValue());
+            } else {
+                total = total.add(historicalCash.getHistoricalPrincipalCash().bigDecimalValue());
+            }
+        }
+        return total;
+    }
+    
     protected MonthEndDate getPreviousMonthEndDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -242,8 +290,16 @@ return null;
         this.dateTimeService = dateTimeService;
     }
 
-    public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
-        this.transactionArchiveDao = transactionArchiveDao;
+    public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
+        this.holdingHistoryDao = holdingHistoryDao;
     }
-*/    
+
+    public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
+        this.kemidHistoricalCashDao = kemidHistoricalCashDao;
+    }
+
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
+    }
+
 }

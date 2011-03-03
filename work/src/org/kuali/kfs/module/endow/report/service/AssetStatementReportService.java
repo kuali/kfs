@@ -28,7 +28,7 @@ public interface AssetStatementReportService extends EndowmentReportService {
          * @param endownmentOption
          * @return
          */
-        public List<AssetStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String monthEndDate, String endownmentOption);
+        public List<AssetStatementReportDataHolder> getAssetStatementReportsByKemidByIds(List<String> kemids, String monthEndDate, String endownmentOption, String reportOption, String closedIndicator);
         
         /**
          * Gets the trial balance data for all kemids
@@ -36,7 +36,7 @@ public interface AssetStatementReportService extends EndowmentReportService {
          * @param endownmentOption
          * @return
          */
-        public List<AssetStatementReportDataHolder> getTransactionStatementReportForAllKemids(String monthEndDate, String endownmentOption);
+        public List<AssetStatementReportDataHolder> getAssetStatementReportForAllKemids(String monthEndDate, String endownmentOption, String reportOption, String closedIndicator);
             
         /**
          * Gets the trial balance data using selected criteria 
@@ -50,7 +50,7 @@ public interface AssetStatementReportService extends EndowmentReportService {
          * @param endowmnetOption
          * @return
          */
-        public List<AssetStatementReportDataHolder> getTransactionStatementReportsByOtherCriteria( 
+        public List<AssetStatementReportDataHolder> getAssetStatementReportsByOtherCriteria( 
                 List<String> benefittingOrganziationCampuses, 
                 List<String> benefittingOrganziationCharts,
                 List<String> benefittingOrganziations, 
@@ -58,5 +58,7 @@ public interface AssetStatementReportService extends EndowmentReportService {
                 List<String> purposeCodes, 
                 List<String> combineGroupCodes, 
                 String monthEndDate, 
-                String endowmnetOption);
+                String endowmnetOption,
+                String reportOption, 
+                String closedIndicator);
 }

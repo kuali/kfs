@@ -29,7 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
-import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportPrint;
 import org.kuali.kfs.sys.KFSConstants;
@@ -118,6 +118,8 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
         String beginningDate = transactionStatementForm.getBeginningDate();
         String endingDate = transactionStatementForm.getEndingDate();
         String endowmentOption = transactionStatementForm.getEndowmentOption();
+        String listKemidsInHeader = transactionStatementForm.getListKemidsInHeader();
+        String closedIndicator = transactionStatementForm.getClosedIndicator();
         String message = transactionStatementForm.getMessage();
 
         List<TransactionStatementReportDataHolder> transactionStatementReportDataHolders = null;
@@ -164,7 +166,7 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                 } else {
                     // by kemid only
                     List<String> kemidList = parseValueString(kemids, KEMID_SEPERATOR);                
-                    transactionStatementReportDataHolders = transactionStatementReportService.getTransactionStatementReportsByKemidByIds(kemidList, beginningDate, endingDate, endowmentOption);
+                    transactionStatementReportDataHolders = transactionStatementReportService.getTransactionStatementReportsByKemidByIds(kemidList, beginningDate, endingDate, endowmentOption, closedIndicator);
                 }
             } else {
                 if (( StringUtils.isBlank(benefittingOrganziationCampuses) 
@@ -175,7 +177,7 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                         && StringUtils.isBlank(combineGroupCodes) )) {
     
                     // for all kemids
-                    transactionStatementReportDataHolders = transactionStatementReportService.getTransactionStatementReportForAllKemids(beginningDate, endingDate, endowmentOption);
+                    transactionStatementReportDataHolders = transactionStatementReportService.getTransactionStatementReportForAllKemids(beginningDate, endingDate, endowmentOption, closedIndicator);
                     
                 } else {
                     // by other criteria
@@ -188,7 +190,8 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                         parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR), 
                         beginningDate,
                         endingDate,
-                        endowmentOption);
+                        endowmentOption,
+                        closedIndicator);
                 }
             }
         } else {
@@ -200,7 +203,7 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
         // See to see if you have something to print        
         if (transactionStatementReportDataHolders != null && !transactionStatementReportDataHolders.isEmpty()) {
             // prepare the header sheet data
-            ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = transactionStatementReportService.createReportHeaderSheetData(
+            EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = transactionStatementReportService.createReportHeaderSheetData(
                     getKemidsSelected(transactionStatementReportDataHolders),
                     parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
                     parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
@@ -212,7 +215,7 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                     endowmentOption);
             
             // generate the report in PDF 
-            ByteArrayOutputStream pdfStream = new TransactionStatementReportPrint().printTransactionStatementReport(reportRequestHeaderDataHolder, transactionStatementReportDataHolders);            
+            ByteArrayOutputStream pdfStream = new TransactionStatementReportPrint().printTransactionStatementReport(reportRequestHeaderDataHolder, transactionStatementReportDataHolders, listKemidsInHeader);            
             if (pdfStream != null) {
                 transactionStatementForm.setMessage("Reports Generated");
                 WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);

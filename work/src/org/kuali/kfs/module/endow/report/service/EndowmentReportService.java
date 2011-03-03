@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.report.service;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
-import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 
 public interface EndowmentReportService {
@@ -108,7 +108,7 @@ public interface EndowmentReportService {
      * @param combineGroupCodes
      * @return
      */
-    public ReportRequestHeaderDataHolder createReportHeaderSheetData(
+    public EndowmentReportHeaderDataHolder createReportHeaderSheetData(
             List<String> kemidsSelected,             
             List<String> benefittingOrganziationCampuses,
             List<String> benefittingOrganziationCharts,

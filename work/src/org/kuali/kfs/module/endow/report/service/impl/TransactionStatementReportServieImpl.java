@@ -52,15 +52,15 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportForAllKemids(java.lang.String)
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportForAllKemids(String beginningDate, String endingDate, String endowmentOption) {
-        return getTransactionStatementReportsByKemidByIds(new ArrayList<String>(), beginningDate, endingDate, endowmentOption);
+    public List<TransactionStatementReportDataHolder> getTransactionStatementReportForAllKemids(String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
+        return getTransactionStatementReportsByKemidByIds(null, beginningDate, endingDate, endowmentOption, closedIndicator);
     }
     
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByKemidByIds(java.util.List, java.lang.String)
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption) {
+    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
         
         List<TransactionStatementReportDataHolder> transactionStatementReportList = new ArrayList<TransactionStatementReportDataHolder>();
 
@@ -70,7 +70,7 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
             return null;
         }
         
-        List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate);
+        List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate, closedIndicator);
         if (transactionArchiveRecords == null) {
             return null;
         }
@@ -147,38 +147,35 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
      */
     public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
-            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption) {
-      
-        // Some of kemids returned may be duplicated. Set will remove the duplicated kemids
-        Set<String> kemids = new HashSet<String>();
+            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption, String closedIndicator) {
         
-        // 4.1.9 - If any of the non-required criteria are left blank, ignore it as a criterion
-        // 4.1.8 - Collects all related kemids regardless of the closed status of the KEMID
+        List<String> kemids = getKemidsByOtherCriteria(benefittingOrganziationCampusCodes, benefittingOrganziationChartCodes,
+                benefittingOrganziationCodes, typeCodes, purposeCodes, combineGroupCodes);
         
-        if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
-        }
-        if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
-        }
-        if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
-            kemids.addAll(kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
-        }
-        if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
-            kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
-        }
-        if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
-            kemids.addAll(kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
-        }
-        if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
-            kemids.addAll(kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
-        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
+//        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
+//        }
+//        if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
+//        }
+//        if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
+//            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
+//        }
+//        if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
+//            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
+//        }
+//        if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
+//            retainCommonKemids(kemids, kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
+//        }
         
         // Now that we have all the kemids to be reported by the use of the other criteria, go to get the report data 
         if (kemids.size() == 0) {
             return null;
         } else {            
-            return getTransactionStatementReportsByKemidByIds(new ArrayList<String>(kemids), beginningDate, endingDate, endowmnetOption);
+            return getTransactionStatementReportsByKemidByIds(kemids, beginningDate, endingDate, endowmnetOption, closedIndicator);
         }
     }
 

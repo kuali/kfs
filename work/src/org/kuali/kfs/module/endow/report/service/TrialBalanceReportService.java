@@ -29,7 +29,7 @@ public interface TrialBalanceReportService extends EndowmentReportService {
      * @param endownmentOption
      * @return
      */
-    public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption);
+    public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption, String closedIndicator);
     
     /**
      * Gets the trial balance data for all kemids
@@ -37,7 +37,7 @@ public interface TrialBalanceReportService extends EndowmentReportService {
      * @param endownmentOption
      * @return
      */
-    public List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption);
+    public List<TrialBalanceReportDataHolder> getTrialBalanceReportForAllKemids(String endownmentOption, String closedIndicator);
         
     /**
      * Gets the trial balance data using selected criteria 
@@ -58,6 +58,7 @@ public interface TrialBalanceReportService extends EndowmentReportService {
             List<String> typeCodes, 
             List<String> purposeCodes, 
             List<String> combineGroupCodes, 
-            String endowmnetOption);
+            String endowmnetOption,
+            String closedIndicator);
     
 }

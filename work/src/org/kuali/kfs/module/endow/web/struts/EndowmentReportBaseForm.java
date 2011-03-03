@@ -35,17 +35,21 @@ public class EndowmentReportBaseForm extends KualiForm {
     protected String purposeCode;
     protected String combineGroupCode;
     protected String endowmentOption;
+    protected String listKemidsInHeader;
+    protected String closedIndicator;
     protected String message;
     
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        this.endowmentOption = "B";
+        this.listKemidsInHeader = "Y";
+        this.closedIndicator = "B";
     }
     
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();
-     //   HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
        
         // Print button
         ExtraButton printButton = new ExtraButton();
@@ -97,129 +101,92 @@ public class EndowmentReportBaseForm extends KualiForm {
         this.message = null;
     }
 
-    /**
-     * 
-     */
     public String getKemid() {
         return kemid;
     }
 
-    /**
-     * 
-     */
     public void setKemid(String kemid) {
         this.kemid = kemid;
     }
 
-    /**
-     * 
-     */
     public String getBenefittingOrganziationCampus() {
         return benefittingOrganziationCampus;
     }
 
-    /**
-     * 
-     */
     public void setBenefittingOrganziationCampus(String benefittingOrganziationCampus) {
         this.benefittingOrganziationCampus = benefittingOrganziationCampus;
     }
 
-    /**
-     * 
-     */
     public String getBenefittingOrganziationChart() {
         return benefittingOrganziationChart;
     }
 
-    /**
-     * 
-     */
     public void setBenefittingOrganziationChart(String benefittingOrganziationChart) {
         this.benefittingOrganziationChart = benefittingOrganziationChart;
     }
 
-    /**
-     * 
-     */
     public String getBenefittingOrganziation() {
         return benefittingOrganziation;
     }
 
-    /**
-     * 
-     */
     public void setBenefittingOrganziation(String benefittingOrganziation) {
         this.benefittingOrganziation = benefittingOrganziation;
     }
 
-    /**
-     * 
-     */
     public String getTypeCode() {
         return typeCode;
     }
 
-    /**
-     * 
-     */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
 
-    /**
-     * 
-     */
     public String getPurposeCode() {
         return purposeCode;
     }
 
-    /**
-     * 
-     */
     public void setPurposeCode(String purposeCode) {
         this.purposeCode = purposeCode;
     }
 
-    /**
-     * 
-     */
     public String getCombineGroupCode() {
         return combineGroupCode;
     }
 
-    /**
-     * 
-     */
     public void setCombineGroupCode(String combineGroupCode) {
         this.combineGroupCode = combineGroupCode;
     }
 
-    /**
-     * 
-     */
     public String getEndowmentOption() {
         return endowmentOption;
     }
 
-    /**
-     * 
-     */
     public void setEndowmentOption(String endowmentOption) {
         this.endowmentOption = endowmentOption;
     }
 
-    /**
-     * 
-     */
+    public String getListKemidsInHeader() {
+        return listKemidsInHeader;
+    }
+
+    public void setListKemidsInHeader(String listKemidsInHeader) {
+        this.listKemidsInHeader = listKemidsInHeader;
+    }
+
+    public String getClosedIndicator() {
+        return closedIndicator;
+    }
+
+    public void setClosedIndicator(String closedIndicator) {
+        this.closedIndicator = closedIndicator;
+    }
+
     public String getMessage() {
         return message;
     }
 
-    /**
-     * 
-     */
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

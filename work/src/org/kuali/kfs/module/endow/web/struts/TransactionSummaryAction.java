@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
-import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportPrint;
 import org.kuali.kfs.sys.KFSConstants;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.external.kc.webService.BudgetCategory;
+package org.kuali.kfs.module.external.kc.webService;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

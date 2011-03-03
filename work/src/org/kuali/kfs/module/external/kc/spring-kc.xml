@@ -119,14 +119,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
-	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl">
-		<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl"/>
-	</bean>
+	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
 	
-	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
-	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
-	</bean>
-  	
+	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
+		 	
   	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	
 	<bean id="cfdaLookupableHelperService"

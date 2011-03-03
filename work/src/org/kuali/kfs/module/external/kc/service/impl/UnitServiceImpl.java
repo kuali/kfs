@@ -23,8 +23,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitService;
-import org.kuali.kfs.module.external.kc.webService.institutionalUnitService.InstitutionalUnitSoapService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
@@ -37,12 +37,10 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
                       
 public class UnitServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);     
-    private String wsdlLocation;
-    private URL wsdlURL;
-    
+     
     //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, KcConstants.Unit.QUALIFIED_SERVICE_NAME);
+        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
         ContractsAndGrantsUnit unitDTO  = port.getUnit((String)primaryKeys.get("unitNumber"));
         return unitDTO;        
@@ -66,26 +64,10 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
                 hashMapList.add(hashMapElement);
             }
         }
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService(wsdlURL, KcConstants.Unit.QUALIFIED_SERVICE_NAME);
+        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
         List lookupUnitsReturn  = port.lookupUnits( hashMapList);
         return lookupUnitsReturn;
     }
 
-    public String getWsdlLocation() {
-        return wsdlLocation;
-    }
-
-    public void setWsdlLocation(String wsdlLocation) {
-        this.wsdlLocation = wsdlLocation;
-        try {
-            wsdlURL = new URL(wsdlLocation);
-        }
-        catch (MalformedURLException ex) {
-          
-            LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            //ex.printStackTrace();
-        }
-
-    }
-}
+ }

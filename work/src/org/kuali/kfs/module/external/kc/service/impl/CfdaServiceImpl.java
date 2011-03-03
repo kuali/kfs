@@ -16,27 +16,40 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.external.kc.businessobject.Cfda;
 import org.kuali.kfs.module.external.kc.service.CfdaService;
 import org.kuali.kfs.module.external.kc.webService.CfdaNumberService;
+import org.kuali.kfs.module.external.kc.webService.CfdaNumberSoapService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 
 public class CfdaServiceImpl implements CfdaService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
-
-
+ 
     public Cfda getByPrimaryId(String acctNumber) {
  
         if (StringUtils.isBlank(acctNumber)) {
             return null;
         }
-        QName serviceName = new QName("KC", "cfdaNumberService");
-        CfdaNumberService port = (CfdaNumberService) GlobalResourceLoader.getService(serviceName);
+        QName cfdaSoapSERVICE = new QName("KC", "cfdaNumberSoapService");
+        CfdaNumberSoapService   soapService = (CfdaNumberSoapService) GlobalResourceLoader.getService(cfdaSoapSERVICE);
+        //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
+        CfdaNumberService port = soapService.getCfdaNumberServicePort();  
+        
+        
+        //QName serviceName = new QName("KC", "cfdaNumberService");
+       // CfdaNumberService port = (CfdaNumberService) GlobalResourceLoader.getService(serviceName);
         String cfdaNumber = port.getCfdaNumber(acctNumber);
         LOG.info("sent " + acctNumber + " got " + cfdaNumber);
         
@@ -50,4 +63,5 @@ public class CfdaServiceImpl implements CfdaService {
         // TODO Auto-generated method stub
         return null;
     }
+    
 }

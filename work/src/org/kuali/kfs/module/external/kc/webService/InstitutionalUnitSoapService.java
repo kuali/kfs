@@ -3,7 +3,7 @@
  * 
  */
 
-package org.kuali.kfs.module.external.kc.webService.institutionalUnitService;
+package org.kuali.kfs.module.external.kc.webService;
 
 import java.net.MalformedURLException;
 import java.net.URL;

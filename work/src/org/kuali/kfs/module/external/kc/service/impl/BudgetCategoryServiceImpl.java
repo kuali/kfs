@@ -30,16 +30,14 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategoryService;
-import org.kuali.kfs.module.external.kc.webService.BudgetCategory.InstitutionalBudgetCategorySoapService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategoryService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
-    private String wsdlLocation;
-    private URL wsdlURL = InstitutionalBudgetCategorySoapService.WSDL_LOCATION;   
     
     //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
@@ -69,26 +67,11 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
         }
         if (hashMapList.size() == 0) hashMapList = null;
    
-        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService(wsdlURL, KcConstants.BudgetCategory.QUALIFIED_SERVICE_NAME);
+        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService();
         InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
    
         List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     
         return budgetCategoryDTOs;
     }
     
-    public String getWsdlLocation() {
-        return wsdlLocation;
-    }
-
-    public void setWsdlLocation(String wsdlLocation) {
-        this.wsdlLocation = wsdlLocation;
-        try {
-            wsdlURL = new URL(wsdlLocation);
-        }
-        catch (MalformedURLException ex) {
-          
-            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-            //ex.printStackTrace();
-        }
-    }
-}
+ }

@@ -125,14 +125,5 @@
 		 	
   	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	
-	<bean id="cfdaLookupableHelperService"
-		class="org.kuali.kfs.module.external.kc.businessobject.lookup.CfdaLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService" />
-	<bean id="cfdaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="cfdaLookupableHelperService" />
-		</property>
-	</bean>
   	
 </beans>

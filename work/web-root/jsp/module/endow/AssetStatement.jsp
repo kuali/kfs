@@ -26,7 +26,7 @@
 	<c:set var="medAttributes" value="${DataDictionary.MonthEndDate.attributes}" />
 		
 <kul:page  showDocumentInfo="false"
-	headerTitle="Asset Statement Report" docTitle="Asset Statement Report" renderMultipart="true"
+	headerTitle="Endowment Asset Statement Generation" docTitle="Endowment Asset Statement Generation" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="reportEndowAssetStatement" errorKey="foo">
 
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Asset Transaction">
@@ -122,12 +122,32 @@
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">Closed Indicator:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+					<input type="radio" name="closedIndicator" value="Y" />Yes&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="N" />No&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="B" checked />Both<br/>									
+                </td>				                      
+            </tr>            
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right">List KEMIDs in Header:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<input type="checkbox" name="listKemidsInHeader" value="N" />Endowment&nbsp;&nbsp;
+					<input type="radio" name="listKemidsInHeader" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="listKemidsInHeader" value="N" />No&nbsp;&nbsp;
                 </td>				                      
-            </tr>    
+            </tr>      
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">Consolidate reports to one file?</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+                	<input type="radio" name="printFileOption" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="printFileOption" value="N" />No&nbsp;&nbsp;
+                </td>				                      
+            </tr>            
         </table>
     
      <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

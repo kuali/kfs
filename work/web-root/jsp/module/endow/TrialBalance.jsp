@@ -25,7 +25,7 @@
 	<c:set var="campusAttributes" value="${DataDictionary.CampusImpl.attributes}" />
 		
 <kul:page  showDocumentInfo="false"
-	headerTitle="Trial Balance Report" docTitle="Trial Balance Report" renderMultipart="true"
+	headerTitle="Endowment Trial Balance Generation" docTitle="Endowment Trial Balance Generation" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="reportEndowTrialBalance" errorKey="foo">
 
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Trial Balance">
@@ -108,7 +108,26 @@
 					<input type="radio" name="endowmentOption" value="N" />Non-Endowed&nbsp;&nbsp;
 					<input type="radio" name="endowmentOption" value="B" checked />Both<br/>									
                 </td>				                      
-            </tr>             
+            </tr>
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">Closed Indicator:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+					<input type="radio" name="closedIndicator" value="Y" />Yes&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="N" />No&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="B" checked />Both<br/>									
+                </td>				                      
+            </tr>            
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">List KEMIDs in Header:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+	                <input type="radio" name="listKemidsInHeader" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="listKemidsInHeader" value="N" />No&nbsp;&nbsp;
+                </td>				                      
+            </tr>                            
         </table>
     
      <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

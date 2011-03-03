@@ -26,7 +26,7 @@
 	<c:set var="medAttributes" value="${DataDictionary.MonthEndDate.attributes}" />
 		
 <kul:page  showDocumentInfo="false"
-	headerTitle="Transaction Statement Report" docTitle="Transaction Statement Report" renderMultipart="true"
+	headerTitle="Endowment Transaction Statement Generation" docTitle="Endowment Transaction Statement Generation" renderMultipart="true"
 	transactionalDocument="false" htmlFormAction="reportEndowTransactionStatement" errorKey="foo">
 
 	 <table cellpadding="0" cellspacing="0" class="datatable-80" summary="Transaction Statement">
@@ -117,7 +117,26 @@
 					<input type="radio" name="endowmentOption" value="N" />Non-Endowed&nbsp;&nbsp;
 					<input type="radio" name="endowmentOption" value="B" checked />Both<br/>									
                 </td>				                      
-            </tr>             
+            </tr>  
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">Closed Indicator:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+					<input type="radio" name="closedIndicator" value="Y" />Yes&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="N" />No&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="B" checked />Both<br/>									
+                </td>				                      
+            </tr>            
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">List KEMIDs in Header:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+                    <input type="radio" name="listKemidsInHeader" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="listKemidsInHeader" value="N" />No&nbsp;&nbsp;
+                </td>				                      
+            </tr>                         
         </table>
     
      <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

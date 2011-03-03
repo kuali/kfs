@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.module.endow.report.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -24,10 +27,10 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.report.service.EndowmentReportService;
+import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
-import org.kuali.kfs.module.endow.report.util.ReportRequestHeaderDataHolder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -37,7 +40,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     
     protected BusinessObjectService businessObjectService;
     protected ParameterService parameterService;
-    protected KEMService kemService;
     protected KemidDao kemidDao;
     protected KemidBenefittingOrganizationDao kemidBenefittingOrganizationDao;
     protected KemidReportGroupDao kemidReportGroupDao;
@@ -182,7 +184,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      *     
      * @see org.kuali.kfs.module.endow.report.service.EndowmentReportService#createReportHeaderSheetData(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String, java.lang.String)
      */
-    public ReportRequestHeaderDataHolder createReportHeaderSheetData(
+    public EndowmentReportHeaderDataHolder createReportHeaderSheetData(
                     List<String> kemidsSelected, 
                     List<String> benefittingOrganziationCampuses,
                     List<String> benefittingOrganziationCharts,
@@ -193,7 +195,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
                     String reportName, 
                     String endowmnetOption) {
                 
-        ReportRequestHeaderDataHolder reportRequestHeaderDataHolder = new ReportRequestHeaderDataHolder();
+        EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = new EndowmentReportHeaderDataHolder();
         
         // get request report
         reportRequestHeaderDataHolder.setInstitutionName(getInstitutionName());
@@ -225,6 +227,52 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return reportRequestHeaderDataHolder;
     }
     
+    public List<String> getKemidsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
+            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes) {
+      
+        // 4.1.9 - If any of the non-required criteria are left blank, ignore it as a criterion
+        // The criteria should be the AND combination.
+        
+        Set<String> kemids = new HashSet<String>();
+        
+        if (ObjectUtils.isNotNull(benefittingOrganziationCampusCodes) && !benefittingOrganziationCampusCodes.isEmpty()) {
+            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByCampusCode(benefittingOrganziationCampusCodes));
+        }
+        if (ObjectUtils.isNotNull(benefittingOrganziationChartCodes) && !benefittingOrganziationChartCodes.isEmpty()) {
+            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_CHRT_CD, benefittingOrganziationChartCodes));
+        }
+        if (ObjectUtils.isNotNull(benefittingOrganziationCodes) && !benefittingOrganziationCodes.isEmpty()) {
+            retainCommonKemids(kemids, kemidBenefittingOrganizationDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_BENE_ORG_CD, benefittingOrganziationCodes));
+        }
+        if (ObjectUtils.isNotNull(typeCodes) && !typeCodes.isEmpty()) {        
+            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_TYPE_CODE, typeCodes));
+        }
+        if (ObjectUtils.isNotNull(purposeCodes) && !purposeCodes.isEmpty()) {
+            retainCommonKemids(kemids, kemidDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_PRPS_CD, purposeCodes));
+        }
+        if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {        
+            retainCommonKemids(kemids, kemidReportGroupDao.getKemidsByAttribute(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes));
+        }        
+        
+        return new ArrayList<String>(kemids);
+    }
+    
+    /** 
+     * Retains the kemids that are in common.  
+     * 
+     * @param kemids
+     * @param list
+     */
+    public void retainCommonKemids(Set<String> kemids, List<String> list) {
+        if (list != null && !list.isEmpty()) {
+            if (kemids.isEmpty()) {
+                kemids.addAll(list);
+            } else {
+                kemids.retainAll(list);
+            }
+        }
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidsWithMultipleBenefittingOrganizations(java.util.List)
@@ -245,13 +293,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * 
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
     }
 
     /**

@@ -43,13 +43,13 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
      * @param transactionStatementDataReportHolders
      * @return
      */
-    public ByteArrayOutputStream printTransactionStatementReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionStatementReportDataHolder> transactionStatementDataReportHolders) {
+    public ByteArrayOutputStream printTransactionStatementReport(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionStatementReportDataHolder> transactionStatementDataReportHolders, String listKemidsInHeader) {
         
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionStatementReportPrint.class);
         
         Document document = new Document();
         //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
-        document.setPageSize(pageSize);
+        document.setPageSize(LETTER_PORTRAIT);
         document.addTitle("Endowment Transaction Statement");
         
         ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
@@ -66,7 +66,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
             
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, false)) {                
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, false)) {                
                 if (transactionStatementDataReportHolders != null && transactionStatementDataReportHolders.size() > 0) {            
                     printTransactionStatementReportBody(transactionStatementDataReportHolders, document);
                 } 
@@ -115,7 +115,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
 
                 // report table
                 PdfPTable table = new PdfPTable(4);
-                table.setWidthPercentage(TRIAL_BALANCE_TABLE_WIDTH);
+                table.setWidthPercentage(FULL_TABLE_WIDTH);
                 int[] relativeWidths = {10, 40, 25, 25};
                 table.setWidths(relativeWidths);
                 table.getDefaultCell().setPadding(5);

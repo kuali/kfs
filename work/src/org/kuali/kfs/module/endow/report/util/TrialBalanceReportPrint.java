@@ -47,13 +47,13 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
      * @param trialBalanceDataReportHolders
      * @return ByteArrayOutputStream
      */
-    public ByteArrayOutputStream printTrialBalanceReport(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, List<TrialBalanceReportDataHolder> trialBalanceDataReportHolders) {
+    public ByteArrayOutputStream printTrialBalanceReport(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, List<TrialBalanceReportDataHolder> trialBalanceDataReportHolders, String listKemidsInHeader) {
         
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceReportPrint.class);
                 
         Document document = new Document();
         //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
-        document.setPageSize(pageSize);
+        document.setPageSize(LETTER_PORTRAIT);
         document.addTitle("Endowment Trial Balance");
         
         // get the stream for PDF
@@ -71,7 +71,7 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
 
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, true)) {
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, true)) {
                     
                 if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 1) {        
                     printTrialBalanceReportBody(trialBalanceDataReportHolders, document);
@@ -100,6 +100,8 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
     public boolean printTrialBalanceReportBody(List<TrialBalanceReportDataHolder> trialBalanceReports, Document document) {
                 
         try {
+            document.setPageSize(LETTER_LANDSCAPE);
+            
             // new page
             document.setPageCount(0);
             document.newPage();
@@ -115,8 +117,8 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
                
             // report table
             PdfPTable table = new PdfPTable(7);
-            table.setWidthPercentage(TRIAL_BALANCE_TABLE_WIDTH);
-            int[] relativeWidths = {12, 13, 15, 15, 15, 15, 15};
+            table.setWidthPercentage(FULL_TABLE_WIDTH);
+            int[] relativeWidths = {10, 15, 15, 15, 15, 15, 15};
             table.setWidths(relativeWidths);
             table.getDefaultCell().setPadding(2);
             

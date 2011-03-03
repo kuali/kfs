@@ -36,7 +36,7 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
      * 
      * @see org.kuali.kfs.module.endow.dataaccess.KemidDao#getKemidRecordsByIds(java.util.List, java.lang.String, java.sql.Date)
      */
-    public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, Date currentDate) {
+    public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, String closedIndicator) {
         
         Criteria subCrit = new Criteria();
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
@@ -55,16 +55,61 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
                 } else {
                     c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
                 }
-                //TODO: how is the current date used?
-                //c.addEqualTo("dateOpened", currentDate);
                 criteria.addOrCriteria(c);
             }
         }
         criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
+        if (closedIndicator.equalsIgnoreCase("Y")) {
+            criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
+        } else if (closedIndicator.equalsIgnoreCase("N")) {
+            criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
+        }
         QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, criteria);
         qbc.addOrderByAscending(EndowPropertyConstants.KEMID);
         
         return (List<KEMID>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+   
+    public List<String> getKemidsByAttributeWithEndowmentOption(String attributeName, List<String> values, String endowmentOption, String closedIndicator) {
+        
+        Criteria subCrit = new Criteria();
+        if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
+            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
+        }
+        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
+        subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
+        
+        Criteria criteria = new Criteria();
+        if (values != null) {
+            for (String value : values) {
+                Criteria c = new Criteria();
+                if (value.contains("*")) {
+                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                } else {
+                    c.addEqualTo(attributeName, value.trim());
+                }            
+                criteria.addOrCriteria(c);
+            }    
+        }
+        criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
+        if (closedIndicator.equalsIgnoreCase("Y")) {
+            criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
+        } else if (closedIndicator.equalsIgnoreCase("N")) {
+            criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
+        }        
+        ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
+        query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
+        
+        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
+        
+        List<String> kemids = new ArrayList<String>();
+        while (result.hasNext()) {
+            Object[] data = (Object[]) result.next();
+            kemids.add(data[0].toString());
+        }
+        
+        return kemids;
     }
     
     /**

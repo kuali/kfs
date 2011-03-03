@@ -30,10 +30,20 @@ public interface KemidDao {
      * @param currentDate
      * @return
      */
-    public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, Date currentDate); 
+    public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, String closedIndicator); 
     
     /**
-     * Gets KEMIDs by the given attribute value strings
+     * Gets kemids by the given criteria
+     * 
+     * @param attributeName
+     * @param values
+     * @param endowmentOption
+     * @return
+     */
+    public List<String> getKemidsByAttributeWithEndowmentOption(String attributeName, List<String> values, String endowmentOption, String closedIndicator);
+    
+    /**
+     * Gets kemids by the given attribute value strings
      * 
      * @param attributeName
      * @param values

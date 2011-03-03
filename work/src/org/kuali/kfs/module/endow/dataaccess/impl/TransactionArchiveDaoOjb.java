@@ -402,7 +402,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         return totalCashActivity;
     }
     
-    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(List<String> kemids, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate) {
+    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(List<String> kemids, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator) {
         
         // get the kemids to be used to get TransactionArchives
         Criteria subCrit = new Criteria();
@@ -426,12 +426,12 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
                 subCrit2.addOrCriteria(c);
             }
         }
-        subCrit2.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
-        
-        //QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, subCrit2);
-        //qbc.addOrderByAscending(EndowPropertyConstants.KEMID);        
-        //qbc.setAttributes(new String[] {EndowPropertyConstants.KEMID});
-        
+        subCrit2.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);        
+        if (closedIndicator.equalsIgnoreCase("Y")) {
+            subCrit2.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
+        } else if (closedIndicator.equalsIgnoreCase("N")) {
+            subCrit2.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
+        }        
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, subCrit2, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID}); 
         

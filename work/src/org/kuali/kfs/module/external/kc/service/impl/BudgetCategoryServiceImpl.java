@@ -43,7 +43,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
     public static final List <String> KC_BUDGETCAT_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
     
     
-    @Override
+    //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         Collection budgetCategoryDTOs = findMatching(primaryKeys);
         if(budgetCategoryDTOs != null && budgetCategoryDTOs.iterator().hasNext())
@@ -52,7 +52,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
             return null;
     }
 
-    @Override
+    //@Override
     public Collection findMatching(Map fieldValues) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         

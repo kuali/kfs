@@ -42,9 +42,6 @@ public class EndowmentReportBaseForm extends KualiForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        this.endowmentOption = "B";
-        this.listKemidsInHeader = "Y";
-        this.closedIndicator = "B";
     }
     
     @Override

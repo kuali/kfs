@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.lowagie.text.BadElementException;
-import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
@@ -37,18 +36,24 @@ import com.lowagie.text.pdf.PdfPTable;
 
 public abstract class EndowmentReportPrintBase {
    
-    public static final int KEMIDS_SELECTED_COLUMN_NUM = 4;
+    public final String ZERO_FOR_REPORT = "0.00";
+    
+    public static final int KEMIDS_SELECTED_COLUMN_NUM = 5;
     public static final int REQUEST_INFO_TABLE_WIDTH = 100;
     public static final int CRITERIA_TABLE_WIDTH = 80;
     public static final int MULTIPLE_KEMID_TABLE_WIDTH = 80;
     public static final int KEMID_SELECTED_TABLE_WIDTH = 80;
-    public static final int TRIAL_BALANCE_TABLE_WIDTH = 100;
+    public static final int FULL_TABLE_WIDTH = 100;
     
     public static final Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD);
     public static final Font regularFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY);
     public static final Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.GRAY);
     
-    protected Rectangle pageSize = PageSize.LETTER;
+    public static final Font footerTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD);
+    public static final Font footerRegularFont = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, Color.DARK_GRAY);
+    
+    protected Rectangle LETTER_PORTRAIT = PageSize.LETTER;
+    protected Rectangle LETTER_LANDSCAPE = PageSize.LETTER.rotate();
     
     /** 
      * Generates the report header sheet
@@ -57,9 +62,11 @@ public abstract class EndowmentReportPrintBase {
      * @param document
      * @return
      */
-    public boolean printReportHeaderPage(ReportRequestHeaderDataHolder reportRequestHeaderDataHolder, Document document, boolean totalsExists) {
+    public boolean printReportHeaderPage(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, Document document, String listKemidsInHeader, boolean totalsExists) {
         
         try {
+            document.setPageSize(LETTER_PORTRAIT);
+            
             // report header
             Phrase header = new Paragraph(new Date().toString());
             Paragraph title = new Paragraph(reportRequestHeaderDataHolder.getInstitutionName());
@@ -159,33 +166,87 @@ public abstract class EndowmentReportPrintBase {
             }
             
             // kemids selected
-            List<String> kemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected();
-            int totalKemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected().size();
-            if (totalsExists) totalKemidsSelected--;
-            Paragraph kemidsSelectedTitle = new Paragraph("\nKEMIDs Selected: \n\n");
-            document.add(kemidsSelectedTitle);
-            //Paragraph numberOfKemids = new Paragraph(totalKemidsSelected + "\n\n", regularFont);
-            //document.add(numberOfKemids);
-            
-            PdfPTable kemidsTable = new PdfPTable(KEMIDS_SELECTED_COLUMN_NUM);
-            kemidsTable.setWidthPercentage(KEMID_SELECTED_TABLE_WIDTH);
-            kemidsTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-            
-            for (int i = 0; i < totalKemidsSelected ; i++) {
-                kemidsTable.addCell(new Paragraph(kemidsSelected.get(i), regularFont) );                
-            }
-            // to fill out the rest of the empty cells. Otherwise, the row won't be displayed
-            if (totalKemidsSelected % KEMIDS_SELECTED_COLUMN_NUM != 0) {
-                for (int i = 0; i < (KEMIDS_SELECTED_COLUMN_NUM - totalKemidsSelected % KEMIDS_SELECTED_COLUMN_NUM) ; i++) {
-                    kemidsTable.addCell("");
+            if ("Y".equalsIgnoreCase(listKemidsInHeader)) {
+                List<String> kemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected();
+                int totalKemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected().size();
+                if (totalsExists) totalKemidsSelected--;
+                Paragraph kemidsSelectedTitle = new Paragraph("\nKEMIDs Selected: \n\n");
+                document.add(kemidsSelectedTitle);
+                //Paragraph numberOfKemids = new Paragraph(totalKemidsSelected + "\n\n", regularFont);
+                //document.add(numberOfKemids);
+                
+                PdfPTable kemidsTable = new PdfPTable(KEMIDS_SELECTED_COLUMN_NUM);
+                kemidsTable.setWidthPercentage(KEMID_SELECTED_TABLE_WIDTH);
+                kemidsTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+                
+                for (int i = 0; i < totalKemidsSelected ; i++) {
+                    kemidsTable.addCell(new Paragraph(kemidsSelected.get(i), regularFont) );                
                 }
+                // to fill out the rest of the empty cells. Otherwise, the row won't be displayed
+                if (totalKemidsSelected % KEMIDS_SELECTED_COLUMN_NUM != 0) {
+                    for (int i = 0; i < (KEMIDS_SELECTED_COLUMN_NUM - totalKemidsSelected % KEMIDS_SELECTED_COLUMN_NUM) ; i++) {
+                        kemidsTable.addCell("");
+                    }
+                }
+                document.add(kemidsTable);
             }
-            document.add(kemidsTable);
         
         } catch (Exception e) {
             return false;
         }  
 
+        return true;
+    }
+    
+    /**
+     * Generates the footer
+     * 
+     * @param footerData
+     * @param document
+     */
+    public boolean printFooter(EndowmentReportFooterDataHolder footerData, Document document) {
+    
+        try {
+            document.add(new Phrase("\n\n-----------------------------------------------------------------------------------------\n\n"));
+            
+            PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(FULL_TABLE_WIDTH);
+            int[] colWidths = {40, 60};
+            table.setWidths(colWidths);
+            table.getDefaultCell().setPadding(2);
+            
+            // left column
+            PdfPTable leftTable = new PdfPTable(2);
+            leftTable.setWidthPercentage(40);
+            
+            leftTable.addCell(createCell("Reference: ", footerTitleFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell(footerData.getReference(), footerRegularFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell("Date Established: ", footerTitleFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell(footerData.getEstablishedDate(), footerRegularFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell("KEMID Type: ", footerTitleFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell(footerData.getKemidType(), footerRegularFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell("KEMID Purpose: ", footerTitleFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell(footerData.getKemidPurpose(), footerRegularFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell("Report Run Date: ", footerTitleFont, Element.ALIGN_LEFT, false));
+            leftTable.addCell(createCell(footerData.getReportRunDate(), footerRegularFont, Element.ALIGN_LEFT, false));
+            table.addCell(leftTable);
+            
+            // right column
+            PdfPTable rightTable = new PdfPTable(4);
+            rightTable.setWidthPercentage(60);
+            
+            PdfPCell cellBenefitting = new PdfPCell(new Paragraph("BENEFITTING", titleFont));
+            cellBenefitting.setColspan(4);
+            rightTable.addCell(cellBenefitting);            
+            rightTable.addCell(createCell(footerData.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell(footerData.getChartName(), footerRegularFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell(footerData.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell(footerData.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));            
+            
+        } catch (Exception e) {
+            return false;
+        }
+        
         return true;
     }
     
@@ -200,19 +261,48 @@ public abstract class EndowmentReportPrintBase {
         return createCell(s, regularFont, alignment, true);
     }
     
+    /**
+     * Creates a cell without borderline
+     * 
+     * @param s
+     * @param alignment
+     * @return
+     * @throws BadElementException
+     */
     protected PdfPCell createCellWithDefaultFontAndWithoutBorderLine(String s, int alignment) throws BadElementException {        
         return createCell(s, regularFont, alignment, false);
     }
     
-    public PdfPCell createCell(String content, Font font, int alignment, boolean borderLine) throws BadElementException {    
-      Phrase phr = new Phrase(content, font);
-      PdfPCell cell = new PdfPCell(phr);
-      cell.setHorizontalAlignment(alignment);
-      if (!borderLine) {
-          cell.setBorderWidth(0);
-      }
-      return cell;
+    /**
+     * Create a cell with the given font, alignment, and borderline option 
+     * 
+     * @param content
+     * @param font
+     * @param alignment
+     * @param borderLine
+     * @return
+     */
+    public PdfPCell createCell(String content, Font font, int alignment, boolean borderLine) {
+        Phrase phr = new Phrase(content, font);
+        PdfPCell cell = new PdfPCell(phr);
+        cell.setHorizontalAlignment(alignment);
+        if (!borderLine) {
+            cell.setBorderWidth(0);
+        }
+        return cell;
     } 
+    
+    /**
+     * Created a cell with a specific font
+     * 
+     * @param value
+     * @param font
+     * @return
+     */
+    protected PdfPCell getAmountCell(BigDecimal value, Font font) {        
+        String amount = (value == null) ? ZERO_FOR_REPORT : formatAmount(value);        
+        return createCell(amount, font, Element.ALIGN_RIGHT, true);        
+    }
     
     /** 
      * Format the dollar amount - 19,2 decimal

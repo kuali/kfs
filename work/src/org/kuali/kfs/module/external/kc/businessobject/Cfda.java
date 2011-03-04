@@ -16,14 +16,8 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.module.external.kc.service.CfdaService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
 
 /**
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a

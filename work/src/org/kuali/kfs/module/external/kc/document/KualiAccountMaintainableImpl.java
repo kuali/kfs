@@ -15,43 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.document;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
-import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.integration.cg.businessobject.CFDA;
-import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.module.external.kc.businessobject.Cfda;
-import org.kuali.kfs.module.external.kc.service.CfdaService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
@@ -65,40 +29,7 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
      */
     @Override
     protected String lookupAccountCfda(String accountNumber, String currentCfda) {
-        ContractsAndGrantsCfda contractsAndGrantsCfda = this.lookupAccountCfda(accountNumber);
-        return contractsAndGrantsCfda.getCfdaNumber();
-     }
- 
-    protected ContractsAndGrantsCfda lookupAccountCfda (String accountNumber) {
-        CfdaService cfdaService = (CfdaService) SpringContext.getService("cfdaService");
-        return cfdaService.getByPrimaryId(accountNumber);
-     }
-
-     /**
-     * @see org.kuali.kfs.coa.document.KualiAccountMaintainableImpl#saveBusinessObject()
-     */
-    @Override
-    public void saveBusinessObject() {
-        // TODO Auto-generated method stub
-        Account newAccount = (Account) getBusinessObject();
-        ContractsAndGrantsCfda cfda = lookupAccountCfda(newAccount.getAccountNumber());
-        
-        newAccount.setAccountCfdaNumber( cfda.getCfdaNumber());
-        super.saveBusinessObject();
+        Account account = (Account) this.getBusinessObject();
+        return account.getCfda().getCfdaNumber();
     }
-
-  
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
-     */
-    @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        
-        Account newAccount = (Account) getBusinessObject();
-        ContractsAndGrantsCfda cfda = lookupAccountCfda(newAccount.getAccountNumber());
-        newAccount.setAccountCfdaNumber( cfda.getCfdaNumber());
-        super.processAfterEdit(document, parameters);
-    }
-
 }

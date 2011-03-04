@@ -79,7 +79,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         accountNumber = "5555555";
         
         String projectDirectorId = this.getEffortReportingWebService().getProjectDirector(accountNumber);
-        LOG.info("sent " + accountNumber + " got " + projectDirectorId);
+        LOG.debug("Web Service sent " + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {
             Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
               return projectDirector;

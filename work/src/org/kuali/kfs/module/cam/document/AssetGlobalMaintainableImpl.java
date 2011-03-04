@@ -67,7 +67,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
-    
+
     protected static final String REQUIRES_REVIEW = "RequiresReview";
 
     /**
@@ -94,14 +94,15 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_REVIEW.equals(nodeName)) return !isAccountAndOrganizationReviewRequired();
+        if (REQUIRES_REVIEW.equals(nodeName))
+            return !isAccountAndOrganizationReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
     /**
      * check whether or not isCapitalAssetBuilderOriginIndicator
      */
-    protected boolean isAccountAndOrganizationReviewRequired(){
+    protected boolean isAccountAndOrganizationReviewRequired() {
         return ((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
     }
 
@@ -650,7 +651,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
     }
 
-    /** 
+    /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
@@ -668,7 +669,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
                     for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
-                        if (!assetGlobaldetails.getCampusTagNumber().isEmpty()) {
+                        if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
                             HashMap<Object, Object> map = new HashMap<Object, Object>();
                             map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
                             List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);

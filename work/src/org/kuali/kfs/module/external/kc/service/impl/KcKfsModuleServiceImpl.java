@@ -38,7 +38,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
-    private static Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();
 
     public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {        
         return (T) getExternalizableBusinessObjectService(businessObjectClass).findByPrimaryKey(fieldValues);
@@ -72,26 +71,5 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
         List primaryKeyFieldNames = new ArrayList();        
         return primaryKeyFieldNames;
-    }
-    
-    @Override
-    public void setModuleConfiguration(ModuleConfiguration moduleConfiguration) {   
-          KcFinancialSystemModuleConfig kcModuleConfiguration = (KcFinancialSystemModuleConfig) moduleConfiguration;
-          
-          Map<Class,String> externalWebBusinessObjects = kcModuleConfiguration.getExternalizableBusinessObjectServiceImplementations();
- 
-          Iterable<Class> webos = externalWebBusinessObjects.keySet();
-          if (webos != null) {
-              Map<Class,Class> ebos = moduleConfiguration.getExternalizableBusinessObjectImplementations();
-              for (Class webo : webos) {
-                  if (ebos.containsKey(webo)) {
-                      externalizedWebBOs.put(webo, ebos.get(webo));
-                      externalizedWebBOs.put(ebos.get(webo), ebos.get(webo));
-                   }
-              }
-          }
-                    
-          super.setModuleConfiguration(moduleConfiguration);
-    }
-    
+    }    
 }

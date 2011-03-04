@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.external.kc.document;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,11 +39,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiModuleService;
@@ -56,19 +59,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * specific fields that shouldn't be copied to default values {@link KualiPostProcessor}
  */
 public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.KualiAccountMaintainableImpl {
- 
-    /**
-     * After a copy is done set specific fields on {@link Account} to default values
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
-     */
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        Account account = (Account) this.getBusinessObject();
-        super.processAfterCopy(document, parameters);
-     //   account.setAccountCfdaNumber(lookupAccountCfda( account.getAccountNumber(), account.getAccountCfdaNumber()));
-    }
-  
+   
     /**
      * @see org.kuali.kfs.coa.document.KualiAccountMaintainableImpl#lookupAccountCfda(java.lang.String, java.lang.String)
      */
@@ -79,9 +70,6 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
      }
  
     protected ContractsAndGrantsCfda lookupAccountCfda (String accountNumber) {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String enableResearchAdminObjectCodeAttributeInd = parameterService.getParameterValue(ObjectCode.class, KFSConstants.ObjectCodeConstants.PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND);
-        if (! enableResearchAdminObjectCodeAttributeInd.equals("Y")) return null;
         CfdaService cfdaService = (CfdaService) SpringContext.getService("cfdaService");
         return cfdaService.getByPrimaryId(accountNumber);
      }
@@ -92,6 +80,10 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
     @Override
     public void saveBusinessObject() {
         // TODO Auto-generated method stub
+        Account newAccount = (Account) getBusinessObject();
+        ContractsAndGrantsCfda cfda = lookupAccountCfda(newAccount.getAccountNumber());
+        
+        newAccount.setAccountCfdaNumber( cfda.getCfdaNumber());
         super.saveBusinessObject();
     }
 
@@ -102,24 +94,11 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
      */
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        // TODO Auto-generated method stub
+        
         Account newAccount = (Account) getBusinessObject();
         ContractsAndGrantsCfda cfda = lookupAccountCfda(newAccount.getAccountNumber());
-        
         newAccount.setAccountCfdaNumber( cfda.getCfdaNumber());
-    //    newAccount.setAccountCfdaNumber(lookupAccountCfda( newAccount.getAccountNumber(), newAccount.getAccountCfdaNumber()));
         super.processAfterEdit(document, parameters);
     }
-
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterRetrieve()
-     */
-    @Override
-    public void processAfterRetrieve() {
-        // TODO Auto-generated method stub
-        super.processAfterRetrieve();
-    }
-
 
 }

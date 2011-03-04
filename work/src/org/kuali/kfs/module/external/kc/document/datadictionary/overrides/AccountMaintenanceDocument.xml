@@ -54,7 +54,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 				</list>
 			</property> 
 		</bean>         
-        <dd:maintField attributeName="accountCfdaNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountCfdaNumber" p:noLookup="true"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>
     </property>

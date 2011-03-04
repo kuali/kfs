@@ -31,7 +31,10 @@ public class KcConstants  extends JSTLConstants {
         public static final QName QUALIFIED_SERVICE_NAME = new QName(KC_NAMESPACE_URI, KC_SERVICE_NAME);
         public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
     }
-    
+    public static class Cfda {
+        public static final String KC_SERVICE_NAME = "cfdaService";
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS= Arrays.asList("cfdaNumber");
+    }
     public static class Unit {
         public static final String KC_SERVICE_NAME = "institutionalUnitSoapService";
         public static final QName QUALIFIED_SERVICE_NAME = new QName(KC_NAMESPACE_URI, KC_SERVICE_NAME);

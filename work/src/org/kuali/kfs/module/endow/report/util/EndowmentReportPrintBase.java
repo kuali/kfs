@@ -282,8 +282,9 @@ public abstract class EndowmentReportPrintBase {
      * @param borderLine
      * @return
      */
-    public PdfPCell createCell(String content, Font font, int alignment, boolean borderLine) {
-        Phrase phr = new Phrase(content, font);
+    public PdfPCell createCell(String contents, Font font, int alignment, boolean borderLine) {
+        if (contents == null) contents = "";
+        Phrase phr = new Phrase(contents, font);
         PdfPCell cell = new PdfPCell(phr);
         cell.setHorizontalAlignment(alignment);
         if (!borderLine) {
@@ -310,18 +311,8 @@ public abstract class EndowmentReportPrintBase {
      * @param amount
      * @return
      */
-    protected String formatAmount(BigDecimal amount) {        
-        
-        String amountString = "";;
-        NumberFormat formatter = new DecimalFormat("#,###,###,###,###,###,##0.00");
-        
-        if (amount.doubleValue() < 0) {
-            amount = amount.negate();
-            amountString = "(" + formatter.format(amount.doubleValue()) + ")";
-            
-        } else {
-            amountString = formatter.format(amount.doubleValue());
-        }
-        return amountString;         
+    protected String formatAmount(BigDecimal amount) {                
+        NumberFormat formatter = new DecimalFormat("#,###,###,###,###,###,##0.00;(#,###,###,###,###,###,##0.00)");
+        return  formatter.format(amount.doubleValue());
     }
 }

@@ -30,6 +30,7 @@ import org.kuali.kfs.module.external.kc.businessobject.Cfda;
 import org.kuali.kfs.module.external.kc.service.CfdaService;
 import org.kuali.kfs.module.external.kc.webService.CfdaNumberService;
 import org.kuali.kfs.module.external.kc.webService.CfdaNumberSoapService;
+import org.kuali.kfs.module.external.kc.webService.EffortReportingServiceSoapService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
@@ -43,8 +44,8 @@ public class CfdaServiceImpl implements CfdaService {
             return null;
         }
         QName cfdaSoapSERVICE = new QName("KC", "cfdaNumberSoapService");
-        CfdaNumberSoapService   soapService = (CfdaNumberSoapService) GlobalResourceLoader.getService(cfdaSoapSERVICE);
-        //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
+        //CfdaNumberSoapService   soapService = (CfdaNumberSoapService) GlobalResourceLoader.getService(cfdaSoapSERVICE);
+        CfdaNumberSoapService soapService = new CfdaNumberSoapService();
         CfdaNumberService port = soapService.getCfdaNumberServicePort();  
         
         

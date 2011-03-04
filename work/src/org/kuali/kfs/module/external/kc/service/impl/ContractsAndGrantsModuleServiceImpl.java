@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.external.kc.webService.EffortReportingService;
+import org.kuali.kfs.module.external.kc.webService.EffortReportingServiceSoapService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
@@ -50,10 +51,23 @@ import org.kuali.rice.kns.service.ParameterService;
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
-    public List<String> getParentUnits(String unitNumber) {        
+    protected EffortReportingService getEffortReportingWebService() {
+        //QName serviceName = new QName("KC", "effortReportingService");
+        //EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
+
+        EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService();
+        EffortReportingService port = soapService.getEffortReportingServicePort();  
+        return port;
+    }
+ 
+    protected InstitutionalUnitService getInstitutionalUnitWebService() {
         QName serviceName = new QName("KC", KFSConstants.Research.KC_UNIT_SERVICE);
         InstitutionalUnitService port = (InstitutionalUnitService) GlobalResourceLoader.getService(serviceName);                 
-        List<String> parentUnits  = port.getParentUnits(unitNumber);
+        return port;
+    }
+
+    public List<String> getParentUnits(String unitNumber) {        
+        List<String> parentUnits  = this.getInstitutionalUnitWebService().getParentUnits(unitNumber);
         return parentUnits;
     }
 
@@ -62,16 +76,9 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      *      java.lang.String)
      */
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {  
-
-        //EffortReportingServiceSoapService soapService = (EffortReportingServiceSoapService) GlobalResourceLoader.getService(EffortReportingServiceSoapService.SERVICE);
-        //EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService(wsdlURL, SERVICE_NAME);
-        // EffortReportingService port = soapService.getEffortReportingServicePort();  
-
-        QName serviceName = new QName("KC", "effortReportingService");
-        EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
-
-
-        String projectDirectorId = port.getProjectDirector(accountNumber);
+        accountNumber = "5555555";
+        
+        String projectDirectorId = this.getEffortReportingWebService().getProjectDirector(accountNumber);
         LOG.info("sent " + accountNumber + " got " + projectDirectorId);
         if (projectDirectorId != null) {
             Person projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByEmployeeId(projectDirectorId);
@@ -97,9 +104,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      *      java.lang.String, java.util.List)
      */
     public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {   
-        QName serviceName = new QName("KC", "effortReportingService");
-        EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
-        boolean _isFederalSponsor__return = port.isFederalSponsor(accountNumber);
+         boolean _isFederalSponsor__return = this.getEffortReportingWebService().isFederalSponsor(accountNumber);
         if ( _isFederalSponsor__return) return true;
         
         String federalSponsorTypeCode = getParameterService().getParameterValue(EffortCertificationDocument.class, "FEDERAL_SPONSOR_TYPE_CODES");

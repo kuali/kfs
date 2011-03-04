@@ -106,7 +106,7 @@
 
   <bean id="CFDA-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CFDA Reference Lookup"/>
-    <property name="lookupableID" value="cfdaLookupable"/>
+    <property name="lookupableID" value="kualiLookupable"/>
     
     <property name="lookupFields">
       <list>

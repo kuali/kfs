@@ -15,15 +15,22 @@
  */
 package org.kuali.kfs.module.endow.report.service.impl;
 
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
@@ -31,9 +38,12 @@ import org.kuali.kfs.module.endow.report.service.EndowmentReportService;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class EndowmentReportServiceImpl implements EndowmentReportService {
@@ -274,6 +284,61 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     }
     
     /**
+     * method to remove kemids from the list of kemids where for each kemid, if
+     * there is no record in END_HIST_CSH_T table
+     * 
+     * @param kemids
+     * @param beginningDate
+     * @param beginningDate
+     * @return List<String> newKemids
+     */
+    public List<String> removeKemidsNotInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
+        List<String> newKemids = new ArrayList();
+        
+        for (String kemid : kemids) {
+            MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
+            MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
+            KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(kemid, beginningMED.getMonthEndDateId());
+            KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(kemid, endingMED.getMonthEndDateId());
+            
+            if (beginningHistoryCash != null && endingHistoryCash != null) {
+                newKemids.add(kemid);
+            }
+        }
+        
+        return newKemids;
+    }
+    
+    protected MonthEndDate getPreviousMonthEndDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, -1);
+        return getMonthEndDate(new java.sql.Date(calendar.getTimeInMillis()));
+    }
+    
+    protected Date convertStringToDate(String stringDate) {        
+        Date date = null;
+        try {
+            date = SpringContext.getBean(DateTimeService.class).convertToSqlDate(stringDate);
+        } catch (ParseException e) {
+        }        
+        return date;
+    }
+    
+    protected MonthEndDate getMonthEndDate(Date date) {
+        Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE, date);
+        return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
+    }
+    
+    protected KemidHistoricalCash getKemidHistoricalCash(String kemid, KualiInteger medId) {
+        Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
+        primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, medId);
+        return (KemidHistoricalCash) businessObjectService.findByPrimaryKey(KemidHistoricalCash.class, primaryKeys);
+    }
+    
+    /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidsWithMultipleBenefittingOrganizations(java.util.List)
      */
@@ -315,5 +380,4 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     public void setKemidReportGroupDao(KemidReportGroupDao kemidReportGroupDao) {
         this.kemidReportGroupDao = kemidReportGroupDao;
     }
-
 }

@@ -16,6 +16,8 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.io.Serializable;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 
 
@@ -23,7 +25,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class Cfda implements ContractsAndGrantsCfda {
+public class Cfda implements ContractsAndGrantsCfda, Serializable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
@@ -32,7 +34,8 @@ public class Cfda implements ContractsAndGrantsCfda {
     /**
      * Default constructor.
      */
-    public Cfda() {
+    public Cfda(String cfdaNumber) {
+        this.cfdaNumber = cfdaNumber;
     }
 
     /**
@@ -110,4 +113,5 @@ public class Cfda implements ContractsAndGrantsCfda {
     public void prepareForWorkflow() {}
 
     public void refresh() {}
+
 }

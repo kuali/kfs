@@ -39,18 +39,18 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
 
-    public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {        
-        return (T) getExternalizableBusinessObjectService(businessObjectClass).findByPrimaryKey(fieldValues);
+    public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
+        Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
+        return (T) getExternalizableBusinessObjectService(implementationClass).findByPrimaryKey(fieldValues);
     }
 
     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsListForLookup(Class<T> businessObjectClass, Map<String, Object> fieldValues, boolean unbounded) {
         return getExternalizableBusinessObjectsList( businessObjectClass,fieldValues);
     }
 
-    public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
-        BusinessObject object = null;        
-        Class clazz = getExternalizableBusinessObjectImplementation(businessObjectClass);
-        return (List<T>) getExternalizableBusinessObjectService(clazz).findMatching(fieldValues);                   
+    public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {                
+        Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
+        return (List<T>) getExternalizableBusinessObjectService(implementationClass).findMatching(fieldValues);                   
     }
 
     private ExternalizableBusinessObjectService getExternalizableBusinessObjectService(Class clazz){

@@ -23,9 +23,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "unitDTO", propOrder = {
     "organizationId",
@@ -34,7 +32,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
     "unitName",
     "unitNumber"
 })
-public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUnit, Serializable {
+public class UnitDTO implements ContractsAndGrantsUnit, Serializable {
 
     private static final long serialVersionUID = 7517946137745989736L;
     
@@ -99,9 +97,6 @@ public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUni
         
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("UnitDTO", this.unitNumber);

@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Cfda;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
@@ -48,7 +49,7 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         Collection Cfda = findMatching(primaryKeys);
         if(Cfda != null && Cfda.iterator().hasNext())
-            return (ExternalizableBusinessObject) Cfda.iterator().next();
+            return (ContractsAndGrantsCfda)Cfda.iterator().next();
         else
             return null;
     }
@@ -65,8 +66,7 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
             if ( KcConstants.Cfda.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                 String cfdaNumber = getWebService().getCfdaNumber(val);
                 if (cfdaNumber != null) {
-                    Cfda cfda = new Cfda();
-                    cfda.setCfdaNumber(cfdaNumber);
+                    ContractsAndGrantsCfda cfda = new Cfda(cfdaNumber);
                     cfdas.add(cfda);
                 }
             }

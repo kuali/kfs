@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.external.kc.validation.impl;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.module.external.kc.businessobject.Cfda;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -32,7 +33,7 @@ public class AccountPreRules extends org.kuali.kfs.coa.document.validation.impl.
     }
 
     private void setCfdaNumber() {
-        Cfda cfda =  (Cfda) newAccount.getCfda();    
+        ContractsAndGrantsCfda cfda =  (Cfda) newAccount.getCfda();    
         if (cfda != null) newAccount.setAccountCfdaNumber(cfda.getCfdaNumber());
     }
 

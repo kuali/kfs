@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
-import org.kuali.rice.kns.bo.BusinessObjectBase;
 
 
 /**
@@ -43,7 +42,7 @@ import org.kuali.rice.kns.bo.BusinessObjectBase;
     "budgetCategoryTypeDescription",
     "description"
 })
-public class BudgetCategoryDTO extends BusinessObjectBase implements ContractsAndGrantsBudgetCategory, Serializable {
+public class BudgetCategoryDTO implements ContractsAndGrantsBudgetCategory, Serializable {
 
     protected String authorPersonName;
     protected String budgetCategoryCode;

@@ -25,20 +25,28 @@ import org.kuali.rice.core.util.JSTLConstants;
 public class KcConstants  extends JSTLConstants {
     
     public static final String KC_NAMESPACE_URI = "KC";        
-        
+    public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
+
     public static class BudgetCategory {
-        public static final String KC_SERVICE_NAME = "budgetCategorySoapService";
-        public static final QName QUALIFIED_SERVICE_NAME = new QName(KC_NAMESPACE_URI, KC_SERVICE_NAME);
+        public static final String SOAP_SERVICE_NAME = "budgetCategorySoapService";
+        public static final String SERVICE_PORT = "budgetCategoryServicePort";
+        public static final String SERVICE_NAME = "budgetCategoryService";
         public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
     }
     public static class Cfda {
-        public static final String KC_SERVICE_NAME = "cfdaService";
+        public static final String SOAP_SERVICE_NAME = "cfdaNumberSoapService";
+        public static final String SERVICE_PORT = "CfdaNumberServicePort";
+        public static final String SERVICE_NAME ="CfdaNumberService";
         public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS= Arrays.asList("cfdaNumber");
     }
     public static class Unit {
-        public static final String KC_SERVICE_NAME = "institutionalUnitSoapService";
-        public static final QName QUALIFIED_SERVICE_NAME = new QName(KC_NAMESPACE_URI, KC_SERVICE_NAME);
-        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");
-        
+        public static final String SOAP_SERVICE_NAME = "institutionalUnitSoapService";
+        public static final String SERVICE_PORT = "institutionalUnitServicePort";
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");       
+    }
+    public static class EffortReporting {
+        public static final String SOAP_SERVICE_NAME = "effortReportingServiceSoapService";
+        public static final String SERVICE_PORT = "effortReportingServicePort";
+        public static final String SERVICE_NAME = "effortReportingService";
     }
 }

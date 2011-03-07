@@ -23,6 +23,7 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
 
 /**
@@ -32,13 +33,13 @@ import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
  * 
  */
  
-@WebService(targetNamespace = "KC", name = "budgetCategoryService")
+@WebService(targetNamespace = KcConstants.KC_NAMESPACE_URI, name = KcConstants.BudgetCategory.SERVICE_NAME)
 public interface InstitutionalBudgetCategoryService {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "lookupBudgetCategories", targetNamespace = "KC", className = "kc.LookupBudgetCategories")
+    @RequestWrapper(localName = "lookupBudgetCategories", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.LookupBudgetCategories")
     @WebMethod
-    @ResponseWrapper(localName = "lookupBudgetCategoriesResponse", targetNamespace = "KC", className = "kc.LookupBudgetCategoriesResponse")
+    @ResponseWrapper(localName = "lookupBudgetCategoriesResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.LookupBudgetCategoriesResponse")
     public java.util.List<BudgetCategoryDTO> lookupBudgetCategories(
         @WebParam(name = "searchCriteria", targetNamespace = "")
         java.util.List<HashMapElement> searchCriteria

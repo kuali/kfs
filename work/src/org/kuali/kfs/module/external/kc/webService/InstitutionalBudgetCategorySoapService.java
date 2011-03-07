@@ -17,11 +17,14 @@ package org.kuali.kfs.module.external.kc.webService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.Service;
+
+import org.kuali.kfs.module.external.kc.KcConstants;
 
 
 /**
@@ -32,14 +35,14 @@ import javax.xml.ws.Service;
  */
 
 
-@WebServiceClient(name = "budgetCategorySoapService", 
+@WebServiceClient(name = KcConstants.BudgetCategory.SOAP_SERVICE_NAME, 
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl",
-                  targetNamespace = "KC") 
+                  targetNamespace = KcConstants.KC_NAMESPACE_URI) 
 public class InstitutionalBudgetCategorySoapService extends Service {
 
     public final static URL WSDL_LOCATION;
-    public final static QName SERVICE = new QName("KC", "budgetCategorySoapService");
-    public final static QName BudgetCategoryServicePort = new QName("KC", "budgetCategoryServicePort");
+    public final static QName SERVICE = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SOAP_SERVICE_NAME);
+    public final static QName BudgetCategoryServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SERVICE_PORT);
     static {
         URL url = null;
         try {
@@ -69,7 +72,7 @@ public class InstitutionalBudgetCategorySoapService extends Service {
      * @return
      *     returns BudgetCategoryService
      */
-    @WebEndpoint(name = "budgetCategoryServicePort")
+    @WebEndpoint(name = KcConstants.BudgetCategory.SERVICE_PORT)
     public InstitutionalBudgetCategoryService getBudgetCategoryServicePort() {
         return super.getPort(BudgetCategoryServicePort, InstitutionalBudgetCategoryService.class);
     }
@@ -81,7 +84,7 @@ public class InstitutionalBudgetCategorySoapService extends Service {
      * @return
      *     returns BudgetCategoryService
      */
-    @WebEndpoint(name = "budgetCategoryServicePort")
+    @WebEndpoint(name = KcConstants.BudgetCategory.SERVICE_PORT)
     public InstitutionalBudgetCategoryService getBudgetCategoryServicePort(WebServiceFeature... features) {
         return super.getPort(BudgetCategoryServicePort, InstitutionalBudgetCategoryService.class, features);
     }

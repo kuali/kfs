@@ -7,6 +7,7 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
 
 
@@ -20,27 +21,27 @@ import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
 public interface InstitutionalUnitService {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getUnit", targetNamespace = "KC", className = "kc.GetUnit")
+    @RequestWrapper(localName = "getUnit", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetUnit")
     @WebMethod
-    @ResponseWrapper(localName = "getUnitResponse", targetNamespace = "KC", className = "kc.GetUnitResponse")
+    @ResponseWrapper(localName = "getUnitResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetUnitResponse")
     public UnitDTO getUnit(
         @WebParam(name = "unitNumber", targetNamespace = "")
         java.lang.String unitNumber
     );
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getParentUnits", targetNamespace = "KC", className = "kc.GetParentUnits")
+    @RequestWrapper(localName = "getParentUnits", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetParentUnits")
     @WebMethod
-    @ResponseWrapper(localName = "getParentUnitsResponse", targetNamespace = "KC", className = "kc.GetParentUnitsResponse")
+    @ResponseWrapper(localName = "getParentUnitsResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetParentUnitsResponse")
     public java.util.List<java.lang.String> getParentUnits(
         @WebParam(name = "unitNumber", targetNamespace = "")
         java.lang.String unitNumber
     );
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "lookupUnits", targetNamespace = "KC", className = "kc.LookupUnits")
+    @RequestWrapper(localName = "lookupUnits", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.LookupUnits")
     @WebMethod
-    @ResponseWrapper(localName = "lookupUnitsResponse", targetNamespace = "KC", className = "kc.LookupUnitsResponse")
+    @ResponseWrapper(localName = "lookupUnitsResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.LookupUnitsResponse")
     public java.util.List<UnitDTO> lookupUnits(
         @WebParam(name = "searchCriteria", targetNamespace = "")
         java.util.List<HashMapElement> searchCriteria

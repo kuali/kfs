@@ -41,7 +41,6 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 public class InstitutionalBudgetCategorySoapService extends Service {
 
     public final static URL WSDL_LOCATION;
-    public final static QName SERVICE = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SOAP_SERVICE_NAME);
     public final static QName BudgetCategoryServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SERVICE_PORT);
     static {
         URL url = null;
@@ -55,7 +54,7 @@ public class InstitutionalBudgetCategorySoapService extends Service {
     }
 
     public InstitutionalBudgetCategorySoapService(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, KcConstants.BudgetCategory.SERVICE);
     }
 
     public InstitutionalBudgetCategorySoapService(URL wsdlLocation, QName serviceName) {
@@ -63,7 +62,7 @@ public class InstitutionalBudgetCategorySoapService extends Service {
     }
 
     public InstitutionalBudgetCategorySoapService() {
-        super(WSDL_LOCATION, SERVICE);
+        super(WSDL_LOCATION, KcConstants.BudgetCategory.SERVICE);
     }
     
 

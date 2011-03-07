@@ -30,7 +30,6 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 public class EffortReportingServiceSoapService extends Service {
 
     public final static URL WSDL_LOCATION;
-    public final static QName SERVICE = new QName(KcConstants.KC_NAMESPACE_URI,  KcConstants.EffortReporting.SOAP_SERVICE_NAME);
     public final static QName EffortReportingServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.EffortReporting.SERVICE_PORT);
     static {
         URL url = null;
@@ -44,7 +43,7 @@ public class EffortReportingServiceSoapService extends Service {
     }
 
     public EffortReportingServiceSoapService(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, KcConstants.EffortReporting.SERVICE);
     }
 
     public EffortReportingServiceSoapService(URL wsdlLocation, QName serviceName) {
@@ -52,7 +51,7 @@ public class EffortReportingServiceSoapService extends Service {
     }
 
     public EffortReportingServiceSoapService() {
-        super(WSDL_LOCATION, SERVICE);
+        super(WSDL_LOCATION, KcConstants.EffortReporting.SERVICE);
     }
     
 

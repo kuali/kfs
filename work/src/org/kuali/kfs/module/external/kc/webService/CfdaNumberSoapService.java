@@ -43,7 +43,6 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 public class CfdaNumberSoapService extends Service {
 
     public final static URL WSDL_LOCATION;
-    public final static QName SERVICE = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Cfda.SOAP_SERVICE_NAME);
     public final static QName CfdaNumberServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Cfda.SERVICE_PORT);
     static {
         URL url = null;
@@ -57,7 +56,7 @@ public class CfdaNumberSoapService extends Service {
     }
 
     public CfdaNumberSoapService(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, KcConstants.Cfda.SERVICE);
     }
 
     public CfdaNumberSoapService(URL wsdlLocation, QName serviceName) {
@@ -65,7 +64,7 @@ public class CfdaNumberSoapService extends Service {
     }
 
     public CfdaNumberSoapService() {
-        super(WSDL_LOCATION, SERVICE);
+        super(WSDL_LOCATION, KcConstants.Cfda.SERVICE);
     }
     
 

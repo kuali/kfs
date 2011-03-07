@@ -7,11 +7,12 @@ package org.kuali.kfs.module.external.kc.webService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.Service;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
 
@@ -29,7 +30,6 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 public class InstitutionalUnitSoapService extends Service {
 
     public final static URL WSDL_LOCATION;
-    public final static QName SERVICE = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Unit.SOAP_SERVICE_NAME);
     public final static QName InstitutionalUnitServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.Unit.SERVICE_PORT);
     static {
         URL url = null;
@@ -43,7 +43,7 @@ public class InstitutionalUnitSoapService extends Service {
     }
 
     public InstitutionalUnitSoapService(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
+        super(wsdlLocation, KcConstants.Unit.SERVICE);
     }
 
     public InstitutionalUnitSoapService(URL wsdlLocation, QName serviceName) {
@@ -51,7 +51,7 @@ public class InstitutionalUnitSoapService extends Service {
     }
 
     public InstitutionalUnitSoapService() {
-        super(WSDL_LOCATION, SERVICE);
+        super(WSDL_LOCATION, KcConstants.Unit.SERVICE);
     }
     
 

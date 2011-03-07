@@ -48,6 +48,11 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
             return null;
     }
 
+    protected InstitutionalBudgetCategoryService getWebService() {
+        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService();
+        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
+        return port;
+    }
     //@Override
     public Collection findMatching(Map fieldValues) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
@@ -67,10 +72,8 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
         }
         if (hashMapList.size() == 0) hashMapList = null;
    
-        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService();
-        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
-   
-        List budgetCategoryDTOs = port.lookupBudgetCategories(hashMapList);     
+    
+        List budgetCategoryDTOs = this.getWebService().lookupBudgetCategories(hashMapList);     
         return budgetCategoryDTOs;
     }
     

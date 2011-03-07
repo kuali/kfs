@@ -46,7 +46,11 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
         return unitDTO;        
     }
 
-
+    protected InstitutionalUnitService getWebService() {
+        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
+        InstitutionalUnitService port = ss.getInstitutionalUnitServicePort(); 
+        return port;
+    }
     //@Override
     public Collection findMatching(Map fieldValues) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
@@ -64,9 +68,7 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
                 hashMapList.add(hashMapElement);
             }
         }
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
-        InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
-        List lookupUnitsReturn  = port.lookupUnits( hashMapList);
+        List lookupUnitsReturn  = this.getWebService().lookupUnits( hashMapList);
         return lookupUnitsReturn;
     }
 

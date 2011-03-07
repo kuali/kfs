@@ -21,48 +21,50 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
+import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
-import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
-import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
+import org.kuali.kfs.module.endow.report.service.TransactionSummaryReportService;
+import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class TransactionStatementReportServieImpl extends EndowmentReportServiceImpl implements TransactionStatementReportService {
+public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceImpl implements TransactionSummaryReportService {
 
     protected DateTimeService dateTimeService;
     protected TransactionArchiveDao transactionArchiveDao;
+    protected HoldingHistoryDao holdingHistoryDao;
     
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportForAllKemids(java.lang.String)
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportForAllKemids(String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
-        return getTransactionStatementReportsByKemidByIds(null, beginningDate, endingDate, endowmentOption, closedIndicator);
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportForAllKemids(String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
+        return getTransactionSummaryReportsByKemidByIds(null, beginningDate, endingDate, endowmentOption, closedIndicator);
     }
     
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByKemidByIds(java.util.List, java.lang.String)
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
         
-        List<TransactionStatementReportDataHolder> transactionStatementReportList = new ArrayList<TransactionStatementReportDataHolder>();
+        List<TransactionSummaryReportDataHolder> transactionStatementReportList = new ArrayList<TransactionSummaryReportDataHolder>();
 
         Date beginDate = convertStringToDate(beginningDate);
         Date endDate = convertStringToDate(endingDate);        
@@ -70,9 +72,43 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
             return null;
         }
         
-        //remove any kemids from there list where for that kemid,
-        //there is no record in the END_HIST_CSH_T table... We don't want that kemid on the report..
         kemids = getKemidsInHistoryCash(kemids, beginningDate, endingDate);
+        
+        MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
+        
+        for (String kemid : kemids) {
+            TransactionSummaryReportDataHolder transactionSummaryReportDataHolder = new TransactionSummaryReportDataHolder();
+            BigDecimal principalBeginningMarketValue = BigDecimal.ZERO;
+            
+            List<HoldingHistory> holdingHistoryList = holdingHistoryDao.getHoldingHistoryByKemid(kemid);
+            for (HoldingHistory holdingHistory : holdingHistoryList) {
+                //if month end beginning date
+                if (holdingHistory.getMonthEndDateId().equals(beginningMED.getMonthEndDateId())) {
+                    if (holdingHistory.getIncomePrincipalIndicator().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                        transactionSummaryReportDataHolder.setIncomeBeginningMarketValue(transactionSummaryReportDataHolder.getIncomeBeginningMarketValue().add(holdingHistory.getMarketValue()));
+                    }
+                    if (holdingHistory.getIncomePrincipalIndicator().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+                        transactionSummaryReportDataHolder.setPrincipalBeginningMarketValue(transactionSummaryReportDataHolder.getPrincipalBeginningMarketValue().add(holdingHistory.getMarketValue()));
+                    }
+                }
+                // if month end ending date ..
+                if (holdingHistory.getMonthEndDateId().equals(endingMED.getMonthEndDateId())) {
+                    if (holdingHistory.getIncomePrincipalIndicator().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                        transactionSummaryReportDataHolder.setIncomeEndingMarketValue(transactionSummaryReportDataHolder.getIncomeEndingMarketValue().add(holdingHistory.getMarketValue()));
+                    }
+                    if (holdingHistory.getIncomePrincipalIndicator().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+                        transactionSummaryReportDataHolder.setPrincipalEndingMarketValue(transactionSummaryReportDataHolder.getPrincipalEndingMarketValue().add(holdingHistory.getMarketValue()));
+                    }
+                }
+                
+                transactionSummaryReportDataHolder.setNext12MonthsEstimatedIncome(transactionSummaryReportDataHolder.getNext12MonthsEstimatedIncome().add(holdingHistory.getEstimatedIncome()));
+                transactionSummaryReportDataHolder.setRemainderOfFYEstimatedIncome(transactionSummaryReportDataHolder.getRemainderOfFYEstimatedIncome().add(holdingHistory.getRemainderOfFYEstimatedIncome()));
+                transactionSummaryReportDataHolder.setNextFYEstimatedIncome(transactionSummaryReportDataHolder.getNextFYEstimatedIncome().add(holdingHistory.getNextFYEstimatedIncome()));
+                
+                
+            }
+        }
         
         List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate, closedIndicator);
         if (transactionArchiveRecords == null) {
@@ -81,15 +117,13 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         
         for (TransactionArchive transactionArchive : transactionArchiveRecords) {
             
-            TransactionStatementReportDataHolder transactionStatementReport = new TransactionStatementReportDataHolder();
+            TransactionSummaryReportDataHolder transactionSummaryReport = new TransactionSummaryReportDataHolder();
             
             // get related objects
             KEMID kemid = getKemid(transactionArchive.getKemid());
             TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
             Security security = getSecurity(transactionArchive);
             EndowmentTransactionCode endowmentTransactionCode = getEndowmentTransactionCode(transactionArchive.getEtranCode());
-            MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
-            MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
             KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), beginningMED.getMonthEndDateId());
             KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), endingMED.getMonthEndDateId());
             
@@ -98,53 +132,16 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
             }
             
             // the header info            
-            transactionStatementReport.setInstitution(getInstitutionName());
-            transactionStatementReport.setKemid(transactionArchive.getKemid());
-            transactionStatementReport.setKemidLongTitle(kemid.getLongTitle());
-            transactionStatementReport.setBeginningDate(beginningDate);
-            transactionStatementReport.setEndingDate(endingDate);
+            transactionSummaryReport.setInstitution(getInstitutionName());
+            transactionSummaryReport.setKemid(transactionArchive.getKemid());
+            transactionSummaryReport.setKemidLongTitle(kemid.getLongTitle());
+            transactionSummaryReport.setBeginningDate(beginningDate);
+            transactionSummaryReport.setEndingDate(endingDate);
             
             // body info            
-            if (ObjectUtils.isNotNull(transactionArchive)) {
-                transactionStatementReport.setPostedDate(convertDateToString(transactionArchive.getPostedDate()));
-                transactionStatementReport.setDocumentName(transactionArchive.getTypeCode());
-                transactionStatementReport.setEtranCode(transactionArchive.getEtranCode());
-                transactionStatementReport.setTransactionDesc(transactionArchive.getDescription());
-                
-                transactionStatementReport.setIncomeAmount(transactionArchive.getIncomeCashAmount());
-                transactionStatementReport.setPrincipalAmount(transactionArchive.getPrincipalCashAmount());
-            } 
-            
-            if (ObjectUtils.isNotNull(security)) {
-                transactionStatementReport.setTransactionSecurity(security.getDescription());
-            } 
-            
-            if (ObjectUtils.isNotNull(transactionArchiveSecurity)) {
-                transactionStatementReport.setTransactionSecurityUnits(transactionArchiveSecurity.getUnitsHeld());
-                transactionStatementReport.setTransactionSecurityUnitValue(transactionArchiveSecurity.getUnitValue());
-            }
-            
-            if (ObjectUtils.isNotNull(endowmentTransactionCode)) {
-                transactionStatementReport.setEtranCodeDesc(endowmentTransactionCode.getName());
-            }
-            
-            if (ObjectUtils.isNotNull(beginningHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash1(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash1(beginningHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());
-            } else {
-                transactionStatementReport.setHistoryIncomeCash1(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash1(BigDecimal.ZERO);
-            }
-            if (ObjectUtils.isNotNull(endingHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash2(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash2(endingHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());                
-            } else {
-                transactionStatementReport.setHistoryIncomeCash2(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash2(BigDecimal.ZERO);                
-            }
                                     
             // add this new one
-            transactionStatementReportList.add(transactionStatementReport);
+            transactionStatementReportList.add(transactionSummaryReport);
         }
         
         return transactionStatementReportList;
@@ -154,7 +151,7 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
      * 
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
      */
-    public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
             List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption, String closedIndicator) {
         
         List<String> kemids = getKemidsByOtherCriteria(benefittingOrganziationCampusCodes, benefittingOrganziationChartCodes,
@@ -164,7 +161,7 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         if (kemids.size() == 0) {
             return null;
         } else {            
-            return getTransactionStatementReportsByKemidByIds(kemids, beginningDate, endingDate, endowmnetOption, closedIndicator);
+            return getTransactionSummaryReportsByKemidByIds(kemids, beginningDate, endingDate, endowmnetOption, closedIndicator);
         }
     }
 
@@ -232,6 +229,25 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
 
     public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
         this.transactionArchiveDao = transactionArchiveDao;
+    }
+    
+    protected TransactionArchiveDao getTransactionArchiveDao() {
+        return transactionArchiveDao;
+    }
+
+    /**
+     * gets attribute holdingHistoryDao
+     * @return holdingHistoryDao
+     */
+    protected HoldingHistoryDao getHoldingHistoryDao() {
+        return holdingHistoryDao;
+    }
+
+    /**
+     * sets attribute holdingHistoryDao
+     */
+    public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
+        this.holdingHistoryDao = holdingHistoryDao;
     }
     
 }

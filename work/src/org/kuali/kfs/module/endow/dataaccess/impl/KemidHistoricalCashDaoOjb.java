@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -39,4 +41,18 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
         return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
+    public List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed) {
+        Criteria criteria = new Criteria();
+        Collection<KualiInteger> monthEndIds = new ArrayList();
+        
+        monthEndIds.add(beginningMed);
+        monthEndIds.add(endingMed);
+        
+        criteria.addLike(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
+        criteria.addIn(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, monthEndIds);
+        QueryByCriteria qbc = QueryFactory.newQuery(KemidHistoricalCash.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID);
+        
+        return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 }

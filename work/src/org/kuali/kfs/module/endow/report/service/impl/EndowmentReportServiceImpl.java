@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,11 +34,13 @@ import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidDao;
+import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
 import org.kuali.kfs.module.endow.report.service.EndowmentReportService;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -53,7 +56,15 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     protected KemidDao kemidDao;
     protected KemidBenefittingOrganizationDao kemidBenefittingOrganizationDao;
     protected KemidReportGroupDao kemidReportGroupDao;
-    
+    protected KemidHistoricalCashDao kemidHistoricalCashDao;
+
+    /**
+     * sets attribute kemidHistoricalCashDao
+     */
+    public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
+        this.kemidHistoricalCashDao = kemidHistoricalCashDao;
+    }
+
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getInstitutionName()
@@ -284,25 +295,35 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     }
     
     /**
-     * method to remove kemids from the list of kemids where for each kemid, if
-     * there is no record in END_HIST_CSH_T table
+     * method to pickup all kemids from the list of kemids where for each kemid, if
+     * there is record in END_HIST_CSH_T table
      * 
      * @param kemids
      * @param beginningDate
-     * @param beginningDate
+     * @param endingDate
      * @return List<String> newKemids
      */
-    public List<String> removeKemidsNotInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
+    public List<String> getKemidsInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
         List<String> newKemids = new ArrayList();
+        List<KemidHistoricalCash> kemidHistoryCash = new ArrayList();
+        
+        MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
         
         for (String kemid : kemids) {
-            MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
-            MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
-            KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(kemid, beginningMED.getMonthEndDateId());
-            KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(kemid, endingMED.getMonthEndDateId());
+            if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                kemid = kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
+            }
+            else {
+                kemid = kemid.concat(KFSConstants.PERCENTAGE_SIGN);
+            }
             
-            if (beginningHistoryCash != null && endingHistoryCash != null) {
-                newKemids.add(kemid);
+            kemidHistoryCash = kemidHistoricalCashDao.getKemidsFromHistoryCash(kemid, beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
+
+            for (KemidHistoricalCash historyCash : kemidHistoryCash) {
+                if (!newKemids.contains(historyCash.getKemid())) {
+                    newKemids.add(historyCash.getKemid());
+                }
             }
         }
         
@@ -329,13 +350,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE, date);
         return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
-    }
-    
-    protected KemidHistoricalCash getKemidHistoricalCash(String kemid, KualiInteger medId) {
-        Map<String,Object> primaryKeys = new HashMap<String,Object>();
-        primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
-        primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, medId);
-        return (KemidHistoricalCash) businessObjectService.findByPrimaryKey(KemidHistoricalCash.class, primaryKeys);
     }
     
     /**
@@ -380,4 +394,13 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     public void setKemidReportGroupDao(KemidReportGroupDao kemidReportGroupDao) {
         this.kemidReportGroupDao = kemidReportGroupDao;
     }
+    
+    /**
+     * gets attribute kemidHistoricalCashDao
+     * @return kemidHistoricalCashDao
+     */
+    protected KemidHistoricalCashDao getKemidHistoricalCashDao() {
+        return kemidHistoricalCashDao;
+    }
+    
 }

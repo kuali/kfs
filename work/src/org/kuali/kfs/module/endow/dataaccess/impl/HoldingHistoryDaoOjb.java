@@ -252,6 +252,20 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         
         return (List<HoldingHistory>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
+
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryByKemid(java.lang.String)
+     */
+    public List<HoldingHistory> getHoldingHistoryByKemid(String kemid) {
+       
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID, kemid);
+        QueryByCriteria qbc = QueryFactory.newQuery(HoldingHistory.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.HOLDING_TAX_LOT_KEMID);
+        
+        return (List<HoldingHistory>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
     
     public List<HoldingHistory> getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(String kemid, KualiInteger monthEndId, String ipInd) {
 

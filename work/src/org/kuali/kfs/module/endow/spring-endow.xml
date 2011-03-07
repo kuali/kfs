@@ -2507,7 +2507,7 @@
 	</bean>	
 	
 	<!-- Report Services -->
-	
+
 	<bean id="trialBalanceReportService" class="org.kuali.kfs.module.endow.report.service.impl.TrialBalanceReportServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -2548,6 +2548,9 @@
 		<property name="transactionArchiveDao">
 			<ref bean="transactionArchiveDao" />
 		</property>
+		<property name="kemidHistoricalCashDao">
+			<ref bean="kemidHistoricalCashDao" />
+		</property>		
 	</bean>
 	
 	<bean id="assetStatementReportService" class="org.kuali.kfs.module.endow.report.service.impl.AssetStatementReportServiceImpl">		

@@ -48,6 +48,14 @@ public interface HoldingHistoryDao {
     public List<HoldingHistory> getHoldingHistory(String kemid, KualiInteger medId);
     
     /**
+     * Gets HoldingHistory records
+     * 
+     * @param kemid
+     * @return List<HoldingHistory>
+     */
+    public List<HoldingHistory> getHoldingHistoryByKemid(String kemid);
+
+    /**
      * Gets the sum of the given attribute
      * 
      * @param kemid

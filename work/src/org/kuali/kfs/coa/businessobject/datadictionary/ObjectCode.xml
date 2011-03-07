@@ -45,9 +45,6 @@
         <ref bean="ObjectCode-finObjMandatoryTrnfrelimCd"/>
         <ref bean="ObjectCode-financialFederalFundedCode"/>
         <ref bean="ObjectCode-nextYearFinancialObjectCode"/>
-        <ref bean="ObjectCode-rschBudgetCategoryCode"/>
-        <ref bean="ObjectCode-rschOnCampusIndicator"/>
-        <ref bean="ObjectCode-rschObjectCodeDescription"/>
       </list>
     </property>
     <property name="inactivationBlockingDefinitions">
@@ -61,13 +58,6 @@
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialObjectType"/>
       </list>
     </property>
-    <property name="relationships">
-    	<list>
-        	<dd:relationship objectAttribute="budgetCategoryDTO">
-        		<dd:primitiveAttribute source="rschBudgetCategoryCode" target="budgetCategoryCode"/>
-        	</dd:relationship>
-        </list>
-    </property>        
   </bean>
 
 <!-- Attribute Definitions -->
@@ -190,34 +180,6 @@
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="ObjectCode-rschBudgetCategoryCode" parent="ObjectCode-rschBudgetCategoryCode-parentBean"/>
-  <bean id="ObjectCode-rschBudgetCategoryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" p:sourceAttributeName="budgetCategoryCode">  
-    <property name="name" value="rschBudgetCategoryCode"/>                                                                
-    <property name="label" value="Budget Category Code"/>
-    <property name="shortLabel" value="RschBudgetCategoryCode"/>
-    <property name="maxLength" value="3"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-  </bean>
-  
-  <bean id="ObjectCode-rschObjectCodeDescription" parent="ObjectCode-rschObjectCodeDescription-parentBean"/>
-  <bean id="ObjectCode-rschObjectCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rschObjectCodeDescription"/>
-    <property name="label" value="Object Code Description"/>
-    <property name="shortLabel" value="RschObjectCodeDescription"/>
-    <property name="maxLength" value="200"/>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
-    </property>
-  </bean>
-  
-  <bean id="ObjectCode-rschOnCampusIndicator" parent="ObjectCode-rschOnCampusIndicator-parentBean"/>
-  <bean id="ObjectCode-rschOnCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="rschOnCampusIndicator"/>
-    <property name="label" value="On Campus?"/>
-  </bean>
-
 <!-- Business Object Inquiry Definition -->
 
 
@@ -253,7 +215,6 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.ObjectCodeInquirable"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->

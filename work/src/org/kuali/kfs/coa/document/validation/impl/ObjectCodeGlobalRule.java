@@ -17,14 +17,11 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
@@ -35,23 +32,16 @@ import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
-import org.kuali.kfs.gl.businessobject.AccountBalanceByConsolidation;
-import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
-
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -524,9 +514,6 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             // check reports to object code
             success &= checkReportsToObjectCodeAllLines(objectCodeGlobal);
             
-            // check research admin attributes
-            success &= checkResearchAdminAttributes(objectCodeGlobal);
-
         }
         return success;
     }
@@ -712,32 +699,6 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    /**
-     * 
-     * This method verifies the budget category value
-     * @param objectCodeGlobal
-     * @return true if valid
-     */
-    protected boolean checkResearchAdminAttributes(ObjectCodeGlobal objectCodeGlobal) {
-
-        String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
-        LookupableHelperService lookupableHelperServiceImpl = LookupableSpringContext.getLookupableHelperService("budgetCategoryDTOLookupableHelperService");
-        if (lookupableHelperServiceImpl == null) return true;
-        lookupableHelperServiceImpl.setBusinessObjectClass(BudgetCategoryDTO.class);
-
-        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
-            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-            HashMap<String, String> criteria = new HashMap<String, String>();
-            criteria.put("budgetCategoryCode", budgetCategoryCode); 
-            budgetCategoryList = (List <BudgetCategoryDTO>) lookupableHelperServiceImpl.getSearchResults(criteria);
-            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-                return false;
-            }                
-        }  
-
-        return true;
-    }
-
     protected void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
 

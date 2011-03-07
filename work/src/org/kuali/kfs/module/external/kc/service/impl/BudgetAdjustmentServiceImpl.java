@@ -395,9 +395,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected KcObjectCode createKcObjectCode(ObjectCode objectCode) {
         KcObjectCode kcObjectCode = new KcObjectCode();
         kcObjectCode.setObjectCodeName(objectCode.getCode());
-        kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
+        //kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
         kcObjectCode.setDescription(objectCode.getName());
-        kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
+        //kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
         return kcObjectCode;
     }
     

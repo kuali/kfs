@@ -20,17 +20,11 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -63,13 +57,7 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
     private String nextYearFinancialObjectCode;
     private String finObjMandatoryTrnfrelimCd;
     private String financialFederalFundedCode;
-    
-    // for KC Budget Adjustment
-    private String rschBudgetCategoryCode; 
-    private boolean rschOnCampusIndicator;
-    private String rschObjectCodeDescription;
-    private ContractsAndGrantsBudgetCategory budgetCategoryDTO; 
-    
+        
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private transient FederalFundedCode financialFederalFunded;
@@ -617,48 +605,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
 
     public String getName() {
         return this.financialObjectCodeName;
-    }
-
-    public String getRschBudgetCategoryCode() {
-        return rschBudgetCategoryCode;
-    }
-
-    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
-        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
-    }
-
-    public boolean isRschOnCampusIndicator() {
-        return rschOnCampusIndicator;
-    }
-
-    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
-        this.rschOnCampusIndicator = rschOnCampusIndicator;
-    }
-
-    public String getRschObjectCodeDescription() {
-        return rschObjectCodeDescription;
-    }
-
-    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
-        this.rschObjectCodeDescription = rschObjectCodeDescription;
-    }
-
-    protected static ModuleService budgetCategoryModuleService;
-    
-    protected ModuleService getBudgetCategoryModuleService() {
-        if ( budgetCategoryModuleService == null ) {
-            budgetCategoryModuleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBudgetCategory.class);
-        }
-        return budgetCategoryModuleService;
-    }
-    
-    public ContractsAndGrantsBudgetCategory getBudgetCategoryDTO() {
-        return budgetCategoryDTO = (ContractsAndGrantsBudgetCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBudgetCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, budgetCategoryDTO, "budgetCategoryDTO");
-        
-    }
-
-    public void setBudgetCategoryDTO(ContractsAndGrantsBudgetCategory budgetCategoryDTO) {
-        this.budgetCategoryDTO = budgetCategoryDTO;
     }
 
     /**

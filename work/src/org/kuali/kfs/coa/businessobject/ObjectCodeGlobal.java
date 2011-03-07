@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory;
-import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -75,12 +73,6 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private FederalFundedCode financialFederalFunded;
 
     private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
-    
-    // for KC Budget Adjustment
-    private String rschBudgetCategoryCode; 
-    private boolean rschOnCampusIndicator;
-    private String rschObjectCodeDescription;
-    private ContractsAndGrantsBudgetCategory budgetCategoryDTO; 
 
     /**
      * Default constructor.
@@ -642,70 +634,6 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      */
     public void setFinObjMandatoryTrnfrelim(MandatoryTransferEliminationCode finObjMandatoryTrnfrelim) {
         this.finObjMandatoryTrnfrelim = finObjMandatoryTrnfrelim;
-    }
-
-    /**
-     * Gets the rschBudgetCategoryCode attribute. 
-     * @return Returns the rschBudgetCategoryCode.
-     */
-    public String getRschBudgetCategoryCode() {
-        return rschBudgetCategoryCode;
-    }
-
-    /**
-     * Sets the rschBudgetCategoryCode attribute value.
-     * @param rschBudgetCategoryCode The rschBudgetCategoryCode to set.
-     */
-    public void setRschBudgetCategoryCode(String rschBudgetCategoryCode) {
-        this.rschBudgetCategoryCode = rschBudgetCategoryCode;
-    }
-
-    /**
-     * Gets the rschOnCampusIndicator attribute. 
-     * @return Returns the rschOnCampusIndicator.
-     */
-    public boolean isRschOnCampusIndicator() {
-        return rschOnCampusIndicator;
-    }
-
-    /**
-     * Sets the rschOnCampusIndicator attribute value.
-     * @param rschOnCampusIndicator The rschOnCampusIndicator to set.
-     */
-    public void setRschOnCampusIndicator(boolean rschOnCampusIndicator) {
-        this.rschOnCampusIndicator = rschOnCampusIndicator;
-    }
-
-    /**
-     * Gets the rschObjectCodeDescription attribute. 
-     * @return Returns the rschObjectCodeDescription.
-     */
-    public String getRschObjectCodeDescription() {
-        return rschObjectCodeDescription;
-    }
-
-    /**
-     * Sets the rschObjectCodeDescription attribute value.
-     * @param rschObjectCodeDescription The rschObjectCodeDescription to set.
-     */
-    public void setRschObjectCodeDescription(String rschObjectCodeDescription) {
-        this.rschObjectCodeDescription = rschObjectCodeDescription;
-    }
-
-    /**
-     * Gets the budgetCategoryDTO attribute. 
-     * @return Returns the budgetCategoryDTO.
-     */
-    public ContractsAndGrantsBudgetCategory getBudgetCategoryDTO() {
-        return budgetCategoryDTO;
-    }
-
-    /**
-     * Sets the budgetCategoryDTO attribute value.
-     * @param budgetCategoryDTO The budgetCategoryDTO to set.
-     */
-    public void setBudgetCategoryDTO(ContractsAndGrantsBudgetCategory budgetCategoryDTO) {
-        this.budgetCategoryDTO = budgetCategoryDTO;
     }
 
     /**

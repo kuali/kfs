@@ -30,13 +30,16 @@ import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.integration.cg.dto.KcObjectCode;
 
-@WebService(name = ContractsAndGrantsConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
+@WebService(name = ContractsAndGrantsConstants.ObjectCodeService.WEB_SERVICE_NAME, 
             targetNamespace = ContractsAndGrantsConstants.MODULE_TARGET_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, 
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface BudgetAdjustmentService {
+public interface KcObjectCodeService {
 
-    public BudgetAdjustmentCreationStatusDTO createBudgetAdjustment(
-            @WebParam(name="budgetAdjustmentParametersDTO")BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO);
+    public KcObjectCode getObjectCode( @WebParam(name="universityFiscalYear") String universityFiscalYear,
+            @WebParam(name="chartOfAccountsCode") String chartOfAccountsCode,
+            @WebParam(name="financialObjectCode") String financialObjectCode);
   
+    public List<KcObjectCode> lookupObjectCodes( @WebParam(name="searchCriteria") java.util.List <HashMapElement> searchCriteria);
+
 }

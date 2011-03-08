@@ -16,20 +16,14 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
-import org.kuali.kfs.integration.cg.dto.KcObjectCode;
 import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -355,56 +349,5 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
-    /**
-     * @see org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService#lookupObjectCodes(java.util.HashMap)
-     */
-
-    public List<KcObjectCode> lookupObjectCodes(java.util.List<HashMapElement> searchCriteria) {
-        HashMap <String, String> hashMap = new HashMap();
-        List <ObjectCode> objCodeList = new ArrayList<ObjectCode>();       
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        
-        if ((searchCriteria == null) || (searchCriteria.size() == 0)) {
-            objCodeList = (List<ObjectCode>) boService.findAll(ObjectCode.class);
-            
-        } else {
-            for (HashMapElement hashMapElement: searchCriteria) {
-                hashMap.put(hashMapElement.getKey(), hashMapElement.getValue());
-            }
-            objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, hashMap));
-        }
-        List <KcObjectCode> kcObjectCodeList = new ArrayList();
-        for (ObjectCode objectCode : objCodeList) {
-            kcObjectCodeList.add( createKcObjectCode(objectCode));
-        }
-        return kcObjectCodeList;
-    }
-    
-    /**
-     * 
-        @see org.kuali.kfs.module.external.kc.service.getObjectCode(String, String, String)
-     */
-    public KcObjectCode getObjectCode(String universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Integer fiscalYear = new Integer(universityFiscalYear);
-        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        ObjectCode objectCode = (ObjectCode) objectCodeService.getByPrimaryId(fiscalYear, chartOfAccountsCode, financialObjectCode);
-        return createKcObjectCode(objectCode);
-    }
- 
-    protected KcObjectCode createKcObjectCode(ObjectCode objectCode) {
-        KcObjectCode kcObjectCode = new KcObjectCode();
-        kcObjectCode.setObjectCodeName(objectCode.getCode());
-        //kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
-        kcObjectCode.setDescription(objectCode.getName());
-        //kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
-        return kcObjectCode;
-    }
-    
-    /**
-     * Extracts errors for error report writing.
-     * 
-     * @return a list of error messages
-     */
  
 }

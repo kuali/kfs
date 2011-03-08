@@ -74,6 +74,10 @@ public class ContractsAndGrantsConstants {
         public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic BA Document Creation";
     }    
     
+    public static class ObjectCodeService {
+        public static final String WEB_SERVICE_NAME = "kcObjectCodeService";
+    }
+    
     public static class BudgetCategoryService {
         public static final String WEB_SERVICE_NAME = "budgetCategoryDTOLookupableHelperService";
  

@@ -159,15 +159,5 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         return SpringContext.getBean(ParameterService.class);
     }
 
- 
- 
-    /**
-     * Returns an implementation of the BusinessObjectService
-     * 
-     * @return an implementation of the BusinessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
 }
 

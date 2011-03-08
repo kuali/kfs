@@ -637,7 +637,7 @@
 
   <bean id="Account-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" p:name="accountFiscalOfficerUser.principalName" p:label="Fiscal Officer Principal Name" p:shortLabel="Principal Name" p:required="false">
     <property name="control">
-      <bean parent="KualiUserControlDefinition" p:universalIdAttributeName="accountFiscalOfficerSystemIdentifier" p:userIdAttributeName="accountFiscalOfficerUser"/>
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountFiscalOfficerUser.name" p:universalIdAttributeName="accountFiscalOfficerSystemIdentifier" p:userIdAttributeName="accountFiscalOfficerUser.principalName"/>
     </property>
   </bean>
 

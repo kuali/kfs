@@ -14,7 +14,7 @@
 		<!-- Create the permission record -->
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFS401COA1" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" value="KFS401COA1" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-COA" />
@@ -24,7 +24,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFS401COA1" />			
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" value="KFS401COA1" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFS401COA1" />			
 			<column name="KIM_TYP_ID" value="3" />
@@ -34,7 +34,7 @@
 		<!--  Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User -->
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS401COA1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" value="KFS401COA1" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="62" />
 			<column name="PERM_ID" value="KFS401COA1" />	
@@ -42,16 +42,91 @@
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFS401COA2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" value="KFS401COA2" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="54" />
 			<column name="PERM_ID" value="KFS401COA1" />	
 			<column name="ACTV_IND" value="Y" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="UUID" />
-		</modifySql>
-	</changeSet>
+		
+    <insert tableName='KRIM_PERM_T'>
+      <column name='PERM_ID' value='KFSSYS6005' />
+      <column name='OBJ_ID' value='KFSSYS6005' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_TMPL_ID' valueNumeric='10' />
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='NM' value='Initiate Document' />
+      <column name='DESC_TXT' value='Authorizes the initiation of the Tickler document' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
 
+    <insert tableName='KRIM_PERM_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSSYS6005' />
+      <column name='OBJ_ID' value='KFSSYS6005' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_ID' value='KFSSYS6005' />
+      <column name='KIM_TYP_ID' valueNumeric='3' />
+      <column name='KIM_ATTR_DEFN_ID' valueNumeric='13' />
+      <column name='ATTR_VAL' value='TicklerMaintenanceDocument' />
+    </insert>
+
+    <insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='KFSSYS6005-1' />
+      <column name='OBJ_ID' value='KFSSYS6005-1' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' valueNumeric='44' />
+      <column name='PERM_ID' value='KFSSYS6005' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+
+   <insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='KFSSYS6005-2' />
+      <column name='OBJ_ID' value='KFSSYS6005-2' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' valueNumeric='62' />
+      <column name='PERM_ID' value='KFSSYS6005' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+  
+  <insert tableName='KRIM_PERM_T'>
+      <column name='PERM_ID' value='KFSSYS6006' />
+      <column name='OBJ_ID' value='KFSSYS6006' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_TMPL_ID' valueNumeric='3' />
+      <column name='NMSPC_CD' value='KFS-ENDOW' />
+      <column name='NM' value='Administer Routing for Document' />
+      <column name='DESC_TXT' value='Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+
+    <insert tableName='KRIM_PERM_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSSYS6006' />
+      <column name='OBJ_ID' value='KFSSYS6006' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='PERM_ID' value='KFSSYS6006' />
+      <column name='KIM_TYP_ID' valueNumeric='3' />
+      <column name='KIM_ATTR_DEFN_ID' valueNumeric='13' />
+      <column name='ATTR_VAL' value='TicklerMaintenanceDocument' />
+    </insert>
+
+	<insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='KFSSYS6006-1' />
+      <column name='OBJ_ID' value='KFSSYS6006-1' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' valueNumeric='44' />
+      <column name='PERM_ID' value='KFSSYS6006' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+
+    <insert tableName='KRIM_ROLE_PERM_T'>
+      <column name='ROLE_PERM_ID' value='KFSSYS6006-2' />
+      <column name='OBJ_ID' value='KFSSYS6006-2' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ROLE_ID' valueNumeric='55' />
+      <column name='PERM_ID' value='KFSSYS6006' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+
+	</changeSet>
 </databaseChangeLog>   
       

@@ -168,26 +168,24 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
 
                 // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total
                 // previous cost of the assets.
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
+                Double percentage = getAssetDetailPercentage(assetPaymentAssetDetails.size(), totalHistoricalCost, assetPaymentAssetDetail);
 
-                Double percentage = new Double(0);
-                if (totalHistoricalCost.compareTo(new Double(0)) != 0)
-                    percentage = (previousTotalCostAmount / totalHistoricalCost);
-                else
-                    percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
-
+                // Keep unallocated amount so it could be used for last payment amount for the asset (to avoid rounding issue)
                 KualiDecimal unallocatedAmount = assetPaymentsTotal.get(assetIndex++);
                 int paymentCount = assetPaymentDetailLines.size();
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 KualiDecimal amount = KualiDecimal.ZERO;
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
 
-                    if (paymentCount == 1) {
+                    if (paymentCount-- == 1) {
+                        // Deplete the rest of the payment for last payment 
                         amount = unallocatedAmount;
                     }
                     else {
+                        // Normal payment will be calculated by asset percentage
                         Double paymentAmount = new Double(assetPaymentDetail.getAmount().toString());
                         amount = new KualiDecimal(paymentAmount.doubleValue() * percentage.doubleValue());
+                        unallocatedAmount = unallocatedAmount.subtract(amount);
                     }
                     totalAmount = totalAmount.add(amount);
 
@@ -244,6 +242,26 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     }
 
     /**
+     * Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total 
+     * previous cost of the assets.
+     * 
+     * @param detailSize
+     * @param totalHistoricalCost
+     * @param assetPaymentAssetDetail
+     * @return
+     */
+    private Double getAssetDetailPercentage(int detailSize, Double totalHistoricalCost, AssetPaymentAssetDetail assetPaymentAssetDetail) {
+        Double previousTotalCostAmount = new Double(StringUtils.defaultIfEmpty(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString(), "0"));
+
+        Double percentage = new Double(0);
+        if (totalHistoricalCost.compareTo(new Double(0)) != 0)
+            percentage = (previousTotalCostAmount / totalHistoricalCost);
+        else
+            percentage = (1 / (new Double(detailSize)));
+        return percentage;
+    }
+
+    /**
      * Creates a list of total payment for each Asset
      * 
      * @param document
@@ -264,13 +282,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
             Double totalHistoricalCost = new Double(document.getAssetsTotalHistoricalCost().toString());
             KualiDecimal unallocatedTotal = totalAmount;
             for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
-
-                Double previousTotalCostAmount = new Double(assetPaymentAssetDetail.getPreviousTotalCostAmount() == null ? "0" : assetPaymentAssetDetail.getPreviousTotalCostAmount().toString());
-                Double percentage = new Double(0);
-                if (totalHistoricalCost.compareTo(new Double(0)) != 0)
-                    percentage = (previousTotalCostAmount / totalHistoricalCost);
-                else
-                    percentage = (1 / (new Double(assetPaymentAssetDetails.size())));
+                Double percentage = getAssetDetailPercentage(assetPaymentAssetDetails.size(), totalHistoricalCost, assetPaymentAssetDetail);
 
                 KualiDecimal amount = KualiDecimal.ZERO;
                 if (assetCount == 1) {

@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
@@ -38,12 +38,14 @@ import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.report.service.AssetStatementReportService;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
-import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder.ReportGroupData;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl implements AssetStatementReportService {
 
     protected DateTimeService dateTimeService;

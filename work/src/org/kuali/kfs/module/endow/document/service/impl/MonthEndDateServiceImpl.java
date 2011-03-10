@@ -32,10 +32,12 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides service for MonthEndDateService
  */
+@Transactional
 public class MonthEndDateServiceImpl implements MonthEndDateService {
 
     private BusinessObjectService businessObjectService;

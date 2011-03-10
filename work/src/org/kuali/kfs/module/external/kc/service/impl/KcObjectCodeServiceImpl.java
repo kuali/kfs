@@ -82,9 +82,7 @@ public class KcObjectCodeServiceImpl implements KcObjectCodeService {
     protected KcObjectCode createKcObjectCode(ObjectCode objectCode) {
         KcObjectCode kcObjectCode = new KcObjectCode();
         kcObjectCode.setObjectCodeName(objectCode.getCode());
-        //kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
         kcObjectCode.setDescription(objectCode.getName());
-        //kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
         return kcObjectCode;
     }
     

@@ -49,8 +49,8 @@ public abstract class EndowmentReportPrintBase {
     public static final Font regularFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY);
     public static final Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.GRAY);
     
-    public static final Font footerTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD);
-    public static final Font footerRegularFont = FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, Color.DARK_GRAY);
+    public static final Font footerTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD);
+    public static final Font footerRegularFont = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, Color.DARK_GRAY);
     
     protected Rectangle LETTER_PORTRAIT = PageSize.LETTER;
     protected Rectangle LETTER_LANDSCAPE = PageSize.LETTER.rotate();
@@ -170,10 +170,8 @@ public abstract class EndowmentReportPrintBase {
                 List<String> kemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected();
                 int totalKemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected().size();
                 if (totalsExists) totalKemidsSelected--;
-                Paragraph kemidsSelectedTitle = new Paragraph("\nKEMIDs Selected: \n\n");
+                Paragraph kemidsSelectedTitle = new Paragraph("\nKEMIDs Selected: " + totalKemidsSelected + "\n\n");
                 document.add(kemidsSelectedTitle);
-                //Paragraph numberOfKemids = new Paragraph(totalKemidsSelected + "\n\n", regularFont);
-                //document.add(numberOfKemids);
                 
                 PdfPTable kemidsTable = new PdfPTable(KEMIDS_SELECTED_COLUMN_NUM);
                 kemidsTable.setWidthPercentage(KEMID_SELECTED_TABLE_WIDTH);
@@ -207,7 +205,7 @@ public abstract class EndowmentReportPrintBase {
     public boolean printFooter(EndowmentReportFooterDataHolder footerData, Document document) {
     
         try {
-            document.add(new Phrase("\n\n-----------------------------------------------------------------------------------------\n\n"));
+            document.add(new Phrase("\n"));
             
             PdfPTable table = new PdfPTable(2);
             table.setWidthPercentage(FULL_TABLE_WIDTH);
@@ -235,13 +233,18 @@ public abstract class EndowmentReportPrintBase {
             PdfPTable rightTable = new PdfPTable(4);
             rightTable.setWidthPercentage(60);
             
-            PdfPCell cellBenefitting = new PdfPCell(new Paragraph("BENEFITTING", titleFont));
+            PdfPCell cellBenefitting = new PdfPCell(new Paragraph("BENEFITTING\n", titleFont));
             cellBenefitting.setColspan(4);
-            rightTable.addCell(cellBenefitting);            
+            cellBenefitting.setBorderWidth(0);
+            rightTable.addCell(cellBenefitting);  
+            
             rightTable.addCell(createCell(footerData.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, false));
             rightTable.addCell(createCell(footerData.getChartName(), footerRegularFont, Element.ALIGN_LEFT, false));
             rightTable.addCell(createCell(footerData.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, false));
-            rightTable.addCell(createCell(footerData.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));            
+            rightTable.addCell(createCell(footerData.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));  
+            table.addCell(rightTable);
+            
+            document.add(table);
             
         } catch (Exception e) {
             return false;

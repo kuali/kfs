@@ -55,4 +55,5 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
         
         return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
+    
 }

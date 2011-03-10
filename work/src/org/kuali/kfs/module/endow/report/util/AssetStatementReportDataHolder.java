@@ -16,10 +16,9 @@
 package org.kuali.kfs.module.endow.report.util;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -32,41 +31,29 @@ public class AssetStatementReportDataHolder {
     private String institution;
     private String monthEndDate;
     private String endingDate;
-    // the following two are not necessary for the total report
     private String kemid;
     private String kemidLongTitle;
 
     // body
-    private BigDecimal historyIncomeCash; // 1
+    private BigDecimal historyIncomeCash; // 1i
     private BigDecimal historyPrincipalCash; // 1p
+
     // Map<report group order, Map<securityId, ReportGroupData>>
-    private Map<Integer, Map<String, ReportGroupData>> reportGroupsForIncome; // 2,3,4,5,6,7 for income
-    private Map<Integer, Map<String, ReportGroupData>> reportGroupsForPrincipal; // 2,3,4,5,6,7 for principal
-    private BigDecimal totalIncomeMarketValues1; // 8i
-    private BigDecimal totalIncomeMarketValuesN; // 9i
-    private BigDecimal totalPricipalMarketValues1; // 8p
-    private BigDecimal totalPrincipalMarketValuesN; // 9p
+    private TreeMap<Integer, TreeMap<String, ReportGroupData>> reportGroupsForIncome; // 2,3,4,5,6,7 for income
+    private TreeMap<Integer, TreeMap<String, ReportGroupData>> reportGroupsForPrincipal; // 2,3,4,5,6,7 for principal
 
     // footer
     private EndowmentReportFooterDataHolder footer;
 
     public AssetStatementReportDataHolder() {
-        reportGroupsForIncome = null;
-        reportGroupsForPrincipal = null;
+        reportGroupsForIncome = new TreeMap<Integer, TreeMap<String, ReportGroupData>>();
+        reportGroupsForPrincipal = new TreeMap<Integer, TreeMap<String, ReportGroupData>>();
         historyIncomeCash = BigDecimal.ZERO;
         historyPrincipalCash = BigDecimal.ZERO;
-        totalIncomeMarketValues1 = BigDecimal.ZERO;
-        totalPricipalMarketValues1 = BigDecimal.ZERO;
-        totalIncomeMarketValuesN = BigDecimal.ZERO;
-        totalPrincipalMarketValuesN = BigDecimal.ZERO;
         footer = null;
     }
 
     public ReportGroupData createReportGroupData(SecurityReportingGroup reportingGroup, Security security, String ipInd) {
-        return addReportGroupData(reportingGroup, security, ipInd.equalsIgnoreCase(IncomePrincipalIndicator.INCOME) ? reportGroupsForIncome : reportGroupsForPrincipal);
-    }
-
-    protected ReportGroupData addReportGroupData(SecurityReportingGroup reportingGroup, Security security, Map<Integer, Map<String, ReportGroupData>> reportGroups) {
 
         Integer reportGroupOrder = reportingGroup.getSecurityReportingGrpOrder();
         String securityId = security.getId();
@@ -77,63 +64,92 @@ public class AssetStatementReportDataHolder {
         rgd.setSecurityDesc(security.getDescription());
         rgd.setReportGroupOrder(reportGroupOrder);
         rgd.setReportGroupDesc(reportingGroup.getName());
-
-        if (reportGroups == null) {
-            // a new reporting group
-            reportGroups = new HashMap<Integer, Map<String, ReportGroupData>>();
-        }
-
-        if (reportGroups.containsKey(reportGroupOrder)) {
-            Map<String, ReportGroupData> dataByReportGroupOrder = reportGroups.get(reportGroupOrder);
-            if (!dataByReportGroupOrder.containsKey(securityId)) {
-                // add the new report group data
-                dataByReportGroupOrder.put(securityId, rgd);
+        
+        if (ipInd.equalsIgnoreCase(IncomePrincipalIndicator.INCOME)) {
+            if (reportGroupsForIncome.containsKey(reportGroupOrder)) {
+                TreeMap<String, ReportGroupData> dataBySecurityId = reportGroupsForIncome.get(reportGroupOrder);
+                // assume that the same securityId does not exist
+                dataBySecurityId.put(securityId, rgd);
+            } else {
+                TreeMap<String, ReportGroupData> dataBySecurityId = new TreeMap<String, ReportGroupData>();
+                dataBySecurityId.put(securityId, rgd);
+                reportGroupsForIncome.put(reportGroupOrder, dataBySecurityId);
             }
-        }
-        else {
-            // needs both a new reporting group order and a new report group data
-            Map<String, ReportGroupData> dataBySecurityId = new HashMap<String, ReportGroupData>();
-            dataBySecurityId.put(securityId, rgd);
-            reportGroups.put(reportGroupOrder, dataBySecurityId);
+        } else {
+            if (reportGroupsForPrincipal.containsKey(reportGroupOrder)) {
+                TreeMap<String, ReportGroupData> dataBySecurityId = reportGroupsForPrincipal.get(reportGroupOrder);
+                dataBySecurityId.put(securityId, rgd);
+            } else {
+                TreeMap<String, ReportGroupData> dataBySecurityId = new TreeMap<String, ReportGroupData>();
+                dataBySecurityId.put(securityId, rgd);
+                reportGroupsForPrincipal.put(reportGroupOrder, dataBySecurityId);
+            }
         }
 
         return rgd;
     }
-
+       
     public BigDecimal getTotalSumOfUnits(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
+        Collection<TreeMap<String, ReportGroupData>> reportGroupMap;
         if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForIncome.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
-            }
+            reportGroupMap = reportGroupsForIncome.values();
         } else {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForPrincipal.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
+            reportGroupMap = reportGroupsForPrincipal.values();
+        }
+        for (TreeMap<String, ReportGroupData> reportGroup : reportGroupMap) {
+            Iterator<ReportGroupData> iter = reportGroup.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfUnits());
             }
         }
         
         return total;
     }
 
+    /**
+     * 8-1
+     * 
+     * @param ipInd
+     * @return
+     */
+    public BigDecimal getTotalMarketValueForCashEquivalents(String ipInd) {
+        return getTotalSumOfMarketValue(ipInd, new Integer(1));
+    }
+
+    public BigDecimal getTotalSumOfMarketValue(String ipInd, Integer reportGroupOrder) {
+        
+        BigDecimal total = BigDecimal.ZERO;
+        TreeMap<String, ReportGroupData> reportGroupMap;
+        if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
+            reportGroupMap = reportGroupsForIncome.get(reportGroupOrder);
+        } else {
+            reportGroupMap = reportGroupsForPrincipal.get(reportGroupOrder);
+        }
+        if (reportGroupMap != null && !reportGroupMap.isEmpty()) {
+            Iterator<ReportGroupData> iter = reportGroupMap.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfMarketValue());
+            }
+        }
+        
+        return total;
+    }
+    
     public BigDecimal getTotalSumOfMarketValue(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
+        Collection<TreeMap<String, ReportGroupData>> reportGroupMap;
         if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForIncome.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
-            }
+            reportGroupMap = reportGroupsForIncome.values();
         } else {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForPrincipal.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfMarketValue());
+            reportGroupMap = reportGroupsForPrincipal.values();
+        }
+        for (TreeMap<String, ReportGroupData> reportGroup : reportGroupMap) {
+            Iterator<ReportGroupData> iter = reportGroup.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfMarketValue());
             }
         }
         
@@ -141,39 +157,37 @@ public class AssetStatementReportDataHolder {
     }
     
     public BigDecimal getTotalSumOfEstimatedIncome(String ipInd) {
-        
+
         BigDecimal total = BigDecimal.ZERO;
+        Collection<TreeMap<String, ReportGroupData>> reportGroupMap;
         if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForIncome.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
-            }
+            reportGroupMap = reportGroupsForIncome.values();
         } else {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForPrincipal.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfEstimatedIncome());
+            reportGroupMap = reportGroupsForPrincipal.values();
+        }
+        for (TreeMap<String, ReportGroupData> reportGroup : reportGroupMap) {
+            Iterator<ReportGroupData> iter = reportGroup.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfEstimatedIncome());
             }
         }
         
-        return total;
-    }
+        return total;       
+     }
     
     public BigDecimal getTotalSumOfRemainderOfFYEstimated(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
+        Collection<TreeMap<String, ReportGroupData>> reportGroupMap;
         if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForIncome.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
-            }
+            reportGroupMap = reportGroupsForIncome.values();
         } else {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForPrincipal.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfRemainderOfFYEstimated());
+            reportGroupMap = reportGroupsForPrincipal.values();
+        }
+        for (TreeMap<String, ReportGroupData> reportGroup : reportGroupMap) {
+            Iterator<ReportGroupData> iter = reportGroup.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfRemainderOfFYEstimated());
             }
         }
         
@@ -183,135 +197,20 @@ public class AssetStatementReportDataHolder {
     public BigDecimal getTotalSumOfNextFYEstimatedIncome(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
+        Collection<TreeMap<String, ReportGroupData>> reportGroupMap;
         if (IncomePrincipalIndicator.INCOME.equalsIgnoreCase(ipInd) && reportGroupsForIncome != null) {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForIncome.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfUnits());
-            }
+            reportGroupMap = reportGroupsForIncome.values();
         } else {
-            Map<String, ReportGroupData> reportGroupData = (Map<String, ReportGroupData>) reportGroupsForPrincipal.values();
-            List<ReportGroupData> reportGroups = (List<ReportGroupData>) reportGroupData.values();
-            for (ReportGroupData reportGroup : reportGroups) {
-                total = total.add(reportGroup.getSumOfNextFYEstimatedIncome());
+            reportGroupMap = reportGroupsForPrincipal.values();
+        }
+        for (TreeMap<String, ReportGroupData> reportGroup : reportGroupMap) {
+            Iterator<ReportGroupData> iter = reportGroup.values().iterator();
+            while (iter.hasNext()) {
+                total = total.add(iter.next().getSumOfNextFYEstimatedIncome());
             }
         }
         
         return total;
-    }
-    
-    public BigDecimal getHistoryIncomeCash() {
-        return historyIncomeCash;
-    }
-
-    public void setHistoryIncomeCash(BigDecimal historyIncomeCash) {
-        this.historyIncomeCash = historyIncomeCash;
-        this.totalIncomeMarketValues1 = totalIncomeMarketValues1.add(historyIncomeCash);
-    }
-
-    public BigDecimal getHistoryPrincipalCash() {
-        return historyPrincipalCash;
-    }
-
-    public void setHistoryPrincipalCash(BigDecimal historyPrincipalCash) {
-        this.historyPrincipalCash = historyPrincipalCash;
-        this.totalPrincipalMarketValuesN = totalPrincipalMarketValuesN.add(historyPrincipalCash);
-    }
-
-    public String getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(String institution) {
-        this.institution = institution;
-    }
-
-    public String getMonthEndDate() {
-        return monthEndDate;
-    }
-
-    public void setMonthEndDate(String monthEndDate) {
-        this.monthEndDate = monthEndDate;
-    }
-
-    public String getEndingDate() {
-        return endingDate;
-    }
-
-    public void setEndingDate(String endingDate) {
-        this.endingDate = endingDate;
-    }
-
-    public String getKemid() {
-        return kemid;
-    }
-
-    public void setKemid(String kemid) {
-        this.kemid = kemid;
-    }
-
-    public String getKemidLongTitle() {
-        return kemidLongTitle;
-    }
-
-    public void setKemidLongTitle(String kemidLongTitle) {
-        this.kemidLongTitle = kemidLongTitle;
-    }
-
-    public EndowmentReportFooterDataHolder getFooter() {
-        return footer;
-    }
-
-    public void setFooter(EndowmentReportFooterDataHolder footer) {
-        this.footer = footer;
-    }
-
-    public Map<Integer, Map<String, ReportGroupData>> getReportGroupsForIncome() {
-        return reportGroupsForIncome;
-    }
-
-    public void setReportGroupsForIncome(Map<Integer, Map<String, ReportGroupData>> reportGroupsForIncome) {
-        this.reportGroupsForIncome = reportGroupsForIncome;
-    }
-
-    public Map<Integer, Map<String, ReportGroupData>> getReportGroupsForPrincipal() {
-        return reportGroupsForPrincipal;
-    }
-
-    public void setReportGroupsForPrincipal(Map<Integer, Map<String, ReportGroupData>> reportGroupsForPrincipal) {
-        this.reportGroupsForPrincipal = reportGroupsForPrincipal;
-    }
-
-    public BigDecimal getTotalIncomeMarketValues1() {
-        return totalIncomeMarketValues1;
-    }
-
-    public void addTotalIncomeMarketValues1(BigDecimal totalIncomeMarketValues1) {
-        this.totalIncomeMarketValues1 = totalIncomeMarketValues1.add(totalIncomeMarketValues1);
-    }
-
-    public BigDecimal getTotalIncomeMarketValuesN() {
-        return totalIncomeMarketValuesN;
-    }
-
-    public void addTotalIncomeMarketValuesN(BigDecimal totalIncomeMarketValuesN) {
-        this.totalIncomeMarketValuesN = totalIncomeMarketValuesN.add(totalIncomeMarketValuesN);
-    }
-
-    public BigDecimal getTotalPricipalMarketValues1() {
-        return totalPricipalMarketValues1;
-    }
-
-    public void addTotalPricipalMarketValues1(BigDecimal totalPricipalMarketValues1) {
-        this.totalPricipalMarketValues1 = totalPricipalMarketValues1.add(totalPricipalMarketValues1);
-    }
-
-    public BigDecimal getTotalPrincipalMarketValuesN() {
-        return totalPrincipalMarketValuesN;
-    }
-
-    public void addTotalPrincipalMarketValuesN(BigDecimal totalPrincipalMarketValuesN) {
-        this.totalPrincipalMarketValuesN = totalPrincipalMarketValuesN.add(totalPrincipalMarketValuesN);
     }
 
     public class ReportGroupData {
@@ -405,4 +304,85 @@ public class AssetStatementReportDataHolder {
             this.sumOfNextFYEstimatedIncome = this.sumOfNextFYEstimatedIncome.add(sumOfNextFYEstimatedIncome);
         }
     }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getMonthEndDate() {
+        return monthEndDate;
+    }
+
+    public void setMonthEndDate(String monthEndDate) {
+        this.monthEndDate = monthEndDate;
+    }
+
+    public String getEndingDate() {
+        return endingDate;
+    }
+
+    public void setEndingDate(String endingDate) {
+        this.endingDate = endingDate;
+    }
+
+    public String getKemid() {
+        return kemid;
+    }
+
+    public void setKemid(String kemid) {
+        this.kemid = kemid;
+    }
+
+    public String getKemidLongTitle() {
+        return kemidLongTitle;
+    }
+
+    public void setKemidLongTitle(String kemidLongTitle) {
+        this.kemidLongTitle = kemidLongTitle;
+    }
+
+    public BigDecimal getHistoryIncomeCash() {
+        return historyIncomeCash;
+    }
+
+    public void setHistoryIncomeCash(BigDecimal historyIncomeCash) {
+        this.historyIncomeCash = historyIncomeCash;
+    }
+
+    public BigDecimal getHistoryPrincipalCash() {
+        return historyPrincipalCash;
+    }
+
+    public void setHistoryPrincipalCash(BigDecimal historyPrincipalCash) {
+        this.historyPrincipalCash = historyPrincipalCash;
+    }
+
+    public TreeMap<Integer, TreeMap<String, ReportGroupData>> getReportGroupsForIncome() {
+        return reportGroupsForIncome;
+    }
+
+    public void setReportGroupsForIncome(TreeMap<Integer, TreeMap<String, ReportGroupData>> reportGroupsForIncome) {
+        this.reportGroupsForIncome = reportGroupsForIncome;
+    }
+
+    public TreeMap<Integer, TreeMap<String, ReportGroupData>> getReportGroupsForPrincipal() {
+        return reportGroupsForPrincipal;
+    }
+
+    public void setReportGroupsForPrincipal(TreeMap<Integer, TreeMap<String, ReportGroupData>> reportGroupsForPrincipal) {
+        this.reportGroupsForPrincipal = reportGroupsForPrincipal;
+    }
+
+    public EndowmentReportFooterDataHolder getFooter() {
+        return footer;
+    }
+
+    public void setFooter(EndowmentReportFooterDataHolder footer) {
+        this.footer = footer;
+    }
+        
 }

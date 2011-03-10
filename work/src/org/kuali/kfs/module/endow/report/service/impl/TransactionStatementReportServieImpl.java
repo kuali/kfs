@@ -72,7 +72,7 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         
         //remove any kemids from there list where for that kemid,
         //there is no record in the END_HIST_CSH_T table... We don't want that kemid on the report..
-        kemids = getKemidsInHistoryCash(kemids, beginningDate, endingDate);
+        //kemids = getKemidsInHistoryCash(kemids, beginningDate, endingDate);
         
         List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate, closedIndicator);
         if (transactionArchiveRecords == null) {

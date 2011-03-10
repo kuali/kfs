@@ -47,9 +47,6 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
     private final String REPORT_NAME = "Trial Balance";
     private final String REPORT_FILE_NAME = "TrialBalanceReport.pdf";
     
-    private final char KEMID_SEPERATOR = '&';
-    private final char OTHER_CRITERIA_SEPERATOR = ',';
-    
     public TrialBalanceAction() {
         super();
     }
@@ -193,7 +190,8 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
                     parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
                     parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
                     REPORT_NAME,
-                    endowmentOption);
+                    endowmentOption,
+                    null);
             
             // generate the report in PDF 
             ByteArrayOutputStream pdfStream = new TrialBalanceReportPrint().printTrialBalanceReport(reportRequestHeaderDataHolder, trialBalanceReportDataHolders, listKemidsInHeader);            
@@ -205,10 +203,13 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
         }
         
         // No report was generated
-        trialBalanceForm.setMessage("Report was not generated for " + kemids + ".");
+        if (StringUtils.isBlank(kemids)) { 
+            trialBalanceForm.setMessage("Report was not generated.");
+        } else {
+            trialBalanceForm.setMessage("Report was not generated for " + kemids + ".");
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        
     }
     
     /**
@@ -217,13 +218,11 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
      * @param trialBalanceReportDataHolder
      * @return
      */
-    protected List<String> getKemidsSelected(List<TrialBalanceReportDataHolder> trialBalanceReportDataHolder) {
-        
+    protected List<String> getKemidsSelected(List<TrialBalanceReportDataHolder> trialBalanceReportDataHolder) {        
         List<String> kemids = new ArrayList<String>();
         for (TrialBalanceReportDataHolder dataHolder : trialBalanceReportDataHolder) {
             kemids.add(dataHolder.getKemid());
-        }
-        
+        }        
         return kemids;        
     }
 

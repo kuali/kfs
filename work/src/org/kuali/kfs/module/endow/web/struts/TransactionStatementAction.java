@@ -212,7 +212,8 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
                     parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
                     parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
                     REPORT_NAME,
-                    endowmentOption);
+                    endowmentOption,
+                    null);
             
             // generate the report in PDF 
             ByteArrayOutputStream pdfStream = new TransactionStatementReportPrint().printTransactionStatementReport(reportRequestHeaderDataHolder, transactionStatementReportDataHolders, listKemidsInHeader);            
@@ -224,10 +225,13 @@ public class TransactionStatementAction extends EndowmentReportBaseAction {
         }       
         
         // No report was generated
-        transactionStatementForm.setMessage("Report was not generated for " + kemids + ".");
+        if (StringUtils.isBlank(kemids)) { 
+            transactionStatementForm.setMessage("Report was not generated.");
+        } else {
+            transactionStatementForm.setMessage("Report was not generated for " + kemids + ".");
+        }
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
     /**

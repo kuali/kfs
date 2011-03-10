@@ -243,24 +243,44 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
             
         // See to see if you have something to print
         if (endowmentAssetStatementReportDataHolders != null || nonEndowedAssetStatementReportDataHolders != null) {
-
-            // prepare the header sheet data
-            EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = assetStatementReportService.createReportHeaderSheetData(
-                    getKemidsSelected(endowmentAssetStatementReportDataHolders),
-                    parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
-                    parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
-                    parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR),
-                    parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR),
-                    parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
-                    parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
-                    ENDOWMENT_REPORT_NAME,
-                    endowmentOption);
+            EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment = null;
+            EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed = null;
             
+            if (endowmentAssetStatementReportDataHolders != null) {
+    
+                // prepare the header sheet data          
+                reportHeaderDataHolderForEndowment = assetStatementReportService.createReportHeaderSheetData(
+                        getKemidsSelected(endowmentAssetStatementReportDataHolders),
+                        parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
+                        ENDOWMENT_REPORT_NAME,
+                        endowmentOption,
+                        reportOption);
+            }
+            if (nonEndowedAssetStatementReportDataHolders != null) {
+    
+                // prepare the header sheet data          
+                reportHeaderDataHolderForNonEndowed = assetStatementReportService.createReportHeaderSheetData(
+                        getKemidsSelected(nonEndowedAssetStatementReportDataHolders),
+                        parseValueString(benefittingOrganziationCampuses, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(benefittingOrganziationCharts, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(benefittingOrganziations, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
+                        parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
+                        ENDOWMENT_REPORT_NAME,
+                        endowmentOption,
+                        reportOption);
+            }
             // generate the report in one PDF file
             if (printFileOption.equalsIgnoreCase("Y")) {
                 // consolidate all reports into one
                 ByteArrayOutputStream pdfStream = null;
-                pdfStream = new AssetStatementReportPrint().printAssetStatementReport(reportRequestHeaderDataHolder, endowmentAssetStatementReportDataHolders, nonEndowedAssetStatementReportDataHolders, endowmentOption, reportOption, listKemidsInHeader);                
+                pdfStream = new AssetStatementReportPrint().printAssetStatementReport(reportHeaderDataHolderForEndowment, reportHeaderDataHolderForNonEndowed, endowmentAssetStatementReportDataHolders, nonEndowedAssetStatementReportDataHolders, endowmentOption, reportOption, listKemidsInHeader);
                 if (pdfStream != null) {
                     assetStatementForm.setMessage("Reports Generated");
                     WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
@@ -275,10 +295,13 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
         }       
         
         // No report was generated
-        assetStatementForm.setMessage("Report was not generated");
+        if (StringUtils.isBlank(kemids)) { 
+            assetStatementForm.setMessage("Report was not generated.");
+        } else {
+            assetStatementForm.setMessage("Report was not generated for " + kemids + ".");
+        }
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
     /**

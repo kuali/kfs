@@ -117,6 +117,7 @@ public interface EndowmentReportService {
             List<String> purposeCodes,
             List<String> combineGroupCodes,
             String reportName, 
-            String endowmnetOption);
+            String endowmnetOption,
+            String reportOption);
     
 }

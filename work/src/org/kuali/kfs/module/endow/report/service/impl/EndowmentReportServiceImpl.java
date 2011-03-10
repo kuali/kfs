@@ -59,13 +59,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     protected KemidHistoricalCashDao kemidHistoricalCashDao;
 
     /**
-     * sets attribute kemidHistoricalCashDao
-     */
-    public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
-        this.kemidHistoricalCashDao = kemidHistoricalCashDao;
-    }
-
-    /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getInstitutionName()
      */
@@ -214,7 +207,8 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
                     List<String> purposeCodes,
                     List<String> combineGroupCodes,
                     String reportName, 
-                    String endowmnetOption) {
+                    String endowmnetOption,
+                    String reportOption) {
                 
         EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = new EndowmentReportHeaderDataHolder();
         
@@ -226,10 +220,20 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         if ("B".equalsIgnoreCase(endowmnetOption)) {
             endowmentOptionDesc = EndowConstants.EndowmentReport.BOTH_ENDOWMENT_OPTION;
         } else {
-            endowmentOptionDesc = EndowConstants.YES.equalsIgnoreCase(endowmnetOption) ? EndowConstants.EndowmentReport.ONLY_ENDOWMENT : EndowConstants.EndowmentReport.NON_ENDOWED;
+            endowmentOptionDesc = EndowConstants.YES.equalsIgnoreCase(endowmnetOption) ? EndowConstants.EndowmentReport.ENDOWMENT : EndowConstants.EndowmentReport.NON_ENDOWED;
         }
         reportRequestHeaderDataHolder.setEndowmentOption(endowmentOptionDesc);
-        reportRequestHeaderDataHolder.setReportOption(""); 
+        String reportOptionDesc = "";
+        if (reportOption != null) {
+            if ("B".equalsIgnoreCase(reportOption)) {
+                reportOptionDesc = EndowConstants.EndowmentReport.BOTH_REPORT_OPTION;
+            } else if ("D".equalsIgnoreCase(reportOption)) {
+                reportOptionDesc = EndowConstants.EndowmentReport.DETAIL_REPORT; 
+            } else if ("T".equalsIgnoreCase(reportOption)) {
+                reportOptionDesc = EndowConstants.EndowmentReport.TOTAL_REPORT;
+            }
+        }
+        reportRequestHeaderDataHolder.setReportOption(reportOptionDesc);
         
         // get criteria
         reportRequestHeaderDataHolder.setBenefittingCampus(getBenefittingCampuses(benefittingOrganziationCampuses));
@@ -329,6 +333,20 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         
         return newKemids;
     }
+ 
+    public List<String> getKemidsInHistoryCash(List<String> kemids, String endingDate) {
+        
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));            
+        List<KemidHistoricalCash> kemidHistoryCash = kemidHistoricalCashDao.getHistoricalCashRecords(kemids, endingMED.getMonthEndDateId());
+        List<String> newKemids = new ArrayList<String>();
+        for (KemidHistoricalCash historyCash : kemidHistoryCash) {
+            if (!newKemids.contains(historyCash.getKemid())) {
+                newKemids.add(historyCash.getKemid());
+            }
+        }
+        
+        return newKemids;
+    }
     
     protected MonthEndDate getPreviousMonthEndDate(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -394,13 +412,13 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     public void setKemidReportGroupDao(KemidReportGroupDao kemidReportGroupDao) {
         this.kemidReportGroupDao = kemidReportGroupDao;
     }
-    
-    /**
-     * gets attribute kemidHistoricalCashDao
-     * @return kemidHistoricalCashDao
-     */
-    protected KemidHistoricalCashDao getKemidHistoricalCashDao() {
+
+    public KemidHistoricalCashDao getKemidHistoricalCashDao() {
         return kemidHistoricalCashDao;
     }
-    
+
+    public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
+        this.kemidHistoricalCashDao = kemidHistoricalCashDao;
+    }
+
 }

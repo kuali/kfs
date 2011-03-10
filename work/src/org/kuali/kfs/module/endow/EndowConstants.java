@@ -350,8 +350,13 @@ public class EndowConstants extends JSTLConstants {
     public static final String KUALI_FREQUENCY_LOOKUPABLE_IMPL = "frequencyCodeLookupable";
     
     public static final class EndowmentReport {
-        public static final String ONLY_ENDOWMENT = "Endowmnet";
+        public static final String ENDOWMENT = "Endowment";
         public static final String NON_ENDOWED = "Non-Endowed";
         public static final String BOTH_ENDOWMENT_OPTION = "Both";
+        public static final String DETAIL_REPORT = "Detail";
+        public static final String TOTAL_REPORT = "Total";
+        public static final String BOTH_REPORT_OPTION = "Both";
+        public static final String DETAIL = "D";
+        public static final String TOTAL = "T";
     }
 }

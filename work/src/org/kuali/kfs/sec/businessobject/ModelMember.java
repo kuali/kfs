@@ -18,16 +18,14 @@ package org.kuali.kfs.sec.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
-import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
-import org.kuali.rice.kim.bo.reference.impl.EmploymentTypeImpl;
-import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 
 /**
  * Represents a member who can be assigned to a model. Can be of Person, Role, or Group type
  */
-public class ModelMember extends PersistableBusinessObjectBase {
+public class ModelMember extends PersistableBusinessObjectBase implements Inactivateable {
     private String memberId;
     private String memberName;
     private String memberTypeCode;

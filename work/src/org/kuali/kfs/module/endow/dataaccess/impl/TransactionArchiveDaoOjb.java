@@ -461,4 +461,39 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             return null;
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesByKemid(java.lang.String, java.util.Date, java.util.Date)
+     */
+    public List<TransactionArchive> getTransactionArchivesByKemid(String kemid, java.util.Date beginningDate, java.util.Date endingDate) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
+        criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
+        criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
+        
+        List<String> documentTypesAllowed = new ArrayList();
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
+        
+        Criteria c = new Criteria();
+        c.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypesAllowed);
+        
+        Criteria c1 = new Criteria();
+        documentTypesAllowed.clear();
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE);
+        c1.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypesAllowed);
+        c1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE, EndowConstants.TransactionSubTypeCode.NON_CASH);
+        
+        c.addOrCriteria(c1);
+        
+        criteria.addAndCriteria(c);
+        
+        QueryByCriteria qbc2 = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);        
+        qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE);
+        
+        return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc2);
+    }
 }

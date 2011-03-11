@@ -120,6 +120,16 @@
             </tr>  
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
+                    <div align="right">Closed Indicator:</div>
+                </th>
+                <td align=left valign=middle class="grid" style="width: 25%;">
+					<input type="radio" name="closedIndicator" value="Y" />Yes&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="N" />No&nbsp;&nbsp;
+					<input type="radio" name="closedIndicator" value="B" checked />Both<br/>									
+                </td>				                      
+            </tr>            
+            <tr>		
+                <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right">Report Option:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">

@@ -32,5 +32,11 @@ public interface KemidHistoricalCashDao {
 
     List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger medId);
 
-    List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed);
+    /**
+     * method to retrieve a list of END_HIST_CSH_T records for the given kemids and monthendids
+     * @param kemid
+     * @param beginningMed
+     * @param endingMed
+     */
+    List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemid, KualiInteger beginningMed, KualiInteger endingMed);
 }

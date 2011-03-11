@@ -120,4 +120,24 @@ public interface EndowmentReportService {
             String endowmnetOption,
             String reportOption);
     
+    /**
+     * method to pickup all kemids from the list of kemids where for each kemid, if
+     * there is record in END_HIST_CSH_T table
+     * 
+     * @param kemids
+     * @param beginningDate
+     * @param endingDate
+     * @return List<String> newKemids
+     */
+    public List<String> getKemidsInHistoryCash(List<String> kemids, String beginningDate, String endingDate);
+
+    /**
+     * method to pickup all kemids based on user selection of endowmentOption and closed indicator
+     * 
+     * @param kemids
+     * @param endowmentOption
+     * @param endingDate
+     * @return List<String> newKemids
+     */
+    public List<String> getKemidsBasedOnUserSelection(List<String> kemids, String endowmentOption, String closedIndicator);    
 }

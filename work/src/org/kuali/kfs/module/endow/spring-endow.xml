@@ -2583,6 +2583,35 @@
 		</property>		
 	</bean>       	
        
+ 	<bean id="transactionSummaryReportService" class="org.kuali.kfs.module.endow.report.service.impl.TransactionSummaryReportServiceImpl">		
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>	
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>				
+		<property name="kemidDao">
+			<ref bean="kemidDao" />
+		</property>
+		<property name="kemidBenefittingOrganizationDao">
+			<ref bean="kemidBenefittingOrganizationDao" />
+		</property>
+		<property name="kemidReportGroupDao">
+			<ref bean="kemidReportGroupDao" />
+		</property>
+		<property name="transactionArchiveDao">
+			<ref bean="transactionArchiveDao" />
+		</property>
+		<property name="holdingHistoryDao">
+			<ref bean="holdingHistoryDao" />
+		</property>
+		<property name="kemidHistoricalCashDao">
+			<ref bean="kemidHistoricalCashDao" />
+		</property>		
+	</bean>
         
 	<bean id="kemidDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidDaoOjb" />
 	

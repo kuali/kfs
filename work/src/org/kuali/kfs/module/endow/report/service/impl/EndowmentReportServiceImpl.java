@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
@@ -299,6 +300,29 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     }
     
     /**
+     * method to pickup all kemids based on user selection of endowmentOption and closed indicator
+     * 
+     * @param kemids
+     * @param endowmentOption
+     * @param endingDate
+     * @return List<String> newKemids
+     */
+    public List<String> getKemidsBasedOnUserSelection(List<String> kemids, String endowmentOption, String closedIndicator) {
+        List<String> newKemids = new ArrayList();
+        
+        //get KEMID records for the given kemid and endowmentOption and closedIndicator..
+        List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endowmentOption, closedIndicator);
+        
+        for (KEMID kemidRecord : kemidRecords) {
+            if (!newKemids.contains(kemidRecord.getKemid())) {
+                newKemids.add(kemidRecord.getKemid());
+            }
+        }
+        
+        return newKemids;
+    }
+    
+    /**
      * method to pickup all kemids from the list of kemids where for each kemid, if
      * there is record in END_HIST_CSH_T table
      * 
@@ -306,6 +330,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @param beginningDate
      * @param endingDate
      * @return List<String> newKemids
+     * @see 
      */
     public List<String> getKemidsInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
         List<String> newKemids = new ArrayList();
@@ -314,20 +339,11 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
         
-        for (String kemid : kemids) {
-            if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
-                kemid = kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
-            }
-            else {
-                kemid = kemid.concat(KFSConstants.PERCENTAGE_SIGN);
-            }
-            
-            kemidHistoryCash = kemidHistoricalCashDao.getKemidsFromHistoryCash(kemid, beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
+        kemidHistoryCash = kemidHistoricalCashDao.getHistoricalCashRecords(kemids, beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
 
-            for (KemidHistoricalCash historyCash : kemidHistoryCash) {
-                if (!newKemids.contains(historyCash.getKemid())) {
-                    newKemids.add(historyCash.getKemid());
-                }
+        for (KemidHistoricalCash historyCash : kemidHistoryCash) {
+            if (!newKemids.contains(historyCash.getKemid())) {
+                newKemids.add(historyCash.getKemid());
             }
         }
         
@@ -417,8 +433,11 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return kemidHistoricalCashDao;
     }
 
+    /**
+     * sets attribute kemidHistoricalCashDao
+     */
     public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
         this.kemidHistoricalCashDao = kemidHistoricalCashDao;
     }
-
+    
 }

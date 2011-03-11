@@ -128,4 +128,15 @@ public interface TransactionArchiveDao {
      * @return
      */
     public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(List<String> kemids, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator);
+
+    /**
+     * Gets a collection of TransactionArchive by kemid and beginning and ending dates
+     * 
+     * @param kemids
+     * @param beginningDate
+     * @param endingDate
+     * @return List<TransactionArchive>
+     */
+    public List<TransactionArchive> getTransactionArchivesByKemid(String kemid, java.util.Date beginningDate, java.util.Date endingDate);
+
 }

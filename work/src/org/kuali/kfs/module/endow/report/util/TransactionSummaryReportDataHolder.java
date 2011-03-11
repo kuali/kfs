@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.report.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -31,8 +32,8 @@ public class TransactionSummaryReportDataHolder {
     protected String kemidLongTitle;
     
     //body
-    protected BigDecimal incomeBeginningMarketValue;
-    protected BigDecimal principalBeginningMarketValue;
+    protected BigDecimal incomeBeginningMarketValue = BigDecimal.ZERO;
+    protected BigDecimal principalBeginningMarketValue = BigDecimal.ZERO;
 
     //list of contributions and other income records..
     protected List<ContributionsDataHolder> reportGroupsForContributions;
@@ -41,21 +42,25 @@ public class TransactionSummaryReportDataHolder {
     protected List<ExpensesDataHolder> reportGroupsForExpenses;
     
     //change in market value data
-    protected BigDecimal incomeChangeInMarketValue;
-    protected BigDecimal principalChangeInMarketValue;
+    protected BigDecimal incomeChangeInMarketValue = BigDecimal.ZERO;
+    protected BigDecimal principalChangeInMarketValue = BigDecimal.ZERO;
 
     //period end total market value (including cash) data
-    protected BigDecimal incomeEndingMarketValue;
-    protected BigDecimal principalEndingMarketValue;
+    protected BigDecimal incomeEndingMarketValue = BigDecimal.ZERO;
+    protected BigDecimal principalEndingMarketValue = BigDecimal.ZERO;
 
-    protected BigDecimal next12MonthsEstimatedIncome;
-    protected BigDecimal remainderOfFYEstimatedIncome;
-    protected BigDecimal nextFYEstimatedIncome;
+    protected BigDecimal next12MonthsEstimatedIncome = BigDecimal.ZERO;
+    protected BigDecimal remainderOfFYEstimatedIncome = BigDecimal.ZERO;
+    protected BigDecimal nextFYEstimatedIncome = BigDecimal.ZERO;
     
+    public TransactionSummaryReportDataHolder() {
+        reportGroupsForContributions = new ArrayList();   
+        reportGroupsForExpenses = new ArrayList();
+    }
     /**
      * Gets the first row description
      * 
-     * @return
+     * @return description
      */
     protected String getBeginningDescription() {
         return "Beginning Market Value";
@@ -379,8 +384,8 @@ public class TransactionSummaryReportDataHolder {
      */
     public class ContributionsDataHolder {
         protected String contributionsDescription;
-        protected BigDecimal incomeContributions;
-        protected BigDecimal principalContributions;
+        protected BigDecimal incomeContributions = BigDecimal.ZERO;
+        protected BigDecimal principalContributions = BigDecimal.ZERO;
         
         /**
          * gets attribute contributionsDescription
@@ -443,8 +448,8 @@ public class TransactionSummaryReportDataHolder {
      */
     public class ExpensesDataHolder {
         protected String expensesDescription;
-        protected BigDecimal incomeExpenses;
-        protected BigDecimal principalExpenses;
+        protected BigDecimal incomeExpenses = BigDecimal.ZERO;
+        protected BigDecimal principalExpenses = BigDecimal.ZERO;
         
         /**
          * gets attribute expensesDescription

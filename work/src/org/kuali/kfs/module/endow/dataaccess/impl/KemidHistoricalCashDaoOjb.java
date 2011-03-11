@@ -26,6 +26,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -41,14 +42,28 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
         return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
-    public List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed) {
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao#getHistoricalCashRecords(java.util.List, org.kuali.rice.kns.util.KualiInteger, org.kuali.rice.kns.util.KualiInteger)
+     */
+    public List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger beginningMed, KualiInteger endingMed) {
         Criteria criteria = new Criteria();
         Collection<KualiInteger> monthEndIds = new ArrayList();
         
         monthEndIds.add(beginningMed);
         monthEndIds.add(endingMed);
         
-        criteria.addLike(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
+        if (kemids != null) {
+            for (String kemid : kemids) {
+                Criteria c = new Criteria();
+                if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
+                } else {
+                    c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
+                }
+                criteria.addOrCriteria(c);
+            }
+        }
+        
         criteria.addIn(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, monthEndIds);
         QueryByCriteria qbc = QueryFactory.newQuery(KemidHistoricalCash.class, criteria);
         qbc.addOrderByAscending(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID);

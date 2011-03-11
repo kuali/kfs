@@ -39,6 +39,8 @@ public abstract class KfsService extends Service {
  
     protected static URL getWsdl(QName qname) throws MalformedURLException {
         URL url = null;
+        //FIXME KC needs to get the services exposed and working on the KSB for this to work
+        /*
         ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);
         List<ServiceInfo> wsdlServices = serviceRegistry.fetchActiveByName(qname);
         if (wsdlServices.size() > 0 ) {
@@ -48,6 +50,7 @@ public abstract class KfsService extends Service {
             WSDL_LOCATION = url;
             return url;
         }
+        */
         // not on the service bus.  just use the test case version for now
         WSDL_LOCATION  = new URL("http://test.kc.kuali.org/kc-trunk/remoting/" +  qname.getLocalPart() + "?wsdl");
         LOG.info(qname.getLocalPart() + " cannot find service on KSB! Using " + WSDL_LOCATION);

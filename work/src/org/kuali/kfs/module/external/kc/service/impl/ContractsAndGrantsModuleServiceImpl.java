@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 
 @NonTransactional
@@ -38,9 +37,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
     protected EffortReportingService getEffortReportingWebService() {
-        //QName serviceName = new QName("KC", "effortReportingService");
-        //EffortReportingService port = (EffortReportingService) GlobalResourceLoader.getService(serviceName);
-
+   
         EffortReportingServiceSoapService soapService = new EffortReportingServiceSoapService();
         EffortReportingService port = soapService.getEffortReportingServicePort();  
         return port;

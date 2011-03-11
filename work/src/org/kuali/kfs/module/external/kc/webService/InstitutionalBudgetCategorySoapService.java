@@ -25,6 +25,7 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.service.impl.KfsService;
 
 
 /**
@@ -38,19 +39,15 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 @WebServiceClient(name = KcConstants.BudgetCategory.SOAP_SERVICE_NAME, 
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl",
                   targetNamespace = KcConstants.KC_NAMESPACE_URI) 
-public class InstitutionalBudgetCategorySoapService extends Service {
+public class InstitutionalBudgetCategorySoapService extends KfsService {
 
-    public final static URL WSDL_LOCATION;
     public final static QName BudgetCategoryServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.BudgetCategory.SERVICE_PORT);
     static {
-        URL url = null;
         try {
-            url = new URL("http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl");
-        } catch (MalformedURLException e) {
-            System.err.println("Can not initialize the default wsdl from http://test.kc.kuali.org/kc-trunk/remoting/budgetCategorySoapService?wsdl");
-            // e.printStackTrace();
-        }
-        WSDL_LOCATION = url;
+           getWsdl(KcConstants.BudgetCategory.SERVICE); 
+         } catch (MalformedURLException e) {
+             LOG.warn("Can not initialize the wsdl");
+         }
     }
 
     public InstitutionalBudgetCategorySoapService(URL wsdlLocation) {

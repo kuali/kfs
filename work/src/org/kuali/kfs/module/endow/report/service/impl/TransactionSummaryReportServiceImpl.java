@@ -299,5 +299,4 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
     public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
         this.holdingHistoryDao = holdingHistoryDao;
     }
-    
 }

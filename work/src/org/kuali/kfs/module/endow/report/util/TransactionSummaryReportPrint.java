@@ -84,9 +84,9 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
     }
     
     /**
-     * Generates the Transaction Statement report    
+     * Generates the Transaction Summary report    
      * 
-     * @param transactionStatementReports
+     * @param transactionSummaryReports
      * @param document
      * @return true if document created else return false
      */
@@ -99,14 +99,15 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             Font cellFont = regularFont;
             for (TransactionSummaryReportDataHolder transactionSummaryReport : transactionSummaryReportDataHolders) {
                 // new page
+                document.setPageSize(LETTER_LANDSCAPE);
                 document.newPage();
                 
                 // header
                 StringBuffer title = new StringBuffer();
                 title.append(transactionSummaryReport.getInstitution()).append("\n");
-                title.append("SUMMARY OF ACTIVITY FROM").append("\n");
+                title.append("SUMMARY OF ACTIVITY FROM ");
                 title.append(transactionSummaryReport.getBeginningDate()).append(" TO ").append(transactionSummaryReport.getEndingDate()).append("\n");
-                title.append(transactionSummaryReport.getKemid()).append("     ").append(transactionSummaryReport.getKemidLongTitle()).append("\n\n\n");
+                title.append(transactionSummaryReport.getKemid()).append("     ").append(transactionSummaryReport.getKemidLongTitle()).append("\n\n");
                 Paragraph header = new Paragraph(title.toString());
                 header.setAlignment(Element.ALIGN_CENTER);                
                 document.add(header);
@@ -114,15 +115,15 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 // report table
                 PdfPTable table = new PdfPTable(4);
                 table.setWidthPercentage(FULL_TABLE_WIDTH);
-                int[] relativeWidths = {120, 25, 25, 25};
+                int[] relativeWidths = {140, 25, 25, 25};
                 table.setWidths(relativeWidths);
                 table.getDefaultCell().setPadding(5);
                 
                 // table titles
                 table.addCell(new Phrase("", titleFont));
-                table.addCell(createCell("INCOME", titleFont, Element.ALIGN_RIGHT, true));
-                table.addCell(createCell("PRINCIPAL", titleFont, Element.ALIGN_RIGHT, true));
-                table.addCell(createCell("TOTAL", titleFont, Element.ALIGN_RIGHT, true));
+                table.addCell(createCell("INCOME", titleFont, Element.ALIGN_CENTER, true));
+                table.addCell(createCell("PRINCIPAL", titleFont, Element.ALIGN_CENTER, true));
+                table.addCell(createCell("TOTAL", titleFont, Element.ALIGN_CENTER, true));
                 
                 // write out Beginning Market value row values
                 writeDetailLineRow(table, cellFont, "Beginning Market Value",  transactionSummaryReport.getIncomeBeginningMarketValue(), transactionSummaryReport.getPrincipalBeginningMarketValue(), transactionSummaryReport.getTotalBeginningMarketValue());
@@ -169,7 +170,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
      * @param totalAmount
      */
     protected void writeDetailLineRow(PdfPTable table, Font cellFont, String description,  BigDecimal incomeAmount, BigDecimal principalAmount, BigDecimal totalAmount) {
-        table.addCell(description);  
+        table.addCell("\t\t".concat(description));  
         table.addCell(createCell(formatAmount(incomeAmount), cellFont, Element.ALIGN_RIGHT, true));
         table.addCell(createCell(formatAmount(principalAmount), cellFont, Element.ALIGN_RIGHT, true));
         table.addCell(createCell(formatAmount(totalAmount), cellFont, Element.ALIGN_RIGHT, true));
@@ -194,7 +195,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         
         if (contributionsData != null) {
             for (ContributionsDataHolder contribution : contributionsData) {
-                table.addCell(createCell("     ".concat(contribution.getContributionsDescription()), cellFont, Element.ALIGN_LEFT, true));
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(contribution.getContributionsDescription()), cellFont, Element.ALIGN_LEFT, true));
                 totalIncomeAmounts = totalIncomeAmounts.add(contribution.getIncomeContributions());
                 amount = formatAmount(contribution.getIncomeContributions());
                 table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
@@ -207,7 +208,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         }
         
         //now write out the sub-total line....amount
-        table.addCell("          Activity Sub-Total");
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
         amount = formatAmount(totalIncomeAmounts);
         table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
         amount = formatAmount(totalPrincipalAmounts);
@@ -235,7 +236,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         
         if (expensesData != null) {
             for (ExpensesDataHolder expenses : expensesData) {
-                table.addCell(createCell("     ".concat(expenses.getExpensesDescription()), cellFont, Element.ALIGN_LEFT, true));
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(expenses.getExpensesDescription()), cellFont, Element.ALIGN_LEFT, true));
                 totalIncomeAmounts = totalIncomeAmounts.add(expenses.getIncomeExpenses());
                 amount = formatAmount(expenses.getIncomeExpenses());
                 table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
@@ -248,7 +249,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         }
         
         //now write out the sub-total line....amount
-        table.addCell("          Activity Sub-Total");
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
         amount = formatAmount(totalIncomeAmounts);
         table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
         amount = formatAmount(totalPrincipalAmounts);
@@ -261,7 +262,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
      * helper method to write out a sub-heading into the report.
      */
     protected void writeSubHeader(PdfPTable table, String subHeading) {
-        table.addCell("     ".concat(subHeading));
+        table.addCell("\t\t".concat(subHeading));
         table.addCell("");
         table.addCell("");
         table.addCell("");
@@ -273,7 +274,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
      * @param amount
      */
     protected void writeDetailsLineWithTotalAmountOnly(PdfPTable table, Font cellFont, String description, BigDecimal amount) {
-        table.addCell("     ".concat(description));
+        table.addCell("\t\t".concat(description));
         table.addCell("");
         table.addCell("");
         table.addCell(createCell(formatAmount(amount), cellFont, Element.ALIGN_RIGHT, true));            

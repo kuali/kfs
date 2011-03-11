@@ -293,6 +293,7 @@ public abstract class EndowmentReportPrintBase {
         if (!borderLine) {
             cell.setBorderWidth(0);
         }
+        cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         return cell;
     } 
     

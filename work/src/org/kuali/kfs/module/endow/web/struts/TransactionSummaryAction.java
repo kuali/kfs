@@ -217,7 +217,7 @@ public class TransactionSummaryAction extends EndowmentReportBaseAction {
                     null);
             
             // generate the report in PDF 
-            ByteArrayOutputStream pdfStream = new TransactionSummaryReportPrint().printTransactionSummaryReport(reportRequestHeaderDataHolder, transactionSummaryReportList, listKemidsOnHeader);            
+            ByteArrayOutputStream pdfStream = new TransactionSummaryReportPrint().printTransactionSummaryReport(reportRequestHeaderDataHolder, transactionSummaryReportList, listKemidsOnHeader, reportOption, summaryTotalsOnly);            
             if (pdfStream != null) {
                 transactionSummaryForm.setMessage("Reports Generated");
                 WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);

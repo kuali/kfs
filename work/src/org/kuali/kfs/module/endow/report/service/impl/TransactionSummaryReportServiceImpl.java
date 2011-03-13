@@ -106,6 +106,10 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
                     }
                 }
                 
+                //start calculating change in market value. It will also be calculated during transaction archive records calculations
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeEndingMarketValue().subtract(transactionSummaryReportDataHolder.getIncomeBeginningMarketValue()));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalEndingMarketValue().subtract(transactionSummaryReportDataHolder.getPrincipalBeginningMarketValue()));
+                
                 transactionSummaryReportDataHolder.setNext12MonthsEstimatedIncome(transactionSummaryReportDataHolder.getNext12MonthsEstimatedIncome().add(holdingHistory.getEstimatedIncome()));
                 transactionSummaryReportDataHolder.setRemainderOfFYEstimatedIncome(transactionSummaryReportDataHolder.getRemainderOfFYEstimatedIncome().add(holdingHistory.getRemainderOfFYEstimatedIncome()));
                 transactionSummaryReportDataHolder.setNextFYEstimatedIncome(transactionSummaryReportDataHolder.getNextFYEstimatedIncome().add(holdingHistory.getNextFYEstimatedIncome()));
@@ -209,20 +213,22 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.INCOME_TYPE_CODE)) {
             if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
                 contributionsData.setIncomeContributions(transactionSecurityCost.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(contributionsData.getIncomeContributions()));
             }
             
             if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
                 contributionsData.setPrincipalContributions(transactionSecurityCost.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(contributionsData.getPrincipalContributions()));
             }
         }
         
-        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-            contributionsData.setIncomeContributions(transactionSecurityCost.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
-        }
-        
-        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
-            contributionsData.setPrincipalContributions(transactionSecurityCost.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
-        }
+     //   if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+     //       contributionsData.setIncomeContributions(transactionSecurityCost.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
+    //    }
+    //    
+    //    if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+    //        contributionsData.setPrincipalContributions(transactionSecurityCost.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
+     //   }
         
         transactionSummaryReportDataHolder.getReportGroupsForContributions().add(contributionsData);
     }
@@ -246,10 +252,12 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         }
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
             expensesDataHolder.setIncomeExpenses(transactionSecurityCost.add(expensesDataHolder.getIncomeExpenses().add(transactionArchive.getIncomeCashAmount())));
+            transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(expensesDataHolder.getIncomeExpenses()));
         }
         
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
             expensesDataHolder.setPrincipalExpenses(transactionSecurityCost.add(expensesDataHolder.getPrincipalExpenses().add(transactionArchive.getPrincipalCashAmount())));
+            transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(expensesDataHolder.getPrincipalExpenses()));
         }
         
         transactionSummaryReportDataHolder.getReportGroupsForExpenses().add(expensesDataHolder);

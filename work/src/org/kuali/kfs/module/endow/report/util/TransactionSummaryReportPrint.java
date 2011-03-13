@@ -17,15 +17,20 @@ package org.kuali.kfs.module.endow.report.util;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ContributionsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ExpensesDataHolder;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.mortbay.log.Log;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.HeaderFooter;
@@ -46,7 +51,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
      * @param transactionStatementDataReportHolders
      * @return pdfStream
      */
-    public ByteArrayOutputStream printTransactionSummaryReport(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, String listKemidsInHeader) {
+    public ByteArrayOutputStream printTransactionSummaryReport(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, String listKemidsInHeader, String reportOption, String summaryTotalsOnly) {
         Document document = new Document();
         document.setPageSize(LETTER_PORTRAIT);
         document.addTitle("Endowment Transaction Summary");
@@ -66,8 +71,13 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             
             // print the report header
             if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, false)) {                
-                if (transactionSummaryDataReportHolders != null && transactionSummaryDataReportHolders.size() > 0) {            
-                    printTransactionSummaryReportBody(transactionSummaryDataReportHolders, document);
+                if (transactionSummaryDataReportHolders != null && transactionSummaryDataReportHolders.size() > 0) {
+                    if ("Y".equalsIgnoreCase(summaryTotalsOnly)) {
+                        printReportBodyBySummaryTotals(transactionSummaryDataReportHolders, document, reportOption);
+                    }
+                    else {
+                        printReportBodyByAllTotals(transactionSummaryDataReportHolders, document, reportOption);
+                    }
                 } 
             } else {
                 LOG.error("Transaction Summary Report Header Error");
@@ -84,13 +94,64 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
     }
     
     /**
-     * Generates the Transaction Summary report    
+     * 
+     * Helper method to print body of the transaction summary report, listing only total field.
+     * @param transactionSummaryDataReportHolders
+     * @param document
+     * @param reportOption
+     * @return true if successful else return false
+     */
+    protected boolean printReportBodyBySummaryTotals(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document, String reportOption) {
+        boolean success = true;
+        
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.DETAIL)) {
+            success &= printReportBodyForDetailReportOption(transactionSummaryDataReportHolders, document);
+        }
+        
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
+            success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
+        }
+        
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH_DETAIL_AND_TOTAL_REPORT_OPTION)) {
+            success &= printReportBodyForDetailReportOption(transactionSummaryDataReportHolders, document);
+            success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
+        }
+            
+        return success;
+    }
+    
+    /**
+     * Helper method to print body of the transaction summary report, listing all total fields.
+     * @param transactionSummaryDataReportHolders
+     * @param document
+     * @param reportOption
+     * @return true if successful else false
+     */
+    protected boolean printReportBodyByAllTotals(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document, String reportOption) {
+        boolean sucess = true;
+        
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.DETAIL)) {
+            sucess &= printReportBodyByAllTotalsForDetailReportOption(transactionSummaryDataReportHolders, document);
+        }
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
+            sucess &= printReportBodyByAllTotalsForTotalReportOption(transactionSummaryDataReportHolders, document);
+        }
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH_DETAIL_AND_TOTAL_REPORT_OPTION)) {
+            sucess &= printReportBodyByAllTotalsForDetailReportOption(transactionSummaryDataReportHolders, document);
+            sucess &= printReportBodyByAllTotalsForTotalReportOption(transactionSummaryDataReportHolders, document);
+        }
+        
+        return true;
+    }
+
+    /**
+     * Generates the Transaction Summary report showing all amounts fields.   
      * 
      * @param transactionSummaryReports
      * @param document
      * @return true if document created else return false
      */
-    public boolean printTransactionSummaryReportBody(List<TransactionSummaryReportDataHolder> transactionSummaryReportDataHolders, Document document) {
+    public boolean printReportBodyByAllTotalsForDetailReportOption(List<TransactionSummaryReportDataHolder> transactionSummaryReportDataHolders, Document document) {
             
         document.setPageCount(0);
         
@@ -103,36 +164,23 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 document.newPage();
                 
                 // header
-                StringBuffer title = new StringBuffer();
-                title.append(transactionSummaryReport.getInstitution()).append("\n");
-                title.append("SUMMARY OF ACTIVITY FROM ");
-                title.append(transactionSummaryReport.getBeginningDate()).append(" TO ").append(transactionSummaryReport.getEndingDate()).append("\n");
-                title.append(transactionSummaryReport.getKemid()).append("     ").append(transactionSummaryReport.getKemidLongTitle()).append("\n\n");
-                Paragraph header = new Paragraph(title.toString());
-                header.setAlignment(Element.ALIGN_CENTER);                
-                document.add(header);
-
-                // report table
-                PdfPTable table = new PdfPTable(4);
-                table.setWidthPercentage(FULL_TABLE_WIDTH);
-                int[] relativeWidths = {140, 25, 25, 25};
-                table.setWidths(relativeWidths);
-                table.getDefaultCell().setPadding(5);
+                writeDocumentHeader(document, transactionSummaryReport);
                 
-                // table titles
-                table.addCell(new Phrase("", titleFont));
-                table.addCell(createCell("INCOME", titleFont, Element.ALIGN_CENTER, true));
-                table.addCell(createCell("PRINCIPAL", titleFont, Element.ALIGN_CENTER, true));
-                table.addCell(createCell("TOTAL", titleFont, Element.ALIGN_CENTER, true));
+                // report table column headers
+                PdfPTable table = writeDocumentTitleHeadings(EndowConstants.EndowmentReport.DETAIL);
+                
+                if (ObjectUtils.isNull(table)) {
+                    return false;
+                }
                 
                 // write out Beginning Market value row values
                 writeDetailLineRow(table, cellFont, "Beginning Market Value",  transactionSummaryReport.getIncomeBeginningMarketValue(), transactionSummaryReport.getPrincipalBeginningMarketValue(), transactionSummaryReport.getTotalBeginningMarketValue());
                 
                 // contributions rows
-                writeContributionsRecords(table, cellFont, transactionSummaryReport);
+                writeContributionsRecordsForDetailReportOption(table, cellFont, transactionSummaryReport);
                 
                 // expenses rows....
-                writeExpensesRecords(table, cellFont, transactionSummaryReport);
+                writeExpensesRecordsForDetailReportOption(table, cellFont, transactionSummaryReport);
                 
                 //write change in market value row....
                 writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getIncomeChangeInMarketValue(), transactionSummaryReport.getPrincipalChangeInMarketValue(), transactionSummaryReport.getTotalChangeInMarketValue());
@@ -141,13 +189,75 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 writeDetailLineRow(table, cellFont, "Period End total Market Value (Include Cash)",  transactionSummaryReport.getIncomeEndingMarketValue(), transactionSummaryReport.getPrincipalEndingMarketValue(), transactionSummaryReport.getTotalEndingMarketValue());
                 
                 // write out estimate income row
-                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next 12 Months Estimated Income", transactionSummaryReport.getNext12MonthsEstimatedIncome());
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next 12 Months Estimated Income", transactionSummaryReport.getNext12MonthsEstimatedIncome(), EndowConstants.EndowmentReport.DETAIL);
                 
                 //write out the remainder FY estimated row...
-                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Remainder of Fiscal Year Estimated Income", transactionSummaryReport.getRemainderOfFYEstimatedIncome());
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Remainder of Fiscal Year Estimated Income", transactionSummaryReport.getRemainderOfFYEstimatedIncome(), EndowConstants.EndowmentReport.DETAIL);
                 
                 //write out the next FY estimated row...
-                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next Fiscal Year Estimated Income", transactionSummaryReport.getNextFYEstimatedIncome());
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next Fiscal Year Estimated Income", transactionSummaryReport.getNextFYEstimatedIncome(), EndowConstants.EndowmentReport.DETAIL);
+                
+                document.add(table);
+            }
+            
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Generates the Transaction Summary report showing only summary amount field.   
+     * This report will only show the total amount field for each kemid
+     * @param transactionSummaryReports
+     * @param document
+     * @return true if document created else return false
+     */
+    public boolean printReportBodyForDetailReportOption(List<TransactionSummaryReportDataHolder> transactionSummaryReportDataHolders, Document document) {
+
+        document.setPageCount(0);
+        
+        try {                               
+            Font cellFont = regularFont;
+            for (TransactionSummaryReportDataHolder transactionSummaryReport : transactionSummaryReportDataHolders) {
+                // new page
+                document.setPageSize(LETTER_LANDSCAPE);
+                document.newPage();
+                
+                // header
+                writeDocumentHeader(document, transactionSummaryReport);
+                
+                // report table column headers
+                PdfPTable table = writeDocumentTitleHeadings(EndowConstants.EndowmentReport.TOTAL);
+                
+                if (ObjectUtils.isNull(table)) {
+                    return false;
+                }
+                
+                // write out Beginning Market value row values
+                writeDetailLineRow(table, cellFont, "Beginning Market Value", transactionSummaryReport.getTotalBeginningMarketValue());
+                
+                // contributions rows
+                writeContributionsRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
+                
+                // expenses rows....
+                writeExpensesRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
+                
+                //write change in market value row....
+                writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getIncomeChangeInMarketValue(), transactionSummaryReport.getPrincipalChangeInMarketValue(), transactionSummaryReport.getTotalChangeInMarketValue());
+                
+                //write period end total market value record....
+                writeDetailLineRow(table, cellFont, "Period End total Market Value (Include Cash)", transactionSummaryReport.getTotalEndingMarketValue());
+                
+                // write out estimate income row
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next 12 Months Estimated Income", transactionSummaryReport.getNext12MonthsEstimatedIncome(), EndowConstants.EndowmentReport.TOTAL);
+                
+                //write out the remainder FY estimated row...
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Remainder of Fiscal Year Estimated Income", transactionSummaryReport.getRemainderOfFYEstimatedIncome(), EndowConstants.EndowmentReport.TOTAL);
+                
+                //write out the next FY estimated row...
+                writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next Fiscal Year Estimated Income", transactionSummaryReport.getNextFYEstimatedIncome(), EndowConstants.EndowmentReport.TOTAL);
                 
                 document.add(table);
             }
@@ -159,6 +269,111 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         return true;
     }
 
+    /**
+     * Method to combine the kemid totals into one data record and print all fields.
+     * @param transactionSummaryDataReportHolders
+     * @param document
+     * @return true if successful else return false
+     */
+
+    protected boolean printReportBodyByAllTotalsForTotalReportOption(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document) {
+        List<TransactionSummaryReportDataHolder> summaryReportDataHolder = combineKemidTotals(transactionSummaryDataReportHolders);
+        
+        printReportBodyByAllTotalsForDetailReportOption(summaryReportDataHolder, document);        
+
+        return true; 
+    }
+
+    /**
+     * Method to combine the kemid totals into one data record and print only summary field.
+     * @param transactionSummaryDataReportHolders
+     * @param document
+     * @return true if successful else return false
+     */
+
+    protected boolean printReportBodyForSummaryReportOption(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document) {
+        List<TransactionSummaryReportDataHolder> summaryReportDataHolder = combineKemidTotals(transactionSummaryDataReportHolders);
+        
+        printReportBodyByAllTotalsForDetailReportOption(summaryReportDataHolder, document);        
+
+        return true; 
+    }
+    
+    protected List<TransactionSummaryReportDataHolder> combineKemidTotals(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders) {
+        List<TransactionSummaryReportDataHolder> summaryReportDataHolder = new ArrayList<TransactionSummaryReportDataHolder>();
+        
+        TransactionSummaryReportDataHolder transactionSummaryReportDataHolder = new TransactionSummaryReportDataHolder();
+        
+        for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
+            transactionSummaryReportDataHolder.setIncomeBeginningMarketValue(transactionSummaryReportDataHolder.getIncomeBeginningMarketValue().add(reportDataHolder.getIncomeBeginningMarketValue()));
+            transactionSummaryReportDataHolder.setPrincipalBeginningMarketValue(transactionSummaryReportDataHolder.getPrincipalBeginningMarketValue().add(reportDataHolder.getPrincipalBeginningMarketValue()));
+            transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().add(reportDataHolder.getIncomeChangeInMarketValue()));
+            transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().add(reportDataHolder.getPrincipalChangeInMarketValue()));
+            transactionSummaryReportDataHolder.setIncomeEndingMarketValue(transactionSummaryReportDataHolder.getIncomeEndingMarketValue().add(reportDataHolder.getIncomeEndingMarketValue()));
+            transactionSummaryReportDataHolder.setPrincipalEndingMarketValue(transactionSummaryReportDataHolder.getPrincipalEndingMarketValue().add(reportDataHolder.getPrincipalEndingMarketValue()));
+            transactionSummaryReportDataHolder.setNext12MonthsEstimatedIncome(transactionSummaryReportDataHolder.getNext12MonthsEstimatedIncome().add(reportDataHolder.getNext12MonthsEstimatedIncome()));
+            transactionSummaryReportDataHolder.setRemainderOfFYEstimatedIncome(transactionSummaryReportDataHolder.getRemainderOfFYEstimatedIncome().add(reportDataHolder.getRemainderOfFYEstimatedIncome()));
+            transactionSummaryReportDataHolder.setNextFYEstimatedIncome(transactionSummaryReportDataHolder.getNextFYEstimatedIncome().add(reportDataHolder.getNextFYEstimatedIncome()));
+            transactionSummaryReportDataHolder.setInstitution(reportDataHolder.getInstitution());
+            transactionSummaryReportDataHolder.setBeginningDate(reportDataHolder.getBeginningDate());
+            transactionSummaryReportDataHolder.setEndingDate(reportDataHolder.getEndingDate());
+        }
+        
+        transactionSummaryReportDataHolder.setKemid("All Kemids");
+        transactionSummaryReportDataHolder.setKemidLongTitle("");
+        
+        getSummaryTotalsForContributions(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
+        getSummaryTotalsForExpenses(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
+        
+        summaryReportDataHolder.add(transactionSummaryReportDataHolder);
+        
+        return summaryReportDataHolder;
+    }
+    
+    /**
+     * Method to summarize the expenses list records for the summary totals report.
+     * @param transactionSummaryDataReportHolders
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void getSummaryTotalsForContributions(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+
+        ExpensesDataHolder expensesDataHolder = transactionSummaryReportDataHolder.new ExpensesDataHolder();
+        
+        ExpensesDataHolder summaryExpensesData = transactionSummaryReportDataHolder.new ExpensesDataHolder();
+        summaryExpensesData.setExpensesDescription("Summary Totals for Expenses");
+
+        for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
+            List<ExpensesDataHolder> expensesDataHolders = transactionSummaryReportDataHolder.getReportGroupsForExpenses();
+            for (ExpensesDataHolder expenseData : expensesDataHolders) {
+                summaryExpensesData.setIncomeExpenses(summaryExpensesData.getIncomeExpenses().add(expenseData.getIncomeExpenses()));
+                summaryExpensesData.setPrincipalExpenses(summaryExpensesData.getPrincipalExpenses().add(expenseData.getPrincipalExpenses()));
+            }
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForExpenses().add(summaryExpensesData);
+    }
+
+    /**
+     * Method to summarize the expenses list records for the summary totals report.
+     * @param transactionSummaryDataReportHolders
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void getSummaryTotalsForExpenses(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        ContributionsDataHolder summaryContributionsData = transactionSummaryReportDataHolder.new ContributionsDataHolder();
+        summaryContributionsData.setContributionsDescription("Summary Totals for Contibutions and Other Income");
+
+        for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
+            List<ContributionsDataHolder> contributionDataHolders = transactionSummaryReportDataHolder.getReportGroupsForContributions();
+            for (ContributionsDataHolder contributionData : contributionDataHolders) {
+                summaryContributionsData.setIncomeContributions(summaryContributionsData.getIncomeContributions().add(contributionData.getIncomeContributions()));
+                summaryContributionsData.setPrincipalContributions(summaryContributionsData.getPrincipalContributions().add(contributionData.getPrincipalContributions()));
+            }
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForContributions().add(summaryContributionsData);
+    }
+
+    
     /**
      * Helper method to write the details line.
      * 
@@ -175,6 +390,21 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         table.addCell(createCell(formatAmount(principalAmount), cellFont, Element.ALIGN_RIGHT, true));
         table.addCell(createCell(formatAmount(totalAmount), cellFont, Element.ALIGN_RIGHT, true));
     }
+
+    /**
+     * Helper method to write the details line.
+     * 
+     * @param table
+     * @param cellFont
+     * @param description
+     * @param incomeAmount
+     * @param principalAmount
+     * @param totalAmount
+     */
+    protected void writeDetailLineRow(PdfPTable table, Font cellFont, String description, BigDecimal totalAmount) {
+        table.addCell("\t\t".concat(description));  
+        table.addCell(createCell(formatAmount(totalAmount), cellFont, Element.ALIGN_RIGHT, true));
+    }
     
     /**
      * Helper method to go through the contributions list and write the lines..
@@ -182,13 +412,13 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
      * @param cellFont
      * @param transactionSummaryReport
      */
-    protected void writeContributionsRecords(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+    protected void writeContributionsRecordsForDetailReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
         String amount;
         BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
         BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
         
         //write Contributions header....
-        writeSubHeader(table, "Contibutions and Other Income");
+        writeSubHeader(table, "Contibutions and Other Income", EndowConstants.EndowmentReport.DETAIL);
         
         //now write out the records....
         List<ContributionsDataHolder> contributionsData = transactionSummaryReport.getReportGroupsForContributions();
@@ -218,18 +448,51 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
     }
 
     /**
-     * Helper method to go through the expenses list and write the lines..
+     * Helper method to go through the contributions list and write the lines..For summary report
      * @param table
      * @param cellFont
      * @param transactionSummaryReport
      */
-    protected void writeExpensesRecords(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+    protected void writeContributionsRecordsForSummaryReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
         String amount;
         BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
         BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
         
         //write Contributions header....
-        writeSubHeader(table, "Expenses");
+        writeSubHeader(table, "Contibutions and Other Income", EndowConstants.EndowmentReport.TOTAL);
+        
+        //now write out the records....
+        List<ContributionsDataHolder> contributionsData = transactionSummaryReport.getReportGroupsForContributions();
+        
+        if (contributionsData != null) {
+            for (ContributionsDataHolder contribution : contributionsData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(contribution.getContributionsDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(contribution.getIncomeContributions());
+                totalPrincipalAmounts = totalPrincipalAmounts.add(contribution.getPrincipalContributions());
+                amount = formatAmount(contribution.getTotalContributions());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
+    
+    /**
+     * Helper method to go through the expenses list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeExpensesRecordsForDetailReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Expenses", EndowConstants.EndowmentReport.DETAIL);
         
         //now write out the records....
         List<ExpensesDataHolder> expensesData = transactionSummaryReport.getReportGroupsForExpenses();
@@ -257,26 +520,126 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
         table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
     }
+
+    /**
+     * Helper method to go through the expenses list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeExpensesRecordsForSummaryReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Expenses", EndowConstants.EndowmentReport.TOTAL);
+        
+        //now write out the records....
+        List<ExpensesDataHolder> expensesData = transactionSummaryReport.getReportGroupsForExpenses();
+        
+        if (expensesData != null) {
+            for (ExpensesDataHolder expenses : expensesData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(expenses.getExpensesDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(expenses.getIncomeExpenses());
+                totalPrincipalAmounts = totalPrincipalAmounts.add(expenses.getPrincipalExpenses());
+                amount = formatAmount(expenses.getTotalExpenses());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
     
+    /**
+     * Helper method to write the document header
+     * 
+     * @param document
+     * @param transactionSummaryReport
+     */
+    protected void writeDocumentHeader(Document document, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        // header
+        StringBuffer title = new StringBuffer();
+        title.append(transactionSummaryReport.getInstitution()).append("\n");
+        title.append("SUMMARY OF ACTIVITY FROM ");
+        title.append(transactionSummaryReport.getBeginningDate()).append(" TO ").append(transactionSummaryReport.getEndingDate()).append("\n");
+        title.append(transactionSummaryReport.getKemid()).append("     ").append(transactionSummaryReport.getKemidLongTitle()).append("\n\n");
+        try {
+        Paragraph header = new Paragraph(title.toString());
+        header.setAlignment(Element.ALIGN_CENTER);                
+        document.add(header);
+        } catch (DocumentException de) {
+          Log.info("writeDocumentHeader(): Unable to create the header for the report");  
+        }
+    }
+
+    /**
+     * Helper method to write a line containing the column headings for the report
+     * 
+     * @return table
+     */
+    protected PdfPTable writeDocumentTitleHeadings(String reportOption) {
+        // report table
+        int pdfPTableColumns;
+        int[] relativeWidthsForDetails = {140, 25, 25, 25};
+        int[] relativeWidthsForSummary = {140, 25};
+        
+        if (EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
+            pdfPTableColumns = 4;
+        }
+        else {
+            pdfPTableColumns = 2;
+        }
+        
+        try {
+            PdfPTable table = new PdfPTable(pdfPTableColumns);
+            table.setWidthPercentage(FULL_TABLE_WIDTH);
+            table.setWidths((EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) ? relativeWidthsForDetails : relativeWidthsForSummary);
+            table.getDefaultCell().setPadding(5);
+            
+            // table titles
+            table.addCell(new Phrase("", titleFont));
+            
+            if(EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
+                table.addCell(createCell("INCOME", titleFont, Element.ALIGN_CENTER, true));
+                table.addCell(createCell("PRINCIPAL", titleFont, Element.ALIGN_CENTER, true));
+            }
+            
+            table.addCell(createCell("TOTAL", titleFont, Element.ALIGN_CENTER, true));
+            return table;
+        }
+        catch (DocumentException ex) {
+            Log.info("Unable to write column headers.");
+            return null;
+        }
+    }
+
     /**
      * helper method to write out a sub-heading into the report.
      */
-    protected void writeSubHeader(PdfPTable table, String subHeading) {
+    protected void writeSubHeader(PdfPTable table, String subHeading, String reportOption) {
         table.addCell("\t\t".concat(subHeading));
-        table.addCell("");
-        table.addCell("");
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.DETAIL)) {
+            table.addCell("");
+            table.addCell("");
+        }
         table.addCell("");
     }
-    
+
     /**
      * helper method to write the details lines where only the last column exists for amounts..
      * @param description
      * @param amount
      */
-    protected void writeDetailsLineWithTotalAmountOnly(PdfPTable table, Font cellFont, String description, BigDecimal amount) {
+    protected void writeDetailsLineWithTotalAmountOnly(PdfPTable table, Font cellFont, String description, BigDecimal amount, String reportOption) {
         table.addCell("\t\t".concat(description));
-        table.addCell("");
-        table.addCell("");
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.DETAIL)) {
+            table.addCell("");
+            table.addCell("");
+        }
         table.addCell(createCell(formatAmount(amount), cellFont, Element.ALIGN_RIGHT, true));            
     }
 }

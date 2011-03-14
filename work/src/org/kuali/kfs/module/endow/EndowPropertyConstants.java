@@ -203,6 +203,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_FND_SRC_ACTIVE_IND = "active";
 
     // KEMID Benefitting Org
+    public static final String KEMID_BENE_KEMID = "kemid";
     public static final String KEMID_BENE_ORG_SEQ_NBR = "benefittingOrgSeqNumber";
     public static final String KEMID_BENE_ORG_CD = "benefittingOrgCode";
     public static final String KEMID_BENE_ORG = "organization";
@@ -735,4 +736,6 @@ public class EndowPropertyConstants {
     
     public static final String ENDOWMENT_HIST_CASH_KEMID = "kemid";
     public static final String ENDOWMENT_HIST_CASH_MED_ID = "monthEndDateId";
+    
+    public static final String CAMPUS_CODE = "campusCode";
 }

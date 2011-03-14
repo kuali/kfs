@@ -73,8 +73,16 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         //gather kemids based on the user selection of endowmentOption and closed indicators...
         kemids = getKemidsBasedOnUserSelection(kemids, endowmentOption, closedIndicator);
         
+        if (kemids.size() == 0) {
+            return null;
+        }
+        
         //eliminate kemids that are not in 
         kemids = getKemidsInHistoryCash(kemids, beginningDate, endingDate);
+        
+        if (kemids.size() == 0) {
+            return null;
+        }
         
         MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));

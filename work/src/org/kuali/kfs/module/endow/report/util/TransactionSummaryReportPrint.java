@@ -66,7 +66,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
             
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, false)) {                
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader)) {                
                 if (transactionSummaryDataReportHolders != null && transactionSummaryDataReportHolders.size() > 0) {
                     if ("Y".equalsIgnoreCase(summaryTotalsOnly)) {
                         printReportBodyBySummaryTotals(transactionSummaryDataReportHolders, document, reportOption);

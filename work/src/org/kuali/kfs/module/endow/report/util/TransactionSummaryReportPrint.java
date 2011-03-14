@@ -21,20 +21,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ContributionsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ExpensesDataHolder;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.mortbay.log.Log;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -572,7 +568,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         header.setAlignment(Element.ALIGN_CENTER);                
         document.add(header);
         } catch (DocumentException de) {
-          Log.info("writeDocumentHeader(): Unable to create the header for the report");  
+            LOG.info("writeDocumentHeader(): Unable to create the header for the report");  
         }
     }
 
@@ -612,7 +608,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             return table;
         }
         catch (DocumentException ex) {
-            Log.info("Unable to write column headers.");
+            LOG.info("Unable to write column headers.");
             return null;
         }
     }

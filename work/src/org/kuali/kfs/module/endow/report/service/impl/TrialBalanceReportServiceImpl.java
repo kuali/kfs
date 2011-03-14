@@ -51,12 +51,6 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
      */
     public List<TrialBalanceReportDataHolder> getTrialBalanceReportsByKemidByIds(List<String> kemids, String endownmentOption, String closedIndicator) {
         
-        KualiDecimal totalInocmeCashBalance = KualiDecimal.ZERO;
-        KualiDecimal totalPrincipalcashBalance = KualiDecimal.ZERO;
-        BigDecimal totalKemidTotalMarketValue = BigDecimal.ZERO;
-        BigDecimal totalAvailableExpendableFunds = BigDecimal.ZERO;
-        BigDecimal totalFyRemainderEstimatedIncome = BigDecimal.ZERO;
-        
         List<TrialBalanceReportDataHolder> trialBalanceReportList = new ArrayList<TrialBalanceReportDataHolder>();
         List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endownmentOption, closedIndicator);
         if (kemidRecords == null || kemidRecords.isEmpty()) {
@@ -78,8 +72,6 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
             if (ObjectUtils.isNotNull(kemidCurrentCash)) {
                 trialBalanceReport.setInocmeCashBalance(kemidCurrentCash.getCurrentIncomeCash());
                 trialBalanceReport.setPrincipalcashBalance(kemidCurrentCash.getCurrentPrincipalCash());   
-                totalInocmeCashBalance = totalInocmeCashBalance.add(kemidCurrentCash.getCurrentIncomeCash());
-                totalPrincipalcashBalance = totalPrincipalcashBalance.add(kemidCurrentCash.getCurrentPrincipalCash());
             } else {
                 trialBalanceReport.setInocmeCashBalance(KualiDecimal.ZERO);
                 trialBalanceReport.setPrincipalcashBalance(KualiDecimal.ZERO);  
@@ -89,7 +81,6 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
             KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) businessObjectService.findByPrimaryKey(KEMIDCurrentAvailableBalance.class, primaryKeys);
             if (ObjectUtils.isNotNull(kemidCurrentAvailableBalance)) {
                 trialBalanceReport.setAvailableExpendableFunds(kemidCurrentAvailableBalance.getAvailableTotalCash());
-                totalAvailableExpendableFunds = totalAvailableExpendableFunds.add(kemidCurrentAvailableBalance.getAvailableTotalCash());
             } else {
                 trialBalanceReport.setAvailableExpendableFunds(BigDecimal.ZERO);
             }
@@ -109,22 +100,7 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
             
             // add this new one
             trialBalanceReportList.add(trialBalanceReport);
-
-            // total market value, total FY remainder estimated income
-            totalKemidTotalMarketValue = totalKemidTotalMarketValue.add(subTotalKemidTotalMarketValue);
-            totalFyRemainderEstimatedIncome = totalFyRemainderEstimatedIncome.add(subTotalRemainderEstimatedIncome);
         }
-        
-        // add the totals 
-        TrialBalanceReportDataHolder trialBalanceReport = new TrialBalanceReportDataHolder(); 
-        trialBalanceReport.setKemid("TOTALS");
-        trialBalanceReport.setKemidName("");
-        trialBalanceReport.setInocmeCashBalance(totalInocmeCashBalance);
-        trialBalanceReport.setPrincipalcashBalance(totalPrincipalcashBalance);
-        trialBalanceReport.setKemidTotalMarketValue(totalKemidTotalMarketValue);
-        trialBalanceReport.setAvailableExpendableFunds(totalAvailableExpendableFunds);
-        trialBalanceReport.setFyRemainderEstimatedIncome(totalFyRemainderEstimatedIncome);
-        trialBalanceReportList.add(trialBalanceReport);
         
         return trialBalanceReportList;
     }

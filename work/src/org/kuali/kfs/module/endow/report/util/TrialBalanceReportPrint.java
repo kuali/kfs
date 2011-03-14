@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.endow.report.util;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -71,9 +74,13 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
 
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, true)) {
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader)) {
                     
-                if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 1) {        
+                if (trialBalanceDataReportHolders != null && trialBalanceDataReportHolders.size() > 0) {   
+                    document.setPageSize(LETTER_LANDSCAPE);                    
+                    document.resetPageCount();
+                    header.setPageNumber(1);
+                    document.newPage();                    
                     printTrialBalanceReportBody(trialBalanceDataReportHolders, document);
                 } else {
                     LOG.error("Trial Balance Report Header Error");
@@ -100,12 +107,6 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
     public boolean printTrialBalanceReportBody(List<TrialBalanceReportDataHolder> trialBalanceReports, Document document) {
                 
         try {
-            document.setPageSize(LETTER_LANDSCAPE);
-            
-            // new page
-            document.setPageCount(0);
-            document.newPage();
-            
             // title
             Paragraph title = new Paragraph("KEMID Trial Balance");
             title.setAlignment(Element.ALIGN_CENTER);
@@ -124,15 +125,21 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
             
             // table titles
             table.addCell(new Phrase("KEMID", titleFont));
-            table.addCell(new Phrase("KEMID\nName", titleFont));
-            table.addCell(new Phrase("Income\nCash\nBalance", titleFont));
-            table.addCell(new Phrase("Principal\nCash\nBalance", titleFont));
-            table.addCell(new Phrase("KEMID Total\nMarket Value", titleFont));
-            table.addCell(new Phrase("Available\nExpendable\nFunds", titleFont));
-            table.addCell(new Phrase("FY\nRemainder\nEstimated\nIncome", titleFont));
+            table.addCell(new Phrase("KEMID Name", titleFont));
+            table.addCell(new Phrase("Income Cash Balance", titleFont));
+            table.addCell(new Phrase("Principal Cash Balance", titleFont));
+            table.addCell(new Phrase("KEMID Total Market Value", titleFont));
+            table.addCell(new Phrase("Available Expendable Funds", titleFont));
+            table.addCell(new Phrase("FY Remainder Estimated Income", titleFont));
             
             // table body
             Font cellFont = regularFont;
+            BigDecimal totalIncomeCashBalance = BigDecimal.ZERO;
+            BigDecimal totalPrincipalCashBalance = BigDecimal.ZERO;
+            BigDecimal totalMarketValueBalance = BigDecimal.ZERO;
+            BigDecimal totalAvailableExpendableFundsBalance = BigDecimal.ZERO;
+            BigDecimal totalFyRemainderEstimatedIncome = BigDecimal.ZERO;
+            
             for (TrialBalanceReportDataHolder trialBalanceReport : trialBalanceReports) {
                 
                 // totals, which is the last row
@@ -145,36 +152,56 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
                 if (trialBalanceReport.getInocmeCashBalance() != null) { 
                     String amount = formatAmount(trialBalanceReport.getInocmeCashBalance().bigDecimalValue());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                    totalIncomeCashBalance = totalIncomeCashBalance.add(trialBalanceReport.getInocmeCashBalance().bigDecimalValue());
                 } else { 
                     table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getPrincipalcashBalance() != null) {
                     String amount = formatAmount(trialBalanceReport.getPrincipalcashBalance().bigDecimalValue());
+                    totalPrincipalCashBalance = totalPrincipalCashBalance.add(trialBalanceReport.getPrincipalcashBalance().bigDecimalValue());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
                     table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getKemidTotalMarketValue() != null) {
                     String amount = formatAmount(trialBalanceReport.getKemidTotalMarketValue());
+                    totalMarketValueBalance = totalMarketValueBalance.add(trialBalanceReport.getKemidTotalMarketValue());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
                     table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getAvailableExpendableFunds() != null) {
                     String amount = formatAmount(trialBalanceReport.getAvailableExpendableFunds());
+                    totalAvailableExpendableFundsBalance = totalAvailableExpendableFundsBalance.add(trialBalanceReport.getAvailableExpendableFunds());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
                     table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 if (trialBalanceReport.getFyRemainderEstimatedIncome() != null) {
                     String amount = formatAmount(trialBalanceReport.getFyRemainderEstimatedIncome());
+                    totalFyRemainderEstimatedIncome = totalFyRemainderEstimatedIncome.add(trialBalanceReport.getFyRemainderEstimatedIncome());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 } else {
                     table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
             }
             
+            // totals
+            PdfPCell blank = new PdfPCell(new Paragraph("", cellFont));
+            blank.setColspan(7);
+            blank.setBackgroundColor(Color.LIGHT_GRAY);
+            table.addCell(blank);
+            
+            table.addCell(createCell("TOTALS", titleFont, Element.ALIGN_LEFT, true));
+            table.addCell(createCell("", cellFont, Element.ALIGN_RIGHT, true));
+            table.addCell(createCell(formatAmount(totalIncomeCashBalance), cellFont, Element.ALIGN_RIGHT, true));
+            table.addCell(createCell(formatAmount(totalPrincipalCashBalance), cellFont, Element.ALIGN_RIGHT, true));
+            table.addCell(createCell(formatAmount(totalMarketValueBalance), cellFont, Element.ALIGN_RIGHT, true));
+            table.addCell(createCell(formatAmount(totalAvailableExpendableFundsBalance), cellFont, Element.ALIGN_RIGHT, true));
+            table.addCell(createCell(formatAmount(totalFyRemainderEstimatedIncome), cellFont, Element.ALIGN_RIGHT, true));
+            
             document.add(table);
+            
         } catch (Exception e) {
             return false;
         }

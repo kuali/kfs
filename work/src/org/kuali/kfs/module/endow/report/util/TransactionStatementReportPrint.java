@@ -16,16 +16,16 @@
 package org.kuali.kfs.module.endow.report.util;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
+import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder.TransactionArchiveInfo;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -66,7 +66,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
             document.setHeader(header);
             
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader, false)) {                
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader)) {                
                 if (transactionStatementDataReportHolders != null && transactionStatementDataReportHolders.size() > 0) {            
                     printTransactionStatementReportBody(transactionStatementDataReportHolders, document);
                 } 
@@ -107,7 +107,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 StringBuffer title = new StringBuffer();
                 title.append(transactionStatementReport.getInstitution()).append("\n");
                 title.append("STATEMENT OF TRANSACTIONS FROM").append("\n");
-                title.append(transactionStatementReport.getBeginningDate()).append(" TO ").append(transactionStatementReport.getEndingDate()).append("\n");
+                title.append(transactionStatementReport.getBeginningDate()).append(" to ").append(transactionStatementReport.getEndingDate()).append("\n");
                 title.append(transactionStatementReport.getKemid()).append("     ").append(transactionStatementReport.getKemidLongTitle()).append("\n\n\n");
                 Paragraph header = new Paragraph(title.toString());
                 header.setAlignment(Element.ALIGN_CENTER);                
@@ -123,88 +123,35 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 // table titles
                 table.addCell(new Phrase("DATE", titleFont));
                 table.addCell(new Phrase("DESCRIPTION", titleFont));
-                table.addCell(createCell("INCOME\nAMOUNT", titleFont, Element.ALIGN_RIGHT, true));
-                table.addCell(createCell("PRINCIPAL\nAMOUNT", titleFont, Element.ALIGN_RIGHT, true));
+                table.addCell(createCell("INCOME AMOUNT", titleFont, Element.ALIGN_RIGHT, true));
+                table.addCell(createCell("PRINCIPAL AMOUNT", titleFont, Element.ALIGN_RIGHT, true));
                 
                 // first row
                 table.addCell(new Phrase(transactionStatementReport.getBeginningDate(), cellFont));
                 table.addCell(new Phrase("Beginning Cash Balance", cellFont));                
-                if (transactionStatementReport.getHistoryIncomeCash1() != null) {
-                    String amount = formatAmount(transactionStatementReport.getHistoryIncomeCash1());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-                if (transactionStatementReport.getHistoryPrincipalCash1() != null) {
-                    String amount = formatAmount(transactionStatementReport.getHistoryPrincipalCash1());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-
-                // second row
-                table.addCell(new Phrase(transactionStatementReport.getPostedDate(), cellFont));
-                table.addCell(new Phrase(transactionStatementReport.getDescription2(), cellFont));                
-                if (transactionStatementReport.getIncomeAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getIncomeAmount());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-                if (transactionStatementReport.getPrincipalAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getPrincipalAmount());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-
-                // third row
-                table.addCell(new Phrase(transactionStatementReport.getPostedDate(), cellFont));
-                table.addCell(new Phrase(transactionStatementReport.getDescription3(), cellFont));                
-                if (transactionStatementReport.getIncomeAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getIncomeAmount());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-                if (transactionStatementReport.getPrincipalAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getPrincipalAmount());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
+                String amount = "";
+                amount = formatAmount(transactionStatementReport.getBeginningIncomeCash());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));                
+                amount = formatAmount(transactionStatementReport.getBeginningPrincipalCash());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 
-                // fourth row
-                table.addCell(new Phrase(transactionStatementReport.getPostedDate(), cellFont));
-                table.addCell(new Phrase(transactionStatementReport.getDescription4(), cellFont));                
-                if (transactionStatementReport.getIncomeAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getIncomeAmount());
+                List<TransactionArchiveInfo> TransactionArchiveInfoList = transactionStatementReport.getTransactionArchiveInfoList(); 
+                for (TransactionArchiveInfo transactionArchiveInfo : TransactionArchiveInfoList) {
+                    table.addCell(new Phrase(transactionArchiveInfo.getPostedDate(), cellFont));
+                    table.addCell(new Phrase(getDescription(transactionArchiveInfo), cellFont));                
+                    amount = formatAmount(transactionArchiveInfo.getTransactionIncomeCash());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-                if (transactionStatementReport.getPrincipalAmount() != null) {
-                    String amount = formatAmount(transactionStatementReport.getPrincipalAmount());
+                    amount = formatAmount(transactionArchiveInfo.getTransactionPrincipalCash());
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 
                 // last row
                 table.addCell(new Phrase(transactionStatementReport.getEndingDate(), cellFont));
                 table.addCell(new Phrase("Ending Cash Balance", cellFont));                
-                if (transactionStatementReport.getHistoryIncomeCash1() != null) {
-                    String amount = formatAmount(transactionStatementReport.getHistoryIncomeCash2());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
-                if (transactionStatementReport.getHistoryPrincipalCash1() != null) {
-                    String amount = formatAmount(transactionStatementReport.getHistoryPrincipalCash2());
-                    table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
-                } else {
-                    table.addCell(createCell(ZERO_FOR_REPORT, cellFont, Element.ALIGN_RIGHT, true));
-                }
+                amount = formatAmount(transactionStatementReport.getEndingIncomeCash());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                amount = formatAmount(transactionStatementReport.getEndingPrincipalCash());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 
                 document.add(table);
             }
@@ -215,6 +162,30 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
         }
         
         return true;
+    }
+    
+    protected String getDescription(TransactionArchiveInfo transactionArchiveInfo) {
+        
+        StringBuffer description = new StringBuffer();
+        
+        description.append(transactionArchiveInfo.getDocumentName()).append("\n");
+        if (transactionArchiveInfo.getEtranCode() != null) {
+            description.append(transactionArchiveInfo.getEtranCode())
+                       .append(" - ")
+                       .append(transactionArchiveInfo.getEtranCodeDesc()).append("\n");
+        }
+
+        description.append(transactionArchiveInfo.getTransactionDesc()).append("\n");
+        
+        if (transactionArchiveInfo.getTransactionSecurityUnits() != null) {
+            description.append(transactionArchiveInfo.getTransactionSecurity()).append("\n")
+                       .append(transactionArchiveInfo.getTransactionSecurityUnits())
+                       .append(" at ")
+                       .append(transactionArchiveInfo.getTransactionSecurityUnitValue())
+                       .append(" per unit");
+        }
+     
+        return description.toString();
     }
 
 }

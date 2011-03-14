@@ -21,10 +21,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
@@ -37,6 +35,7 @@ import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.report.service.TransactionStatementReportService;
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder;
+import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder.TransactionArchiveInfo;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -62,89 +61,93 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
      */
     public List<TransactionStatementReportDataHolder> getTransactionStatementReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
         
-        List<TransactionStatementReportDataHolder> transactionStatementReportList = new ArrayList<TransactionStatementReportDataHolder>();
-
         Date beginDate = convertStringToDate(beginningDate);
-        Date endDate = convertStringToDate(endingDate);        
+        Date endDate = convertStringToDate(endingDate);    
+        MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
+        
         if (ObjectUtils.isNull(beginDate) || ObjectUtils.isNull(beginDate)) {
             return null;
         }
-        
-        //remove any kemids from there list where for that kemid,
-        //there is no record in the END_HIST_CSH_T table... We don't want that kemid on the report..
-        //kemids = getKemidsInHistoryCash(kemids, beginningDate, endingDate);
-        
-        List<TransactionArchive> transactionArchiveRecords = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemids, endowmentOption, beginDate, endDate, closedIndicator);
-        if (transactionArchiveRecords == null) {
+        // get objects used in common
+        List<String> kemidsSelected = kemidDao.getKemidsByAttributeWithEndowmentOption(EndowPropertyConstants.KEMID, kemids, endowmentOption, closedIndicator);
+        if (kemidsSelected == null || kemidsSelected.isEmpty()) {
             return null;
         }
         
-        for (TransactionArchive transactionArchive : transactionArchiveRecords) {
-            
-            TransactionStatementReportDataHolder transactionStatementReport = new TransactionStatementReportDataHolder();
+        //remove any kemids that do not exist in the END_HIST_CSH_T
+        kemids = getKemidsInHistoryCash(kemidsSelected, beginningDate, endingDate);
+        if (kemids == null) {
+            return null;
+        }
+        
+        List<TransactionStatementReportDataHolder> transactionStatementReportList = new ArrayList<TransactionStatementReportDataHolder>();
+
+        for (String kemid : kemids) {
             
             // get related objects
-            KEMID kemid = getKemid(transactionArchive.getKemid());
-            TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
-            Security security = getSecurity(transactionArchive);
-            EndowmentTransactionCode endowmentTransactionCode = getEndowmentTransactionCode(transactionArchive.getEtranCode());
-            MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
-            MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
-            KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), beginningMED.getMonthEndDateId());
-            KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(transactionArchive.getKemid(), endingMED.getMonthEndDateId());
-            
-            if (beginningHistoryCash == null && endingHistoryCash == null) {
+            KEMID kemidOjb = getKemid(kemid);            
+            KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(kemid, beginningMED.getMonthEndDateId());
+            KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(kemid, endingMED.getMonthEndDateId());
+
+            List<TransactionArchive> transactionArchiveList = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemid, endowmentOption, beginDate, endDate, closedIndicator);
+            if (transactionArchiveList == null && transactionArchiveList == null) {
                 continue;
             }
             
+            TransactionStatementReportDataHolder dataHolder = new TransactionStatementReportDataHolder();
+            
             // the header info            
-            transactionStatementReport.setInstitution(getInstitutionName());
-            transactionStatementReport.setKemid(transactionArchive.getKemid());
-            transactionStatementReport.setKemidLongTitle(kemid.getLongTitle());
-            transactionStatementReport.setBeginningDate(beginningDate);
-            transactionStatementReport.setEndingDate(endingDate);
+            dataHolder.setInstitution(getInstitutionName());
+            dataHolder.setKemid(kemid);
+            dataHolder.setKemidLongTitle(kemidOjb.getLongTitle());
+            dataHolder.setBeginningDate(beginningDate);
+            dataHolder.setEndingDate(endingDate);
+            if (beginningHistoryCash == null) {
+                dataHolder.setBeginningIncomeCash(BigDecimal.ZERO);
+                dataHolder.setBeginningIncomeCash(BigDecimal.ZERO);                
+            } else {
+                dataHolder.setBeginningIncomeCash(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+                dataHolder.setBeginningIncomeCash(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+            }
+            if (endingHistoryCash == null) {
+                dataHolder.setEndingIncomeCash(BigDecimal.ZERO);
+                dataHolder.setEndingIncomeCash(BigDecimal.ZERO);
+            } else {
+                dataHolder.setEndingIncomeCash(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+                dataHolder.setEndingIncomeCash(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+            }
             
-            // body info            
-            if (ObjectUtils.isNotNull(transactionArchive)) {
-                transactionStatementReport.setPostedDate(convertDateToString(transactionArchive.getPostedDate()));
-                transactionStatementReport.setDocumentName(transactionArchive.getTypeCode());
-                transactionStatementReport.setEtranCode(transactionArchive.getEtranCode());
-                transactionStatementReport.setTransactionDesc(transactionArchive.getDescription());
+            for (TransactionArchive transactionArchive : transactionArchiveList) {
                 
-                transactionStatementReport.setIncomeAmount(transactionArchive.getIncomeCashAmount());
-                transactionStatementReport.setPrincipalAmount(transactionArchive.getPrincipalCashAmount());
-            } 
-            
-            if (ObjectUtils.isNotNull(security)) {
-                transactionStatementReport.setTransactionSecurity(security.getDescription());
-            } 
-            
-            if (ObjectUtils.isNotNull(transactionArchiveSecurity)) {
-                transactionStatementReport.setTransactionSecurityUnits(transactionArchiveSecurity.getUnitsHeld());
-                transactionStatementReport.setTransactionSecurityUnitValue(transactionArchiveSecurity.getUnitValue());
+                TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
+                Security security = getSecurity(transactionArchive);
+                EndowmentTransactionCode endowmentTransactionCode = getEndowmentTransactionCode(transactionArchive.getEtranCode()); 
+                
+                // create TransactionArchiveInfo and add it to the list
+                TransactionArchiveInfo transactionArchiveInfo = dataHolder.createTransactionArchiveInfo(); 
+                
+                // body info            
+                transactionArchiveInfo.setPostedDate(convertDateToString(transactionArchive.getPostedDate()));
+                transactionArchiveInfo.setDocumentName(transactionArchive.getTypeCode());
+                transactionArchiveInfo.setEtranCode(transactionArchive.getEtranCode());
+                transactionArchiveInfo.setTransactionDesc(transactionArchive.getDescription());
+                
+                if (ObjectUtils.isNotNull(security)) {
+                    transactionArchiveInfo.setTransactionSecurity(security.getDescription());
+                }
+                if (ObjectUtils.isNotNull(transactionArchiveSecurity)) {
+                    transactionArchiveInfo.setTransactionSecurityUnits(transactionArchiveSecurity.getUnitsHeld());
+                    transactionArchiveInfo.setTransactionSecurityUnitValue(transactionArchiveSecurity.getUnitValue());
+                }                
+                transactionArchiveInfo.setTransactionIncomeCash(transactionArchive.getIncomeCashAmount());
+                transactionArchiveInfo.setTransactionPrincipalCash(transactionArchive.getPrincipalCashAmount());
+                
+                if (ObjectUtils.isNotNull(endowmentTransactionCode)) {
+                    transactionArchiveInfo.setEtranCodeDesc(endowmentTransactionCode.getName());
+                }
             }
-            
-            if (ObjectUtils.isNotNull(endowmentTransactionCode)) {
-                transactionStatementReport.setEtranCodeDesc(endowmentTransactionCode.getName());
-            }
-            
-            if (ObjectUtils.isNotNull(beginningHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash1(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash1(beginningHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());
-            } else {
-                transactionStatementReport.setHistoryIncomeCash1(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash1(BigDecimal.ZERO);
-            }
-            if (ObjectUtils.isNotNull(endingHistoryCash)) {
-                transactionStatementReport.setHistoryIncomeCash2(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                transactionStatementReport.setHistoryPrincipalCash2(endingHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());                
-            } else {
-                transactionStatementReport.setHistoryIncomeCash2(BigDecimal.ZERO);
-                transactionStatementReport.setHistoryPrincipalCash2(BigDecimal.ZERO);                
-            }
-                                    
-            // add this new one
-            transactionStatementReportList.add(transactionStatementReport);
+            transactionStatementReportList.add(dataHolder);
         }
         
         return transactionStatementReportList;
@@ -184,7 +187,11 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
     
     protected Security getSecurity(TransactionArchive transactionArchive) {
         TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
-        return transactionArchiveSecurity.getSecurity();        
+        if (transactionArchiveSecurity != null) {
+            return transactionArchiveSecurity.getSecurity();
+        } else {
+            return null;
+        }        
     }
     
     protected EndowmentTransactionCode getEndowmentTransactionCode(String etranCcode) {

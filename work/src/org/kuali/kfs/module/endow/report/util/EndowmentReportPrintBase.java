@@ -22,6 +22,8 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.BenefittingForFooter;
+
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -62,11 +64,9 @@ public abstract class EndowmentReportPrintBase {
      * @param document
      * @return
      */
-    public boolean printReportHeaderPage(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, Document document, String listKemidsInHeader, boolean totalsExists) {
+    public boolean printReportHeaderPage(EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder, Document document, String listKemidsInHeader) {
         
         try {
-            document.setPageSize(LETTER_PORTRAIT);
-            
             // report header
             Phrase header = new Paragraph(new Date().toString());
             Paragraph title = new Paragraph(reportRequestHeaderDataHolder.getInstitutionName());
@@ -169,7 +169,6 @@ public abstract class EndowmentReportPrintBase {
             if ("Y".equalsIgnoreCase(listKemidsInHeader)) {
                 List<String> kemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected();
                 int totalKemidsSelected = reportRequestHeaderDataHolder.getKemidsSelected().size();
-                if (totalsExists) totalKemidsSelected--;
                 Paragraph kemidsSelectedTitle = new Paragraph("\nKEMIDs Selected: " + totalKemidsSelected + "\n\n");
                 document.add(kemidsSelectedTitle);
                 
@@ -215,6 +214,7 @@ public abstract class EndowmentReportPrintBase {
             
             // left column
             PdfPTable leftTable = new PdfPTable(2);
+            leftTable.setWidths(colWidths);
             leftTable.setWidthPercentage(40);
             
             leftTable.addCell(createCell("Reference: ", footerTitleFont, Element.ALIGN_LEFT, false));
@@ -238,10 +238,21 @@ public abstract class EndowmentReportPrintBase {
             cellBenefitting.setBorderWidth(0);
             rightTable.addCell(cellBenefitting);  
             
-            rightTable.addCell(createCell(footerData.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, false));
-            rightTable.addCell(createCell(footerData.getChartName(), footerRegularFont, Element.ALIGN_LEFT, false));
-            rightTable.addCell(createCell(footerData.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, false));
-            rightTable.addCell(createCell(footerData.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));  
+            rightTable.addCell(createCell("Campus", footerTitleFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell("Chart", footerTitleFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell("Organizaztion", footerTitleFont, Element.ALIGN_LEFT, false));
+            rightTable.addCell(createCell("Percent", footerTitleFont, Element.ALIGN_LEFT, false));
+            
+            List<BenefittingForFooter> benefittingList = footerData.getBenefittingList();
+            if (benefittingList != null) {
+                for (BenefittingForFooter benefitting : benefittingList) {
+                    rightTable.addCell(createCell(benefitting.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, false));
+                    rightTable.addCell(createCell(benefitting.getChartName(), footerRegularFont, Element.ALIGN_LEFT, false));
+                    rightTable.addCell(createCell(benefitting.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, false));
+                    rightTable.addCell(createCell(benefitting.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));
+                }
+            }
+            
             table.addCell(rightTable);
             
             document.add(table);

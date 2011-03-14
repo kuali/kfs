@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
@@ -47,10 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl implements AssetStatementReportService {
 
-    protected DateTimeService dateTimeService;
-    protected KEMService kemService;
     protected HoldingHistoryDao holdingHistoryDao;
-    //protected KemidHistoricalCashDao kemidHistoricalCashDao;
         
     /**
      * 
@@ -74,13 +72,17 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         }
 
         // get objects used in common
-        List<String> kemidsSelcted = kemidDao.getKemidsByAttributeWithEndowmentOption(EndowPropertyConstants.KEMID, kemids, endowmentOption, closedIndicator);
-        // filter kemids that do not exist in historical cash
-        //kemidsSelcted = getKemidsInHistoryCash(kemidsSelcted, monthEndDate);
+        List<String> kemidsSelected = kemidDao.getKemidsByAttributeWithEndowmentOption(EndowPropertyConstants.KEMID, kemids, endowmentOption, closedIndicator);
+        if (kemidsSelected == null || kemidsSelected.isEmpty()) {
+            return null;
+        }
+        // remove kemids that do not exist in historical cash
+        kemidsSelected = getKemidsInHistoryCash(kemidsSelected, monthEndDate);
+        
         //List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endowmentOption, closedIndicator);        
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(monthEndDate));
         KualiInteger medId = endingMED.getMonthEndDateId();
-        List<KemidHistoricalCash> historyCashRecords = getKemidHistoricalCashRecords(kemidsSelcted, medId);
+        List<KemidHistoricalCash> historyCashRecords = getKemidHistoricalCashRecords(kemidsSelected, medId);
         // For Total report
         //BigDecimal totalHistoryIncomeCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.INCOME);
         //BigDecimal totalHostoryPrincipalCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.PRINCIPAL);     
@@ -99,7 +101,6 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                 List<HoldingHistory> holdingHistoryRecordsForPrincipal = holdingHistoryDao.getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(historyCash.getKemid(), medId, IncomePrincipalIndicator.PRINCIPAL);
                 
                 // create a data holder
-                // work only with the kemids that exist in holding history
                 if ((holdingHistoryRecordsForIncome != null && !holdingHistoryRecordsForIncome.isEmpty()) || (holdingHistoryRecordsForPrincipal != null && !holdingHistoryRecordsForPrincipal.isEmpty())) {
                     AssetStatementReportDataHolder dataHolder = new AssetStatementReportDataHolder();
                     dataHolder.setInstitution(getInstitutionName());
@@ -140,20 +141,9 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                         }
                     }
                     
-                    // TODO: need beneffiting organization info 
                     // add footer data
-                    if ("D".equalsIgnoreCase(reportOption)) {
-                        EndowmentReportFooterDataHolder footerDataHolder = new EndowmentReportFooterDataHolder();
-                        footerDataHolder.setReference(kemidOjb.getKemid());
-                        footerDataHolder.setEstablishedDate(kemidOjb.getDateEstablished().toString());
-                        footerDataHolder.setKemidType(kemidOjb.getTypeCode());
-                        footerDataHolder.setKemidPurpose(kemidOjb.getPurposeCode());
-                        footerDataHolder.setReportRunDate(kemService.getCurrentDate().toString());
-                        footerDataHolder.setCampusName("UMD");
-                        footerDataHolder.setChartName("BL");
-                        footerDataHolder.setOrganizationName("");
-                        footerDataHolder.setBenefittingPercent("");
-                        dataHolder.setFooter(footerDataHolder);
+                    if (!reportOption.equalsIgnoreCase("T")) {     
+                        dataHolder.setFooter(createFooterData(kemidOjb));
                     }
                     
                     // add this new one
@@ -198,20 +188,9 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                         rgIncome.addSumOfNextFYEstimatedIncome(holdingHistoryDao.getSumOfHoldginHistoryAttribute(EndowPropertyConstants.HOLDING_HISTORY_NEXT_FY_ESTIMATED_INCOME, kemidOjb.getKemid(), medId, holdingHistory.getSecurityId(), ""));
                     }
                     
-                    // TODO: need beneffiting organization info 
                     // add footer data
-                    if ("D".equalsIgnoreCase(reportOption)) {
-                        EndowmentReportFooterDataHolder footerDataHolder = new EndowmentReportFooterDataHolder();
-                        footerDataHolder.setReference(kemidOjb.getKemid());
-                        footerDataHolder.setEstablishedDate(kemidOjb.getDateEstablished().toString());
-                        footerDataHolder.setKemidType(kemidOjb.getTypeCode());
-                        footerDataHolder.setKemidPurpose(kemidOjb.getPurposeCode());
-                        footerDataHolder.setReportRunDate(kemService.getCurrentDate().toString());
-                        footerDataHolder.setCampusName("UMD");
-                        footerDataHolder.setChartName("BL");
-                        footerDataHolder.setOrganizationName("");
-                        footerDataHolder.setBenefittingPercent("");
-                        dataHolder.setFooter(footerDataHolder);
+                    if (!reportOption.equalsIgnoreCase("T")) {
+                        dataHolder.setFooter(createFooterData(kemidOjb));
                     }
                     
                     // add this new one
@@ -327,17 +306,9 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
     protected String convertDateToString(Date date) {        
         return dateTimeService.toDateString(date);
     }
-    
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 
     public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
         this.holdingHistoryDao = holdingHistoryDao;
-    }
-
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
     }
 
 }

@@ -17,7 +17,9 @@ package org.kuali.kfs.module.endow.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -130,7 +132,7 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
          * The criteria are selected as follows.
          * 1. Kemid and the other criteria cannot be selected at the same time.
          * 2. If none of them are selected, all kemids will be selected.
-         * 3. The other criteria other than kemid are "OR" combined.
+         * 3. The other criteria other than kemid are "AND" combined.
          * 4. All the criteria in the text input can be multiple by the use of wild card or the separator ('&' for kemid, ',' for the others) 
          */
 
@@ -272,17 +274,17 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
                         parseValueString(typeCodes, OTHER_CRITERIA_SEPERATOR),
                         parseValueString(purposeCodes, OTHER_CRITERIA_SEPERATOR),
                         parseValueString(combineGroupCodes, OTHER_CRITERIA_SEPERATOR),
-                        ENDOWMENT_REPORT_NAME,
+                        NON_ENDOWED_REPORT_NAME,
                         endowmentOption,
                         reportOption);
             }
+
             // generate the report in one PDF file
             if (printFileOption.equalsIgnoreCase("Y")) {
                 // consolidate all reports into one
-                ByteArrayOutputStream pdfStream = null;
-                pdfStream = new AssetStatementReportPrint().printAssetStatementReport(reportHeaderDataHolderForEndowment, reportHeaderDataHolderForNonEndowed, endowmentAssetStatementReportDataHolders, nonEndowedAssetStatementReportDataHolders, endowmentOption, reportOption, listKemidsInHeader);
+                ByteArrayOutputStream pdfStream = new AssetStatementReportPrint().printAssetStatementReport(reportHeaderDataHolderForEndowment, reportHeaderDataHolderForNonEndowed, endowmentAssetStatementReportDataHolders, nonEndowedAssetStatementReportDataHolders, endowmentOption, reportOption, listKemidsInHeader);
+                //pdfStream3.write(result); 
                 if (pdfStream != null) {
-                    assetStatementForm.setMessage("Reports Generated");
                     WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
                 }
             } 

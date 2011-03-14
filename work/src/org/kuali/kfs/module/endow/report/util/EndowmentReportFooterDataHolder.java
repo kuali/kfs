@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.endow.report.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EndowmentReportFooterDataHolder {
 
     private String reference;
@@ -22,11 +25,52 @@ public class EndowmentReportFooterDataHolder {
     private String kemidType;
     private String kemidPurpose;
     private String reportRunDate;
-    private String campusName;
-    private String chartName;
-    private String organizationName;    
-    private String benefittingPercent;
+    private List<BenefittingForFooter> BenefittingList = null;
     
+    public EndowmentReportFooterDataHolder() {       
+    }
+
+    public BenefittingForFooter createBenefittingForFooter() {
+        if (BenefittingList == null) {
+            BenefittingList = new ArrayList<BenefittingForFooter>();
+        }
+        BenefittingForFooter benefittingForFooter = new BenefittingForFooter();
+        BenefittingList.add(benefittingForFooter);
+        return benefittingForFooter;
+    }
+    
+    public class BenefittingForFooter {
+        private String campusName;
+        private String chartName;
+        private String organizationName;    
+        private String benefittingPercent;
+        
+        public String getCampusName() {
+            return campusName;
+        }
+        public void setCampusName(String campusName) {
+            this.campusName = campusName;
+        }
+        public String getChartName() {
+            return chartName;
+        }
+        public void setChartName(String chartName) {
+            this.chartName = chartName;
+        }
+        public String getOrganizationName() {
+            return organizationName;
+        }
+        public void setOrganizationName(String organizationName) {
+            this.organizationName = organizationName;
+        }
+        public String getBenefittingPercent() {
+            return benefittingPercent;
+        }
+        public void setBenefittingPercent(String benefittingPercent) {
+            this.benefittingPercent = benefittingPercent;
+        }        
+    }
+
     public String getReference() {
         return reference;
     }
@@ -67,35 +111,12 @@ public class EndowmentReportFooterDataHolder {
         this.reportRunDate = reportRunDate;
     }
 
-    public String getCampusName() {
-        return campusName;
+    public List<BenefittingForFooter> getBenefittingList() {
+        return BenefittingList;
     }
 
-    public void setCampusName(String campusName) {
-        this.campusName = campusName;
+    public void setBenefittingList(List<BenefittingForFooter> benefittingList) {
+        BenefittingList = benefittingList;
     }
-
-    public String getChartName() {
-        return chartName;
-    }
-
-    public void setChartName(String chartName) {
-        this.chartName = chartName;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
-    public String getBenefittingPercent() {
-        return benefittingPercent;
-    }
-
-    public void setBenefittingPercent(String benefittingPercent) {
-        this.benefittingPercent = benefittingPercent;
-    }
+    
 }

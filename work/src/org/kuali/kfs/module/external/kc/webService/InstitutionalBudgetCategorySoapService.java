@@ -25,7 +25,7 @@ import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.impl.KfsService;
+import org.kuali.kfs.module.external.kc.service.KfsService;
 
 
 /**

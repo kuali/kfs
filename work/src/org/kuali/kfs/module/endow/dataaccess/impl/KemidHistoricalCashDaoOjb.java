@@ -23,7 +23,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.sys.KFSConstants;
@@ -71,4 +70,19 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
         return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
     
+    public List<KemidHistoricalCash> getKemidsFromHistoryCash(KualiInteger beginningMed, KualiInteger endingMed) {
+        return getKemidsFromHistoryCash("", beginningMed, endingMed);
+    }
+   
+    public List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed) {
+        Criteria criteria = new Criteria();
+        if (kemid != null && !kemid.isEmpty()) {
+            criteria.addGreaterOrEqualThanField(EndowPropertyConstants.KEMID, kemid);
+        }
+        criteria.addGreaterOrEqualThanField(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, beginningMed);
+        criteria.addLessOrEqualThan(EndowPropertyConstants.ENDOWMENT_HIST_CASH_MED_ID, endingMed);
+        QueryByCriteria qbc = QueryFactory.newQuery(KemidHistoricalCash.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID);        
+        return (List<KemidHistoricalCash>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 }

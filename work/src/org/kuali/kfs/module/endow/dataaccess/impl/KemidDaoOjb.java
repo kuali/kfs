@@ -42,7 +42,7 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
             subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
         }
-        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, "Y");
+        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true); 
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
         subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
                 
@@ -119,15 +119,17 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
     public List<String> getKemidsByAttribute(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
-        for (String value : values) {
-            Criteria c = new Criteria();
-            if (value.contains("*")) {
-                c.addLike(attributeName, value.trim().replace('*', '%'));
-            } else {
-                c.addEqualTo(attributeName, value.trim());
-            }            
-            criteria.addOrCriteria(c);
-        }        
+        if (values != null) {
+            for (String value : values) {
+                Criteria c = new Criteria();
+                if (value.contains("*")) {
+                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                } else {
+                    c.addEqualTo(attributeName, value.trim());
+                }            
+                criteria.addOrCriteria(c);
+            }        
+        }
         
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {EndowPropertyConstants.KEMID});
@@ -150,15 +152,17 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
     public List<String> getAttributeValues(String attributeName, List<String> values) {
         
         Criteria criteria = new Criteria();
-        for (String value : values) {
-            Criteria c = new Criteria();
-            if (value.contains("*")) {
-                c.addLike(attributeName, value.trim().replace('*', '%'));
-            } else {
-                c.addEqualTo(attributeName, value.trim());
-            }            
-            criteria.addOrCriteria(c);
-        }        
+        if (values != null) {
+            for (String value : values) {
+                Criteria c = new Criteria();
+                if (value.contains("*")) {
+                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                } else {
+                    c.addEqualTo(attributeName, value.trim());
+                }            
+                criteria.addOrCriteria(c);
+            }        
+        }
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);
         query.setAttributes(new String[] {attributeName});
 

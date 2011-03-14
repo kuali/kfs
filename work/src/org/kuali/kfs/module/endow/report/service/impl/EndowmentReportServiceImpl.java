@@ -19,41 +19,47 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.dataaccess.KemidBenefittingOrganizationDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidHistoricalCashDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.report.service.EndowmentReportService;
-import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.BenefittingForFooter;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class EndowmentReportServiceImpl implements EndowmentReportService {
     
     protected BusinessObjectService businessObjectService;
     protected ParameterService parameterService;
+    protected DateTimeService dateTimeService;
+    protected KEMService kemService;
+    
     protected KemidDao kemidDao;
     protected KemidBenefittingOrganizationDao kemidBenefittingOrganizationDao;
     protected KemidReportGroupDao kemidReportGroupDao;
@@ -330,7 +336,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @param beginningDate
      * @param endingDate
      * @return List<String> newKemids
-     * @see 
      */
     public List<String> getKemidsInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
         List<String> newKemids = new ArrayList();
@@ -350,6 +355,43 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return newKemids;
     }
  
+    public List<String> getKemidsExistingInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
+    
+        List<String> newKemids = new ArrayList<String>();
+        List<KemidHistoricalCash> kemidHistoryCashRecords = new ArrayList<KemidHistoricalCash>();
+        
+        MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
+        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
+        
+        if (kemids == null || kemids.isEmpty()) {
+            kemidHistoryCashRecords = kemidHistoricalCashDao.getKemidsFromHistoryCash(beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
+            for (KemidHistoricalCash historyCash : kemidHistoryCashRecords) {
+                if (!newKemids.contains(historyCash.getKemid())) {
+                    newKemids.add(historyCash.getKemid());
+                }
+            }
+        } else {
+            for (String kemid : kemids) {
+                if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    kemid = kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
+                }
+                else {
+                    kemid = kemid.concat(KFSConstants.PERCENTAGE_SIGN);
+                }
+                
+                kemidHistoryCashRecords = kemidHistoricalCashDao.getKemidsFromHistoryCash(kemid, beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
+    
+                for (KemidHistoricalCash historyCash : kemidHistoryCashRecords) {
+                    if (!newKemids.contains(historyCash.getKemid())) {
+                        newKemids.add(historyCash.getKemid());
+                    }
+                }
+            }
+        }
+        
+        return newKemids;
+    }
+    
     public List<String> getKemidsInHistoryCash(List<String> kemids, String endingDate) {
         
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));            
@@ -386,6 +428,60 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
     }
     
+    protected List<KemidBenefittingOrganization> getKemidBenefittingOrganization(String kemid) {
+        Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        primaryKeys.put(EndowPropertyConstants.KEMID_BENE_KEMID, kemid);
+        return (List<KemidBenefittingOrganization>) businessObjectService.findMatching(KemidBenefittingOrganization.class, primaryKeys);
+    }
+    
+    protected CampusImpl getCampus(String campusCode) {
+        Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        primaryKeys.put(EndowPropertyConstants.CAMPUS_CODE, campusCode);
+        return (CampusImpl) businessObjectService.findByPrimaryKey(CampusImpl.class, primaryKeys);
+    }
+    
+    protected Organization getOrganization(String chartCode, String organizationCode) {
+        Map<String,Object> primaryKeys = new HashMap<String,Object>();
+        primaryKeys.put("chartOfAccountsCode", chartCode);
+        primaryKeys.put("organizationCode", organizationCode);
+        return (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
+    }
+    
+    
+    protected EndowmentReportFooterDataHolder createFooterData(KEMID kemidOjb) {
+        
+        List<KemidBenefittingOrganization> benefittingOrganizationList = getKemidBenefittingOrganization(kemidOjb.getKemid());
+        EndowmentReportFooterDataHolder footerDataHolder = new EndowmentReportFooterDataHolder();
+        
+        footerDataHolder.setReference(kemidOjb.getKemid());
+        footerDataHolder.setEstablishedDate(dateTimeService.toDateString(kemidOjb.getDateEstablished()));
+        footerDataHolder.setKemidType(kemidOjb.getType().getName());
+        footerDataHolder.setKemidPurpose(kemidOjb.getPurpose().getName());
+        footerDataHolder.setReportRunDate(dateTimeService.toDateString(kemService.getCurrentDate()));
+        
+        if (benefittingOrganizationList != null) {
+            for (KemidBenefittingOrganization benefittingOrganization : benefittingOrganizationList) {
+                BenefittingForFooter benefitting = footerDataHolder.createBenefittingForFooter();
+                benefitting.setChartName(benefittingOrganization.getChart().getName());
+                benefitting.setBenefittingPercent(benefittingOrganization.getBenefitPrecent().toString());
+                Organization organization = getOrganization(benefittingOrganization.getBenefittingChartCode(), benefittingOrganization.getBenefittingOrgCode());
+                // some organizations and campuses may not exist 
+                if (ObjectUtils.isNotNull(organization)) {
+                    benefitting.setOrganizationName(organization.getOrganizationName());
+                    CampusImpl campus = getCampus(organization.getOrganizationPhysicalCampusCode());
+                    if (ObjectUtils.isNotNull(campus)) {
+                        benefitting.setCampusName(campus.getCampusName());
+                    } else {
+                        benefitting.setCampusName("");
+                    }
+                } else {
+                    benefitting.setOrganizationName("");
+                }                
+            }
+        }
+        
+        return footerDataHolder;
+    }
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidsWithMultipleBenefittingOrganizations(java.util.List)
@@ -407,7 +503,16 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+    
 
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
+    }
+    
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
     /**
      * 
      */
@@ -439,5 +544,5 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     public void setKemidHistoricalCashDao(KemidHistoricalCashDao kemidHistoricalCashDao) {
         this.kemidHistoricalCashDao = kemidHistoricalCashDao;
     }
-    
+
 }

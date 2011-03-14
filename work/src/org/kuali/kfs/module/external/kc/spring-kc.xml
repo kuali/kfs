@@ -40,10 +40,10 @@
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award"/>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount"/>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency"/>
-                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.external.kc.businessobject.Proposal"/>
              </map>
         </property>
         <property name="externalizableBusinessObjectServiceImplementations">
@@ -51,6 +51,7 @@
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="cfdaService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
              </map>
         </property>
  		<property name="dataDictionaryPackages">
@@ -127,7 +128,7 @@
             </list>
         </property>
     </bean>
-    
+            
     <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
@@ -157,7 +158,7 @@
 	
 	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
 	
-	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
+	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
 		 	
   	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
   	
@@ -165,5 +166,6 @@
     	<property name="parameterService" ref="parameterService"/>
     </bean>
   	
+  	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  	
   	
 </beans>

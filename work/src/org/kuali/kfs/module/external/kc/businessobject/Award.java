@@ -16,10 +16,12 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
-import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
+import java.util.List;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Defines a financial award object.
@@ -28,13 +30,18 @@ public class Award implements ContractsAndGrantsAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
 
     private Long proposalNumber;
-
+    private String agencyNumber;
+    
+    private Proposal proposal;
+    private Agency agency;
+    private List<AwardAccount> awardAccounts;
+    
     /**
      * Default no-args constructor.
      */
     public Award() {
+        awardAccounts = new TypedArrayList(AwardAccount.class);
     }
-
 
     /**
      * Gets the proposalNumber attribute.
@@ -62,8 +69,8 @@ public class Award implements ContractsAndGrantsAward {
     }
 
 
-    public ContractAndGrantsProposal getProposal() {
-        return null;
+    public Proposal getProposal() {
+        return proposal;
     }
 
 
@@ -71,5 +78,48 @@ public class Award implements ContractsAndGrantsAward {
 
 
     public void refresh() {}
+
+
+    public void setProposal(Proposal proposal) {
+        this.proposal = proposal;
+    }
+
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
+    }
+
+
+    /**
+     * Gets the awardAccounts list.
+     * 
+     * @return Returns the awardAccounts.
+     */
+    public List<AwardAccount> getAwardAccounts() {
+        return awardAccounts;
+    }
+
+    /**
+     * Sets the awardAccounts list.
+     * 
+     * @param awardAccounts The awardAccounts to set.
+     */
+    public void setAwardAccounts(List<AwardAccount> awardAccounts) {
+        this.awardAccounts = awardAccounts;
+    }
+
+    public String getAgencyNumber() {
+        return agencyNumber;
+    }
+
+    public void setAgencyNumber(String agencyNumber) {
+        this.agencyNumber = agencyNumber;
+    }
+
 }
 

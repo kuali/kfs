@@ -8,14 +8,42 @@
     <property name="objectLabel" value="Award"/>
     <property name="attributes">
       <list>
+        <ref bean="Award-proposal.proposalNumber"/>
         <ref bean="Award-proposalNumber"/>
       </list>
     </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="proposal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="agency"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
 
 
+  <bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean"/>
+
+  <bean id="Award-proposal.proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
+    <property name="name" value="proposal.proposalNumber"/>
+    <property name="label" value="Link to Proposal"/>
+    <property name="shortLabel" value="PrpslLink"/>
+  </bean>
   <bean id="Award-proposalNumber" parent="Award-proposalNumber-parentBean"/>
 
   <bean id="Award-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -30,5 +58,8 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>
     </property>
-  </bean>  
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
 </beans>

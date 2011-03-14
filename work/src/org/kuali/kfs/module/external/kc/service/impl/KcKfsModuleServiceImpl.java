@@ -33,7 +33,9 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.PrimitiveAttributeDefinition;
 import org.kuali.rice.kns.datadictionary.RelationshipDefinition;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
@@ -72,4 +74,36 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         List primaryKeyFieldNames = new ArrayList();        
         return primaryKeyFieldNames;
     }    
+    
+    public String getExternalizableBusinessObjectInquiryUrl(Class inquiryBusinessObjectClass, Map<String, String[]> parameters) {
+        if(!ExternalizableBusinessObject.class.isAssignableFrom(inquiryBusinessObjectClass)) {
+            return KNSConstants.EMPTY_STRING;
+        }
+        String businessObjectClassAttribute;
+        if(inquiryBusinessObjectClass.isInterface()){
+            Class implementationClass = getExternalizableBusinessObjectImplementation(inquiryBusinessObjectClass);
+            if (implementationClass == null) {
+                LOG.error("Can't find ExternalizableBusinessObject implementation class for interface " + inquiryBusinessObjectClass.getName());
+                throw new RuntimeException("Can't find ExternalizableBusinessObject implementation class for interface " + inquiryBusinessObjectClass.getName());
+            }
+            businessObjectClassAttribute = implementationClass.getName();
+        }else{
+            LOG.warn("Inquiry was invoked with a non-interface class object " + inquiryBusinessObjectClass.getName());
+            businessObjectClassAttribute = inquiryBusinessObjectClass.getName();
+        }
+        return UrlFactory.parameterizeUrl(
+                getInquiryUrl(inquiryBusinessObjectClass),
+                getUrlParameters(businessObjectClassAttribute, parameters));
+    }
+
+
+    protected String getInquiryUrl(Class inquiryBusinessObjectClass){
+        String riceBaseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+        String inquiryUrl = riceBaseUrl;
+        if (!inquiryUrl.endsWith("/")) {
+            inquiryUrl = inquiryUrl + "/";
+        }
+        return inquiryUrl + "kr/" + KNSConstants.INQUIRY_ACTION;
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2009 The Kuali Foundation
+ * Copyright 2006 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,15 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
@@ -32,6 +37,22 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     private String accountNumber;
     private String principalId;
     private boolean active = true;
+    private boolean newCollectionRecord;
+    
+    private Account account;
+    private Chart chartOfAccounts;
+    private Person projectDirector;
+    private Award award;
+    
+    /**
+     * Default constructor.
+     */
+    public AwardAccount() {
+        // Struts needs this instance to populate the secondary key, principalName.
+        try {
+            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        } catch (Exception e) {}
+    }
 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
@@ -99,6 +120,81 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.principalId = principalId;
     }
 
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccount()
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     */
+    @Deprecated
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccounts()
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     */
+    @Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirector()
+     */
+    public Person getProjectDirector() {
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        return projectDirector;
+    }
+
+    /**
+     * Sets the project director attribute
+     * 
+     * @param projectDirector The projectDirector to set.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
+     *             creation of the object and should not be changed.
+     */
+    @Deprecated
+    public void setProjectDirector(Person projectDirector) {
+        this.projectDirector = projectDirector;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @SuppressWarnings("unchecked")    
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        if (this.proposalNumber != null) {
+            m.put("proposalNumber", this.proposalNumber.toString());
+        }
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        m.put("accountNumber", this.accountNumber);
+        return m;
+    }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
+    }
 
     /**
      * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
@@ -111,31 +207,34 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        this.active = active;
+        this.active = true;
     }
 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
     public String getProjectDirectorName() {
-        return "";
-    }
-
-    public Account getAccount() {
+        if (!ObjectUtils.isNull(projectDirector)) {
+            return projectDirector.getName();
+        }
         return null;
     }
 
-//KFSMI-861 : Removing this method as it's been removed from the Interface.    
-//    public ContractsAndGrantsAward getAward() {
-//        return null;
-//    }
-
-    public Chart getChartOfAccounts() {
-        return null;
+    @Override
+    public void prepareForWorkflow() {
+        
     }
 
-    public void prepareForWorkflow() {}
+    @Override
+    public void refresh() {
+    }
 
-    public void refresh() {}
+    public boolean isNewCollectionRecord() {
+        return false;
+    }
+
+    public void setNewCollectionRecord(boolean newCollectionRecord) {
+        this.newCollectionRecord = newCollectionRecord;
+    }
 }
 

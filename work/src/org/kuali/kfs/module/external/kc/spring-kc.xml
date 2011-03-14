@@ -88,6 +88,12 @@
         </property>
     </bean>
     
+<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsService" p:service-ref="kcAccountService" p:localServiceName="kcAccountService" />
+        </property>
+    </bean>
+    
     <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
@@ -121,6 +127,18 @@
             </list>
         </property>
     </bean>
+    
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
+        <property name="serviceDefinition">
+            <bean parent="kfsJaxWsSoapService" p:service-ref="kcAccountService" p:localServiceName="kcAccountServiceSOAP" />
+        </property>
+        <property name="exportIf">
+            <list>
+                <value>kcAccountServiceSOAP.expose</value>
+            </list>
+        </property>
+    </bean>
             
     <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
         <property name="documentService" ref="documentService" />
@@ -142,6 +160,10 @@
 	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
 		 	
   	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
+  	
+  	<bean id="kcAccountService" class="org.kuali.kfs.module.external.kc.service.impl.KcAccountServiceImpl">
+    	<property name="parameterService" ref="parameterService"/>
+    </bean>
   	
   	
 </beans>

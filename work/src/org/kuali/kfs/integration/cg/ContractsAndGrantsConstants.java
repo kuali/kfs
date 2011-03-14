@@ -83,4 +83,7 @@ public class ContractsAndGrantsConstants {
  
     }
 
+    public static class AccountsCanCrossChartsIndService {
+        public static final String WEB_SERVICE_NAME = "KcAccountService";
+    }
 }

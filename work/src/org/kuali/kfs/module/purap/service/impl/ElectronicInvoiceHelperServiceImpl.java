@@ -16,12 +16,14 @@
 package org.kuali.kfs.module.purap.service.impl;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -146,6 +148,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
         boolean moveFiles = SpringContext.getBean(ParameterService.class).getIndicatorParameter(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND);
 
+        int failedCnt = 0;
+
         if (LOG.isInfoEnabled()){
             LOG.info("Invoice Base Directory - " + electronicInvoiceInputFileType.getDirectoryPath());
             LOG.info("Invoice Accept Directory - " + acceptDirName);
@@ -206,6 +210,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             LOG.info(filesToBeProcessed.length + " file(s) available for processing");
         }
 
+        StringBuilder emailMsg = new StringBuilder();
+
         for (int i = 0; i < filesToBeProcessed.length; i++) {
 
             LOG.info("Processing " + filesToBeProcessed[i].getName() + "....");
@@ -216,8 +222,38 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             
             if (modifiedXML == null){//Not able to parse the xml
                 isRejected = true;
-            }else{
-                isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i], modifiedXML);    
+            } else {
+                try {
+                    isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i], modifiedXML);
+                } catch (Exception e) {
+                    String msg = filesToBeProcessed[i].getName() + "\n";
+                    LOG.error(msg);
+
+                    //since getMessage() is empty we'll compose the stack trace and nicely format it.
+                    StackTraceElement[] elements = e.getStackTrace();
+                    StringBuffer trace = new StringBuffer();
+                    trace.append(e.getClass().getName());
+                    if (e.getMessage() != null) {
+                        trace.append(": ");
+                        trace.append(e.getMessage());
+                    }
+                    trace.append("\n");
+                    for (int j = 0; j < elements.length; ++j) {
+                        StackTraceElement element = elements[j];
+
+                        trace.append("    at ");
+                        trace.append(describeStackTraceElement(element));
+                        trace.append("\n");
+                    }
+                    
+                    LOG.error(trace);
+                    emailMsg.append(msg);
+                    msg += "\n--------------------------------------------------------------------------------------\n" + trace;
+                    logProcessElectronicInvoiceError(msg);
+                    failedCnt++;
+                    //Do not execute rest of code below
+                    continue;
+                }
             }
             
             /**
@@ -263,6 +299,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             deleteDoneFile(filesToBeProcessed[i]);
         }
 
+        emailTextErrorList.append("\nFAILED FILES\n");
+        emailTextErrorList.append("-----------------------------------------------------------\n\n");
+        emailTextErrorList.append(emailMsg);
+        emailTextErrorList.append("\nTOTAL COUNT\n");
+        emailTextErrorList.append("===========================\n");
+        emailTextErrorList.append("      "+failedCnt+" FAILED\n");
+        emailTextErrorList.append("===========================\n");
+
          StringBuffer summaryText = saveLoadSummary(eInvoiceLoad);
 
          StringBuffer finalText = new StringBuffer();
@@ -276,7 +320,57 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
          return eInvoiceLoad;
 
     }
-    
+
+    protected void logProcessElectronicInvoiceError(String msg) {
+        File file = new File(electronicInvoiceInputFileType.getReportPath() + "/" + 
+                electronicInvoiceInputFileType.getReportPrefix() + "_" + 
+                dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()) + "." + 
+                electronicInvoiceInputFileType.getReportExtension());
+        BufferedWriter writer = null;
+        
+        try {
+            writer = new BufferedWriter(new PrintWriter(file));
+            writer.write(msg);
+            writer.newLine();
+        }
+        catch (FileNotFoundException e) {
+            LOG.error(file + " not found " + " " + e.getMessage());
+            throw new RuntimeException(file + " not found " + e.getMessage(), e);
+        }
+        catch (IOException e) {
+            LOG.error("Error writing to BufferedWriter " + e.getMessage());
+            throw new RuntimeException("Error writing to BufferedWriter " + e.getMessage(), e);
+        }
+        finally {
+            try {
+                writer.flush();
+                writer.close();
+            }
+            catch (Exception e) {}
+        }
+    }
+
+    /**
+     * @param element
+     * @return String describing the given StackTraceElement
+     */
+    private static String describeStackTraceElement(StackTraceElement element) {
+        StringBuffer description = new StringBuffer();
+        if (element == null) {
+            description.append("invalid (null) element");
+        }
+        description.append(element.getClassName());
+        description.append(".");
+        description.append(element.getMethodName());
+        description.append("(");
+        description.append(element.getFileName());
+        description.append(":");
+        description.append(element.getLineNumber());
+        description.append(")");
+
+        return description.toString();
+    }
+
     protected byte[] addNamespaceDefinition(ElectronicInvoiceLoad eInvoiceLoad, 
                                           File invoiceFile) {
         
@@ -774,20 +868,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
             LOG.info("Reject document has been created (DocNo=" + eInvoiceRejectDocument.getDocumentNumber() + ")");
         }
         
+        emailTextErrorList.append("DUNS Number - " + eInvoice.getDunsNumber() + " " +eInvoice.getVendorName()+ ":\n");
         emailTextErrorList.append("An Invoice from file '" + eInvoice.getFileName() + "' has been rejected due to the following error(s):\n");
         
-        StringBuffer rejectReasonNote = new StringBuffer();
-        rejectReasonNote.append("This reject document has been created because of the following reason(s):\n");
         int index = 1;
-        for (Iterator iter = eInvoiceRejectDocument.getInvoiceRejectReasons().iterator(); iter.hasNext();index++) {
-          ElectronicInvoiceRejectReason reason = (ElectronicInvoiceRejectReason) iter.next();
-          emailTextErrorList.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
-          rejectReasonNote.append(" " + index + ". " + reason.getInvoiceRejectReasonDescription() + "\n");
+        for (ElectronicInvoiceRejectReason reason : eInvoiceRejectDocument.getInvoiceRejectReasons()) {
+            emailTextErrorList.append("    - " + reason.getInvoiceRejectReasonDescription() + "\n");
+            addRejectReasonsToNote("Reject Reason " + index + ". " + reason.getInvoiceRejectReasonDescription(), eInvoiceRejectDocument);
+            index++;
         }
         
-        emailTextErrorList.append("\n\n");
+        emailTextErrorList.append("\n");
         
-        addRejectReasonsToNote(rejectReasonNote.toString(), eInvoiceRejectDocument);
         return eInvoiceRejectDocument;
     }
     

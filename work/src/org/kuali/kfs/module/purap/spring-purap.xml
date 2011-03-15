@@ -633,6 +633,15 @@
 	    <property name="schemaLocation">
 	       <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
 	    </property>
+	    <property name="reportPrefix">
+	       <value>purapElectronicInvoiceExtractJob</value>
+	    </property>
+	    <property name="reportExtension">
+	       <value>txt</value>
+	    </property>
+    	<property name="reportPath">
+	       <value>${reports.directory}/purap</value>
+	    </property>
 	</bean>
 	
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />

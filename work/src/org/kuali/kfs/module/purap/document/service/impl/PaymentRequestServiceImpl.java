@@ -382,9 +382,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             autoApproveMap.put("active", true);
             AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
             if (autoApproveExclude != null) {
-                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to source accounting line " + line.getSequenceNumber() + 
-                        " using Chart/Account [" + line.getChartOfAccountsCode() + "-" + line.getAccountNumber() + 
-                        "], which is excluded in the Auto Approve Exclusions table.");
                 return false;
             }
 

@@ -353,44 +353,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         }
         
         return newKemids;
-    }
- 
-    public List<String> getKemidsExistingInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
-    
-        List<String> newKemids = new ArrayList<String>();
-        List<KemidHistoricalCash> kemidHistoryCashRecords = new ArrayList<KemidHistoricalCash>();
-        
-        MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
-        MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));
-        
-        if (kemids == null || kemids.isEmpty()) {
-            kemidHistoryCashRecords = kemidHistoricalCashDao.getKemidsFromHistoryCash(beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
-            for (KemidHistoricalCash historyCash : kemidHistoryCashRecords) {
-                if (!newKemids.contains(historyCash.getKemid())) {
-                    newKemids.add(historyCash.getKemid());
-                }
-            }
-        } else {
-            for (String kemid : kemids) {
-                if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
-                    kemid = kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
-                }
-                else {
-                    kemid = kemid.concat(KFSConstants.PERCENTAGE_SIGN);
-                }
-                
-                kemidHistoryCashRecords = kemidHistoricalCashDao.getKemidsFromHistoryCash(kemid, beginningMED.getMonthEndDateId(), endingMED.getMonthEndDateId());
-    
-                for (KemidHistoricalCash historyCash : kemidHistoryCashRecords) {
-                    if (!newKemids.contains(historyCash.getKemid())) {
-                        newKemids.add(historyCash.getKemid());
-                    }
-                }
-            }
-        }
-        
-        return newKemids;
-    }
+    }    
     
     public List<String> getKemidsInHistoryCash(List<String> kemids, String endingDate) {
         
@@ -406,6 +369,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return newKemids;
     }
     
+    /**
+     * Gets the previous month end date
+     * 
+     * @param date
+     * @return
+     */
     protected MonthEndDate getPreviousMonthEndDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -413,33 +382,65 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return getMonthEndDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
+    /**
+     * Convert string to date
+     * 
+     * @param stringDate
+     * @return
+     */
     protected Date convertStringToDate(String stringDate) {        
         Date date = null;
         try {
             date = SpringContext.getBean(DateTimeService.class).convertToSqlDate(stringDate);
         } catch (ParseException e) {
+            return null;
         }        
         return date;
     }
     
+    /**
+     * Gets a month end date object
+     * 
+     * @param date
+     * @return
+     */
     protected MonthEndDate getMonthEndDate(Date date) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE, date);
         return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
     }
     
+    /**
+     * Gets a benefitting organization object
+     * 
+     * @param kemid
+     * @return
+     */
     protected List<KemidBenefittingOrganization> getKemidBenefittingOrganization(String kemid) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.KEMID_BENE_KEMID, kemid);
         return (List<KemidBenefittingOrganization>) businessObjectService.findMatching(KemidBenefittingOrganization.class, primaryKeys);
     }
     
+    /**
+     * Gets a campus object
+     * 
+     * @param campusCode
+     * @return
+     */
     protected CampusImpl getCampus(String campusCode) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.CAMPUS_CODE, campusCode);
         return (CampusImpl) businessObjectService.findByPrimaryKey(CampusImpl.class, primaryKeys);
     }
     
+    /**
+     * Gets an organization object
+     * 
+     * @param chartCode
+     * @param organizationCode
+     * @return
+     */
     protected Organization getOrganization(String chartCode, String organizationCode) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put("chartOfAccountsCode", chartCode);
@@ -447,7 +448,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
     }
     
-    
+    /**
+     * Creates footer data
+     * 
+     * @param kemidOjb
+     * @return
+     */
     protected EndowmentReportFooterDataHolder createFooterData(KEMID kemidOjb) {
         
         List<KemidBenefittingOrganization> benefittingOrganizationList = getKemidBenefittingOrganization(kemidOjb.getKemid());
@@ -491,49 +497,63 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     }
     
     /**
-     * 
+     * Sets business object service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
     
     /**
-     * 
+     * Sets parameter service
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
     
-
+    /**
+     * Sets Kem service
+     * 
+     * @param kemService
+     */
     public void setKemService(KEMService kemService) {
         this.kemService = kemService;
     }
     
+    /**
+     * Sets date time service
+     * 
+     * @param dateTimeService
+     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
     
     /**
-     * 
+     * Sets kemid dao
      */
     public void setKemidDao(KemidDao kemidDao) {
         this.kemidDao = kemidDao;
     }
 
     /**
-     * 
+     * sets benefitting organization dao
      */
     public void setKemidBenefittingOrganizationDao(KemidBenefittingOrganizationDao kemidBenefittingOrganizationDao) {
         this.kemidBenefittingOrganizationDao = kemidBenefittingOrganizationDao;
     }
 
     /**
-     * 
+     * Sets report group dao
      */
     public void setKemidReportGroupDao(KemidReportGroupDao kemidReportGroupDao) {
         this.kemidReportGroupDao = kemidReportGroupDao;
     }
 
+    /**
+     * Gest historical cash dao
+     * 
+     * @return
+     */
     public KemidHistoricalCashDao getKemidHistoricalCashDao() {
         return kemidHistoricalCashDao;
     }

@@ -30,6 +30,11 @@ public class EndowmentReportFooterDataHolder {
     public EndowmentReportFooterDataHolder() {       
     }
 
+    /**
+     * Creates benefitting info and register it
+     * 
+     * @return
+     */
     public BenefittingForFooter createBenefittingForFooter() {
         if (BenefittingList == null) {
             BenefittingList = new ArrayList<BenefittingForFooter>();
@@ -39,6 +44,9 @@ public class EndowmentReportFooterDataHolder {
         return benefittingForFooter;
     }
     
+    /**
+     * Benefitting footer data holder
+     */
     public class BenefittingForFooter {
         private String campusName;
         private String chartName;

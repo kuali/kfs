@@ -32,9 +32,6 @@ public class TrialBalanceReportDataHolder {
     private BigDecimal AvailableExpendableFunds;
     private BigDecimal FyRemainderEstimatedIncome;
 
-    /**
-     * 
-     */
     public TrialBalanceReportDataHolder() {}
 
     /**
@@ -64,91 +61,61 @@ public class TrialBalanceReportDataHolder {
         this.AvailableExpendableFunds = AvailableExpendableFunds;
         this.FyRemainderEstimatedIncome = FyRemainderEstimatedIncome;
     }
-        
-    /**
-     * 
-     */
+
     public String getKemid() {
         return kemid;
     }
-    /**
-     * 
-     */
+
     public void setKemid(String kemid) {
         this.kemid = kemid;
     }
-    /**
-     * 
-     */
+
     public String getKemidName() {
         return kemidName;
     }
-    /**
-     * 
-     */
+
     public void setKemidName(String kemidName) {
         this.kemidName = kemidName;
     }
-    /**
-     * 
-     */
+
     public KualiDecimal getInocmeCashBalance() {
         return InocmeCashBalance;
     }
-    /**
-     * 
-     */
+
     public void setInocmeCashBalance(KualiDecimal inocmeCashBalance) {
         InocmeCashBalance = inocmeCashBalance;
     }
-    /**
-     * 
-     */
+
     public KualiDecimal getPrincipalcashBalance() {
         return PrincipalcashBalance;
     }
-    /**
-     * 
-     */
+
     public void setPrincipalcashBalance(KualiDecimal principalcashBalance) {
         PrincipalcashBalance = principalcashBalance;
     }
-    /**
-     * 
-     */
+
     public BigDecimal getKemidTotalMarketValue() {
         return KemidTotalMarketValue;
     }
-    /**
-     * 
-     */
+
     public void setKemidTotalMarketValue(BigDecimal kemidTotalMarketValue) {
         KemidTotalMarketValue = kemidTotalMarketValue;
     }
-    /**
-     * 
-     */
+
     public BigDecimal getAvailableExpendableFunds() {
         return AvailableExpendableFunds;
     }
-    /**
-     * 
-     */
+
     public void setAvailableExpendableFunds(BigDecimal availableExpendableFunds) {
         AvailableExpendableFunds = availableExpendableFunds;
     }
-    /**
-     * 
-     */
+
     public BigDecimal getFyRemainderEstimatedIncome() {
         return FyRemainderEstimatedIncome;
     }
-    /**
-     * 
-     */
+
     public void setFyRemainderEstimatedIncome(BigDecimal fyRemainderEstimatedIncome) {
         FyRemainderEstimatedIncome = fyRemainderEstimatedIncome;
     }
-    
-    
+            
 }

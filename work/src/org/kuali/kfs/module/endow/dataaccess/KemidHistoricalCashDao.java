@@ -30,10 +30,32 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public interface KemidHistoricalCashDao {
 
+    /**
+     * Gets a collection of historical cash object
+     * 
+     * @param kemids
+     * @param medId
+     * @return
+     */
     List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger medId);
 
+    /**
+     * Gets a collection of historical cash
+     * 
+     * @param kemid
+     * @param beginningMed
+     * @param endingMed
+     * @return
+     */
     List<KemidHistoricalCash> getKemidsFromHistoryCash(String kemid, KualiInteger beginningMed, KualiInteger endingMed);
     
+    /**
+     * Gets a collection of historical cash
+     * 
+     * @param beginningMed
+     * @param endingMed
+     * @return
+     */
     List<KemidHistoricalCash> getKemidsFromHistoryCash(KualiInteger beginningMed, KualiInteger endingMed);
     
     /**

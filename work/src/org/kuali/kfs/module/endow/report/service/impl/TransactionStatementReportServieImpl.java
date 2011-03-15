@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
@@ -44,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TransactionStatementReportServieImpl extends EndowmentReportServiceImpl implements TransactionStatementReportService {
 
-    protected DateTimeService dateTimeService;
     protected TransactionArchiveDao transactionArchiveDao;
     
     /**
@@ -89,8 +89,9 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
             KEMID kemidOjb = getKemid(kemid);            
             KemidHistoricalCash beginningHistoryCash = getKemidHistoricalCash(kemid, beginningMED.getMonthEndDateId());
             KemidHistoricalCash endingHistoryCash = getKemidHistoricalCash(kemid, endingMED.getMonthEndDateId());
-
-            List<TransactionArchive> transactionArchiveList = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemid, endowmentOption, beginDate, endDate, closedIndicator);
+            
+            // get all the cash transactions meeting the given conditions
+            List<TransactionArchive> transactionArchiveList = transactionArchiveDao.getTransactionArchiveByKemidsAndPostedDate(kemid, endowmentOption, beginDate, endDate, closedIndicator, TransactionSubTypeCode.CASH);
             if (transactionArchiveList == null && transactionArchiveList == null) {
                 continue;
             }
@@ -105,19 +106,20 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
             dataHolder.setEndingDate(endingDate);
             if (beginningHistoryCash == null) {
                 dataHolder.setBeginningIncomeCash(BigDecimal.ZERO);
-                dataHolder.setBeginningIncomeCash(BigDecimal.ZERO);                
+                dataHolder.setBeginningPrincipalCash(BigDecimal.ZERO);                
             } else {
                 dataHolder.setBeginningIncomeCash(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                dataHolder.setBeginningIncomeCash(beginningHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+                dataHolder.setBeginningPrincipalCash(beginningHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());
             }
             if (endingHistoryCash == null) {
                 dataHolder.setEndingIncomeCash(BigDecimal.ZERO);
-                dataHolder.setEndingIncomeCash(BigDecimal.ZERO);
+                dataHolder.setEndingPrincipalCash(BigDecimal.ZERO);
             } else {
                 dataHolder.setEndingIncomeCash(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
-                dataHolder.setEndingIncomeCash(endingHistoryCash.getHistoricalIncomeCash().bigDecimalValue());
+                dataHolder.setEndingPrincipalCash(endingHistoryCash.getHistoricalPrincipalCash().bigDecimalValue());
             }
             
+            // populate all transaction info into the data holder
             for (TransactionArchive transactionArchive : transactionArchiveList) {
                 
                 TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
@@ -147,6 +149,11 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
                     transactionArchiveInfo.setEtranCodeDesc(endowmentTransactionCode.getName());
                 }
             }
+            
+            // add footer data
+            dataHolder.setFooter(createFooterData(kemidOjb));
+            
+            // add the new data holder
             transactionStatementReportList.add(dataHolder);
         }
         
@@ -171,12 +178,24 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         }
     }
 
+    /**
+     * Gets a Kemid object
+     * 
+     * @param kemid
+     * @return
+     */
     protected KEMID getKemid(String kemid) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.KEMID, kemid);
         return (KEMID) businessObjectService.findByPrimaryKey(KEMID.class, primaryKeys);
     }
     
+    /**
+     * Gets a transaction archive object
+     * 
+     * @param transactionArchive
+     * @return
+     */
     protected TransactionArchiveSecurity  getTransactionArchiveSecurity(TransactionArchive transactionArchive) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, transactionArchive.getDocumentNumber());
@@ -185,6 +204,12 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         return (TransactionArchiveSecurity) businessObjectService.findByPrimaryKey(TransactionArchiveSecurity.class, primaryKeys);        
     }
     
+    /**
+     * Gets a security object
+     * 
+     * @param transactionArchive
+     * @return
+     */
     protected Security getSecurity(TransactionArchive transactionArchive) {
         TransactionArchiveSecurity transactionArchiveSecurity = getTransactionArchiveSecurity(transactionArchive);
         if (transactionArchiveSecurity != null) {
@@ -194,12 +219,25 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         }        
     }
     
+    /**
+     * Gets an transaction code object
+     * 
+     * @param etranCcode
+     * @return
+     */
     protected EndowmentTransactionCode getEndowmentTransactionCode(String etranCcode) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, etranCcode);
         return (EndowmentTransactionCode) businessObjectService.findByPrimaryKey(EndowmentTransactionCode.class, primaryKeys);
     }
     
+    /**
+     * Gets a historical cash object
+     * 
+     * @param kemid
+     * @param medId
+     * @return
+     */
     protected KemidHistoricalCash getKemidHistoricalCash(String kemid, KualiInteger medId) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
@@ -207,6 +245,10 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         return (KemidHistoricalCash) businessObjectService.findByPrimaryKey(KemidHistoricalCash.class, primaryKeys);
     }
  
+    /**
+     * Gets the previous month end date object
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#getPreviousMonthEndDate(java.sql.Date)
+     */
     protected MonthEndDate getPreviousMonthEndDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -214,29 +256,45 @@ public class TransactionStatementReportServieImpl extends EndowmentReportService
         return getMonthEndDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#getMonthEndDate(java.sql.Date)
+     */
     protected MonthEndDate getMonthEndDate(Date date) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE, date);
         return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
     }
     
+    /**
+     * Converts string to date
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#convertStringToDate(java.lang.String)
+     */
     protected Date convertStringToDate(String stringDate) {        
         Date date = null;
         try {
             date = dateTimeService.convertToSqlDate(stringDate);
         } catch (ParseException e) {
+            return null;
         }        
         return date;
     }
     
+    /** 
+     * Convert date to string
+     * 
+     * @param date
+     * @return
+     */
     protected String convertDateToString(Date date) {        
         return dateTimeService.toDateString(date);
     }
-    
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 
+    /**
+     * Sets transaction archive dao
+     * 
+     * @param transactionArchiveDao
+     */
     public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
         this.transactionArchiveDao = transactionArchiveDao;
     }

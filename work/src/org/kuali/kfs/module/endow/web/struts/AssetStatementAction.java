@@ -243,12 +243,13 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
             }
         }
             
-        // See to see if you have something to print
-        if (endowmentAssetStatementReportDataHolders != null || nonEndowedAssetStatementReportDataHolders != null) {
+        // Check to see if there are something to print
+        if ((endowmentAssetStatementReportDataHolders != null && !endowmentAssetStatementReportDataHolders.isEmpty()) || 
+             (nonEndowedAssetStatementReportDataHolders != null && !nonEndowedAssetStatementReportDataHolders.isEmpty())) {
             EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment = null;
             EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed = null;
             
-            if (endowmentAssetStatementReportDataHolders != null) {
+            if (endowmentAssetStatementReportDataHolders != null && !endowmentAssetStatementReportDataHolders.isEmpty()) {
     
                 // prepare the header sheet data          
                 reportHeaderDataHolderForEndowment = assetStatementReportService.createReportHeaderSheetData(
@@ -263,7 +264,7 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
                         endowmentOption,
                         reportOption);
             }
-            if (nonEndowedAssetStatementReportDataHolders != null) {
+            if (nonEndowedAssetStatementReportDataHolders != null && !nonEndowedAssetStatementReportDataHolders.isEmpty()) {
     
                 // prepare the header sheet data          
                 reportHeaderDataHolderForNonEndowed = assetStatementReportService.createReportHeaderSheetData(
@@ -280,27 +281,26 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
             }
 
             // generate the report in one PDF file
-            if (printFileOption.equalsIgnoreCase("Y")) {
+            //if (printFileOption.equalsIgnoreCase("Y")) {
                 // consolidate all reports into one
                 ByteArrayOutputStream pdfStream = new AssetStatementReportPrint().printAssetStatementReport(reportHeaderDataHolderForEndowment, reportHeaderDataHolderForNonEndowed, endowmentAssetStatementReportDataHolders, nonEndowedAssetStatementReportDataHolders, endowmentOption, reportOption, listKemidsInHeader);
                 //pdfStream3.write(result); 
                 if (pdfStream != null) {
                     WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", pdfStream, REPORT_FILE_NAME);
                 }
-            } 
-            else {
-                // zip all report files
-            }
+//            } 
+//            else {
+//                // zip all report files
+//            }
             
             return null;
-
         }       
         
         // No report was generated
         if (StringUtils.isBlank(kemids)) { 
-            assetStatementForm.setMessage("Report was not generated.");
+            assetStatementForm.setMessage("No data was found to generate report.");
         } else {
-            assetStatementForm.setMessage("Report was not generated for " + kemids + ".");
+            assetStatementForm.setMessage("No data was found to generate report for " + kemids + ".");
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        

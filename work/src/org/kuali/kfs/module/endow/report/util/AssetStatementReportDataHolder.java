@@ -53,6 +53,14 @@ public class AssetStatementReportDataHolder {
         footer = null;
     }
 
+    /**
+     * Creates a report group data and registers it
+     * 
+     * @param reportingGroup
+     * @param security
+     * @param ipInd
+     * @return
+     */
     public ReportGroupData createReportGroupData(SecurityReportingGroup reportingGroup, Security security, String ipInd) {
 
         Integer reportGroupOrder = reportingGroup.getSecurityReportingGrpOrder();
@@ -89,6 +97,12 @@ public class AssetStatementReportDataHolder {
         return rgd;
     }
        
+    /**
+     * Calculates the sum of units
+     * 
+     * @param ipInd
+     * @return
+     */
     public BigDecimal getTotalSumOfUnits(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
@@ -109,7 +123,7 @@ public class AssetStatementReportDataHolder {
     }
 
     /**
-     * 8-1
+     * Calculates the sum of market values for cash and equivalents
      * 
      * @param ipInd
      * @return
@@ -118,6 +132,13 @@ public class AssetStatementReportDataHolder {
         return getTotalSumOfMarketValue(ipInd, new Integer(1));
     }
 
+    /**
+     * Calculates the sum of market values
+     * 
+     * @param ipInd
+     * @param reportGroupOrder
+     * @return
+     */
     public BigDecimal getTotalSumOfMarketValue(String ipInd, Integer reportGroupOrder) {
         
         BigDecimal total = BigDecimal.ZERO;
@@ -137,6 +158,12 @@ public class AssetStatementReportDataHolder {
         return total;
     }
     
+    /**
+     * Calculates the sum of market values
+     * 
+     * @param ipInd
+     * @return
+     */
     public BigDecimal getTotalSumOfMarketValue(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
@@ -156,6 +183,12 @@ public class AssetStatementReportDataHolder {
         return total;
     }
     
+    /**
+     * Calculates the sum of estimated income
+     * 
+     * @param ipInd
+     * @return
+     */
     public BigDecimal getTotalSumOfEstimatedIncome(String ipInd) {
 
         BigDecimal total = BigDecimal.ZERO;
@@ -175,6 +208,12 @@ public class AssetStatementReportDataHolder {
         return total;       
      }
     
+    /**
+     * Calculates the sum of remainder of FY estimated income
+     * 
+     * @param ipInd
+     * @return
+     */
     public BigDecimal getTotalSumOfRemainderOfFYEstimated(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
@@ -194,6 +233,12 @@ public class AssetStatementReportDataHolder {
         return total;
     }
     
+    /**
+     * Calculates the sum of next FY estimated income
+     * 
+     * @param ipInd
+     * @return
+     */
     public BigDecimal getTotalSumOfNextFYEstimatedIncome(String ipInd) {
         
         BigDecimal total = BigDecimal.ZERO;
@@ -213,6 +258,9 @@ public class AssetStatementReportDataHolder {
         return total;
     }
 
+    /**
+     * Report group data holder 
+     */
     public class ReportGroupData {
         private Integer reportGroupOrder;
         private String reportGroupDesc;

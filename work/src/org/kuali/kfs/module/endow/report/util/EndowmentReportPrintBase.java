@@ -54,8 +54,12 @@ public abstract class EndowmentReportPrintBase {
     public static final Font footerTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD);
     public static final Font footerRegularFont = FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, Color.DARK_GRAY);
     
-    protected Rectangle LETTER_PORTRAIT = PageSize.LETTER;
-    protected Rectangle LETTER_LANDSCAPE = PageSize.LETTER.rotate();
+    protected static final Rectangle LETTER_PORTRAIT = PageSize.LETTER;
+    protected static final Rectangle LETTER_LANDSCAPE = PageSize.LETTER.rotate();
+    
+    protected static final String FORMAT192 = "#,###,###,###,###,###,##0.00";
+    protected static final String FORMAT195 = "##,###,###,###,##0.00000";
+    protected static final String FORMAT164 = "###,###,###,##0.0000";
     
     /** 
      * Generates the report header sheet
@@ -203,6 +207,10 @@ public abstract class EndowmentReportPrintBase {
      */
     public boolean printFooter(EndowmentReportFooterDataHolder footerData, Document document) {
     
+        if (footerData == null) {
+            return false;
+        }
+        
         try {
             document.add(new Phrase("\n"));
             
@@ -246,10 +254,10 @@ public abstract class EndowmentReportPrintBase {
             List<BenefittingForFooter> benefittingList = footerData.getBenefittingList();
             if (benefittingList != null) {
                 for (BenefittingForFooter benefitting : benefittingList) {
-                    rightTable.addCell(createCell(benefitting.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, false));
-                    rightTable.addCell(createCell(benefitting.getChartName(), footerRegularFont, Element.ALIGN_LEFT, false));
-                    rightTable.addCell(createCell(benefitting.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, false));
-                    rightTable.addCell(createCell(benefitting.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, false));
+                    rightTable.addCell(createCell(benefitting.getCampusName(), footerRegularFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, false));
+                    rightTable.addCell(createCell(benefitting.getChartName(), footerRegularFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, false));
+                    rightTable.addCell(createCell(benefitting.getOrganizationName(), footerRegularFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, false));
+                    rightTable.addCell(createCell(benefitting.getBenefittingPercent(), footerRegularFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, false));
                 }
             }
             
@@ -296,15 +304,19 @@ public abstract class EndowmentReportPrintBase {
      * @param borderLine
      * @return
      */
-    public PdfPCell createCell(String contents, Font font, int alignment, boolean borderLine) {
+    public PdfPCell createCell(String contents, Font font, int horizontalAlignment, boolean borderLine) {
+        return createCell(contents, font, horizontalAlignment, Element.ALIGN_BOTTOM, borderLine);
+    } 
+    
+    public PdfPCell createCell(String contents, Font font, int horizontalAlignment, int verticalAlignment, boolean borderLine) {
         if (contents == null) contents = "";
         Phrase phr = new Phrase(contents, font);
         PdfPCell cell = new PdfPCell(phr);
-        cell.setHorizontalAlignment(alignment);
+        cell.setHorizontalAlignment(horizontalAlignment);
         if (!borderLine) {
             cell.setBorderWidth(0);
         }
-        cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+        cell.setVerticalAlignment(verticalAlignment);
         return cell;
     } 
     
@@ -320,6 +332,19 @@ public abstract class EndowmentReportPrintBase {
         return createCell(amount, font, Element.ALIGN_RIGHT, true);        
     }
     
+    /**
+     * Created a cell with a specific font and format
+     * 
+     * @param value
+     * @param font
+     * @param format
+     * @return
+     */
+    protected PdfPCell getAmountCell(BigDecimal value, Font font, String format) {        
+        String amount = (value == null) ? ZERO_FOR_REPORT : formatAmount(value, format);        
+        return createCell(amount, font, Element.ALIGN_RIGHT, true);        
+    }
+    
     /** 
      * Format the dollar amount - 19,2 decimal
      * 
@@ -328,6 +353,18 @@ public abstract class EndowmentReportPrintBase {
      */
     protected String formatAmount(BigDecimal amount) {                
         NumberFormat formatter = new DecimalFormat("#,###,###,###,###,###,##0.00;(#,###,###,###,###,###,##0.00)");
+        return  formatter.format(amount.doubleValue());
+    }
+    
+    /**
+     * Format the dollar amount
+     * 
+     * @param amount
+     * @param format
+     * @return
+     */
+    protected String formatAmount(BigDecimal amount, String format) {        
+        NumberFormat formatter = new DecimalFormat(format + ";(" + format + ")");
         return  formatter.format(amount.doubleValue());
     }
 }

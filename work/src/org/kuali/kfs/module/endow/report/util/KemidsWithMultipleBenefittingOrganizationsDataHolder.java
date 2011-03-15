@@ -28,63 +28,33 @@ public class KemidsWithMultipleBenefittingOrganizationsDataHolder {
     private String organization;
     private KualiDecimal percent;
     
-    /**
-     * 
-     */
     public String getKemid() {
         return kemid;
     }
-    /**
-     * 
-     */
     public void setKemid(String kemid) {
         this.kemid = kemid;
     }
-    /**
-     * 
-     */
     public String getCampus() {
         return campus;
     }
-    /**
-     * 
-     */
     public void setCampus(String campus) {
         this.campus = campus;
     }
-    /**
-     * 
-     */
     public String getChart() {
         return chart;
     }
-    /**
-     * 
-     */
     public void setChart(String chart) {
         this.chart = chart;
     }
-    /**
-     * 
-     */
     public String getOrganization() {
         return organization;
     }
-    /**
-     * 
-     */
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-    /**
-     * 
-     */
     public KualiDecimal getPercent() {
         return percent;
     }
-    /**
-     * 
-     */
     public void setPercent(KualiDecimal percent) {
         this.percent = percent;
     }

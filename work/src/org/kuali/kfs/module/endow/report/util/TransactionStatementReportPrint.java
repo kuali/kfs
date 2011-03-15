@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.report.util;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHolder.TransactionArchiveInfo;
@@ -25,10 +24,8 @@ import org.kuali.kfs.module.endow.report.util.TransactionStatementReportDataHold
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
-import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -48,7 +45,6 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionStatementReportPrint.class);
         
         Document document = new Document();
-        //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
         document.setPageSize(LETTER_PORTRAIT);
         document.addTitle("Endowment Transaction Statement");
         
@@ -58,15 +54,9 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
             PdfWriter.getInstance(document, pdfStream);            
             document.open();
 
-            // page
-            HeaderFooter header = new HeaderFooter(new Phrase(new Date().toString() + "     Page: ", headerFont), true);
-            header.setBorder(Rectangle.NO_BORDER);
-            header.setAlignment(Element.ALIGN_RIGHT);
-            header.setPageNumber(0);
-            document.setHeader(header);
-            
             // print the report header
-            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader)) {                
+            if (printReportHeaderPage(reportRequestHeaderDataHolder, document, listKemidsInHeader)) {
+                // and then the body
                 if (transactionStatementDataReportHolders != null && transactionStatementDataReportHolders.size() > 0) {            
                     printTransactionStatementReportBody(transactionStatementDataReportHolders, document);
                 } 
@@ -92,9 +82,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
      * @return
      */
     public boolean printTransactionStatementReportBody(List<TransactionStatementReportDataHolder> transactionStatementReportDataHolders, Document document) {
-            
-        document.setPageCount(0);
-        
+                    
         // for each kemid
         try {                               
             Font cellFont = regularFont;
@@ -108,7 +96,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 title.append(transactionStatementReport.getInstitution()).append("\n");
                 title.append("STATEMENT OF TRANSACTIONS FROM").append("\n");
                 title.append(transactionStatementReport.getBeginningDate()).append(" to ").append(transactionStatementReport.getEndingDate()).append("\n");
-                title.append(transactionStatementReport.getKemid()).append("     ").append(transactionStatementReport.getKemidLongTitle()).append("\n\n\n");
+                title.append(transactionStatementReport.getKemid()).append("     ").append(transactionStatementReport.getKemidLongTitle()).append("\n\n");
                 Paragraph header = new Paragraph(title.toString());
                 header.setAlignment(Element.ALIGN_CENTER);                
                 document.add(header);
@@ -123,10 +111,10 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 // table titles
                 table.addCell(new Phrase("DATE", titleFont));
                 table.addCell(new Phrase("DESCRIPTION", titleFont));
-                table.addCell(createCell("INCOME AMOUNT", titleFont, Element.ALIGN_RIGHT, true));
-                table.addCell(createCell("PRINCIPAL AMOUNT", titleFont, Element.ALIGN_RIGHT, true));
+                table.addCell(createCell("INCOME AMOUNT", titleFont, Element.ALIGN_RIGHT, Element.ALIGN_MIDDLE, true));
+                table.addCell(createCell("PRINCIPAL AMOUNT", titleFont, Element.ALIGN_RIGHT, Element.ALIGN_MIDDLE, true));
                 
-                // first row
+                // beginning cash balance
                 table.addCell(new Phrase(transactionStatementReport.getBeginningDate(), cellFont));
                 table.addCell(new Phrase("Beginning Cash Balance", cellFont));                
                 String amount = "";
@@ -135,6 +123,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 amount = formatAmount(transactionStatementReport.getBeginningPrincipalCash());
                 table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 
+                // transactions
                 List<TransactionArchiveInfo> TransactionArchiveInfoList = transactionStatementReport.getTransactionArchiveInfoList(); 
                 for (TransactionArchiveInfo transactionArchiveInfo : TransactionArchiveInfoList) {
                     table.addCell(new Phrase(transactionArchiveInfo.getPostedDate(), cellFont));
@@ -145,7 +134,7 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                     table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 }
                 
-                // last row
+                // ending cash balance
                 table.addCell(new Phrase(transactionStatementReport.getEndingDate(), cellFont));
                 table.addCell(new Phrase("Ending Cash Balance", cellFont));                
                 amount = formatAmount(transactionStatementReport.getEndingIncomeCash());
@@ -154,8 +143,10 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
                 table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 
                 document.add(table);
+
+                // footer
+                printFooter(transactionStatementReport.getFooter(), document);
             }
-            
             
         } catch (Exception e) {
             return false;
@@ -164,6 +155,12 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
         return true;
     }
     
+    /**
+     * Gets the transaction info
+     * 
+     * @param transactionArchiveInfo
+     * @return
+     */
     protected String getDescription(TransactionArchiveInfo transactionArchiveInfo) {
         
         StringBuffer description = new StringBuffer();
@@ -177,11 +174,13 @@ public class TransactionStatementReportPrint extends EndowmentReportPrintBase {
 
         description.append(transactionArchiveInfo.getTransactionDesc()).append("\n");
         
-        if (transactionArchiveInfo.getTransactionSecurityUnits() != null) {
-            description.append(transactionArchiveInfo.getTransactionSecurity()).append("\n")
-                       .append(transactionArchiveInfo.getTransactionSecurityUnits())
+        if (transactionArchiveInfo.getTransactionSecurity() != null && !transactionArchiveInfo.getTransactionSecurity().isEmpty()) {
+            description.append(transactionArchiveInfo.getTransactionSecurity()).append("\n");
+        }
+        if (transactionArchiveInfo.getTransactionSecurityUnits() != null && transactionArchiveInfo.getTransactionSecurityUnits() != BigDecimal.ZERO) {
+            description.append(formatAmount(transactionArchiveInfo.getTransactionSecurityUnits(), FORMAT164))
                        .append(" at ")
-                       .append(transactionArchiveInfo.getTransactionSecurityUnitValue())
+                       .append(formatAmount(transactionArchiveInfo.getTransactionSecurityUnitValue(), FORMAT195))
                        .append(" per unit");
         }
      

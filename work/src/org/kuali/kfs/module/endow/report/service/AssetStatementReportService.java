@@ -25,7 +25,10 @@ public interface AssetStatementReportService extends EndowmentReportService {
          * Gets the trial balance data using selected kemids
          * 
          * @param kemids
+         * @param monthEndDate
          * @param endownmentOption
+         * @param reportOption
+         * @param closedIndicator
          * @return
          */
         public List<AssetStatementReportDataHolder> getAssetStatementReportsByKemidByIds(List<String> kemids, String monthEndDate, String endownmentOption, String reportOption, String closedIndicator);
@@ -47,7 +50,10 @@ public interface AssetStatementReportService extends EndowmentReportService {
          * @param typeCodes
          * @param purposeCodes
          * @param combineGroupCodes
+         * @param monthEndDate
          * @param endowmnetOption
+         * @param reportOption
+         * @param closedIndicator
          * @return
          */
         public List<AssetStatementReportDataHolder> getAssetStatementReportsByOtherCriteria( 

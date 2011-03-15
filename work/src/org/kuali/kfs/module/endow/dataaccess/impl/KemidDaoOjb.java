@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,14 +38,16 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
      */
     public List<KEMID> getKemidRecordsByIds(List<String> kemids, String endowmentOption, String closedIndicator) {
         
+        // get valid type restriction codes
         Criteria subCrit = new Criteria();
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
             subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
         }
-        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
+        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true); 
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
         subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
                 
+        // set criteria for kemid
         Criteria criteria = new Criteria();
         if (kemids != null) {
             for (String kemid : kemids) {
@@ -71,8 +72,13 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         return (List<KEMID>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
    
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidDao#getKemidsByAttributeWithEndowmentOption(java.lang.String, java.util.List, java.lang.String, java.lang.String)
+     */
     public List<String> getKemidsByAttributeWithEndowmentOption(String attributeName, List<String> values, String endowmentOption, String closedIndicator) {
         
+        // get valid type restriction codes
         Criteria subCrit = new Criteria();
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
             subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
@@ -81,12 +87,13 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
         subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
         
+        // set criteria for kemid
         Criteria criteria = new Criteria();
         if (values != null) {
             for (String value : values) {
                 Criteria c = new Criteria();
-                if (value.contains("*")) {
-                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                if (value.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    c.addLike(attributeName, value.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
                 } else {
                     c.addEqualTo(attributeName, value.trim());
                 }            
@@ -123,8 +130,8 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         if (values != null) {
             for (String value : values) {
                 Criteria c = new Criteria();
-                if (value.contains("*")) {
-                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                if (value.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    c.addLike(attributeName, value.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
                 } else {
                     c.addEqualTo(attributeName, value.trim());
                 }            
@@ -156,8 +163,8 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         if (values != null) {
             for (String value : values) {
                 Criteria c = new Criteria();
-                if (value.contains("*")) {
-                    c.addLike(attributeName, value.trim().replace('*', '%'));
+                if (value.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    c.addLike(attributeName, value.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
                 } else {
                     c.addEqualTo(attributeName, value.trim());
                 }            

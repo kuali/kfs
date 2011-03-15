@@ -37,6 +37,9 @@ public class TransactionStatementReportDataHolder {
     
     private List<TransactionArchiveInfo> transactionArchiveInfoList = new ArrayList<TransactionArchiveInfo>(); 
     
+    // footer
+    private EndowmentReportFooterDataHolder footer;
+    
     // description
     public class TransactionArchiveInfo {
         private String postedDate;   
@@ -198,45 +201,12 @@ public class TransactionStatementReportDataHolder {
         this.transactionArchiveInfoList = transactionArchiveInfoList;
     }
 
+    public EndowmentReportFooterDataHolder getFooter() {
+        return footer;
+    }
 
+    public void setFooter(EndowmentReportFooterDataHolder footer) {
+        this.footer = footer;
+    }
     
-//    /**
-//     * Gets the send row description 
-//     * 
-//     * @return
-//     */
-//    public String getDescription2() {
-//        StringBuffer description = new StringBuffer();
-//        description.append(documentName).append("\n")
-//                   .append(getEtranCodeAndDescription()).append("\n")
-//                   .append(transactionDesc).append("\n")
-//                   .append(transactionSecurity).append("\n")
-//                   .append(transactionSecurityUnits).append(" at ").append(transactionSecurityUnitValue);
-//                   
-//        return description.toString();
-//    }
-//
-//    /**
-//     * Gets the last row description
-//     * 
-//     * @return
-//     */
-//
-//
-//    public String getTransactionDesc() {
-//        if (transactionDesc == null || transactionDesc.isEmpty()) {
-//            return "No Transaction Description";
-//        } else {
-//            return transactionDesc;
-//        }
-//    }
-//
-//
-//    public String getEtranCodeAndDescription() {
-//        if (etranCode != null && etranCode.equalsIgnoreCase("null") && !etranCode.isEmpty()) {
-//            return etranCode + " - " + etranCodeDesc;
-//        } else {
-//            return "No Etran Code";
-//        }
-//    }
 }

@@ -27,6 +27,10 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class MonthEndDateDaoOjb extends PlatformAwareDaoBaseOjb implements MonthEndDateDao {
 
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.MonthEndDateDao#getAllMonthEndDates()
+     */
     public List<MonthEndDate> getAllMonthEndDates() {
         Criteria criteria = new Criteria();
         QueryByCriteria qbc = QueryFactory.newQuery(MonthEndDate.class, criteria);

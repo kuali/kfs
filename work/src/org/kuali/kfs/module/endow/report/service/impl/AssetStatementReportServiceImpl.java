@@ -83,9 +83,6 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(monthEndDate));
         KualiInteger medId = endingMED.getMonthEndDateId();
         List<KemidHistoricalCash> historyCashRecords = getKemidHistoricalCashRecords(kemidsSelected, medId);
-        // For Total report
-        //BigDecimal totalHistoryIncomeCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.INCOME);
-        //BigDecimal totalHostoryPrincipalCash = getTotalHistoryCash(historyCashRecords, IncomePrincipalIndicator.PRINCIPAL);     
         
         if ("Y".equalsIgnoreCase(endowmentOption)) {
             // for endowment
@@ -158,8 +155,6 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                 AssetStatementReportDataHolder assetStatementReport = new AssetStatementReportDataHolder();
                 
                 // get related objects
-                //KemidHistoricalCash historyCash = getKemidHistoricalCash(kemidOjb.getKemid(), medId);
-                //if (historyCash == null) continue;
                 KEMID kemidOjb = getKemid(historyCash.getKemid());
                 List<HoldingHistory> holdingHistoryRecords = holdingHistoryDao.getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(historyCash.getKemid(), medId, "");
                 
@@ -221,8 +216,13 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         }
     }
 
+    /**
+     * Gets security report group object with security id
+     * 
+     * @param securityId
+     * @return
+     */
     protected SecurityReportingGroup getSecurityReportingGroupBySecurityId(String securityId) {
-
         // get Security
         Security security = getSecurityById(securityId);
         // get class code
@@ -233,18 +233,36 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         return securityReportingGroup;        
     }
     
+    /**
+     * Gets security object
+     * 
+     * @param securityId
+     * @return
+     */
     protected Security getSecurityById(String securityId) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.SECURITY_ID, securityId);
         return (Security) businessObjectService.findByPrimaryKey(Security.class, primaryKeys);
     }
     
+    /**
+     * Gets class code object
+     * 
+     * @param classCode
+     * @return
+     */
     protected ClassCode getClassCodeById(String classCode) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, classCode);
         return (ClassCode) businessObjectService.findByPrimaryKey(ClassCode.class, primaryKeys);
     }
     
+    /**
+     * Gets security report group by report group 
+     * 
+     * @param reportGroup
+     * @return
+     */
     protected SecurityReportingGroup getSecurityReportingGroup(String reportGroup) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.ENDOWCODEBASE_CODE, reportGroup);
@@ -252,12 +270,25 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
 
     }
     
+    /**
+     * Gets KEMID
+     * 
+     * @param kemid
+     * @return
+     */
     protected KEMID getKemid(String kemid) {
         Map<String,String> primaryKeys = new HashMap<String,String>();
         primaryKeys.put(EndowPropertyConstants.KEMID, kemid);
         return (KEMID) businessObjectService.findByPrimaryKey(KEMID.class, primaryKeys);
     }
     
+    /**
+     * Gets KemidHistoricalCash by kemid and month end id
+     * 
+     * @param kemid
+     * @param medId
+     * @return
+     */
     protected KemidHistoricalCash getKemidHistoricalCash(String kemid, KualiInteger medId) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.ENDOWMENT_HIST_CASH_KEMID, kemid);
@@ -265,6 +296,13 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         return (KemidHistoricalCash) businessObjectService.findByPrimaryKey(KemidHistoricalCash.class, primaryKeys);
     }
     
+    /**
+     * Gets a collection of historical cash records by a list of kemid and a month end id
+     * 
+     * @param kemids
+     * @param medId
+     * @return
+     */
     protected List<KemidHistoricalCash> getKemidHistoricalCashRecords(List<String> kemids, KualiInteger medId) {
         return kemidHistoricalCashDao.getHistoricalCashRecords(kemids, medId);
     }
@@ -281,6 +319,10 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         return total;
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#getPreviousMonthEndDate(java.sql.Date)
+     */
     protected MonthEndDate getPreviousMonthEndDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -288,12 +330,20 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         return getMonthEndDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#getMonthEndDate(java.sql.Date)
+     */
     protected MonthEndDate getMonthEndDate(Date date) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
         primaryKeys.put(EndowPropertyConstants.MONTH_END_DATE, date);
         return (MonthEndDate) businessObjectService.findByPrimaryKey(MonthEndDate.class, primaryKeys);
     }
     
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.report.service.impl.EndowmentReportServiceImpl#convertStringToDate(java.lang.String)
+     */
     protected Date convertStringToDate(String stringDate) {        
         Date date = null;
         try {
@@ -303,10 +353,21 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
         return date;
     }
     
+    /**
+     * Convert java.sql.date to string
+     * 
+     * @param date
+     * @return
+     */
     protected String convertDateToString(Date date) {        
         return dateTimeService.toDateString(date);
     }
 
+    /**
+     * Sets holdingHistoryDao
+     * 
+     * @param holdingHistoryDao
+     */
     public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
         this.holdingHistoryDao = holdingHistoryDao;
     }

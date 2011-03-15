@@ -105,6 +105,10 @@ public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb 
      */
     public List<KemidsWithMultipleBenefittingOrganizationsDataHolder> getKemidsWithMultipleBenefittingOrganizations(List<String> kemids) {
         
+        if (kemids == null || kemids.isEmpty()) {
+            return null;
+        }
+        
         List<KemidsWithMultipleBenefittingOrganizationsDataHolder> kmbodhs = new ArrayList<KemidsWithMultipleBenefittingOrganizationsDataHolder>(); 
         
         // get the kemids that are more than one

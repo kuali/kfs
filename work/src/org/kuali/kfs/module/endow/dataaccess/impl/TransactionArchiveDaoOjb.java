@@ -402,10 +402,15 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         return totalCashActivity;
     }
     
-    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(String kemid, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator) {
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchiveByKemidsAndPostedDate(java.lang.String, java.lang.String, java.util.Date, java.util.Date, java.lang.String, java.lang.String)
+     */
+    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(String kemid, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator, String transactionSubType) {
         
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE, transactionSubType);
         criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
         criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
         
@@ -415,66 +420,6 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
             
     }
-    
-//    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(List<String> kemids, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator) {
-//        
-//        // get the kemids to be used to get TransactionArchives
-//        Criteria subCrit = new Criteria();
-//        if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
-//            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
-//        }
-//        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
-//        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
-//        subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
-//                
-//        Criteria subCrit2 = new Criteria();
-//        if (kemids != null) {
-//            for (String kemid : kemids) {
-//                Criteria c = new Criteria();
-//                if (kemid.contains("*")) {
-//                    c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace('*', '%'));
-//                } else {
-//                    c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
-//                }
-//                //c.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);            
-//                subCrit2.addOrCriteria(c);
-//            }
-//        }
-//        subCrit2.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);        
-//        if (closedIndicator.equalsIgnoreCase("Y")) {
-//            subCrit2.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
-//        } else if (closedIndicator.equalsIgnoreCase("N")) {
-//            subCrit2.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
-//        }        
-//        ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, subCrit2, true);
-//        query.setAttributes(new String[] {EndowPropertyConstants.KEMID}); 
-//        
-//        Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
-//        
-//        List<String> kemidsSelected = new ArrayList<String>();
-//        while (result.hasNext()) {
-//            Object[] data = (Object[]) result.next();
-//            kemidsSelected.add(data[0].toString());
-//        }
-//
-//        // get TransactionArchive        
-//        if (!kemidsSelected.isEmpty()) {
-//            Criteria criteria = new Criteria();
-//            Criteria criteria2 = new Criteria();
-//            criteria2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemidsSelected);
-//            criteria.addAndCriteria(criteria2);
-//            criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
-//            criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
-//            
-//            QueryByCriteria qbc2 = QueryFactory.newQuery(TransactionArchive.class, criteria);
-//            qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);
-//    
-//            return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc2);
-//            
-//        } else {
-//            return null;
-//        }
-//    }
     
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesByKemid(java.lang.String, java.util.Date, java.util.Date)

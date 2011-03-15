@@ -2535,7 +2535,7 @@
 		</property>	
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>				
+		</property>		
 		<property name="kemidDao">
 			<ref bean="kemidDao" />
 		</property>
@@ -2595,7 +2595,7 @@
 		</property>		
 		<property name="kemService">
 			<ref bean="kemService"/>
-		</property>				
+		</property>								
 		<property name="kemidDao">
 			<ref bean="kemidDao" />
 		</property>

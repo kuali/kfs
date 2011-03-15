@@ -376,11 +376,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // chart and organization.
         for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
             // check to make sure the account is in the auto approve exclusion list
-            Map<String, String> autoApproveMap = new HashMap<String, String>();
+            Map<String, Object> autoApproveMap = new HashMap<String, Object>();
             autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());
             autoApproveMap.put("accountNumber", line.getAccountNumber());
+            autoApproveMap.put("active", true);
             AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
             if (autoApproveExclude != null) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to source accounting line " + line.getSequenceNumber() + 
+                        " using Chart/Account [" + line.getChartOfAccountsCode() + "-" + line.getAccountNumber() + 
+                        "], which is excluded in the Auto Approve Exclusions table.");
                 return false;
             }
 

@@ -45,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceImpl implements TransactionSummaryReportService {
 
-    protected DateTimeService dateTimeService;
     protected TransactionArchiveDao transactionArchiveDao;
     protected HoldingHistoryDao holdingHistoryDao;
     
@@ -53,15 +52,15 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getTrialBalanceReportForAllKemids(java.lang.String)
      */
-    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportForAllKemids(String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
-        return getTransactionSummaryReportsByKemidByIds(null, beginningDate, endingDate, endowmentOption, closedIndicator);
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportForAllKemids(String beginningDate, String endingDate, String endowmentOption, String closedIndicator, String reportOption) {
+        return getTransactionSummaryReportsByKemidByIds(null, beginningDate, endingDate, endowmentOption, closedIndicator, reportOption);
     }
     
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByKemidByIds(java.util.List, java.lang.String)
      */
-    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator) {
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByKemidByIds(List<String> kemids, String beginningDate, String endingDate, String endowmentOption, String closedIndicator, String reportOption) {
         
         List<TransactionSummaryReportDataHolder> transactionSummaryReportList = new ArrayList<TransactionSummaryReportDataHolder>();
 
@@ -142,11 +141,18 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
             //setup the report header information....
             transactionSummaryReportDataHolder.setInstitution(getInstitutionName());
             transactionSummaryReportDataHolder.setKemid(kemid);
-            transactionSummaryReportDataHolder.setKemidLongTitle(getKemid(kemid).getLongTitle());
+            
+            KEMID kemidObj = getKemid(kemid);
+            
+            transactionSummaryReportDataHolder.setKemidLongTitle(kemidObj.getLongTitle());
             transactionSummaryReportDataHolder.setBeginningDate(beginningDate);
             transactionSummaryReportDataHolder.setEndingDate(endingDate);
             
-            //setup the report footer information....need to do this..
+            //setup the report footer information...Only for Detail report option
+            if (!reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
+                transactionSummaryReportDataHolder.setFooter(createFooterData(kemidObj));
+            }
+
             // add this new one
             transactionSummaryReportList.add(transactionSummaryReportDataHolder);
         }
@@ -186,7 +192,7 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
      * @see org.kuali.kfs.module.endow.report.service.TransactionStatementReportService#getTransactionStatementReportsByOtherCriteria(java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.util.List, java.lang.String)
      */
     public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
-            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption, String closedIndicator) {
+            List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes, String beginningDate, String endingDate, String endowmnetOption, String closedIndicator, String reportOption) {
         
         List<String> kemids = getKemidsByOtherCriteria(benefittingOrganziationCampusCodes, benefittingOrganziationChartCodes,
                 benefittingOrganziationCodes, typeCodes, purposeCodes, combineGroupCodes);        
@@ -195,7 +201,7 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         if (kemids.size() == 0) {
             return null;
         } else {            
-            return getTransactionSummaryReportsByKemidByIds(kemids, beginningDate, endingDate, endowmnetOption, closedIndicator);
+            return getTransactionSummaryReportsByKemidByIds(kemids, beginningDate, endingDate, endowmnetOption, closedIndicator, reportOption);
         }
     }
 
@@ -289,10 +295,6 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         return dateTimeService.toDateString(date);
     }
     
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
     public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
         this.transactionArchiveDao = transactionArchiveDao;
     }

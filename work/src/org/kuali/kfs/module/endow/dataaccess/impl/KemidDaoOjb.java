@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.kfs.module.endow.dataaccess.KemidDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
@@ -42,7 +43,7 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
             subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
         }
-        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true); 
+        subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
         subQuery.setAttributes(new String[] {EndowPropertyConstants.ENDOWCODEBASE_CODE});
                 
@@ -50,8 +51,8 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         if (kemids != null) {
             for (String kemid : kemids) {
                 Criteria c = new Criteria();
-                if (kemid.contains("*")) {
-                    c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace('*', '%'));
+                if (kemid.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                    c.addLike(EndowPropertyConstants.KEMID, kemid.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
                 } else {
                     c.addEqualTo(EndowPropertyConstants.KEMID, kemid.trim());
                 }

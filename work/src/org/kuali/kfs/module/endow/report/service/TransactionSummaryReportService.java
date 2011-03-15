@@ -23,20 +23,28 @@ public interface TransactionSummaryReportService extends EndowmentReportService 
 
     /**
      * Gets the transaction summary data using selected kemids
-     * 
+
      * @param kemids
+     * @param beginningDate
+     * @param endigDate
      * @param endownmentOption
+     * @param closedIndicator
+     * @param reportOption
      * @return List<TransactionSummaryReportDataHolder>
      */
-    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByKemidByIds(List<String> kemids, String beginningDate, String endigDate, String endownmentOption, String closedIndicator);
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByKemidByIds(List<String> kemids, String beginningDate, String endigDate, String endownmentOption, String closedIndicator, String reportOption);
     
     /**
      * Gets the transaction summary data for all kemids
      * 
+     * @param beginningDate
+     * @param endigDate
      * @param endownmentOption
+     * @param closedIndicator
+     * @param reportOption
      * @return List<TransactionSummaryReportDataHolder>
      */
-    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportForAllKemids(String beginningDate, String endigDate, String endownmentOption, String closedIndicator);
+    public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportForAllKemids(String beginningDate, String endigDate, String endownmentOption, String closedIndicator, String reportOption);
         
     /**
      * Gets the transaction summary data using selected criteria 
@@ -49,6 +57,7 @@ public interface TransactionSummaryReportService extends EndowmentReportService 
      * @param combineGroupCodes
      * @param endowmnetOption
      * @param closedIndicator
+     * @param reportOption
      * @return List<TransactionSummaryReportDataHolder>
      */
     public List<TransactionSummaryReportDataHolder> getTransactionSummaryReportsByOtherCriteria( 
@@ -61,5 +70,5 @@ public interface TransactionSummaryReportService extends EndowmentReportService 
             String beginningDate, 
             String endigDate,
             String endowmnetOption,
-            String closedIndicator);
+            String closedIndicator, String reportOption);
 }

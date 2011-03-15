@@ -454,10 +454,10 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         EndowmentReportFooterDataHolder footerDataHolder = new EndowmentReportFooterDataHolder();
         
         footerDataHolder.setReference(kemidOjb.getKemid());
-        footerDataHolder.setEstablishedDate(dateTimeService.toDateString(kemidOjb.getDateEstablished()));
+        footerDataHolder.setEstablishedDate(getDateTimeService().toDateString(kemidOjb.getDateEstablished()));
         footerDataHolder.setKemidType(kemidOjb.getType().getName());
         footerDataHolder.setKemidPurpose(kemidOjb.getPurpose().getName());
-        footerDataHolder.setReportRunDate(dateTimeService.toDateString(kemService.getCurrentDate()));
+        footerDataHolder.setReportRunDate(getDateTimeService().toDateString(kemService.getCurrentDate()));
         
         if (benefittingOrganizationList != null) {
             for (KemidBenefittingOrganization benefittingOrganization : benefittingOrganizationList) {
@@ -545,4 +545,11 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         this.kemidHistoricalCashDao = kemidHistoricalCashDao;
     }
 
+    /**
+     * gets attribute dateTimeService
+     * @return dateTimeService
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
 }

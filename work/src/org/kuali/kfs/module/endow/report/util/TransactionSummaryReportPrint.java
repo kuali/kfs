@@ -194,6 +194,11 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next Fiscal Year Estimated Income", transactionSummaryReport.getNextFYEstimatedIncome(), EndowConstants.EndowmentReport.DETAIL);
                 
                 document.add(table);
+                
+                //print the footer...
+                if (ObjectUtils.isNotNull(transactionSummaryReport.getFooter())) {
+                    printFooter(transactionSummaryReport.getFooter(), document);
+                }
             }
             
         } catch (Exception e) {
@@ -256,6 +261,11 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 writeDetailsLineWithTotalAmountOnly(table, cellFont, "Next Fiscal Year Estimated Income", transactionSummaryReport.getNextFYEstimatedIncome(), EndowConstants.EndowmentReport.TOTAL);
                 
                 document.add(table);
+                
+                //print the footer...
+                if (ObjectUtils.isNotNull(transactionSummaryReport.getFooter())) {
+                    printFooter(transactionSummaryReport.getFooter(), document);
+                }
             }
             
         } catch (Exception e) {

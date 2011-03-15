@@ -53,9 +53,13 @@ public class TransactionSummaryReportDataHolder {
     protected BigDecimal remainderOfFYEstimatedIncome = BigDecimal.ZERO;
     protected BigDecimal nextFYEstimatedIncome = BigDecimal.ZERO;
     
+    // footer
+    protected EndowmentReportFooterDataHolder footer;
+    
     public TransactionSummaryReportDataHolder() {
         reportGroupsForContributions = new ArrayList();   
         reportGroupsForExpenses = new ArrayList();
+        footer = null;        
     }
     /**
      * Gets the first row description
@@ -378,6 +382,19 @@ public class TransactionSummaryReportDataHolder {
         this.reportGroupsForContributions = reportGroupsForContributions;
     }
 
+    /**
+     * gets attribute footer
+     * @return footer
+     */
+    protected EndowmentReportFooterDataHolder getFooter() {
+        return footer;
+    }
+    /**
+     * sets attribute footer
+     */
+    public void setFooter(EndowmentReportFooterDataHolder footer) {
+        this.footer = footer;
+    }
     
     /**
      * public class to hold contributions and Other income totals.

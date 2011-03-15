@@ -41,7 +41,7 @@ public abstract class EndowmentReportBaseAction extends KualiAction {
         
         List<String> values = null;        
         if (StringUtils.isNotBlank(valueString)) {
-            values = Arrays.asList(StringUtils.split(valueString.trim(), separater));
+            values = Arrays.asList(StringUtils.split(valueString.trim().toUpperCase(), separater));
         }        
         return values;
     }

@@ -167,7 +167,7 @@ public class TransactionSummaryAction extends EndowmentReportBaseAction {
                 } else {
                     // by kemid only
                     List<String> kemidList = parseValueString(kemids, KEMID_SEPERATOR);                
-                    transactionSummaryReportList = transactionSummaryReportService.getTransactionSummaryReportsByKemidByIds(kemidList, beginningDate, endingDate, endowmentOption, closedIndicator);
+                    transactionSummaryReportList = transactionSummaryReportService.getTransactionSummaryReportsByKemidByIds(kemidList, beginningDate, endingDate, endowmentOption, closedIndicator, reportOption);
                 }
             } else {
                 if (( StringUtils.isBlank(benefittingOrganziationCampuses) 
@@ -178,7 +178,7 @@ public class TransactionSummaryAction extends EndowmentReportBaseAction {
                         && StringUtils.isBlank(combineGroupCodes) )) {
     
                     // for all kemids
-                    transactionSummaryReportList = transactionSummaryReportService.getTransactionSummaryReportForAllKemids(beginningDate, endingDate, endowmentOption, closedIndicator);
+                    transactionSummaryReportList = transactionSummaryReportService.getTransactionSummaryReportForAllKemids(beginningDate, endingDate, endowmentOption, closedIndicator, reportOption);
                     
                 } else {
                     // by other criteria
@@ -192,7 +192,7 @@ public class TransactionSummaryAction extends EndowmentReportBaseAction {
                         beginningDate,
                         endingDate,
                         endowmentOption,
-                        closedIndicator);
+                        closedIndicator, reportOption);
                 }
             }
         } else {

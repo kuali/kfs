@@ -74,5 +74,4 @@ public class TransactionSummaryForm extends EndowmentReportBaseForm {
     public void setSummaryTotalsOnly(String summaryTotalsOnly) {
         this.summaryTotalsOnly = summaryTotalsOnly;
     }
-        
 }

@@ -143,17 +143,19 @@
                     <div align="right">List KEMIDs in Header:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<input type="checkbox" name="listKemidsInHeader" value="N" />
+                    <input type="radio" name="listKemidsInHeader" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="listKemidsInHeader" value="N" />No&nbsp;&nbsp;
                 </td>				                      
-            </tr>   
+            </tr>  
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
                     <div align="right">Summary Totals Only:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<input type="checkbox" name="summaryTotalsOnly" value="N" />
+                    <input type="radio" name="summaryTotalsOnly" value="Y" checked />Yes&nbsp;&nbsp;
+					<input type="radio" name="summaryTotalsOnly" value="N" />No&nbsp;&nbsp;
                 </td>				                      
-            </tr>                                               
+            </tr>                         
         </table>
     
      <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

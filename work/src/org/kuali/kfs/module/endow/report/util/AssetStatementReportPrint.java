@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.report.util.AssetStatementReportDataHolder.ReportGroupData;
+import org.kuali.kfs.sys.KFSConstants;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -38,10 +39,10 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class AssetStatementReportPrint extends EndowmentReportPrintBase {
     
-    final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetStatementReportPrint.class);
+    private final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetStatementReportPrint.class);
     
     /**
-     * Generates all reports into a PDF file
+     * Generates all reports into one PDF file
      * 
      * @param reportHeaderDataHolderForEndowment
      * @param reportHeaderDataHolderForNonEndowed
@@ -59,12 +60,13 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, 
             String endowmentOption,
             String reportOption, 
-            String listKemidsOnHeader) {
+            String listKemidsInHeader) {
         
         // prepare iText document
         Document document = new Document();
         document.addTitle("Endowment Asset Statement");
         
+        // this output stream will be returned to the user in PDF  
         ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
 
         try {            
@@ -72,202 +74,272 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             document.open();
 
             // generates a PDF based on the options and data
-            if ("Y".equalsIgnoreCase(endowmentOption) && "D".equalsIgnoreCase(reportOption)) {
+            if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);                    
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentDetail(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentDetailReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);
                 }
             }
-            else if ("Y".equalsIgnoreCase(endowmentOption) && "T".equalsIgnoreCase(reportOption)) {
+            else if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.TOTAL.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);   
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentTotal(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentTotalReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, true);
                 }
             }
-            else if ("Y".equalsIgnoreCase(endowmentOption) && "B".equalsIgnoreCase(reportOption)) {
+            else if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);       
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    document.newPage();
-                    printAssetStatementReportBodyForEndowmentDetail(endowmentAssetStatementReportDataHolders, document);
-                    
+                    generateEndowmentDetailReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);                    
                     // endowment total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);                
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentTotal(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentTotalReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, true);
                 }
             }
-            else if ("N".equalsIgnoreCase(endowmentOption) && "D".equalsIgnoreCase(reportOption)) {
+            else if (KFSConstants.ParameterValues.NO.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader); 
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedDetail(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedDetailReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, false);
                 }
             }
-            else if ("N".equalsIgnoreCase(endowmentOption) && "T".equalsIgnoreCase(reportOption)) {
+            else if (KFSConstants.ParameterValues.NO.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.TOTAL.equalsIgnoreCase(reportOption)) {
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedTotalReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, false);
                 }
             }
-            else if ("N".equalsIgnoreCase(endowmentOption) && "B".equalsIgnoreCase(reportOption)) {
+            else if (KFSConstants.ParameterValues.NO.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(reportOption)) {
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    document.newPage();
-                    printAssetStatementReportBodyForNonEndowedDetail(nonEndowedAssetStatementReportDataHolders, document);
-                    
+                    generateNonEndowedDetailReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, false);
                     // non-endowed total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);                
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedTotalReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, true);
                 }
             }
-            else if ("B".equalsIgnoreCase(endowmentOption) && "D".equalsIgnoreCase(reportOption)) {
+            else if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);  
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentDetail(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentDetailReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);
                 }
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader); 
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedDetail(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedDetailReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, true);
                 }
             }
-            else if ("B".equalsIgnoreCase(endowmentOption) && "T".equalsIgnoreCase(reportOption)) {
+            else if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.TOTAL.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);  
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentTotal(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentTotalReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);
                 }
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedTotalReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, true);
                 }
             }
-            else if ("B".equalsIgnoreCase(endowmentOption) && "B".equalsIgnoreCase(reportOption)) {
+            else if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(endowmentOption) && EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(reportOption)) {
                 if (endowmentAssetStatementReportDataHolders != null && endowmentAssetStatementReportDataHolders.size() > 0) {
                     // endowment detail
-                    document.setPageSize(LETTER_PORTRAIT);                    
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentDetail(endowmentAssetStatementReportDataHolders, document);
-                                       
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
-                    reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);                    
-                    printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForEndowmentTotal(endowmentAssetStatementReportDataHolders, document);
+                    generateEndowmentDetailReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false); 
+                    // endowment total       
+                    generateEndowmentTotalReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, true);
                 }
                 if (nonEndowedAssetStatementReportDataHolders != null && nonEndowedAssetStatementReportDataHolders.size() > 0) {
                     // non-endowed detail
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);
-                    
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedDetail(nonEndowedAssetStatementReportDataHolders, document);
-                    
+                    generateNonEndowedDetailReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, true);
                     // non-endowed total
-                    document.setPageSize(LETTER_PORTRAIT);
-                    document.newPage();
-                    reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
-                    reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
-                    printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsOnHeader);
-                                        
-                    //document.resetPageCount();
-                    document.setPageSize(LETTER_LANDSCAPE);
-                    printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
+                    generateNonEndowedTotalReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, true);
                 }
-
-            } else {
-                LOG.error("Asset Statement Report Header Error");
-            }
-
+            } 
+            
             document.close();
 
         } catch (Exception e) {
-            LOG.error("PDF Error: " + e.getMessage());
+            LOG.error("Error in AssetStatementReportPrint:printAssetStatementReport(): " + e.getMessage());
             return null;
         }
         
         return pdfStream;
     }
 
+    /**
+     * Creates an endowment detail report in PDF 
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param listKemidsInHeader
+     * @return
+     */
+    public ByteArrayOutputStream generateEndowmentDetailReport(List<AssetStatementReportDataHolder> endowmentAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment, String listKemidsInHeader) {
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, pdfStream);            
+            document.open();
+            generateEndowmentDetailReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);
+            document.close();
+            return pdfStream;
+        } catch (Exception e) {
+            LOG.error("Error in generateEndowmentDetailReport(): " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Creates an endowment total report in PDF 
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param listKemidsInHeader
+     * @return
+     */
+    public ByteArrayOutputStream generateEndowmentTotalReport(List<AssetStatementReportDataHolder> endowmentAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment, String listKemidsInHeader) {
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, pdfStream);            
+            document.open();
+            generateEndowmentTotalReport(endowmentAssetStatementReportDataHolders, reportHeaderDataHolderForEndowment, document, listKemidsInHeader, false);
+            document.close();
+            return pdfStream;
+        } catch (Exception e) {
+            LOG.error("Error in generateEndowmentDetailReport(): " + e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Creates a non-endowed detail report in PDF 
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param listKemidsInHeader
+     * @return
+     */
+    public ByteArrayOutputStream generateNonEndowedDetailReport(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed, String listKemidsInHeader) {
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, pdfStream);            
+            document.open();
+            generateNonEndowedDetailReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, false);
+            document.close();
+            return pdfStream;
+        } catch (Exception e) {
+            LOG.error("Error in generateEndowmentDetailReport(): " + e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Creates a non-endowed total report in PDF 
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param listKemidsInHeader
+     * @return
+     */
+    public ByteArrayOutputStream generateNonEndowedTotalReport(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed, String listKemidsInHeader) {
+        ByteArrayOutputStream pdfStream = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, pdfStream);            
+            document.open();
+            generateNonEndowedTotalReport(nonEndowedAssetStatementReportDataHolders, reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader, false);
+            document.close();
+            return pdfStream;
+        } catch (Exception e) {
+            LOG.error("Error in generateEndowmentDetailReport(): " + e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Creates an endowment total report
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param document
+     * @param listKemidsInHeader
+     * @param beginWithNewpage
+     */
+    protected void generateEndowmentDetailReport(List<AssetStatementReportDataHolder> endowmentAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment, Document document, String listKemidsInHeader, boolean beginWithNewpage) {
+        document.setPageSize(LETTER_PORTRAIT);    
+        if (beginWithNewpage) setNewPage(document);
+        reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
+        reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
+        printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsInHeader);
+        
+        document.setPageSize(LETTER_LANDSCAPE);
+        printAssetStatementReportBodyForEndowmentDetail(endowmentAssetStatementReportDataHolders, document);
+    }
+ 
+    /**
+     * Creates an endowment detail report
+     * 
+     * @param endowmentAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForEndowment
+     * @param document
+     * @param listKemidsInHeader
+     * @param beginWithNewpage
+     */
+    protected void generateEndowmentTotalReport(List<AssetStatementReportDataHolder> endowmentAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForEndowment, Document document, String listKemidsInHeader, boolean beginWithNewpage) {
+        document.setPageSize(LETTER_PORTRAIT);
+        if (beginWithNewpage) setNewPage(document);
+        reportHeaderDataHolderForEndowment.setEndowmentOption(EndowConstants.EndowmentReport.ENDOWMENT);
+        reportHeaderDataHolderForEndowment.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);                    
+        printReportHeaderPage(reportHeaderDataHolderForEndowment, document, listKemidsInHeader);
+        
+        document.setPageSize(LETTER_LANDSCAPE);
+        printAssetStatementReportBodyForEndowmentTotal(endowmentAssetStatementReportDataHolders, document);
+    }
+    
+    /**
+     * Creates a non-endowed detail report
+     * 
+     * @param nonEndowedAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForNonEndowed
+     * @param document
+     * @param listKemidsInHeader
+     * @param beginWithNewpage
+     */
+    protected void generateNonEndowedDetailReport(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed, Document document, String listKemidsInHeader, boolean beginWithNewpage) {
+        document.setPageSize(LETTER_PORTRAIT);
+        if (beginWithNewpage) setNewPage(document);
+        reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
+        reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.DETAIL_REPORT);
+        printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader);
+        
+        document.setPageSize(LETTER_LANDSCAPE);
+        printAssetStatementReportBodyForNonEndowedDetail(nonEndowedAssetStatementReportDataHolders, document);
+    }
+    
+    /**
+     * Creates a non-endowed total report
+     * 
+     * @param nonEndowedAssetStatementReportDataHolders
+     * @param reportHeaderDataHolderForNonEndowed
+     * @param document
+     * @param listKemidsInHeader
+     * @param beginWithNewpage
+     */
+    protected void generateNonEndowedTotalReport(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, EndowmentReportHeaderDataHolder reportHeaderDataHolderForNonEndowed, Document document, String listKemidsInHeader, boolean beginWithNewpage) {
+        document.setPageSize(LETTER_PORTRAIT);
+        if (beginWithNewpage) setNewPage(document);
+        reportHeaderDataHolderForNonEndowed.setEndowmentOption(EndowConstants.EndowmentReport.NON_ENDOWED);
+        reportHeaderDataHolderForNonEndowed.setReportOption(EndowConstants.EndowmentReport.TOTAL_REPORT);
+        printReportHeaderPage(reportHeaderDataHolderForNonEndowed, document, listKemidsInHeader);
+                            
+        document.setPageSize(LETTER_LANDSCAPE);
+        printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
+    }
+    
+    protected void setNewPage(Document document) {
+        try {
+            document.newPage();
+        } catch (Exception e) {
+            LOG.error("New Page Error: " + e.getMessage());
+            return;
+        }
+    } 
+    
     /**
      * Prints report body for endowment detail
      * 
@@ -276,9 +348,6 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
      * @return
      */
     public boolean printAssetStatementReportBodyForEndowmentTotal(List<AssetStatementReportDataHolder> endowmentAssetStatementReportDataHolders, Document document) {
-        
-        //document.setPageCount(0);
-        //document.setPageSize(LETTER_LANDSCAPE);
         
         BigDecimal totalHistoryIncomeCash = BigDecimal.ZERO;
         BigDecimal totalHistoryPrincipalCash = BigDecimal.ZERO;
@@ -344,7 +413,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             
             // 2. Endowed funds 
             
-            PdfPCell cellEndowedFunds = new PdfPCell(new Paragraph("ENDOWMED FUNDS", titleFont));
+            PdfPCell cellEndowedFunds = new PdfPCell(new Paragraph("ENDOWED FUNDS", titleFont));
             cellEndowedFunds.setColspan(6);
             table.addCell(cellEndowedFunds);
  
@@ -396,9 +465,6 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
      * @return
      */
     public boolean printAssetStatementReportBodyForNonEndowedTotal(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, Document document) {
-        
-        //document.setPageCount(0);
-        //document.setPageSize(LETTER_LANDSCAPE);
         
         BigDecimal totalHistoryIncomeCash = BigDecimal.ZERO;
         BigDecimal totalHistoryPrincipalCash = BigDecimal.ZERO;
@@ -541,7 +607,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 
                 // 2. Endowed funds 
                 
-                PdfPCell cellEndowedFunds = new PdfPCell(new Paragraph("ENDOWMED FUNDS", titleFont));
+                PdfPCell cellEndowedFunds = new PdfPCell(new Paragraph("ENDOWED FUNDS", titleFont));
                 cellEndowedFunds.setColspan(6);
                 //cellEndowedFunds.setBackgroundColor(Color.LIGHT_GRAY);
                 table.addCell(cellEndowedFunds);
@@ -591,9 +657,6 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
      */
     public boolean printAssetStatementReportBodyForNonEndowedDetail(List<AssetStatementReportDataHolder> nonEndowedAssetStatementReportDataHolders, Document document) {
         
-        //document.setPageCount(0);
-        //document.setPageSize(LETTER_LANDSCAPE);
-                
         // for each kemid
         try {                               
             Font cellFont = regularFont;
@@ -742,7 +805,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                     table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
                     
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + data.getReportGroupDesc() + " " + data.getReportGroupOrder() + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
                     table.addCell("");
@@ -838,7 +901,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                     table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
                     
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + data.getReportGroupDesc() + " " + data.getReportGroupOrder() + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.PRINCIPAL, reportGroupOrder), cellFont));
                     table.addCell("");
@@ -943,7 +1006,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                     table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
                     
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + data.getReportGroupDesc() + " " + data.getReportGroupOrder() + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
                     table.addCell("");
@@ -1081,7 +1144,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                         grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                     }
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + reportGroupDesc + " " + reportGroupOrder + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
                     table.addCell("");
@@ -1225,7 +1288,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                         grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                     }
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + reportGroupDesc + " " + reportGroupOrder + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
                     table.addCell("");
@@ -1379,7 +1442,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                         grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                     }
                     // totals
-                    table.addCell(new Paragraph("TOTAL <" + reportGroupDesc + " " + reportGroupOrder + ">", cellFont));
+                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
                     table.addCell("");
                     table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
                     table.addCell("");
@@ -1391,7 +1454,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
     }
     
     /**
-     * Constructs the data structure for grouping by security 
+     * Constructs the report group data for grouping by security  
      * 
      * @param endowmentAssetStatementReportDataHolders
      * @param ipInd

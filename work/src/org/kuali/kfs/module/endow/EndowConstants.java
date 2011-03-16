@@ -359,6 +359,6 @@ public class EndowConstants extends JSTLConstants {
         public static final String BOTH_REPORT_OPTION = "Both";
         public static final String DETAIL = "D";
         public static final String TOTAL = "T";
-        public static final String BOTH_DETAIL_AND_TOTAL_REPORT_OPTION = "B";
+        public static final String BOTH = "B";
     }
 }

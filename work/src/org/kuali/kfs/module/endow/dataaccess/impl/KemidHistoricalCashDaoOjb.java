@@ -50,7 +50,7 @@ public class KemidHistoricalCashDaoOjb extends PlatformAwareDaoBaseOjb implement
      */
     public List<KemidHistoricalCash> getHistoricalCashRecords(List<String> kemids, KualiInteger beginningMed, KualiInteger endingMed) {
         Criteria criteria = new Criteria();
-        Collection<KualiInteger> monthEndIds = new ArrayList();
+        Collection<KualiInteger> monthEndIds = new ArrayList<KualiInteger>();
         
         monthEndIds.add(beginningMed);
         monthEndIds.add(endingMed);

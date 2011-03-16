@@ -22,9 +22,9 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements KemidReportGroupDao {
@@ -38,8 +38,8 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         Criteria criteria = new Criteria();
         for (String value : values) {
             Criteria c = new Criteria();
-            if (value.contains("*")) {
-                c.addLike(attributeName, value.trim().replace('*', '%'));
+            if (value.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                c.addLike(attributeName, value.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
             } else {
                 c.addEqualTo(attributeName, value.trim());
             } 
@@ -68,8 +68,8 @@ public class KemidReportGroupDaoOjb extends PlatformAwareDaoBaseOjb implements K
         Criteria criteria = new Criteria();
         for (String value : values) {
             Criteria c = new Criteria();
-            if (value.contains("*")) {
-                c.addLike(attributeName, value.trim().replace('*', '%'));
+            if (value.contains(KFSConstants.WILDCARD_CHARACTER)) {
+                c.addLike(attributeName, value.trim().replace(KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN));
             } else {
                 c.addEqualTo(attributeName, value.trim());
             }            

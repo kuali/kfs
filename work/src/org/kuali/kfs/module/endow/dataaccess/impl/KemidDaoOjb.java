@@ -40,8 +40,8 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         
         // get valid type restriction codes
         Criteria subCrit = new Criteria();
-        if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
-            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
+        if (endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
+            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.YES) ? true : false);
         }
         subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true); 
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
@@ -61,9 +61,9 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
             }
         }
         criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
-        if (closedIndicator.equalsIgnoreCase("Y")) {
+        if (closedIndicator.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
             criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
-        } else if (closedIndicator.equalsIgnoreCase("N")) {
+        } else if (closedIndicator.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
             criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
         }
         QueryByCriteria qbc = QueryFactory.newQuery(KEMID.class, criteria);
@@ -80,8 +80,8 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
         
         // get valid type restriction codes
         Criteria subCrit = new Criteria();
-        if (endowmentOption.equalsIgnoreCase("Y") || endowmentOption.equalsIgnoreCase("N")) {
-            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase("Y") ? true : false);
+        if (endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
+            subCrit.addEqualTo(EndowPropertyConstants.TYPE_RESTR_PERM_IND, endowmentOption.equalsIgnoreCase(KFSConstants.ParameterValues.YES) ? true : false);
         }
         subCrit.addEqualTo(EndowPropertyConstants.ENDOWCODEBASE_ACTIVE_INDICATOR, true);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(TypeRestrictionCode.class, subCrit, true); 
@@ -101,9 +101,9 @@ public class KemidDaoOjb extends PlatformAwareDaoBaseOjb implements KemidDao {
             }    
         }
         criteria.addIn(EndowPropertyConstants.KEMID_TYP_PRIN_RESTR_CD, subQuery);
-        if (closedIndicator.equalsIgnoreCase("Y")) {
+        if (closedIndicator.equalsIgnoreCase(KFSConstants.ParameterValues.YES)) {
             criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, true);
-        } else if (closedIndicator.equalsIgnoreCase("N")) {
+        } else if (closedIndicator.equalsIgnoreCase(KFSConstants.ParameterValues.NO)) {
             criteria.addEqualTo(EndowPropertyConstants.KEMID_CLOSED_IND, false);
         }        
         ReportQueryByCriteria query = new ReportQueryByCriteria(KEMID.class, criteria, true);

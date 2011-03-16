@@ -108,7 +108,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
         }
         
-        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH_DETAIL_AND_TOTAL_REPORT_OPTION)) {
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH)) {
             success &= printReportBodyForDetailReportOption(transactionSummaryDataReportHolders, document);
             success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
         }
@@ -132,7 +132,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
             sucess &= printReportBodyByAllTotalsForTotalReportOption(transactionSummaryDataReportHolders, document);
         }
-        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH_DETAIL_AND_TOTAL_REPORT_OPTION)) {
+        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH)) {
             sucess &= printReportBodyByAllTotalsForDetailReportOption(transactionSummaryDataReportHolders, document);
             sucess &= printReportBodyByAllTotalsForTotalReportOption(transactionSummaryDataReportHolders, document);
         }

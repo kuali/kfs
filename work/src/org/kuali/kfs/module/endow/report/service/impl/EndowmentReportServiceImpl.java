@@ -355,6 +355,13 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return newKemids;
     }    
     
+    /**
+     * Gets a collection of kemids that exist in historical cash
+     * 
+     * @param kemids
+     * @param endingDate
+     * @return
+     */
     public List<String> getKemidsInHistoryCash(List<String> kemids, String endingDate) {
         
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));            
@@ -391,11 +398,21 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     protected Date convertStringToDate(String stringDate) {        
         Date date = null;
         try {
-            date = SpringContext.getBean(DateTimeService.class).convertToSqlDate(stringDate);
+            date = dateTimeService.convertToSqlDate(stringDate);
         } catch (ParseException e) {
             return null;
         }        
         return date;
+    }
+    
+    /**
+     * Convert java.sql.date to string
+     * 
+     * @param date
+     * @return
+     */
+    protected String convertDateToString(Date date) {        
+        return dateTimeService.toDateString(date);
     }
     
     /**

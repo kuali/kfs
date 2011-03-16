@@ -2380,6 +2380,12 @@
 	<bean id="endowmentAccountingLineBaseDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.EndowmentAccountingLineBaseDaoOjb">
 	</bean>
 	<bean id="gLInterfaceBatchProcessDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.batch.dataaccess.impl.GLInterfaceBatchProcessDaoJdbc">
+		<property name="gLLinkDao">
+			<ref bean="gLLinkDao" />
+		</property>
+		<property name="kemidGeneralLedgerAccountDao">
+			<ref bean="kemidGeneralLedgerAccountDao" />
+		</property>		
 	</bean>
 	
 	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
@@ -2477,7 +2483,7 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="documenType" value="Document Type"/>
+    			<entry key="documentType" value="Document Type"/>
     			<entry key="eDocNumber" value="eDoc Number"/>
     			<entry key="kEMID" value="KEMID"/>
     			<entry key="incomeAmount" value="Income Amount"/>
@@ -2493,7 +2499,7 @@
         <property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues" />
 	    <property name="orderedPropertyNameToHeaderLabelMap">
     		<map>
-    			<entry key="documenType" value="Document Type"/>
+    			<entry key="documentType" value="Document Type"/>
     			<entry key="eDocNumber" value="eDoc Number"/>
     			<entry key="kEMID" value="KEMID"/>
     			<entry key="incomeAmount" value="Income Amount"/>
@@ -2626,5 +2632,8 @@
 	
 	<bean id="kemidHistoricalCashDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidHistoricalCashDaoOjb" />
 	
+	<bean id="gLLinkDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.GLLinkDaoOjb" />
+	
+	<bean id="kemidGeneralLedgerAccountDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidGeneralLedgerAccountDaoOjb" />
 	
 </beans>

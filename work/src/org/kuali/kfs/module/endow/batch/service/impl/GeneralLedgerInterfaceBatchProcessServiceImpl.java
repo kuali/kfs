@@ -173,9 +173,6 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         for (String documentType : documentTypes) {
             if (!EndowConstants.DocumentTypeNames.ENDOWMENT_CORPUS_ADJUSTMENT.equalsIgnoreCase(documentType) &&
                     !EndowConstants.DocumentTypeNames.ENDOWMENT_UNIT_SHARE_ADJUSTMENT.equalsIgnoreCase(documentType)) {
-           //     if (previousDocumentTypeCode == null) {
-           //         previousDocumentTypeCode = documentType;
-           //     }
                 //add a new statisticsReportRow to the collection...
                 GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow = new GLInterfaceBatchStatisticsReportDetailTableRow();
                 statisticsDataRow.setDocumentType(documentType);
@@ -830,7 +827,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * @param reasonMessage the reason message
      */
     protected void writeExceptionRecord(GlInterfaceBatchProcessKemLine transactionArchive, String reasonMessage) {
-        gLInterfaceBatchExceptionTableRowValues.setDocumentType(transactionArchive.getDocumentNumber());
+        gLInterfaceBatchExceptionTableRowValues.setDocumentType(transactionArchive.getTypeCode());
         gLInterfaceBatchExceptionTableRowValues.setEDocNumber(transactionArchive.getDocumentNumber());
         gLInterfaceBatchExceptionTableRowValues.setKEMID(transactionArchive.getKemid());
         gLInterfaceBatchExceptionTableRowValues.setIncomeAmount(transactionArchive.getTransactionArchiveIncomeAmount());

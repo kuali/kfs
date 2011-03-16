@@ -15,23 +15,14 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.GLLink;
-import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.GLLinkDao;
-import org.kuali.kfs.module.endow.dataaccess.KemidGeneralLedgerAccountDao;
-import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveSecurityDao;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class GLLinkDaoOjb extends PlatformAwareDaoBaseOjb implements GLLinkDao {
@@ -49,7 +40,7 @@ public class GLLinkDaoOjb extends PlatformAwareDaoBaseOjb implements GLLinkDao {
         criteria.addEqualTo(EndowPropertyConstants.KEMID_ETRAN_GL_LNK_ETRAN_CD, endowmentTransactionCode);
         criteria.addEqualTo(EndowPropertyConstants.KEMID_ETRAN_GL_LNK_ROW_ACTIVE_IND, EndowConstants.YES);
         
-        QueryByCriteria query = QueryFactory.newQuery(KemidGeneralLedgerAccount.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(GLLink.class, criteria);
         gLLink = (GLLink) getPersistenceBrokerTemplate().getObjectByQuery(query);
         
         if (ObjectUtils.isNotNull(gLLink)) {

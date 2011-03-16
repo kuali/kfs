@@ -24,9 +24,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.KemidGeneralLedgerAccount;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.KemidGeneralLedgerAccountDao;
-import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveSecurityDao;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -40,7 +38,7 @@ public class KemidGeneralLedgerAccountDaoOjb extends PlatformAwareDaoBaseOjb imp
      */
     public Map<String, String> getChartAndAccountNumber(String kemid, String incomePrincipalIndicator) {
         KemidGeneralLedgerAccount kemidGeneralLedgerAccount = null;
-        Map<String, String> chartAndAccountNumber = new HashMap();
+        Map<String, String> chartAndAccountNumber = new HashMap<String, String>();
         
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);

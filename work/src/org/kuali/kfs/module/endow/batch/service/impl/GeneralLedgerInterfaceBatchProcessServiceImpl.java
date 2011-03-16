@@ -154,6 +154,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         LOG.info("processKEMActivity() started.");
         
         boolean success = true;
+        previousDocumentTypeCode = null;
+        previousChartCode = null;
+        previousObjectCode = null;
         
         PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps = createActivityOriginEntryFullStream();
         
@@ -170,9 +173,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         for (String documentType : documentTypes) {
             if (!EndowConstants.DocumentTypeNames.ENDOWMENT_CORPUS_ADJUSTMENT.equalsIgnoreCase(documentType) &&
                     !EndowConstants.DocumentTypeNames.ENDOWMENT_UNIT_SHARE_ADJUSTMENT.equalsIgnoreCase(documentType)) {
-                if (previousDocumentTypeCode == null) {
-                    previousDocumentTypeCode = documentType;
-                }
+           //     if (previousDocumentTypeCode == null) {
+           //         previousDocumentTypeCode = documentType;
+           //     }
                 //add a new statisticsReportRow to the collection...
                 GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow = new GLInterfaceBatchStatisticsReportDetailTableRow();
                 statisticsDataRow.setDocumentType(documentType);
@@ -186,7 +189,12 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
                     transactionArchives = gLInterfaceBatchProcessDao.getAllKemTransactionsByDocumentType(documentType, postedDate);
                 }
                 
-                success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
+                if (transactionArchives.size() > 0) {
+                    if (previousDocumentTypeCode == null) {
+                        previousDocumentTypeCode = documentType;
+                    }
+                    success = createGlEntriesForTransactionArchives(documentType, transactionArchives, OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate, statisticsDataRow);
+                }
                 
                 //add statistics row to the collection
                 statisticsReportRows.add(statisticsDataRow);

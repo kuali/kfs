@@ -794,7 +794,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 while (secirutyIdSet.hasNext()) {
                     String securityId = secirutyIdSet.next();
                     ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc() + " " + data.getReportGroupOrder(), cellFont));
+                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
                     groupDescCell.setColspan(6);
                     table.addCell(groupDescCell);  
                     table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
@@ -890,7 +890,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 while (secirutyIdSet.hasNext()) {
                     String securityId = secirutyIdSet.next();
                     ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc() + " " + data.getReportGroupOrder(), cellFont));
+                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
                     groupDescCell.setColspan(6);
                     table.addCell(groupDescCell);                    
                     table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
@@ -995,7 +995,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 String securityId = secirutyIdSet.next();
                 if (reportGroupOrder.intValue() > 1) {
                     ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc() + " " + data.getReportGroupOrder(), cellFont));
+                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
                     groupDescCell.setColspan(6);
                     table.addCell(groupDescCell);  
                     table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
@@ -1126,7 +1126,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                             totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                         }
                         
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc() + " " + dataList.get(0).getReportGroupOrder(), cellFont));
+                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
                         groupDescCell.setColspan(6);
                         table.addCell(groupDescCell);
                         
@@ -1270,7 +1270,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                             totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
                             totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                         }
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc() + " " + dataList.get(0).getReportGroupOrder(), cellFont));
+                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
                         groupDescCell.setColspan(6);
                         table.addCell(groupDescCell);
                         
@@ -1424,7 +1424,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                             totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                         }
                         
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc() + " " + dataList.get(0).getReportGroupOrder(), cellFont));
+                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
                         groupDescCell.setColspan(6);
                         table.addCell(groupDescCell);
                         

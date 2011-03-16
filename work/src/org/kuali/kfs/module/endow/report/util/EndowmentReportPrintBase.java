@@ -367,4 +367,18 @@ public abstract class EndowmentReportPrintBase {
         NumberFormat formatter = new DecimalFormat(format + ";(" + format + ")");
         return  formatter.format(amount.doubleValue());
     }
+    
+    /**
+     * Converts a string to upper case
+     * 
+     * @param s
+     * @return
+     */
+    protected String convertToUpperCase(String s) {
+        if (s == null) {
+            return "";
+        } else {
+            return s.toUpperCase();
+        }
+    }
 }

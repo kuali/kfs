@@ -124,12 +124,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         // save the document 
         try{
             getDocumentService().saveDocument(budgetAdjustmentDocument);
-        }catch(WorkflowException wfe){
-            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage());
-            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
-        } catch (Exception ex) {
-   
+        } catch (Exception ex) {   
             LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  ex.getMessage());           
             budgetAdjustmentCreationStatus.setErrorMessages( GlobalVariablesExtractHelper.extractGlobalVariableErrors() );
             budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);

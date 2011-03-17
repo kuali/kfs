@@ -44,6 +44,7 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PendingTransactionDocumentService;
+import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -813,8 +814,9 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             }
             KualiDecimal transactionUnits = tranLine.getTransactionUnits();
             if (transactionUnits != null && !transactionUnits.isZero()) {
-                lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
+                lotUnitValue = KEMCalculationRoundingHelper.divide(tranLine.getTransactionAmount().bigDecimalValue(), transactionUnits.bigDecimalValue(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
             }
+            //  lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
         }
 
         /**

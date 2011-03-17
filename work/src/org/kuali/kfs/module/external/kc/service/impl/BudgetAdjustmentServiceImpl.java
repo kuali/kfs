@@ -109,7 +109,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         //The Comment section of the KC Award Budget Document will carry a BA document number for a reference purpose.
         budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getComment());
         budgetAdjustmentDocument.setPostingPeriodCode(parameters.getPostingPeriodCode());
-     //   budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
+        budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
         
          for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {

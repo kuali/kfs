@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 
@@ -28,7 +27,9 @@ import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleConfiguration implements KcFinancialSystemModuleConfig {
     
     protected Map<Class,String> externalizableBusinessObjectServiceImplementations;
-
+    protected Map<String,String> kfsToKcInquiryUrlClassMapping;
+    protected Map<String,String> kfsToKcInquiryUrlParameterMapping;
+    
     /**
      * Constructs a FinancialSystemModuleConfiguration.java.
      */
@@ -52,6 +53,26 @@ public class KcFinancialSystemModuleConfiguration extends FinancialSystemModuleC
     public void setExternalizableBusinessObjectServiceImplementations(
           Map<Class, String> externalizableBusinessObjectServiceImplementations) {
         this.externalizableBusinessObjectServiceImplementations = externalizableBusinessObjectServiceImplementations;
+    }
+
+
+    public Map<String, String> getKfsToKcInquiryUrlClassMapping() {
+        return kfsToKcInquiryUrlClassMapping;
+    }
+
+
+    public void setKfsToKcInquiryUrlClassMapping(Map<String, String> kfsToKcInquiryUrlClassMapping) {
+        this.kfsToKcInquiryUrlClassMapping = kfsToKcInquiryUrlClassMapping;
+    }
+
+
+    public Map<String, String> getKfsToKcInquiryUrlParameterMapping() {
+        return kfsToKcInquiryUrlParameterMapping;
+    }
+
+
+    public void setKfsToKcInquiryUrlParameterMapping(Map<String, String> kfsToKcInquiryUrlParameterMapping) {
+        this.kfsToKcInquiryUrlParameterMapping = kfsToKcInquiryUrlParameterMapping;
     }
 
 }

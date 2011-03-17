@@ -16,6 +16,11 @@
         <ref bean="budgetCategoryDTO-description"/>        
       </list>
     </property>
+    <property name="primaryKeys">
+    	<list>
+    		<value>budgetCategoryCode</value>
+    	</list>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->

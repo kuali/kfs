@@ -30,12 +30,10 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 public class AwardAccountServiceImpl implements ExternalizableBusinessObjectService {
 
-  // @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         return getTestAwardAccount();
     }
 
-  //  @Override
     public Collection findMatching(Map fieldValues) {
         List arList = new ArrayList();
         
@@ -53,20 +51,20 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
         awardAccount.setAccountNumber("0142900");
         awardAccount.setActive(true);
         awardAccount.setChartOfAccountsCode("BL");
-        awardAccount.setPrincipalId("khuntley");
-        awardAccount.setProposalNumber(new Long(55555));
+        awardAccount.setPrincipalId("0000151844");
+        awardAccount.setProposalNumber(new Long(10000));
         
         proposal.setProposalFederalPassThroughIndicator(false);
         proposal.setFederalPassThroughAgencyNumber("12345");
         proposal.setGrantNumber("67890");
-        proposal.setProposalNumber(new Long(55555));
-        award.setProposalNumber(new Long(55555));
-        award.setAgencyNumber("66666");
+        proposal.setProposalNumber(new Long(10000));
+        award.setProposalNumber(new Long(10000));
+        award.setAgencyNumber("000102");
         proposal.setAward(award);
         awardAccount.setAward(award);
         awardAccount.getAward().setProposal(proposal);
                 
-        agency.setAgencyNumber("66666");
+        agency.setAgencyNumber("000102");
         agency.setReportingName("Sponsor Name");
         awardAccount.getAward().setAgency(agency);
         

@@ -29,6 +29,11 @@
         <ref bean="unitDTO-OrganizationId"/>
       </list>
     </property>
+    <property name="primaryKeys">
+    	<list>
+    		<value>unitNumber</value>
+    	</list>
+    </property>    
     <property name="collections">
       <list>
         <bean parent="CollectionDefinition" p:name="unitAdministrators" p:label="Unit Administrators" p:shortLabel="Unit Admins"/>

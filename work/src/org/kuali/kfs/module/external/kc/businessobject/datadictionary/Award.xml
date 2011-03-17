@@ -4,6 +4,12 @@
 
   <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
+    <property name="inquiryDefinition">
+      <ref bean="Award-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Award-lookupDefinition"/>
+    </property>
     <property name="titleAttribute" value="awardInquiryTitle"/>
     <property name="objectLabel" value="Award"/>
     <property name="attributes">
@@ -12,6 +18,16 @@
         <ref bean="Award-proposalNumber"/>
       </list>
     </property>
+    <property name="primaryKeys">
+    	<list>
+    		<value>proposalNumber</value>
+    	</list>
+    </property>    
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="awardAccounts" p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account"/>
+      </list>
+    </property>    
     <property name="relationships">
       <list>
         <bean parent="RelationshipDefinition">
@@ -31,7 +47,7 @@
           </property>
         </bean>
       </list>
-    </property>    
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -61,5 +77,74 @@
   </bean>
   
 <!-- Business Object Inquiry Definition -->
+
+  <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
+
+  <bean id="Award-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Award Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Award Details"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Accounts"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition">
+                <property name="attributeName" value="awardAccounts"/>
+                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.principalName"/>
+                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+                  </list>
+                </property>
+                <property name="summaryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>        
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean"/>
+
+  <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Award Lookup"/>
+    <property name="lookupableID" value="awardLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+      </list>
+    </property>
+  </bean>
 
 </beans>

@@ -18,6 +18,11 @@
         <ref bean="CFDA-cfdaProgramTitleName"/>
       </list>
     </property>
+    <property name="primaryKeys">
+    	<list>
+    		<value>cfdaNumber</value>
+    	</list>
+    </property>    
   </bean>
 
 <!-- Attribute Definitions -->

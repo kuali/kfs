@@ -15,27 +15,19 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
-import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.PrimitiveAttributeDefinition;
-import org.kuali.rice.kns.datadictionary.RelationshipDefinition;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
@@ -55,6 +47,12 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         return (List<T>) getExternalizableBusinessObjectService(implementationClass).findMatching(fieldValues);                   
     }
 
+    /**
+     * Finds the business object service via the class to service mapping provided in the module configuration.
+     * 
+     * @param clazz
+     * @return
+     */
     private ExternalizableBusinessObjectService getExternalizableBusinessObjectService(Class clazz){
         String serviceName = null;
         ExternalizableBusinessObjectService eboService = null;
@@ -69,36 +67,27 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         return eboService;
     }
 
-    public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass){
+    /**
+     * Gets primary key fields from the Datadictionary entries for the object.
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
+     */
+    public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
-        List primaryKeyFieldNames = new ArrayList();        
-        return primaryKeyFieldNames;
-    }    
-    
-    public String getExternalizableBusinessObjectInquiryUrl(Class inquiryBusinessObjectClass, Map<String, String[]> parameters) {
-        if(!ExternalizableBusinessObject.class.isAssignableFrom(inquiryBusinessObjectClass)) {
-            return KNSConstants.EMPTY_STRING;
+        final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
+        if (boEntry == null) {
+            return null;
         }
-        String businessObjectClassAttribute;
-        if(inquiryBusinessObjectClass.isInterface()){
-            Class implementationClass = getExternalizableBusinessObjectImplementation(inquiryBusinessObjectClass);
-            if (implementationClass == null) {
-                LOG.error("Can't find ExternalizableBusinessObject implementation class for interface " + inquiryBusinessObjectClass.getName());
-                throw new RuntimeException("Can't find ExternalizableBusinessObject implementation class for interface " + inquiryBusinessObjectClass.getName());
-            }
-            businessObjectClassAttribute = implementationClass.getName();
-        }else{
-            LOG.warn("Inquiry was invoked with a non-interface class object " + inquiryBusinessObjectClass.getName());
-            businessObjectClassAttribute = inquiryBusinessObjectClass.getName();
-        }
-        return UrlFactory.parameterizeUrl(
-                getInquiryUrl(inquiryBusinessObjectClass),
-                getUrlParameters(businessObjectClassAttribute, parameters));
+        return boEntry.getPrimaryKeys();
     }
-
-
+    
+    /**
+     * Changing the base url to KC url
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getInquiryUrl(java.lang.Class)
+     */
     protected String getInquiryUrl(Class inquiryBusinessObjectClass){
-        String riceBaseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
+        String riceBaseUrl = "http://test.kc.kuali.org/kc-trunk"; //KNSServiceLocator.getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_URL_KEY);
         String inquiryUrl = riceBaseUrl;
         if (!inquiryUrl.endsWith("/")) {
             inquiryUrl = inquiryUrl + "/";
@@ -106,4 +95,35 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         return inquiryUrl + "kr/" + KNSConstants.INQUIRY_ACTION;
     }
 
+    /**
+     * Mapping the kfs classes and parameters over to KC equivalents
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getUrlParameters(java.lang.String, java.util.Map)
+     */
+    protected Properties getUrlParameters(String businessObjectClassAttribute, Map<String, String[]> parameters){
+        Properties urlParameters = new Properties();
+        String paramNameToConvert = null;        
+        Map<String, String> kfsToKcInquiryUrlParameterMapping = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getKfsToKcInquiryUrlParameterMapping();
+        Map<String, String> kfsToKcInquiryUrlClassMapping = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getKfsToKcInquiryUrlClassMapping();
+        
+        for (String paramName : parameters.keySet()) {
+            String parameterName = paramName;
+            String[] parameterValues = parameters.get(paramName);
+            
+            if (parameterValues.length > 0) {
+                //attempt to convert parameter name if necessary
+                paramNameToConvert = businessObjectClassAttribute + "." + paramName;
+                if( kfsToKcInquiryUrlParameterMapping.containsKey(paramNameToConvert) ){
+                    parameterName = (String)kfsToKcInquiryUrlParameterMapping.get(paramNameToConvert);
+                }
+                urlParameters.put(parameterName, parameterValues[0]);
+            }
+        }
+        
+        urlParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
+        urlParameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, 
+                KNSConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
+        return urlParameters;
+    }
+        
 }

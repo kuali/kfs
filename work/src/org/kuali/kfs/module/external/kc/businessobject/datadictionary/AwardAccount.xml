@@ -50,6 +50,15 @@
           </property>
         </bean>
         <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="account"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+            </list>
+          </property>
+        </bean>    
+        <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="award"/>
           <property name="primitiveAttributes">
             <list>

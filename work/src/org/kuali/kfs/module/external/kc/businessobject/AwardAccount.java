@@ -18,9 +18,11 @@ package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -54,6 +56,41 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         } catch (Exception e) {}
     }
 
+    public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode){
+        // Struts needs this instance to populate the secondary key, principalName.
+        try {
+            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        } catch (Exception e) {}
+        
+
+        //setup this class from DTO        
+        Proposal proposal = new Proposal();
+        Award award = new Award();
+        Agency agency = new Agency();
+        
+        this.setAccountNumber(accountNumber);        
+        this.setChartOfAccountsCode(chartOfAccountsCode);
+        this.setPrincipalId(awardAccountDTO.getProjectDirector());
+        this.setActive(true);
+        
+        if(StringUtils.isNumeric(awardAccountDTO.getProposalNumber())){
+            this.setProposalNumber(Long.getLong(awardAccountDTO.getProposalNumber()).longValue());
+        }
+        
+        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());
+        proposal.setGrantNumber(awardAccountDTO.getGrantNumber());
+        proposal.setProposalNumber(this.getProposalNumber());
+        award.setProposalNumber(this.getProposalNumber());
+        award.setAgencyNumber(awardAccountDTO.getSponsorCode());
+        proposal.setAward(award);
+        this.setAward(award);
+        this.getAward().setProposal(proposal);
+                
+        agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
+        agency.setReportingName(awardAccountDTO.getSponsorName());
+        this.getAward().setAgency(agency);        
+    }
+    
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */

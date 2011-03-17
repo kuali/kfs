@@ -533,14 +533,26 @@
   
   <bean id="KEMID-reportDate" parent="KEMID-reportDate-parentBean" />
   
-  <bean id="KEMID-reportDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+  <bean id="KEMID-reportDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reportDate" />
     <property name="label" value="Report Date" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.BalanceDateValuesFinder"
-            p:includeKeyInLabel="false" />
+    <property name="shortLabel" value="Report Date"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+       <ref bean="AnyCharacterValidation" />
     </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+        <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="true"/> 
+			<property name="maskFormatter">
+  				<bean parent="MaskFormatterSubString" p:maskLength="0" /> 
+  			</property>
+  			<property name="readOnly" value="true"/>
+  		</bean>
+  	</property> 
   </bean>
   
 <!-- Business Object Inquiry Definition -->

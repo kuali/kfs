@@ -25,6 +25,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -1082,7 +1083,10 @@ public class KEMID extends PersistableBusinessObjectBase {
      * 
      * @return
      */
-    public Date getReportDate() {
-        return SpringContext.getBean(KEMService.class).getCurrentDate();
+    public String getReportDate() {
+        KEMService kemService = SpringContext.getBean(KEMService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date currentDate = kemService.getCurrentDate();
+        return dateTimeService.toDateString(currentDate);
     }
 }

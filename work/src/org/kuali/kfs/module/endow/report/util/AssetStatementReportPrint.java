@@ -404,7 +404,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             cellExpendableFunds.setColspan(6);
             table.addCell(cellExpendableFunds);
             
-            PdfPCell cellCashEquivalnets = new PdfPCell(new Paragraph("CASH AND EQUIVALENTS", cellFont));
+            PdfPCell cellCashEquivalnets = new PdfPCell(new Paragraph("CASH AND EQUIVALENTS", titleFont));
             cellCashEquivalnets.setColspan(6);
             table.addCell(cellCashEquivalnets);
 
@@ -510,7 +510,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             table.addCell(createCell("FY REMAINDER ESTIMATED\nANNUAL INCOME", titleFont, Element.ALIGN_RIGHT, true));
             table.addCell(createCell("NEXT FY ESTIMATED\nANNUAL INCOME", titleFont, Element.ALIGN_RIGHT, true));
             
-            PdfPCell cellCashEquivalnets = new PdfPCell(new Paragraph("CASH AND EQUIVALENTS", cellFont));
+            PdfPCell cellCashEquivalnets = new PdfPCell(new Paragraph("CASH AND EQUIVALENTS", titleFont));
             cellCashEquivalnets.setColspan(6);
             table.addCell(cellCashEquivalnets);
 
@@ -789,29 +789,32 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 if (reportGroupData == null || reportGroupData.isEmpty()) {
                     continue;
                 }
+                // print report group description
+                String reportGroupDesc = reportGroupData.firstEntry().getValue().getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, cellFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell); 
                 
+                // print info per security  
                 Iterator<String> secirutyIdSet = reportGroupData.keySet().iterator();
                 while (secirutyIdSet.hasNext()) {
                     String securityId = secirutyIdSet.next();
-                    ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
-                    groupDescCell.setColspan(6);
-                    table.addCell(groupDescCell);  
+                    ReportGroupData data = reportGroupData.get(securityId); 
                     table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfUnits(), cellFont, FORMAT164));
                     table.addCell(getAmountCell(data.getSumOfMarketValue(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfEstimatedIncome(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfRemainderOfFYEstimated(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
-                    
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
                 }
+                
+                // report group totals
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
             }
         }
 
@@ -885,29 +888,32 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 if (reportGroupData == null || reportGroupData.isEmpty()) {
                     continue;
                 }
-    
+                // print report group description
+                String reportGroupDesc = reportGroupData.firstEntry().getValue().getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, cellFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell); 
+                
+                // print info per security
                 Iterator<String> secirutyIdSet = reportGroupData.keySet().iterator();
                 while (secirutyIdSet.hasNext()) {
                     String securityId = secirutyIdSet.next();
                     ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
-                    groupDescCell.setColspan(6);
-                    table.addCell(groupDescCell);                    
                     table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfUnits(), cellFont, FORMAT164));
                     table.addCell(getAmountCell(data.getSumOfMarketValue(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfEstimatedIncome(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfRemainderOfFYEstimated(), cellFont));
                     table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
-                    
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.PRINCIPAL, reportGroupOrder), cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
                 }
+                
+                // report group totals
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.PRINCIPAL, reportGroupOrder), cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
             }
         }
 
@@ -956,7 +962,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             return;
         }
         
-        // Cash and equivalents 
+        // print cash equivalents 
         TreeMap<String, ReportGroupData> cashEquivalentsData = reportData.getReportGroupsForIncome().get(1);
         if (cashEquivalentsData != null && !cashEquivalentsData.isEmpty()) {
             Iterator<String> secirutyIdSet = cashEquivalentsData.keySet().iterator();              
@@ -980,39 +986,45 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         table.addCell("");
         table.addCell("");     
         
-        // other report groups
+        // print other report groups
         Iterator<Integer> reportGroupOrderSet = reportGroups.keySet().iterator();
         while (reportGroupOrderSet.hasNext()) {                    
             
             Integer reportGroupOrder = reportGroupOrderSet.next();
-            TreeMap<String, ReportGroupData> reportGroupData = reportData.getReportGroupsForIncome().get(reportGroupOrder);
-            if (reportGroupData == null || reportGroupData.isEmpty()) {
-                continue;
-            }
-            
-            Iterator<String> secirutyIdSet = reportGroupData.keySet().iterator();
-            while (secirutyIdSet.hasNext()) {
-                String securityId = secirutyIdSet.next();
-                if (reportGroupOrder.intValue() > 1) {
-                    ReportGroupData data = reportGroupData.get(securityId);
-                    PdfPCell groupDescCell = new PdfPCell(new Paragraph(data.getReportGroupDesc(), cellFont));
-                    groupDescCell.setColspan(6);
-                    table.addCell(groupDescCell);  
-                    table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
-                    table.addCell(getAmountCell(data.getSumOfUnits(), cellFont, FORMAT164));
-                    table.addCell(getAmountCell(data.getSumOfMarketValue(), cellFont));
-                    table.addCell(getAmountCell(data.getSumOfEstimatedIncome(), cellFont));
-                    table.addCell(getAmountCell(data.getSumOfRemainderOfFYEstimated(), cellFont));
-                    table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
-                    
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(data.getReportGroupDesc()), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
+            if (reportGroupOrder.intValue() > 1) { 
+                TreeMap<String, ReportGroupData> reportGroupData = reportData.getReportGroupsForIncome().get(reportGroupOrder);
+                if (reportGroupData == null || reportGroupData.isEmpty()) {
+                    continue;
                 }
+                // print report group description
+                String reportGroupDesc = reportGroupData.firstEntry().getValue().getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, cellFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell);             
+                
+                // print info per security
+                Iterator<String> secirutyIdSet = reportGroupData.keySet().iterator();
+                while (secirutyIdSet.hasNext()) {
+                    String securityId = secirutyIdSet.next();
+                    if (reportGroupOrder.intValue() > 1) {
+                        ReportGroupData data = reportGroupData.get(securityId);
+     
+                        table.addCell(new Paragraph(data.getSecurityDesc(), cellFont));
+                        table.addCell(getAmountCell(data.getSumOfUnits(), cellFont, FORMAT164));
+                        table.addCell(getAmountCell(data.getSumOfMarketValue(), cellFont));
+                        table.addCell(getAmountCell(data.getSumOfEstimatedIncome(), cellFont));
+                        table.addCell(getAmountCell(data.getSumOfRemainderOfFYEstimated(), cellFont));
+                        table.addCell(getAmountCell(data.getSumOfNextFYEstimatedIncome(), cellFont));
+                    }
+                }
+                
+                // report group total
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(reportData.getTotalSumOfMarketValue(IncomePrincipalIndicator.INCOME, reportGroupOrder), cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
             }
         }             
     }
@@ -1037,7 +1049,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         table.addCell("");
         
         if (reportGroupsForIncomeTotal == null || reportGroupsForIncomeTotal.isEmpty()) {
-            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
             table.addCell("");
             table.addCell(getAmountCell(totalHistoryIncomeCash, cellFont));
             table.addCell("");
@@ -1086,7 +1098,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 grandTotalNextFyEAI1 = grandTotalNextFyEAI1.add(totalNextFyEAI);
             }
         }    
-        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
         table.addCell("");
         table.addCell(getAmountCell(grandTotalMarketValue1.add(totalHistoryIncomeCash), cellFont));
         table.addCell("");
@@ -1104,53 +1116,54 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             
             Integer reportGroupOrder = reportGroupOrderSet.next();
             if (reportGroupOrder.intValue() > 1) {                  
-                TreeMap<String, List<ReportGroupData>> reportGroupDataBySecurity = reportGroupsForIncomeTotal.get(reportGroupOrder);
-                if (reportGroupDataBySecurity != null && !reportGroupDataBySecurity.isEmpty()) {
+                TreeMap<String, List<ReportGroupData>> reportGroupDataBySecurity = reportGroupsForIncomeTotal.get(reportGroupOrder);                
                 
-                    String reportGroupDesc = "";
-                    Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                    
-                    while (securityIdSet.hasNext()) {
-                        String securityId = securityIdSet.next();
-                        List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
-                        BigDecimal totalUnits = BigDecimal.ZERO;
-                        BigDecimal totalMarketValue = BigDecimal.ZERO;
-                        BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
-                        BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
-                        BigDecimal totalNextFyEAI = BigDecimal.ZERO;
+                // print report group description
+                String reportGroupDesc = reportGroupDataBySecurity.firstEntry().getValue().get(0).getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, titleFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell);
+                
+                // print totals per security id         
+                BigDecimal totalGroupMarketValue = BigDecimal.ZERO;
+                Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                    
+                while (securityIdSet.hasNext()) {
+                    String securityId = securityIdSet.next();
+                    List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
+                    BigDecimal totalUnits = BigDecimal.ZERO;
+                    BigDecimal totalMarketValue = BigDecimal.ZERO;
+                    BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
+                    BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
+                    BigDecimal totalNextFyEAI = BigDecimal.ZERO;
 
-                        for (ReportGroupData data : dataList) {
-                            totalUnits = totalUnits.add(data.getSumOfUnits());
-                            totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
-                            totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
-                            totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
-                            totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
-                        }
-                        
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
-                        groupDescCell.setColspan(6);
-                        table.addCell(groupDescCell);
-                        
-                        table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
-                        table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
-                        table.addCell(getAmountCell(totalMarketValue, cellFont));
-                        table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
-                        table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
-                        table.addCell(getAmountCell(totalNextFyEAI, cellFont));
-                        
-                        reportGroupDesc = dataList.get(0).getReportGroupDesc();
-                        grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
-                        grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
-                        grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
-                        grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
+                    for (ReportGroupData data : dataList) {
+                        totalUnits = totalUnits.add(data.getSumOfUnits());
+                        totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
+                        totalGroupMarketValue = totalGroupMarketValue.add(data.getSumOfMarketValue());
+                        totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
+                        totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
+                        totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                     }
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
+                    
+                    table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
+                    table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
+                    table.addCell(getAmountCell(totalMarketValue, cellFont));
+                    table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
+                    table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
+                    table.addCell(getAmountCell(totalNextFyEAI, cellFont));
+                    
+                    grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
+                    grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
+                    grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
+                    grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                 }
+                // totals
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(totalGroupMarketValue, cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
             }
         }
 
@@ -1182,7 +1195,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         table.addCell("");
         
         if (reportGroupsForPrincipalTotal == null || reportGroupsForPrincipalTotal.isEmpty()) {
-            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
             table.addCell("");
             table.addCell(getAmountCell(totalHistoryPrincipalCash, cellFont));
             table.addCell("");
@@ -1231,7 +1244,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 grandTotalNextFyEAI1 = grandTotalNextFyEAI1.add(totalNextFyEAI);
             }
         }    
-        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
         table.addCell("");
         table.addCell(getAmountCell(grandTotalMarketValue1.add(totalHistoryPrincipalCash), cellFont));
         table.addCell("");
@@ -1249,52 +1262,56 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             
             Integer reportGroupOrder = reportGroupOrderSet.next();
             if (reportGroupOrder.intValue() > 1) {                  
-                TreeMap<String, List<ReportGroupData>> reportGroupDataBySecurity = reportGroupsForPrincipalTotal.get(reportGroupOrder);
-                if (reportGroupDataBySecurity != null && !reportGroupDataBySecurity.isEmpty()) {
+                TreeMap<String, List<ReportGroupData>> reportGroupDataBySecurity = reportGroupsForPrincipalTotal.get(reportGroupOrder);                
                 
-                    String reportGroupDesc = "";
-                    Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                    
-                    while (securityIdSet.hasNext()) {
-                        String securityId = securityIdSet.next();
-                        List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
-                        BigDecimal totalUnits = BigDecimal.ZERO;
-                        BigDecimal totalMarketValue = BigDecimal.ZERO;
-                        BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
-                        BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
-                        BigDecimal totalNextFyEAI = BigDecimal.ZERO;
-                        //getTotals(dataList, totalUnits, totalMarketValue, totalEstimatedAnnualIncome, totalFyRemainderEAI, totalNextFyEAI);
-                        for (ReportGroupData data : dataList) {
-                            totalUnits = totalUnits.add(data.getSumOfUnits());
-                            totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
-                            totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
-                            totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
-                            totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
-                        }
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
-                        groupDescCell.setColspan(6);
-                        table.addCell(groupDescCell);
-                        
-                        table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
-                        table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
-                        table.addCell(getAmountCell(totalMarketValue, cellFont));
-                        table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
-                        table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
-                        table.addCell(getAmountCell(totalNextFyEAI, cellFont));
-                        
-                        reportGroupDesc = dataList.get(0).getReportGroupDesc();
-                        grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
-                        grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
-                        grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
-                        grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
+                // print report group description
+                String reportGroupDesc = reportGroupDataBySecurity.firstEntry().getValue().get(0).getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, titleFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell);
+                
+                // print totals per security id
+                BigDecimal totalGroupMarketValue = BigDecimal.ZERO;
+                Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                    
+                while (securityIdSet.hasNext()) {
+                    String securityId = securityIdSet.next();
+                    List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
+                    BigDecimal totalUnits = BigDecimal.ZERO;
+                    BigDecimal totalMarketValue = BigDecimal.ZERO;
+                    BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
+                    BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
+                    BigDecimal totalNextFyEAI = BigDecimal.ZERO;
+                    //getTotals(dataList, totalUnits, totalMarketValue, totalEstimatedAnnualIncome, totalFyRemainderEAI, totalNextFyEAI);
+                    for (ReportGroupData data : dataList) {
+                        totalUnits = totalUnits.add(data.getSumOfUnits());
+                        totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
+                        totalGroupMarketValue = totalGroupMarketValue.add(data.getSumOfMarketValue());
+                        totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
+                        totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
+                        totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                     }
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
+                    
+                    table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
+                    table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
+                    table.addCell(getAmountCell(totalMarketValue, cellFont));
+                    table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
+                    table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
+                    table.addCell(getAmountCell(totalNextFyEAI, cellFont));
+                    
+                    grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
+                    grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
+                    grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
+                    grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                 }
+
+                // report group total
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(totalGroupMarketValue, cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
+
             }
         }
         
@@ -1336,7 +1353,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         table.addCell("");
         
         if (reportGroupsForTotal == null || reportGroupsForTotal.isEmpty()) {
-            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+            table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
             table.addCell("");
             table.addCell(getAmountCell(totalHistoryIncomeCash, cellFont));
             table.addCell("");
@@ -1351,6 +1368,7 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         BigDecimal grandTotalFyRemainderEAI1 = BigDecimal.ZERO;
         BigDecimal grandTotalNextFyEAI1 = BigDecimal.ZERO;
         
+        // get the cash equivalents group
         TreeMap<String, List<ReportGroupData>> cashEquivalentsData = reportGroupsForTotal.get(1);
         if (cashEquivalentsData != null && !cashEquivalentsData.isEmpty()) {
             Iterator<String> secirutyIdSet = cashEquivalentsData.keySet().iterator();                 
@@ -1384,14 +1402,14 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
                 grandTotalNextFyEAI1 = grandTotalNextFyEAI1.add(totalNextFyEAI);
             }
         }    
-        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", cellFont));
+        table.addCell(new Paragraph("TOTAL CASH AND\nEQUIVALENTS", titleFont));
         table.addCell("");
         table.addCell(getAmountCell(grandTotalMarketValue1.add(totalHistoryIncomeCash).add(totalHistoryPrincipalCash), cellFont));
         table.addCell("");
         table.addCell("");
         table.addCell("");            
         
-        // Other report groups
+        // print other report groups
         BigDecimal grandTotalMarketValueN = BigDecimal.ZERO;
         BigDecimal grandTotalEstimatedAnnualIncomeN = BigDecimal.ZERO;
         BigDecimal grandTotalFyRemainderEAIN = BigDecimal.ZERO;
@@ -1403,52 +1421,53 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
             Integer reportGroupOrder = reportGroupOrderSet.next();
             if (reportGroupOrder.intValue() > 1) {                  
                 TreeMap<String, List<ReportGroupData>> reportGroupDataBySecurity = reportGroupsForTotal.get(reportGroupOrder);
-                if (reportGroupDataBySecurity != null && !reportGroupDataBySecurity.isEmpty()) {
                 
-                    String reportGroupDesc = "";
-                    Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                    
-                    while (securityIdSet.hasNext()) {
-                        String securityId = securityIdSet.next();
-                        List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
-                        BigDecimal totalUnits = BigDecimal.ZERO;
-                        BigDecimal totalMarketValue = BigDecimal.ZERO;
-                        BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
-                        BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
-                        BigDecimal totalNextFyEAI = BigDecimal.ZERO;
-                        //getTotals(dataList, totalUnits, totalMarketValue, totalEstimatedAnnualIncome, totalFyRemainderEAI, totalNextFyEAI);
-                        for (ReportGroupData data : dataList) {
-                            totalUnits = totalUnits.add(data.getSumOfUnits());
-                            totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
-                            totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
-                            totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
-                            totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
-                        }
-                        
-                        PdfPCell groupDescCell = new PdfPCell(new Paragraph(dataList.get(0).getReportGroupDesc(), cellFont));
-                        groupDescCell.setColspan(6);
-                        table.addCell(groupDescCell);
-                        
-                        table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
-                        table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
-                        table.addCell(getAmountCell(totalMarketValue, cellFont));
-                        table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
-                        table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
-                        table.addCell(getAmountCell(totalNextFyEAI, cellFont));
-                        
-                        reportGroupDesc = dataList.get(0).getReportGroupDesc();
-                        grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
-                        grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
-                        grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
-                        grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
+                // print report group description
+                String reportGroupDesc = reportGroupDataBySecurity.firstEntry().getValue().get(0).getReportGroupDesc();
+                PdfPCell groupDescCell = new PdfPCell(new Paragraph(reportGroupDesc, titleFont));
+                groupDescCell.setColspan(6);
+                table.addCell(groupDescCell);
+                
+                // print totals per security id  
+                BigDecimal totalGroupMarketValue = BigDecimal.ZERO;
+                Iterator<String> securityIdSet = reportGroupDataBySecurity.keySet().iterator();                
+                while (securityIdSet.hasNext()) {
+                    String securityId = securityIdSet.next();
+                    List<ReportGroupData> dataList = reportGroupDataBySecurity.get(securityId);
+                    BigDecimal totalUnits = BigDecimal.ZERO;
+                    BigDecimal totalMarketValue = BigDecimal.ZERO;
+                    BigDecimal totalEstimatedAnnualIncome = BigDecimal.ZERO;
+                    BigDecimal totalFyRemainderEAI = BigDecimal.ZERO;
+                    BigDecimal totalNextFyEAI = BigDecimal.ZERO;
+                    for (ReportGroupData data : dataList) {
+                        totalUnits = totalUnits.add(data.getSumOfUnits());
+                        totalMarketValue = totalMarketValue.add(data.getSumOfMarketValue());
+                        totalGroupMarketValue = totalGroupMarketValue.add(data.getSumOfMarketValue());
+                        totalEstimatedAnnualIncome = totalEstimatedAnnualIncome.add(data.getSumOfEstimatedIncome());
+                        totalFyRemainderEAI = totalFyRemainderEAI.add(data.getSumOfRemainderOfFYEstimated());
+                        totalNextFyEAI = totalNextFyEAI.add(data.getSumOfNextFYEstimatedIncome());
                     }
-                    // totals
-                    table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
-                    table.addCell("");
-                    table.addCell(getAmountCell(grandTotalMarketValueN, cellFont));
-                    table.addCell("");
-                    table.addCell("");
-                    table.addCell("");
+                    
+                    table.addCell(new Paragraph(dataList.get(0).getSecurityDesc(), cellFont));
+                    table.addCell(getAmountCell(totalUnits, cellFont, FORMAT164));
+                    table.addCell(getAmountCell(totalMarketValue, cellFont));
+                    table.addCell(getAmountCell(totalEstimatedAnnualIncome, cellFont));
+                    table.addCell(getAmountCell(totalFyRemainderEAI, cellFont));
+                    table.addCell(getAmountCell(totalNextFyEAI, cellFont));
+                    
+                    grandTotalMarketValueN = grandTotalMarketValueN.add(totalMarketValue);
+                    grandTotalEstimatedAnnualIncomeN = grandTotalEstimatedAnnualIncomeN.add(totalEstimatedAnnualIncome);
+                    grandTotalFyRemainderEAIN = grandTotalFyRemainderEAIN.add(totalFyRemainderEAI);
+                    grandTotalNextFyEAIN = grandTotalNextFyEAIN.add(totalNextFyEAI);
                 }
+                
+                // report group total
+                table.addCell(new Paragraph("TOTAL " + convertToUpperCase(reportGroupDesc), cellFont));
+                table.addCell("");
+                table.addCell(getAmountCell(totalGroupMarketValue, cellFont));
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
             }
         }
     }

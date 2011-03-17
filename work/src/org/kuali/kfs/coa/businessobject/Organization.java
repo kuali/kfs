@@ -930,4 +930,12 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
         this.active = active;
     }
 
+    /**
+     * Gets the organizationName attribute for report
+     * 
+     * @return Returns the organizationName
+     */
+    public String getOrganizationNameForReport() {
+        return organizationName;
+    }
 }

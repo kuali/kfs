@@ -17,9 +17,7 @@ package org.kuali.kfs.integration.cg.dto;
 
 public class KcObjectCode {
     String  objectCodeName;
-    String  budgetCategoryCode;
     String  description;
-    Boolean onOffCampusFlag;
    
      /**
      * Gets the objectCodeName attribute. 
@@ -36,20 +34,6 @@ public class KcObjectCode {
         this.objectCodeName = objectCodeName;
     }
     /**
-     * Gets the budgetCategoryCode attribute. 
-     * @return Returns the budgetCategoryCode.
-     */
-    public String getBudgetCategoryCode() {
-        return budgetCategoryCode;
-    }
-    /**
-     * Sets the budgetCategoryCode attribute value.
-     * @param budgetCategoryCode The budgetCategoryCode to set.
-     */
-    public void setBudgetCategoryCode(String budgetCategoryCode) {
-        this.budgetCategoryCode = budgetCategoryCode;
-    }
-    /**
      * Gets the description attribute. 
      * @return Returns the description.
      */
@@ -63,19 +47,4 @@ public class KcObjectCode {
     public void setDescription(String description) {
         this.description = description;
     }
-    /**
-     * Gets the onOffCampusFlag attribute. 
-     * @return Returns the onOffCampusFlag.
-     */
-    public Boolean getOnOffCampusFlag() {
-        return onOffCampusFlag;
-    }
-    /**
-     * Sets the onOffCampusFlag attribute value.
-     * @param onOffCampusFlag The onOffCampusFlag to set.
-     */
-    public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
-        this.onOffCampusFlag = onOffCampusFlag;
-    }
-
 }

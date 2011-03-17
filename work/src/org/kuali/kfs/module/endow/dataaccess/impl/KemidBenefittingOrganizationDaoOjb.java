@@ -58,6 +58,7 @@ public class KemidBenefittingOrganizationDaoOjb extends PlatformAwareDaoBaseOjb 
         
         Iterator<Object> result = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query); 
         
+        // get kemids
         List<String> kemids = new ArrayList<String>();
         while (result.hasNext()) {
             Object[] data = (Object[]) result.next();

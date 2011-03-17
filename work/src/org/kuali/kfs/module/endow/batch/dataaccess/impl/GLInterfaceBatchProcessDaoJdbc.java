@@ -175,7 +175,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                                         + "FROM END_TRAN_ARCHV_T a, END_TRAN_ARCHV_SEC_T d " 
                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
                                         + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
-                                        + "ORDER BY a.DOC_TYP_NM, a.TRAN_IP_IND_CD, a.TRAN_KEMID, a.TRAN_ETRAN_CD");
+                                        + "ORDER BY a.DOC_TYP_NM, a.TRAN_KEMID, a.TRAN_IP_IND_CD, a.TRAN_ETRAN_CD");
         
         return (getJdbcTemplate().queryForRowSet(transactionArchiveSql, new Object[] { postedDate, documentType, TransactionSubTypeCode }));
     }

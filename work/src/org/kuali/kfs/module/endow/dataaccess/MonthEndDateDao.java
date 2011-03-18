@@ -22,9 +22,9 @@ import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 public interface MonthEndDateDao {
 
     /**
-     * Gets all the month end dates 
+     * Gets all the month end dates ordered by descending 
      * 
      * @return
      */
-    List<MonthEndDate> getAllMonthEndDates();
+    List<MonthEndDate> getAllMonthEndDatesOrderByDescending();
 }

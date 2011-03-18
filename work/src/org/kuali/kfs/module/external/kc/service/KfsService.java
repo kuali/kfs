@@ -25,7 +25,9 @@ import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.external.kc.webService.EffortReportingServiceSoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.ksb.messaging.ServiceInfo;
 import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
 
@@ -39,21 +41,24 @@ public abstract class KfsService extends Service {
  
     protected static URL getWsdl(QName qname) throws MalformedURLException {
         URL url = null;
+        String webServiceServer =  KNSServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+
         //FIXME KC needs to get the services exposed and working on the KSB for this to work
-        /*
-        ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);
-        List<ServiceInfo> wsdlServices = serviceRegistry.fetchActiveByName(qname);
-        if (wsdlServices.size() > 0 ) {
-            ServiceInfo serviceInfo = wsdlServices.get(0);
-            String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
-            url = new URL(wsdlName);
-            WSDL_LOCATION = url;
-            return url;
+        if (webServiceServer == null) {
+            // look for service on the KSB registry
+            ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);
+            List<ServiceInfo> wsdlServices = serviceRegistry.fetchActiveByName(qname);
+            if (wsdlServices.size() > 0 ) {
+                ServiceInfo serviceInfo = wsdlServices.get(0);
+                String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
+                url = new URL(wsdlName);
+                WSDL_LOCATION = url;
+                return url;
+            }
         }
-        */
         // not on the service bus.  just use the test case version for now
-        WSDL_LOCATION  = new URL("http://test.kc.kuali.org/kc-trunk/remoting/" +  qname.getLocalPart() + "?wsdl");
-        LOG.info(qname.getLocalPart() + " cannot find service on KSB! Using " + WSDL_LOCATION);
+        // WSDL_LOCATION  = new URL("http://test.kc.kuali.org/kc-trunk/remoting/" +  qname.getLocalPart() + "?wsdl");
+        WSDL_LOCATION  = new URL(webServiceServer + "/" +  qname.getLocalPart() + "?wsdl");
         return url;
     }
 }

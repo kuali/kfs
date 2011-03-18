@@ -37,9 +37,14 @@
     </c:if>
 </td>
 <td class="content" valign="top">
-    <c:if test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}"> 
-      <maintenanceChannel:contractsAndGrants />
-    </c:if>
+	<c:choose>
+    <c:when test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
+    	<maintenanceChannel:contractsAndGrants />
+    </c:when>
+    <c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
+     	<maintenanceChannel:contractsAndGrants />
+    </c:when>
+   	</c:choose>
     <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}"> 
       <maintenanceChannel:effortCertification />
       <maintenanceChannel:laborDistribution /> 

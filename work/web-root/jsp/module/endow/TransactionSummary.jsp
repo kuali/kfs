@@ -18,12 +18,12 @@
 	
 	<c:set var="kemidAttributes" value="${DataDictionary.KEMID.attributes}" />
 	<c:set var="orgAttributes" value="${DataDictionary.Organization.attributes}" />
-	<c:set var="kemidBenOrgAttributes" value="${DataDictionary.KemidBenefittingOrganization.attributes}" />
 	<c:set var="typeCodeAttributes" value="${DataDictionary.TypeCode.attributes}" />
 	<c:set var="purposeCodeAttributes" value="${DataDictionary.PurposeCode.attributes}" />
 	<c:set var="combineGroupCodeAttributes" value="${DataDictionary.CombineGroupCode.attributes}" />
 	<c:set var="campusAttributes" value="${DataDictionary.CampusImpl.attributes}" />
 	<c:set var="medAttributes" value="${DataDictionary.MonthEndDate.attributes}" />
+	<c:set var="chartAttributes" value="${DataDictionary.Chart.attributes}" />
 		
 <kul:page  showDocumentInfo="false"
 	headerTitle="Transaction Summary Report" docTitle="Transaction Summary Report" renderMultipart="true"
@@ -49,20 +49,20 @@
             </tr>                          
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingChartCodeForReport}" readOnly="true" /></div>
+                    <div align="right">Benefitting Organization Chart:</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingChartCodeForReport}" property="benefittingOrganziationChart" />	
-                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization"  fieldConversions="benefittingChartCode:benefittingOrganziationChart" />
+					<kul:htmlControlAttribute attributeEntry="${chartAttributes.chartCodeForReport}" property="benefittingOrganziationChart" />	
+                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Chart"  fieldConversions="chartCodeForReport:benefittingOrganziationChart" />
                 </td>				                      
             </tr>          
             <tr>		
                 <th align=right valign=middle class="grid" style="width: 25%;">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${kemidBenOrgAttributes.benefittingOrgCodeForReport}" readOnly="true" /></div>
+                    <div align="right">Benefitting Organization</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${kemidBenOrgAttributes.benefittingOrgCodeForReport}" property="benefittingOrganziation" />	
-                    <kul:lookup boClassName="org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization"  fieldConversions="benefittingOrgCode:benefittingOrganziation" />
+					<kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCodeForReport}" property="benefittingOrganziation" />	
+                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization"  fieldConversions="organizationCodeForReport:benefittingOrganziation" />
                 </td>				                      
             </tr>
             <tr>		

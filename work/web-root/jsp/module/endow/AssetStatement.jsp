@@ -61,8 +61,8 @@
                     <div align="right">Benefitting Organization</div>
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
-					<kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationNameForReport}" property="benefittingOrganziation" />	
-                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization"  fieldConversions="organizationNameForReport:benefittingOrganziation" />
+					<kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationCodeForReport}" property="benefittingOrganziation" />	
+                    <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Organization"  fieldConversions="organizationCodeForReport:benefittingOrganziation" />
                 </td>				                      
             </tr>
             <tr>		

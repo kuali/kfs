@@ -15,16 +15,14 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
-import java.lang.reflect.GenericDeclaration;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import javax.xml.ws.Service;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.external.kc.webService.EffortReportingServiceSoapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -53,10 +51,11 @@ public abstract class KfsService extends Service {
                 String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
                 url = new URL(wsdlName);
                 WSDL_LOCATION = url;
-                return url;
             }
-        }
-        WSDL_LOCATION  = new URL(webServiceServer + "/" +  qname.getLocalPart() + "?wsdl");
+        } else {
+            url  = new URL(webServiceServer + "/remoting/" +  qname.getLocalPart() + "?wsdl");
+            WSDL_LOCATION = url;
+        }  
         return url;
     }
 }

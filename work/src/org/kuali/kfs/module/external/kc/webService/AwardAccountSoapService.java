@@ -27,8 +27,8 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 
 @WebServiceClient(name = KcConstants.AwardAccount.SOAP_SERVICE_NAME, 
-        wsdlLocation = "http://test.kc.kuali.org:80/kc-trunk/remoting/awardAccountSoapService?wsdl",
-        targetNamespace = KcConstants.KC_NAMESPACE_URI) 
+                  wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/awardAccountSoapService?wsdl",
+                  targetNamespace = KcConstants.KC_NAMESPACE_URI) 
 public class AwardAccountSoapService extends KfsService {
 
     public final static QName awardAccountServicePort = new QName(KcConstants.KC_NAMESPACE_URI, KcConstants.AwardAccount.SERVICE_PORT);
@@ -40,38 +40,39 @@ public class AwardAccountSoapService extends KfsService {
          }
     }
 
-   public AwardAccountSoapService(URL wsdlLocation) {
-       super(wsdlLocation, KcConstants.AwardAccount.SERVICE);
-   }
+    public AwardAccountSoapService(URL wsdlLocation) {
+        super(wsdlLocation, KcConstants.AwardAccount.SERVICE);
+    }
 
-   public AwardAccountSoapService(URL wsdlLocation, QName serviceName) {
-       super(wsdlLocation, serviceName);
-   }
+    public AwardAccountSoapService(URL wsdlLocation, QName serviceName) {
+        super(wsdlLocation, serviceName);
+    }
 
-   public AwardAccountSoapService() {
-       super(WSDL_LOCATION, KcConstants.AwardAccount.SERVICE);
-   }
-   
-   /**
-    * 
-    * @return
-    *     returns AwardAccountService
-    */
-   @WebEndpoint(name =  KcConstants.AwardAccount.SERVICE_PORT)
-   public AwardAccountService getAwardAccountServicePort() {
-       return super.getPort(awardAccountServicePort, AwardAccountService.class);
-   }
+    public AwardAccountSoapService() {
+        super(WSDL_LOCATION, KcConstants.AwardAccount.SERVICE);
+    }
+    
 
-   /**
-    * 
-    * @param features
-    *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
-    * @return
-    *     returns AwardAccountService
-    */
-   @WebEndpoint(name =  KcConstants.AwardAccount.SERVICE_PORT)
-   public AwardAccountService getAwardAccountServicePort(WebServiceFeature... features) {
-       return super.getPort(awardAccountServicePort, AwardAccountService.class, features);
-   }
+    /**
+     * 
+     * @return
+     *     returns AwardAccountService
+     */
+    @WebEndpoint(name = "awardAccountServicePort")
+    public AwardAccountService getAwardAccountServicePort() {
+        return super.getPort(awardAccountServicePort, AwardAccountService.class);
+    }
+
+    /**
+     * 
+     * @param features
+     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     * @return
+     *     returns AwardAccountService
+     */
+    @WebEndpoint(name = "awardAccountServicePort")
+    public AwardAccountService getAwardAccountServicePort(WebServiceFeature... features) {
+        return super.getPort(awardAccountServicePort, AwardAccountService.class, features);
+    }
 
 }

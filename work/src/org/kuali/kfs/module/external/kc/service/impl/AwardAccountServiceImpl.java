@@ -22,8 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.businessobject.Award;
@@ -56,7 +56,7 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
             String key = (String) e.getKey();
             String val = (String) e.getValue();
 
-            if ( KcConstants.Unit.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
+            if ( KcConstants.AwardAccount.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
                 hashMapList.put(key, val);
             }
         }
@@ -64,7 +64,7 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
         List awardAccounts = new ArrayList();             
         AwardAccountDTO awardAccountDTO = getWebService().getAwardAccount((String)hashMapList.get("accountNumber"));
         
-        if (awardAccountDTO != null) {
+        if (awardAccountDTO != null && StringUtils.isEmpty(awardAccountDTO.getErrorMessage())) {
             ContractsAndGrantsAccountAwardInformation awardAccount = new AwardAccount(awardAccountDTO, (String)hashMapList.get("accountNumber"), (String)hashMapList.get("chartOfAccountsCode"));
             awardAccounts.add(awardAccount);
         }

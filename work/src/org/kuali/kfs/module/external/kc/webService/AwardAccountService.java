@@ -25,7 +25,7 @@ import javax.xml.ws.ResponseWrapper;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
 
-@WebService(targetNamespace = KcConstants.KC_NAMESPACE_URI, name = KcConstants.Cfda.SOAP_SERVICE_NAME)
+@WebService(targetNamespace = KcConstants.KC_NAMESPACE_URI, name = KcConstants.AwardAccount.SOAP_SERVICE_NAME)
 public interface AwardAccountService {
 
     @WebResult(name = "return", targetNamespace = "")

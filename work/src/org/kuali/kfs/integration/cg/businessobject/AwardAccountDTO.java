@@ -23,32 +23,70 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
 
+/**
+ * <p>Java class for awardAccountDTO complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="awardAccountDTO">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="awardId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="awardTitle" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="federalSponsor" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="grantNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="institutionalproposalId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="primeSponsorCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="primeSponsorName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="projectDirector" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="proposalFederalPassThroughAgencyNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="proposalNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="sponsorCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="sponsorName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "awardAccountDTO", propOrder = {
     "awardId",
+    "awardTitle",
     "errorMessage",
     "federalSponsor",
     "grantNumber",
     "institutionalproposalId",
+    "primeSponsorCode",
+    "primeSponsorName",
     "projectDirector",
     "proposalFederalPassThroughAgencyNumber",
     "proposalNumber",
     "sponsorCode",
     "sponsorName"
 })
+
 public class AwardAccountDTO implements ContractsAndGrantsAwardAccount, Serializable {
 
     private long awardId;
+    private String awardTitle;
     private String errorMessage;
     private boolean federalSponsor;
     private String grantNumber;
     private long institutionalproposalId;
+    private String primeSponsorCode;
+    private String primeSponsorName;
     private String projectDirector;
     private String proposalFederalPassThroughAgencyNumber;
     private String proposalNumber;
     private String sponsorCode;
     private String sponsorName;
-
+        
     public long getAwardId() {
         return awardId;
     }
@@ -93,6 +131,48 @@ public class AwardAccountDTO implements ContractsAndGrantsAwardAccount, Serializ
     }
 
     public void prepareForWorkflow() {
+    }
+
+    /**
+     * 
+     */
+    public String getAwardTitle() {
+        return awardTitle;
+    }
+
+    /**
+     * 
+     */
+    public void setAwardTitle(String awardTitle) {
+        this.awardTitle = awardTitle;
+    }
+
+    /**
+     * 
+     */
+    public String getPrimeSponsorCode() {
+        return primeSponsorCode;
+    }
+
+    /**
+     * 
+     */
+    public void setPrimeSponsorCode(String primeSponsorCode) {
+        this.primeSponsorCode = primeSponsorCode;
+    }
+
+    /**
+     * 
+     */
+    public String getPrimeSponsorName() {
+        return primeSponsorName;
+    }
+
+    /**
+     * 
+     */
+    public void setPrimeSponsorName(String primeSponsorName) {
+        this.primeSponsorName = primeSponsorName;
     }
 
 }

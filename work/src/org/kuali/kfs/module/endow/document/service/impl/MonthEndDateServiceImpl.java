@@ -121,7 +121,10 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
                 
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         List<String> beginningDates = new ArrayList<String>();
-        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDates();
+        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDatesOrderByDescending();
+        // remove the latest one because it cannot be greater than the latest ending date
+        monthEndDateRecords.remove(0);
+        MonthEndDate latestDate = monthEndDateRecords.get(0);
         Calendar calendar = Calendar.getInstance();
         for (MonthEndDate monthEndDate : monthEndDateRecords) {
             calendar.setTime(monthEndDate.getMonthEndDate());
@@ -137,7 +140,7 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
      */
     public List<String> getEndingDates() {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDates();
+        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDatesOrderByDescending();
         List<String> endingDates = new ArrayList<String>();
         for (MonthEndDate monthEndDate : monthEndDateRecords) {
             endingDates.add(dateTimeService.toDateString(monthEndDate.getMonthEndDate()));

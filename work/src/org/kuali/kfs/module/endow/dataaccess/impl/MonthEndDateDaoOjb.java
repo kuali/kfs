@@ -31,7 +31,7 @@ public class MonthEndDateDaoOjb extends PlatformAwareDaoBaseOjb implements Month
      * 
      * @see org.kuali.kfs.module.endow.dataaccess.MonthEndDateDao#getAllMonthEndDates()
      */
-    public List<MonthEndDate> getAllMonthEndDates() {
+    public List<MonthEndDate> getAllMonthEndDatesOrderByDescending() {
         Criteria criteria = new Criteria();
         QueryByCriteria qbc = QueryFactory.newQuery(MonthEndDate.class, criteria);
         qbc.addOrderByDescending(EndowPropertyConstants.MONTH_END_DATE);

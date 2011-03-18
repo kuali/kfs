@@ -47,6 +47,9 @@ public abstract class EndowmentReportPrintBase {
     public static final int KEMID_SELECTED_TABLE_WIDTH = 80;
     public static final int FULL_TABLE_WIDTH = 100;
     
+    public static final Font headerShheetTitleFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD);
+    public static final Font headerSheetRegularFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY);
+    
     public static final Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD);
     public static final Font regularFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY);
     public static final Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.GRAY);
@@ -84,11 +87,11 @@ public abstract class EndowmentReportPrintBase {
             requestTable.setWidths(requestWidths);
             requestTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                         
-            Paragraph reportRequested = new Paragraph(reportRequestHeaderDataHolder.getReportRequested(), regularFont);
-            Paragraph dateRequested = new Paragraph(new Date().toString(), regularFont);
-            Paragraph requestedBy = new Paragraph(reportRequestHeaderDataHolder.getRequestedBy(), regularFont);
-            Paragraph endowmentOption = new Paragraph(reportRequestHeaderDataHolder.getEndowmentOption(), regularFont);
-            Paragraph reportOption = new Paragraph(reportRequestHeaderDataHolder.getReportOption(), regularFont);
+            Paragraph reportRequested = new Paragraph(reportRequestHeaderDataHolder.getReportRequested(), headerSheetRegularFont);
+            Paragraph dateRequested = new Paragraph(new Date().toString(), headerSheetRegularFont);
+            Paragraph requestedBy = new Paragraph(reportRequestHeaderDataHolder.getRequestedBy(), headerSheetRegularFont);
+            Paragraph endowmentOption = new Paragraph(reportRequestHeaderDataHolder.getEndowmentOption(), headerSheetRegularFont);
+            Paragraph reportOption = new Paragraph(reportRequestHeaderDataHolder.getReportOption(), headerSheetRegularFont);
             
             requestTable.addCell(createCellWithDefaultFontAndWithoutBorderLine("Report Requested:", Element.ALIGN_RIGHT));
             requestTable.addCell(reportRequested);
@@ -114,12 +117,12 @@ public abstract class EndowmentReportPrintBase {
             criteriaTable.setWidths(criteriaWidths);
             criteriaTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
     
-            Paragraph benefittingCampus = new Paragraph(reportRequestHeaderDataHolder.getBenefittingCampus(), regularFont);
-            Paragraph benefittingChart = new Paragraph(reportRequestHeaderDataHolder.getBenefittingChart(), regularFont);
-            Paragraph benefittingOrganization = new Paragraph(reportRequestHeaderDataHolder.getBenefittingOrganization(), regularFont);
-            Paragraph kemidTypeCode = new Paragraph(reportRequestHeaderDataHolder.getKemidTypeCode(), regularFont);
-            Paragraph kemidPurposeCode = new Paragraph(reportRequestHeaderDataHolder.getKemidPurposeCode(), regularFont);            
-            Paragraph combinationGroupCode = new Paragraph(reportRequestHeaderDataHolder.getCombineGroupCode(), regularFont);
+            Paragraph benefittingCampus = new Paragraph(reportRequestHeaderDataHolder.getBenefittingCampus(), headerSheetRegularFont);
+            Paragraph benefittingChart = new Paragraph(reportRequestHeaderDataHolder.getBenefittingChart(), headerSheetRegularFont);
+            Paragraph benefittingOrganization = new Paragraph(reportRequestHeaderDataHolder.getBenefittingOrganization(), headerSheetRegularFont);
+            Paragraph kemidTypeCode = new Paragraph(reportRequestHeaderDataHolder.getKemidTypeCode(), headerSheetRegularFont);
+            Paragraph kemidPurposeCode = new Paragraph(reportRequestHeaderDataHolder.getKemidPurposeCode(), headerSheetRegularFont);            
+            Paragraph combinationGroupCode = new Paragraph(reportRequestHeaderDataHolder.getCombineGroupCode(), headerSheetRegularFont);
             
             criteriaTable.addCell(createCellWithDefaultFontAndWithoutBorderLine("Benefitting Campus:", Element.ALIGN_RIGHT));
             criteriaTable.addCell(benefittingCampus);
@@ -157,15 +160,15 @@ public abstract class EndowmentReportPrintBase {
                 kemidWithMultipleBenefittingOrganizationTable.addCell(percent);
                 
                 for (KemidsWithMultipleBenefittingOrganizationsDataHolder kmbo : kemidsWithMultipleBenefittingOrganizationsDataHolder) {
-                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getKemid(), regularFont));
-                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getCampus(), regularFont));
-                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getChart(), regularFont));
-                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getOrganization(), regularFont));            
-                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getPercent().toString(), regularFont));
+                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getKemid(), headerSheetRegularFont));
+                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getCampus(), headerSheetRegularFont));
+                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getChart(), headerSheetRegularFont));
+                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getOrganization(), headerSheetRegularFont));            
+                    kemidWithMultipleBenefittingOrganizationTable.addCell(new Paragraph(kmbo.getPercent().toString(), headerSheetRegularFont));
                 }
                 document.add(kemidWithMultipleBenefittingOrganizationTable);
             } else {
-                Paragraph noneExistMessage = new Paragraph("NONE EXIST\n\n", regularFont);
+                Paragraph noneExistMessage = new Paragraph("NONE EXIST\n\n", headerSheetRegularFont);
                 document.add(noneExistMessage);
             }
             
@@ -181,7 +184,7 @@ public abstract class EndowmentReportPrintBase {
                 kemidsTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                 
                 for (int i = 0; i < totalKemidsSelected ; i++) {
-                    kemidsTable.addCell(new Paragraph(kemidsSelected.get(i), regularFont) );                
+                    kemidsTable.addCell(new Paragraph(kemidsSelected.get(i), headerSheetRegularFont) );                
                 }
                 // to fill out the rest of the empty cells. Otherwise, the row won't be displayed
                 if (totalKemidsSelected % KEMIDS_SELECTED_COLUMN_NUM != 0) {
@@ -292,7 +295,7 @@ public abstract class EndowmentReportPrintBase {
      * @throws BadElementException
      */
     protected PdfPCell createCellWithDefaultFontAndWithoutBorderLine(String s, int alignment) throws BadElementException {        
-        return createCell(s, regularFont, alignment, false);
+        return createCell(s, headerSheetRegularFont, alignment, false);
     }
     
     /**
@@ -308,6 +311,16 @@ public abstract class EndowmentReportPrintBase {
         return createCell(contents, font, horizontalAlignment, Element.ALIGN_BOTTOM, borderLine);
     } 
     
+    /**
+     * Creates a call with given font, alignments, and borderline
+     * 
+     * @param contents
+     * @param font
+     * @param horizontalAlignment
+     * @param verticalAlignment
+     * @param borderLine
+     * @return
+     */
     public PdfPCell createCell(String contents, Font font, int horizontalAlignment, int verticalAlignment, boolean borderLine) {
         if (contents == null) contents = "";
         Phrase phr = new Phrase(contents, font);

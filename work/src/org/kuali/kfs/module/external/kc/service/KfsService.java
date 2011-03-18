@@ -56,8 +56,6 @@ public abstract class KfsService extends Service {
                 return url;
             }
         }
-        // not on the service bus.  just use the test case version for now
-        // WSDL_LOCATION  = new URL("http://test.kc.kuali.org/kc-trunk/remoting/" +  qname.getLocalPart() + "?wsdl");
         WSDL_LOCATION  = new URL(webServiceServer + "/" +  qname.getLocalPart() + "?wsdl");
         return url;
     }

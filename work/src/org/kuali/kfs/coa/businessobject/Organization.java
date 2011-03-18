@@ -935,7 +935,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the organizationName
      */
-    public String getOrganizationNameForReport() {
-        return organizationName;
+    public String getOrganizationCodeForReport() {
+        return organizationCode;
     }
 }

@@ -76,7 +76,7 @@
         <ref bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
         <ref bean="Organization-organizationExtension.hrmsLastUpdateDate"/>
 		<ref bean="Organization-organizationPhysicalCampusCodeForReport"/>   
-		<ref bean="Organization-organizationNameForReport"/>     
+		<ref bean="Organization-organizationCodeForReport"/>     
       </list>
     </property>
     <property name="relationships">
@@ -542,8 +542,8 @@
     <property name="shortLabel" value="Last Update Date"/>
   </bean>
 
-  <bean id="Organization-organizationNameForReport" parent="Organization-organizationName-parentBean">
-     <property name="name" value="organizationNameForReport" />
+  <bean id="Organization-organizationCodeForReport" parent="Organization-organizationCode-parentBean">
+     <property name="name" value="organizationCodeForReport" />
   	<property name="maxLength" value="150" />
     <property name="control" >
     	<bean parent="TextControlDefinition" 

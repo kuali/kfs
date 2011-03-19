@@ -26,7 +26,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class Agency implements ContractsAndGrantsAgency {
 
     private String agencyNumber;
-    private String reportingName;
+    private String reportingName;    
     private String fullName;
     private String agencyTypeCode;
     private String reportsToAgencyNumber;

@@ -16,6 +16,7 @@
       <list>
         <ref bean="Award-proposal.proposalNumber"/>
         <ref bean="Award-proposalNumber"/>
+        <ref bean="Award-awardTitle"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -46,6 +47,14 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="primeAgency"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="primeAgencyNumber" p:targetName="agencyNumber"/>
+            </list>
+          </property>
+        </bean>
       </list>
     </property>
   </bean>
@@ -73,6 +82,20 @@
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="14"/>
+    </property>
+  </bean>
+  <bean id="Award-awardTitle" parent="Award-awardTitle-parentBean"/>
+
+  <bean id="Award-awardTitle-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardTitle"/>    
+    <property name="label" value="Award Title"/>
+    <property name="shortLabel" value="Award Title"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
     </property>
   </bean>
   

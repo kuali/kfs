@@ -17,13 +17,15 @@
         <ref bean="AwardAccount-projectDirectorName"/>
         <ref bean="AwardAccount-chartOfAccountsCode"/>
         <ref bean="AwardAccount-accountNumber"/>
-        <ref bean="AwardAccount-account.accountName"/>        
+        <ref bean="AwardAccount-account.accountName"/>
+        <ref bean="AwardAccount-award.awardTitle"/>        
         <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber"/>
         <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator"/>
         <ref bean="AwardAccount-award.proposal.grantNumber"/>           
         <ref bean="AwardAccount-newCollectionRecord"/>     
         <ref bean="AwardAccount-active"/>
         <ref bean="AwardAccount-award.agency.reportingName"/>
+        <ref bean="AwardAccount-award.primeAgency.reportingName"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -145,6 +147,13 @@
   <bean id="AwardAccount-account.accountName-parentBean" abstract="true" parent="Account-accountName">
     <property name="name" value="account.accountName"/>
   </bean>
+  <bean id="AwardAccount-award.awardTitle" parent="AwardAccount-award.awardTitle-parentBean"/>
+
+  <bean id="AwardAccount-award.awardTitle-parentBean" abstract="true" parent="Award-awardTitle">
+    <property name="name" value="award.awardTitle"/>
+    <property name="label" value="Award Title"/>
+    <property name="shortLabel" value="Award Title"/>
+  </bean>
   <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber" parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean"/>
 
   <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" abstract="true" parent="Proposal-federalPassThroughAgencyNumber">
@@ -178,6 +187,14 @@
   <bean id="AwardAccount-award.agency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
     <property name="name" value="award.agency.reportingName"/>
     <property name="label" value="Sponsor Name"/>
+	<property name="shortLabel" value="Sponsor"/>
+  </bean>
+
+  <bean id="AwardAccount-award.primeAgency.reportingName" parent="AwardAccount-award.primeAgency.reportingName-parentBean"/>
+
+  <bean id="AwardAccount-award.primeAgency.reportingName-parentBean" abstract="true" parent="Agency-reportingName">
+    <property name="name" value="award.primeAgency.reportingName"/>
+    <property name="label" value="Prime Sponsor Name"/>
 	<property name="shortLabel" value="Sponsor"/>
   </bean>
 

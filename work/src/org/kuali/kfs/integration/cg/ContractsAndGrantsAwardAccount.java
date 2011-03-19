@@ -21,6 +21,8 @@ public interface ContractsAndGrantsAwardAccount extends ExternalizableBusinessOb
 
     public long getAwardId();
     
+    public String getAwardTitle();
+    
     public String getErrorMessage();
     
     public boolean getFederalSponsor();
@@ -38,4 +40,9 @@ public interface ContractsAndGrantsAwardAccount extends ExternalizableBusinessOb
     public String getSponsorCode();
     
     public String getSponsorName();
+
+    public String getPrimeSponsorCode();
+    
+    public String getPrimeSponsorName();
+
 }

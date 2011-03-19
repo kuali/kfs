@@ -31,9 +31,12 @@ public class Award implements ContractsAndGrantsAward {
 
     private Long proposalNumber;
     private String agencyNumber;
+    private String primeAgencyNumber;
+    private String awardTitle;
     
     private Proposal proposal;
     private Agency agency;
+    private Agency primeAgency;
     private List<AwardAccount> awardAccounts;
     
     /**
@@ -119,6 +122,30 @@ public class Award implements ContractsAndGrantsAward {
 
     public void setAgencyNumber(String agencyNumber) {
         this.agencyNumber = agencyNumber;
+    }
+
+    public String getAwardTitle() {
+        return awardTitle;
+    }
+
+    public void setAwardTitle(String awardTitle) {
+        this.awardTitle = awardTitle;
+    }
+
+    public String getPrimeAgencyNumber() {
+        return primeAgencyNumber;
+    }
+
+    public void setPrimeAgencyNumber(String primeAgencyNumber) {
+        this.primeAgencyNumber = primeAgencyNumber;
+    }
+
+    public Agency getPrimeAgency() {
+        return primeAgency;
+    }
+
+    public void setPrimeAgency(Agency primeAgency) {
+        this.primeAgency = primeAgency;
     }
 
 }

@@ -67,28 +67,32 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         Proposal proposal = new Proposal();
         Award award = new Award();
         Agency agency = new Agency();
+        Agency primeAgency = new Agency();
         
         this.setAccountNumber(accountNumber);        
         this.setChartOfAccountsCode(chartOfAccountsCode);
         this.setPrincipalId(awardAccountDTO.getProjectDirector());
         this.setActive(true);
         
-        if(StringUtils.isNumeric(awardAccountDTO.getProposalNumber())){
-            this.setProposalNumber(Long.getLong(awardAccountDTO.getProposalNumber()).longValue());
-        }
+        this.setProposalNumber(awardAccountDTO.getAwardId());
         
+        award.setProposalNumber(this.getProposalNumber());
+        award.setAgencyNumber(awardAccountDTO.getSponsorCode());
+        award.setAwardTitle(awardAccountDTO.getAwardTitle());        
+
         proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());
         proposal.setGrantNumber(awardAccountDTO.getGrantNumber());
         proposal.setProposalNumber(this.getProposalNumber());
-        award.setProposalNumber(this.getProposalNumber());
-        award.setAgencyNumber(awardAccountDTO.getSponsorCode());
         proposal.setAward(award);
         this.setAward(award);
         this.getAward().setProposal(proposal);
                 
         agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
         agency.setReportingName(awardAccountDTO.getSponsorName());
+        primeAgency.setAgencyNumber(awardAccountDTO.getPrimeSponsorCode());
+        primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
         this.getAward().setAgency(agency);        
+        this.getAward().setPrimeAgency(primeAgency);
     }
     
     /***
@@ -251,8 +255,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
     public String getProjectDirectorName() {
-        if (!ObjectUtils.isNull(projectDirector)) {
-            return projectDirector.getName();
+        if (!ObjectUtils.isNull(getProjectDirector())) {
+            return getProjectDirector().getName();
         }
         return null;
     }

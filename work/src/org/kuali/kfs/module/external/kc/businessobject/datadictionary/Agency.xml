@@ -50,7 +50,7 @@
   <bean id="Agency-agencyNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="agencyNumber"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Agency Number"/>
+    <property name="label" value="Sponsor Code"/>
     <property name="shortLabel" value="AgencyNbr"/>
     <property name="maxLength" value="5"/>
     <property name="validationPattern">
@@ -65,7 +65,7 @@
 
   <bean id="Agency-reportingName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="reportingName"/>
-    <property name="label" value="Agency Reporting Name"/>
+    <property name="label" value="Sponsor Name"/>
     <property name="shortLabel" value="ReportingNm"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">

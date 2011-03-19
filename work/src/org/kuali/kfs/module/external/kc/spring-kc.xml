@@ -67,6 +67,7 @@
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.Award.proposalNumber" value="awardId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
       			
              </map>
         </property>        

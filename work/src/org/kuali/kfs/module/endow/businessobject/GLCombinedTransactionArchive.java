@@ -41,11 +41,13 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
     private String chartCode;
     private String accountNumber;
     private String objectCode;
+    private String nonCashOffsetObjectCode;
 
     public GLCombinedTransactionArchive() {
         chartCode = null;
         accountNumber = null;
         objectCode = null;
+        nonCashOffsetObjectCode = null;
         
         lineTypeCode = null;
         subTypeCode = null;
@@ -348,6 +350,7 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
         incomePrincipalIndicatorCode = kemArchiveTransaction.getIncomePrincipalIndicatorCode();
         kemid = kemArchiveTransaction.getKemid();
         documentNumber = kemArchiveTransaction.getDocumentNumber();
+        nonCashOffsetObjectCode = kemArchiveTransaction.getNonCashOffsetObjectCode();
         
         if (cashType) {
             incomeAmount = incomeAmount.add(kemArchiveTransaction.getTransactionArchiveIncomeAmount());
@@ -391,7 +394,8 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
         glKemLine.setTypeCode(typeCode);
         glKemLine.setIncomePrincipalIndicatorCode(incomePrincipalIndicatorCode);
         glKemLine.setObjectCode(objectCode);
-
+        glKemLine.setNonCashOffsetObjectCode(nonCashOffsetObjectCode);
+        
         //get transaction amount....
         if (cashType) {
             glKemLine.setTransactionArchiveIncomeAmount(incomeAmount);
@@ -415,6 +419,21 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
     }
     
     /**
+     * gets attribute nonCashOffsetObjectCode
+     * @return nonCashOffsetObjectCode
+     */
+    public String getNonCashOffsetObjectCode() {
+        return nonCashOffsetObjectCode;
+    }
+
+    /**
+     * sets attribute nonCashOffsetObjectCode
+     */
+    public void setNonCashOffsetObjectCode(String nonCashOffsetObjectCode) {
+        this.nonCashOffsetObjectCode = nonCashOffsetObjectCode;
+    }
+    
+    /**
      * A map of the "keys" of this transient business object
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -435,6 +454,7 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
         pks.put("chartCode", this.getChartCode());
         pks.put("objectCode", this.getObjectCode());
         pks.put("accountNumber", this.getAccountNumber());
+        pks.put("nonCashOffsetObjectCode", this.getNonCashOffsetObjectCode());
         
         return pks;
     }

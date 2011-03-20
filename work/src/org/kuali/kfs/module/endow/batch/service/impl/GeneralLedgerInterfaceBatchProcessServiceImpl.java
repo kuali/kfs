@@ -39,6 +39,7 @@ import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessed
 import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedTableRowValues;
 import org.kuali.kfs.module.endow.businessobject.GlInterfaceBatchProcessKemLine;
 import org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao;
+import org.kuali.kfs.module.endow.dataaccess.GLLinkDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -57,6 +58,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
     protected String batchFileDirectoryName;
     
     protected KEMService kemService;
+    protected GLLinkDao gLLinkDao;
     protected TransactionArchiveDao transactionArchiveDao;
     protected EndowmentAccountingLineBaseDao endowmentAccountingLineBaseDao;
     protected GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao;
@@ -308,7 +310,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         //need to create an net gain/loss entry...if document type name = EAD....
         if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
-            success = createOffsetOrGainLossEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
+            success = createGainLossEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
         }
         
         return success;
@@ -337,23 +339,20 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         
         //create the offset or (loss/gain entry for EAD) document types where subtype is Non-Cash
-        if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.NON_CASH)) {
-            //need to create an offset entry...
-            success = createOffsetOrGainLossEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
-        }
+        success = createOffsetEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
         
         return success;
     }
 
     /**
-     * method to create an offset or gain/loss record when document type = EAD...
+     * method to create a gain/loss record when document type = EAD...
      * @param oef OriginEntryFull 
      * @param transactionArchive
      * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps the output file
      * @param statisticsDataRow
      * @return success true if successfully created offset or gain loss entry else false
      */
-    protected boolean createOffsetOrGainLossEntry(OriginEntryFull oef, GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
+    protected boolean createGainLossEntry(OriginEntryFull oef, GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
         boolean success = true;
         
         //need to create an net gain/loss entry...if document type name = EAD....
@@ -388,6 +387,49 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         return success;
     }
+    
+    /**
+     * method to create an offset record when document type is NON-CASH
+     * @param oef OriginEntryFull 
+     * @param transactionArchive
+     * @param OUTPUT_KEM_TO_GL_DATA_FILE_ps the output file
+     * @param statisticsDataRow
+     * @return success true if successfully created offset or gain loss entry else false
+     */
+    protected boolean createOffsetEntry(OriginEntryFull oef, GlInterfaceBatchProcessKemLine transactionArchive, PrintStream OUTPUT_KEM_TO_GL_DATA_FILE_ps, GLInterfaceBatchStatisticsReportDetailTableRow statisticsDataRow) {
+        boolean success = true;
+        
+        oef.setFinancialObjectCode(transactionArchive.getNonCashOffsetObjectCode());
+        
+        BigDecimal transactionAmount = transactionArchive.getHoldingCost();
+        oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
+        oef.setTransactionDebitCreditCode(getTransactionDebitCreditCodeForOffSetEntry(transactionAmount));
+        try {
+            createOutputEntry(oef, OUTPUT_KEM_TO_GL_DATA_FILE_ps);
+            statisticsDataRow.increaseGLEntriesGeneratedCount();
+                
+            GlInterfaceBatchProcessKemLine transactionArchiveLossGain = new GlInterfaceBatchProcessKemLine();
+            transactionArchiveLossGain.setTypeCode(transactionArchive.getTypeCode());
+            transactionArchiveLossGain.setChartCode(transactionArchive.getChartCode());
+            transactionArchiveLossGain.setObjectCode(oef.getFinancialObjectCode());
+            transactionArchiveLossGain.setShortTermGainLoss(transactionArchive.getShortTermGainLoss());
+            transactionArchiveLossGain.setLongTermGainLoss(transactionArchive.getLongTermGainLoss());
+            transactionArchiveLossGain.setSubTypeCode(transactionArchive.getSubTypeCode());
+            transactionArchiveLossGain.setHoldingCost(transactionArchive.getHoldingCost());
+            transactionArchiveLossGain.setTransactionArchiveIncomeAmount(transactionArchive.getTransactionArchiveIncomeAmount());
+            transactionArchiveLossGain.setTransactionArchivePrincipalAmount(transactionArchive.getTransactionArchivePrincipalAmount());
+                
+            updateTotalsProcessed(transactionArchiveLossGain);                 
+        } catch (Exception ex) {
+            //write the error details to the exception report...
+            statisticsDataRow.increaseNumberOfExceptionsCount();
+            writeExceptionRecord(transactionArchive, ex.getMessage());            
+            success = false;
+        }
+        
+        return success;
+    }
+    
     /**
      * method to create cash entry GL record for each transaction archive financial doc number
      * @param transactionArchive,OUTPUT_KEM_TO_GL_DATA_FILE_ps, postedDate
@@ -1066,6 +1108,21 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      */
     public void setgLInterfaceBatchProcessDao(GLInterfaceBatchProcessDao gLInterfaceBatchProcessDao) {
         this.gLInterfaceBatchProcessDao = gLInterfaceBatchProcessDao;
+    }
+    
+    /**
+     * gets attribute gLLinkDao
+     * @return gLLinkDao
+     */
+    protected GLLinkDao getgLLinkDao() {
+        return gLLinkDao;
+    }
+    
+    /**
+     * sets attribute gLLinkDao
+     */
+    public void setgLLinkDao(GLLinkDao gLLinkDao) {
+        this.gLLinkDao = gLLinkDao;
     }
 }
 

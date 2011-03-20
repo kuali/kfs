@@ -171,11 +171,13 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     protected SqlRowSet getAllKemTransactions(String documentType, java.util.Date postedDate, String TransactionSubTypeCode) {
         String transactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
                                         + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
+                                        + "c.CHRT_CD, c.ACCT_NBR, "
                                         + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS, d.TRAN_SEC_ETRAN_CD "
-                                        + "FROM END_TRAN_ARCHV_T a, END_TRAN_ARCHV_SEC_T d " 
+                                        + "FROM END_TRAN_ARCHV_T a, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
+                                        + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
                                         + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
-                                        + "ORDER BY a.DOC_TYP_NM, a.TRAN_KEMID, a.TRAN_IP_IND_CD, a.TRAN_ETRAN_CD");
+                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, a.TRAN_KEMID, a.TRAN_ETRAN_CD");
         
         return (getJdbcTemplate().queryForRowSet(transactionArchiveSql, new Object[] { postedDate, documentType, TransactionSubTypeCode }));
     }
@@ -196,6 +198,9 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             glKemLine.setKemid(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_KEM_ID));
             glKemLine.setIncomePrincipalIndicatorCode(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_IP_IND_CD));
 
+            glKemLine.setChartCode(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_CHRT_CD));
+            glKemLine.setAccountNumber(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_ACCT_NBR));
+            
             //get transaction amount....
             if (cashType) {
                 glKemLine.setTransactionArchiveIncomeAmount(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_INC_CSH_AMT));
@@ -203,6 +208,10 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setHoldingCost(BigDecimal.ZERO);
                 glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
                 glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
+                if (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
+                    glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
+                    glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
+                }                
             }
             else {
                 glKemLine.setTransactionArchiveIncomeAmount(BigDecimal.ZERO);
@@ -212,29 +221,23 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
             }
             
-            //get chart and account number using kemid and ip indicator...
-            
-            Map<String, String> chartAndAccountNumber = (Map<String, String>)kemidGeneralLedgerAccountDao.getChartAndAccountNumber(glKemLine.getKemid(), glKemLine.getIncomePrincipalIndicatorCode());
-            
-            //get chart and account number
-            for (String key : chartAndAccountNumber.keySet()) {
-                if (key.equalsIgnoreCase(EndowPropertyConstants.KEMID_GL_ACCOUNT_CHART_CD)) {
-                    glKemLine.setChartCode(chartAndAccountNumber.get(EndowPropertyConstants.KEMID_GL_ACCOUNT_CHART_CD));
-                }
-                if (key.equalsIgnoreCase(EndowPropertyConstants.KEMID_GL_ACCOUNT_NBR)) {
-                    glKemLine.setAccountNumber(chartAndAccountNumber.get(EndowPropertyConstants.KEMID_GL_ACCOUNT_NBR));
-                }
-            }
-            
             //get the object code..
-            if (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE) ||
-                    glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE)) {
-                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD)));
-            }
-            else {
+            if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(glKemLine.getSubTypeCode()) && 
+                    (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE) || 
+                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ) {
                 glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_ETRAN_CD)));
             }
+            else {
+                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD)));
+            }
             
+            if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(glKemLine.getSubTypeCode())) {
+                glKemLine.setNonCashOffsetObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_ETRAN_CD)));
+            }
+            else {
+                glKemLine.setNonCashOffsetObjectCode(null);
+            }
+                    
             kemArchiveTransactions.add(glKemLine);
         }
         
@@ -248,9 +251,12 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     protected void buildCombinedTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions, Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, boolean cashType) {
         LOG.info("buildCombinedTransactionActivities() started");
 
+        //sort the records by chart, account number, object code
+     //   Collection<GlInterfaceBatchProcessKemLine> newKemArchiveTransactions = sortTransactionArchiveRecords(kemArchiveTransactions);
+        
         GLCombinedTransactionArchive gLCombinedTransactionArchive = new GLCombinedTransactionArchive();
         
-        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemArchiveTransactions) {
+        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemCombinedArchiveTransactions) {
             
             if (gLCombinedTransactionArchive.getChartCode() == null && gLCombinedTransactionArchive.getAccountNumber() == null && gLCombinedTransactionArchive.getObjectCode() == null) {
                 gLCombinedTransactionArchive.copyChartAndAccountNumberAndObjectCodeValues(kemArchiveTransaction);
@@ -274,9 +280,55 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         //write the last record for the document type....
         
         GlInterfaceBatchProcessKemLine glKemLine = gLCombinedTransactionArchive.copyValuesToCombinedTransactionArchive(cashType);
+
         kemCombinedArchiveTransactions.add(glKemLine);
         
         LOG.info("buildCombinedTransactionActivities() exited.");
+    }
+    
+    /**
+     * Helper method to sort the archive transactions based on chart, account number and object code.
+     * @param kemArchiveTransactions
+     * @return sortedKemTransacationArchiveRecords
+     */
+    protected Collection<GlInterfaceBatchProcessKemLine> sortTransactionArchiveRecords(Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions) {
+        Collection<GlInterfaceBatchProcessKemLine> sortedKemTransacationArchiveRecords = new ArrayList<GlInterfaceBatchProcessKemLine>();
+        
+        try {
+        String createSql = "create table end_tran_archv_sort_mt(FDOC_NBR VARCHAR2(14 NOT NULL, " 
+                           + "FDOC_LN_NBR NUMBER(7) NOT NULL, FDOC_LN_TYP_CD VARCHAR2(1) NOT NULL, "
+                           + "DOC_TYP_NM VARCHAR2(64) NOT NULL, TRAN_SUB_TYP_CD VARCHAR2(1) NOT NULL, "
+                           + "TRAN_KEMID VARCHAR2(10) NOT NULL, TRAN_IP_IND_CD VARCHAR2(1) NOT NULL, "
+                           + "TRAN_INC_CSH_AMT NUMBER(19,2), TRAN_PRIN_CSH_AMT NUMBER(19,2), "
+                           + "TRAN_SEC_ID VARCHAR2(9) NOT NULL, TRAN_SEC_COST NUMBER(19,2), "         
+                           + "TRAN_SEC_LT_GAIN_LOSS NUMBER(19,2), TRAN_SEC_ST_GAIN_LOSS NUMBER(19,2), " 
+                           + "CHRT_CD VARCHAR2(2) NOT NULL, ACCT_NBR VARCHAR2(7) NOT NULL, "
+                           + "OBJECT VARCHAR2(4))";
+        
+        getJdbcTemplate().execute(createSql);
+        getJdbcTemplate().execute("delete from end_tran_archv_sort_mt");
+        
+        String insertSql = "insert into end_tran_archv_sort_mt values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        
+        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemArchiveTransactions) {
+            getJdbcTemplate().update(insertSql, new Object[] { kemArchiveTransaction.getDocumentNumber(), kemArchiveTransaction.getLineNumber(), 
+                    kemArchiveTransaction.getLineTypeCode(), kemArchiveTransaction.getTypeCode(),
+                    kemArchiveTransaction.getSubTypeCode(), kemArchiveTransaction.getKemid(), kemArchiveTransaction.getIncomePrincipalIndicatorCode(), 
+                    kemArchiveTransaction.getTransactionArchiveIncomeAmount(), kemArchiveTransaction.getTransactionArchivePrincipalAmount(), 
+                    kemArchiveTransaction.getSecurityId(), kemArchiveTransaction.getHoldingCost(),
+                    kemArchiveTransaction.getLongTermGainLoss(), kemArchiveTransaction.getShortTermGainLoss(), 
+                    kemArchiveTransaction.getObjectCode() });    
+        }
+        
+        sortedKemTransacationArchiveRecords = getJdbcTemplate().queryForList("select * from end_tran_archv_sort_mt order by CHRT_CD, ACCT_NBR, OBJECT");
+        
+        getJdbcTemplate().execute("delete table end_tran_archv_sort_mt");
+        
+        return sortedKemTransacationArchiveRecords;
+        
+        } catch (Exception ex) {
+          throw new RuntimeException("sortTransactionArchiveRecords() - Unable to sort the archive records.");  
+        }
     }
     
     /**

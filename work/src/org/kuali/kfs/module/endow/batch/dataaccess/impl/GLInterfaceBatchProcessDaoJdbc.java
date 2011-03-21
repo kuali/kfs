@@ -177,7 +177,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
                                         + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
                                         + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
-                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, a.TRAN_KEMID, a.TRAN_ETRAN_CD");
+                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, d.TRAN_SEC_ETRAN_CD, a.TRAN_ETRAN_CD, a.TRAN_KEMID");
         
         return (getJdbcTemplate().queryForRowSet(transactionArchiveSql, new Object[] { postedDate, documentType, TransactionSubTypeCode }));
     }
@@ -251,12 +251,9 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     protected void buildCombinedTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions, Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, boolean cashType) {
         LOG.info("buildCombinedTransactionActivities() started");
 
-        //sort the records by chart, account number, object code
-     //   Collection<GlInterfaceBatchProcessKemLine> newKemArchiveTransactions = sortTransactionArchiveRecords(kemArchiveTransactions);
-        
         GLCombinedTransactionArchive gLCombinedTransactionArchive = new GLCombinedTransactionArchive();
         
-        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemCombinedArchiveTransactions) {
+        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemArchiveTransactions) {
             
             if (gLCombinedTransactionArchive.getChartCode() == null && gLCombinedTransactionArchive.getAccountNumber() == null && gLCombinedTransactionArchive.getObjectCode() == null) {
                 gLCombinedTransactionArchive.copyChartAndAccountNumberAndObjectCodeValues(kemArchiveTransaction);
@@ -278,10 +275,10 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         }
         
         //write the last record for the document type....
-        
-        GlInterfaceBatchProcessKemLine glKemLine = gLCombinedTransactionArchive.copyValuesToCombinedTransactionArchive(cashType);
-
-        kemCombinedArchiveTransactions.add(glKemLine);
+        if (kemArchiveTransactions.size()> 0) {
+            GlInterfaceBatchProcessKemLine glKemLine = gLCombinedTransactionArchive.copyValuesToCombinedTransactionArchive(cashType);
+            kemCombinedArchiveTransactions.add(glKemLine);
+        }
         
         LOG.info("buildCombinedTransactionActivities() exited.");
     }

@@ -310,7 +310,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         
         //need to create an net gain/loss entry...if document type name = EAD....
         if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
-            success = createGainLossEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
+            if ((transactionArchive.getLongTermGainLoss().add(transactionArchive.getShortTermGainLoss())).compareTo(BigDecimal.ZERO) != 0) {
+                success = createGainLossEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
+            }
         }
         
         return success;

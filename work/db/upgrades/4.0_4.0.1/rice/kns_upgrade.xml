@@ -52,6 +52,9 @@
       <column name='PARM_DESC_TXT' value='If the value of this parameter is "N," the document routes to project directors for all accounts appearing on the document. If the parameter is set to "Y," then only project directors associated with Federal accounts will receive the document.' />
       <where>NMSPC_CD= 'KFS-EC' and PARM_DTL_TYP_CD='EffortCertification' and PARM_NM='FEDERAL_ONLY_ROUTE_IND'</where>
     </update>
+      <comment>KFSMI-KFSMI-6526 Remove parameter W9_OWNERSHIP_TYPES from data set.</comment>
+      <delete tableName='KRNS_PARM_T'>
+      <where>NMSPC_CD="KFS-FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="W9_OWNERSHIP_TYPES"</where>
   </changeSet> 
 </databaseChangeLog>   
       

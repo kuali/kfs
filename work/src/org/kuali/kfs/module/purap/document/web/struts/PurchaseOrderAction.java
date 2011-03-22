@@ -901,6 +901,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             if (!success) {
                 poVendorQuote.setTransmitPrintDisplayed(true);
+                poVendorQuote.setPdfDisplayedToUserOnce(false);
+                
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
@@ -1035,6 +1037,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (PurapConstants.QuoteTransmitTypes.PRINT.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
             vendorQuote.setTransmitPrintDisplayed(true);
+            vendorQuote.setPdfDisplayedToUserOnce(false);
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {

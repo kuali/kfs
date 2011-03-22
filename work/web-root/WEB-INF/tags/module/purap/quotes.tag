@@ -233,6 +233,7 @@
 				isAwarded="${not empty quoteLine.purchaseOrderQuoteAwardTimestamp}"
 				isTransmitPrintDisplayed="${quoteLine.transmitPrintDisplayed}"
 				isTrasnmitted="${not empty quoteLine.purchaseOrderQuoteTransmitTimestamp}"
+				isPdfDisplayedToUserOnce="${quoteLine.pdfDisplayedToUserOnce}"
 		        ctr="${ctr}" /> 
 		</logic:iterate>
 

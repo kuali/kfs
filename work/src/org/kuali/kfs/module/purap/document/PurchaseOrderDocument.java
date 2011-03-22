@@ -1663,12 +1663,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
 
-    protected boolean isVendorEmployeeOrNonResidentAlien() {
-        String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
-        if (StringUtils.isBlank(vendorHeaderGeneratedId)) {
+    protected boolean isVendorEmployeeOrNonResidentAlien() {        
+        if (ObjectUtils.isNull(this.getVendorHeaderGeneratedIdentifier())) {
             // no vendor header id so can't check for proper tax routing
             return false;
         }
+        String vendorHeaderGeneratedId = this.getVendorHeaderGeneratedIdentifier().toString();
         VendorService vendorService = SpringContext.getBean(VendorService.class);
         boolean routeDocumentAsEmployeeVendor = vendorService.isVendorInstitutionEmployee(Integer.valueOf(vendorHeaderGeneratedId));
         boolean routeDocumentAsForeignVendor = vendorService.isVendorForeign(Integer.valueOf(vendorHeaderGeneratedId));

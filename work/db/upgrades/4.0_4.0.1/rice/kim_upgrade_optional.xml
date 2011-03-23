@@ -126,7 +126,43 @@
       <column name='PERM_ID' value='KFSSYS6006' />
       <column name='ACTV_IND' value='Y' />
     </insert>
+		<column name="PERM_ID" value="KFSSYS6007" />			
+		<column name="OBJ_ID" value="KFSSYS6007" />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="PERM_TMPL_ID" value="9" />
+		<column name="NMSPC_CD" value="KFS-ENDOW" />
+		<column name="NM" value="Ad Hoc Review Document" />
+		<column name="DESC_TXT" value="Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them." />
+		<column name="ACTV_IND" value="Y" />
+	</insert>
+	<insert tableName="KRIM_PERM_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSSYS6007-1" />			
+		<column name="OBJ_ID" value="KFSSYS6007-1" />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="PERM_ID" value="KFSSYS6007" />			
+		<column name="KIM_TYP_ID" value="5" />
+		<column name="KIM_ATTR_DEFN_ID" value="13" />
+		<column name="ATTR_VAL" value="TicklerMaintenanceDocument" />
+	</insert>
+	<insert tableName="KRIM_PERM_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSSYS6007-2" />			
+		<column name="OBJ_ID" value="KFSSYS6007-2" />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="PERM_ID" value="KFSSYS6007" />			
+		<column name="KIM_TYP_ID" value="5" />
+		<column name="KIM_ATTR_DEFN_ID" value="14" />
+		<column name="ATTR_VAL" value="F" />
+	</insert>
 
+	<!--  Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User -->
+	<insert tableName="KRIM_ROLE_PERM_T">
+		<column name="ROLE_PERM_ID" value="KFSSYS6007-1" />
+		<column name="OBJ_ID" value="KFSSYS6007-1" />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="ROLE_ID" value="1" />
+		<column name="PERM_ID" value="KFSSYS6007" />	
+		<column name="ACTV_IND" value="Y" />
+	</insert>
 	</changeSet>
 </databaseChangeLog>   
       

@@ -16,6 +16,7 @@
       <list>
         <ref bean="Award-proposal.proposalNumber"/>
         <ref bean="Award-proposalNumber"/>
+        <ref bean="Award-awardNumber"/>
         <ref bean="Award-awardTitle"/>
       </list>
     </property>
@@ -84,6 +85,21 @@
       <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
+  <bean id="Award-awardNumber" parent="Award-awardNumber-parentBean"/>
+
+  <bean id="Award-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="awardNumber"/>
+    <property name="label" value="Award Number"/>
+    <property name="shortLabel" value="Award Num"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>  
   <bean id="Award-awardTitle" parent="Award-awardTitle-parentBean"/>
 
   <bean id="Award-awardTitle-parentBean" abstract="true" parent="AttributeDefinition">

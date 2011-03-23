@@ -28,7 +28,6 @@
       <list>
         <ref bean="Proposal-proposalNumber"/>
         <ref bean="Proposal-federalPassThroughAgencyNumber"/>
-        <ref bean="Proposal-grantNumber"/>
         <ref bean="Proposal-proposalFederalPassThroughIndicator"/>
       </list>
     </property>
@@ -54,20 +53,6 @@
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-  </bean>
-  <bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean"/>
-
-  <bean id="Proposal-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantNumber"/>
-    <property name="label" value="Grant Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="27"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="29"/>
     </property>
   </bean>
 
@@ -111,7 +96,6 @@
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="grantNumber"/>
               <bean parent="FieldDefinition" p:attributeName="proposalFederalPassThroughIndicator"/>
               <bean parent="FieldDefinition" p:attributeName="federalPassThroughAgencyNumber"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>

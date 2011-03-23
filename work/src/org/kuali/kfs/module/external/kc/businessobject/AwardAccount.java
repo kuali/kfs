@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
 
-    private Long proposalNumber;
+    private Long proposalNumber;    
     private String chartOfAccountsCode;
     private String accountNumber;
     private String principalId;
@@ -72,23 +72,24 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.setAccountNumber(accountNumber);        
         this.setChartOfAccountsCode(chartOfAccountsCode);
         this.setPrincipalId(awardAccountDTO.getProjectDirector());
+        this.setProposalNumber(awardAccountDTO.getAwardId());
         this.setActive(true);
         
-        this.setProposalNumber(awardAccountDTO.getAwardId());
-        
-        award.setProposalNumber(this.getProposalNumber());
+        award.setAwardNumber(awardAccountDTO.getProposalNumber());                       
+        award.setProposalNumber(awardAccountDTO.getAwardId());
         award.setAgencyNumber(awardAccountDTO.getSponsorCode());
         award.setAwardTitle(awardAccountDTO.getAwardTitle());        
 
-        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());
-        proposal.setGrantNumber(awardAccountDTO.getGrantNumber());
-        proposal.setProposalNumber(this.getProposalNumber());
+        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());                
+        proposal.setProposalNumber(awardAccountDTO.getAwardId());
+                
         proposal.setAward(award);
         this.setAward(award);
         this.getAward().setProposal(proposal);
                 
         agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
         agency.setReportingName(awardAccountDTO.getSponsorName());
+        agency.setGrantNumber(awardAccountDTO.getGrantNumber());        
         primeAgency.setAgencyNumber(awardAccountDTO.getPrimeSponsorCode());
         primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
         this.getAward().setAgency(agency);        

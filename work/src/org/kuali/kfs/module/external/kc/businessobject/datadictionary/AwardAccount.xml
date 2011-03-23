@@ -10,7 +10,7 @@
     <property name="objectLabel" value="Award Account"/>
     <property name="attributes">
       <list>
-        <bean parent="Proposal-proposalNumber"/>
+        <bean parent="Proposal-proposalNumber"/>        
         <ref bean="AwardAccount-principalId"/>        
         <ref bean="AwardAccount-projectDirector.principalName"/>
         <ref bean="AwardAccount-projectDirector.name"/>
@@ -18,13 +18,12 @@
         <ref bean="AwardAccount-chartOfAccountsCode"/>
         <ref bean="AwardAccount-accountNumber"/>
         <ref bean="AwardAccount-account.accountName"/>
-        <ref bean="AwardAccount-award.awardTitle"/>        
-        <ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber"/>
-        <ref bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator"/>
-        <ref bean="AwardAccount-award.proposal.grantNumber"/>           
+        <ref bean="AwardAccount-award.awardTitle"/>
+        <ref bean="AwardAccount-award.awardNumber"/>                          
         <ref bean="AwardAccount-newCollectionRecord"/>     
         <ref bean="AwardAccount-active"/>
         <ref bean="AwardAccount-award.agency.reportingName"/>
+        <ref bean="AwardAccount-award.agency.grantNumber"/>
         <ref bean="AwardAccount-award.primeAgency.reportingName"/>
       </list>
     </property>
@@ -65,8 +64,13 @@
           <property name="primitiveAttributes">
             <list>
               <bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber"/>
-            </list>
+            </list>            
           </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="award.awardNumber" p:targetName="awardNumber"/>              
+            </list>
+          </property>          
         </bean>    
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="award.proposal"/>
@@ -75,13 +79,6 @@
               <bean parent="PrimitiveAttributeDefinition" p:sourceName="award.proposalNumber" p:targetName="proposalNumber"/>
             </list>
           </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:sourceName="award.proposal.grantNumber" p:targetName="grantNumber"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="award.proposal.federalPassThroughAgencyNumber" p:targetName="federalPassThroughAgencyNumber"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="award.proposal.proposalFederalPassThroughIndicator" p:targetName="proposalFederalPassThroughIndicator"/>
-			</list>
-		  </property>          
         </bean>    
         <bean parent="RelationshipDefinition">
           <property name="objectAttributeName" value="award.agency"/>
@@ -93,9 +90,23 @@
           <property name="supportAttributes">
             <list>
               <bean parent="SupportAttributeDefinition" p:sourceName="award.agency.reportingName" p:targetName="reportingName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="award.agency.grantNumber" p:targetName="grantNumber"/>
 			</list>
 		  </property>          
-        </bean>          
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="award.primeAgency"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="award.agencyNumber" p:targetName="agencyNumber"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="award.primeAgency.reportingName" p:targetName="reportingName"/>              
+			</list>
+		  </property>          
+        </bean>                            
       </list>
     </property>
   </bean>
@@ -154,26 +165,15 @@
     <property name="label" value="Award Title"/>
     <property name="shortLabel" value="Award Title"/>
   </bean>
-  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber" parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean"/>
+  <bean id="AwardAccount-award.awardNumber" parent="AwardAccount-award.awardNumber-parentBean"/>
 
-  <bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" abstract="true" parent="Proposal-federalPassThroughAgencyNumber">
-    <property name="name" value="award.proposal.federalPassThroughAgencyNumber"/>
-    <property name="label" value="Proposal Federal Pass Through Agency Number"/>
-    <property name="shortLabel" value="Proposal Fed Pass Agency Num"/>
-  </bean>
-  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" parent="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean"/>
-
-  <bean id="AwardAccount-award.proposal.proposalFederalPassThroughIndicator-parentBean" abstract="true" parent="Proposal-proposalFederalPassThroughIndicator">
-    <property name="name" value="award.proposal.proposalFederalPassThroughIndicator"/>
-  </bean>
-  
- <bean id="AwardAccount-award.proposal.grantNumber" parent="AwardAccount-award.proposal.grantNumber-parentBean"/>
-
-  <bean id="AwardAccount-award.proposal.grantNumber-parentBean" abstract="true" parent="Proposal-grantNumber">
-    <property name="name" value="award.proposal.grantNumber"/>
+  <bean id="AwardAccount-award.awardNumber-parentBean" abstract="true" parent="Award-awardNumber">
+    <property name="name" value="award.awardNumber"/>
+    <property name="label" value="Award Number"/>
+    <property name="shortLabel" value="Award Number"/>
   </bean>
 
-<bean id="AwardAccount-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
+ <bean id="AwardAccount-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
 
   <bean id="AwardAccount-active" parent="AwardAccount-active-parentBean"/>
   <bean id="AwardAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -188,6 +188,14 @@
     <property name="name" value="award.agency.reportingName"/>
     <property name="label" value="Sponsor Name"/>
 	<property name="shortLabel" value="Sponsor"/>
+  </bean>
+
+  <bean id="AwardAccount-award.agency.grantNumber" parent="AwardAccount-award.agency.grantNumber-parentBean"/>
+
+  <bean id="AwardAccount-award.agency.grantNumber-parentBean" abstract="true" parent="Agency-grantNumber">
+    <property name="name" value="award.agency.grantNumber"/>
+    <property name="label" value="Grant Number"/>
+	<property name="shortLabel" value="Grant Num"/>
   </bean>
 
   <bean id="AwardAccount-award.primeAgency.reportingName" parent="AwardAccount-award.primeAgency.reportingName-parentBean"/>

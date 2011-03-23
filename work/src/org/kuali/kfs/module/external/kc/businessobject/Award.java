@@ -30,6 +30,7 @@ public class Award implements ContractsAndGrantsAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
 
     private Long proposalNumber;
+    private String awardNumber;
     private String agencyNumber;
     private String primeAgencyNumber;
     private String awardTitle;
@@ -146,6 +147,14 @@ public class Award implements ContractsAndGrantsAward {
 
     public void setPrimeAgency(Agency primeAgency) {
         this.primeAgency = primeAgency;
+    }
+
+    public String getAwardNumber() {
+        return awardNumber;
+    }
+
+    public void setAwardNumber(String awardNumber) {
+        this.awardNumber = awardNumber;
     }
 
 }

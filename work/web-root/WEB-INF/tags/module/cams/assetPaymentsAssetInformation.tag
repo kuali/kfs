@@ -17,12 +17,11 @@
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="assetPaymentAssetDetailAttributes" value="${DataDictionary.AssetPaymentAssetDetail.attributes}" />
-<c:set var="documentTotal" value="${KualiForm.document.sourceTotal}" />
 <c:set var="totalHistoricalAmount" value="${KualiForm.document.assetsTotalHistoricalCost}"/>
 <c:set var="globalTotalAllocated" 	   value="${0.00}"/>
 <c:set var="globalTotalHistoricalCost" value="${0.00}"/>
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
-<c:set var="numberOfAssets" value="${fn:length(KualiForm.document.assetPaymentAssetDetail)}"/>
+<c:set var="assetTotalAllocations" value="${KualiForm.document.assetPaymentDistributor.totalAssetAllocations}"/> 
 
 <logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">
 		<c:set var="capitalAssetNumber" value="${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}"/>
@@ -34,30 +33,13 @@
 		<c:set var="totalAllocated" value="${0.00}"/>
 		<c:set var="newTotal" value="${0.00}"/>
 		<c:set var="previousCost" value="${KualiForm.document.assetPaymentAssetDetail[ctr].previousTotalCostAmount}"/>
-				
-		<c:if test="${totalHistoricalAmount != 0 }">
-	        <c:set var="percentage" value="${previousCost / totalHistoricalAmount }"/>
-		</c:if>
-		<c:if test="${totalHistoricalAmount == 0 }">
-	        <c:set var="percentage" value="${ 1 / numberOfAssets }"/>
-		</c:if>
 		
-		<c:choose>
-			<c:when test="${numberOfAssets == 1}">
-			    <c:set var="totalAllocated" value="${documentTotal - globalTotalAllocated}" />
-			</c:when>
-			<c:otherwise>
-				<c:set var="numberOfAssets" value="${numberOfAssets - 1}"/>
-			    <c:set var="totalAllocated" value="${documentTotal * percentage}"/>
-			</c:otherwise>
-		</c:choose>
+		<c:set var="totalAllocated" value="${assetTotalAllocations[assetPaymentsAssetDetail]}"/>
 		
 		<c:if test="${totalAllocated != 0.00 }">
 	    	<fmt:formatNumber var="sTotlaAllocated" value="${totalAllocated }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
 			<fmt:parseNumber value="${sTotlaAllocated}" type="number" var="totalAllocated"/>
 		</c:if>
-		
-
 		
 	 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
 

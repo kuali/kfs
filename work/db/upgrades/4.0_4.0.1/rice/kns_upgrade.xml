@@ -55,6 +55,12 @@
       <comment>KFSMI-KFSMI-6526 Remove parameter W9_OWNERSHIP_TYPES from data set.</comment>
       <delete tableName='KRNS_PARM_T'>
       <where>NMSPC_CD="KFS-FP" AND PARM_DTL_TYP_CD="DisbursementVoucher" AND PARM_NM="W9_OWNERSHIP_TYPES"</where>
+      </delete>
+    <comment>KFSMI-KFSMI-6533 Update parameter CAPITAL_OBJECT_ACQUISITION_CODES from data set</comment>
+    <update tableName='KRNS_PARM_T'>
+      <column name='TXT' value='F;G;S;T' />
+      <where>NMSPC_CD='KFS-CAM' and PARM_DTL_TYP_CD='AssetGlobal' and PARM_NM='CAPITAL_OBJECT_ACQUISITION_CODES'</where>
+    </update>
   </changeSet> 
 </databaseChangeLog>   
       

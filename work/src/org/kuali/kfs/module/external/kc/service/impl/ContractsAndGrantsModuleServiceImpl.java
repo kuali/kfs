@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +39,28 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
     protected AwardAccountService getAwardAccountingWebService() {
-        AwardAccountSoapService awardAccountSoapService = new AwardAccountSoapService();
+        AwardAccountSoapService awardAccountSoapService = null;
+        try {
+            awardAccountSoapService = new AwardAccountSoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+        }
         AwardAccountService port = awardAccountSoapService.getAwardAccountServicePort();
         return port;
         
     }
  
     protected InstitutionalUnitService getInstitutionalUnitWebService() {
-        InstitutionalUnitSoapService institutionalUnitSoapService = new InstitutionalUnitSoapService();
+        InstitutionalUnitSoapService institutionalUnitSoapService = null;
+        try {
+            institutionalUnitSoapService = new InstitutionalUnitSoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+        }
         InstitutionalUnitService port = institutionalUnitSoapService.getInstitutionalUnitServicePort();
         return port;
     }

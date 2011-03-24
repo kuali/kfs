@@ -48,8 +48,8 @@ public class AwardAccountSoapService extends KfsService {
         super(wsdlLocation, serviceName);
     }
 
-    public AwardAccountSoapService() {
-        super(WSDL_LOCATION, KcConstants.AwardAccount.SERVICE);
+    public AwardAccountSoapService() throws MalformedURLException {
+        super(getWsdl(KcConstants.AwardAccount.SERVICE), KcConstants.AwardAccount.SERVICE);
     }
     
 

@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
@@ -47,8 +46,8 @@ public class InstitutionalUnitSoapService extends KfsService {
         super(wsdlLocation, serviceName);
     }
 
-    public InstitutionalUnitSoapService() {
-        super(WSDL_LOCATION, KcConstants.Unit.SERVICE);
+    public InstitutionalUnitSoapService() throws MalformedURLException {
+        super(getWsdl(KcConstants.Unit.SERVICE), KcConstants.Unit.SERVICE);
     }
     
 

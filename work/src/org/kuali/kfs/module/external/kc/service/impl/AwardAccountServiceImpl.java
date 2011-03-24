@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,26 +26,37 @@ import java.util.Map;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.businessobject.Agency;
-import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
-import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountSoapService;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 public class AwardAccountServiceImpl implements ExternalizableBusinessObjectService {
-
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccountServiceImpl.class);
+    
     protected  AwardAccountService getWebService() {
-        AwardAccountSoapService soapService = new AwardAccountSoapService();
+        AwardAccountSoapService soapService = null;
+        try {
+            soapService = new AwardAccountSoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+        }
         AwardAccountService port = soapService.getAwardAccountServicePort(); 
         return port;
     }
 
-    public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        return getTestAwardAccount();
+    public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {        
+        Collection ebos = findMatching(primaryKeys);
+        
+        if(ebos != null && ebos.iterator().hasNext()){
+            return (ExternalizableBusinessObject) ebos.iterator().next();
+        }else{
+            return null;
+        }
     }
 
     public Collection findMatching(Map fieldValues) {
@@ -72,32 +84,4 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
         return awardAccounts;
     }
 
-    private ContractsAndGrantsAccountAwardInformation getTestAwardAccount(){
-        AwardAccount awardAccount = new AwardAccount();
-        Proposal proposal = new Proposal();
-        Award award = new Award();
-        Agency agency = new Agency();
-        
-        awardAccount.setAccountNumber("0142900");
-        awardAccount.setActive(true);
-        awardAccount.setChartOfAccountsCode("BL");
-        awardAccount.setPrincipalId("0000151844");
-        awardAccount.setProposalNumber(new Long(10000));
-        
-        proposal.setProposalFederalPassThroughIndicator(false);
-        proposal.setFederalPassThroughAgencyNumber("12345");
-        proposal.setGrantNumber("67890");
-        proposal.setProposalNumber(new Long(10000));
-        award.setProposalNumber(new Long(10000));
-        award.setAgencyNumber("000102");
-        proposal.setAward(award);
-        awardAccount.setAward(award);
-        awardAccount.getAward().setProposal(proposal);
-                
-        agency.setAgencyNumber("000102");
-        agency.setReportingName("Sponsor Name");
-        awardAccount.getAward().setAgency(agency);
-        
-        return (ContractsAndGrantsAccountAwardInformation)awardAccount;
-    }
 }

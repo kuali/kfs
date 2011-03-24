@@ -16,30 +16,35 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
-    
-    //@Override
+    protected InstitutionalBudgetCategoryService getWebService() {
+        InstitutionalBudgetCategorySoapService ss = null;
+        try {
+            ss = new InstitutionalBudgetCategorySoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
+        }
+        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
+        return port;
+    }
+
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         Collection budgetCategoryDTOs = findMatching(primaryKeys);
         if(budgetCategoryDTOs != null && budgetCategoryDTOs.iterator().hasNext())
@@ -48,12 +53,6 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
             return null;
     }
 
-    protected InstitutionalBudgetCategoryService getWebService() {
-        InstitutionalBudgetCategorySoapService ss = new InstitutionalBudgetCategorySoapService();
-        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
-        return port;
-    }
-    //@Override
     public Collection findMatching(Map fieldValues) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         

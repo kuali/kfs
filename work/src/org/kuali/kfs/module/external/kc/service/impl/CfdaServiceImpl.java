@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,19 +34,18 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
     
     protected  CfdaNumberService getWebService() {
-        //QName cfdaSoapSERVICE = new QName("KC", "cfdaNumberSoapService");
-        //CfdaNumberSoapService   soapService = (CfdaNumberSoapService) GlobalResourceLoader.getService(cfdaSoapSERVICE);
-        
-        //QName serviceName = new QName("KC", "cfdaNumberService");
-        // CfdaNumberService port = (CfdaNumberService) GlobalResourceLoader.getService(serviceName);
-
-        CfdaNumberSoapService soapService = new CfdaNumberSoapService();
+        CfdaNumberSoapService soapService = null;
+        try {
+            soapService = new CfdaNumberSoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize CfdaSoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize CfdaSoapService: " + ex.getMessage());
+        }
         CfdaNumberService port = soapService.getCfdaNumberServicePort(); 
         return port;
     }
 
-
-   //@Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         Collection Cfda = findMatching(primaryKeys);
         if(Cfda != null && Cfda.iterator().hasNext())
@@ -54,7 +54,6 @@ public class CfdaServiceImpl implements ExternalizableBusinessObjectService {
             return null;
     }
 
-    //@Override
     public Collection findMatching(Map fieldValues) {
         List cfdas = new ArrayList();     
         for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {

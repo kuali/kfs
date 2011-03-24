@@ -8,24 +8,18 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 /**
@@ -38,20 +32,24 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 public class UnitServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);     
      
-    //@Override
-    public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
-        InstitutionalUnitService port = ss.getInstitutionalUnitServicePort();  
-        ContractsAndGrantsUnit unitDTO  = port.getUnit((String)primaryKeys.get("unitNumber"));
-        return unitDTO;        
-    }
-
     protected InstitutionalUnitService getWebService() {
-        InstitutionalUnitSoapService ss = new InstitutionalUnitSoapService();
+        InstitutionalUnitSoapService ss =  null;
+        try {
+            ss = new InstitutionalUnitSoapService();
+        }
+        catch (MalformedURLException ex) {
+            LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+            throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+        }
         InstitutionalUnitService port = ss.getInstitutionalUnitServicePort(); 
         return port;
     }
-    //@Override
+
+    public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
+        ContractsAndGrantsUnit unitDTO  = this.getWebService().getUnit((String)primaryKeys.get("unitNumber"));
+        return unitDTO;        
+    }
+
     public Collection findMatching(Map fieldValues) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
 

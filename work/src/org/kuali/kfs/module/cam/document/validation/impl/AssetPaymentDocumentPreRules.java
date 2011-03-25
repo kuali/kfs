@@ -62,8 +62,8 @@ public class AssetPaymentDocumentPreRules extends PromptBeforeValidationBase {
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         //This method will only execute if the document is being submitted.
-      if (!document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
-            return false;
+     if (!(document.getDocumentHeader().getWorkflowDocument().stateIsSaved() || document.getDocumentHeader().getWorkflowDocument().stateIsInitiated())) {
+        return false;
         }
 
         List<String> subTypes = new ArrayList<String>();

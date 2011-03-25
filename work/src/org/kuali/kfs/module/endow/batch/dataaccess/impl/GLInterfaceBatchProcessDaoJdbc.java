@@ -45,7 +45,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     public Collection<String> findDocumentTypes() {
         LOG.info("findDocumentTypes() started");
         
-        Collection<String> documentTypes = new ArrayList();
+        Collection<String> documentTypes = new ArrayList<String>();
         
         SqlRowSet documentTypesRowSet = getJdbcTemplate().queryForRowSet("SELECT DISTINCT(DOC_TYP_NM) DOC_TYP_NM FROM END_TRAN_ARCHV_T ORDER BY DOC_TYP_NM"); 
 
@@ -64,7 +64,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactions(java.util.Date postedDate) {
         LOG.info("getAllKemTransactions() started");
 
-        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
+        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
         //get all the available document types names sorted
         Collection<String> documentTypes = findDocumentTypes();
@@ -90,8 +90,8 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     public Collection<GlInterfaceBatchProcessKemLine> getAllCombinedKemTransactions(java.util.Date postedDate) {
         LOG.info("getAllCombinedKemTransactions() started");
 
-        Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList();
-        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
+        Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
+        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
         //get all the available document types names sorted
         Collection<String> documentTypes = findDocumentTypes();
@@ -119,7 +119,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
         LOG.info("getAllKemTransactionsByDocumentType() started");
 
-        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList();
+        Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
         //get the cash activity records...
         SqlRowSet cashTransactionActivities = getAllKemTransactions(documentType, postedDate, EndowConstants.TransactionSubTypeCode.CASH);
@@ -140,9 +140,9 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemCombinedTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
         LOG.info("getAllKemCombinedTransactionsByDocumentType() started");
 
-        Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList();
-        Collection<GlInterfaceBatchProcessKemLine> kemCashArchiveTransactions = new ArrayList();;
-        Collection<GlInterfaceBatchProcessKemLine> kemNonCashArchiveTransactions = new ArrayList();;
+        Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
+        Collection<GlInterfaceBatchProcessKemLine> kemCashArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
+        Collection<GlInterfaceBatchProcessKemLine> kemNonCashArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
         //get the cash activity records...
         SqlRowSet cashTransactionActivities = getAllKemTransactions(documentType, postedDate, EndowConstants.TransactionSubTypeCode.CASH);
@@ -281,51 +281,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         }
         
         LOG.info("buildCombinedTransactionActivities() exited.");
-    }
-    
-    /**
-     * Helper method to sort the archive transactions based on chart, account number and object code.
-     * @param kemArchiveTransactions
-     * @return sortedKemTransacationArchiveRecords
-     */
-    protected Collection<GlInterfaceBatchProcessKemLine> sortTransactionArchiveRecords(Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions) {
-        Collection<GlInterfaceBatchProcessKemLine> sortedKemTransacationArchiveRecords = new ArrayList<GlInterfaceBatchProcessKemLine>();
-        
-        try {
-        String createSql = "create table end_tran_archv_sort_mt(FDOC_NBR VARCHAR2(14 NOT NULL, " 
-                           + "FDOC_LN_NBR NUMBER(7) NOT NULL, FDOC_LN_TYP_CD VARCHAR2(1) NOT NULL, "
-                           + "DOC_TYP_NM VARCHAR2(64) NOT NULL, TRAN_SUB_TYP_CD VARCHAR2(1) NOT NULL, "
-                           + "TRAN_KEMID VARCHAR2(10) NOT NULL, TRAN_IP_IND_CD VARCHAR2(1) NOT NULL, "
-                           + "TRAN_INC_CSH_AMT NUMBER(19,2), TRAN_PRIN_CSH_AMT NUMBER(19,2), "
-                           + "TRAN_SEC_ID VARCHAR2(9) NOT NULL, TRAN_SEC_COST NUMBER(19,2), "         
-                           + "TRAN_SEC_LT_GAIN_LOSS NUMBER(19,2), TRAN_SEC_ST_GAIN_LOSS NUMBER(19,2), " 
-                           + "CHRT_CD VARCHAR2(2) NOT NULL, ACCT_NBR VARCHAR2(7) NOT NULL, "
-                           + "OBJECT VARCHAR2(4))";
-        
-        getJdbcTemplate().execute(createSql);
-        getJdbcTemplate().execute("delete from end_tran_archv_sort_mt");
-        
-        String insertSql = "insert into end_tran_archv_sort_mt values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        
-        for (GlInterfaceBatchProcessKemLine kemArchiveTransaction : kemArchiveTransactions) {
-            getJdbcTemplate().update(insertSql, new Object[] { kemArchiveTransaction.getDocumentNumber(), kemArchiveTransaction.getLineNumber(), 
-                    kemArchiveTransaction.getLineTypeCode(), kemArchiveTransaction.getTypeCode(),
-                    kemArchiveTransaction.getSubTypeCode(), kemArchiveTransaction.getKemid(), kemArchiveTransaction.getIncomePrincipalIndicatorCode(), 
-                    kemArchiveTransaction.getTransactionArchiveIncomeAmount(), kemArchiveTransaction.getTransactionArchivePrincipalAmount(), 
-                    kemArchiveTransaction.getSecurityId(), kemArchiveTransaction.getHoldingCost(),
-                    kemArchiveTransaction.getLongTermGainLoss(), kemArchiveTransaction.getShortTermGainLoss(), 
-                    kemArchiveTransaction.getObjectCode() });    
-        }
-        
-        sortedKemTransacationArchiveRecords = getJdbcTemplate().queryForList("select * from end_tran_archv_sort_mt order by CHRT_CD, ACCT_NBR, OBJECT");
-        
-        getJdbcTemplate().execute("delete table end_tran_archv_sort_mt");
-        
-        return sortedKemTransacationArchiveRecords;
-        
-        } catch (Exception ex) {
-          throw new RuntimeException("sortTransactionArchiveRecords() - Unable to sort the archive records.");  
-        }
     }
     
     /**

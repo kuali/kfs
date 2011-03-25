@@ -165,9 +165,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         String combineTransactions = parameterService.getParameterValue(GeneralLedgerInterfaceBatchProcessStep.class, EndowParameterKeyConstants.GLInterfaceBatchProcess.COMBINE_ENDOWMENT_GL_ENTRIES_IND);
         java.util.Date postedDate = kemService.getCurrentDate();
         
-        Collection<GLInterfaceBatchStatisticsReportDetailTableRow> statisticsReportRows = new ArrayList();
+        Collection<GLInterfaceBatchStatisticsReportDetailTableRow> statisticsReportRows = new ArrayList<GLInterfaceBatchStatisticsReportDetailTableRow>();
         
-        Collection<GlInterfaceBatchProcessKemLine> transactionArchives = new ArrayList();
+        Collection<GlInterfaceBatchProcessKemLine> transactionArchives = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
         //get all the available document types names sorted
         Collection<String> documentTypes = gLInterfaceBatchProcessDao.findDocumentTypes();

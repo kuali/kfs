@@ -11,21 +11,25 @@
 			<name>SecurityAttributeMaintenanceDocument</name>
 			<label>Security Attribute</label>
 			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents%2Fattribute.htm</helpDefinitionURL>
 		</documentType>
 		<documentType>
 			<name>SecurityDefinitionMaintenanceDocument</name>
 			<label>Security Definition</label>
 			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents%2Fdefinition.htm</helpDefinitionURL>
 		</documentType>
 		<documentType>
 			<name>SecurityModelMaintenanceDocument</name>
 			<label>Security Model</label>
 			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents%2Fmodel.htm</helpDefinitionURL>
 		</documentType>
 		<documentType>
 			<name>SecurityPrincipalMaintenanceDocument</name>
 			<label>Security Principal</label>
 			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents%2Fprincipal.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

@@ -4,11 +4,6 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>EndowmentComplexMaintenanceDocument</name>
-			<parent>KFSM</parent>
-			<label>Endowment Complex Maintenance Document</label>
-		</documentType>
-		<documentType>
 			<name>EndowmentSimpleMaintenanceDocument</name>
 			<parent>FSSM</parent>
 			<label>Endowment Simple Maintenance Document</label>

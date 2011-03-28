@@ -45,7 +45,7 @@
 	<c:if test="${ConfigProperties.module.access.security.enabled == 'true'}">
 		<strong>Security</strong><br/>
 	    <ul class="chan">
-	    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=com.rsmart.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		</ul>	
 	</c:if>
 </div>

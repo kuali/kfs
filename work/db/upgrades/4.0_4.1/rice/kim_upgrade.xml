@@ -80,6 +80,28 @@
 			<column name="KIM_ATTR_DEFN_ID" value="14" />
 			<column name="ATTR_VAL" value="F" />
 		</insert>
+
+		<!--  Permission to allow use of the non-document actions within the Endowment module -->
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSENDOW3" />
+			<column name="OBJ_ID" value="KFSENDOW3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" valueNumeric="29" />
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="NM" value="Use Endowment Reporting Screens" />
+			<column name="DESC_TXT"
+				value="Authorizes the use of the reporting screens within the Endowment module." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSENDOW3-1" />
+			<column name="OBJ_ID" value="KFSENDOW3-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSENDOW3" />
+			<column name="KIM_TYP_ID" valueNumeric="12" />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric="4" />
+			<column name="ATTR_VAL" value="TicklerMaintenanceDocument" />
+		</insert>
     </changeSet>
 	    
 	<changeSet author="KFS41" id="ENDOW_NEW_PERMISSION_ASSIGNMENTS">
@@ -127,6 +149,16 @@
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="1" />
 			<column name="PERM_ID" value="KFSENDOW6007" />	
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<!--  Assign the Endowment reporting permission to KFS-SYS / Manager -->
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSENDOW3" />
+			<column name="OBJ_ID" value="KFSENDOW3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="44" />
+			<column name="PERM_ID" value="KFSENDOW3" />	
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>

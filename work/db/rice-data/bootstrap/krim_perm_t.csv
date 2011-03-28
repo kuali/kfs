@@ -276,6 +276,6 @@ KFSSEC6001,KFSSEC6001,1,10,KFS-SEC,Initiate Document,Authorizes the initiation o
 KFSSEC6002,KFSSEC6002,1,23,KFS-SEC,Look Up Records,Authorizes the lookup of Access Security records.,Y
 KFSSEC6003,KFSSEC6003,1,24,KFS-SEC,Inquire Into Records,Authorizes inquiry of Access Security records.,Y
 KFSSEC6004,KFSSEC6004,1,16,KFS-SEC,Edit Document,Authorizes edit of Access Security Simple Maintenance Documents.,Y
-KFSSYS6005,KFSSYS6005,1,10,KFS-ENDOW,Initiate Document,Authorizes the initiation of the Tickler document,Y
-KFSSYS6006,KFSSYS6006,1,3,KFS-ENDOW,Administer Routing for Document,"Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).",Y
-KFSSYS6007,KFSSYS6007,1,9,KFS-ENDOW,Ad Hoc Review Document,"Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.",Y
+KFSENDOW6005,KFSENDOW6005,1,10,KFS-ENDOW,Initiate Document,Authorizes the initiation of the Tickler document,Y
+KFSENDOW6006,KFSENDOW6006,1,3,KFS-ENDOW,Administer Routing for Document,"Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).",Y
+KFSENDOW6007,KFSENDOW6007,1,9,KFS-ENDOW,Ad Hoc Review Document,"Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.",Y

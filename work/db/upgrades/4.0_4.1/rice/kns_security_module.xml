@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS401" id="SEC_NAMESPACE">
+	<changeSet author="KFS41" id="SEC_NAMESPACE">
 		<comment>Add the Security Module Namespace code</comment>
 		<insert tableName="KRNS_NMSPC_T">
 			<column name="NMSPC_CD" value="KFS-SEC" />
@@ -17,7 +17,7 @@
     </changeSet>
 
 	<!-- Add the standard components for the KFS-SEC namespace -->    
-	<changeSet author="KFS401" id="SEC_PARAMETER_DETAIL_TYPES">
+	<changeSet author="KFS41" id="SEC_PARAMETER_DETAIL_TYPES">
 		<insert tableName="KRNS_PARM_DTL_TYP_T">
 			<column name="NMSPC_CD" value="KFS-SEC" />
 			<column name="PARM_DTL_TYP_CD" value="All" />
@@ -55,7 +55,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS401" id="SEC_MODULE_PARAMETERS">
+	<changeSet author="KFS41" id="SEC_MODULE_PARAMETERS">
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SEC" />
 			<column name="PARM_DTL_TYP_CD" value="All" />

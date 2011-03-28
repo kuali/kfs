@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS401" id="SEC_KIM_ATTRIBUTE_DEFINITIONS">
+	<changeSet author="KFS41" id="SEC_KIM_ATTRIBUTE_DEFINITIONS">
 		<comment>Add the new KIM attribute definitions for the Access Security Module</comment>
 		
 		<insert tableName="KRIM_ATTR_DEFN_T">
@@ -50,7 +50,7 @@
 	</changeSet>
 
 
-	<changeSet author="KFS401" id="SEC_KIM_TYPES">
+	<changeSet author="KFS41" id="SEC_KIM_TYPES">
 		<comment>Add the new KIM types for the Access Security Module</comment>
 		<insert tableName="KRIM_TYP_T">
 			<column name="KIM_TYP_ID" value="KFSSEC1" />
@@ -97,7 +97,7 @@
 		</modifySql>
     </changeSet>
 
-	<changeSet author="KFS401" id="SEC_KIM_TYPE_ATTRIBUTES">
+	<changeSet author="KFS41" id="SEC_KIM_TYPE_ATTRIBUTES">
 		<comment>Add the new KIM types attributes for the Access Security Module</comment>
 		<insert tableName="KRIM_TYP_ATTR_T">
 			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1001" />
@@ -190,7 +190,7 @@
 		</modifySql>
     </changeSet>
 
-	<changeSet author="KFS401" id="SEC_KIM_PERMISSION_TEMPLATES">
+	<changeSet author="KFS41" id="SEC_KIM_PERMISSION_TEMPLATES">
 		<comment>Add the new KIM permission templates for the Access Security Module</comment>
 	
 		<insert tableName="KRIM_PERM_TMPL_T">
@@ -269,7 +269,7 @@
 	</changeSet>
 
 	
-	<changeSet author="KFS401" id="SEC_INIT_DOC_PERM">
+	<changeSet author="KFS41" id="SEC_INIT_DOC_PERM">
 		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSSEC6001" />
@@ -307,7 +307,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet author="KFS401" id="SEC_LOOKUP_PERM">
+	<changeSet author="KFS41" id="SEC_LOOKUP_PERM">
 		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSSEC6002" />
@@ -345,7 +345,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS401" id="SEC_INQUIRY_PERM">
+	<changeSet author="KFS41" id="SEC_INQUIRY_PERM">
 		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSSEC6003" />
@@ -383,7 +383,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS401" id="SEC_EDIT_DOC_PERM">
+	<changeSet author="KFS41" id="SEC_EDIT_DOC_PERM">
 		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSSEC6004" />

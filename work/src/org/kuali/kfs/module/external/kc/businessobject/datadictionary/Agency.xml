@@ -27,8 +27,7 @@
     <property name="attributes">
       <list>
         <ref bean="Agency-agencyNumber"/>
-        <ref bean="Agency-reportingName"/>
-        <ref bean="Agency-grantNumber"/>
+        <ref bean="Agency-reportingName"/>        
         <ref bean="Agency-fullName"/>
         <ref bean="Agency-inStateIndicator"/>
         <ref bean="Agency-indirectAmount"/>
@@ -130,21 +129,6 @@
 
   <bean id="Agency-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="active"/>
-  </bean>
-
-  <bean id="Agency-grantNumber" parent="Agency-grantNumber-parentBean"/>
-
-  <bean id="Agency-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantNumber"/>
-    <property name="label" value="Grant Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="27"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="29"/>
-    </property>
   </bean>
 
   <bean id="Agency-inquiryDefinition" parent="Agency-inquiryDefinition-parentBean"/>

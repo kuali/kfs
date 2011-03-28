@@ -32,8 +32,7 @@ public class Agency implements ContractsAndGrantsAgency {
     private String reportsToAgencyNumber;
     private KualiDecimal indirectAmount;
     private boolean inStateIndicator;
-    private Agency reportsToAgency;
-    private String grantNumber;
+    private Agency reportsToAgency;    
     private boolean active;
 
     /**
@@ -219,13 +218,5 @@ public class Agency implements ContractsAndGrantsAgency {
     public void prepareForWorkflow() {}
 
     public void refresh() {}
-
-    public String getGrantNumber() {
-        return grantNumber;
-    }
-
-    public void setGrantNumber(String grantNumber) {
-        this.grantNumber = grantNumber;
-    }
 
 }

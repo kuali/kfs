@@ -34,6 +34,7 @@ public class Award implements ContractsAndGrantsAward {
     private String agencyNumber;
     private String primeAgencyNumber;
     private String awardTitle;
+    private String grantNumber;
     
     private Proposal proposal;
     private Agency agency;
@@ -155,6 +156,14 @@ public class Award implements ContractsAndGrantsAward {
 
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
+    }
+
+    public String getGrantNumber() {
+        return grantNumber;
+    }
+
+    public void setGrantNumber(String grantNumber) {
+        this.grantNumber = grantNumber;
     }
 
 }

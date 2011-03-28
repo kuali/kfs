@@ -50,7 +50,7 @@
 			                    <bean parent="FieldDefinition" p:attributeName="award.awardTitle"/>
 			                    <bean parent="FieldDefinition" p:attributeName="projectDirectorName"/>
 			                    <bean parent="FieldDefinition" p:attributeName="award.primeAgency.reportingName"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.agency.grantNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.grantNumber"/>
 			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>
 			                  </list>
 			                </property>

@@ -16,8 +16,9 @@
       <list>
         <ref bean="Award-proposal.proposalNumber"/>
         <ref bean="Award-proposalNumber"/>
-        <ref bean="Award-awardNumber"/>
+        <ref bean="Award-awardNumber"/>        
         <ref bean="Award-awardTitle"/>
+        <ref bean="Award-grantNumber"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -112,6 +113,21 @@
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="Award-grantNumber" parent="Award-grantNumber-parentBean"/>
+
+  <bean id="Award-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="grantNumber"/>
+    <property name="label" value="Grant Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="27"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="29"/>
     </property>
   </bean>
   

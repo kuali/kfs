@@ -79,7 +79,8 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         award.setProposalNumber(awardAccountDTO.getAwardId());
         award.setAgencyNumber(awardAccountDTO.getSponsorCode());
         award.setAwardTitle(awardAccountDTO.getAwardTitle());        
-
+        award.setGrantNumber(awardAccountDTO.getGrantNumber());
+        
         proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());                
         proposal.setProposalNumber(awardAccountDTO.getAwardId());
                 
@@ -88,8 +89,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.getAward().setProposal(proposal);
                 
         agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
-        agency.setReportingName(awardAccountDTO.getSponsorName());
-        agency.setGrantNumber(awardAccountDTO.getGrantNumber());        
+        agency.setReportingName(awardAccountDTO.getSponsorName());                
         primeAgency.setAgencyNumber(awardAccountDTO.getPrimeSponsorCode());
         primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
         this.getAward().setAgency(agency);        

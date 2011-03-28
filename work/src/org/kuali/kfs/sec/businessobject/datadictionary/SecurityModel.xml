@@ -109,6 +109,7 @@
                     <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
                     <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
                     <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+		            <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>
                     <bean parent="FieldDefinition" p:attributeName="active"/>                  
                   </list>
                 </property>

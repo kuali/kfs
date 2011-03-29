@@ -198,7 +198,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setContractControlChartOfAccounts(new Chart());
         account.getContractControlChartOfAccounts().setChartOfAccountsCode(defaults.getContractControlFinCoaCode());        
         account.setContractControlAccountNumber(defaults.getContractControlAccountNumber());                            
-        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
+        account.setAcctIndirectCostRcvyTypeCd(defaults.getAcctIndirectCostRcvyTypeCd());
         account.setFinancialIcrSeriesIdentifier(defaults.getFinancialIcrSeriesIdentifier());         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());

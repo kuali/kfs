@@ -15,7 +15,11 @@
  */
 package org.kuali.kfs.module.external.kc.document;
 
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
@@ -27,9 +31,31 @@ public class KualiAccountMaintainableImpl extends org.kuali.kfs.coa.document.Kua
     /**
      * @see org.kuali.kfs.coa.document.KualiAccountMaintainableImpl#lookupAccountCfda(java.lang.String, java.lang.String)
      */
-    @Override
+
     protected String lookupAccountCfda(String accountNumber, String currentCfda) {
         Account account = (Account) this.getBusinessObject();
-        return account.getCfda().getCfdaNumber();
+        ContractsAndGrantsCfda cfda = account.getCfda();
+        if (cfda != null) return cfda.getCfdaNumber();
+        return "";
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.document.KualiAccountMaintainableImpl#processAfterCopy(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        Account account = (Account) this.getBusinessObject();
+        account.setAccountCfdaNumber(lookupAccountCfda( account.getAccountNumber(), account.getAccountCfdaNumber()));
+        super.processAfterCopy(document, parameters);
+    }
+
+    /**
+     * @see org.kuali.kfs.coa.document.KualiAccountMaintainableImpl#retrieveExistingAccountFromDB()
+     */
+    @Override
+    protected Account retrieveExistingAccountFromDB() {
+        Account newAccount = (Account) getBusinessObject();
+        newAccount.setAccountCfdaNumber(lookupAccountCfda( newAccount.getAccountNumber(), newAccount.getAccountCfdaNumber()));
+        return super.retrieveExistingAccountFromDB();
     }
 }

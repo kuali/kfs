@@ -28,6 +28,9 @@ public class KcConstants  extends JSTLConstants {
     public static final String KC_NAMESPACE_URI = "KC";        
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 
+    public static class AccountCreationDefaults {
+        public static final String CHART_OF_ACCOUNT_CODE = "chartOfAccountsCode";
+    }
     public static class BudgetCategory {
         public static final String SOAP_SERVICE_NAME = "budgetCategorySoapService";
         public static final String SERVICE_PORT = "budgetCategoryServicePort";

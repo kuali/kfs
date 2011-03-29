@@ -17,7 +17,7 @@
 
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument" parent="AccountAutoCreateDefaultsMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.module.external.kc.document.AccountAutoCreateDefaultsMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance"/>

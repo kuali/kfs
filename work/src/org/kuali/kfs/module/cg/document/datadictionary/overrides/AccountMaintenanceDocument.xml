@@ -27,6 +27,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 			<ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
 		</list>
 	</property>
+  <property name="defaultExistenceChecks">
+        <list merge="true">
+	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" />
+ 	    </list>   
+    </property>
 </bean>
  <!-- Maintenance Section Definitions -->
  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>

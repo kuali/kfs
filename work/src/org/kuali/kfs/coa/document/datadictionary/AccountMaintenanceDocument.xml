@@ -32,7 +32,6 @@
         <list>
 	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountPhysicalCampus" p:attributeToHighlightOnFail="accountPhysicalCampusCode" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 

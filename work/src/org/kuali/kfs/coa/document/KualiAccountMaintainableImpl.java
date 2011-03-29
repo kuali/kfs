@@ -16,7 +16,6 @@
 package org.kuali.kfs.coa.document;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,26 +23,17 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountTrickleDownInactivationService;
 import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
-import org.kuali.kfs.integration.cg.businessobject.CFDA;
-import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -87,24 +77,10 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
         account.setAccountEffectiveDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
         account.setActive(true);
-        account.setAccountCfdaNumber(lookupAccountCfda( account.getAccountNumber(), account.getAccountCfdaNumber()));
         super.processAfterCopy(document, parameters);
     }
     
-    protected String lookupAccountCfda (String accountNumber, String currentCfda) {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String enableResearchAdminObjectCodeAttributeInd = parameterService.getParameterValue(ObjectCode.class, KFSConstants.ObjectCodeConstants.PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND);
-        if (! enableResearchAdminObjectCodeAttributeInd.equals("Y")) return currentCfda;
-        KualiLookupableImpl lookupableImpl = new KualiLookupableImpl();
-        lookupableImpl.setLookupableHelperService((LookupableHelperService)KNSServiceLocator.getService("lookupableHelperService"));
-        lookupableImpl.setBusinessObjectClass(CFDA.class);
-        Map<String, String> lookupProps = new HashMap<String, String>();
-        lookupProps.put("AccountNumber", accountNumber);
-        List list = lookupableImpl.getSearchResults(lookupProps);
-        String accountCfdaNumber = (list != null) ? (String) list.get(0) : null;
-        return accountCfdaNumber;
-    }
-
+ 
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
@@ -119,8 +95,7 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
 
     protected Account retrieveExistingAccountFromDB() {
         Account newAccount = (Account) getBusinessObject();
-        newAccount.setAccountCfdaNumber(lookupAccountCfda( newAccount.getAccountNumber(), newAccount.getAccountCfdaNumber()));
-        Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
+         Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
         return oldAccount;
     }
 

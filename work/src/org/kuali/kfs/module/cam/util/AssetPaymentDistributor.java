@@ -162,7 +162,10 @@ public class AssetPaymentDistributor {
      * @return
      */
     private Double getAssetDetailPercentage(int detailSize, Double totalHistoricalCost, AssetPaymentAssetDetail assetPaymentAssetDetail) {
-        Double previousTotalCostAmount = new Double(StringUtils.defaultIfEmpty(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString(), "0"));
+        Double previousTotalCostAmount = new Double("0");
+        if (assetPaymentAssetDetail.getPreviousTotalCostAmount() != null) {
+            previousTotalCostAmount = new Double(StringUtils.defaultIfEmpty(assetPaymentAssetDetail.getPreviousTotalCostAmount().toString(), "0"));
+        }
 
         Double percentage = new Double(0);
         if (totalHistoricalCost.compareTo(new Double(0)) != 0)

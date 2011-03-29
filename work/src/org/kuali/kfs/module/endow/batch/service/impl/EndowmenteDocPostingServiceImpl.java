@@ -200,7 +200,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             }
             else {
                 kemidCurrentCash.setCurrentIncomeCash(kemidCurrentCash.getCurrentIncomeCash().add(tranLine.getTransactionAmount()));
-
             }
         }
         else {
@@ -213,10 +212,9 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             }
             else {
                 kemidCurrentCash.setCurrentPrincipalCash(kemidCurrentCash.getCurrentPrincipalCash().add(tranLine.getTransactionAmount()));
-
             }
-
         }
+        
         return kemidCurrentCash;
     }
 
@@ -229,7 +227,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     private void processTransactionArchives(EndowmentTransactionLinesDocumentBase lineDoc, EndowmentTransactionLine tranLine, PendingTransactionDocumentEntry pendingEntry, String documentType) {
         LOG.info("Entering \"processTransactionArchives\"");
         // END_TRAN_ARCHV_T
-        TransactionArchive tranArchive = createTranArchive(tranLine, pendingEntry.getDocumentType());
+        TransactionArchive tranArchive = createTranArchive(tranLine, pendingEntry.getDocumentType(), lineDoc.getTransactionSubTypeCode());
         
         // this methods were in createTranArchive method, but moved to here for unit test. 
         tranArchive.setSubTypeCode(lineDoc.getTransactionSubTypeCode());
@@ -282,7 +280,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 boolean isNewLot = taxLotLine.isNewLotIndicator();
 
                 // If we find an existing one, then modify it.
-                if (holdingTaxLot != null && !isNewLot) {
+                if (holdingTaxLot != null) {
 
                     // Per specification, if the document type is EHA, the units
                     // held will not be modified (no units added).
@@ -476,17 +474,16 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     }
 
     /**
-     * This method locates a Security Transaction (END_TRAN_SEC_T) record from the DB.
-     * 
+     * This method locates a Security Transaction (END_TRAN_SEC_T) record from the DB
+     * by using the document number.
+     * @see KFSMI-6423
      * @param securityDoc
      * @param tranLine
      * @return EndowmentTransactionSecurity
      */
     protected EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_DOCUMENT_NUMBER, tranLine.getDocumentNumber());
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, tranLine.getTransactionLineTypeCode());
-
+        primaryKeys.put(EndowPropertyConstants.DOCUMENT_NUMBER, tranLine.getDocumentNumber());
         EndowmentTransactionSecurity tranSecurity = (EndowmentTransactionSecurity) businessObjectService.findByPrimaryKey(EndowmentTransactionSecurity.class, primaryKeys);
 
         return tranSecurity;
@@ -562,7 +559,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return Transaction Archive
      */
-    protected TransactionArchive createTranArchive(EndowmentTransactionLine tranLine, String documentType) {
+    protected TransactionArchive createTranArchive(EndowmentTransactionLine tranLine, String documentType, String subTypeCode) {
         TransactionArchive tranArchive = new TransactionArchive();
         tranArchive.setTypeCode(documentType);
 
@@ -573,22 +570,34 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         tranArchive.setEtranCode(tranLine.getEtranCode());
         tranArchive.setIncomePrincipalIndicatorCode(tranLine.getIncomePrincipalIndicator().getCode());
 
+        BigDecimal transacationAmount = tranLine.getTransactionAmount().bigDecimalValue();
+        
         // If the transaction document type is Endowment Corpus Adjustment, set
         // the TRAN_INC_AMT, and TRAN_PRIN_AMT to zero.
+    //    if (documentType.equals(dataDictionaryService.getDocumentTypeNameByClass(CorpusAdjustmentDocument.class))) {
+    //        tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+    //        tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+    //    }
+   //     // The document type wasn't Corpus Adjust, so set the Income and Principle amounts.
+  //      else if (tranArchive.getIncomePrincipalIndicatorCode().equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+  //          tranArchive.setIncomeCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
+  //          tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+  //      }
+  //      else {
+ //           tranArchive.setPrincipalCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
+ //           tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+  //      }
+        
+        
         if (documentType.equals(dataDictionaryService.getDocumentTypeNameByClass(CorpusAdjustmentDocument.class))) {
             tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
             tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
         }
-        // The document type wasn't Corpus Adjust, so set the Income and Principle amounts.
-        else if (tranArchive.getIncomePrincipalIndicatorCode().equals(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-            tranArchive.setIncomeCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
-            tranArchive.setPrincipalCashAmount(new BigDecimal(BigInteger.ZERO, 2));
+        // The document type wasn't Corpus Adjust--if subtypecode is CASH then process....
+        else if (subTypeCode.equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
+                calculateTransactionArchiveAmount(tranArchive, transacationAmount);
         }
-        else {
-            tranArchive.setPrincipalCashAmount(tranLine.getTransactionAmount().bigDecimalValue());
-            tranArchive.setIncomeCashAmount(new BigDecimal(BigInteger.ZERO, 2));
-        }
-
+        
         tranArchive.setLineDescription(tranLine.getTransactionLineDescription());
         tranArchive.setCorpusIndicator(tranLine.getCorpusIndicator());
 
@@ -596,20 +605,39 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             tranArchive.setCorpusAmount(tranLine.getTransactionAmount().bigDecimalValue());
         }
 
-        
         tranArchive.setPostedDate(kemService.getCurrentDate());
 
         // If the line type code is F(Decrease), then all the transaction amounts need to be
         // negative.
         if (tranLine.getTransactionLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE)) {
             tranArchive.setCorpusAmount(tranArchive.getCorpusAmount().negate());
-            tranArchive.setIncomeCashAmount(tranArchive.getIncomeCashAmount().negate());
-            tranArchive.setPrincipalCashAmount(tranArchive.getPrincipalCashAmount().negate());
         }
 
         return tranArchive;
     }
 
+    /**
+     * Helper method to figure out if transaction archive income/principal amount to be negated
+     * If document type is EAI, ELD, or ECDD then negate the amount OR
+     * if document type is ECT or EGLT AND line type code = F then negate the amounts
+     * 
+     * @param tranArchive, transacationAmount
+     */
+    protected void calculateTransactionArchiveAmount(TransactionArchive tranArchive, BigDecimal transacationAmount) {
+        if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE) ||
+                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE) ||
+                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ||
+                        ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
+                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER)) && 
+                        tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE))) {
+            if (tranArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                tranArchive.setIncomeCashAmount(transacationAmount.negate());
+            } else {
+                tranArchive.setPrincipalCashAmount(transacationAmount.negate());
+            }
+        }
+    }
+    
     /**
      * Initialize the report document headers.
      */
@@ -816,7 +844,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             if (transactionUnits != null && !transactionUnits.isZero()) {
                 lotUnitValue = KEMCalculationRoundingHelper.divide(tranLine.getTransactionAmount().bigDecimalValue(), transactionUnits.bigDecimalValue(), EndowConstants.Scale.SECURITY_UNIT_VALUE);
             }
-            //  lotUnitValue = (tranLine.getTransactionAmount().divide(transactionUnits)).bigDecimalValue();
         }
 
         /**

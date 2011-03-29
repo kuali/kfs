@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
@@ -125,7 +126,7 @@ public class EndowmenteDocPostingServiceTest extends KualiTestBase {
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAI_NON_CASH.createEndowmentTransactionLine(false);
         EndowmentTransactionSecurity transactionSecurity = (EndowmentTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAI_NON_CASH.createEndowmentTransactionSecurity(false);
         // check step 2
-        TransactionArchive transactionArchive = endowmenteDocPostingServiceImpl.createTranArchive(targetTransactionLine, "EAI");
+        TransactionArchive transactionArchive = endowmenteDocPostingServiceImpl.createTranArchive(targetTransactionLine, "EAI", EndowConstants.TransactionSubTypeCode.NON_CASH);
         TransactionArchiveSecurity tranSecurity = endowmenteDocPostingServiceImpl.createTranArchiveSecurity(transactionSecurity, targetTransactionLine, "EAI");    
         
         KualiDecimal transactionAmount = targetTransactionLine.getTransactionAmount(); 

@@ -159,4 +159,16 @@
 			<ref bean="accessSecuritySimulationLookupableHelperService" />
 		</property>
 	</bean>	
+	
+	<bean id="securityAccountDelegateModelLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>				
+	</bean>	
+	
+	<bean id="securityAccountDelegateModelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="securityAccountDelegateModelLookupableHelperService" />
+		</property>
+	</bean>
 </beans>	

@@ -15,17 +15,13 @@
  */
 package org.kuali.kfs.module.cam.util;
 
-import java.beans.PropertyDescriptor;
-
-import javax.swing.Spring;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
@@ -65,8 +61,11 @@ public final class MaintainableWorkflowUtils {
 
         KualiWorkflowDocument workflowDocument = null;
         WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        // we need to use the system user here, since this code could be called within the
+        // context of workflow, where there is no user session
+        Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KNSConstants.SYSTEM_USER);
         try {
-            workflowDocument = workflowDocumentService.createWorkflowDocument(NumberUtils.createLong(documentNumber), GlobalVariables.getUserSession().getPerson());
+            workflowDocument = workflowDocumentService.createWorkflowDocument(NumberUtils.createLong(documentNumber), person);
         }
         catch (WorkflowException ex) {
             throw new RuntimeException("Error to retrieve workflow document: " + documentNumber, ex);

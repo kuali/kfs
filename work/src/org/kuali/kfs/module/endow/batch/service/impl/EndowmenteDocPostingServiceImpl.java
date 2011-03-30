@@ -618,23 +618,44 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
     /**
      * Helper method to figure out if transaction archive income/principal amount to be negated
+     * If document type is ECI, EAD, ELI, GLET, ECT AND line type code = T then copy 
+     * transaction amount value to either income or principal based on ip indicator.
      * If document type is EAI, ELD, or ECDD then negate the amount OR
-     * if document type is ECT or EGLT AND line type code = F then negate the amounts
+     * if document type is ECT or EGLT AND line type code = F then negate the amounts and
+     * copy the value to income or principal based on ip indicator.
      * 
      * @param tranArchive, transacationAmount
      */
     protected void calculateTransactionArchiveAmount(TransactionArchive tranArchive, BigDecimal transacationAmount) {
-        if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE) ||
-                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE) ||
-                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ||
-                        ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
-                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER)) && 
-                        tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE))) {
+        if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE) ||
+                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE) ||
+                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_INCREASE) ||
+                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
+                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) && 
+                        tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_TARGET)) {
+            //now set the amount to either income or principal fields....
             if (tranArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-                tranArchive.setIncomeCashAmount(transacationAmount.negate());
-            } else {
-                tranArchive.setPrincipalCashAmount(transacationAmount.negate());
+                tranArchive.setIncomeCashAmount(transacationAmount);
+            } 
+            else {
+                tranArchive.setPrincipalCashAmount(transacationAmount);
             }
+        } 
+        else {
+            if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE) ||
+                    tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE) ||
+                            tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ||
+                            ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
+                            tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER)) && 
+                            tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE))) {
+                //now set the amount to either income or principal fields....
+                if (tranArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                    tranArchive.setIncomeCashAmount(transacationAmount.negate());
+                } 
+                else {
+                    tranArchive.setPrincipalCashAmount(transacationAmount.negate());
+                }
+            } 
         }
     }
     

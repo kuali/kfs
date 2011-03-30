@@ -413,4 +413,4 @@ KFSENDOW6007-2,KFSENDOW6007-2,1,KFSENDOW6007,5,14,F
 KFSENDOW6008-1,KFSENDOW6008-1,1,KFSENDOW6008,12,2,org.kuali.kfs.module.endow.web.struts.TrialBalanceAction
 KFSENDOW6009-1,KFSENDOW6009-1,1,KFSENDOW6009,12,2,org.kuali.kfs.module.endow.web.struts.TransactionStatementAction
 KFSENDOW6010-1,KFSENDOW6010-1,1,KFSENDOW6010,12,2,org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction
-KFSENDOW6011-1,KFSENDOW6011-1,1,KFSENDOW6011,12,2,org.kuali.kfs.module.endow.web.struts.AssetStatementAction 
+KFSENDOW6011-1,KFSENDOW6011-1,1,KFSENDOW6011,12,2,org.kuali.kfs.module.endow.web.struts.AssetStatementAction

@@ -136,7 +136,7 @@
  	<bean id="AccountAutoCreateDefaults-accountDefaultId" parent="AccountAutoCreateDefaults-accountDefaultId-parentBean"/>
  	<bean id="AccountAutoCreateDefaults-accountDefaultId-parentBean" abstract="true" parent="AttributeDefinition">
  	  	<property name="name" value="accountDefaultId"/>
-    	<property name="label" value="Account Default Id"/>
+    	<property name="label" value="Account Auto Defaults Id"/>
     	<property name="shortLabel" value="Acct Deflt Id"/>
   		<property name="validationPattern">
       		<ref bean="NumericValidation" />

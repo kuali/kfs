@@ -54,6 +54,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
 
+        LOG.info("updateKemIdCorpusPriorYearValues() completed");
     }
     
     /**
@@ -138,19 +139,20 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
         
+        LOG.info("updateCorpusAmountsFromTransactionArchive() completed");
     }
     
     /**
      * 
-     * @see org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao#updateCurrentCorpusPrincipalMarketValue()
+     * @see org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao#updateKEMIDCorpusPrincipalMarketValue()
      */
-    public void updateCurrentCorpusPrincipalMarketValue(){
+    public void updateKemIdCorpusPrincipalMarketValue(){
      
-        LOG.info("updateCurrentCorpusPrincipalMarketValue() started");
+        LOG.info("updateKemIdCorpusPrincipalMarketValue() started");
         
         try{
-            String selectCurrentBalanceSql = "select t2.KEMID, t2.PRIN_AT_MARKET from END_CRNT_ENDOW_CORPUS_T t1, END_KEMID_CRNT_BAL_V t2 where t1.KEMID = t2.KEMID";
-            String updateCurrentCorpusSql = "UPDATE END_CRNT_ENDOW_CORPUS_T SET CRNT_PRIN_MVAL = ? WHERE KEMID = ?";
+            String selectCurrentBalanceSql = "select t2.KEMID, t2.PRIN_AT_MARKET from END_KEMID_CORPUS_VAL_T t1, END_KEMID_CRNT_BAL_V t2 where t1.KEMID = t2.KEMID";
+            String updateCurrentCorpusSql = "UPDATE END_KEMID_CORPUS_VAL_T SET CRNT_PRIN_MVAL = ? WHERE KEMID = ?";
             
             SqlRowSet pendingEntryRowSet = getJdbcTemplate().queryForRowSet(selectCurrentBalanceSql);
 
@@ -174,13 +176,14 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
                 count++;
             }
             
-            LOG.info ("updateCurrentCorpusPrincipalMarketValue has updated Principal Market Value for " + count + " records in the END_CRNT_ENDOW_CORPUS_T table.");
+            LOG.info ("updateKemIdCorpusPrincipalMarketValue has updated Principal Market Value for " + count + " records in the END_KEMID_CORPUS_VAL_T table.");
         }
         catch (Exception e) {
-            LOG.error("updateCurrentCorpusPrincipalMarketValue() Exception running sql", e);
+            LOG.error("updateKemIdCorpusPrincipalMarketValue() Exception running sql", e);
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
             
+        LOG.info("updateKemIdCorpusPrincipalMarketValue() completed");
     }
     
     /**
@@ -204,6 +207,8 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             LOG.error("updateEndowmentCorpusWithCurrentEndowmentCorpus() Exception running sql", e);
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
+        
+        LOG.info("updateEndowmentCorpusWithCurrentEndowmentCorpus() completed");
 
     }
     

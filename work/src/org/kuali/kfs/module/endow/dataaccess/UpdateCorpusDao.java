@@ -36,11 +36,11 @@ public interface UpdateCorpusDao {
     public void updateCorpusAmountsFromTransactionArchive(Date currentDate);
     
     /**
-     * Updates all Current Endowment Corpus records's principal market value
-     * with the value PRIN_AT_MARKET from Endowment Current Balance View.
+     * Updates all KEM ID Corpus records's principal market value
+     * with the value PRIN_AT_MARKET from KEM ID Current Balance View.
      * 
      */
-    public void updateCurrentCorpusPrincipalMarketValue();
+    public void updateKemIdCorpusPrincipalMarketValue();
     
     /**
      * Inserts records into Endowment Corpus from the 

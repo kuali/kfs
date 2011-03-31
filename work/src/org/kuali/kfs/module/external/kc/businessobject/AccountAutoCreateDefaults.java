@@ -41,7 +41,7 @@ import org.kuali.rice.kns.service.PostalCodeService;
  */
 public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivateable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
-
+    private Integer accountDefaultId;
     private String kcUnit;
     //private KCUnit kcUnit;
     private String kcUnitName;
@@ -1183,6 +1183,20 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
 
     public void setUnitDTO(ContractsAndGrantsUnit unitDTO) {
         this.unitDTO = unitDTO;
+    }
+
+    /**
+     * 
+     */
+    public Integer getAccountDefaultId() {
+        return accountDefaultId;
+    }
+
+    /**
+     * 
+     */
+    public void setAccountDefaultId(Integer accountDefaultId) {
+        this.accountDefaultId = accountDefaultId;
     }
     
 }

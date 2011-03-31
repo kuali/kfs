@@ -27,7 +27,7 @@ public class KcConstants  extends JSTLConstants {
     
     public static final String KC_NAMESPACE_URI = "KC";        
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
-
+    public static final String ACCOUNT_CREATE_DEFAULT_IDENTIFIER = "accountDefaultId";
     public static class AccountCreationDefaults {
         public static final String CHART_OF_ACCOUNT_CODE = "chartOfAccountsCode";
     }

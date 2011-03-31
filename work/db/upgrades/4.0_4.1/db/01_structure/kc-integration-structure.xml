@@ -12,6 +12,16 @@
 			<replace replace="VARCHAR2" with="VARCHAR" />
 	    </modifySql>
 	</changeSet>
-
+  <changeSet author='Winston' id='KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID' failOnError='false'>
+    <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
+    <dropUniqueConstraint tableName='CA_ACCT_AUTO_CREATE_DFLT_T' constraintName='KC_UNIT' />
+    <addColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T'>
+      <column name='ACCT_DFLT_ID' type='INT'>
+        <constraints nullable='false' />
+      </column>
+    </addColumn>
+    <addAutoIncrement tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_DFLT_ID' columnDataType='INT'/>
+    <createSequence sequenceName='CA_ACCT_AUTO_CREATE_DFLT_S'/>
+   </changeSet>
 </databaseChangeLog>
 	

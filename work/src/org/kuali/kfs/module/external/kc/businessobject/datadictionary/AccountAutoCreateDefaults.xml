@@ -23,6 +23,7 @@
     <property name="objectLabel" value="AccountAutoCreateDefaults"/>
     <property name="attributes">
       <list>
+      	<ref bean="AccountAutoCreateDefaults-accountDefaultId"/>
         <ref bean="AccountAutoCreateDefaults-kcUnit"/>
         <ref bean="AccountAutoCreateDefaults-kcUnitName"/>
         <bean parent="Account-chartOfAccountsCode"/>
@@ -132,6 +133,19 @@
 
 <!-- Attribute Definitions -->
  	<!-- Most attributes derived from Account; Define KC specific attributes here -->	
+ 	<bean id="AccountAutoCreateDefaults-accountDefaultId" parent="AccountAutoCreateDefaults-accountDefaultId-parentBean"/>
+ 	<bean id="AccountAutoCreateDefaults-accountDefaultId-parentBean" abstract="true" parent="AttributeDefinition">
+ 	  	<property name="name" value="accountDefaultId"/>
+    	<property name="label" value="Account Default Id"/>
+    	<property name="shortLabel" value="Acct Deflt Id"/>
+  		<property name="validationPattern">
+      		<ref bean="NumericValidation" />
+    	</property>
+    	<property name="control">
+      	<bean parent="TextControlDefinition" p:size="16"/>
+    	</property>
+  	</bean>
+ 	
     <bean id="AccountAutoCreateDefaults-kcUnit" parent="AccountAutoCreateDefaults-kcUnit-parentBean"/>
   	<bean id="AccountAutoCreateDefaults-kcUnit-parentBean" abstract="true"  parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" p:sourceAttributeName="unitNumber"> 
     	<property name="name" value="kcUnit"/>
@@ -208,6 +222,7 @@
         <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Details">
           <property name="inquiryFields">
             <list>
+           	  <bean parent="FieldDefinition" p:attributeName="accountDefaultId"/>
               <bean parent="FieldDefinition" p:attributeName="kcUnit"/>
               <bean parent="FieldDefinition" p:attributeName="kcUnitName"/>
               <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription"/>
@@ -294,6 +309,7 @@
         </bean>  --> 
       </list>
     </property>
+    <property name="inquirableClass" value="org.kuali.kfs.module.external.kc.businessobject.inquiry.AccountAutoCreateDefInquirable"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->
@@ -315,6 +331,7 @@
     </property>
     <property name="lookupFields">
       <list>
+        <bean parent="FieldDefinition" p:attributeName="accountDefaultId"/>
         <bean parent="FieldDefinition" p:attributeName="kcUnit"/>
         <bean parent="FieldDefinition" p:attributeName="kcUnitName"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
@@ -324,6 +341,7 @@
     </property>
     <property name="resultFields">
       <list>
+        <bean parent="FieldDefinition" p:attributeName="accountDefaultId"/>
         <bean parent="FieldDefinition" p:attributeName="kcUnit"/>
         <bean parent="FieldDefinition" p:attributeName="kcUnitName"/>
         <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>

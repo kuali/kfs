@@ -124,7 +124,6 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
         List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDatesOrderByDescending();
         // remove the latest one because it cannot be greater than the latest ending date
         monthEndDateRecords.remove(0);
-        MonthEndDate latestDate = monthEndDateRecords.get(0);
         Calendar calendar = Calendar.getInstance();
         for (MonthEndDate monthEndDate : monthEndDateRecords) {
             calendar.setTime(monthEndDate.getMonthEndDate());

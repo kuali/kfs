@@ -176,7 +176,6 @@ public class AssetIncreaseDocumentRules extends EndowmentTransactionLinesDocumen
 
         if (assetIncreaseDocument.getTargetTransactionSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity() != null && assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getClassCode() != null && EndowConstants.ClassCodeTypes.ALTERNATIVE_INVESTMENT.equalsIgnoreCase(assetIncreaseDocument.getTargetTransactionSecurity().getSecurity().getClassCode().getClassCodeType())) {
 
-            BigDecimal totalHoldingTaxLotsCost = BigDecimal.ZERO;
             BigDecimal totalTransactionLinesAmt = BigDecimal.ZERO;
             BigDecimal securityCommitmentAmt = BigDecimal.ZERO;
             BigDecimal securityCarryValue = BigDecimal.ZERO;

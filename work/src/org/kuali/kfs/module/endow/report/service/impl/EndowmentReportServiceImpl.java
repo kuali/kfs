@@ -259,6 +259,17 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         return reportRequestHeaderDataHolder;
     }
     
+    /**
+     * Gets the kemids that meet the given conditions
+     * 
+     * @param benefittingOrganziationCampusCodes
+     * @param benefittingOrganziationChartCodes
+     * @param benefittingOrganziationCodes
+     * @param typeCodes
+     * @param purposeCodes
+     * @param combineGroupCodes
+     * @return
+     */
     public List<String> getKemidsByOtherCriteria(List<String> benefittingOrganziationCampusCodes, List<String> benefittingOrganziationChartCodes,
             List<String> benefittingOrganziationCodes, List<String> typeCodes, List<String> purposeCodes, List<String> combineGroupCodes) {
       

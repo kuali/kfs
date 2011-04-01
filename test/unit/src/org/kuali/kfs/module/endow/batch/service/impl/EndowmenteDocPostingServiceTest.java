@@ -131,7 +131,7 @@ public class EndowmenteDocPostingServiceTest extends KualiTestBase {
         
         KualiDecimal transactionAmount = targetTransactionLine.getTransactionAmount(); 
             
-        assertTrue("transaction amount is " + transactionAmount.toString(), transactionAmount.equals(new KualiDecimal(transactionArchive.getPrincipalCashAmount())));
+        assertTrue("transaction amount is " + transactionAmount.toString(), (KualiDecimal.ZERO).equals(new KualiDecimal(transactionArchive.getPrincipalCashAmount())));
         
         // Do NOT need to check step 3, because it is non cash
         String testString = "";

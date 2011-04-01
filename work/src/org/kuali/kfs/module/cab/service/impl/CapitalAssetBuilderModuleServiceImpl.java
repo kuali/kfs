@@ -85,7 +85,6 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1239,6 +1238,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
+            
+            if (!StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
+                valid &= false;
+            }
         }
         return valid;
     }
@@ -1467,6 +1471,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid = false;
             }
 
+            // Room is not required for non-moveable
             AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
             if (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator()) {
                 if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
@@ -1475,6 +1480,17 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     valid = false;
                 }
             }
+            
+            // Room number not allowed for non-moveable assets
+            if (ObjectUtils.isNotNull(assetType) && !assetType.isMovingIndicator()) {
+                if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
+                    String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, label);
+                    valid = false;
+                }
+            }
+            
+            
 
             index++;
         }

@@ -59,7 +59,7 @@
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.Award" value="org.kuali.kra.award.home.Award"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="org.kuali.kra.bo.Sponsor"/>
-      			
+      			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="org.kuali.kra.bo.Unit"/>
              </map>
         </property>        
         <property name="kfsToKcInquiryUrlParameterMapping">
@@ -68,6 +68,7 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>
       			
              </map>
         </property>        

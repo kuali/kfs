@@ -38,9 +38,6 @@ public class TransactionArchiveSecurityDaoOjb extends PlatformAwareDaoBaseOjb im
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, documentNumber);
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, lineNumber);
 
-        if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchiveSecurity.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE)) {
-            lineTypeCode = lineTypeCode.toUpperCase();
-        }
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, lineTypeCode);
         
         QueryByCriteria query = QueryFactory.newQuery(TransactionArchiveSecurity.class, criteria);

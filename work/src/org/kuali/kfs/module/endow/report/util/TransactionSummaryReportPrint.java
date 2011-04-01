@@ -298,7 +298,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
     protected boolean printReportBodyForSummaryReportOption(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document) {
         List<TransactionSummaryReportDataHolder> summaryReportDataHolder = combineKemidTotals(transactionSummaryDataReportHolders);
         
-        return printReportBodyByAllTotalsForDetailReportOption(summaryReportDataHolder, document);        
+        return printReportBodyForDetailReportOption(summaryReportDataHolder, document);        
     }
     
     protected List<TransactionSummaryReportDataHolder> combineKemidTotals(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders) {

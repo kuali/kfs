@@ -2385,7 +2385,10 @@
 		</property>
 		<property name="kemidGeneralLedgerAccountDao">
 			<ref bean="kemidGeneralLedgerAccountDao" />
-		</property>		
+		</property>	
+		<property name="transactionArchiveSecurityDao">
+			<ref bean="transactionArchiveSecurityDao" />
+		</property>	
 	</bean>
 	
 	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
@@ -2638,5 +2641,7 @@
 	<bean id="gLLinkDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.GLLinkDaoOjb" />
 	
 	<bean id="kemidGeneralLedgerAccountDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidGeneralLedgerAccountDaoOjb" />
+	
+	<bean id="transactionArchiveSecurityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TransactionArchiveSecurityDaoOjb" />
 	
 </beans>

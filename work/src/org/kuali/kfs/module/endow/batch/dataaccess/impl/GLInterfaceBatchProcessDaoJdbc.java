@@ -25,9 +25,12 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao;
 import org.kuali.kfs.module.endow.businessobject.GLCombinedTransactionArchive;
 import org.kuali.kfs.module.endow.businessobject.GlInterfaceBatchProcessKemLine;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.GLLinkDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidGeneralLedgerAccountDao;
+import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveSecurityDao;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
@@ -38,6 +41,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
     
     protected KemidGeneralLedgerAccountDao kemidGeneralLedgerAccountDao;
     protected GLLinkDao gLLinkDao;
+    protected TransactionArchiveSecurityDao transactionArchiveSecurityDao;
     
     /**
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
@@ -169,15 +173,23 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables in the given sort order
      */
     protected SqlRowSet getAllKemTransactions(String documentType, java.util.Date postedDate, String TransactionSubTypeCode) {
+    //    String transactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
+    //                                    + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
+    //                                    + "c.CHRT_CD, c.ACCT_NBR, "
+    //                                    + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS, d.TRAN_SEC_ETRAN_CD "
+    //                                    + "FROM END_TRAN_ARCHV_T a, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
+    //                                    + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
+    //                                    + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
+    //                                    + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
+   //                                     + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, d.TRAN_SEC_ETRAN_CD, a.TRAN_ETRAN_CD, a.TRAN_KEMID");
+
         String transactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
                                         + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
-                                        + "c.CHRT_CD, c.ACCT_NBR, "
-                                        + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS, d.TRAN_SEC_ETRAN_CD "
-                                        + "FROM END_TRAN_ARCHV_T a, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
+                                        + "c.CHRT_CD, c.ACCT_NBR "
+                                        + "FROM END_TRAN_ARCHV_T a, END_KEMID_GL_LNK_T c " 
                                         + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
-                                        + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-                                        + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
-                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, d.TRAN_SEC_ETRAN_CD, a.TRAN_ETRAN_CD, a.TRAN_KEMID");
+                                        + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' "
+                                        + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, a.TRAN_ETRAN_CD, a.TRAN_KEMID");
         
         return (getJdbcTemplate().queryForRowSet(transactionArchiveSql, new Object[] { postedDate, documentType, TransactionSubTypeCode }));
     }
@@ -201,6 +213,20 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             glKemLine.setChartCode(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_CHRT_CD));
             glKemLine.setAccountNumber(archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_ACCT_NBR));
             
+            //get the security record now....
+            BigDecimal holdingCost = BigDecimal.ZERO;
+            BigDecimal shortTermGainLoss = BigDecimal.ZERO;
+            BigDecimal longTermGainLoss = BigDecimal.ZERO;
+            String eTransactionCode = "";
+            
+            TransactionArchiveSecurity transactionArchiveSecurity = transactionArchiveSecurityDao.getByPrimaryKey(glKemLine.getDocumentNumber(), glKemLine.getLineNumber(), glKemLine.getLineTypeCode());
+            if (ObjectUtils.isNotNull(transactionArchiveSecurity)) {
+                eTransactionCode = transactionArchiveSecurity.getEtranCode();
+                holdingCost = transactionArchiveSecurity.getHoldingCost();
+                shortTermGainLoss = transactionArchiveSecurity.getShortTermGainLoss();
+                longTermGainLoss = transactionArchiveSecurity.getLongTermGainLoss();
+            }
+            
             //get transaction amount....
             if (cashType) {
                 glKemLine.setTransactionArchiveIncomeAmount(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_INC_CSH_AMT));
@@ -209,26 +235,37 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
                 glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
                 if (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
-                    glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
-                    glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
+                    glKemLine.setShortTermGainLoss(shortTermGainLoss);
+                    glKemLine.setLongTermGainLoss(longTermGainLoss);
+                 //   glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
+                 //   glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
                 }                
             }
             else {
                 glKemLine.setTransactionArchiveIncomeAmount(BigDecimal.ZERO);
                 glKemLine.setTransactionArchivePrincipalAmount(BigDecimal.ZERO);
-                glKemLine.setHoldingCost(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_COST));
-                glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
-                glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
+                glKemLine.setHoldingCost(holdingCost);
+                glKemLine.setShortTermGainLoss(shortTermGainLoss);
+                glKemLine.setLongTermGainLoss(longTermGainLoss);
+                
+           //     glKemLine.setHoldingCost(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_COST));
+           //     glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
+           //     glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
             }
             
             //get the object code..
             if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(glKemLine.getSubTypeCode()) && 
                     (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE) || 
-                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ) {
+                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE) ||
+                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) ||
+                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER) ||
+                            glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER)) ) {
                 glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_ETRAN_CD)));
             }
             else {
-                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD)));
+                //user transaction archive security etran code..
+                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), eTransactionCode));
+//                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD)));
             }
             
             if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(glKemLine.getSubTypeCode())) {
@@ -311,5 +348,20 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      */
     public void setgLLinkDao(GLLinkDao gLLinkDao) {
         this.gLLinkDao = gLLinkDao;
+    }
+    
+    /**
+     * gets attribute transactionArchiveSecurityDao
+     * @return transactionArchiveSecurityDao
+     */
+    public TransactionArchiveSecurityDao getTransactionArchiveSecurityDao() {
+        return transactionArchiveSecurityDao;
+    }
+
+    /**
+     * sets attribute transactionArchiveSecurityDao
+     */
+    public void setTransactionArchiveSecurityDao(TransactionArchiveSecurityDao transactionArchiveSecurityDao) {
+        this.transactionArchiveSecurityDao = transactionArchiveSecurityDao;
     }
 }   

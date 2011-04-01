@@ -198,10 +198,9 @@ public class TransactionSummaryAction extends EndowmentReportBaseAction {
         } else {
             transactionSummaryForm.setMessage(ERROR_BOTH_BEGINNING_AND_ENDING_DATE_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
         }
                
-        // See to see if you have something to print        
+        // see if you have something to print        
         if (transactionSummaryReportList != null && !transactionSummaryReportList.isEmpty()) {
             // prepare the header sheet data
             EndowmentReportHeaderDataHolder reportRequestHeaderDataHolder = transactionSummaryReportService.createReportHeaderSheetData(

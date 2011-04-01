@@ -170,7 +170,7 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
      * @param endingMED
      */
     protected void getHistoryCashAmounts(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder, String kemid, KualiInteger beginningMed, KualiInteger endingMed) {
-        List<String> kemids = new ArrayList();
+        List<String> kemids = new ArrayList<String>();
         kemids.add(kemid);
         
         List<KemidHistoricalCash> kemidHistoryCash = kemidHistoricalCashDao.getHistoricalCashRecords(kemids, beginningMed, endingMed);
@@ -235,14 +235,6 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
                 transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(contributionsData.getPrincipalContributions()));
             }
         }
-        
-     //   if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-     //       contributionsData.setIncomeContributions(transactionSecurityCost.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
-    //    }
-    //    
-    //    if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
-    //        contributionsData.setPrincipalContributions(transactionSecurityCost.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
-     //   }
         
         transactionSummaryReportDataHolder.getReportGroupsForContributions().add(contributionsData);
     }

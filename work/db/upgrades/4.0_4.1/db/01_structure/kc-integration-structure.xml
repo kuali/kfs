@@ -12,16 +12,27 @@
 			<replace replace="VARCHAR2" with="VARCHAR" />
 	    </modifySql>
 	</changeSet>
-  <changeSet author='Winston' id='KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID' failOnError='false'>
+  <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_Oracle" dbms="oracle">
     <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
-    <dropUniqueConstraint tableName='CA_ACCT_AUTO_CREATE_DFLT_T' constraintName='KC_UNIT' />
-    <addColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T'>
-      <column name='ACCT_DFLT_ID' type='INT'>
-        <constraints nullable='false' />
+    <dropUniqueConstraint tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
+    <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+      <column name="ACCT_DFLT_ID" type="NUMBER(10)">
+        <constraints nullable="false" primaryKey="true" />
       </column>
     </addColumn>
-    <addAutoIncrement tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_DFLT_ID' columnDataType='INT'/>
-    <createSequence sequenceName='CA_ACCT_AUTO_CREATE_DFLT_S'/>
+     <createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_S"/>
    </changeSet>
+   
+    <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_MySql" dbms="mysql">
+    <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
+    <dropUniqueConstraint tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
+    <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+      <column name="ACCT_DFLT_ID" type="BIGINT(19)">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+    </addColumn>
+    <addAutoIncrement tableName="CA_ACCT_AUTO_CREATE_DFLT_T" columnName="ACCT_DFLT_ID" columnDataType="BIGINT(19)"/>
+    </changeSet>
+   
 </databaseChangeLog>
 	

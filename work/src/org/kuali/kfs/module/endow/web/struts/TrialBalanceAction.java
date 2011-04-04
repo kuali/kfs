@@ -131,7 +131,7 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
          * The criteria are selected as follows.
          * 1. Kemid and the other criteria cannot be selected at the same time.
          * 2. If none of them are selected, all kemids will be selected.
-         * 3. The other criteria other than kemid are "OR" combined.
+         * 3. The other criteria other than kemid are AND-combined.
          * 4. All the criteria in the text input can be multiple by the use of wild card or the separator ('&' for kemid, ',' for the others) 
          */
         if (StringUtils.isNotBlank(kemids)) {
@@ -177,7 +177,7 @@ public class TrialBalanceAction extends EndowmentReportBaseAction {
             }
         }
                
-        // See to see if you have something to print        
+        // Check to see if you have something to print        
         if (trialBalanceReportDataHolders != null && !trialBalanceReportDataHolders.isEmpty()) {
   
             // prepare the header sheet data

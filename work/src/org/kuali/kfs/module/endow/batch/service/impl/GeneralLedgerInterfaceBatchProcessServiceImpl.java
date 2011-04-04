@@ -456,10 +456,10 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
             oef.setTransactionLedgerEntryAmount(endowmentAccountingLineBase.getAmount());
             if (endowmentAccountingLineBase.getFinancialDocumentLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE)) {
-                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);    
+                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);    
             }
             else {
-                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);    
+                oef.setTransactionDebitCreditCode(EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);    
             }
             oef.setProjectCode(endowmentAccountingLineBase.getProjectCode());
             oef.setOrganizationReferenceId(endowmentAccountingLineBase.getOrganizationReferenceId());
@@ -535,7 +535,12 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         BigDecimal transactionAmount = BigDecimal.ZERO;
         
         if (transactionArchive.getSubTypeCode().equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
-            transactionAmount = transactionArchive.getTransactionArchiveIncomeAmount().add(transactionArchive.getTransactionArchivePrincipalAmount());
+            if (transactionArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
+                transactionAmount = transactionArchive.getHoldingCost();
+            } 
+            else {
+                transactionAmount = transactionArchive.getTransactionArchiveIncomeAmount().add(transactionArchive.getTransactionArchivePrincipalAmount());
+            }
         }
         else {
             transactionAmount = transactionArchive.getHoldingCost();

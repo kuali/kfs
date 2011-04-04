@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.batch.dataaccess.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
@@ -193,6 +192,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         
         return (getJdbcTemplate().queryForRowSet(transactionArchiveSql, new Object[] { postedDate, documentType, TransactionSubTypeCode }));
     }
+    
     /**
      * method to go through the rowset and put into transient bo and add to the collection.
      */
@@ -235,10 +235,9 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
                 glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
                 if (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
+                    glKemLine.setHoldingCost(holdingCost);
                     glKemLine.setShortTermGainLoss(shortTermGainLoss);
                     glKemLine.setLongTermGainLoss(longTermGainLoss);
-                 //   glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
-                 //   glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
                 }                
             }
             else {
@@ -247,10 +246,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
                 glKemLine.setHoldingCost(holdingCost);
                 glKemLine.setShortTermGainLoss(shortTermGainLoss);
                 glKemLine.setLongTermGainLoss(longTermGainLoss);
-                
-           //     glKemLine.setHoldingCost(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_COST));
-           //     glKemLine.setShortTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS));
-           //     glKemLine.setLongTermGainLoss(archiveTransactions.getBigDecimal(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS));
             }
             
             //get the object code..
@@ -265,7 +260,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             else {
                 //user transaction archive security etran code..
                 glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), eTransactionCode));
-//                glKemLine.setObjectCode(gLLinkDao.getObjectCode(glKemLine.getChartCode(), archiveTransactions.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD)));
             }
             
             if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(glKemLine.getSubTypeCode())) {

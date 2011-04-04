@@ -325,7 +325,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @return List<String> newKemids
      */
     public List<String> getKemidsBasedOnUserSelection(List<String> kemids, String endowmentOption, String closedIndicator) {
-        List<String> newKemids = new ArrayList();
+        List<String> newKemids = new ArrayList<String>();
         
         //get KEMID records for the given kemid and endowmentOption and closedIndicator..
         List<KEMID> kemidRecords = kemidDao.getKemidRecordsByIds(kemids, endowmentOption, closedIndicator);
@@ -349,8 +349,8 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @return List<String> newKemids
      */
     public List<String> getKemidsInHistoryCash(List<String> kemids, String beginningDate, String endingDate) {
-        List<String> newKemids = new ArrayList();
-        List<KemidHistoricalCash> kemidHistoryCash = new ArrayList();
+        List<String> newKemids = new ArrayList<String>();
+        List<KemidHistoricalCash> kemidHistoryCash = new ArrayList<KemidHistoricalCash>();
         
         MonthEndDate beginningMED = getPreviousMonthEndDate(convertStringToDate(beginningDate));
         MonthEndDate endingMED = getMonthEndDate(convertStringToDate(endingDate));

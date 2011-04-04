@@ -57,8 +57,8 @@ public class TransactionSummaryReportDataHolder {
     protected EndowmentReportFooterDataHolder footer;
     
     public TransactionSummaryReportDataHolder() {
-        reportGroupsForContributions = new ArrayList();   
-        reportGroupsForExpenses = new ArrayList();
+        reportGroupsForContributions = new ArrayList<ContributionsDataHolder>();   
+        reportGroupsForExpenses = new ArrayList<ExpensesDataHolder>();
         footer = null;        
     }
     /**

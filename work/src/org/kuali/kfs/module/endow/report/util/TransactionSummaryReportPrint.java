@@ -246,7 +246,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 writeExpensesRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
                 
                 //write change in market value row....
-                writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getIncomeChangeInMarketValue(), transactionSummaryReport.getPrincipalChangeInMarketValue(), transactionSummaryReport.getTotalChangeInMarketValue());
+                writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getTotalChangeInMarketValue());
                 
                 //write period end total market value record....
                 writeDetailLineRow(table, cellFont, "Period End total Market Value (Include Cash)", transactionSummaryReport.getTotalEndingMarketValue());
@@ -345,7 +345,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         summaryExpensesData.setExpensesDescription("Summary Totals for Expenses");
 
         for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
-            List<ExpensesDataHolder> expensesDataHolders = transactionSummaryReportDataHolder.getReportGroupsForExpenses();
+            List<ExpensesDataHolder> expensesDataHolders = reportDataHolder.getReportGroupsForExpenses();
             for (ExpensesDataHolder expenseData : expensesDataHolders) {
                 summaryExpensesData.setIncomeExpenses(summaryExpensesData.getIncomeExpenses().add(expenseData.getIncomeExpenses()));
                 summaryExpensesData.setPrincipalExpenses(summaryExpensesData.getPrincipalExpenses().add(expenseData.getPrincipalExpenses()));
@@ -365,7 +365,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         summaryContributionsData.setContributionsDescription("Summary Totals for Contibutions and Other Income");
 
         for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
-            List<ContributionsDataHolder> contributionDataHolders = transactionSummaryReportDataHolder.getReportGroupsForContributions();
+            List<ContributionsDataHolder> contributionDataHolders = reportDataHolder.getReportGroupsForContributions();
             for (ContributionsDataHolder contributionData : contributionDataHolders) {
                 summaryContributionsData.setIncomeContributions(summaryContributionsData.getIncomeContributions().add(contributionData.getIncomeContributions()));
                 summaryContributionsData.setPrincipalContributions(summaryContributionsData.getPrincipalContributions().add(contributionData.getPrincipalContributions()));

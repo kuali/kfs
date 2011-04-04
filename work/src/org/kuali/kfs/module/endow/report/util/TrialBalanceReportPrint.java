@@ -55,7 +55,6 @@ public class TrialBalanceReportPrint extends EndowmentReportPrintBase {
         final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TrialBalanceReportPrint.class);
                 
         Document document = new Document();
-        //Document document = new Document(PageSize.LETTER.rotate(), 0, 0, 0, 0);
         document.setPageSize(LETTER_PORTRAIT);
         document.addTitle("Endowment Trial Balance");
         

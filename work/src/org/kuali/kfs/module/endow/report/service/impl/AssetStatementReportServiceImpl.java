@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.EndowConstants.IncomePrincipalIndicator;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
@@ -150,7 +151,7 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                 }
                 
                 // add footer data
-                if (!reportOption.equalsIgnoreCase("T")) {     
+                if (!reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {     
                     dataHolder.setFooter(createFooterData(kemidOjb));
                 }
                 
@@ -206,7 +207,7 @@ public class AssetStatementReportServiceImpl extends EndowmentReportServiceImpl 
                 }
                 
                 // add footer data
-                if (!reportOption.equalsIgnoreCase("T")) {
+                if (!reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
                     dataHolder.setFooter(createFooterData(kemidOjb));
                 }
                 

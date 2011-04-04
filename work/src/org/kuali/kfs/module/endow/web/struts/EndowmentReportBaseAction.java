@@ -26,7 +26,7 @@ public abstract class EndowmentReportBaseAction extends KualiAction {
     protected final char KEMID_SEPERATOR = '&';
     protected final char OTHER_CRITERIA_SEPERATOR = ',';
     
-    public final String ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA = "The use of the KEMID as a selection criterion casnnot be used in combination with any orther selection criteria.";
+    public final String ERROR_REPORT_KEMID_WITH_OTHER_CRITERIA = "The use of the KEMID as a selection criterion cannot be used in combination with any orther selection criteria.";
     public final String ERROR_REPORT_ENDING_DATE_NOT_GREATER_THAN_BEGINNING_DATE = "The ending date must be greater than the beginning date.";
     public final String ERROR_BOTH_BEGINNING_AND_ENDING_DATE_REQUIRED = "Both Beginning Date and Ending Date are required.";
     

@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -94,7 +95,7 @@ public class EndowmentReportBaseForm extends KualiForm {
         this.typeCode = null;
         this.purposeCode = null;
         this.combineGroupCode = null;
-        this.endowmentOption = "B";
+        this.endowmentOption = EndowConstants.EndowmentReport.BOTH;
         this.message = null;
     }
 

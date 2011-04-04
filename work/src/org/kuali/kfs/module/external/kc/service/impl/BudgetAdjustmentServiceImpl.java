@@ -110,16 +110,17 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentDocument.setPostingPeriodCode(parameters.getPostingPeriodCode());
         budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
-        
-         for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
-           switch (detail.getLineType().charAt(0)) {
-                 case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
-                        break;
-                 case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
-                        break;
-             }
-     
-          }
+        if (parameters != null && parameters.getDetails() != null) {
+            for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
+                switch (detail.getLineType().charAt(0)) {
+                    case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
+                    break;
+                    case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
+                    break;
+                }
+
+            }
+        }
         // save the document 
         try{
             getDocumentService().saveDocument(budgetAdjustmentDocument);

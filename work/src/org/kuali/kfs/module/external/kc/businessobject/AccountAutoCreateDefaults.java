@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountType;
+import org.kuali.kfs.coa.businessobject.BudgetRecordingLevel;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.HigherEducationFunction;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
@@ -81,6 +82,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
     private String budgetRecordingLevelCode;
+    private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private String accountSufficientFundsCode;
     private boolean pendingAcctSufficientFundsIndicator;
@@ -757,7 +759,26 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
         this.budgetRecordingLevelCode = budgetRecordingLevelCode;
     }
+    
+    /**
+     * Gets the budgetRecordingLevel attribute.
+     * 
+     * @return Returns the budgetRecordingLevel.
+     */
+    public BudgetRecordingLevel getBudgetRecordingLevel() {
+        return budgetRecordingLevel;
+    }
 
+    /**
+     * Sets the budgetRecordingLevel attribute value.
+     * 
+     * @param budgetRecordingLevel The budgetRecordingLevel to set.
+     */
+    public void setBudgetRecordingLevel(BudgetRecordingLevel budgetRecordingLevel) {
+        this.budgetRecordingLevel = budgetRecordingLevel;
+    }
+
+    /**
     /**
      * Gets the sufficientFundsCode attribute. 
      * @return Returns the sufficientFundsCode.

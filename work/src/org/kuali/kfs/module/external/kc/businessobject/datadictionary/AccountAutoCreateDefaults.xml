@@ -53,6 +53,7 @@
         <bean parent="Account-acctIndirectCostRcvyType.codeAndDescription"/>
         <bean parent="Account-indirectCostRcvyFinCoaCode"/>
         <bean parent="Account-indirectCostRecoveryAcctNbr"/>
+        <bean parent="Account-budgetRecordingLevelCode"/>
         <bean parent="Account-accountSufficientFundsCode"/>
         <bean parent="Account-pendingAcctSufficientFundsIndicator"/>
         <bean parent="Account-extrnlFinEncumSufficntFndIndicator"/>
@@ -125,6 +126,7 @@
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
       </list>

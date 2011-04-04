@@ -665,7 +665,6 @@
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/endow/{1}.jsp" />
-			<forward name="result" path="/jsp/module/endow/report.jsp" />
 		</action>
 		
 		<action path="/endow*" name="{1}Form" input="/jsp/module/endow/{1}.jsp"

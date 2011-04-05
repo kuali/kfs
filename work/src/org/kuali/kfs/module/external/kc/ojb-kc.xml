@@ -124,6 +124,10 @@
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
     </reference-descriptor>
+    
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="budgetRecordingLevelCode" />
+    </reference-descriptor>
 
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />

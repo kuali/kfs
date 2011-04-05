@@ -18,10 +18,10 @@ package org.kuali.kfs.module.endow.document.service;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 
 /**
- * This KemidCurrentCashOpenRecordsService class provides a method to test whether a KEMID has open records in Current Cash:
- * records with values greater or less than zero.
+ * This KemidCurrentCashService class provides methods to manipulate KEMID current cash records including a method to test whether a
+ * KEMID has open records in Current Cash: records with values greater or less than zero.
  */
-public interface KemidCurrentCashOpenRecordsService {
+public interface KemidCurrentCashService {
 
     /**
      * Checks if KEMID has open records in Current Cash: records with values greater or less than zero.
@@ -31,8 +31,13 @@ public interface KemidCurrentCashOpenRecordsService {
      */
     public boolean hasKemidOpenRecordsInCurrentCash(String kemid);
 
+    public boolean hasIncomeCrntCashWithNoCSHEQHoldings(String kemid);
+
+    public boolean hasPrincipalCrntCashWithNoCSHEQHoldings(String kemid);
+
     /**
      * Gets the current cash record for the given kemId
+     * 
      * @param kemId
      * @return KemidCurrentCash the record with the given kemId
      */

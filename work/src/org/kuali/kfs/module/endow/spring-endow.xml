@@ -120,8 +120,8 @@
     	<property name="parameterService">
     	 <ref bean="parameterService" />
 		</property>		
-		<property name="kemidCurrentCashOpenRecordsService">
-			<ref bean="kemidCurrentCashOpenRecordsService" />
+		<property name="kemidCurrentCashService">
+			<ref bean="kemidCurrentCashService" />
 		</property>
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
@@ -1278,8 +1278,8 @@
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
-		<property name="kemidCurrentCashOpenRecordsService">
-			<ref bean="kemidCurrentCashOpenRecordsService" />
+		<property name="kemidCurrentCashService">
+			<ref bean="kemidCurrentCashService" />
 		</property>
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
@@ -1863,6 +1863,15 @@
         </property>
     </bean>
     
+    <bean id="kemidCurrentBalanceDetailLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.KEMIDCurrentBalanceDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	</bean>
+
+	<bean id="kemidCurrentBalanceDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="kemidCurrentBalanceDetailLookupableHelperService" />
+		</property>
+	</bean>
+    
 	<bean id="typeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TypeCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -1911,7 +1920,7 @@
 		</property>				
 	</bean>
 	
-	<bean id="kemidCurrentCashOpenRecordsService" class="org.kuali.kfs.module.endow.document.service.impl.KemidCurrentCashOpenRecordsServiceImpl">
+	<bean id="kemidCurrentCashService" class="org.kuali.kfs.module.endow.document.service.impl.KemidCurrentCashServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				

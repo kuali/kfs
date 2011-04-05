@@ -266,6 +266,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="KEMIDCurrentBalanceDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="KEMID Current Balances Detail Lookup" />
+    <property name="lookupableID" value="kemidCurrentBalanceDetailLookupable" />
     
     <property name="defaultSort" >
       <bean parent="SortDefinition">

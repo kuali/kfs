@@ -45,7 +45,7 @@ import org.kuali.kfs.module.endow.document.CashTransferDocument;
 import org.kuali.kfs.module.endow.document.EndowmentToGLTransferOfFundsDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
+import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -65,6 +65,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+
 @Transactional
 public class CreateRecurringCashTransferTransactionsServiceImpl implements CreateRecurringCashTransferTransactionsService {
 
@@ -76,7 +77,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private DocumentService documentService;
     private ParameterService parameterService;
     private KualiRuleService kualiRuleService;
-    private KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
+    private KemidCurrentCashService kemidCurrentCashService;
     private HoldingTaxLotService holdingTaxLotService;
 
     private KualiConfigurationService configService;
@@ -158,7 +159,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             CashTransferDocument cashTransferDoc = createCashTransferDocument(sourceKemid, transferNumber);
             List<EndowmentRecurringCashTransferKEMIDTarget> kemidTargets = cashTransfer.getKemidTarget();
 
-            
+
             for (EndowmentRecurringCashTransferKEMIDTarget kemidTarget : kemidTargets) {
                 KualiDecimal transactionAmount = calculateCashTransferTransactionAmount(kemidTarget, cashEquivalents, sourceKemid, lastProcessDate);
 
@@ -197,9 +198,9 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         allTotalReportLine.incrementTotalTransferAmount(subTotalReportLine.getTotalTransferAmount());
         allTotalReportLine.incrementTargetLinesGenerated(subTotalReportLine.getTargetLinesGenerated());
     }
-    
-    protected KualiDecimal calculateCashTransferTransactionAmount(EndowmentRecurringCashTransferKEMIDTarget kemidTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate){
-        
+
+    protected KualiDecimal calculateCashTransferTransactionAmount(EndowmentRecurringCashTransferKEMIDTarget kemidTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate) {
+
         // check if it is calculation scenario 1
         if (ObjectUtils.isNotNull(kemidTarget.getTargetPercent()) && ObjectUtils.isNotNull(kemidTarget.getTargetUseEtranCode())) {
             // retrieves transactionArchives and calculated source cash
@@ -220,10 +221,12 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         // check if it is calculation scenario 3
         else if (ObjectUtils.isNotNull(kemidTarget.getTargetAmount())) {
             return kemidTarget.getTargetAmount();
-        } else return KualiDecimal.ZERO;
+        }
+        else
+            return KualiDecimal.ZERO;
     }
-    
-    
+
+
     // calculate when EGLT
     protected void calculateGlCashTransfers(Collection<EndowmentRecurringCashTransfer> glCashTransfers) {
         for (EndowmentRecurringCashTransfer glCashTransfer : glCashTransfers) {
@@ -277,8 +280,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         allTotalReportLine.incrementTotalTransferAmount(subTotalReportLine.getTotalTransferAmount());
         allTotalReportLine.incrementTargetLinesGenerated(subTotalReportLine.getTargetLinesGenerated());
     }
-    
-    protected KualiDecimal calculateGlCashTransferTransactionAmount(EndowmentRecurringCashTransferGLTarget glTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate){
+
+    protected KualiDecimal calculateGlCashTransferTransactionAmount(EndowmentRecurringCashTransferGLTarget glTarget, KualiDecimal cashEquivalents, String sourceKemid, Date lastProcessDate) {
         // check if it is calculation scenario 1
         if (ObjectUtils.isNotNull(glTarget.getTargetPercent()) && ObjectUtils.isNotNull(glTarget.getTargetUseEtranCode())) {
             // retrieves transactionArchives and calculated source cash
@@ -298,14 +301,16 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         // check if it is calculation scenario 3
         else if (ObjectUtils.isNotNull(glTarget.getTargetFdocLineAmount())) {
             return glTarget.getTargetFdocLineAmount();
-        } else return KualiDecimal.ZERO;
+        }
+        else
+            return KualiDecimal.ZERO;
     }
 
     protected KualiDecimal calculateTotalCashEquivalents(EndowmentRecurringCashTransfer endowmentRecurringCashTransfer) {
         // spec 10.2
         KualiDecimal totalCashEquivalents = KualiDecimal.ZERO;
         String kemid = endowmentRecurringCashTransfer.getSourceKemid();
-        KemidCurrentCash currentCash = kemidCurrentCashOpenRecordsService.getByPrimaryKey(kemid);
+        KemidCurrentCash currentCash = kemidCurrentCashService.getByPrimaryKey(kemid);
         if (endowmentRecurringCashTransfer.getSourceIncomeOrPrincipal().equals(EndowConstants.EndowmentTransactionTypeCodes.INCOME_TYPE_CODE)) {
             totalCashEquivalents = currentCash.getCurrentIncomeCash().add(new KualiDecimal(holdingTaxLotService.getMarketValueForCashEquivalentsForAvailableIncomeCash(kemid)));
         }
@@ -747,8 +752,8 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
      * 
      * @param kemidCurrentCashOpenRecordsService The kemidCurrentCashOpenRecordsService to set.
      */
-    public void setKemidCurrentCashOpenRecordsService(KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService) {
-        this.kemidCurrentCashOpenRecordsService = kemidCurrentCashOpenRecordsService;
+    public void setKemidCurrentCashService(KemidCurrentCashService kemidCurrentCashService) {
+        this.kemidCurrentCashService = kemidCurrentCashService;
     }
 
     public void setHoldingTaxLotService(HoldingTaxLotService holdingTaxLotService) {

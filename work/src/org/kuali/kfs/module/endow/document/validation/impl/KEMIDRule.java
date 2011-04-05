@@ -41,7 +41,7 @@ import org.kuali.kfs.module.endow.businessobject.KemidReportGroup;
 import org.kuali.kfs.module.endow.businessobject.KemidSourceOfFunds;
 import org.kuali.kfs.module.endow.businessobject.KemidSpecialInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
-import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
+import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
 import org.kuali.kfs.module.endow.document.service.KemidHoldingTaxLotOpenRecordsService;
 import org.kuali.kfs.module.endow.document.service.ValidateDateBasedOnFrequencyCodeService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -720,7 +720,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
 
         if (newKemid.isClose()) {
             String kemid = newKemid.getKemid();
-            boolean hasOpenRecords = SpringContext.getBean(KemidCurrentCashOpenRecordsService.class).hasKemidOpenRecordsInCurrentCash(kemid);
+            boolean hasOpenRecords = SpringContext.getBean(KemidCurrentCashService.class).hasKemidOpenRecordsInCurrentCash(kemid);
 
             valid = !hasOpenRecords;
 

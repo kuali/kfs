@@ -19,22 +19,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
-import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
+import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This KemidCurrentCashOpenRecordsServiceImpl class provides the implementation for the method to test whether a KEMID has open
+ * This KemidCurrentCashServiceImpl class provides the implementation for the method to test whether a KEMID has open
  * records in Current Cash: records with values greater or less than zero.
  */
-public class KemidCurrentCashOpenRecordsServiceImpl implements KemidCurrentCashOpenRecordsService {
+public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
 
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService#hasKemidOpenRecordsInCurrentCash(java.lang.String)
+     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashService#hasKemidOpenRecordsInCurrentCash(java.lang.String)
      */
     public boolean hasKemidOpenRecordsInCurrentCash(String kemid) {
         boolean hasOpenRecords = false;
@@ -53,7 +52,7 @@ public class KemidCurrentCashOpenRecordsServiceImpl implements KemidCurrentCashO
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService#getByPrimaryKey(String)
+     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashService#getByPrimaryKey(String)
      * Gets the current cash record for the given kemId
      * @param kemId
      * @return KemidCurrentCash the record with the given kemId
@@ -82,6 +81,18 @@ public class KemidCurrentCashOpenRecordsServiceImpl implements KemidCurrentCashO
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    @Override
+    public boolean hasIncomeCrntCashWithNoCSHEQHoldings(String kemid) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean hasPrincipalCrntCashWithNoCSHEQHoldings(String kemid) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

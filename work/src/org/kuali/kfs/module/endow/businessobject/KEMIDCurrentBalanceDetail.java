@@ -38,6 +38,9 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
     private BigDecimal remainderOfFYEstimatedIncome;
     private BigDecimal nextFYEstimatedIncome;
 
+    // not persisted; used to tell whether there will be a drill down on value at market
+    private boolean noDrillDownOnMarketVal;
+
     private KEMID kemidObj;
     private SecurityReportingGroup reportingGroup;
     private IncomePrincipalIndicator ipIndicator;
@@ -288,6 +291,26 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
      */
     public void setReportingGroup(SecurityReportingGroup reportingGroup) {
         this.reportingGroup = reportingGroup;
+    }
+
+
+    /**
+     * Gets the noDrillDownOnMarketVal.
+     * 
+     * @return noDrillDownOnMarketVal
+     */
+    public boolean isNoDrillDownOnMarketVal() {
+        return noDrillDownOnMarketVal;
+    }
+
+
+    /**
+     * Sets the noDrillDownOnMarketVal.
+     * 
+     * @param noDrillDownOnMarketVal
+     */
+    public void setNoDrillDownOnMarketVal(boolean noDrillDownOnMarketVal) {
+        this.noDrillDownOnMarketVal = noDrillDownOnMarketVal;
     }
 
 }

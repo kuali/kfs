@@ -50,7 +50,7 @@ public class KEMIDCurrentBalanceDetailInquirable extends KfsInquirableImpl {
         boolean isPrincipal = EndowPropertyConstants.KEMID_CRNT_BAL_DET_PRIN_AT_MARKET.equals(attributeName);
         boolean isPrincipalNotNullOrZero = ObjectUtils.isNotNull(currentBalanceDetail.getPrincipalAtMarket()) && (currentBalanceDetail.getPrincipalAtMarket().compareTo(BigDecimal.ZERO) != 0);
 
-        if ((isIncome && isIncomeNotNullOrZero) || (isPrincipal && isPrincipalNotNullOrZero)) {
+        if (!currentBalanceDetail.isNoDrillDownOnMarketVal() && ((isIncome && isIncomeNotNullOrZero) || (isPrincipal && isPrincipalNotNullOrZero))) {
 
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);

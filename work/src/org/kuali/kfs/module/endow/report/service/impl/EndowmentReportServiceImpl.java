@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -44,8 +45,6 @@ import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.BenefittingForFooter;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.CampusImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -54,6 +53,8 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class EndowmentReportServiceImpl implements EndowmentReportService {
+    
+    protected final static String ALL_VALUES = "ALL";
     
     protected BusinessObjectService businessObjectService;
     protected ParameterService parameterService;
@@ -86,19 +87,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingCampuses(java.util.List)
      */
     public String getBenefittingCampuses(List<String> campuses) {        
-        StringBuffer orgCampuses = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(campuses) && !campuses.isEmpty()) {
             List<String> campusList = kemidBenefittingOrganizationDao.getCampusCodes(EndowPropertyConstants.CA_ORG_CAMPUS_CD, campuses);
-            for (String campus : campusList) {
-                orgCampuses.append(campus).append(" ");
-            }
-        } 
-        
-        if (orgCampuses.toString().isEmpty()) {
-            orgCampuses.append("ALL");    
-        }
-        
-        return orgCampuses.toString();
+            result = getListWithSeparator(campuses, ALL_VALUES);
+        }         
+        return result;
     }
     
     /**
@@ -106,19 +100,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingCharts(java.util.List)
      */
     public String getBenefittingCharts(List<String> charts) {
-        StringBuffer orgCharts = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(charts) && !charts.isEmpty()) {
             List<String> chartList = kemidBenefittingOrganizationDao.getAttributeValues(EndowPropertyConstants.KEMID_BENE_CHRT_CD, charts);
-            for (String chart : chartList) {
-                orgCharts.append(chart).append(" ");
-            }
+            result = getListWithSeparator(chartList, ALL_VALUES);
         } 
-        
-        if (orgCharts.toString().isEmpty()) {
-            orgCharts.append("ALL");    
-        }
-        
-        return orgCharts.toString();
+        return result; 
     }
     
     /**
@@ -126,19 +113,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getBenefittingOrganizations(java.util.List)
      */
     public String getBenefittingOrganizations(List<String> organizations) {
-        StringBuffer orgs = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(organizations) && !organizations.isEmpty()) {
             List<String> organizationList = kemidBenefittingOrganizationDao.getAttributeValues(EndowPropertyConstants.KEMID_BENE_ORG_CD, organizations);
-            for (String org : organizationList) {
-                orgs.append(org).append(" ");
-            }
+            result = getListWithSeparator(organizationList, ALL_VALUES);
         } 
-        
-        if (orgs.toString().isEmpty()) {
-            orgs.append("ALL");    
-        }
-        
-        return orgs.toString();   
+        return result;   
     }
     
     /**
@@ -146,19 +126,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidTypeCodes(java.util.List)
      */
     public String getKemidTypeCodes(List<String> kemidTypeCodes) {
-        StringBuffer typeCodes = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(kemidTypeCodes) && !kemidTypeCodes.isEmpty()) {
             List<String> typeCodeList = kemidDao.getAttributeValues(EndowPropertyConstants.KEMID_TYPE_CODE, kemidTypeCodes);
-            for (String typeCode : typeCodeList) {
-                typeCodes.append(typeCode).append(" ");
-            }
-        }
-        
-        if (typeCodes.toString().isEmpty()) {
-            typeCodes.append("ALL");    
+            result = getListWithSeparator(typeCodeList, ALL_VALUES);
         } 
-        
-        return typeCodes.toString();
+        return result;
     }
     
     /**
@@ -166,19 +139,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidPurposeCodes(java.util.List)
      */
     public String getKemidPurposeCodes(List<String> kemidPurposes) {
-        StringBuffer purposes = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(kemidPurposes) && !kemidPurposes.isEmpty()) {
             List<String> purposeList = kemidDao.getAttributeValues(EndowPropertyConstants.KEMID_PRPS_CD, kemidPurposes);
-            for (String purpose : purposeList) {
-                purposes.append(purpose).append(" ");
-            }
+            result = getListWithSeparator(purposeList, ALL_VALUES);
         } 
-        
-        if (purposes.toString().isEmpty()) {
-            purposes.append("ALL");    
-        }
-        
-        return purposes.toString();
+        return result;
     }
     
     /**
@@ -186,19 +152,12 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getCombineGroupCodes(java.util.List)
      */
     public String getCombineGroupCodes(List<String> combineGroupCodes) {
-        StringBuffer groupCodes = new StringBuffer();
+        String result = "";
         if (ObjectUtils.isNotNull(combineGroupCodes) && !combineGroupCodes.isEmpty()) {
             List<String> groupCodeList = kemidReportGroupDao.getAttributeValues(EndowPropertyConstants.KEMID_REPORT_GRP_CD, combineGroupCodes);
-            for (String groupCode : groupCodeList) {
-                groupCodes.append(groupCode).append(" ");
-            }
+            result = getListWithSeparator(groupCodeList, ALL_VALUES);
         } 
-        
-        if (groupCodes.toString().isEmpty()) {
-            groupCodes.append("ALL");    
-        }
-        
-        return groupCodes.toString();
+        return result;
     }
     
     /**
@@ -224,7 +183,7 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         reportRequestHeaderDataHolder.setReportRequested(reportName);
         reportRequestHeaderDataHolder.setRequestedBy(getReportRequestor());
         String endowmentOptionDesc = "";
-        if ("B".equalsIgnoreCase(endowmnetOption)) {
+        if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(endowmnetOption)) {
             endowmentOptionDesc = EndowConstants.EndowmentReport.BOTH_ENDOWMENT_OPTION;
         } else {
             endowmentOptionDesc = EndowConstants.YES.equalsIgnoreCase(endowmnetOption) ? EndowConstants.EndowmentReport.ENDOWMENT : EndowConstants.EndowmentReport.NON_ENDOWED;
@@ -232,11 +191,11 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         reportRequestHeaderDataHolder.setEndowmentOption(endowmentOptionDesc);
         String reportOptionDesc = "";
         if (reportOption != null) {
-            if ("B".equalsIgnoreCase(reportOption)) {
+            if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(reportOption)) {
                 reportOptionDesc = EndowConstants.EndowmentReport.BOTH_REPORT_OPTION;
-            } else if ("D".equalsIgnoreCase(reportOption)) {
+            } else if (EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
                 reportOptionDesc = EndowConstants.EndowmentReport.DETAIL_REPORT; 
-            } else if ("T".equalsIgnoreCase(reportOption)) {
+            } else if (EndowConstants.EndowmentReport.TOTAL.equalsIgnoreCase(reportOption)) {
                 reportOptionDesc = EndowConstants.EndowmentReport.TOTAL_REPORT;
             }
         }
@@ -471,8 +430,8 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
      */
     protected Organization getOrganization(String chartCode, String organizationCode) {
         Map<String,Object> primaryKeys = new HashMap<String,Object>();
-        primaryKeys.put("chartOfAccountsCode", chartCode);
-        primaryKeys.put("organizationCode", organizationCode);
+        primaryKeys.put(EndowPropertyConstants.CA_ORG_CHRT_CD, chartCode);
+        primaryKeys.put(EndowPropertyConstants.CA_ORG_CD, organizationCode);
         return (Organization) businessObjectService.findByPrimaryKey(Organization.class, primaryKeys);
     }
     
@@ -516,6 +475,22 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
         
         return footerDataHolder;
     }
+    
+    
+    /**
+     * Concatenate strings with a separator
+     * 
+     * @param stringList
+     * @param defaultEmptyValue
+     * @return
+     */
+    protected String getListWithSeparator(List<String> stringList, String defaultEmptyValue) {
+        final String SEPARATOR = " ";
+        StrBuilder builder = new StrBuilder();
+        builder = builder.appendWithSeparators(stringList, SEPARATOR);
+        return builder.isEmpty() ?  defaultEmptyValue : builder.toString();
+    }
+    
     /**
      * 
      * @see org.kuali.kfs.module.endow.report.service.TrialBalanceReportService#getKemidsWithMultipleBenefittingOrganizations(java.util.List)

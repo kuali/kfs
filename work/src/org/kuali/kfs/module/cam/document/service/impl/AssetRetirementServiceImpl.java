@@ -293,7 +293,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
             Asset asset = assetRetirementGlobalDetail.getAsset();
 
             for (AssetPayment assetPayment : asset.getAssetPayments()) {
-                if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment)) {
+                if (!getAssetPaymentService().isPaymentFederalOwned(assetPayment) && !("Y".equals(assetPayment.getTransferPaymentCode()))) {
                     List<GeneralLedgerPendingEntrySourceDetail> postables = generateGlPostablesForOnePayment(assetRetirementGlobal.getDocumentNumber(), assetRetirementGlPoster, asset, assetPayment);
                     assetRetirementGlPoster.getPostables().addAll(postables);
                 }

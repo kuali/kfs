@@ -83,13 +83,11 @@ public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
         this.businessObjectService = businessObjectService;
     }
 
-    @Override
     public boolean hasIncomeCrntCashWithNoCSHEQHoldings(String kemid) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean hasPrincipalCrntCashWithNoCSHEQHoldings(String kemid) {
         // TODO Auto-generated method stub
         return false;

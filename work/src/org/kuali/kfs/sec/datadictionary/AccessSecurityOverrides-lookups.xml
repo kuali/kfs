@@ -44,11 +44,6 @@
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-rsmart-parentBean"/>
-    <bean id="OrgReviewRole-lookupDefinition-rsmart-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-parentBean">
-        <property name="lookupableID" value="securityLookupable"/>   
-    </bean>    
-    
     <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-rsmart-parentBean"/>
     <bean id="ProjectCode-lookupDefinition-rsmart-parentBean" abstract="true" parent="ProjectCode-lookupDefinition-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
@@ -77,5 +72,10 @@
     <bean id="ObjectLevel-lookupDefinition" parent="ObjectLevel-lookupDefinition-rsmart-parentBean"/>
     <bean id="ObjectLevel-lookupDefinition-rsmart-parentBean" abstract="true" parent="ObjectLevel-lookupDefinition-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
-    </bean>    
+    </bean>  
+    
+    <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-rsmart-parentBean"/>
+    <bean id="OrgReviewRole-lookupDefinition-rsmart-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-parentBean">
+        <property name="lookupableID" value="securityOrgReviewRoleLookupable"/>   
+    </bean>         
 </beans>        

@@ -118,7 +118,7 @@ public class SecurityModelMaintainableImpl extends FinancialSystemMaintainable {
 
         String roleName = newSecurityModel.getName();
 
-        String roleId = oldSecurityModel.getRoleId();
+        String roleId = newSecurityModel.getRoleId();
         if (StringUtils.isBlank(roleId)) {
             // get new id for role
             roleId = roleService.getNextAvailableRoleId();

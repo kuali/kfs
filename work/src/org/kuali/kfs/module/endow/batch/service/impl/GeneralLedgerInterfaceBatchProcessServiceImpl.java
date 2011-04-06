@@ -341,7 +341,9 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         
         //create the offset or (loss/gain entry for EAD) document types where subtype is Non-Cash
-        success = createOffsetEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
+        if (!EndowConstants.DocumentTypeNames.ENDOWMENT_CORPORATE_REORGANZATION.equalsIgnoreCase(transactionArchive.getTypeCode())) {
+            success = createOffsetEntry(oef, transactionArchive, OUTPUT_KEM_TO_GL_DATA_FILE_ps, statisticsDataRow);
+        }
         
         return success;
     }
@@ -499,7 +501,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
             oef.setTransactionLedgerEntryDescription(getTransactionDescription(transactionArchive, postedDate));
             BigDecimal transactionAmount = getTransactionAmount(transactionArchive);
             oef.setTransactionLedgerEntryAmount(new KualiDecimal(transactionAmount.abs()));
-            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionAmount, transactionArchive.getSubTypeCode()));
+            oef.setTransactionDebitCreditCode(getTransactionDebitCreditCode(transactionArchive.getTypeCode(), transactionAmount, transactionArchive.getSubTypeCode()));
         }
         catch (Exception ex) {
             statisticsDataRow.increaseNumberOfExceptionsCount();
@@ -555,13 +557,22 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * @param subTypeCode
      * @return transaction debit or credit code
      */
-    protected String getTransactionDebitCreditCode(BigDecimal transactionAmount, String subTypeCode) {
+    protected String getTransactionDebitCreditCode(String documentType, BigDecimal transactionAmount, String subTypeCode) {
         if (subTypeCode.equalsIgnoreCase(EndowConstants.TransactionSubTypeCode.CASH)) {
             if (transactionAmount.compareTo(BigDecimal.ZERO) == 1) {
-                return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+                if (EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE.equalsIgnoreCase(documentType)) {
+                    return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+                } else {
+                    return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);
+                }
             }
             else {
-                return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+                if (EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE.equalsIgnoreCase(documentType)) {
+                    return (EndowConstants.KemToGLInterfaceBatchProcess.CREDIT_CODE);   
+                }
+                else {
+                    return (EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE);
+                }
             }
         }
         else {
@@ -661,7 +672,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         }
         else {
             totalAmount = getTransactionAmount(transactionArchive);
-            debitCreditCode = getTransactionDebitCreditCode(totalAmount, transactionArchive.getSubTypeCode());            
+            debitCreditCode = getTransactionDebitCreditCode(transactionArchive.getTypeCode(), totalAmount, transactionArchive.getSubTypeCode());            
         }
         
         if (debitCreditCode.equalsIgnoreCase(EndowConstants.KemToGLInterfaceBatchProcess.DEBIT_CODE)) {

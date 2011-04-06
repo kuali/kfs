@@ -487,6 +487,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
     protected EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(EndowPropertyConstants.DOCUMENT_NUMBER, tranLine.getDocumentNumber());
+        primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, tranLine.getTransactionLineTypeCode());
+        
         EndowmentTransactionSecurity tranSecurity = (EndowmentTransactionSecurity) businessObjectService.findByPrimaryKey(EndowmentTransactionSecurity.class, primaryKeys);
 
         return tranSecurity;

@@ -25,8 +25,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * This KemidCurrentCashServiceImpl class provides the implementation for the method to test whether a KEMID has open
- * records in Current Cash: records with values greater or less than zero.
+ * This KemidCurrentCashServiceImpl class provides the implementation for the method to test whether a KEMID has open records in
+ * Current Cash: records with values greater or less than zero.
  */
 public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
 
@@ -52,8 +52,8 @@ public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashService#getByPrimaryKey(String)
-     * Gets the current cash record for the given kemId
+     * @see org.kuali.kfs.module.endow.document.service.KemidCurrentCashService#getByPrimaryKey(String) Gets the current cash record
+     *      for the given kemId
      * @param kemId
      * @return KemidCurrentCash the record with the given kemId
      */
@@ -64,7 +64,7 @@ public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
 
         return (KemidCurrentCash) businessObjectService.findByPrimaryKey(KemidCurrentCash.class, primaryKey);
     }
-    
+
     /**
      * Gets the businessObjectService.
      * 
@@ -81,16 +81,6 @@ public class KemidCurrentCashServiceImpl implements KemidCurrentCashService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    public boolean hasIncomeCrntCashWithNoCSHEQHoldings(String kemid) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean hasPrincipalCrntCashWithNoCSHEQHoldings(String kemid) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
 }

@@ -29,18 +29,23 @@ import org.kuali.kfs.module.endow.document.service.impl.KemidCurrentCashServiceI
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
 
-    @Override
+    /**
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<KEMIDCurrentBalanceDetail> results = (List<KEMIDCurrentBalanceDetail>) super.getSearchResults(fieldValues);
 
-        // check if there are cash equivalents in the result
+        // check if there are cash equivalents in the results list
         boolean incCashEq = false;
         boolean princCashEq = false;
+
         for (KEMIDCurrentBalanceDetail balanceDetail : results) {
             if (EndowConstants.SecurityReportingGroups.CASH_EQUIVALENTS.equalsIgnoreCase(balanceDetail.getReportingGroupCode())) {
+
                 if (EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(balanceDetail.getIncomePrincipalIndicator())) {
                     incCashEq = true;
                 }
@@ -56,53 +61,69 @@ public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLooku
 
         if (!incCashEq || !princCashEq) {
             String kemid = fieldValues.get(EndowPropertyConstants.KEMID);
-            // check if there is current income cash
+            // check if there is current income/principal cash
             KemidCurrentCashServiceImpl kemidCurrentCashService = SpringContext.getBean(KemidCurrentCashServiceImpl.class);
             KemidCurrentCash currentCash = kemidCurrentCashService.getByPrimaryKey(kemid);
 
-            if (!incCashEq) {
-                KEMIDCurrentBalanceDetail balanceDetail = new KEMIDCurrentBalanceDetail();
-                balanceDetail.setKemid(fieldValues.get(kemid));
-                balanceDetail.setReportingGroupCode(EndowConstants.SecurityReportingGroups.CASH_EQUIVALENTS);
-                balanceDetail.setValueAtMarket(currentCash.getCurrentIncomeCash().bigDecimalValue());
-                balanceDetail.setIncomePrincipalIndicator(EndowConstants.IncomePrincipalIndicator.INCOME);
+            if (ObjectUtils.isNotNull(currentCash)) {
+                // if there is an entry in the current cash for the kemid, and there is income current cash but there were no
+                // holdings for this kemid for CSHEQ reporting group add a new entry in the results list to show the current income
+                // cash
+                if (!incCashEq && currentCash.getCurrentIncomeCash().isNonZero()) {
+                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCHEQ(kemid, EndowConstants.IncomePrincipalIndicator.INCOME, currentCash);
 
-                Map<String, String> keys = new HashMap<String, String>();
-                keys.put(EndowPropertyConstants.KUALICODEBASE_CODE, EndowConstants.IncomePrincipalIndicator.INCOME);
-                IncomePrincipalIndicator incomePrincipalIndicator = (IncomePrincipalIndicator) businessObjectService.findByPrimaryKey(IncomePrincipalIndicator.class, keys);
-                balanceDetail.setIpIndicator(incomePrincipalIndicator);
+                    results.add(balanceDetail);
+                }
 
-                balanceDetail.setAnnualEstimatedIncome(BigDecimal.ZERO);
-                balanceDetail.setNextFYEstimatedIncome(BigDecimal.ZERO);
-                balanceDetail.setRemainderOfFYEstimatedIncome(BigDecimal.ZERO);
+                // if there is an entry in the current cash for the kemid, and there is principal current cash but there were no
+                // holdings for this kemid for CSHEQ reporting group add a new entry in the results list to show the current
+                // principal cash
+                if (!princCashEq && currentCash.getCurrentPrincipalCash().isNonZero()) {
+                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCHEQ(kemid, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, currentCash);
 
-                balanceDetail.setNoDrillDownOnMarketVal(true);
-
-                results.add(balanceDetail);
-            }
-            if (!princCashEq) {
-                KEMIDCurrentBalanceDetail balanceDetail = new KEMIDCurrentBalanceDetail();
-                balanceDetail.setKemid(fieldValues.get(kemid));
-                balanceDetail.setReportingGroupCode(EndowConstants.SecurityReportingGroups.CASH_EQUIVALENTS);
-                balanceDetail.setValueAtMarket(currentCash.getCurrentPrincipalCash().bigDecimalValue());
-                balanceDetail.setIncomePrincipalIndicator(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
-
-                Map<String, String> keys = new HashMap<String, String>();
-                keys.put(EndowPropertyConstants.KUALICODEBASE_CODE, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
-                IncomePrincipalIndicator incomePrincipalIndicator = (IncomePrincipalIndicator) businessObjectService.findByPrimaryKey(IncomePrincipalIndicator.class, keys);
-                balanceDetail.setIpIndicator(incomePrincipalIndicator);
-
-                balanceDetail.setAnnualEstimatedIncome(BigDecimal.ZERO);
-                balanceDetail.setNextFYEstimatedIncome(BigDecimal.ZERO);
-                balanceDetail.setRemainderOfFYEstimatedIncome(BigDecimal.ZERO);
-
-                balanceDetail.setNoDrillDownOnMarketVal(true);
-
-                results.add(balanceDetail);
+                    results.add(balanceDetail);
+                }
             }
         }
 
-
         return results;
+    }
+
+    /**
+     * Creates a new KEMIDCurrentBalanceDetail for CSHEQ reporting group. This method is used when there is an entry in the current
+     * cash for the kemid but there are no holdings.
+     * 
+     * @param kemid
+     * @param incomeOrPrincipal
+     * @param currentCash
+     * @return a new KEMIDCurrentBalanceDetail
+     */
+    private KEMIDCurrentBalanceDetail createCurrentBalanceDetailForCHEQ(String kemid, String incomeOrPrincipal, KemidCurrentCash currentCash) {
+
+        KEMIDCurrentBalanceDetail balanceDetail = new KEMIDCurrentBalanceDetail();
+        balanceDetail.setKemid(kemid);
+        balanceDetail.setReportingGroupCode(EndowConstants.SecurityReportingGroups.CASH_EQUIVALENTS);
+        balanceDetail.setIncomePrincipalIndicator(incomeOrPrincipal);
+
+
+        if (EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(incomeOrPrincipal)) {
+            balanceDetail.setValueAtMarket(currentCash.getCurrentIncomeCash().bigDecimalValue());
+        }
+        else {
+            balanceDetail.setValueAtMarket(currentCash.getCurrentPrincipalCash().bigDecimalValue());
+        }
+
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put(EndowPropertyConstants.KUALICODEBASE_CODE, incomeOrPrincipal);
+        IncomePrincipalIndicator incomePrincipalIndicator = (IncomePrincipalIndicator) businessObjectService.findByPrimaryKey(IncomePrincipalIndicator.class, keys);
+        balanceDetail.setIpIndicator(incomePrincipalIndicator);
+
+        balanceDetail.setAnnualEstimatedIncome(BigDecimal.ZERO.setScale(2));
+        balanceDetail.setNextFYEstimatedIncome(BigDecimal.ZERO.setScale(2));
+        balanceDetail.setRemainderOfFYEstimatedIncome(BigDecimal.ZERO.setScale(2));
+
+        balanceDetail.setNoDrillDownOnMarketVal(true);
+
+        return balanceDetail;
     }
 }

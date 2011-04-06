@@ -31,9 +31,6 @@ public interface KemidCurrentCashService {
      */
     public boolean hasKemidOpenRecordsInCurrentCash(String kemid);
 
-    public boolean hasIncomeCrntCashWithNoCSHEQHoldings(String kemid);
-
-    public boolean hasPrincipalCrntCashWithNoCSHEQHoldings(String kemid);
 
     /**
      * Gets the current cash record for the given kemId

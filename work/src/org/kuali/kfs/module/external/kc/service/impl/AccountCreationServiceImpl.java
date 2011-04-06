@@ -180,8 +180,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
         account.setIncomeStreamAccountNumber(defaults.getIncomeStreamAccountNumber());
-        account.setIncomeStreamChartOfAccounts(new Chart());
-        account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamChartOfAccounts());
+        account.setIncomeStreamFinancialCoaCode(defaults.getIncomeStreamFinancialCoaCode());
         
         account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
         account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());

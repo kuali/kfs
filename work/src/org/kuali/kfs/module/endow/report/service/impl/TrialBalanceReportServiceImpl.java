@@ -69,9 +69,12 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
             
             // get income cash balance, principal cash balance            
             KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findByPrimaryKey(KemidCurrentCash.class, primaryKeys);
+            BigDecimal subTotalKemidTotalMarketValue = BigDecimal.ZERO;  
             if (ObjectUtils.isNotNull(kemidCurrentCash)) {
                 trialBalanceReport.setInocmeCashBalance(kemidCurrentCash.getCurrentIncomeCash());
-                trialBalanceReport.setPrincipalcashBalance(kemidCurrentCash.getCurrentPrincipalCash());   
+                trialBalanceReport.setPrincipalcashBalance(kemidCurrentCash.getCurrentPrincipalCash());
+                // add the cash amount to market value
+                subTotalKemidTotalMarketValue = subTotalKemidTotalMarketValue.add(kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue()).add(kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue());
             } else {
                 trialBalanceReport.setInocmeCashBalance(KualiDecimal.ZERO);
                 trialBalanceReport.setPrincipalcashBalance(KualiDecimal.ZERO);  
@@ -85,8 +88,7 @@ public class TrialBalanceReportServiceImpl extends EndowmentReportServiceImpl im
                 trialBalanceReport.setAvailableExpendableFunds(BigDecimal.ZERO);
             }
             
-            // get sub total market value, FY remainder estimated income 
-            BigDecimal subTotalKemidTotalMarketValue = BigDecimal.ZERO;            
+            // get sub total market value, FY remainder estimated income                       
             BigDecimal subTotalRemainderEstimatedIncome = BigDecimal.ZERO;            
             List<CurrentTaxLotBalance> CurrentTaxLotBalanceRecords = (List<CurrentTaxLotBalance>) businessObjectService.findMatching(CurrentTaxLotBalance.class, primaryKeys);
             if (ObjectUtils.isNotNull(CurrentTaxLotBalanceRecords)) {

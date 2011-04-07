@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
@@ -355,6 +356,11 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
         if (cashType) {
             incomeAmount = incomeAmount.add(kemArchiveTransaction.getTransactionArchiveIncomeAmount());
             principalAmount = principalAmount.add(kemArchiveTransaction.getTransactionArchivePrincipalAmount());
+            if (EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE.equalsIgnoreCase(kemArchiveTransaction.getTypeCode())) {
+                holdingAmount = holdingAmount.add(kemArchiveTransaction.getHoldingCost());
+                shortTermAmount = shortTermAmount.add(kemArchiveTransaction.getShortTermGainLoss());
+                longTermAmount = longTermAmount.add(kemArchiveTransaction.getLongTermGainLoss());
+            }
         }
         else {
             holdingAmount = holdingAmount.add(kemArchiveTransaction.getHoldingCost());
@@ -403,6 +409,11 @@ public class GLCombinedTransactionArchive extends TransientBusinessObjectBase {
             glKemLine.setHoldingCost(BigDecimal.ZERO);
             glKemLine.setLongTermGainLoss(BigDecimal.ZERO);
             glKemLine.setShortTermGainLoss(BigDecimal.ZERO);
+            if (glKemLine.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE)) {
+                glKemLine.setHoldingCost(holdingAmount);
+                glKemLine.setShortTermGainLoss(shortTermAmount);
+                glKemLine.setLongTermGainLoss(longTermAmount);
+            }                
         }
         else {
             glKemLine.setTransactionArchiveIncomeAmount(BigDecimal.ZERO);

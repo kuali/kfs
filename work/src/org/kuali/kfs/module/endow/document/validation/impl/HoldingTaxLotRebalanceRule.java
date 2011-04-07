@@ -120,8 +120,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total units are balanced
      */
-    protected boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject,
-                                       HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject, HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         
@@ -139,7 +138,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
         
         // Determine if the calculated total value of all the tax lots is still equal
         // to the original total i.e. is still balanced.
-        if (!totalNewUnits.equals(totalOldUnits)) {
+        if (totalNewUnits.compareTo(totalOldUnits) != 0) {
             putFieldError(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_LOTS_TAB, 
                     EndowKeyConstants.HoldingTaxLotRebalanceConstants.ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED);
             isValid = false;
@@ -155,24 +154,24 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total cost is balanced
      */
-    protected boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject,
-                                      HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject, HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         // Calculate the total cost from the new and old documents to ensure
         // that they still match the original (old) document.
-        BigDecimal totalOldCost = new BigDecimal(0);
+        BigDecimal totalOldCost = BigDecimal.ZERO;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
             totalOldCost = totalOldCost.add(taxLot.getCost());
         }
-        BigDecimal totalNewCost = new BigDecimal(0);
+        
+        BigDecimal totalNewCost = BigDecimal.ZERO;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
             totalNewCost = totalNewCost.add(taxLot.getCost());
         }
         
         // Determine if the calculated total value of all the tax lots is still equal
         // to the original total i.e. is still balanced.
-        if (!totalNewCost.equals(totalOldCost)) {
+        if (totalNewCost.compareTo(totalOldCost) != 0) {
             putFieldError(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_LOTS_TAB, 
                     EndowKeyConstants.HoldingTaxLotRebalanceConstants.ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED);
             isValid = false;

@@ -230,6 +230,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         GlInterfaceBatchProcessKemLine transactionArchive = new GlInterfaceBatchProcessKemLine();
         
         //CASH description
+        transactionArchive.setTypeCode(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE);
         transactionArchive.setSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
         transactionArchive.setObjectCode(TEST_OBJECT_CODE);
         transactionArchive.setTransactionArchiveIncomeAmount(DEBIT_AMOUNT);
@@ -238,7 +239,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         
         BigDecimal transactionAmount = generalLedgerInterfaceBatchProcessServiceImpl.getTransactionAmount(transactionArchive);
         generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
-    //    assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
         //rest the values...
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
@@ -248,7 +249,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         transactionArchive.setHoldingCost(CREDIT_AMOUNT.negate());
         transactionAmount = transactionAmount.negate();
         generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
-      //  assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
+        assertTrue("Update Totals when Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
         //rest the values...
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
@@ -261,7 +262,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT);
         transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT);
         generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
-      //  assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
+        assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal));
         //rest the values...
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectCreditAmountSubTotal = BigDecimal.ZERO;
         generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal = BigDecimal.ZERO;
@@ -270,7 +271,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImplTest extends KualiTest
         transactionArchive.setShortTermGainLoss(SHORT_TERM_GAIN_LOSS_AMOUNT.negate());
         transactionArchive.setLongTermGainLoss(LONG_TERM_GAIN_LOSS_AMOUNT.negate());
         generalLedgerInterfaceBatchProcessServiceImpl.updateTotals(transactionArchive);        
-    //    assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
+        assertTrue("Update Totals when Non-Cash is subtypecode has failed.", transactionAmount.equals(generalLedgerInterfaceBatchProcessServiceImpl.chartObjectDebitAmountSubTotal));
         
         LOG.info("testUpdateTotals() exited.");        
     }

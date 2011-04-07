@@ -39,7 +39,7 @@ public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLooku
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<KEMIDCurrentBalanceDetail> results = (List<KEMIDCurrentBalanceDetail>) super.getSearchResults(fieldValues);
 
-        // check if there are cash equivalents in the results list
+        // check if there are entries with a CSHEQ reporting group in the results list
         boolean incCashEq = false;
         boolean princCashEq = false;
 
@@ -70,7 +70,7 @@ public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLooku
                 // holdings for this kemid for CSHEQ reporting group add a new entry in the results list to show the current income
                 // cash
                 if (!incCashEq && currentCash.getCurrentIncomeCash().isNonZero()) {
-                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCHEQ(kemid, EndowConstants.IncomePrincipalIndicator.INCOME, currentCash);
+                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCSHEQ(kemid, EndowConstants.IncomePrincipalIndicator.INCOME, currentCash);
 
                     results.add(balanceDetail);
                 }
@@ -79,7 +79,7 @@ public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLooku
                 // holdings for this kemid for CSHEQ reporting group add a new entry in the results list to show the current
                 // principal cash
                 if (!princCashEq && currentCash.getCurrentPrincipalCash().isNonZero()) {
-                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCHEQ(kemid, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, currentCash);
+                    KEMIDCurrentBalanceDetail balanceDetail = createCurrentBalanceDetailForCSHEQ(kemid, EndowConstants.IncomePrincipalIndicator.PRINCIPAL, currentCash);
 
                     results.add(balanceDetail);
                 }
@@ -98,9 +98,10 @@ public class KEMIDCurrentBalanceDetailLookupableHelperService extends KualiLooku
      * @param currentCash
      * @return a new KEMIDCurrentBalanceDetail
      */
-    private KEMIDCurrentBalanceDetail createCurrentBalanceDetailForCHEQ(String kemid, String incomeOrPrincipal, KemidCurrentCash currentCash) {
+    private KEMIDCurrentBalanceDetail createCurrentBalanceDetailForCSHEQ(String kemid, String incomeOrPrincipal, KemidCurrentCash currentCash) {
 
         KEMIDCurrentBalanceDetail balanceDetail = new KEMIDCurrentBalanceDetail();
+
         balanceDetail.setKemid(kemid);
         balanceDetail.setReportingGroupCode(EndowConstants.SecurityReportingGroups.CASH_EQUIVALENTS);
         balanceDetail.setIncomePrincipalIndicator(incomeOrPrincipal);

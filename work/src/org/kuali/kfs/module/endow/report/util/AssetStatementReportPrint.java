@@ -331,6 +331,11 @@ public class AssetStatementReportPrint extends EndowmentReportPrintBase {
         printAssetStatementReportBodyForNonEndowedTotal(nonEndowedAssetStatementReportDataHolders, document);
     }
     
+    /**
+     * Sets the page break
+     * 
+     * @param document
+     */
     protected void setNewPage(Document document) {
         try {
             document.newPage();

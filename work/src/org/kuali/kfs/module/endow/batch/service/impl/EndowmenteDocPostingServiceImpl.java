@@ -592,7 +592,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         tranArchive.setCorpusIndicator(tranLine.getCorpusIndicator());
 
         if (tranArchive.getCorpusIndicator()) {
-            tranArchive.setCorpusAmount(tranLine.getTransactionAmount().bigDecimalValue());
+            tranArchive.setCorpusAmount(transacationAmount);
         }
 
         tranArchive.setPostedDate(kemService.getCurrentDate());
@@ -617,12 +617,12 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranArchive, transacationAmount
      */
     protected void calculateTransactionArchiveAmount(TransactionArchive tranArchive, BigDecimal transactionAmount) {
-        if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE) ||
+        if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) ||
+                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE) ||
                 tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE) ||
-                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_INCREASE) ||
-                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
-                        tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) && 
-                        tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_TARGET)) {
+                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_INCREASE) || 
+                tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER)) && 
+                tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_TARGET)) {
             //now set the amount to either income or principal fields....
             if (tranArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
                 tranArchive.setIncomeCashAmount(transactionAmount);
@@ -630,12 +630,13 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             else {
                 tranArchive.setPrincipalCashAmount(transactionAmount);
             }
-        } 
+        }
         else {
             if ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE) ||
                     tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE) ||
                             tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE)) ||
                             ((tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER) || 
+                              tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER) ||      
                             tranArchive.getTypeCode().equalsIgnoreCase(EndowConstants.DocumentTypeNames.ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER)) && 
                             tranArchive.getLineTypeCode().equalsIgnoreCase(EndowConstants.TRANSACTION_LINE_TYPE_SOURCE))) {
                 //now set the amount to either income or principal fields....

@@ -24,6 +24,7 @@
         <ref bean="AwardAccount-active"/>
         <ref bean="AwardAccount-award.agency.reportingName"/>
         <ref bean="AwardAccount-award.grantNumber"/>
+        <ref bean="AwardAccount-award.cfdaNumber"/>
         <ref bean="AwardAccount-award.primeAgency.reportingName"/>
       </list>
     </property>
@@ -70,6 +71,7 @@
             <list>
               <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="award.awardNumber" p:targetName="awardNumber"/>
               <bean parent="SupportAttributeDefinition" p:sourceName="award.grantNumber" p:targetName="grantNumber"/>              
+              <bean parent="SupportAttributeDefinition" p:sourceName="award.cfdaNumber" p:targetName="cfdaNumber"/>
             </list>
           </property>          
         </bean>    
@@ -196,6 +198,14 @@
     <property name="name" value="award.grantNumber"/>
     <property name="label" value="Grant Number"/>
 	<property name="shortLabel" value="Grant Num"/>
+  </bean>
+
+  <bean id="AwardAccount-award.cfdaNumber" parent="AwardAccount-award.cfdaNumber-parentBean"/>
+
+  <bean id="AwardAccount-award.cfdaNumber-parentBean" abstract="true" parent="Award-cfdaNumber">
+    <property name="name" value="award.cfdaNumber"/>
+    <property name="label" value="CFDA Number"/>
+	<property name="shortLabel" value="CFDA Num"/>
   </bean>
 
   <bean id="AwardAccount-award.primeAgency.reportingName" parent="AwardAccount-award.primeAgency.reportingName-parentBean"/>

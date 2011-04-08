@@ -19,6 +19,7 @@
         <ref bean="Award-awardNumber"/>        
         <ref bean="Award-awardTitle"/>
         <ref bean="Award-grantNumber"/>
+        <ref bean="Award-cfdaNumber"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -129,6 +130,13 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="29"/>
     </property>
+  </bean>
+
+  <bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean"/>
+
+  <bean id="Award-cfdaNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" p:sourceAttributeName="cfdaNumber" > 
+	<property name="name" value="cfdaNumber"/>
+    <property name="required" value="false"/>
   </bean>
   
 <!-- Business Object Inquiry Definition -->

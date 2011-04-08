@@ -54,8 +54,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 					<value>indirectCostRcvyFinCoaCode</value>
 				</list>
 			</property> 
-		</bean>         
-        <bean parent="MaintainableFieldDefinition" p:name="accountCfdaNumber" p:noLookup="true"/>
+		</bean>                 
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>
     </property>

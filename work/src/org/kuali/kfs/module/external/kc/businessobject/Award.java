@@ -35,6 +35,7 @@ public class Award implements ContractsAndGrantsAward {
     private String primeAgencyNumber;
     private String awardTitle;
     private String grantNumber;
+    private String cfdaNumber;
     
     private Proposal proposal;
     private Agency agency;
@@ -47,7 +48,7 @@ public class Award implements ContractsAndGrantsAward {
     public Award() {
         awardAccounts = new TypedArrayList(AwardAccount.class);
     }
-
+    
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -164,6 +165,25 @@ public class Award implements ContractsAndGrantsAward {
 
     public void setGrantNumber(String grantNumber) {
         this.grantNumber = grantNumber;
+    }
+
+
+    /**
+     * Gets the cfdaNumber attribute.
+     * 
+     * @return Returns the cfdaNumber
+     */
+    public String getCfdaNumber() {
+        return cfdaNumber;
+    }
+
+    /**
+     * Sets the cfdaNumber attribute.
+     * 
+     * @param cfdaNumber The cfdaNumber to set.
+     */
+    public void setCfdaNumber(String cfdaNumber) {
+        this.cfdaNumber = cfdaNumber;
     }
 
 }

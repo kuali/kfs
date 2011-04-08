@@ -23,7 +23,7 @@
   				<property name="propertyName" value="inquirySections" />
 				<property name="propertyNameForElementCompare" value="title" />
   				<property name="element">
-  					<bean parent="InquirySectionDefinition" p:title="Account Description"/>			    	
+			    	<bean parent="InquirySectionDefinition" p:title="Account Description"/>
 			    </property>
   				<property name="insertAfter">
   					<list>
@@ -35,34 +35,34 @@
 			              <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
 			              <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
 			              <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
-			              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>			              
+			              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
+			              <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>
 			              <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
 			            </list>
 			          </property>
 			        </bean>
-			    
+	        
 			        <bean parent="InquirySectionDefinition" p:title="Awards">
 			          <property name="inquiryFields">
 			            <list>
 			              <bean parent="InquiryCollectionDefinition" p:attributeName="awards" p:businessObjectClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
 			                <property name="inquiryFields">
 			                  <list>
-			                    <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.awardTitle"/>
-			                    <bean parent="FieldDefinition" p:attributeName="projectDirectorName"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.primeAgency.reportingName"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.grantNumber"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>			                    			                    
-			                    <bean parent="FieldDefinition" p:attributeName="award.cfdaNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.proposalFederalPassThroughIndicator"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.federalPassThroughAgencyNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.grantNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>
 			                  </list>
 			                </property>
-			              </bean>			              
-			             </list>
+			              </bean>
+			            </list>
 			          </property>
-			       </bean>
-			       </list>			        
-  				</property>
-  			</bean>  		
+			        </bean>
+			        </list>
+			     </property>
+			</bean>
   		</list>
   	</property>
   </bean>

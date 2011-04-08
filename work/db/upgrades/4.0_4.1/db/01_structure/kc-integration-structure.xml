@@ -20,7 +20,7 @@
         <constraints nullable="false" primaryKey="true" />
       </column>
     </addColumn>
-     <createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_S"/>
+     <createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
    </changeSet>
    
     <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_MySql" dbms="mysql">

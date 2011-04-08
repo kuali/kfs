@@ -36,6 +36,7 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -69,7 +70,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         // update Security Income Next Pay Dates
         updateSecurityIncomeNextPayDates();
-                       
+                  
         // update Tickler Next Due Dates
         updateTicklerNextDueDates();
         
@@ -84,7 +85,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
 
         // update Cash Investment Model Next Due Dates
         updateAutomatedCashInvestmentModelNextDueDates();
-                
+        
         LOG.info("The batch Roll Frequncy Dates was finished.");
         
         return true;
@@ -98,21 +99,42 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         boolean success = true;
         
         int counter = 0;
+        // get all the active security records whose next income pay date is equal to the current date
         List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
         if (securityRecords != null) {
             for (Security security : securityRecords) {
-                String frequencyCode = security.getIncomePayFrequency();           
-                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
-                if (nextDate != null) {
-                    security.setIncomeNextPayDate(nextDate);
-                    if (updateBusinessObject(security)) {
-                        counter++;
-                        generateTotalReport("END_SEC_T", counter);
-                    } else {
-                        LOG.error("Failed to update Security " + security.getId());
-                        generateExceptionReport("END_SEC_T", security.getId());
-                        success = false; 
+
+                Date incomeNextPayDate = security.getIncomeNextPayDate();
+                
+                // if maturity date is equals to income next pay date, do nothing
+                Date maturityDate = security.getMaturityDate();                
+                if (ObjectUtils.isNotNull(maturityDate) && ObjectUtils.isNotNull(incomeNextPayDate)) {
+                    if (maturityDate.compareTo(incomeNextPayDate) == 0) {
+                        continue;
                     }
+                }
+                
+                // replace income next date
+                // first, with the next date calculated based on the frequency code
+                // if it is invalid, with the dividend pay date 
+                String frequencyCode = security.getIncomePayFrequency();
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
+                if (nextDate == null) {
+                    nextDate = security.getDividendPayDate();
+                    if (ObjectUtils.isNull(nextDate) || (ObjectUtils.isNotNull(incomeNextPayDate) && nextDate.compareTo(incomeNextPayDate) == 0)) {
+                        // we don't need to update income next pay date
+                        continue;
+                    }
+                }
+                // update income next pay date
+                security.setIncomeNextPayDate(nextDate);
+                if (updateBusinessObject(security)) {
+                    counter++;
+                    generateTotalReport("END_SEC_T", counter);
+                } else {
+                    LOG.error("Failed to update Security " + security.getId());
+                    generateExceptionReport("END_SEC_T", security.getId());
+                    success = false; 
                 }
             }
         }

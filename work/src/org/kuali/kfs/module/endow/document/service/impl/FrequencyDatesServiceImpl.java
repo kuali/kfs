@@ -40,7 +40,7 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
     public FrequencyCode getByPrimaryKey(String code) {
         FrequencyCode frequencyCode = null;
         if (StringUtils.isNotBlank(code)) {
-            Map criteria = new HashMap();
+            Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("code", code);
 
             frequencyCode = (FrequencyCode) businessObjectService.findByPrimaryKey(FrequencyCode.class, criteria);
@@ -56,7 +56,7 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
 
         Calendar nextDate = null;
         
-        if (currentDate != null) {
+        if (currentDate != null && frequencyCode != null && !frequencyCode.trim().isEmpty()) {
         
             String frequencyType = frequencyCode.substring(0, 1);
             
@@ -165,7 +165,7 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
         if (currentDate.compareTo(new java.sql.Date(calendar.getTimeInMillis())) > -1) {
             calendar.add(Calendar.DAY_OF_MONTH, dayOfMonthNextToSet);
         }
-        // if not, it should be in the next month
+        // if it is not still greater, it should be in the next month
         if (currentDate.compareTo(new java.sql.Date(calendar.getTimeInMillis())) > -1) {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
             calendar.add(Calendar.MONTH, 1);

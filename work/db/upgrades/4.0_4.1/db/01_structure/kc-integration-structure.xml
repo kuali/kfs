@@ -31,7 +31,6 @@
         <constraints nullable="false" primaryKey="true"/>
       </column>
     </addColumn>
-    <addAutoIncrement tableName="CA_ACCT_AUTO_CREATE_DFLT_T" columnName="ACCT_DFLT_ID" columnDataType="BIGINT(19)"/>
     </changeSet>
    
 </databaseChangeLog>

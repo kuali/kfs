@@ -61,6 +61,19 @@ public interface CustomerInvoiceDocumentDao {
      * @return
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
+
+    /**
+     * 
+     * Retrieves all Invoice document numbers in the system associated with the given 
+     * Billing Chart and Org, that are approved but disregards ready to print and print date as this is for Billing Statement generation.
+     * 
+     * WARNING that all the returned documents lack any workflow wiring.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
+    public List<String> getPrintableCustomerInvoiceDocumentNumbersForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
     
     /**
      * 

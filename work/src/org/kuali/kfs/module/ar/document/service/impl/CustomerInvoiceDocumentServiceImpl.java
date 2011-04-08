@@ -442,6 +442,21 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return customerInvoiceDocuments;
     }
 
+    public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode) {
+        List<String> documentHeaderIds = customerInvoiceDocumentDao.getPrintableCustomerInvoiceDocumentNumbersForBillingStatementByBillingChartAndOrg(chartOfAccountsCode, organizationCode);
+
+        List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
+        if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
+            try {
+                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            }
+        }
+        return customerInvoiceDocuments;
+    }
+
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDocumentService#getCustomerInvoiceDocumentsByCustomerNumber(java.lang.String)
      */

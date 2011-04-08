@@ -56,6 +56,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.document.service.AssetService;
+import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
@@ -337,7 +338,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             GeneralLedgerEntry positiveEntry = null;
             GeneralLedgerEntry negativeEntry = null;
             KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
-            if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero()) {
+            
+            boolean hasFORevision = isFinancialOfficerRevised(group.getMatchedPurApAcctLines());
+            // generally non-zero transaction ledger amount should be create a single GL entry, but if it has FO revised, 
+            // create the set of positive and negative entries with zero transaction amounts
+            if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero() &&  !hasFORevision) {
                 businessObjectService.save(generalLedgerEntry);
             }
             else {
@@ -376,13 +381,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
 
 
-                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero()) {
+                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero() && !hasFORevision) {
                         // if new unique account line within GL, then create a new account line
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         assetAcctLines.put(acctLineKey, assetAccount);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
-                    else if (transactionLedgerEntryAmount.isZero()) {
+                    else if (transactionLedgerEntryAmount.isZero() || hasFORevision) {
                         GeneralLedgerEntry currentEntry = null;
                         // if amount is zero, means canceled doc, then create a copy and retain the account line
                         KualiDecimal purapAmount = purApAccountingLine.getAmount();
@@ -429,6 +434,31 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
         updateProcessLog(processLog, reconciliationService);
         return purApDocuments;
+    }
+
+    /**
+     * Base on the PurApAccountingLine to determine if there were any FinancialOfficer revisions
+     * 
+     * If there are positive AND negative accounting lines for the same account, it is considered Financial 
+     * Officer Revised 
+     * 
+     * @param matchedPurApAcctLines
+     * @return
+     */
+    private boolean isFinancialOfficerRevised(List<PurApAccountingLineBase> matchedPurApAcctLines) {
+        
+        boolean hasPostive = false;
+        boolean hasNegative = false;
+        
+        for (PurApAccountingLineBase line : matchedPurApAcctLines){
+            // continue iterations unless it has both positive and negative entries
+            if (!hasPostive || !hasNegative){
+                hasPostive = hasPostive || line.getAmount().isPositive();
+                hasNegative = hasNegative || line.getAmount().isNegative();
+            }
+        }
+        
+        return hasPostive && hasNegative;
     }
 
     /**
@@ -486,15 +516,29 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);
     }
 
+    /**
+     * Force created entry with zero transaction amount
+     * 
+     * @param entry
+     * @return
+     */
     protected GeneralLedgerEntry createPositiveGlEntry(Entry entry) {
         GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
         copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        copyEntry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         return copyEntry;
     }
 
+    /**
+     * Force created entry with zero transaction amount
+     * 
+     * @param entry
+     * @return
+     */
     protected GeneralLedgerEntry createNegativeGlEntry(Entry entry) {
         GeneralLedgerEntry copyEntry = new GeneralLedgerEntry(entry);
         copyEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        copyEntry.setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         return copyEntry;
     }
 

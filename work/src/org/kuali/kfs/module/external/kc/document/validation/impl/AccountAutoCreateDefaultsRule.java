@@ -173,6 +173,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
 			success = false;
         }
+        
         return success;
     }
 
@@ -273,14 +274,20 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(newAccountAutoCreateDefaults, unitDTO, "unitDTO");
             if (unitDTO == null) {
                 putFieldError("kcUnit", ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());                
-                result = false;
+                result &= false;
             }
+            // check if KcUnit exists already in accountAutoCreateDefaults table - if so reject
+            AccountAutoCreateDefaults accountAutoCreateDefaults = boService.findBySinglePrimaryKey(AccountAutoCreateDefaults.class, newAccountAutoCreateDefaults.getKcUnit());
+            if (accountAutoCreateDefaults != null) {
+                putFieldError("kcUnit", ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_ALREADY_DEFINED, newAccountAutoCreateDefaults.getKcUnit());                
+                result &= false;
+            }
+
             return result;
         } catch (Exception ex) {
             putFieldError("kcUnit", ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
             return false;
         }
-
     }
     
     /**

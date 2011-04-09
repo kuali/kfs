@@ -38,6 +38,7 @@ public class ContractsAndGrantsConstants {
         public static final String PAYMENT_ADDRESS_TYTPE = "PAYMENT";
         public static final String DEFAULT_ADDRESS_TYTPE = "DEFAULT";
             
+        public static final String ERROR_KC_ACCOUNT_ALREADY_DEFINED = "error.kc.account.params.KcUnitDefined";
         public static final String ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.kc.account.params.unit.notfound";
         public static final String ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.notAllowedToCreateCGMaintenanceDocument";
         public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";

@@ -14,6 +14,7 @@
 	</changeSet>
   <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_Oracle" dbms="oracle">
     <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
+    <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
     <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
       <column name="ACCT_DFLT_ID" type="NUMBER(10)">
         <constraints nullable="false" primaryKey="true" />
@@ -24,6 +25,7 @@
    
     <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_MySql" dbms="mysql">
     <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
+    <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
     <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
       <column name="ACCT_DFLT_ID" type="BIGINT(19)">
         <constraints nullable="false" primaryKey="true"/>

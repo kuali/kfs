@@ -566,7 +566,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      *      java.lang.String)
      */
     public List<File> generateStatementByBillingOrg(String chartCode, String orgCode) {
-        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode));
+        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode));
     }
 
     /**

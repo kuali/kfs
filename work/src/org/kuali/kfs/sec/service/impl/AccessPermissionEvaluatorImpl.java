@@ -39,6 +39,7 @@ public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator 
     protected boolean performLessThanMatch;
     protected boolean performGreaterThanMatch;
     protected boolean allowConstraint;
+    protected boolean notOperator;
 
     public AccessPermissionEvaluatorImpl() {
         super();
@@ -47,6 +48,7 @@ public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator 
         performLessThanMatch = false;
         performGreaterThanMatch = false;
         allowConstraint = false;
+        notOperator = false;
     }
 
     /**
@@ -67,14 +69,11 @@ public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator 
             }
         }
 
-        if (allowConstraint && match) {
-            allowed = true;
-        }
-        else if (!allowConstraint && !match) {
-            allowed = true;
+        if ((allowConstraint && notOperator) || (!allowConstraint && !notOperator)) {
+            allowed = !match;
         }
         else {
-            allowed = false;
+            allowed = match;
         }
 
         return allowed;
@@ -135,6 +134,10 @@ public class AccessPermissionEvaluatorImpl implements AccessPermissionEvaluator 
 
         if (SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN.equals(operatorCode) || SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN_EQUAL.equals(operatorCode)) {
             performGreaterThanMatch = true;
+        }
+        
+        if (SecConstants.SecurityDefinitionOperatorCodes.NOT_EQUAL.equals(operatorCode)) {
+            notOperator = true;
         }
 
         setMatchValues();

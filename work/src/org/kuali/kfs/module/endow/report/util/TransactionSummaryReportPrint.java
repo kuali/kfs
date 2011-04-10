@@ -22,8 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.CashTransfersDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ContributionsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ExpensesDataHolder;
+import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.SecurityTransfersDataHolder;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 import com.lowagie.text.Document;
@@ -100,15 +102,15 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
     protected boolean printReportBodyBySummaryTotals(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, Document document, String reportOption) {
         boolean success = true;
         
-        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.DETAIL)) {
+        if (EndowConstants.EndowmentReport.DETAIL.equalsIgnoreCase(reportOption)) {
             success &= printReportBodyForDetailReportOption(transactionSummaryDataReportHolders, document);
         }
         
-        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.TOTAL)) {
+        if (EndowConstants.EndowmentReport.TOTAL.equalsIgnoreCase(reportOption)) {
             success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
         }
         
-        if (reportOption.equalsIgnoreCase(EndowConstants.EndowmentReport.BOTH)) {
+        if (EndowConstants.EndowmentReport.BOTH.equalsIgnoreCase(reportOption)) {
             success &= printReportBodyForDetailReportOption(transactionSummaryDataReportHolders, document);
             success &= printReportBodyForSummaryReportOption(transactionSummaryDataReportHolders, document);
         }
@@ -178,6 +180,12 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 // expenses rows....
                 writeExpensesRecordsForDetailReportOption(table, cellFont, transactionSummaryReport);
                 
+                // cash transfer rows...
+                writeCashTransfersRecordsForDetailReportOption(table, cellFont, transactionSummaryReport);
+                
+                // cash transfer rows...
+                writeSecurityTransfersRecordsForDetailReportOption(table, cellFont, transactionSummaryReport);
+
                 //write change in market value row....
                 writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getIncomeChangeInMarketValue(), transactionSummaryReport.getPrincipalChangeInMarketValue(), transactionSummaryReport.getTotalChangeInMarketValue());
                 
@@ -244,6 +252,12 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
                 
                 // expenses rows....
                 writeExpensesRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
+                
+                //cash transfers rows..
+                writeCashTransfersRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
+                
+                // security transfer rows...
+                writeSecurityTransfersRecordsForSummaryReportOption(table, cellFont, transactionSummaryReport);
                 
                 //write change in market value row....
                 writeDetailLineRow(table, cellFont, "Change in Market Value",  transactionSummaryReport.getTotalChangeInMarketValue());
@@ -326,6 +340,8 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         
         getSummaryTotalsForContributions(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
         getSummaryTotalsForExpenses(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
+        getSummaryTotalsForCashTransfers(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
+        getSummaryTotalsForSecurityTransfers(transactionSummaryDataReportHolders, transactionSummaryReportDataHolder);
         
         summaryReportDataHolder.add(transactionSummaryReportDataHolder);
         
@@ -375,7 +391,46 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         transactionSummaryReportDataHolder.getReportGroupsForContributions().add(summaryContributionsData);
     }
 
+    /**
+     * Method to summarize the cash transfers list records for the summary totals report.
+     * @param transactionSummaryDataReportHolders
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void getSummaryTotalsForCashTransfers(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        CashTransfersDataHolder summaryCashTransferData = transactionSummaryReportDataHolder.new CashTransfersDataHolder();
+        summaryCashTransferData.setCashTransfersDescription("Summary Totals for Cash Transactions");
+
+        for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
+            List<CashTransfersDataHolder> cashTransfersDataHolders = reportDataHolder.getReportGroupsForCashTransfers();
+            for (CashTransfersDataHolder cashTransferData : cashTransfersDataHolders) {
+                summaryCashTransferData.setIncomeCashTransfers(summaryCashTransferData.getIncomeCashTransfers().add(cashTransferData.getIncomeCashTransfers()));
+                summaryCashTransferData.setPrincipalCashTransfers(summaryCashTransferData.getPrincipalCashTransfers().add(cashTransferData.getPrincipalCashTransfers()));
+            }
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForCashTransfers().add(summaryCashTransferData);
+    }
     
+    /**
+     * Method to summarize the Security transfers list records for the summary totals report.
+     * @param transactionSummaryDataReportHolders
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void getSummaryTotalsForSecurityTransfers(List<TransactionSummaryReportDataHolder> transactionSummaryDataReportHolders, TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        SecurityTransfersDataHolder summarySecurityTransferData = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();
+        summarySecurityTransferData.setSecurityTransfersDescription("Summary Totals for Security Transactions");
+
+        for (TransactionSummaryReportDataHolder reportDataHolder : transactionSummaryDataReportHolders) {
+            List<SecurityTransfersDataHolder> securityTransfersDataHolders = reportDataHolder.getReportGroupsForSecurityTransfers();
+            for (SecurityTransfersDataHolder securityTransferData : securityTransfersDataHolders) {
+                summarySecurityTransferData.setIncomeSecurityTransfers(summarySecurityTransferData.getIncomeSecurityTransfers().add(securityTransferData.getIncomeSecurityTransfers()));
+                summarySecurityTransferData.setPrincipalSecurityTransfers(summarySecurityTransferData.getPrincipalSecurityTransfers().add(securityTransferData.getPrincipalSecurityTransfers()));
+            }
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().add(summarySecurityTransferData);
+    }
+
     /**
      * Helper method to write the details line.
      * 
@@ -552,6 +607,154 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
         
         //now write out the sub-total line....amount
         table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
+
+    /**
+     * Helper method to go through the cash transfers list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeCashTransfersRecordsForDetailReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Cash Transfers", EndowConstants.EndowmentReport.DETAIL);
+        
+        //now write out the records....
+        List<CashTransfersDataHolder> cashTransfersData = transactionSummaryReport.getReportGroupsForCashTransfers();
+        
+        if (cashTransfersData != null) {
+            for (CashTransfersDataHolder cashTransfer : cashTransfersData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(cashTransfer.getCashTransfersDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(cashTransfer.getIncomeCashTransfers());
+                amount = formatAmount(cashTransfer.getIncomeCashTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                totalPrincipalAmounts = totalPrincipalAmounts.add(cashTransfer.getPrincipalCashTransfers());
+                amount = formatAmount(cashTransfer.getPrincipalCashTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                amount = formatAmount(cashTransfer.getTotalCashTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts);
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+        amount = formatAmount(totalPrincipalAmounts);
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
+
+    /**
+     * Helper method to go through the expenses list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeCashTransfersRecordsForSummaryReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Cash Transfers", EndowConstants.EndowmentReport.TOTAL);
+        
+        //now write out the records....
+        List<CashTransfersDataHolder> cashTransfersData = transactionSummaryReport.getReportGroupsForCashTransfers();
+        
+        if (cashTransfersData != null) {
+            for (CashTransfersDataHolder cashTransfer : cashTransfersData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(cashTransfer.getCashTransfersDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(cashTransfer.getIncomeCashTransfers());
+                totalPrincipalAmounts = totalPrincipalAmounts.add(cashTransfer.getPrincipalCashTransfers());
+                amount = formatAmount(cashTransfer.getTotalCashTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
+    
+    /**
+     * Helper method to go through the security list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeSecurityTransfersRecordsForSummaryReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Security Transfers", EndowConstants.EndowmentReport.TOTAL);
+        
+        //now write out the records....
+        List<SecurityTransfersDataHolder> securityTransfersData = transactionSummaryReport.getReportGroupsForSecurityTransfers();
+        
+        if (securityTransfersData != null) {
+            for (SecurityTransfersDataHolder securityTransfer : securityTransfersData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(securityTransfer.getSecurityTransfersDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(securityTransfer.getIncomeSecurityTransfers());
+                totalPrincipalAmounts = totalPrincipalAmounts.add(securityTransfer.getPrincipalSecurityTransfers());
+                amount = formatAmount(securityTransfer.getTotalSecurityTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+    }
+    
+    /**
+     * Helper method to go through the cash transfers list and write the lines..
+     * @param table
+     * @param cellFont
+     * @param transactionSummaryReport
+     */
+    protected void writeSecurityTransfersRecordsForDetailReportOption(PdfPTable table, Font cellFont, TransactionSummaryReportDataHolder transactionSummaryReport) {
+        String amount;
+        BigDecimal totalIncomeAmounts = BigDecimal.ZERO;
+        BigDecimal totalPrincipalAmounts = BigDecimal.ZERO;
+        
+        //write Contributions header....
+        writeSubHeader(table, "Security Transfers", EndowConstants.EndowmentReport.DETAIL);
+        
+        //now write out the records....
+        List<SecurityTransfersDataHolder> SecurityTransfersData = transactionSummaryReport.getReportGroupsForSecurityTransfers();
+        
+        if (SecurityTransfersData != null) {
+            for (SecurityTransfersDataHolder securityTransfer : SecurityTransfersData) {
+                table.addCell(createCell("\t\t\t\t\t\t\t".concat(securityTransfer.getSecurityTransfersDescription()), cellFont, Element.ALIGN_LEFT, true));
+                totalIncomeAmounts = totalIncomeAmounts.add(securityTransfer.getIncomeSecurityTransfers());
+                amount = formatAmount(securityTransfer.getPrincipalSecurityTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                totalPrincipalAmounts = totalPrincipalAmounts.add(securityTransfer.getPrincipalSecurityTransfers());
+                amount = formatAmount(securityTransfer.getPrincipalSecurityTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+                amount = formatAmount(securityTransfer.getTotalSecurityTransfers());
+                table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
+            }
+        }
+        
+        //now write out the sub-total line....amount
+        table.addCell("\t\t\t\t\t\t\t\tActivity Sub-Total");
+        amount = formatAmount(totalIncomeAmounts);
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
+        amount = formatAmount(totalPrincipalAmounts);
+        table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
         amount = formatAmount(totalIncomeAmounts.add(totalPrincipalAmounts));
         table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));            
     }

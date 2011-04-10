@@ -433,6 +433,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         List<String> documentTypesAllowed = new ArrayList();
         documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
         documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER);
         
         Criteria c = new Criteria();
         c.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypesAllowed);

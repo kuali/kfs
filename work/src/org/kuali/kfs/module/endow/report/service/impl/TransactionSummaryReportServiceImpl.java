@@ -35,8 +35,10 @@ import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.report.service.TransactionSummaryReportService;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder;
+import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.CashTransfersDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ContributionsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.ExpensesDataHolder;
+import org.kuali.kfs.module.endow.report.util.TransactionSummaryReportDataHolder.SecurityTransfersDataHolder;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -128,14 +130,27 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
             for (TransactionArchive transactionArchive : transactionArchives) {
                 transactionArchive.refreshNonUpdateableReferences();
                 
-                //income type code...
-                if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.INCOME_TYPE_CODE)) {
-                    getTransactionArchiveTotalsForIncomeTypeCode(transactionSummaryReportDataHolder, transactionArchive);
-                }    
-                //expense type code...
-                if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE)) {
-                    getTransactionArchiveTotalsForExpenseTypeCode(transactionSummaryReportDataHolder, transactionArchive);
-                }    
+                if (EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER.equalsIgnoreCase(transactionArchive.getTypeCode()) ||
+                        EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER.equalsIgnoreCase(transactionArchive.getTypeCode())) {
+                    //cash transfers...
+                    if (EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER.equalsIgnoreCase(transactionArchive.getTypeCode())) {
+                        getTransactionArchiveTotalsForCashTransfers(transactionSummaryReportDataHolder, transactionArchive);
+                    }
+                    //security tranfers....
+                    if (EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER.equalsIgnoreCase(transactionArchive.getTypeCode())) {
+                        getTransactionArchiveTotalsForSecurityTransfers(transactionSummaryReportDataHolder, transactionArchive);
+                    }
+                } 
+                else {
+                    //income type code...
+                    if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.INCOME_TYPE_CODE)) {
+                        getTransactionArchiveTotalsForIncomeTypeCode(transactionSummaryReportDataHolder, transactionArchive);
+                    }    
+                    //expense type code...
+                    if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.EXPENSE_TYPE_CODE)) {
+                        getTransactionArchiveTotalsForExpenseTypeCode(transactionSummaryReportDataHolder, transactionArchive);
+                    }
+                }
             }
             
             //setup the report header information....
@@ -216,7 +231,7 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         BigDecimal transactionSecurityCost = BigDecimal.ZERO;
         
         ContributionsDataHolder contributionsData = transactionSummaryReportDataHolder.new ContributionsDataHolder();
-        contributionsData.setContributionsDescription(transactionArchive.getDescription());
+        contributionsData.setContributionsDescription(transactionArchive.getEtranObj().getName());
         
         //get the transaction archive data totals....
         List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
@@ -249,18 +264,19 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         BigDecimal transactionSecurityCost = BigDecimal.ZERO;
         
         ExpensesDataHolder expensesDataHolder = transactionSummaryReportDataHolder.new ExpensesDataHolder();
-        expensesDataHolder.setExpensesDescription(transactionArchive.getDescription());
+        expensesDataHolder.setExpensesDescription(transactionArchive.getEtranObj().getName());
         
         //get the transaction archive data totals....
         List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
         for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
             transactionSecurityCost = transactionSecurityCost.add(archiveSecurity.getHoldingCost());
         }
+        
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
             expensesDataHolder.setIncomeExpenses(transactionSecurityCost.add(expensesDataHolder.getIncomeExpenses().add(transactionArchive.getIncomeCashAmount())));
             transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(expensesDataHolder.getIncomeExpenses()));
         }
-        
+            
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
             expensesDataHolder.setPrincipalExpenses(transactionSecurityCost.add(expensesDataHolder.getPrincipalExpenses().add(transactionArchive.getPrincipalCashAmount())));
             transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(expensesDataHolder.getPrincipalExpenses()));
@@ -268,6 +284,53 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         
         transactionSummaryReportDataHolder.getReportGroupsForExpenses().add(expensesDataHolder);
     }
+    
+    /**
+     * Cash Transfers.....
+     * 
+     * @param transactionSummaryReportDataHolder
+     * @param transactionArchive
+     */
+    protected void getTransactionArchiveTotalsForCashTransfers(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder, TransactionArchive transactionArchive) {
+        CashTransfersDataHolder cashTransfersDataHolder = transactionSummaryReportDataHolder.new CashTransfersDataHolder();
+        cashTransfersDataHolder.setCashTransfersDescription(transactionArchive.getEtranObj().getName());
+        
+        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+            cashTransfersDataHolder.setIncomeCashTransfers(cashTransfersDataHolder.getIncomeCashTransfers().add(transactionArchive.getIncomeCashAmount()));
+            transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(cashTransfersDataHolder.getIncomeCashTransfers()));
+        }
+            
+        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+            cashTransfersDataHolder.setPrincipalCashTransfers(cashTransfersDataHolder.getPrincipalCashTransfers().add(transactionArchive.getPrincipalCashAmount()));
+            transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(cashTransfersDataHolder.getPrincipalCashTransfers()));
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForCashTransfers().add(cashTransfersDataHolder);
+    }
+    
+    /**
+     * Security Transfers.....
+     * 
+     * @param transactionSummaryReportDataHolder
+     * @param transactionArchive
+     */
+    protected void getTransactionArchiveTotalsForSecurityTransfers(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder, TransactionArchive transactionArchive) {
+        SecurityTransfersDataHolder securityTransfersDataHolder = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();
+        securityTransfersDataHolder.setSecurityTransfersDescription(transactionArchive.getEtranObj().getName());
+        
+        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+            securityTransfersDataHolder.setIncomeSecurityTransfers(securityTransfersDataHolder.getIncomeSecurityTransfers().add(transactionArchive.getIncomeCashAmount()));
+            transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(securityTransfersDataHolder.getIncomeSecurityTransfers()));
+        }
+            
+        if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+            securityTransfersDataHolder.setPrincipalSecurityTransfers(securityTransfersDataHolder.getPrincipalSecurityTransfers().add(transactionArchive.getPrincipalCashAmount()));
+            transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(securityTransfersDataHolder.getPrincipalSecurityTransfers()));
+        }
+        
+        transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().add(securityTransfersDataHolder);
+    }
+
     
     protected KEMID getKemid(String kemid) {
         Map<String,String> primaryKeys = new HashMap<String,String>();

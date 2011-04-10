@@ -41,6 +41,12 @@ public class TransactionSummaryReportDataHolder {
     //list of expenses records...
     protected List<ExpensesDataHolder> reportGroupsForExpenses;
     
+    //list of cash transfers....
+    protected List<CashTransfersDataHolder> reportGroupsForCashTransfers;
+    
+    //list of security transfers....
+    protected List<SecurityTransfersDataHolder> reportGroupsForSecurityTransfers;
+    
     //change in market value data
     protected BigDecimal incomeChangeInMarketValue = BigDecimal.ZERO;
     protected BigDecimal principalChangeInMarketValue = BigDecimal.ZERO;
@@ -59,8 +65,12 @@ public class TransactionSummaryReportDataHolder {
     public TransactionSummaryReportDataHolder() {
         reportGroupsForContributions = new ArrayList<ContributionsDataHolder>();   
         reportGroupsForExpenses = new ArrayList<ExpensesDataHolder>();
+        reportGroupsForCashTransfers = new ArrayList<CashTransfersDataHolder>();
+        reportGroupsForSecurityTransfers = new ArrayList<SecurityTransfersDataHolder>();
+        
         footer = null;        
     }
+    
     /**
      * Gets the first row description
      * 
@@ -375,6 +385,35 @@ public class TransactionSummaryReportDataHolder {
         return reportGroupsForContributions;
     }
 
+    
+    /**
+     * gets attribute reportGroupsForCashTransfers
+     * @return reportGroupsForCashTransfers
+     */
+    public List<CashTransfersDataHolder> getReportGroupsForCashTransfers() {
+        return reportGroupsForCashTransfers;
+    }
+    /**
+     * sets attribute reportGroupsForCashTransfers
+     */
+    public void setReportGroupsForCashTransfers(List<CashTransfersDataHolder> reportGroupsForCashTransfers) {
+        this.reportGroupsForCashTransfers = reportGroupsForCashTransfers;
+    }
+
+    /**
+     * gets attribute reportGroupsForSecurityTransfers
+     * @return reportGroupsForSecurityTransfers
+     */
+    public List<SecurityTransfersDataHolder> getReportGroupsForSecurityTransfers() {
+        return reportGroupsForSecurityTransfers;
+    }
+    /**
+     * sets attribute reportGroupsForSecurityTransfers
+     */
+    public void setReportGroupsForSecurityTransfers(List<SecurityTransfersDataHolder> reportGroupsForSecurityTransfers) {
+        this.reportGroupsForSecurityTransfers = reportGroupsForSecurityTransfers;
+    }
+
     /**
      * sets attribute reportGroupsForContributions
      */
@@ -529,4 +568,145 @@ public class TransactionSummaryReportDataHolder {
             return this.getIncomeExpenses().add(this.getPrincipalExpenses());
         }
     }
+    
+    /**
+     * public class to hold cash transfers data
+     */
+    public class CashTransfersDataHolder {
+        protected String cashTransfersDescription;
+        protected BigDecimal incomeCashTransfers = BigDecimal.ZERO;
+        protected BigDecimal principalCashTransfers = BigDecimal.ZERO;
+        
+        /**
+         * gets attribute cashTransfersDescription
+         * @return cashTransfersDescription
+         */
+        public String getCashTransfersDescription() {
+            return cashTransfersDescription;
+        }
+
+        /**
+         * sets attribute cashTransfersDescription
+         */
+        public void setCashTransfersDescription(String cashTransfersDescription) {
+            this.cashTransfersDescription = cashTransfersDescription;
+        }
+
+        /**
+         * gets attribute incomeCashTransfers
+         * @return incomeCashTransfers
+         */
+        public BigDecimal getIncomeCashTransfers() {
+            if (ObjectUtils.isNull(incomeCashTransfers)) {
+                return BigDecimal.ZERO;
+            }
+            
+            return incomeCashTransfers;
+        }
+
+        /**
+         * sets attribute incomeCashTransfers
+         */
+        public void setIncomeCashTransfers(BigDecimal incomeCashTransfers) {
+            this.incomeCashTransfers = incomeCashTransfers;
+        }
+
+        /**
+         * gets attribute principalCashTransfers
+         * @return principalCashTransfers
+         */
+        public BigDecimal getPrincipalCashTransfers() {
+            if (ObjectUtils.isNull(principalCashTransfers)) {
+                return BigDecimal.ZERO;
+            }
+            
+            return principalCashTransfers;
+        }
+
+        /**
+         * sets attribute principalCashTransfers
+         */
+        public void setPrincipalCashTransfers(BigDecimal principalCashTransfers) {
+            this.principalCashTransfers = principalCashTransfers;
+        }
+
+        /**
+         * gets sum of incomeExpenses and principalExpenses
+         * @return totalExpenses
+         */
+        public BigDecimal getTotalCashTransfers() {
+            return this.getIncomeCashTransfers().add(this.getPrincipalCashTransfers());
+        }
+    }
+    
+    /**
+     * public class to hold Security transfers data
+     */
+    public class SecurityTransfersDataHolder {
+        protected String securityTransfersDescription;
+        protected BigDecimal incomeSecurityTransfers = BigDecimal.ZERO;
+        protected BigDecimal principalSecurityTransfers = BigDecimal.ZERO;
+        
+        /**
+         * gets attribute securityTransfersDescription
+         * @return securityTransfersDescription
+         */
+        public String getSecurityTransfersDescription() {
+            return securityTransfersDescription;
+        }
+
+        /**
+         * sets attribute securityTransfersDescription
+         */
+        public void setSecurityTransfersDescription(String securityTransfersDescription) {
+            this.securityTransfersDescription = securityTransfersDescription;
+        }
+
+        /**
+         * gets attribute incomeSecurityTransfers
+         * @return incomeSecurityTransfers
+         */
+        public BigDecimal getIncomeSecurityTransfers() {
+            if (ObjectUtils.isNull(incomeSecurityTransfers)) {
+                return BigDecimal.ZERO;
+            }
+            
+            return incomeSecurityTransfers;
+        }
+
+        /**
+         * sets attribute incomeSecurityTransfers
+         */
+        public void setIncomeSecurityTransfers(BigDecimal incomeSecurityTransfers) {
+            this.incomeSecurityTransfers = incomeSecurityTransfers;
+        }
+
+        /**
+         * gets attribute principalSecurityTransfers
+         * @return principalSecurityTransfers
+         */
+        public BigDecimal getPrincipalSecurityTransfers() {
+            if (ObjectUtils.isNull(principalSecurityTransfers)) {
+                return BigDecimal.ZERO;
+            }
+            
+            return principalSecurityTransfers;
+        }
+
+        /**
+         * sets attribute principalSecurityTransfers
+         */
+        public void setPrincipalSecurityTransfers(BigDecimal principalSecurityTransfers) {
+            this.principalSecurityTransfers = principalSecurityTransfers;
+        }
+
+        /**
+         * gets sum of incomeSecurityTransferS and principalSecurityTransfers
+         * @return totalExpenses
+         */
+        public BigDecimal getTotalSecurityTransfers() {
+            return this.getIncomeSecurityTransfers().add(this.getPrincipalSecurityTransfers());
+        }
+    }
+    
 }

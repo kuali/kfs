@@ -48,6 +48,7 @@
     <property name="name" value="cfdaNumber"/>
      <property name="label" value="CFDA Number"/>
     <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="6"/>
      <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
            <property name="readOnly" value="true"/>

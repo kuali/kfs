@@ -12,7 +12,7 @@
 			<replace replace="VARCHAR2" with="VARCHAR" />
 	    </modifySql>
 	</changeSet>
-  <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_Oracle" dbms="oracle">
+  <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_Oracle" dbms="oracle">
     <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
     <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
     <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
@@ -23,7 +23,7 @@
      <createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
    </changeSet>
    
-    <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_ACCT_DFLT_ID_MySql" dbms="mysql">
+    <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_MySql" dbms="mysql">
     <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
     <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
     <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">

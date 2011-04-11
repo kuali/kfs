@@ -242,4 +242,8 @@
 		<property name="moduleKeyStorePassword" value="${keystore.password}" />
 	</bean>	
 	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+		<property name="defaultLocale" value="${kfs.locale}" />
+	</bean>
+	
 </beans>

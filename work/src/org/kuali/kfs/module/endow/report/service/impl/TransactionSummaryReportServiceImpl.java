@@ -153,6 +153,24 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
                 }
             }
             
+            //combine the similar etrancode records in the list for
+            //contributions, expenses, cash transfers, and security transfers....
+            if (transactionSummaryReportDataHolder.getReportGroupsForContributions().size() > 0) {
+                combineContributionsData(transactionSummaryReportDataHolder);
+            }
+            
+            if (transactionSummaryReportDataHolder.getReportGroupsForExpenses().size() > 0) {
+                combineExpensesData(transactionSummaryReportDataHolder);
+            }
+            
+            if (transactionSummaryReportDataHolder.getReportGroupsForCashTransfers().size() > 0) {
+                combineCashTransfersData(transactionSummaryReportDataHolder);
+            }
+            
+            if (transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().size() > 0) {
+                combineSecurityTransfersData(transactionSummaryReportDataHolder);
+            }
+            
             //setup the report header information....
             transactionSummaryReportDataHolder.setInstitution(getInstitutionName());
             transactionSummaryReportDataHolder.setKemid(kemid);
@@ -331,6 +349,237 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().add(securityTransfersDataHolder);
     }
 
+    /**
+     * Helper method to first retrieve all the contributions records and go over all of them
+     * to combine based on same description of the contributions.  The combined records are then
+     * added to the data holder.
+     * 
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void combineContributionsData(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        String contributionsDescription = null;
+        BigDecimal incomeContributionsAmount = BigDecimal.ZERO;
+        BigDecimal PrincipalContributionsAmount = BigDecimal.ZERO;
+        
+        List<ContributionsDataHolder> contributionsDataList = new ArrayList<ContributionsDataHolder>();
+        
+        ContributionsDataHolder combinedContributionsData = transactionSummaryReportDataHolder.new ContributionsDataHolder();
+        
+        List<ContributionsDataHolder> contributionsData = transactionSummaryReportDataHolder.getReportGroupsForContributions();
+
+        for (ContributionsDataHolder contributionData : contributionsData) {
+            if (contributionsDescription == null) {
+                contributionsDescription = contributionData.getContributionsDescription();
+            }
+            //same description == same etran code so combine the totals.....
+            if (contributionsDescription.equals(contributionData.getContributionsDescription())) {
+                incomeContributionsAmount = incomeContributionsAmount.add(contributionData.getIncomeContributions());
+                PrincipalContributionsAmount = PrincipalContributionsAmount.add(contributionData.getPrincipalContributions());
+            }
+            else { //write out the record....
+                combinedContributionsData.setContributionsDescription(contributionsDescription);
+                combinedContributionsData.setIncomeContributions(incomeContributionsAmount);
+                combinedContributionsData.setPrincipalContributions(PrincipalContributionsAmount);
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeContributionsAmount));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalContributionsAmount));
+                contributionsDataList.add(combinedContributionsData);
+                
+                //create a new holder...
+                incomeContributionsAmount = BigDecimal.ZERO;
+                PrincipalContributionsAmount = BigDecimal.ZERO;
+                combinedContributionsData = transactionSummaryReportDataHolder.new ContributionsDataHolder();                
+                contributionsDescription = contributionData.getContributionsDescription();
+                incomeContributionsAmount = incomeContributionsAmount.add(contributionData.getIncomeContributions());
+                PrincipalContributionsAmount = PrincipalContributionsAmount.add(contributionData.getPrincipalContributions());
+            }
+        }
+        
+        //add the last data holder....
+        combinedContributionsData.setContributionsDescription(contributionsDescription);
+        combinedContributionsData.setIncomeContributions(incomeContributionsAmount);
+        combinedContributionsData.setPrincipalContributions(PrincipalContributionsAmount);
+        transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeContributionsAmount));
+        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalContributionsAmount));
+        contributionsDataList.add(combinedContributionsData);
+
+        //now remove the current list of contributions and add the newly created combined list.
+        transactionSummaryReportDataHolder.getReportGroupsForContributions().removeAll(contributionsData);
+        transactionSummaryReportDataHolder.getReportGroupsForContributions().addAll(contributionsDataList);
+    }
+    
+    /**
+     * Helper method to first retrieve all the expenses records and go over all of them
+     * to combine based on same description of the expenses.  The combined records are then
+     * added to the data holder.
+     * 
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void combineExpensesData(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        String expensesDescription = null;
+        BigDecimal incomeExpensesAmount = BigDecimal.ZERO;
+        BigDecimal PrincipalExpensesAmount = BigDecimal.ZERO;
+        
+        List<ExpensesDataHolder> expensesDataList = new ArrayList<ExpensesDataHolder>();
+        
+        ExpensesDataHolder combinedExpensesData = transactionSummaryReportDataHolder.new ExpensesDataHolder();
+        
+        List<ExpensesDataHolder> expensesData = transactionSummaryReportDataHolder.getReportGroupsForExpenses();
+
+        for (ExpensesDataHolder expenseData : expensesData) {
+            if (expensesDescription == null) {
+                expensesDescription = expenseData.getExpensesDescription();
+            }
+            //same description == same etran code so combine the totals.....
+            if (expensesDescription.equals(expenseData.getExpensesDescription())) {
+                incomeExpensesAmount = incomeExpensesAmount.add(expenseData.getIncomeExpenses());
+                PrincipalExpensesAmount = PrincipalExpensesAmount.add(expenseData.getPrincipalExpenses());
+            }
+            else { //write out the record....
+                combinedExpensesData.setExpensesDescription(expensesDescription);
+                combinedExpensesData.setIncomeExpenses(incomeExpensesAmount);
+                combinedExpensesData.setPrincipalExpenses(PrincipalExpensesAmount);
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeExpensesAmount));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalExpensesAmount));
+                expensesDataList.add(combinedExpensesData);
+                
+                //create a new holder...
+                incomeExpensesAmount = BigDecimal.ZERO;
+                PrincipalExpensesAmount = BigDecimal.ZERO;
+                combinedExpensesData = transactionSummaryReportDataHolder.new ExpensesDataHolder();                
+                expensesDescription = expenseData.getExpensesDescription();
+                incomeExpensesAmount = incomeExpensesAmount.add(expenseData.getIncomeExpenses());
+                PrincipalExpensesAmount = PrincipalExpensesAmount.add(expenseData.getPrincipalExpenses());
+            }
+        }
+        
+        //add the last data holder....
+        combinedExpensesData.setExpensesDescription(expensesDescription);
+        combinedExpensesData.setIncomeExpenses(incomeExpensesAmount);
+        combinedExpensesData.setPrincipalExpenses(PrincipalExpensesAmount);
+        transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeExpensesAmount));
+        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalExpensesAmount));
+        expensesDataList.add(combinedExpensesData);
+
+        //now remove the current list of contributions and add the newly created combined list.
+        transactionSummaryReportDataHolder.getReportGroupsForExpenses().removeAll(expensesData);
+        transactionSummaryReportDataHolder.getReportGroupsForExpenses().addAll(expensesDataList);
+    }
+
+    /**
+     * Helper method to first retrieve all the Cash Transfers records and go over all of them
+     * to combine based on same description of the expenses.  The combined records are then
+     * added to the data holder.
+     * 
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void combineCashTransfersData(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        String cashTransfersDescription = null;
+        BigDecimal incomeCashTransfersAmount = BigDecimal.ZERO;
+        BigDecimal PrincipalCashTransfersAmount = BigDecimal.ZERO;
+        
+        List<CashTransfersDataHolder> cashTransfersDataList = new ArrayList<CashTransfersDataHolder>();
+        
+        CashTransfersDataHolder combinedCashTransfersData = transactionSummaryReportDataHolder.new CashTransfersDataHolder();
+        
+        List<CashTransfersDataHolder> cashTransfersData = transactionSummaryReportDataHolder.getReportGroupsForCashTransfers();
+
+        for (CashTransfersDataHolder cashTransferData : cashTransfersData) {
+            if (cashTransfersDescription == null) {
+                cashTransfersDescription = cashTransferData.getCashTransfersDescription();
+            }
+            //same description == same etran code so combine the totals.....
+            if (cashTransfersDescription.equals(cashTransferData.getCashTransfersDescription())) {
+                incomeCashTransfersAmount = incomeCashTransfersAmount.add(cashTransferData.getIncomeCashTransfers());
+                PrincipalCashTransfersAmount = PrincipalCashTransfersAmount.add(cashTransferData.getPrincipalCashTransfers());
+            }
+            else { //write out the record....
+                combinedCashTransfersData.setCashTransfersDescription(cashTransfersDescription);
+                combinedCashTransfersData.setIncomeCashTransfers(incomeCashTransfersAmount);
+                combinedCashTransfersData.setPrincipalCashTransfers(PrincipalCashTransfersAmount);
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeCashTransfersAmount));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalCashTransfersAmount));
+                cashTransfersDataList.add(combinedCashTransfersData);
+                
+                //create a new holder...
+                incomeCashTransfersAmount = BigDecimal.ZERO;
+                PrincipalCashTransfersAmount = BigDecimal.ZERO;
+                combinedCashTransfersData = transactionSummaryReportDataHolder.new CashTransfersDataHolder();                
+                cashTransfersDescription = cashTransferData.getCashTransfersDescription();
+                incomeCashTransfersAmount = incomeCashTransfersAmount.add(cashTransferData.getIncomeCashTransfers());
+                PrincipalCashTransfersAmount = PrincipalCashTransfersAmount.add(cashTransferData.getPrincipalCashTransfers());
+            }
+        }
+        
+        //add the last data holder....
+        combinedCashTransfersData.setCashTransfersDescription(cashTransfersDescription);
+        combinedCashTransfersData.setIncomeCashTransfers(incomeCashTransfersAmount);
+        combinedCashTransfersData.setPrincipalCashTransfers(PrincipalCashTransfersAmount);
+        transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeCashTransfersAmount));
+        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalCashTransfersAmount));
+        cashTransfersDataList.add(combinedCashTransfersData);
+
+        //now remove the current list of contributions and add the newly created combined list.
+        transactionSummaryReportDataHolder.getReportGroupsForCashTransfers().removeAll(cashTransfersData);
+        transactionSummaryReportDataHolder.getReportGroupsForCashTransfers().addAll(cashTransfersDataList);
+    }
+    
+    /**
+     * Helper method to first retrieve all the Security Transfers records and go over all of them
+     * to combine based on same description of the expenses.  The combined records are then
+     * added to the data holder.
+     * 
+     * @param transactionSummaryReportDataHolder
+     */
+    protected void combineSecurityTransfersData(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
+        String securityTransfersDescription = null;
+        BigDecimal incomeSecurityTransfersAmount = BigDecimal.ZERO;
+        BigDecimal PrincipalSecurityTransfersAmount = BigDecimal.ZERO;
+        
+        List<SecurityTransfersDataHolder> securityTransfersDataList = new ArrayList<SecurityTransfersDataHolder>();
+        
+        SecurityTransfersDataHolder combinedSecurityTransfersData = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();
+        
+        List<SecurityTransfersDataHolder> securityTransfersData = transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers();
+
+        for (SecurityTransfersDataHolder securityTransferData : securityTransfersData) {
+            if (securityTransfersDescription == null) {
+                securityTransfersDescription = securityTransferData.getSecurityTransfersDescription();
+            }
+            //same description == same etran code so combine the totals.....
+            if (securityTransfersDescription.equals(securityTransferData.getSecurityTransfersDescription())) {
+                incomeSecurityTransfersAmount = incomeSecurityTransfersAmount.add(securityTransferData.getIncomeSecurityTransfers());
+                PrincipalSecurityTransfersAmount = PrincipalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
+            }
+            else { //write out the record....
+                combinedSecurityTransfersData.setSecurityTransfersDescription(securityTransfersDescription);
+                combinedSecurityTransfersData.setIncomeSecurityTransfers(incomeSecurityTransfersAmount);
+                combinedSecurityTransfersData.setPrincipalSecurityTransfers(PrincipalSecurityTransfersAmount);
+                transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeSecurityTransfersAmount));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalSecurityTransfersAmount));
+                securityTransfersDataList.add(combinedSecurityTransfersData);
+                
+                //create a new holder...
+                incomeSecurityTransfersAmount = BigDecimal.ZERO;
+                PrincipalSecurityTransfersAmount = BigDecimal.ZERO;
+                combinedSecurityTransfersData = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();                
+                securityTransfersDescription = securityTransferData.getSecurityTransfersDescription();
+                incomeSecurityTransfersAmount = incomeSecurityTransfersAmount.add(securityTransferData.getIncomeSecurityTransfers());
+                PrincipalSecurityTransfersAmount = PrincipalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
+            }
+        }
+        
+        //add the last data holder....
+        combinedSecurityTransfersData.setSecurityTransfersDescription(securityTransfersDescription);
+        combinedSecurityTransfersData.setIncomeSecurityTransfers(incomeSecurityTransfersAmount);
+        combinedSecurityTransfersData.setPrincipalSecurityTransfers(PrincipalSecurityTransfersAmount);
+        transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeSecurityTransfersAmount));
+        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalSecurityTransfersAmount));
+        securityTransfersDataList.add(combinedSecurityTransfersData);
+
+        //now remove the current list of contributions and add the newly created combined list.
+        transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().removeAll(securityTransfersData);
+        transactionSummaryReportDataHolder.getReportGroupsForSecurityTransfers().addAll(securityTransfersDataList);
+    }
     
     protected KEMID getKemid(String kemid) {
         Map<String,String> primaryKeys = new HashMap<String,String>();

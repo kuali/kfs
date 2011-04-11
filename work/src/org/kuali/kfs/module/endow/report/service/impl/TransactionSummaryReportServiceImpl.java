@@ -533,7 +533,7 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
     protected void combineSecurityTransfersData(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder) {
         String securityTransfersDescription = null;
         BigDecimal incomeSecurityTransfersAmount = BigDecimal.ZERO;
-        BigDecimal PrincipalSecurityTransfersAmount = BigDecimal.ZERO;
+        BigDecimal principalSecurityTransfersAmount = BigDecimal.ZERO;
         
         List<SecurityTransfersDataHolder> securityTransfersDataList = new ArrayList<SecurityTransfersDataHolder>();
         
@@ -548,32 +548,32 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
             //same description == same etran code so combine the totals.....
             if (securityTransfersDescription.equals(securityTransferData.getSecurityTransfersDescription())) {
                 incomeSecurityTransfersAmount = incomeSecurityTransfersAmount.add(securityTransferData.getIncomeSecurityTransfers());
-                PrincipalSecurityTransfersAmount = PrincipalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
+                principalSecurityTransfersAmount = principalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
             }
             else { //write out the record....
                 combinedSecurityTransfersData.setSecurityTransfersDescription(securityTransfersDescription);
                 combinedSecurityTransfersData.setIncomeSecurityTransfers(incomeSecurityTransfersAmount);
-                combinedSecurityTransfersData.setPrincipalSecurityTransfers(PrincipalSecurityTransfersAmount);
+                combinedSecurityTransfersData.setPrincipalSecurityTransfers(principalSecurityTransfersAmount);
                 transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeSecurityTransfersAmount));
-                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalSecurityTransfersAmount));
+                transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(principalSecurityTransfersAmount));
                 securityTransfersDataList.add(combinedSecurityTransfersData);
                 
                 //create a new holder...
                 incomeSecurityTransfersAmount = BigDecimal.ZERO;
-                PrincipalSecurityTransfersAmount = BigDecimal.ZERO;
+                principalSecurityTransfersAmount = BigDecimal.ZERO;
                 combinedSecurityTransfersData = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();                
                 securityTransfersDescription = securityTransferData.getSecurityTransfersDescription();
                 incomeSecurityTransfersAmount = incomeSecurityTransfersAmount.add(securityTransferData.getIncomeSecurityTransfers());
-                PrincipalSecurityTransfersAmount = PrincipalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
+                principalSecurityTransfersAmount = principalSecurityTransfersAmount.add(securityTransferData.getPrincipalSecurityTransfers());
             }
         }
         
         //add the last data holder....
         combinedSecurityTransfersData.setSecurityTransfersDescription(securityTransfersDescription);
         combinedSecurityTransfersData.setIncomeSecurityTransfers(incomeSecurityTransfersAmount);
-        combinedSecurityTransfersData.setPrincipalSecurityTransfers(PrincipalSecurityTransfersAmount);
+        combinedSecurityTransfersData.setPrincipalSecurityTransfers(principalSecurityTransfersAmount);
         transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(incomeSecurityTransfersAmount));
-        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(PrincipalSecurityTransfersAmount));
+        transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(principalSecurityTransfersAmount));
         securityTransfersDataList.add(combinedSecurityTransfersData);
 
         //now remove the current list of contributions and add the newly created combined list.

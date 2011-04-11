@@ -739,7 +739,7 @@ public class TransactionSummaryReportPrint extends EndowmentReportPrintBase {
             for (SecurityTransfersDataHolder securityTransfer : SecurityTransfersData) {
                 table.addCell(createCell("\t\t\t\t\t\t\t".concat(securityTransfer.getSecurityTransfersDescription()), cellFont, Element.ALIGN_LEFT, true));
                 totalIncomeAmounts = totalIncomeAmounts.add(securityTransfer.getIncomeSecurityTransfers());
-                amount = formatAmount(securityTransfer.getPrincipalSecurityTransfers());
+                amount = formatAmount(securityTransfer.getIncomeSecurityTransfers());
                 table.addCell(createCell(amount, cellFont, Element.ALIGN_RIGHT, true));
                 totalPrincipalAmounts = totalPrincipalAmounts.add(securityTransfer.getPrincipalSecurityTransfers());
                 amount = formatAmount(securityTransfer.getPrincipalSecurityTransfers());

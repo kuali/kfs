@@ -17,6 +17,7 @@ package org.kuali.kfs.sec;
 
 public class SecKeyConstants {
     public static final String ERROR_ACCOUNTING_LINE_ADD_OR_UPDATE = "error.sec.accountingLine.addOrUpdate";
+    public static final String ERROR_MODEL_DEFINITION_MISSING = "error.sec.modelDefinition.missing";
     public static final String ERROR_MODEL_DEFINITION_MULTI_ATTR_VALUE = "error.sec.modelDefinition.multiAttrValue";
     public static final String ERROR_DEFINITION_NAME_NON_UNIQUE = "error.sec.definition.nameNonUnique";
     public static final String ERROR_MODEL_NAME_NON_UNIQUE = "error.sec.model.nameNonUnique";

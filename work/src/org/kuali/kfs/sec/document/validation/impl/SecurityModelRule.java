@@ -141,6 +141,11 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        // check to make sure there is at least one model definition
+        if (newSecurityModel.getModelDefinitions() == null || newSecurityModel.getModelDefinitions().size() == 0) {
+            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, SecKeyConstants.ERROR_MODEL_DEFINITION_MISSING);            
+        }
+
         int index = 0;
         for (SecurityModelDefinition modelDefinition : newSecurityModel.getModelDefinitions()) {
             String errorKeyPrefix = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.MODEL_DEFINITIONS + "[" + index + "].";

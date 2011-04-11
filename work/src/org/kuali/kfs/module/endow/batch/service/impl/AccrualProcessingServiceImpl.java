@@ -69,7 +69,17 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
                 processAccrualForTimeDeposits(security);
             }
             if (EndowConstants.AccrualMethod.TREASURY_NOTES_AND_BONDS.equals(security.getClassCode().getAccrualMethod().getCode())) {
-                processAccrualForTreasuryNotesAndBonds(security);
+
+                boolean skipEntry = false;
+
+                // IF the END_SEC_T: SEC_MAT_DT is less than the current date, skip the record and do not accrue income.
+                if (security.getMaturityDate() != null && security.getMaturityDate().before(kemService.getCurrentDate())) {
+                    skipEntry = true;
+                }
+
+                if (!skipEntry) {
+                    processAccrualForTreasuryNotesAndBonds(security);
+                }
             }
             if (EndowConstants.AccrualMethod.DIVIDENDS.equals(security.getClassCode().getAccrualMethod().getCode())) {
                 processAccrualForDividends(security);
@@ -269,7 +279,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
         long milPerDay = 1000 * 60 * 60 * 24;
 
         String frequencyType = incomePayFrequency.substring(0, 1);
-        
+
         // since this method is only used for treasury notes and bonds we only and Income is paid on these instruments semiannually
         // we are only interested in semi annually frequency type
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) {

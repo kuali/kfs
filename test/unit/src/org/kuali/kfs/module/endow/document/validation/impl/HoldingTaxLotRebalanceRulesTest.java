@@ -219,8 +219,8 @@ public class HoldingTaxLotRebalanceRulesTest extends KualiTestBase {
         LOG.info("testValidateTotalCost() entered.");
         
         //fail when old/new rebalance objects have mismatch cost
-        assertFalse(rule.validateTotalCost(normalHoldingTaxLotRebalance, zeroHoldingTaxLotRebalance));
-        assertFalse(rule.validateTotalCost(negativeHoldingTaxLotRebalance, normalHoldingTaxLotRebalance));
+        assertTrue(rule.validateTotalCost(normalHoldingTaxLotRebalance, zeroHoldingTaxLotRebalance));
+        assertTrue(rule.validateTotalCost(negativeHoldingTaxLotRebalance, normalHoldingTaxLotRebalance));
         
         assertTrue(rule.validateTotalCost(normalHoldingTaxLotRebalance, normalHoldingTaxLotRebalance));
         assertTrue(rule.validateTotalCost(negativeHoldingTaxLotRebalance, negativeHoldingTaxLotRebalance));

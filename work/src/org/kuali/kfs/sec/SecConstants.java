@@ -44,7 +44,7 @@ public class SecConstants {
     public final static String ACCESS_SECURITY_MODULE_ENABLED_PROPERTY_NAME = "module.access.security.enabled";
     
     public final static String ACCOUNTING_GROUP_ERROR_KEY_PREFIX = "SecurityGroupErrors:";
-    public final static String ALL_DOCUMENT_TYPE_NAME = KFSConstants.FinancialDocumentTypeCodes.ALL;
+    public final static String ALL_DOCUMENT_TYPE_NAME = KFSConstants.ROOT_DOCUMENT_TYPE;
     public final static String ALL_PARAMETER_DETAIL_COMPONENT = ParameterConstants.ALL_COMPONENT;
     public final static String SECURITY_DEFINITION_ID_SEQUENCE_NAME = "SEC_SCRTY_DEFN_ID_SEQ";
     public final static String SECURITY_MODEL_ID_SEQUENCE_NAME = "SEC_SCRTY_MDL_ID_SEQ";

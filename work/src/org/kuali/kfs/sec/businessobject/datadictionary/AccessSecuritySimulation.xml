@@ -155,7 +155,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <bean parent="FieldDefinition" p:attributeName="securityPerson.principalName" p:required="true"/>
         <bean parent="FieldDefinition" p:attributeName="attributeName" p:required="true"/>
         <bean parent="FieldDefinition" p:attributeName="templateId" p:defaultValue="1006" p:required="true"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" p:defaultValue="ALL"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" p:defaultValue="KFS"/>
         <bean parent="FieldDefinition" p:attributeName="inquiryNamespaceCode" p:defaultValue="KFS-GL"/>
       </list>
     </property>

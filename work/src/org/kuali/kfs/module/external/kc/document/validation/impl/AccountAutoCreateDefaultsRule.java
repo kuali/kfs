@@ -15,8 +15,13 @@
  */
 package org.kuali.kfs.module.external.kc.document.validation.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.AccountDescription;
+import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
@@ -25,11 +30,15 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -173,11 +182,45 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
 			success = false;
         }
-        
+        // the supervisor cannot be the same as the fiscal officer or account manager.
+        if (isSupervisorSameAsFiscalOfficer(newAccountAutoCreateDefaults)) {
+            success &= false;
+            putFieldError("accountsSupervisorySystemsIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
+        }
+        if (isSupervisorSameAsManager(newAccountAutoCreateDefaults)) {
+            success &= false;
+            putFieldError("accountManagerSystemIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
+        }
+   
         return success;
     }
 
    
+    private boolean isSupervisorSameAsManager(AccountAutoCreateDefaults newAccountAutoCreateDefaults2) {
+        return areTwoUsersTheSame(newAccountAutoCreateDefaults2.getAccountSupervisoryUser(), newAccountAutoCreateDefaults2.getAccountManagerUser());
+    }
+
+    private boolean isSupervisorSameAsFiscalOfficer(AccountAutoCreateDefaults newAccountAutoCreateDefaults2) {
+        return areTwoUsersTheSame(newAccountAutoCreateDefaults2.getAccountSupervisoryUser(), newAccountAutoCreateDefaults2.getAccountFiscalOfficerUser());
+    }
+    /**
+     * This method checks to see if two users are the same Person using their identifiers
+     * 
+     * @param user1
+     * @param user2
+     * @return true if these two users are the same
+     */
+    protected boolean areTwoUsersTheSame(Person user1, Person user2) {
+        if (ObjectUtils.isNull(user1) || user1.getPrincipalId() == null ) {
+            return false;
+        }
+        if (ObjectUtils.isNull(user2) || user2.getPrincipalId() == null ) {
+            return false;
+        }
+        return user1.getPrincipalId().equals(user2.getPrincipalId());
+    }
+
+    
     /**
      * the fringe benefit account (otherwise known as the reportsToAccount) is required if the fringe benefit code is set to N. The
      * fringe benefit code of the account designated to accept the fringes must be Y.
@@ -238,7 +281,8 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         return result;
     }
 
-    
+
+
     /**
      * This method checks to see if any Contracts and Grants business rules were violated Calls the following sub-rules:
      * checkCgRequiredFields checkCgIncomeStreamRequired

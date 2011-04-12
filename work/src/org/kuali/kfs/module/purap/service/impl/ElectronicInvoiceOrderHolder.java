@@ -535,7 +535,7 @@ public class ElectronicInvoiceOrderHolder {
     }
 
     
-    public String getKauliItemTypeCodeFromMappings(String invoiceItemTypeCode) {
+    public String getKualiItemTypeCodeFromMappings(String invoiceItemTypeCode) {
         
         ElectronicInvoiceItemMapping itemMapping = getInvoiceItemMapping(invoiceItemTypeCode);
         

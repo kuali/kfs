@@ -44,11 +44,6 @@ public class ElectronicInvoiceRejectDocumentRule extends DocumentRuleBase {
         return processBusinessRules(document);
     }
 
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        return processBusinessRules(approveEvent.getDocument());
-    }
-
     protected boolean processBusinessRules(Document document){
         boolean isValid = true;
         

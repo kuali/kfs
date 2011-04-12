@@ -44,9 +44,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
@@ -63,6 +63,7 @@ import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoicingDao;
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
@@ -101,13 +102,12 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
+import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -1431,35 +1431,19 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     }
     
     protected void populateItemDetails(PaymentRequestDocument preqDocument, ElectronicInvoiceOrderHolder orderHolder) {
-
+        
         if (LOG.isInfoEnabled()) {
             LOG.info("Populating invoice order items into the payment request document");
         }
 
         List<PurApItem> preqItems = preqDocument.getItems();
-
-        boolean hasShippingItem = false;
+        
+        //process all preq items and apply amounts from order holder
         for (int i = 0; i < preqItems.size(); i++) {
-
-            PaymentRequestItem preqItem = (PaymentRequestItem) preqItems.get(i);
-
-            if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM, orderHolder)) {
-                processAboveTheLineItem(preqItem, orderHolder);
-            }else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
-                processTaxItem(preqItem, orderHolder);
-            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING, orderHolder)) {
-                processShippingItem(preqItem, orderHolder);
-            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING, orderHolder)) {
-                processSpecialHandlingItem(preqItem, orderHolder);
-            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT, orderHolder)) {
-                processDepositItem(preqItem, orderHolder);
-            } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder)) {
-                processDueItem(preqItem, orderHolder);
-            }
-            else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_EXMT, orderHolder)) {
-                processAboveTheLineItem(preqItem, orderHolder);
-            }
-            
+                        
+            PaymentRequestItem preqItem = (PaymentRequestItem) preqItems.get(i);            
+            processInvoiceItem(preqItem, orderHolder);
+                        
             /**
              * This is not needed since if we have default desc from misc item, then preq rules are expecting the account details for this items
              * AccountsPayableItemBase.isConsideredEntered() returns true if there is any item desc available. 
@@ -1468,10 +1452,132 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 //            setItemDefaultDescription(preqItem);
         }
 
+        //Now we'll add any missing mapping items that did not have
+        // an existing payment request item
+        addMissingMappedItems(preqItems, orderHolder);
+
         if (LOG.isInfoEnabled()) {
             LOG.info("Successfully populated the invoice order items");
         }
 
+    }
+    
+    /**
+     * Ensures that the mapped items, item type code, exist as a payment request item so they're
+     * process correctly within populateItemDetails
+     * 
+     * @param preqItems
+     * @param orderHolder
+     */
+    protected void addMissingMappedItems(List<PurApItem> preqItems, ElectronicInvoiceOrderHolder orderHolder){
+        
+        PurchasingAccountsPayableDocument purapDoc = null;
+        Integer purapDocIdentifier = null;
+        
+        //grab all the required item types that should be on the payment request
+        List requiredItemTypeCodeList = createInvoiceRequiresItemTypeCodeList(orderHolder);
+        
+        if( ObjectUtils.isNotNull(requiredItemTypeCodeList) && !requiredItemTypeCodeList.isEmpty()) {
+        
+            //loop through existing payment request items and remove ones we already have
+            for (int i=0; i < preqItems.size(); i++) {
+                //if the preq item exists in the list already, remove
+                if( requiredItemTypeCodeList.contains(preqItems.get(i).getItemTypeCode()) ){
+                    requiredItemTypeCodeList.remove(preqItems.get(i).getItemTypeCode());
+                }
+                
+                //utility grab the document identifier and document
+                purapDoc = preqItems.get(i).getPurapDocument();
+                purapDocIdentifier = preqItems.get(i).getPurapDocumentIdentifier();
+            }
+                        
+            if( ObjectUtils.isNotNull(requiredItemTypeCodeList) && !requiredItemTypeCodeList.isEmpty()) {
+                //if we have any left, it means they didn't exist on the payment request
+                // and we must add them.                
+                for(int i=0; i < requiredItemTypeCodeList.size(); i++){
+                    PaymentRequestItem preqItem = new PaymentRequestItem();
+                    preqItem.resetAccount();
+                    preqItem.setPurapDocumentIdentifier(purapDocIdentifier);
+                    preqItem.setPurapDocument(purapDoc);
+                    preqItem.setItemTypeCode((String)requiredItemTypeCodeList.get(i));
+                    
+                    //process item
+                    processInvoiceItem(preqItem, orderHolder);
+                    
+                    //Add to preq Items if the value is not zero
+                    if( (ObjectUtils.isNotNull(preqItem.getItemUnitPrice()) && preqItem.getItemUnitPrice() != BigDecimal.ZERO) && 
+                        (ObjectUtils.isNotNull(preqItem.getExtendedPrice()) && preqItem.getExtendedPrice() != KualiDecimal.ZERO) ){
+                        
+                        preqItems.add(preqItem);    
+                    }
+                                        
+                    
+                }
+            }
+            
+        }
+    }
+
+    /**
+     * Creates a list of item types the eInvoice requirs on
+     * the payment request due to valid amounts.
+     */
+    protected List createInvoiceRequiresItemTypeCodeList(ElectronicInvoiceOrderHolder orderHolder){
+        List itemTypeCodeList = new ArrayList();
+                        
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder);
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING, orderHolder);
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING, orderHolder);
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT, orderHolder);
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder);
+        addToListIfExists(itemTypeCodeList, ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT, orderHolder);
+        
+        return itemTypeCodeList;
+    }
+
+    /**
+     * Utility method to add a kuali item type code to a list from a invoice item type code
+     * 
+     * @param itemTypeCodeList
+     * @param invoiceItemTypeCode
+     * @param orderHolder
+     */
+    protected void addToListIfExists(List itemTypeCodeList, String invoiceItemTypeCode, ElectronicInvoiceOrderHolder orderHolder){
+        
+        String itemTypeCode = orderHolder.getKualiItemTypeCodeFromMappings(invoiceItemTypeCode);
+        
+        if( ObjectUtils.isNotNull(itemTypeCode) ){
+            itemTypeCodeList.add(itemTypeCode);
+        }
+    }
+        
+    /**
+     * Finds the mapped item type code to invoice item type code and applies the appropriate values
+     * to the correct payment request item. 
+     * 
+     * @param preqItem
+     * @param orderHolder
+     */
+    protected void processInvoiceItem(PaymentRequestItem preqItem, ElectronicInvoiceOrderHolder orderHolder){
+
+        if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM, orderHolder)) {
+            processAboveTheLineItem(preqItem, orderHolder);
+        }else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_TAX, orderHolder)) {
+            processTaxItem(preqItem, orderHolder);
+        } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING, orderHolder)) {
+            processShippingItem(preqItem, orderHolder);
+        } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SPECIAL_HANDLING, orderHolder)) {
+            processSpecialHandlingItem(preqItem, orderHolder);
+        } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DEPOSIT, orderHolder)) {
+            processDepositItem(preqItem, orderHolder);
+        } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DUE, orderHolder)) {
+            processDueItem(preqItem, orderHolder);
+        } else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT, orderHolder)) {
+            processDiscountItem(preqItem, orderHolder);
+        }else if (isItemValidForUpdation(preqItem.getItemTypeCode(), ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_EXMT, orderHolder)) {
+            processAboveTheLineItem(preqItem, orderHolder);
+        }
+        
     }
     
     protected void processAboveTheLineItem(PaymentRequestItem purapItem,
@@ -1582,6 +1688,18 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
         
     }
+
+    protected void processDiscountItem(PaymentRequestItem preqItem,
+            ElectronicInvoiceOrderHolder orderHolder){
+
+        if (LOG.isInfoEnabled()){
+            LOG.info("Processing Discount Item");
+        }
+
+        preqItem.addToUnitPrice(orderHolder.getInvoiceDiscountAmount());
+        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDiscountAmount()));        
+    }
+
     
     protected void processDepositItem(PaymentRequestItem preqItem,
                                     ElectronicInvoiceOrderHolder orderHolder){
@@ -1619,8 +1737,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                                            ElectronicInvoiceOrderHolder orderHolder){
         
         boolean isItemTypeAvailableInItemMapping = orderHolder.isItemTypeAvailableInItemMapping(invoiceItemTypeCode);
-        String invoiceItemTypeCodeFromMappings = orderHolder.getKauliItemTypeCodeFromMappings(itemTypeCode);
-        return isItemTypeAvailableInItemMapping && StringUtils.equals(invoiceItemTypeCodeFromMappings, invoiceItemTypeCode);
+        String itemTypeCodeFromMappings = orderHolder.getKualiItemTypeCodeFromMappings(invoiceItemTypeCode);
+        return isItemTypeAvailableInItemMapping && StringUtils.equals(itemTypeCodeFromMappings, itemTypeCode);
     }
      
     

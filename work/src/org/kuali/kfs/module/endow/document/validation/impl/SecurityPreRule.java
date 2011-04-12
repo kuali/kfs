@@ -71,7 +71,15 @@ public class SecurityPreRule extends MaintenancePreRulesBase {
                     newSecurity.setUnitValue(new BigDecimal(-1));
                 }
                 else {
-                    newSecurity.setUnitValue(new BigDecimal(1));
+                    // when a security which has a class code set to allow market instead of unit valuation is created, the system
+                    // is setting the unit value to null
+                    if (EndowConstants.ValuationMethod.MARKET.equalsIgnoreCase(newSecurity.getClassCode().getValuationMethod())) {
+                        newSecurity.setUnitValue(null);
+                    }
+                    // by default unit value is 1
+                    else {
+                        newSecurity.setUnitValue(BigDecimal.ONE);
+                    }
                 }
             }
         }

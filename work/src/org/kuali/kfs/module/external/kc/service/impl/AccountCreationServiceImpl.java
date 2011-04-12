@@ -315,7 +315,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     public Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus) {
       
+        boolean internalUserSession = false;
         try {
+            if (GlobalVariables.getUserSession() == null) {
+                internalUserSession = true;
+                GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
+                GlobalVariables.clear();
+            }
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));                  
             return document;      
             
@@ -323,6 +329,12 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
             accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
+        } finally {
+            // if a user session was established for this call, clear it our
+            if ( internalUserSession ) {
+                GlobalVariables.clear();
+                GlobalVariables.setUserSession(null);
+            }            
         }
     }       
     

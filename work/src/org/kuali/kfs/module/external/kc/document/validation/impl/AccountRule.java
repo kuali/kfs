@@ -19,63 +19,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class AccountRule extends org.kuali.kfs.coa.document.validation.impl.AccountRule {
-
-    public boolean processAccountRouteDocumentBusinessRules(MaintenanceDocument document) {
-        // default to success
-        boolean success = true;
-        oldAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        // validate the embedded AccountGuideline object
-        success &= checkAccountGuidelinesValidation(newAccount.getAccountGuideline());
-        success &= checkEmptyValues(document);
-        success &= checkGeneralRules(document);
-        success &= checkCloseAccount(document);
-        success &= checkContractsAndGrants(document);
-        success &= checkExpirationDate(document);
-        success &= checkFundGroup(document);
-        success &= checkSubFundGroup(document);
-        success &= checkIncomeStreamAccountRule();
-        success &= checkUniqueAccountNumber(document);
-        
-        return success;
-    }
     
-    /**
-     * This method checks the basic rules for empty values in an account and associated objects with this account If guidelines are
-     * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
-     * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
-     * contractControlAccount indirectCostRecoveryAcct
-     * 
-     * @param maintenanceDocument
-     * @return false if any of these are empty
-     */
-    protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
-
-        LOG.info("checkEmptyValues called");
-
-        boolean success = true;
-
-        // guidelines are always required, except when the expirationDate is set, and its
-        // earlier than today
-        boolean guidelinesRequired = areGuidelinesRequired((Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject());
-
-        // confirm that required guidelines are entered, if required
-        if (guidelinesRequired) {
-            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
-            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
-            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
-        }
-
-        // this set confirms that all fields which are grouped (ie, foreign keys of a reference
-        // object), must either be none filled out, or all filled out.
-        /*
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("endowmentIncomeAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
-        */
-        return success;
-    }
+    public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        super.setupBaseConvenienceObjects(document);
+        return super.processCustomRouteDocumentBusinessRules(document);
+     }
 }

@@ -49,7 +49,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaultsRule.class);
-    protected static SubFundGroupService subFundGroupService;
     protected static ParameterService parameterService;    
     
     protected AccountService accountService;
@@ -152,12 +151,11 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
                                    
             // set the account object in the maintenance document.         
             maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-            maintenanceAccountDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);             
-            
+            maintenanceAccountDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);   
         }
         
         AccountRule accountRule = new AccountRule();
-        success = accountRule.processAccountRouteDocumentBusinessRules(maintenanceAccountDocument);
+        success = accountRule.processCustomRouteDocumentBusinessRules(maintenanceAccountDocument);
         
         setupConvenienceObjects();
 
@@ -208,12 +206,7 @@ public class AccountAutoCreateDefaultsRule extends KfsMaintenanceDocumentRuleBas
         this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
     }
 
-    public SubFundGroupService getSubFundGroupService() {
-        if ( subFundGroupService == null ) {
-            subFundGroupService = SpringContext.getBean(SubFundGroupService.class);
-        }
-        return subFundGroupService;
-    }
+ 
 
     public ParameterService getParameterService() {
         if ( parameterService == null ) {

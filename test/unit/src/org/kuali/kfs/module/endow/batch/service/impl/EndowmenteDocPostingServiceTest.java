@@ -38,10 +38,6 @@ public class EndowmenteDocPostingServiceTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private EndowmenteDocPostingServiceImpl endowmenteDocPostingServiceImpl;  
-    //private KEMService kemService;
-    //private KEMID kemid;
-    //private UnitTestSqlDao unitTestSqlDao;
-    //private Collection<EndowmentRecurringCashTransfer> recurringCashTransfers;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -52,33 +48,19 @@ public class EndowmenteDocPostingServiceTest extends KualiTestBase {
         
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         endowmenteDocPostingServiceImpl = (EndowmenteDocPostingServiceImpl) TestUtils.getUnproxiedService("mockEndowmenteDocPostingService");
-        //kemService = SpringContext.getBean(KEMService.class);
-        //unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class); 
-        //recurringCashTransfers = new ArrayList();
         
     }
     
     public final void testECIDoc() {
         LOG.info("testECIDoc() method entered.");
-        //CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) CashDocumentFixture.ECI_DOC.createCashIncreaseDocument();
-        
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_ECI.createEndowmentTransactionLine(false);
-        
-        //cashIncreaseDocument.getTargetTransactionLines().add(targetTransactionLine);
-        
-        
-        
         // check step 3
+        // See documentation for Batch Process eDoc Posting, section 11.1.1 
         KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, targetTransactionLine.getKemid());
-        
         KualiDecimal transactionAmount = kemidCurrentCash.getCurrentPrincipalCash().add(targetTransactionLine.getTransactionAmount());
-        
         kemidCurrentCash = endowmenteDocPostingServiceImpl.checkAndCalculateKemidCurrentCash(kemidCurrentCash, targetTransactionLine, "ECI", "P");
-        
         assertTrue("total transaction amount is " + transactionAmount.toString(), kemidCurrentCash.getCurrentPrincipalCash().equals(transactionAmount));
 
-        
-        
         LOG.info("testECIDoc() method finished.");        
     }
     
@@ -86,60 +68,74 @@ public class EndowmenteDocPostingServiceTest extends KualiTestBase {
         LOG.info("testECDDDoc() method entered.");
 
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_ECDD.createEndowmentTransactionLine(false);
-        
         // check step 3
+        // See documentation for Batch Process eDoc Posting, section 11.1.1 
         KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, targetTransactionLine.getKemid());
-        
         KualiDecimal transactionAmount = kemidCurrentCash.getCurrentIncomeCash().add(targetTransactionLine.getTransactionAmount().negated());
-        
         kemidCurrentCash = endowmenteDocPostingServiceImpl.checkAndCalculateKemidCurrentCash(kemidCurrentCash, targetTransactionLine, "ECDD", "I");
-        
         assertTrue("total transaction amount is " + transactionAmount.toString(), kemidCurrentCash.getCurrentIncomeCash().equals(transactionAmount));
 
         LOG.info("testECDDDoc() method finished.");        
     }
     
     public final void testEAICashDoc() {
-        LOG.info("testECDDDoc() method entered.");
+        LOG.info("testEAICashDoc() method entered.");
 
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAI_CASH.createEndowmentTransactionLine(false);
-        
-        // check step 2 - nothing to do now.
-//        TransactionArchive transactionArchive = endowmenteDocPostingServiceImpl.createTranArchive(targetTransactionLine, "EAI");
-//        EndowmentTransactionSecurity tranSecurity = endowmenteDocPostingServiceImpl.findSecurityTransactionRecord(targetTransactionLine);    
-        
         // check step 3
+        // See documentation for Batch Process eDoc Posting, section 11.1.1 
         KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, targetTransactionLine.getKemid());
-
         KualiDecimal transactionAmount = kemidCurrentCash.getCurrentPrincipalCash().add(targetTransactionLine.getTransactionAmount().negated());
-        
         kemidCurrentCash = endowmenteDocPostingServiceImpl.checkAndCalculateKemidCurrentCash(kemidCurrentCash, targetTransactionLine, "EAI", "P");
-        
         assertTrue("total transaction amount is " + transactionAmount.toString(), kemidCurrentCash.getCurrentPrincipalCash().equals(transactionAmount));
 
-        LOG.info("testECDDDoc() method finished.");        
+        LOG.info("testEAICashDoc() method finished.");        
     }
     
     public final void testEAINonCashDoc() {
-        LOG.info("testECDDDoc() method entered.");
+        LOG.info("testEAINonCashDoc() method entered.");
 
         EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAI_NON_CASH.createEndowmentTransactionLine(false);
         EndowmentTransactionSecurity transactionSecurity = (EndowmentTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAI_NON_CASH.createEndowmentTransactionSecurity(false);
         // check step 2
+        // See documentation for Batch Process eDoc Posting, section 11.1.1
+        // Otherwise, enter zero
         TransactionArchive transactionArchive = endowmenteDocPostingServiceImpl.createTranArchive(targetTransactionLine, "EAI", EndowConstants.TransactionSubTypeCode.NON_CASH);
         TransactionArchiveSecurity tranSecurity = endowmenteDocPostingServiceImpl.createTranArchiveSecurity(transactionSecurity, targetTransactionLine, "EAI");    
-        
         KualiDecimal transactionAmount = targetTransactionLine.getTransactionAmount(); 
-            
         assertTrue("transaction amount is " + transactionAmount.toString(), (KualiDecimal.ZERO).equals(new KualiDecimal(transactionArchive.getPrincipalCashAmount())));
-        
         // Do NOT need to check step 3, because it is non cash
-        String testString = "";
-        
-        LOG.info("testECDDDoc() method finished.");        
+        LOG.info("testEAINonCashDoc() method finished.");        
     }
 
+    public final void testEADCashDoc() {
+        LOG.info("testEADCashDoc() method entered.");
+        EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAD_CASH.createEndowmentTransactionLine(false);
+        
+        // check step 3
+        // See documentation for Batch Process eDoc Posting, section 11.1.1 
+        // IF the Document Type is EAI, ELD, or ECDD, then the value of TRAN_AMT is multiplied by negative 1.
+        KemidCurrentCash kemidCurrentCash = (KemidCurrentCash) businessObjectService.findBySinglePrimaryKey(KemidCurrentCash.class, targetTransactionLine.getKemid());
+        KualiDecimal transactionAmount = kemidCurrentCash.getCurrentPrincipalCash().add(targetTransactionLine.getTransactionAmount());
+        kemidCurrentCash = endowmenteDocPostingServiceImpl.checkAndCalculateKemidCurrentCash(kemidCurrentCash, targetTransactionLine, "EAD", "P");
+        assertTrue("total transaction amount is " + transactionAmount.toString(), kemidCurrentCash.getCurrentPrincipalCash().equals(transactionAmount));
+        
+        LOG.info("testEADCashDoc() method finished.");
+    }
     
-    
-    
+    public final void testEADNonCashDoc() {
+        LOG.info("testEADNonCashDoc() method entered.");
+
+        EndowmentTargetTransactionLine targetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAD_NON_CASH.createEndowmentTransactionLine(false);
+        EndowmentTransactionSecurity transactionSecurity = (EndowmentTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAD_NON_CASH.createEndowmentTransactionSecurity(false);
+        // check step 2
+        // See documentation for Batch Process eDoc Posting, section 11.1.1
+        // Otherwise, enter zero
+        TransactionArchive transactionArchive = endowmenteDocPostingServiceImpl.createTranArchive(targetTransactionLine, "EAD", EndowConstants.TransactionSubTypeCode.NON_CASH);
+        TransactionArchiveSecurity tranSecurity = endowmenteDocPostingServiceImpl.createTranArchiveSecurity(transactionSecurity, targetTransactionLine, "EAD");    
+        KualiDecimal transactionAmount = targetTransactionLine.getTransactionAmount(); 
+        assertTrue("transaction amount is " + transactionAmount.toString(), (KualiDecimal.ZERO).equals(new KualiDecimal(transactionArchive.getPrincipalCashAmount())));
+     // Do NOT need to check step 3, because it is non cash
+        LOG.info("testEADNonCashDoc() method finished.");        
+    }
 }

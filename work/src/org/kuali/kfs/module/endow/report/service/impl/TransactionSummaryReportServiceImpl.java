@@ -246,25 +246,38 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
      */
     protected void getTransactionArchiveTotalsForIncomeTypeCode(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder, TransactionArchive transactionArchive) {
         transactionArchive.refreshNonUpdateableReferences();
-        BigDecimal transactionSecurityCost = BigDecimal.ZERO;
+        
+        BigDecimal transactionSecurityCostIncome = BigDecimal.ZERO;
+        BigDecimal transactionSecurityCostPrincipal = BigDecimal.ZERO;
+        
+        //get the transaction archive data totals....
+        List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
+        for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                transactionSecurityCostIncome = transactionSecurityCostIncome.add(archiveSecurity.getHoldingCost());
+            }
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+                transactionSecurityCostPrincipal = transactionSecurityCostPrincipal.add(archiveSecurity.getHoldingCost());
+            }
+        }
         
         ContributionsDataHolder contributionsData = transactionSummaryReportDataHolder.new ContributionsDataHolder();
         contributionsData.setContributionsDescription(transactionArchive.getEtranObj().getName());
         
         //get the transaction archive data totals....
-        List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
-        for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
-            transactionSecurityCost = transactionSecurityCost.add(archiveSecurity.getHoldingCost());
-        }
+     //   List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
+     //   for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
+     //       transactionSecurityCost = transactionSecurityCost.add(archiveSecurity.getHoldingCost());
+     //   }
         //income type code...
         if (transactionArchive.getEtranObj().getEndowmentTransactionTypeCode().equalsIgnoreCase(EndowmentTransactionTypeCodes.INCOME_TYPE_CODE)) {
             if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-                contributionsData.setIncomeContributions(transactionSecurityCost.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
+                contributionsData.setIncomeContributions(transactionSecurityCostIncome.add(contributionsData.getIncomeContributions().add(transactionArchive.getIncomeCashAmount())));
                 transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(contributionsData.getIncomeContributions()));
             }
             
             if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
-                contributionsData.setPrincipalContributions(transactionSecurityCost.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
+                contributionsData.setPrincipalContributions(transactionSecurityCostPrincipal.add(contributionsData.getPrincipalContributions().add(transactionArchive.getPrincipalCashAmount())));
                 transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(contributionsData.getPrincipalContributions()));
             }
         }
@@ -279,24 +292,36 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
      * @param transactionArchive
      */
     protected void getTransactionArchiveTotalsForExpenseTypeCode(TransactionSummaryReportDataHolder transactionSummaryReportDataHolder, TransactionArchive transactionArchive) {
-        BigDecimal transactionSecurityCost = BigDecimal.ZERO;
+        BigDecimal transactionSecurityCostIncome = BigDecimal.ZERO;
+        BigDecimal transactionSecurityCostPrincipal = BigDecimal.ZERO;
+        
+        //get the transaction archive data totals....
+        List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
+        for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                transactionSecurityCostIncome = transactionSecurityCostIncome.add(archiveSecurity.getHoldingCost());
+            }
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+                transactionSecurityCostPrincipal = transactionSecurityCostPrincipal.add(archiveSecurity.getHoldingCost());
+            }
+        }
         
         ExpensesDataHolder expensesDataHolder = transactionSummaryReportDataHolder.new ExpensesDataHolder();
         expensesDataHolder.setExpensesDescription(transactionArchive.getEtranObj().getName());
         
         //get the transaction archive data totals....
-        List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
-        for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
-            transactionSecurityCost = transactionSecurityCost.add(archiveSecurity.getHoldingCost());
-        }
+     //   List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
+     //   for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
+     //       transactionSecurityCost = transactionSecurityCost.add(archiveSecurity.getHoldingCost());
+    //    }
         
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-            expensesDataHolder.setIncomeExpenses(transactionSecurityCost.add(expensesDataHolder.getIncomeExpenses().add(transactionArchive.getIncomeCashAmount())));
+            expensesDataHolder.setIncomeExpenses(transactionSecurityCostIncome.add(expensesDataHolder.getIncomeExpenses().add(transactionArchive.getIncomeCashAmount())));
             transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(expensesDataHolder.getIncomeExpenses()));
         }
             
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
-            expensesDataHolder.setPrincipalExpenses(transactionSecurityCost.add(expensesDataHolder.getPrincipalExpenses().add(transactionArchive.getPrincipalCashAmount())));
+            expensesDataHolder.setPrincipalExpenses(transactionSecurityCostPrincipal.add(expensesDataHolder.getPrincipalExpenses().add(transactionArchive.getPrincipalCashAmount())));
             transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(expensesDataHolder.getPrincipalExpenses()));
         }
         
@@ -336,13 +361,27 @@ public class TransactionSummaryReportServiceImpl extends EndowmentReportServiceI
         SecurityTransfersDataHolder securityTransfersDataHolder = transactionSummaryReportDataHolder.new SecurityTransfersDataHolder();
         securityTransfersDataHolder.setSecurityTransfersDescription(transactionArchive.getEtranObj().getName());
         
+        BigDecimal transactionSecurityCostIncome = BigDecimal.ZERO;
+        BigDecimal transactionSecurityCostPrincipal = BigDecimal.ZERO;
+        
+        //get the transaction archive data totals....
+        List<TransactionArchiveSecurity> archiveSecurities = transactionArchive.getArchiveSecurities();
+        for (TransactionArchiveSecurity archiveSecurity : archiveSecurities) {
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
+                transactionSecurityCostIncome = transactionSecurityCostIncome.add(archiveSecurity.getHoldingCost());
+            }
+            if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
+                transactionSecurityCostPrincipal = transactionSecurityCostPrincipal.add(archiveSecurity.getHoldingCost());
+            }
+        }
+        
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.INCOME)) {
-            securityTransfersDataHolder.setIncomeSecurityTransfers(securityTransfersDataHolder.getIncomeSecurityTransfers().add(transactionArchive.getIncomeCashAmount()));
+            securityTransfersDataHolder.setIncomeSecurityTransfers(securityTransfersDataHolder.getIncomeSecurityTransfers().add(transactionSecurityCostIncome));
             transactionSummaryReportDataHolder.setIncomeChangeInMarketValue(transactionSummaryReportDataHolder.getIncomeChangeInMarketValue().subtract(securityTransfersDataHolder.getIncomeSecurityTransfers()));
         }
             
         if (transactionArchive.getIncomePrincipalIndicatorCode().equalsIgnoreCase(EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) {
-            securityTransfersDataHolder.setPrincipalSecurityTransfers(securityTransfersDataHolder.getPrincipalSecurityTransfers().add(transactionArchive.getPrincipalCashAmount()));
+            securityTransfersDataHolder.setPrincipalSecurityTransfers(securityTransfersDataHolder.getPrincipalSecurityTransfers().add(transactionSecurityCostPrincipal));
             transactionSummaryReportDataHolder.setPrincipalChangeInMarketValue(transactionSummaryReportDataHolder.getPrincipalChangeInMarketValue().subtract(securityTransfersDataHolder.getPrincipalSecurityTransfers()));
         }
         

@@ -10,28 +10,38 @@
 		</modifyColumn>
         <modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
 	    </modifySql>
 	</changeSet>
+
   <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_Oracle" dbms="oracle">
-    <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
-    <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
-    <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
-      <column name="ACCT_DFLT_ID" type="NUMBER(10)">
-        <constraints nullable="false" primaryKey="true" />
-      </column>
-    </addColumn>
-     <createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
+		<comment>KFSMI-6552 create an incrementing ID for account creation default table</comment>
+		<dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
+		<addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+		  <column name="ACCT_DFLT_ID" type="NUMBER(22)" />
+		</addColumn>
+		<addPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="CA_ACCT_AUTO_CREATE_DFLT_PK"
+						columnNames="ACCT_DFLT_ID" />		
+        <modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+	    </modifySql>
    </changeSet>
+
+	<changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_SEQ_oracle" dbms="oracle">
+    	<createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
+  	</changeSet>
    
-    <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_MySql" dbms="mysql">
-    <comment>KFSMI-KFSMI-6552 create an incrementing ID for account creation default table</comment>
-    <dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
-    <addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
-      <column name="ACCT_DFLT_ID" type="BIGINT(19)">
-        <constraints nullable="false" primaryKey="true"/>
-      </column>
-    </addColumn>
-    </changeSet>
+	<changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_SEQ_mysql" dbms="mysql">
+	  	<createTable tableName="CA_ACCT_AUTO_CREATE_DFLT_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+  	</changeSet>
    
 </databaseChangeLog>
 	

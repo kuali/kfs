@@ -44,10 +44,17 @@ public enum EndowmentTransactionSecurityFixture {
     ),
     ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAI_NON_CASH("EDOC-TEST", //documentNumber
             "F", //securityLineTypeCode - From section --> need to check
+            "165167107", // securityID
+            "1234567890", // objectId
+            new Long(1) // versionNumber
+    ),
+    ENDOWMENT_TRANSACTIONAL_TARGET_FOR_POSTING_EDOC_EAD_NON_CASH("EDOC-TEST", //documentNumber
+            "F", //securityLineTypeCode - From section --> need to check
             "99PLTF021", // securityID
             "1234567890", // objectId
             new Long(1) // versionNumber
-    );
+    )
+    ;
     
     public final String documentNumber;
     public final String securityLineTypeCode; 

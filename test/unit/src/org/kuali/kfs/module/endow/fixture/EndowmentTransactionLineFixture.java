@@ -208,8 +208,16 @@ public enum EndowmentTransactionLineFixture {
             new KualiDecimal("5200"), // transactionUnits
             false, // corpusIndicator
             false // linePosted
+    ),
+    ENDOWMENT_TRANSACTIONAL_LINE_FOR_POSTING_EDOC_EAD_NON_CASH(new Integer(1), // transactionLineNumber
+            "037F002010", // kemid
+            "40000",// etranCode
+            "P", // transactionIPIndicatorCode
+            new KualiDecimal("115.79"), // transactionAmount
+            new KualiDecimal("1000"), // transactionUnits
+            false, // corpusIndicator
+            false // linePosted
     )
-    
     ;
 
     public final Integer transactionLineNumber;

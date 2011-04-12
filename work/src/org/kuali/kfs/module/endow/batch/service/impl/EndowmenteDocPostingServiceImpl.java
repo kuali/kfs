@@ -142,7 +142,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      */
     private void processSecurityRecords(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documentType) {
         LOG.info("Entering \"processSecurityRecords\"");
-        EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine);
+        EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine, documentType);
         if (tranSecurity != null) {
             Security security = findSecurityRecord(tranSecurity.getSecurityID());
             if (security != null) {
@@ -238,7 +238,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
         businessObjectService.save(tranArchive);
 
         // END_TRAN_SEC_T
-        EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine);
+        EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine, documentType);
         if (tranSecurity != null) {
             TransactionArchiveSecurity tranArchiveSecurity = createTranArchiveSecurity(tranSecurity, tranLine, documentType);
             businessObjectService.save(tranArchiveSecurity);
@@ -484,10 +484,15 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      * @return EndowmentTransactionSecurity
      */
-    protected EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine) {
+    protected EndowmentTransactionSecurity findSecurityTransactionRecord(EndowmentTransactionLine tranLine, String documentType) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(EndowPropertyConstants.DOCUMENT_NUMBER, tranLine.getDocumentNumber());
-        primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, tranLine.getTransactionLineTypeCode());
+        if (EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER.equalsIgnoreCase(documentType)) {
+            primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE);
+        }
+        else {
+            primaryKeys.put(EndowPropertyConstants.TRANSACTION_SECURITY_LINE_TYPE_CODE, tranLine.getTransactionLineTypeCode());
+        }
         
         EndowmentTransactionSecurity tranSecurity = (EndowmentTransactionSecurity) businessObjectService.findByPrimaryKey(EndowmentTransactionSecurity.class, primaryKeys);
 

@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="kfs" id="KFS_40_KC_FIX_COL_LENGTH">
+	<changeSet author="KFS401" id="KFS_40_KC_FIX_COL_LENGTH">
 		<comment>Fix column length on auto-creation defaults table</comment>
 	    <modifyColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
 			<column name="CONTR_CTRLACCT_NBR" type="VARCHAR2(7)" />
@@ -14,7 +14,7 @@
 	    </modifySql>
 	</changeSet>
 
-  <changeSet author="Winston" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn_Oracle" dbms="oracle">
+  <changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn">
 		<comment>KFSMI-6552 create an incrementing ID for account creation default table</comment>
 		<dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
 		<addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">

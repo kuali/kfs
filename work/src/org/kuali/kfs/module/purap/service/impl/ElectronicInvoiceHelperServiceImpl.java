@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -104,10 +105,12 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.MailService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -1273,11 +1276,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         //PaymentRequestDocumentRule.processRouteDocumentBusinessRules
         SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPaymentRequestForEInvoiceEvent(preqDoc));
         
-        if(GlobalVariables.getMessageMap().size() > 0){
+        if(GlobalVariables.getMessageMap().hasErrors()){
             if (LOG.isInfoEnabled()){
                 LOG.info("***************Error in rules processing - " + GlobalVariables.getMessageMap());
             }
-            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, GlobalVariables.getMessageMap().toString(), orderHolder.getFileName());
+            ElectronicInvoiceRejectReason rejectReason = matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PREQ_ROUTING_VALIDATION_ERROR, getErrorMessages(GlobalVariables.getMessageMap().getErrorMessages()), orderHolder.getFileName());
             orderHolder.addInvoiceOrderRejectReason(rejectReason);
             return null;
         }
@@ -1456,10 +1459,30 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         // an existing payment request item
         addMissingMappedItems(preqItems, orderHolder);
 
+        //as part of a clean up, remove any preq items that have zero or null unit/extended price
+        removeEmptyItems(preqItems);
+        
         if (LOG.isInfoEnabled()) {
             LOG.info("Successfully populated the invoice order items");
         }
 
+    }
+    
+    /**
+     * Removes preq items from the list that have null or zero unit and extended price
+     * 
+     * @param preqItems
+     */
+    protected void removeEmptyItems(List<PurApItem> preqItems){
+     
+        for(int i=preqItems.size()-1; i >= 0; i--){
+            PurApItem item = preqItems.get(i);
+            
+            //if the unit and extended price have null or zero as a combo, remove item
+            if( isNullOrZero(item.getItemUnitPrice()) && isNullOrZero(item.getExtendedPrice()) ){
+                preqItems.remove(i);
+            }
+        }
     }
     
     /**
@@ -1646,7 +1669,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 purapItem.setItemDescription(purapItem.getItemDescription() + " - " + invoiceSpecialHandlingDescription);
             }
         }
-        
     }
     
     protected void processTaxItem (PaymentRequestItem preqItem,
@@ -1666,9 +1688,8 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getTaxDescription());
             }
         }
-        
     }
-    
+       
     protected void processShippingItem(PaymentRequestItem preqItem,
                                                    ElectronicInvoiceOrderHolder orderHolder){
         
@@ -1686,7 +1707,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
                 preqItem.setItemDescription(preqItem.getItemDescription() + " - " + orderHolder.getInvoiceShippingDescription());
             }
         }
-        
     }
 
     protected void processDiscountItem(PaymentRequestItem preqItem,
@@ -1697,7 +1717,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         }
 
         preqItem.addToUnitPrice(orderHolder.getInvoiceDiscountAmount());
-        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDiscountAmount()));        
+        preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDiscountAmount()));
     }
 
     
@@ -1708,7 +1728,6 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceDepositAmount());
         preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDepositAmount()));
-        
     }
     
     protected void processDueItem(PaymentRequestItem preqItem,
@@ -1718,9 +1737,26 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         
         preqItem.addToUnitPrice(orderHolder.getInvoiceDueAmount());
         preqItem.addToExtendedPrice(new KualiDecimal(orderHolder.getInvoiceDueAmount()));
-        
     }
-    
+
+    protected boolean isNullOrZero(BigDecimal value){
+        
+        if(ObjectUtils.isNull(value) || value.equals(BigDecimal.ZERO)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    protected boolean isNullOrZero(KualiDecimal value){
+        
+        if(ObjectUtils.isNull(value) || value.isZero()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     protected void setItemDefaultDescription(PaymentRequestItem preqItem){
         
         //If description is empty and item is not type "ITEM"... use default description
@@ -1815,6 +1851,42 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         if (doneFile.exists()) {
             doneFile.delete();
         }
+    }
+
+    /**
+     * returns a list of all error messages as a string
+     * 
+     * @param errorMap
+     * @return
+     */
+    protected String getErrorMessages(Map<String, TypedArrayList> errorMap){
+                
+        TypedArrayList errorMessages = null;
+        ErrorMessage errorMessage = null;
+        StringBuffer errorList = new StringBuffer("");
+        String errorText = null;
+        
+        for (Map.Entry<String, TypedArrayList> errorEntry : errorMap.entrySet()) {
+    
+            errorMessages = errorEntry.getValue();
+    
+            for (int i = 0; i < errorMessages.size(); i++) {
+    
+                errorMessage = (ErrorMessage) errorMessages.get(i);
+                                
+                // get error text
+                errorText = kualiConfigurationService
+                        .getPropertyString(errorMessage.getErrorKey());
+                // apply parameters
+                errorText = MessageFormat.format(errorText,
+                        (Object[]) errorMessage.getMessageParameters());
+    
+                // add key and error message together
+                errorList.append(errorText + "\n");
+            }
+        } 
+        
+        return errorList.toString();
     }
     
     protected String getBaseDirName(){

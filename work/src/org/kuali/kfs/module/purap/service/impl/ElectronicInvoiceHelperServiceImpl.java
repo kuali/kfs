@@ -1741,7 +1741,7 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     protected boolean isNullOrZero(BigDecimal value){
         
-        if(ObjectUtils.isNull(value) || value.equals(BigDecimal.ZERO)){
+        if(ObjectUtils.isNull(value) || value.compareTo(BigDecimal.ZERO) == 0 ){
             return true;
         }else{
             return false;

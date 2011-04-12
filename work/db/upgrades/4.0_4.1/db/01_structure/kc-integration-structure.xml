@@ -16,7 +16,7 @@
 
   <changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn">
 		<comment>KFSMI-6552 create an incrementing ID for account creation default table</comment>
-		<dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="KC_UNIT" />
+		<dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" />
 		<addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
 		  <column name="ACCT_DFLT_ID" type="NUMBER(22)" />
 		</addColumn>

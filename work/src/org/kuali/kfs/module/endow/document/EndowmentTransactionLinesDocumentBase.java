@@ -47,8 +47,7 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
         sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
         targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
     }
-
-
+    
     /**
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument#getSourceTransactionLines()
      */
@@ -425,18 +424,40 @@ public abstract class EndowmentTransactionLinesDocumentBase extends EndowmentTra
     }
 
     /**
+     * 
+     * @see org.kuali.rice.kns.document.DocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        
+        this.setTransactionPosted(false);
+        
+        List<EndowmentTransactionLine> lines = new ArrayList<EndowmentTransactionLine>();
+        if (sourceTransactionLines != null) lines.addAll(sourceTransactionLines);
+        if (targetTransactionLines != null) lines.addAll(targetTransactionLines);
+        
+        for (EndowmentTransactionLine line : lines) {
+            line.setLinePosted(false);
+        }       
+    } 
+    
+    /**
      * @see org.kuali.kfs.sys.document.Correctable#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException, IllegalStateException {
         super.toErrorCorrection();
 
+        this.setTransactionPosted(false);
+        
         // Negate the Tx lines
         List<EndowmentTransactionLine> lines = new ArrayList<EndowmentTransactionLine>();
         lines.addAll(sourceTransactionLines);
         lines.addAll(targetTransactionLines);
 
         for (EndowmentTransactionLine line : lines) {
+            line.setLinePosted(false);
             line.setTransactionAmount(line.getTransactionAmount().negated());
             if (null != line.getTransactionUnits() && !line.getTransactionUnits().isZero())
                 line.setTransactionUnits(line.getTransactionUnits().negated());

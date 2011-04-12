@@ -95,6 +95,7 @@
 		<move todir="${all.temp.directory}" verbose="true">
 			<fileset dir="${all.temp.directory}/kfs/build/distribution">
 				<include name="*.txt" />
+				<include name="*-impex-*.properties" />
 			</fileset>
 		</move>
 		<!-- get the current revision numbers for each SVN path we are including in the export -->

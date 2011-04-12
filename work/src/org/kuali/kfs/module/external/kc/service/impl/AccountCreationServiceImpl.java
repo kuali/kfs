@@ -94,7 +94,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         } 
         
         // create an account object        
-        Account account = createAccountObject(accountParameters, defaults, accountCreationStatus);
+        Account account = createAccountObject(accountParameters, defaults);
         
         // create an account automatic maintenance document
         createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus);
@@ -114,7 +114,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param AccountParametersDTO
      * @return Account
      */
-    protected Account createAccountObject(AccountParametersDTO parameters, AccountAutoCreateDefaults defaults, AccountCreationStatusDTO accountCreationStatus) {
+    public Account createAccountObject(AccountParametersDTO parameters, AccountAutoCreateDefaults defaults) {
                 
         Account account = new Account();
         
@@ -313,7 +313,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param AccountCreationStatusDTO
      * @return document  returns a new document for the account document type or null if there is an exception thrown.
      */
-    protected Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus) {
+    public Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus) {
       
         try {
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));                  

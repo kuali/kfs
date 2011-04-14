@@ -656,5 +656,9 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     public void setName(String finChartOfAccountDescription) {
         setFinChartOfAccountDescription(finChartOfAccountDescription);
     }
+    
+    public String getChartCodeForReport() {
+        return this.chartOfAccountsCode;
+    }
 }
 

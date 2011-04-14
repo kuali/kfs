@@ -82,9 +82,8 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
     private String b2bPunchoutURL;
     private String b2bPunchbackURL;
     private String b2bUserAgent;
+    private String b2bShoppingIdentity;
     private String b2bShoppingPassword;
-    private String b2bPurchaseOrderURL;
-    private String b2bPurchaseOrderPassword;
 
     protected B2BInformation getB2bShoppingConfigurationInformation() {
         B2BInformation b2b = new B2BInformation();
@@ -92,6 +91,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         b2b.setPunchbackURL(b2bPunchbackURL);
         b2b.setEnvironment(b2bEnvironment);
         b2b.setUserAgent(b2bUserAgent);
+        b2b.setIdentity(b2bShoppingIdentity);
         b2b.setPassword(b2bShoppingPassword);
         return b2b;
     }
@@ -124,12 +124,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         LOG.debug("createRequisitionsFromCxml() started");
         // for returning requisitions
         ArrayList requisitions = new ArrayList();
-
+        boolean dunsNumberEnabled = isDunsNumberEnabled();
+        
         // get items from the cart
         List items = message.getItems();
             
         // get vendor(s) for the items
-        List vendors = getAllVendors(items);
+        List vendors = getAllVendors(items, dunsNumberEnabled);
 
         // create requisition(s) (one per vendor)
         for (Iterator iter = vendors.iterator(); iter.hasNext();) {
@@ -158,10 +159,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
 
             // determine if the system is configured to use DUNS numbers, rather than VendorNumbers, if so, use that to 
             // filter vendor-specific items off the cart
-            String vendorNumberOrDUNS = (isDunsNumberEnabled() ? vendor.getVendorDunsNumber() : vendor.getVendorNumber());
+            String vendorNumberOrDUNS = (dunsNumberEnabled ? vendor.getVendorDunsNumber() : vendor.getVendorNumber());
 
             // get items for this vendor
-            List itemsForVendor = getAllVendorItems(items, vendorNumberOrDUNS);
+            List itemsForVendor = getAllVendorItems(items, vendorNumberOrDUNS, dunsNumberEnabled);
 
             // default data from user
             req.setDeliveryCampusCode(user.getCampusCode());
@@ -207,6 +208,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
             req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
 
+            //retrieve from an item (sent in cxml at item level, but stored in db at REQ level)
+            req.setExternalOrganizationB2bSupplierIdentifier(getSupplierIdFromFirstItem(itemsForVendor));
+
             // retrieve default PO address and set address
             VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(), vendor.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.PURCHASE_ORDER, user.getCampusCode());
             if (ObjectUtils.isNotNull(vendorAddress)) {
@@ -248,13 +252,13 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param items Items in the shopping cart
      * @return List of VendorDetails for each vendor in the shopping cart
      */
-    protected List getAllVendors(List items) {
+    protected List getAllVendors(List items, boolean dunsNumberEnabled) {
         LOG.debug("getAllVendors() started");
 
         Set vendorIdentifiers = new HashSet();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
-            vendorIdentifiers.add( getVendorNumber(item) );
+            vendorIdentifiers.add( getVendorNumber(item, dunsNumberEnabled) );
         }
 
         ArrayList vendors = new ArrayList();
@@ -289,14 +293,14 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param vendorId  String containing "vendorHeaderId-vendorDetailId"
      * @return list of RequisitionItems for a specific vendor id
      */
-    protected List getAllVendorItems(List items, String vendorId) {
+    protected List getAllVendorItems(List items, String vendorId, boolean dunsNumberEnabled) {
         LOG.debug("getAllVendorItems() started");        
         
         // First get all the ShoppingCartItems for this vendor in a list
         List scItems = new ArrayList();
         for (Iterator iter = items.iterator(); iter.hasNext();) {
             B2BShoppingCartItem item = (B2BShoppingCartItem) iter.next();            
-            if ( StringUtils.equals(vendorId, getVendorNumber(item)) ) {
+            if ( StringUtils.equals(vendorId, getVendorNumber(item, dunsNumberEnabled)) ) {
                 scItems.add(item);
             }
         }
@@ -330,9 +334,26 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         reqItem.setExternalOrganizationB2bProductReferenceNumber(item.getExtrinsic("SystemProductID"));
         reqItem.setItemRestrictedIndicator(false);
 
+        //returned in cxml at item level, but stored in db at REQ level
+        reqItem.setHoldSupplierId(item.getSupplier("SystemSupplierID"));
+
         return reqItem;
     }
 
+    /**
+     * The supplier id is received on the cxml at the item level, but we store it at the Requisition
+     * at the document level.  Supplier id should be the same for each item received for a vendor so 
+     * just return the id held on the first item.
+     * 
+     * @param reqItems
+     * @return
+     */
+    protected String getSupplierIdFromFirstItem(List reqItems) {
+        if (ObjectUtils.isNotNull(reqItems) && !reqItems.isEmpty()) {
+            return ((RequisitionItem)reqItems.get(0)).getHoldSupplierId();
+        }
+        return "";
+    }    
 
     /**
      * Gets the vendor number from the specified B2BShoppingCartItem, depending on whether DUNS is enabled for B2B:
@@ -342,10 +363,10 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
      * @param item the specified B2BShoppingCartItem.
      * @return the Vendor number retrieved from the B2BShoppingCartItem.
      */    
-    protected String getVendorNumber(B2BShoppingCartItem item){       
+    protected String getVendorNumber(B2BShoppingCartItem item, boolean dunsNumberEnabled){       
         String vendorNumber = null;
                 
-        if (isDunsNumberEnabled()) {
+        if (dunsNumberEnabled) {
             vendorNumber = item.getSupplier("DUNS");
         }
         else {
@@ -415,16 +436,12 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         b2bUserAgent = userAgent;
     }
 
+    public void setB2bShoppingIdentity(String b2bShoppingIdentity) {
+        this.b2bShoppingIdentity = b2bShoppingIdentity;
+    }
+
     public void setB2bShoppingPassword(String password) {
         b2bShoppingPassword = password;
-    }
-
-    public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
-        b2bPurchaseOrderURL = purchaseOrderURL;
-    }
-
-    public void setB2bPurchaseOrderPassword(String purchaseOrderPassword) {
-        b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
 }

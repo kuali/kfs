@@ -176,13 +176,23 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
      * @param logoImage                  The logo image file name to be used to generate the pdf.
      * @param environment                The current environment used (e.g. DEV if it is a development environment).
      */
-    public void savePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String pdfFileLocation, String pdfFilename, String campusName, String contractManagerCampusCode, String logoImage, String environment) {
+    public void savePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv,PurchaseOrderParameters transmitParameters , String environment) {
         LOG.debug("savePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
 
         try {
+            PurchaseOrderTransmitParameters orderTransmitParameters = (PurchaseOrderTransmitParameters)transmitParameters;
+            CampusParameter deliveryCampus = orderTransmitParameters.getCampusParameter();
+                if (deliveryCampus == null) {
+                    throw new RuntimeException(" delivery campus is null");
+                }
+                String campusName = deliveryCampus.getCampus().getCampusName();
+                if (campusName == null) {
+                   
+                    throw new RuntimeException("Campus Information is missing - campusName: " + campusName);
+                }
             Document doc = this.getDocument(9, 9, 70, 36);
-            PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(pdfFileLocation + pdfFilename));
-            this.createPOQuotePdf(po, poqv, campusName, contractManagerCampusCode, logoImage, doc, writer, environment);
+            PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(orderTransmitParameters.getPdfFileLocation() + orderTransmitParameters.getPdfFileName()));
+            this.createPOQuotePdf(po, poqv,campusName, orderTransmitParameters.getContractManagerCampusCode(), orderTransmitParameters.getLogoImage(), doc, writer, environment);
         }
         catch (DocumentException de) {
             LOG.error(de.getMessage(), de);

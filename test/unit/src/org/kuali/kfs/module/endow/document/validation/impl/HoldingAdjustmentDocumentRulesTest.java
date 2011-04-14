@@ -18,24 +18,47 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowTestConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTargetTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurityBase;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
+import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
+import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.document.HoldingAdjustmentDocument;
-import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
+import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionDocumentFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionLineFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionSecurityFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionTaxLotLineFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingTaxLotRebalanceFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -43,11 +66,18 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 @ConfigureContext(session = khuntley)
 public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
+    private static final Logger LOG = Logger.getLogger(HoldingAdjustmentDocumentRulesTest.class);
 
     private HoldingAdjustmentDocumentRules rule;
     private HoldingAdjustmentDocument document;
     private DocumentService documentService;
     private UnitTestSqlDao unitTestSqlDao;
+    
+    private Security security;
+    private ClassCode classCode;
+    private KEMID kemid;
+    private SecurityReportingGroup reportingGroup;
+    private EndowmentTransactionCode endowmentTransactionCode;
     
     private static final BigDecimal ZERO_AMOUNT = new BigDecimal(0);
     private static final BigDecimal NEGATIVE_AMOUNT = new BigDecimal(-1);
@@ -68,8 +98,18 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         documentService = SpringContext.getBean(DocumentService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
         
+        reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        classCode = ClassCodeFixture.NOT_LIABILITY_CLASS_CODE.createClassCodeRecord();
+        security = SecurityFixture.ACTIVE_SECURITY.createSecurityRecord();
+        kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
+
         //create the document
         document = createHoldingAdjustmentDocument();
+        
+        //add a corresponding tax lot record so it can be updated by the rules class..
+        HoldingTaxLotRebalance holdingTaxLotRebalance = HoldingTaxLotRebalanceFixture.HOLDING_TAX_LOT_REBALANCE_RECORD_FOR_LIABILITY.createHoldingTaxLotRebalanceRecord();
+        HoldingTaxLot holdingTaxLot = HoldingTaxLotFixture.HOLDING_TAX_LOT_RECORD_FOR_LIABILITY.createHoldingTaxLotRecord();
     }
 
     @Override
@@ -87,36 +127,123 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
      * @throws WorkflowException
      */
     protected HoldingAdjustmentDocument createHoldingAdjustmentDocument() throws WorkflowException {
-        HoldingAdjustmentDocument doc = (HoldingAdjustmentDocument) documentService.getNewDocument(HoldingAdjustmentDocument.class);
-        doc.getDocumentHeader().setDocumentDescription("This is a test document.");
-        
-        doc.getDocumentHeader().setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
-        doc.getDocumentHeader().setDocumentDescription(REFERENCE_DOCUMENT_DESCRIPTION);
-        
+        HoldingAdjustmentDocument doc = (HoldingAdjustmentDocument) EndowmentTransactionDocumentFixture.ENDOWMENT_TRANSACTIONAL_DOCUMENT_REQUIRED_FIELDS_RECORD.createEndowmentTransactionDocument(HoldingAdjustmentDocument.class);
+        doc.getDocumentHeader().setDocumentDescription("Testing Holding Adjustment.");
         doc.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
         doc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.MANUAL);
 
+        //adding security details...
+        EndowmentTransactionSecurityBase etsb = (EndowmentSourceTransactionSecurity) EndowmentTransactionSecurityFixture.ENDOWMENT_TRANSACTIONAL_SECURITY_REQUIRED_FIELDS_RECORD.createEndowmentTransactionSecurity(true);
+        etsb.setDocumentNumber(doc.getDocumentNumber());
+        
+        RegistrationCode registrationCode = RegistrationCodeFixture.REGISTRATION_CODE_RECORD_FOR_LIABILITY.createRegistrationCode();
+        etsb.setRegistrationCode(registrationCode.getCode());
+        etsb.refreshNonUpdateableReferences();
+        
+        doc.setSourceTransactionSecurity(etsb);
+        doc.getSourceTransactionSecurity().refreshNonUpdateableReferences();
+        
         return doc;
     }
     
     /**
-     * Method to validate the rule canOnlyAddSourceOrTargetTransactionLines
-     * Remove both source and target lines from the document and call the rule
+     * Test validateSecurity method to check for security code
+     * The test returns false if an invalid security code entered, 
+     * returns true if valid security code
      */
-    public void testCanOnlyAddSourceOrTargetTransactionLines_True() {
+    public void testValidateSecurity() {
+        LOG.info("testValidateSecurity() entered.");
+        
+        String securityId = document.getSourceTransactionSecurity().getSecurityID();
+        
+        //setting an empty security code so the test fails..
+        document.getSourceTransactionSecurity().setSecurityID(null);
+        assertFalse(rule.validateSecurity(true, document, true));
+        
+        //setting an invalid security code so the test fails..
+        document.getSourceTransactionSecurity().setSecurityID(EndowTestConstants.INVALID_SECURITY_ID);
+        assertFalse(rule.validateSecurity(true, document, true));
+        
+        //setting an inactive security code so the test fails..
+        document.getSourceTransactionSecurity().setSecurityID(securityId);
+        document.getSourceTransactionSecurity().refreshNonUpdateableReferences();        
+        document.getSourceTransactionSecurity().getSecurity().setActive(false);
+        assertFalse(rule.validateSecurity(true, document, true));
+        
+        document.getSourceTransactionSecurity().getSecurity().setActive(true);
+
+        //valid security code so the test should pass..
+        document.getSourceTransactionSecurity().setSecurityID(securityId);        
+        assertTrue(rule.validateSecurity(true, document, true));
+    }
+    
+    /**
+     * test to check validateSecurityClassCodeTypeNotLiability() method in the rule class
+     */
+    public void testValidateSecurityClassCodeTypeNotLiability() {
+        LOG.info("testValidateSecurityClassCodeTypeNotLiability() entered.");
+        
+        //classcode type is L so the test should assert false...
+        String liabilityClassCode = document.getSourceTransactionSecurity().getSecurity().getClassCode().getClassCodeType();
+        document.getSourceTransactionSecurity().getSecurity().getClassCode().setClassCodeType(EndowTestConstants.LIABILITY_CLASS_TYPE_CODE);
+        document.getSourceTransactionSecurity().getSecurity().getClassCode().refreshNonUpdateableReferences();
+        assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document, true));
+        
+        document.getSourceTransactionSecurity().getSecurity().getClassCode().setClassCodeType(liabilityClassCode);
+        document.getSourceTransactionSecurity().getSecurity().getClassCode().refreshNonUpdateableReferences();
+        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document, true));
+    }
+    
+    /**
+     * test to check validateRegistration() method in the rule class.
+     * This method check if registration code empty, if it is valid, and if it is active
+     */
+    public void testValidateRegistration() {
+        LOG.info("testValidateRegistration() entered.");
+        
+        String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
+        
+        //setting an empty registration code so the test fails..
+        document.getSourceTransactionSecurity().setRegistrationCode(null);
+        assertFalse(rule.validateRegistration(true, document, true));
+        
+        //setting an invalid registration code so the test fails..
+        document.getSourceTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
+        assertFalse(rule.validateRegistration(true, document, true));
+        
+        //setting an inactive registration code so the test fails..
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode);
+        document.getSourceTransactionSecurity().refreshNonUpdateableReferences();        
+        document.getSourceTransactionSecurity().getRegistrationCodeObj().setActive(false);
+        assertFalse(rule.validateRegistration(true, document, true));
+        
+        document.getSourceTransactionSecurity().getRegistrationCodeObj().setActive(true);
+        assertTrue(rule.validateRegistration(true, document, true));
+    }
+    
+    /**
+     * Method to validate the rule canOnlyAddSourceOrTargetTransactionLines
+     * Remove both source and target lines from the document and call the rule -- should pass the test
+     * add only source and assert and the results should be true
+     * add only target and assert and the results should be true
+     * add both source and target and assert and the results should be false.
+     */
+    public void testCanOnlyAddSourceOrTargetTransactionLines() {
+        LOG.info("testCanOnlyAddSourceOrTargetTransactionLines() entered.");
+        
         // remove any source or transaction lines from the document and test the rule.
         int index = 0;
         
         document.getTargetTransactionLines().clear();
         document.getSourceTransactionLines().clear();
         
+        //test is succeeds when there are no transaction lines in source or target sections
         assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, null, index));
         
         // add a source transaction line and check the rule - the rule should pass.
         document.getTargetTransactionLines().clear();        
         List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
-        
         assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLines().get(index), index));
         
         //add a target transaction line and check the rule - should pass.
@@ -124,227 +251,237 @@ public class HoldingAdjustmentDocumentRulesTest extends KualiTestBase {
         List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
         document.setTargetTransactionLines(targetTransactionLines);
         
-        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));        
+        assertTrue(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));
+        
+        //test fails since there are lines in both sections...
+        document.getTargetTransactionLines().clear();
+        document.getSourceTransactionLines().clear();
+        
+        List<EndowmentTransactionLine> sourceTransactionLinesForBoth = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLinesForBoth);
+        List<EndowmentTransactionLine> targetTransactionLinesForBoth = createTargetTransactionLine(index);
+        document.setTargetTransactionLines(targetTransactionLinesForBoth);
+        assertFalse(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getTargetTransactionLines().get(index), index));
     }
 
+    /**
+     * test to validate hasOnlySourceOrTargetTransactionLines() method in the rule class
+     */
+    public void testHasOnlySourceOrTargetTransactionLines() {
+        LOG.info("testHasOnlySourceOrTargetTransactionLines() entered.");
+        
+        int index = 0;        
+        
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
+        document.setTargetTransactionLines(targetTransactionLines);
+        //fails since there are lines in both sections....
+        assertFalse("Both Source and Target Lines entered.", rule.hasOnlySourceOrTargetTransactionLines(document));
+        
+        document.getTargetTransactionLines().clear();
+        document.getSourceTransactionLines().clear();
+        //fails since there are no lines in either sections....
+        assertTrue("There can only be either Source or Target Lines.", rule.hasOnlySourceOrTargetTransactionLines(document));
+
+        document.setSourceTransactionLines(sourceTransactionLines);
+        assertTrue("There can only be either Source or Target Lines.", rule.hasOnlySourceOrTargetTransactionLines(document));
+    }
+    
     /**
      * Helper Method to create a source transaction line
      */
     private List<EndowmentTransactionLine> createSourceTransactionLine(int index) {
-        List<EndowmentTransactionLine> sourceTransactionLines = new TypedArrayList(EndowmentSourceTransactionLine.class);
-        EndowmentSourceTransactionLine endowmentSourceTransactionLine = new EndowmentSourceTransactionLine();
-        endowmentSourceTransactionLine.setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
-        sourceTransactionLines.add(index, endowmentSourceTransactionLine);
+        List<EndowmentTransactionLine> sourceTransactionLine = new TypedArrayList(EndowmentSourceTransactionLine.class);
+
+        EndowmentTransactionLineBase endowmentSourceTransactionLine = (EndowmentSourceTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(true);
+        endowmentSourceTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);
+        endowmentSourceTransactionLine.setTransactionLineDescription("Source Line Description");
+        endowmentSourceTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        endowmentSourceTransactionLine.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        endowmentSourceTransactionLine.setUnitAdjustmentAmount(EndowTestConstants.POSITIVE_UNITS.bigDecimalValue());
         
-        return sourceTransactionLines;
+        endowmentSourceTransactionLine.setDocumentNumber(document.getDocumentNumber());
+        sourceTransactionLine.add(index, endowmentSourceTransactionLine);
+        
+        return sourceTransactionLine;
     }
     
     /**
      * Helper Method to create a source transaction line
      */
     private List<EndowmentTransactionLine> createTargetTransactionLine(int index) {
-        List<EndowmentTransactionLine> targetTransactionLines = new TypedArrayList(EndowmentTargetTransactionLine.class);
-        EndowmentTargetTransactionLine endowmentTargetTransactionLine = new EndowmentTargetTransactionLine();
-        endowmentTargetTransactionLine.setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
-        targetTransactionLines.add(index, endowmentTargetTransactionLine);
+        List<EndowmentTransactionLine> targetTransactionLine = new TypedArrayList(EndowmentTargetTransactionLine.class);
+
+        EndowmentTransactionLineBase endowmentTargetTransactionLine = (EndowmentTargetTransactionLine) EndowmentTransactionLineFixture.ENDOWMENT_TRANSACTIONAL_LINE_REQUIRED_FIELDS_RECORD.createEndowmentTransactionLine(false);
+        endowmentTargetTransactionLine.setEtranCode(EndowTestConstants.ETRAN_CODE);
+        endowmentTargetTransactionLine.setTransactionLineDescription("Source Line Description");
+        endowmentTargetTransactionLine.setTransactionIPIndicatorCode(EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
+        endowmentTargetTransactionLine.setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        endowmentTargetTransactionLine.setUnitAdjustmentAmount(EndowTestConstants.POSITIVE_UNITS.bigDecimalValue());
         
-        return targetTransactionLines;
+        endowmentTargetTransactionLine.setDocumentNumber(document.getDocumentNumber());
+        targetTransactionLine.add(index, endowmentTargetTransactionLine);
+        
+        return targetTransactionLine;
     }
     
     /**
-     * Method to validate the rule canOnlyAddSourceOrTargetTransactionLines
-     * Entered both source and target lines to the document and call the rule - should fail...
+     * test to validate method checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty()
+     * assert fails if either transaction amount and units adjustment amount entered 
+     * as zero or null else returns true.
      */
-    public void testCanOnlyAddSourceOrTargetTransactionLines_False() {
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty() {
+        LOG.info("testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty() entered.");
+        
         int index = 0;
         
-        document.getSourceTransactionLines().clear();        
-        document.getTargetTransactionLines().clear();
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        sourceTransactionLines.get(index).setTransactionAmount(null);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
+        //the assertion should be true
+        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(sourceTransactionLines.get(index), index));
+
+        sourceTransactionLines.get(index).setTransactionAmount(EndowTestConstants.ZERO_AMOUNT);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(BigDecimal.ZERO);
+        //the assertion should be true
+        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(sourceTransactionLines.get(index), index));
+        
+        sourceTransactionLines.get(index).setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
+        //the assertion should be true
+        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(sourceTransactionLines.get(index), index));
+    }
+    
+    /**
+     * test to validate method checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty()
+     * assert true if both transaction amount and units adjustment amount entered nonzero 
+     * else returns false.
+     */
+    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered() {
+        LOG.info("testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered() entered.");
+        
+        int index = 0;
+        
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        sourceTransactionLines.get(index).setTransactionAmount(null);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
+        //the assertion should be false
+        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(sourceTransactionLines.get(index), index));
+
+        sourceTransactionLines.get(index).setTransactionAmount(EndowTestConstants.ZERO_AMOUNT);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(BigDecimal.ZERO);
+        //the assertion should be false
+        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(sourceTransactionLines.get(index), index));
+        
+        sourceTransactionLines.get(index).setTransactionAmount(EndowTestConstants.POSITIVE_AMOUNT);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(BigDecimal.ZERO);
+        //the assertion should be false
+        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(sourceTransactionLines.get(index), index));
+
+    }
+    
+    /**
+     * Method to test validateKemidHasTaxLots rule
+     */
+    public void testValidateKemidHasTaxLots() {
+        LOG.info("testValidateKemidHasTaxLots() entered.");
+        
+        int index = 0;
+        
+        String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
+
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        document.getSourceTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
+        
+        assertFalse(rule.validateKemidHasTaxLots(document, document.getSourceTransactionLines().get(index), index));
+        
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode);
+        assertTrue(rule.validateKemidHasTaxLots(document, document.getSourceTransactionLines().get(index), index));
+    }
+    
+    /**
+     * test to validate processAddTransactionLineRules() method in the rule class.
+     */
+    public void testProcessAddTransactionLineRules() {
+        LOG.info("testProcessAddTransactionLineRules() entered.");
+        
+        int index = 0;
+        
+        String registrationCode = document.getSourceTransactionSecurity().getRegistrationCode();
+
+        // add a source transaction line and check the rule - the rule should pass.
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(null);
+        document.getSourceTransactionSecurity().setRegistrationCode(EndowTestConstants.INVALID_REGISTRATION_CODE);
+        //should fail since we set an invalid registration code...
+        assertFalse(rule.processAddTransactionLineRules(document, document.getSourceTransactionLines().get(index)));
+        
+        //should pass...first clear the error messages from the above assertFalse test..
+        GlobalVariables.getMessageMap().clearErrorMessages();        
+        document.getSourceTransactionSecurity().setRegistrationCode(registrationCode);
+        assertTrue(rule.processAddTransactionLineRules(document, document.getSourceTransactionLines().get(index)));
+    }
+    
+    /**
+     * test to validate processDeleteTaxLotLineRules() method in the rule class
+     */
+    public void testProcessDeleteTaxLotLineRules() {
+        LOG.info("testProcessDeleteTaxLotLineRules() entered.");
+        
+        int index = 0;
+        
+        //add a source line...
+        List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
+        document.setSourceTransactionLines(sourceTransactionLines);
+        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
+
+        EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine1 = EndowmentTransactionTaxLotLineFixture.TAX_LOT_RECORD1.createEndowmentTransactionTaxLotLineRecord();
+        endowmentTransactionTaxLotLine1.setDocumentNumber(document.getDocumentNumber());
+        List<EndowmentTransactionTaxLotLine> taxLotLines = new ArrayList();
+        
+        taxLotLines.add(endowmentTransactionTaxLotLine1);
+        
+        //add the tax lot lines
+        document.getSourceTransactionLines().get(index).setTaxLotLines(taxLotLines);
+        
+        //exactly one tax lot record.  So assert should fail... 
+        assertFalse(rule.processDeleteTaxLotLineRules(document, endowmentTransactionTaxLotLine1, document.getSourceTransactionLines().get(index), index, index));
+        
+        EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine2 = EndowmentTransactionTaxLotLineFixture.TAX_LOT_RECORD2.createEndowmentTransactionTaxLotLineRecord();
+        endowmentTransactionTaxLotLine2.setDocumentNumber(document.getDocumentNumber());
+        document.getSourceTransactionLines().get(index).getTaxLotLines().add(endowmentTransactionTaxLotLine2);
+        
+        //Two tax lot records.  So assert should true... 
+        assertTrue(rule.processDeleteTaxLotLineRules(document, endowmentTransactionTaxLotLine1, document.getSourceTransactionLines().get(index), index, index));
+    }
+    
+    /**
+     * test to validate processCustomRouteDocumentBusinessRules() method in the rule class.
+     */
+    public void testProcessCustomRouteDocumentBusinessRules() {
+        LOG.info("testProcessCustomRouteDocumentBusinessRules() entered.");
+        
+        int index = 0;
+        
+        //there are no transaction lines added yet... so assert should fails...
+        assertFalse(rule.processCustomRouteDocumentBusinessRules(document));
+        
+        //clear any error messages before the preceding assertion...
+        GlobalVariables.getMessageMap().clearErrorMessages();
         
         // add a source transaction line and check the rule - the rule should pass.
         List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
         document.setSourceTransactionLines(sourceTransactionLines);
-        
-        //add a target transaction line and check the rule - should pass.
-        List<EndowmentTransactionLine> targetTransactionLines = createTargetTransactionLine(index);
-        document.setTargetTransactionLines(targetTransactionLines);
-        
-        assertFalse(rule.canOnlyAddSourceOrTargetTransactionLines(document, document.getSourceTransactionLines().get(index), index));        
+        sourceTransactionLines.get(index).setUnitAdjustmentAmount(new BigDecimal("20.00"));
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(document));
     }
-    
-    /**
-     * Method to test validateKemidHasTaxLots rule
-     */
-//    public void testValidateKemidHasTaxLots_False() {
-//        int index = 0 ;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);        
-//        document.getSourceTransactionSecurity().setRegistrationCode("..."); //search should fail...
-//        
-//        assertFalse(rule.validateKemidHasTaxLots(document, document.getSourceTransactionLines().get(index), index));
-//        
-//    }
-
-    /**
-     * Method to test validateKemidHasTaxLots rule
-     */
-//    public void testValidateKemidHasTaxLots_True() {
-//        int index = 0 ;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);        
-//        document.getSourceTransactionSecurity().setRegistrationCode(REGISTRATION_CODE); //search should succeed...
-//        
-//        assertTrue(rule.validateKemidHasTaxLots(document, document.getSourceTransactionLines().get(index), index));
-//    }
-    
-    /**
-     * Helper method to setup the data for testing ValidateKemidHasTaxLots rule.
-     */
-    private void setupDataToTestValidateKemidHasTaxLots(int index) {
-        //      String sqlForKemidDelete = "DELETE FROM END_KEMID_T WHERE KEMID = '0000000000'";
-        //      int rowsForKemIdDelete = unitTestSqlDao.sqlCommand(sqlForKemidDelete);
-              
-        //      String sqlForKemId = "insert into END_KEMID_T columns (KEMID, SHRT_TTL, LONG_TTL, OPND_DT, ESTBL_DT, TYP_CD, PRPS_CD, INC_CAE_CD, PRIN_CAE_CD, RESP_ADMIN_CD, TRAN_RESTR_CD, CSH_SWEEP_MDL_ID, INC_ACI_MDL_ID, PRIN_ACI_MDL_ID, DORMANT_IND, CLOSED_IND, CLOSED_TO_KEMID, CLOSE_CD, FND_DISP, CLOSE_DT, OBJ_ID, TYP_INC_RESTR_CD, TYP_PRIN_RESTR_CD) values ('0000000000', 'Gift Annuity Trust 1', 'Gift Annuity Trust 1', TO_DATE('11/1/2005', 'mm/dd/yyyy'), TO_DATE('3/19/1999', 'mm/dd/yyyy'), '046', 'P', '9', 'L', 'TRST', 'NONE', '1', null, '1', 'N', 'N', null, null, null,TO_DATE(null, 'mm/dd/yyyy'),sys_guid(), 'TRU', 'TRU')";
-        //      int rowsForKemId = unitTestSqlDao.sqlCommand(sqlForKemId);
-              
-          //    String sqlForClassCodeDelete = "DELETE FROM  END_CLS_CD_T WHERE SEC_CLS_CD = '300'";
-          //    int rowsForClassCodeDelete = unitTestSqlDao.sqlCommand(sqlForClassCodeDelete);
-              
-         //     String sqlForSecurityCodeDelete = "DELETE FROM  END_SEC_T WHERE SEC_ID = '000000000'";
-         //     int rowsForSecurityCodeDelete = unitTestSqlDao.sqlCommand(sqlForSecurityCodeDelete);
-              
-        //      String sqlForSecurity = "insert into END_SEC_T columns (SEC_ID, SEC_DESC, SEC_TKR_SYMB, SEC_CLS_CD, SEC_SUBCLS_CD, SEC_UNIT_VAL, SEC_UNITS_HELD, SEC_ISS_DT, SEC_MAT_DT, SEC_VAL_DT, SEC_RT, UNIT_VAL_SRC, PREV_UNIT_VAL, PREV_UNIT_VAL_DT, SEC_CVAL, LAST_TRAN_DT, SEC_INC_PAY_FREQ, SEC_INC_NEXT_PAY_DT, SEC_INC_CHG_DT, SEC_DVDND_REC_DT, SEC_EX_DVDND_DT, SEC_DVDND_PAY_DT, SEC_DVDND_AMT, CMTMNT_AMT, FRGN_WITH_PCT, NXT_FSCL_YR_DSTRB_AMT, ROW_ACTV_IND, OBJ_ID) values ('000000000', 'Bond Trust Investment Pool', '', '300', null, '9.9269', '0', TO_DATE('', 'mm/dd/yyyy'), TO_DATE('', 'mm/dd/yyyy'), TO_DATE('10/31/2009', 'mm/dd/yyyy'), '0.2448', 'PFVD', '9.9406', TO_DATE('09/30/2009', 'mm/dd/yyyy'), '0.00', TO_DATE('10/11/2005', 'mm/dd/yyyy'), '', TO_DATE('', 'mm/dd/yyyy'), TO_DATE('11/4/2009', 'mm/dd/yyyy'), TO_DATE('', 'mm/dd/yyyy'), TO_DATE('', 'mm/dd/yyyy'), TO_DATE('', 'mm/dd/yyyy'), '0', null, '0', '0', 'Y',sys_guid())";
-        //      int rowsForSecurity = unitTestSqlDao.sqlCommand(sqlForSecurity);   
-              
-              String sqlForTaxLotsDelete = "DELETE FROM END_HLDG_TAX_LOT_T WHERE KEMID = '046G007720' AND SEC_ID = '99BTIP011' AND REGIS_CD = '0CP' AND  HLDG_IP_IND = 'P'";
-              int rowsForTaxLots = unitTestSqlDao.sqlCommand(sqlForTaxLotsDelete);
-              
-              String sqlForHoldingTaxLots = "insert into END_HLDG_TAX_LOT_T (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('046G007720', '99BTIP011', '0CP', '1', 'P', TO_DATE('6/26/2009', 'mm/dd/yyyy'), '1000', '20000', '0', '0', TO_DATE('6/26/2009', 'mm/dd/yyyy'),sys_guid())";
-              rowsForTaxLots = unitTestSqlDao.sqlCommand(sqlForHoldingTaxLots);
-
-              sqlForHoldingTaxLots = "insert into END_HLDG_TAX_LOT_T (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('046G007720', '99BTIP011', '0CP', '2', 'P', TO_DATE('8/27/2009', 'mm/dd/yyyy'), '200', '3500', '0', '0', TO_DATE('8/27/2009', 'mm/dd/yyyy'),sys_guid())";
-              rowsForTaxLots = unitTestSqlDao.sqlCommand(sqlForHoldingTaxLots);
-                    
-              sqlForHoldingTaxLots = "insert into END_HLDG_TAX_LOT_T (KEMID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_ACQD_DT, HLDG_UNITS, HLDG_COST, HLDG_ACRD_INC_DUE, HLDG_PRIOR_ACRD_INC, LAST_TRAN_DT, OBJ_ID) values ('046G007720', '99BTIP011', '0CP', '3', 'P', TO_DATE('9/30/2008', 'mm/dd/yyyy'), '300', '6400', '0', '0', TO_DATE('9/30/2008', 'mm/dd/yyyy'),sys_guid())";
-              rowsForTaxLots = unitTestSqlDao.sqlCommand(sqlForHoldingTaxLots);
-
-              List<EndowmentTransactionLine> sourceTransactionLines = createSourceTransactionLine(index);
-              document.setSourceTransactionLines(sourceTransactionLines);
-              document.getSourceTransactionLines().get(index).setKemid(KEM_ID);
-              document.getSourceTransactionLines().get(index).setTransactionIPIndicatorCode(IP_INDICATOR);
-              
-              document.getSourceTransactionSecurity().setSecurityID(SECURITY_ID);
-              //      HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
-              //      List<HoldingTaxLot> holdingTaxLots = holdingTaxLotService.getAllTaxLotsWithPositiveUnits(KEM_ID, SECURITY_ID, "0CP", "P");
-    }
-    
-    /**
-     * Test to check the rule processDeleteTaxLotLineRules
-     */
-    public void checkProcessDeleteTaxLotLineRules_False() {
-
-        int index = 0 ;
-        Number transLineIndex = 0;
-        Number taxLotLineIndex = 0;
-        
-        setupDataToTestValidateKemidHasTaxLots(index);        
-        document.getSourceTransactionSecurity().setRegistrationCode(REGISTRATION_CODE); //search should succeed...
-
-        EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument = null;
-        EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = null;
-        EndowmentTransactionLine endowmentTransactionLine = document.getSourceTransactionLines().get(index);
-        endowmentTransactionLine.getTaxLotLines().clear();
-        
-        assertFalse(rule.processDeleteTaxLotLineRules(endowmentTaxLotLinesDocument, endowmentTransactionTaxLotLine, endowmentTransactionLine, transLineIndex, taxLotLineIndex));
-    }
-    
-    /**
-     * Test to check the rule processDeleteTaxLotLineRules
-     */
-    public void checkProcessDeleteTaxLotLineRules_True() {
-
-        int index = 0 ;
-        Number transLineIndex = 0;
-        Number taxLotLineIndex = 0;
-        
-        setupDataToTestValidateKemidHasTaxLots(index);        
-        document.getSourceTransactionSecurity().setRegistrationCode(REGISTRATION_CODE); //search should succeed...
-
-        EndowmentTaxLotLinesDocument endowmentTaxLotLinesDocument = null;
-        EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine = new EndowmentTransactionTaxLotLine();
-        
-        EndowmentTransactionLine endowmentTransactionLine = document.getSourceTransactionLines().get(index);
-        
-        endowmentTransactionTaxLotLine.setDocumentLineNumber(1);
-        endowmentTransactionTaxLotLine.setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
-        endowmentTransactionTaxLotLine.setKemid(KEM_ID);
-        endowmentTransactionTaxLotLine.setSecurityID(SECURITY_ID);
-        endowmentTransactionTaxLotLine.setRegistrationCode(REGISTRATION_CODE);
-        endowmentTransactionTaxLotLine.setIpIndicator(IP_INDICATOR);
-        endowmentTransactionTaxLotLine.setDocumentLineNumber(1);
-        
-        List<EndowmentTransactionTaxLotLine> taxLotLines = endowmentTransactionLine.getTaxLotLines();
-        taxLotLines.add(endowmentTransactionTaxLotLine);
-
-        endowmentTransactionTaxLotLine.setDocumentLineNumber(2);
-        taxLotLines.add(endowmentTransactionTaxLotLine);
-        
-        endowmentTransactionLine.setTaxLotLines(taxLotLines);
-        
-        assertTrue(rule.processDeleteTaxLotLineRules(endowmentTaxLotLinesDocument, endowmentTransactionTaxLotLine, endowmentTransactionLine, transLineIndex, taxLotLineIndex));
-    }
-    
-    /**
-     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty
-     */
-//    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty_False() {
-//        int index = 0;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);  
-//        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
-//        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(new KualiDecimal("100.00"));
-//        
-//        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(document.getSourceTransactionLines().get(index), index));
-//    }
-    
-    /**
-     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty
-     */
-//    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEmpty_True() {
-//        int index = 0;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);  
-//        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
-//        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
-//        
-//        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEmpty(document.getSourceTransactionLines().get(index), index));
-//    }    
-    
-    /**
-     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered
-     */
-//    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered_True() {
-//        int index = 0;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);  
-//        document.getSourceTransactionLines().get(index).setTransactionAmount(new KualiDecimal("100.00"));
-//        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(new KualiDecimal("200.00"));
-//        
-//        assertTrue(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(document.getSourceTransactionLines().get(index), index));
-//    }    
-
-    /**
-     * Check the checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered
-     */
-//    public void testCheckIfBothTransactionAmountAndUnitAdjustmentAmountEntered_False() {
-//        int index = 0;
-//        
-//        setupDataToTestValidateKemidHasTaxLots(index);  
-//        document.getSourceTransactionLines().get(index).setTransactionAmount(null);
-//        document.getSourceTransactionLines().get(index).setUnitAdjustmentAmount(null);
-//        
-//        assertFalse(rule.checkIfBothTransactionAmountAndUnitAdjustmentAmountEntered(document.getSourceTransactionLines().get(index), index));
-//    }
 }
 
 

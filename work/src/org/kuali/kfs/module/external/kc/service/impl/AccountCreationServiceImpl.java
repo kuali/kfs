@@ -23,14 +23,14 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
+import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
+import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
-import org.kuali.kfs.module.external.kc.dto.AccountCreationStatusDTO;
-import org.kuali.kfs.module.external.kc.dto.AccountParametersDTO;
-import org.kuali.kfs.module.external.kc.service.AccountCreationService;
-import org.kuali.kfs.module.external.kc.service.UnitService;
+import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -51,7 +51,6 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class AccountCreationServiceImpl implements AccountCreationService {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountCreationServiceImpl.class);
@@ -74,13 +73,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         
         AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
         accountCreationStatus.setErrorMessages(new ArrayList<String>());
-        accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
+        accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                 
         // check to see if the user has the permission to create account
         String principalId = accountParameters.getPrincipalId();
         if (!isValidUser(principalId)) {
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
+            accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return accountCreationStatus;
         }
         
@@ -89,19 +88,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         AccountAutoCreateDefaults defaults = getAccountDefaults(unitNumber);
         
         if (defaults == null) {
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND);
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND);
+            accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return accountCreationStatus;
         } 
         
         // create an account object        
-        Account account = createAccountObject(accountParameters, defaults, accountCreationStatus);
+        Account account = createAccountObject(accountParameters, defaults);
         
         // create an account automatic maintenance document
         createAutomaticCGAccountMaintenanceDocument(account, accountCreationStatus);
         
         // set required values to AccountCreationStatus
-        if (accountCreationStatus.getStatus().equals(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS)) {
+        if (accountCreationStatus.getStatus().equals(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS)) {
             accountCreationStatus.setAccountNumber(accountParameters.getAccountNumber());
             accountCreationStatus.setChartOfAccountsCode(defaults.getChartOfAccountsCode());          
         }
@@ -115,7 +114,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param AccountParametersDTO
      * @return Account
      */
-    protected Account createAccountObject(AccountParametersDTO parameters, AccountAutoCreateDefaults defaults, AccountCreationStatusDTO accountCreationStatus) {
+    public Account createAccountObject(AccountParametersDTO parameters, AccountAutoCreateDefaults defaults) {
                 
         Account account = new Account();
         
@@ -129,21 +128,21 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setAccountEffectiveDate(new java.sql.Date(parameters.getEffectiveDate().getTime()));
         
         // set the right address based on the system parameter ACCOUNT_ADDRESS_TYPE
-        List<String> addressTypes = parameterService.getParameterValues(Account.class, KcConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE);
+        List<String> addressTypes = parameterService.getParameterValues(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADDRESS_TYPE);
         for (String addressType : addressTypes) {
-            if (addressType.equals(KcConstants.AccountCreationService.ADMIN_ADDRESS_TYTPE) && !parameters.getDefaultAddressStreetAddress().isEmpty()) {         
+            if (addressType.equals(ContractsAndGrantsConstants.AccountCreationService.ADMIN_ADDRESS_TYTPE) && !parameters.getDefaultAddressStreetAddress().isEmpty()) {         
                 account.setAccountStreetAddress(parameters.getDefaultAddressStreetAddress());
                 account.setAccountCityName(parameters.getDefaultAddressCityName());
                 account.setAccountStateCode(parameters.getDefaultAddressStateCode());            
                 account.setAccountZipCode(parameters.getDefaultAddressZipCode());
                 break;
-            } else if (addressType.equals(KcConstants.AccountCreationService.PAYMENT_ADDRESS_TYTPE) && !parameters.getAdminContactAddressStreetAddress().isEmpty()) { 
+            } else if (addressType.equals(ContractsAndGrantsConstants.AccountCreationService.PAYMENT_ADDRESS_TYTPE) && !parameters.getAdminContactAddressStreetAddress().isEmpty()) { 
                 account.setAccountStreetAddress(parameters.getAdminContactAddressStreetAddress());
                 account.setAccountCityName(parameters.getAdminContactAddressCityName());
                 account.setAccountStateCode(parameters.getAdminContactAddressStateCode());            
                 account.setAccountZipCode(parameters.getAdminContactAddressZipCode());
                 break;
-            } else if (addressType.equals(KcConstants.AccountCreationService.DEFAULT_ADDRESS_TYTPE) && !parameters.getPaymentAddressStreetAddress().isEmpty()) { 
+            } else if (addressType.equals(ContractsAndGrantsConstants.AccountCreationService.DEFAULT_ADDRESS_TYTPE) && !parameters.getPaymentAddressStreetAddress().isEmpty()) { 
                 account.setAccountStreetAddress(parameters.getPaymentAddressStreetAddress());
                 account.setAccountCityName(parameters.getPaymentAddressCityName());
                 account.setAccountStateCode(parameters.getPaymentAddressStateCode());            
@@ -181,8 +180,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setContinuationAccountNumber(defaults.getContinuationAccountNumber());
 
         account.setIncomeStreamAccountNumber(defaults.getIncomeStreamAccountNumber());
-        account.setIncomeStreamChartOfAccounts(new Chart());
-        account.getIncomeStreamChartOfAccounts().setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+        account.setIncomeStreamChartOfAccounts(defaults.getIncomeStreamChartOfAccounts());
+        account.setIncomeStreamFinancialCoaCode(defaults.getIncomeStreamFinancialCoaCode());
         
         account.setBudgetRecordingLevelCode(defaults.getBudgetRecordingLevelCode());
         account.setAccountSufficientFundsCode(defaults.getAccountSufficientFundsCode());
@@ -198,7 +197,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         account.setContractControlChartOfAccounts(new Chart());
         account.getContractControlChartOfAccounts().setChartOfAccountsCode(defaults.getContractControlFinCoaCode());        
         account.setContractControlAccountNumber(defaults.getContractControlAccountNumber());                            
-        account.setAcctIndirectCostRcvyTypeCd(defaults.getIndirectCostRcvyFinCoaCode());
+        account.setAcctIndirectCostRcvyTypeCd(defaults.getAcctIndirectCostRcvyTypeCd());
         account.setFinancialIcrSeriesIdentifier(defaults.getFinancialIcrSeriesIdentifier());         
         account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
         account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
@@ -228,7 +227,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
  
         if (ObjectUtils.isNotNull(maintenanceAccountDocument)) {           
             // set document header description...
-            maintenanceAccountDocument.getDocumentHeader().setDocumentDescription(KcConstants.AccountCreationService.AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION);
+            maintenanceAccountDocument.getDocumentHeader().setDocumentDescription(ContractsAndGrantsConstants.AccountCreationService.AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION);
                                    
             // set the account object in the maintenance document.         
             maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
@@ -250,15 +249,15 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     protected void createRouteAutomaticCGAccountDocument(MaintenanceDocument maintenanceAccountDocument, AccountCreationStatusDTO accountCreationStatus) {
             
         try {            
-            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, KcConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
+            String accountAutoCreateRouteValue = getParameterService().getParameterValue(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION);
 
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && 
                 !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
                 !accountAutoCreateRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                accountCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
+                accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
                 return;
             }
             
@@ -276,32 +275,33 @@ public class AccountCreationServiceImpl implements AccountCreationService {
             
         }   catch (WorkflowException wfe) {
 
-            LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
+            LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
+            accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_WARNING);
+            accountCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
                 getDocumentService().saveDocument(maintenanceAccountDocument);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+                accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
-                LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                LOG.error(ContractsAndGrantsConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
+                accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+                accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             }             
             
         }  catch (Exception ex) {
 
-            LOG.error(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT +  ex.getMessage()); 
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS+  ex.getMessage());
+            LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT +  ex.getMessage()); 
+            accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_WARNING);
+            accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+            accountCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS+  ex.getMessage());
             try {
                 // save it even though it fails to route or blanket approve the document
                 getDocumentService().saveDocument(maintenanceAccountDocument);
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_WARNING);
+                accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_WARNING);
             } catch (WorkflowException e) {
-                LOG.error(KcConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
-                accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage());
-                accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+                LOG.error(ContractsAndGrantsConstants.AccountCreationService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  e.getMessage()); 
+                accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+                accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             }             
         }
     }
@@ -313,16 +313,28 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param AccountCreationStatusDTO
      * @return document  returns a new document for the account document type or null if there is an exception thrown.
      */
-    protected Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus) {
+    public Document createCGAccountMaintenanceDocument(AccountCreationStatusDTO accountCreationStatus) {
       
+        boolean internalUserSession = false;
         try {
+            if (GlobalVariables.getUserSession() == null) {
+                internalUserSession = true;
+                GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
+                GlobalVariables.clear();
+            }
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class));                  
             return document;      
             
         } catch (Exception e) {
-            accountCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + e.getMessage());
-            accountCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            accountCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+            accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
+        } finally {
+            // if a user session was established for this call, clear it our
+            if ( internalUserSession ) {
+                GlobalVariables.clear();
+                GlobalVariables.setUserSession(null);
+            }            
         }
     }       
     
@@ -336,7 +348,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         PersonService<Person> personService = KIMServiceLocator.getPersonService();
         Person user = personService.getPerson(principalId);
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
-        if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+        if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
             // set the user session so that the user name can be displayed in the saved document        
             GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
             return true;
@@ -365,14 +377,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // if the matching defaults is null, try the parents in the hierarchy
         if (defaults == null) {
       
-            //FIXME:  KC is currently a SOAP Service.  this won't work because it isn't on the bus
             List <String> parentUnits = null;
             try {
-                UnitService unitService = SpringContext.getBean(UnitService.class);
-                parentUnits = unitService.getParentUnits(unitNumber);
+                parentUnits = SpringContext.getBean(ContractsAndGrantsModuleService.class).getParentUnits(unitNumber);
             } catch (Exception ex) {
-                LOG.error(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
-                GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit", ex.getMessage());
+                LOG.error(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND +  ex.getMessage()); 
+                
+                GlobalVariables.getMessageMap().putError(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND,"kcUnit", ex.getMessage());
+
             }
 
             if (parentUnits != null) {

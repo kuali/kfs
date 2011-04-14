@@ -26,7 +26,7 @@ import org.kuali.kfs.module.endow.document.service.KemidHoldingTaxLotOpenRecords
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
- * This KemidCurrentCashOpenRecordsServiceImpl class provides the implementation for the method to test whether a KEMID has open
+ * This KemidHoldingTaxLotOpenRecordsServiceImpl class provides the implementation for the method to test whether a KEMID has open
  * records in Holding Tax Lot: records with values greater or less than zero for the following fields: Holding Units, Holding Cost
  * and Current Accrual.
  */

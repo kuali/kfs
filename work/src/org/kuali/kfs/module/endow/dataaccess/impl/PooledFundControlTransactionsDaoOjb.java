@@ -42,16 +42,20 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao#getTransactionArchiveSecurityWithSecurityId(java.lang.String, java.util.List)
      */
-    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(String securityId, List<String> documentTypeNames, Date currentDate) {
+    public List<TransactionArchiveSecurity> getTransactionArchiveSecurityWithSecurityId(PooledFundControl pooledFundControl, List<String> documentTypeNames, Date currentDate) {
+        
+        String securityId = pooledFundControl.getPooledSecurityID();
+        String kemid = pooledFundControl.getFundKEMID();
+        
         // get the list of TransactionArchiveSecurity that has securityId
         Criteria crit = new Criteria();
-        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, securityId);
+        crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, pooledFundControl.getPooledSecurityID());
         List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = (List<TransactionArchiveSecurity>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TransactionArchiveSecurity.class, crit));
         
         // filter transactionArchiveSecurityRecords 
         List<TransactionArchiveSecurity> fnalTransactionArchiveSecurityRecords = new ArrayList<TransactionArchiveSecurity>();
         for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
-            if (existsTransactionArchiveSecurityWithDocNames(documentTypeNames, transactionArchiveSecurity, currentDate)) {
+            if (existsTransactionArchiveSecurityWithDocNames(kemid, documentTypeNames, transactionArchiveSecurity, currentDate)) {
                 fnalTransactionArchiveSecurityRecords.add(transactionArchiveSecurity);
             }
         }
@@ -62,7 +66,11 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.PooledFundControlTransactionsDao#getTransactionArchiveWithSecurityAndDocNames(java.lang.String, java.util.List)
      */
-    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(String securityId, List<String> documentTypeNames, Date currentDate) {
+    public List<TransactionArchive> getTransactionArchiveWithSecurityAndDocNames(PooledFundControl pooledFundControl, List<String> documentTypeNames, Date currentDate) {
+        
+        String securityId = pooledFundControl.getPooledSecurityID();
+        String kemid = pooledFundControl.getFundKEMID();
+        
         // get the list of TransactionArchiveSecurity that has securityId
         Criteria crit1 = new Criteria();
         crit1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SECURITY_ID, securityId);
@@ -70,7 +78,8 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
 
         // get the list of TransactionArchive matching TransactionArchiveSecurity
         Criteria crit2 = new Criteria();
-        crit2.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE,currentDate);
+        crit2.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, currentDate);
+        crit2.addNotEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);        
         if (documentTypeNames != null && !documentTypeNames.isEmpty()) {
             crit2.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypeNames);
         }
@@ -93,9 +102,10 @@ public class PooledFundControlTransactionsDaoOjb extends PlatformAwareDaoBaseOjb
      * @param transactionArchiveSecurity
      * @return
      */
-    protected boolean existsTransactionArchiveSecurityWithDocNames(List<String> documentTypeNames, TransactionArchiveSecurity transactionArchiveSecurity, Date currentDate) {
+    protected boolean existsTransactionArchiveSecurityWithDocNames(String kemid, List<String> documentTypeNames, TransactionArchiveSecurity transactionArchiveSecurity, Date currentDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, currentDate);
+        crit.addNotEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid); 
         if (documentTypeNames != null && !documentTypeNames.isEmpty()) {
             crit.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypeNames);
         }

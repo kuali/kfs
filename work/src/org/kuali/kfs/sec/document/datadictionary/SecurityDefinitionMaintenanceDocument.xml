@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="SecurityDefinitionMaintenanceDocument" parent="SecurityDefinitionMaintenanceDocument-parentBean"/>
+
+  <bean id="SecurityDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityDefinition"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sec.document.SecurityDefinitionMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SecurityDefinitionMaintenanceDocument-EditSecurityDefinition"/>
+        <ref bean="SecurityDefinitionMaintenanceDocument-EditDocTypes"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="securityAttribute" p:attributeToHighlightOnFail="attributeId"/>
+        <!-- bean parent="ReferenceDefinition" p:collection="definitionDocumentTypes" p:attributeName="financialSystemDocumentType" p:attributeToHighlightOnFail="financialSystemDocumentTypeCode"/>-->
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="SecurityDefinitionMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sec.document.validation.impl.SecurityDefinitionRule"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.sec.document.authorization.SecurityDefinitionMaintenanceDocumentPresentationController"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="SecurityDefinitionMaintenanceDocument-workflowAttributes"/>
+    </property> 
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="SecurityDefinitionMaintenanceDocument-EditSecurityDefinition" parent="SecurityDefinitionMaintenanceDocument-EditSecurityDefinition-parentBean"/>
+
+  <bean id="SecurityDefinitionMaintenanceDocument-EditSecurityDefinition-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Security Definition"/>
+    <property name="title" value="Edit Security Definition"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sec.businessobject.defaultvalue.NextSecurityDefinitionIdFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" p:readOnlyAfterAdd="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="attributeId" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="restrictViewAccountingLine" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictEditAccountingLine" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictViewDocument" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictEditDocument" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictViewNotesAndAttachments" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictLookup" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictGLInquiry" p:required="false"/>  
+        <bean parent="MaintainableFieldDefinition" p:name="restrictLaborInquiry" p:required="false"/>      
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityDefinitionMaintenanceDocument-EditDocTypes" parent="SecurityDefinitionMaintenanceDocument-EditDocTypes-parentBean"/>
+
+  <bean id="SecurityDefinitionMaintenanceDocument-EditDocTypes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Document Types"/>
+    <property name="title" value="Edit Document Types"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="definitionDocumentTypes"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType"/>
+          <property name="summaryTitle" value="Edit Document Type"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="financialSystemDocumentTypeCode"/>
+            </list>
+          </property>
+          <property name="duplicateIdentificationFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="financialSystemDocumentTypeCode"/>
+            </list>
+          </property>          
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="financialSystemDocumentTypeCode" p:required="true" p:noLookup="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+
+  <!-- workflow attributes -->
+  
+  <bean id="SecurityDefinitionMaintenanceDocument-workflowAttributes" parent="SecurityDefinitionMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="SecurityDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+	
+</beans>

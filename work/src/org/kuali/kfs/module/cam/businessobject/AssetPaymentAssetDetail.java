@@ -71,7 +71,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.documentNumber != null) {
-            m.put("paymentSequenceNumber", this.documentNumber.toString());
+            m.put("documentNumber", this.documentNumber.toString());
         }
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());

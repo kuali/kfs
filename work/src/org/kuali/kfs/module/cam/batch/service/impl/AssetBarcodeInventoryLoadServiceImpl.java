@@ -39,12 +39,8 @@ import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInvento
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.AdHocRouteRecipient;
 import org.kuali.rice.kns.document.Document;
@@ -263,7 +259,8 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         boolean isValid = true;
 
         SimpleDateFormat formatter = new SimpleDateFormat(CamsConstants.DateFormats.MONTH_DAY_YEAR + " " + CamsConstants.DateFormats.STANDARD_TIME, Locale.US);
-
+        formatter.setLenient(false);
+        
         BarcodeInventoryErrorDetail barcodeInventoryErrorDetail;
         List<BarcodeInventoryErrorDetail> barcodeInventoryErrorDetails = new ArrayList<BarcodeInventoryErrorDetail>();
 

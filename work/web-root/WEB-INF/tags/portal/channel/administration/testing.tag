@@ -17,7 +17,7 @@
 
 <channel:portalChannelTop channelTitle="Testing" />
 <div class="body">
-    <c:if test="${!KualiConfigurationService.isProductionEnvironment}">
+    <c:if test="${!KualiConfigurationService.isProductionEnvironment && ConfigProperties.module.purchasing.enabled == 'true'}">
         <!-- THIS FUNCTIONALITY SHOULD ONLY BE AVAILABLE IN TEST ENVIRONMENTS -->
 		<strong>Electronic Invoice</strong><br/>
 	    <ul class="chan">

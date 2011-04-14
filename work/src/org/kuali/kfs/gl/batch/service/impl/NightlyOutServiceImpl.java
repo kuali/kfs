@@ -319,6 +319,12 @@ public class NightlyOutServiceImpl implements NightlyOutService {
          * @param reportWriterService the reportWriterService to write the footer to
          */
         public void writeReportFooter(ReportWriterService reportWriterService) {
+            // write the last total line for the last entry, because we have yet to write it
+            if (documentNumberTotal != null) {
+                // dNT may have been null if no entries were processed for the batch
+                writeDocumentTotalLine(documentNumberTotal, reportWriterService);
+            }
+            
             final CurrencyFormatter formatter = new CurrencyFormatter();
             final int amountLength = getDataDictionaryService().getAttributeMaxLength(Entry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
           

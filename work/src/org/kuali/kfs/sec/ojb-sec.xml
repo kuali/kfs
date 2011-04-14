@@ -1,0 +1,150 @@
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<descriptor-repository version="1.0">
+
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityAttribute" table="SEC_SCRTY_ATTR_T">
+    <field-descriptor name="id" column="ATTR_ID" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="name" column="ATTR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityDefinition" table="SEC_SCRTY_DEFN_T">
+    <field-descriptor name="id" column="DEFN_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEC_SCRTY_DEFN_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="name" column="DEFN_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="description" column="DEFN_DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attributeId" column="ATTR_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion"/>
+    <field-descriptor name="restrictViewAccountingLine" column="RSTR_VIEW_ACCT_LINE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictEditAccountingLine" column="RSTR_EDIT_ACCT_LINE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictViewDocument" column="RSTR_VIEW_DOC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictEditDocument" column="RSTR_EDIT_DOC_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictViewNotesAndAttachments" column="RSTR_VIEW_NTE_ATT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictLookup" column="RSTR_LU_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictGLInquiry" column="RSTR_GL_INQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="restrictLaborInquiry" column="RSTR_LD_INQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+ 
+    <reference-descriptor name="securityAttribute" class-ref="org.kuali.kfs.sec.businessobject.SecurityAttribute" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="attributeId" />
+    </reference-descriptor>
+       
+    <collection-descriptor name="definitionDocumentTypes" element-class-ref="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+      <inverse-foreignkey field-ref="definitionId" />
+    </collection-descriptor>
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType" table="SEC_SCRTY_DEFN_DOC_TYP_T">
+    <field-descriptor name="definitionId" column="DEFN_ID" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="financialSystemDocumentTypeCode" column="DOC_TYP_NM" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityModel" table="SEC_SCRTY_MDL_T">
+    <field-descriptor name="id" column="MDL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEC_SCRTY_MDL_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="name" column="MDL_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="description" column="MDL_DESC_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    
+    <collection-descriptor name="modelDefinitions" element-class-ref="org.kuali.kfs.sec.businessobject.SecurityModelDefinition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+      <inverse-foreignkey field-ref="modelId" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="modelMembers" element-class-ref="org.kuali.kfs.sec.businessobject.SecurityModelMember" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+      <inverse-foreignkey field-ref="modelId" />
+    </collection-descriptor>  
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityModelDefinition" table="SEC_SCRTY_MDL_DEFN_T">
+    <field-descriptor name="modelDefinitionId" column="MDL_DEFN_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEC_SCRTY_MDL_DEFN_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="modelId" column="MDL_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="definitionId" column="DEFN_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="constraintCode" column="CONS_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="operatorCode" column="OPR_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attributeValue" column="ATTR_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="overrideDeny" column="OVRD_DNY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    
+    <reference-descriptor name="securityDefinition" class-ref="org.kuali.kfs.sec.businessobject.SecurityDefinition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="definitionId" />
+    </reference-descriptor>
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityModelMember" table="SEC_SCRTY_MDL_MBR_T">
+    <field-descriptor name="modelId" column="MDL_ID" jdbc-type="BIGINT" primarykey="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="memberId" column="MBR_ID" jdbc-type="VARCHAR"  primarykey="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="memberTypeCode" column="MBR_TYP_CD" jdbc-type="CHAR" />
+    <field-descriptor name="activeFromDate" column="ACTV_FRM_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="activeToDate" column="ACTV_TO_DT" jdbc-type="TIMESTAMP" />
+    
+    <reference-descriptor name="securityModel" class-ref="org.kuali.kfs.sec.businessobject.SecurityModel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="modelId" />
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityPrincipal" table="SEC_SCRTY_PRNCPL_T">
+    <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    
+    <collection-descriptor name="principalDefinitions" element-class-ref="org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+      <inverse-foreignkey field-ref="principalId" />
+    </collection-descriptor>
+  
+    <collection-descriptor name="principalModels" element-class-ref="org.kuali.kfs.sec.businessobject.SecurityModelMember" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+      <inverse-foreignkey field-ref="memberId" />
+      <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+			<attribute attribute-name="memberTypeCode" attribute-value="P" />
+	  </query-customizer>
+    </collection-descriptor>  
+  </class-descriptor>
+  
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition" table="SEC_SCRTY_PRNCPL_DEFN_T">
+    <field-descriptor name="principalDefinitionId" column="PRNCPL_DEFN_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEC_SCRTY_PRNCPL_DEFN_ID_SEQ" autoincrement="true" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="definitionId" column="DEFN_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.kns.util.OjbKualiIntegerFieldConversion" />
+    <field-descriptor name="constraintCode" column="CONS_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="operatorCode" column="OPR_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="attributeValue" column="ATTR_VAL" jdbc-type="VARCHAR" />
+    <field-descriptor name="overrideDeny" column="OVRD_DNY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    
+    <reference-descriptor name="securityDefinition" class-ref="org.kuali.kfs.sec.businessobject.SecurityDefinition" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="definitionId" />
+    </reference-descriptor>
+  </class-descriptor>  
+  
+  <!-- dummy mapping to make frameworks happy -->
+  <class-descriptor class="org.kuali.kfs.sec.businessobject.ModelMember" table="SEC_FOO_T">
+    <field-descriptor name="memberTypeCode" column="FOO" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="memberId" column="FOO" jdbc-type="BIGINT" primarykey="true" />
+  </class-descriptor>  
+
+</descriptor-repository>

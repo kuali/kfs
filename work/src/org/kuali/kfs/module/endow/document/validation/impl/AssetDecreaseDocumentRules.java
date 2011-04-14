@@ -181,7 +181,7 @@ public class AssetDecreaseDocumentRules extends EndowmentTransactionLinesDocumen
      * @param line
      * @return true if valid, false otherwise
      */
-    private boolean validateTotalAmountAndUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine transactionLine, int index) {
+    protected boolean validateTotalAmountAndUnits(EndowmentTransactionLinesDocumentBase endowmentTransactionLinesDocumentBase, EndowmentTransactionLine transactionLine, int index) {
         boolean isValid = true;
 
         BigDecimal lineUnits = null;

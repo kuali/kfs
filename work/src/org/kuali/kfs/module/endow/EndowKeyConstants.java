@@ -95,8 +95,10 @@ public class EndowKeyConstants {
         public static final String ERROR_INVALID_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.inValid";
         public static final String ERROR_DUPLICATE_FEE_SECURITY_CODE_ENTERED = "error.document.feeSecurity.securityCode.duplicateEntered";
         public static final String ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.cannotBeBlank";
+        public static final String ERROR_BLANK_DOCUMENT_TYPE_NAME_ENTERED = "error.document.feeTransactions.documentTypeName.cannotBeBlank";
         public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.inValid";
         public static final String ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED = "error.document.feeTransactions.transactionTypeCode.duplicateEntered";
+        public static final String ERROR_DUPLICATE_TRANSACTION_TYPE_NAME_ENTERED = "error.document.feeTransactions.documentTypeName.duplicateEntered";
         public static final String ERROR_BLANK_ENDOWMENT_TRANSACTION_CODE_ENTERED = "error.document.feeEndowmentTransactionCodes.transactionTypeCode.cannotBeBlank";
         public static final String ERROR_BLANK_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.cannotBeBlank";
         public static final String ERROR_DUPLICATE_PAYMENT_TYPE_CODE_ENTERED = "error.document.feePaymentType.paymentTypeCode.duplicateEntered";
@@ -106,7 +108,7 @@ public class EndowKeyConstants {
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.noRecord";
         public static final String ERROR_RECORDS_WITH_YES_IN_FEE_TRANSACTION_TYPE = "error.document.feeMethod.feeByTransactionType.yesRecord";
         public static final String ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED = "error.document.feeMethod.feeByTransactionType.invalid";
-        public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_FOR_EXPENSE_ETRANCODE="error.document.feeMethod.feeByTransactionType.expenseTypeCode.shouldBeE";
+        public static final String ERROR_INVALID_TRANSACTION_TYPE_CODE_FOR_EXPENSE_ETRANCODE = "error.document.feeMethod.feeByTransactionType.expenseTypeCode.shouldBeE";
         public static final String ERROR_NO_RECORD_IN_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.invalidETranCode";
         public static final String ERROR_NO_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.noRecord";
         public static final String ERROR_RECORDS_WITH_YES_IN_FEE_ENDOWMENT_TRANSACTION_CODE = "error.document.feeMethod.feeByETranCode.yesRecord";
@@ -223,6 +225,7 @@ public class EndowKeyConstants {
 
         // Asset increase constants
         public static final String ERROR_TRANSACTION_SECURITY_NOT_LIABILITY = "error.assetIncreaseDocument.security.notLiability";
+        public static final String ERROR_TRANSACTION_SECURITY_COMMITMENT_AMT = "error.assetIncreaseDocument.security.commitmentAmountValidation";
 
         // Asset decrease constants
         public static final String ERROR_ASSET_DECREASE_INSUFFICIENT_UNITS = "error.assetDecreaseDocument.insufficientUnits";
@@ -281,7 +284,7 @@ public class EndowKeyConstants {
         public static final String ERROR_HOLDING__ADJUSTMENT_TRANS_LINE_MUST_HAVE_AT_LEAST_ONE_TAX_LOT = "error.holdingHistoryAdjustment.transactionLineMustHaveAtLeastOneTaxLotLine";
         public static final String ERROR_HOLDING_ADJUSTMENT_BOTH_SOURCE_AND_TARGET_TRAN_LINES_BLANK = "error.holdingHistoryAdjustment.bothTransactionLineSections.canNotBeBlank";
     }
-    
+
     public static class HoldingTaxLotRebalanceConstants {
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalUnits.notBalanced";
         public static final String ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED = "error.document.holdingTaxLotRebalance.totalCost.notBalanced";
@@ -305,6 +308,5 @@ public class EndowKeyConstants {
         public static final String ERROR_DOCUMENT_ETRAN_CODE_INVALID_TYPE = "error.document.etran.code.invalid.type";
 
     }
-
 
 }

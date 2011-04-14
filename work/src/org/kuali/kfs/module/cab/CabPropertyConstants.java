@@ -41,6 +41,8 @@ public class CabPropertyConstants {
         public static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
         public static final String PURAP_LINE_ASSET_ACCOUNTS = "purApLineAssetAccounts";
         public static final String GENERAL_LEDGER_ENTRY_ASSETS = "generalLedgerEntryAssets";
+        public static final String ORGNIZATION_REFERENCE_ID = "organizationReferenceId";
+        public static final String PROJECT_CD = "projectCode";
     }
 
     public static class Entry {
@@ -97,8 +99,8 @@ public class CabPropertyConstants {
         public static final String CAMPUS_TAG_NUMBER = "campusTagNumber";
         public static final String ITEM_LINE_NUMBER = "itemLineNumber";
         public static final String PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
-    }    
-    
+    }
+
     public static final String DOCUMENT_NUMBER = "documentNumber";
 
     public static class PurApLineForm {

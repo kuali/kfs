@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityDefinitionDocumentType" parent="SecurityDefinitionDocumentType-parentBean"/>
+
+  <bean id="SecurityDefinitionDocumentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityDefinitionDocumentType-inquiryDefinition"/>
+    </property>
+    <property name="titleAttribute" value="financialSystemDocumentTypeCode"/>
+    <property name="objectLabel" value="Security Definition Document Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityDefinitionDocumentType-definitionId"/>
+        <ref bean="SecurityDefinitionDocumentType-financialSystemDocumentTypeCode"/>
+        <ref bean="SecurityDefinitionDocumentType-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="SecurityDefinitionDocumentType-definitionId" parent="SecurityDefinitionDocumentType-definitionId-parentBean"/>
+
+  <bean id="SecurityDefinitionDocumentType-definitionId-parentBean" abstract="true" parent="SecurityDefinition-id">
+    <property name="name" value="definitionId"/>
+  </bean>
+  
+  <bean id="SecurityDefinitionDocumentType-financialSystemDocumentTypeCode" parent="SecurityDefinitionDocumentType-financialSystemDocumentTypeCode-parentBean"/>
+
+  <bean id="SecurityDefinitionDocumentType-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+    <property name="name" value="financialSystemDocumentTypeCode"/>
+    <property name="label" value="Document Type Name"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.SecurityDefinitionDocumentTypeFinder"/>
+    </property>
+  </bean>
+     
+  <bean id="SecurityDefinitionDocumentType-active" parent="SecurityDefinitionDocumentType-active-parentBean"/>
+
+  <bean id="SecurityDefinitionDocumentType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityDefinitionDocumentType-inquiryDefinition" parent="SecurityDefinitionDocumentType-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityDefinitionDocumentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Definition Document Type Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="definitionId"/>
+              <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+</beans>

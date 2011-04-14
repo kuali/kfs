@@ -44,5 +44,14 @@ public class PurposeCode extends KualiCodeBase {
         }
         return super.getCodeAndDescription();
     }
+    
+    /**
+     * Gets purpose code for report
+     * 
+     * @return code
+     */
+    public String getCodeForReport() {
+        return code;
+    }
 
 }

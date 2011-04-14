@@ -15,24 +15,12 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * AssetAuthorizer for Asset edit.

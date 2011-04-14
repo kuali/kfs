@@ -1,8 +1,24 @@
 #!/bin/sh
+
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # -----------------------------------------------------------------------------
 # Wrapper script for command line tools
 #
-# Environment Variable Prequisites
+# Environment Variable Prerequisites
 #
 #   CATALINA_HOME May point at your Catalina "build" directory.
 #
@@ -14,7 +30,7 @@
 #   JAVA_OPTS     (Optional) Java runtime options used when the "start",
 #                 "stop", or "run" command is executed.
 #
-# $Id: tool-wrapper.sh 385888 2006-03-14 21:04:40Z keith $
+# $Id: tool-wrapper.sh 1040555 2010-11-30 15:00:25Z rjung $
 # -----------------------------------------------------------------------------
 
 # OS specific support.  $var _must_ be set to either true or false.
@@ -38,7 +54,12 @@ done
 
 # Get standard environment variables
 PRGDIR=`dirname "$PRG"`
-CATALINA_HOME=`cd "$PRGDIR/.." ; pwd`
+CATALINA_HOME=`cd "$PRGDIR/.." >/dev/null; pwd`
+
+# Ensure that any user defined CLASSPATH variables are not used on startup,
+# but allow them to be specified in setenv.sh, in rare case when it is needed.
+CLASSPATH=
+
 if [ -r "$CATALINA_HOME"/bin/setenv.sh ]; then
   . "$CATALINA_HOME"/bin/setenv.sh
 fi
@@ -61,7 +82,7 @@ else
 fi
 
 # Add on extra jar files to CLASSPATH
-CLASSPATH="$CLASSPATH":"$CATALINA_HOME"/bin/bootstrap.jar:"$BASEDIR"/common/lib/jmx.jar:"$BASEDIR"/common/lib/servlet-api.jar
+CLASSPATH="$CLASSPATH":"$CATALINA_HOME"/bin/bootstrap.jar:"$BASEDIR"/lib/servlet-api.jar
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then

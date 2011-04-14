@@ -84,11 +84,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         // prepare for reports
         initializeReports();
         
-        // All the jobs should be attempted. If one should fail, that would be an exception to report and then return false.
-        if (!createCashDocumentForPurchase()) return false;   
-        if (!createCashDocumentForSale()) return false;
-        if (!createCashDocumentForSaleGainLoss()) return false;
-        if (!createCashDocumentForIncomeDistribution()) return false;
+        // All the jobs below should be attempted regardless of the status of another.
+        // In fact, all jobs in the process could be run concurrently.
+        // The job, itself, does not fail but completes with exceptions.
+        createCashDocumentForPurchase();   
+        createCashDocumentForSale();
+        createCashDocumentForSaleGainLoss();
+        createCashDocumentForIncomeDistribution();
 
         LOG.info("The batch Generate Pooled Fund Control Transactions was finished"); 
         
@@ -124,10 +126,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         //if (pooledFundControlRecords == null) return;
         
         // generate a cash document per each PooledFundControl
+        // If one should fail, that would be an exception to report and the remainder that does not fail should continue.
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
-            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
+            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl, documentTypeNames, kemService.getCurrentDate());
             if (transactionArchiveSecurityRecords != null) {
                 // get the total of security cost
                 for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {
@@ -137,9 +140,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             
             // create a cash document per security id of pooled fund control
             if (totalAmount.isPositive()) {
-                if (!createECI(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd)) return false;                                
+                createECI(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd);
             } else if (totalAmount.isNegative()) {
-                if (!createECDD(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd)) return false;
+                totalAmount = totalAmount.negated();
+                createECDD(pooledFundControl, totalAmount, DocDescription, securityLineType, noRouteInd, ipInd);
             }
         }   
         
@@ -157,10 +161,11 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         //if (pooledFundControlRecords == null) return;
         
         // generate a cash document per each PooledFundControl
+        // If one should fail, that would be an exception to report and the remainder that does not fail should continue.
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             // get the list of TransactionArchiveSecurity that has the same security id and document name
-            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
+            List<TransactionArchiveSecurity> transactionArchiveSecurityRecords = pooledFundControlTransactionsDao.getTransactionArchiveSecurityWithSecurityId(pooledFundControl, documentTypeNames, kemService.getCurrentDate());
             // get the total of security long term and short term gain and loss
             if (transactionArchiveSecurityRecords != null) {
                 for (TransactionArchiveSecurity transactionArchiveSecurity : transactionArchiveSecurityRecords) {                         
@@ -171,9 +176,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // If the pool is paying out gains, the net value of the pool must be reduced (ECDD). 
             // If it is 'recovering' (paying out) Losses, we must increase the value of the pool (ECI).
             if (totalAmount.isPositive()) {
-                if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
+                createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
             } else if (totalAmount.isNegative()) {
-                if (createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL)) return false;
+                totalAmount = totalAmount.negated();
+                createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.GAIN_LOSS_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.GAIN_LOSS_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.PRINCIPAL);
             }
         }    
         
@@ -191,9 +197,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
         List<PooledFundControl> pooledFundControlRecords = (List<PooledFundControl>) pooledFundControlTransactionsDao.getAllPooledFundControlTransaction();
         //if (pooledFundControlRecords == null) return;
         
+        // If one should fail, that would be an exception to report and the remainder that does not fail should continue.
         for (PooledFundControl pooledFundControl : pooledFundControlRecords) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
-            List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl.getPooledSecurityID(), documentTypeNames, kemService.getCurrentDate());
+            List<TransactionArchive> transactionArchiveRecords = pooledFundControlTransactionsDao.getTransactionArchiveWithSecurityAndDocNames(pooledFundControl, documentTypeNames, kemService.getCurrentDate());
             if (transactionArchiveRecords != null) {
                 for (TransactionArchive transactionArchive : transactionArchiveRecords) {
                     totalAmount = totalAmount.add(new KualiDecimal(transactionArchive.getIncomeCashAmount())).add(new KualiDecimal(transactionArchive.getPrincipalCashAmount()));
@@ -202,9 +209,10 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             
             // create a cash document per security id of pooled fund control
             if (totalAmount.isPositive()) {
-                if (!createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;                
+                createECDD(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME); 
             } else if (totalAmount.isNegative()) {
-                if (!createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME)) return false;
+                totalAmount = totalAmount.negated();
+                createECI(pooledFundControl, totalAmount, EndowParameterKeyConstants.INCOME_DESCRIPTION, EndowConstants.TRANSACTION_SECURITY_TYPE_SOURCE, EndowParameterKeyConstants.INCOME_NO_ROUTE_IND, EndowConstants.IncomePrincipalIndicator.INCOME);
             }
         }
         
@@ -225,6 +233,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
 
         LOG.info("Creating ECI ..."); 
 
+        boolean success = true;
         CashIncreaseDocument cashIncreaseDocument = null; 
         
         // initialize CashIncreaseDocument
@@ -244,12 +253,13 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // validate and submit it. Since we have only one transaction line for each ECI, we do not need to validate the transaction line separately
             GlobalVariables.clear();
             if (validateECI(cashIncreaseDocument)) {
-                boolean success = submitCashDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, paramNoRouteInd);
+                success = submitCashDocument(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, paramNoRouteInd);
                 if (success) {
                     writeTotalReport(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE, incomePrincipalIndicator);
                     LOG.info("Submitted an ECI successfully: document# " + cashIncreaseDocument.getDocumentNumber());
                 }
             } else {
+                success = false;
                 writeDocumentValdiationErrorReport(cashIncreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
                 LOG.error("createECI() Validation Error: Document# " + cashIncreaseDocument.getDocumentHeader().getDocumentNumber()); 
                 try {
@@ -262,7 +272,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             LOG.error("ECI was not sumitted because no transaction lines are found in document# " + cashIncreaseDocument.getDocumentNumber());
         }
         
-        return true;
+        return success;
     }
    
     /**
@@ -279,6 +289,7 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
 
         LOG.info("Creating ECDD ...");
         
+        boolean success = true;
         CashDecreaseDocument cashDecreaseDocument = null; 
     
         // initialize CashDecreaseDocument        
@@ -298,25 +309,26 @@ public class PooledFundControlTransactionsServiceImpl implements PooledFundContr
             // validate and submit it. Since we have only one transaction line for each ECDD, we do not need to validate the transaction line separately
             GlobalVariables.clear();
             if (validateECDD(cashDecreaseDocument)) {
-                boolean success = submitCashDocument(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, paramNoRouteInd);
+                success = submitCashDocument(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, paramNoRouteInd);
                 if (success) {
                     writeTotalReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE, incomePrincipalIndicator);
                     LOG.info("Submitted an ECDD successfully: document# " + cashDecreaseDocument.getDocumentNumber());
                 }
             } else {
+                success = false;
                 writeDocumentValdiationErrorReport(cashDecreaseDocument, EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
-                LOG.error("createECI() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber());
+                LOG.error("createECDD() Validation Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber());
                 try {
                     documentService.saveDocument(cashDecreaseDocument);
                 } catch (WorkflowException wfe) {
-                    LOG.error("createECI() Saving Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());
+                    LOG.error("createECDD() Saving Error: Document# " + cashDecreaseDocument.getDocumentHeader().getDocumentNumber() + " : " + wfe.getMessage());                    
                 } 
             }
         } else {
             LOG.error("ECDD was not sumitted because no transaction lines are found in document# " + cashDecreaseDocument.getDocumentNumber());
         }
 
-        return true;
+        return success;
     } 
     
     /**

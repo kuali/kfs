@@ -17,36 +17,72 @@ package org.kuali.kfs.module.endow.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.KemidBenefittingOrganization;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
+import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements TransactionArchiveDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveDaoOjb.class);
     
     /**
+     * @@see {@link org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getAllTransactionArchives(Date)
+     */
+    public Collection<TransactionArchive> getAllTransactionArchives(java.util.Date postedDate) {
+        Collection<TransactionArchive> transactionArchives = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, postedDate);
+        
+        //sort the data on these columns....
+        QueryByCriteria qbc = QueryFactory.newQuery(TransactionArchive.class, criteria);
+
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE);
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE);
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_INDICATOR);
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE);
+
+        transactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        
+        return transactionArchives;
+    }
+
+    /**
      * @@see {@link org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getAllTransactionArchives()
      */
     public Collection<TransactionArchive> getAllTransactionArchives() {
         Collection<TransactionArchive> transactionArchives = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull(EndowPropertyConstants.DOCUMENT_NUMBER);
 
+        QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        transactionArchives = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
         return transactionArchives;
     }
     
@@ -140,7 +176,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         Collection<TransactionArchive> transactionArchives = new ArrayList();        
         transactionArchives = getTransactionArchivesForTransactions(feeMethod);
         for (TransactionArchive transactionArchive : transactionArchives) {
-            incomeCashAmount.add(transactionArchive.getIncomeCashAmount());
+            incomeCashAmount = incomeCashAmount.add(transactionArchive.getIncomeCashAmount());
         }
         
         return incomeCashAmount;
@@ -155,7 +191,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         Collection<TransactionArchive> transactionArchives = new ArrayList();        
         transactionArchives = getTransactionArchivesForTransactions(feeMethod);
         for (TransactionArchive transactionArchive : transactionArchives) {
-            principalCashAmount.add(transactionArchive.getPrincipalCashAmount());
+            principalCashAmount = principalCashAmount.add(transactionArchive.getPrincipalCashAmount());
         }
         
         return principalCashAmount;
@@ -165,8 +201,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod)
      */
     public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod) {
-        BigDecimal incomeCashAmount = new BigDecimal("0");
-        BigDecimal principalCashAmount = new BigDecimal("0");
+        BigDecimal incomeCashAmount = BigDecimal.ZERO;
+        BigDecimal principalCashAmount = BigDecimal.ZERO;
         
         HashMap<String, BigDecimal> incomeAndPrincipalCashAmounts = new HashMap();
         
@@ -198,7 +234,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @return typeCodes
      */
     protected Collection getTypeCodes(String feeMethodCode) {
-        Collection typeCodes = null;
+        Collection typeCodes = new ArrayList();
         Collection<FeeTransaction> feeTransactions = new ArrayList();        
 
         if (StringUtils.isNotBlank(feeMethodCode)) {        
@@ -215,7 +251,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
             
             feeTransactions = getPersistenceBrokerTemplate().getCollectionByQuery(query);
             for (FeeTransaction feeTransaction : feeTransactions) {
-                typeCodes.add(feeTransaction.getTransactionTypeCode());
+                typeCodes.add(feeTransaction.getDocumentTypeName());
             }
         }
         
@@ -245,7 +281,7 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     protected Collection getETranCodes(String feeMethodCode) {
         Collection<FeeEndowmentTransactionCode> feeEndowmentTransactions = new ArrayList();
-        Collection etranCodes = null;
+        Collection etranCodes = new ArrayList();
         
         if (StringUtils.isNotBlank(feeMethodCode)) {        
             Map<String, String>  crit = new HashMap<String, String>();
@@ -364,5 +400,61 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         }
         
         return totalCashActivity;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchiveByKemidsAndPostedDate(java.lang.String, java.lang.String, java.util.Date, java.util.Date, java.lang.String, java.lang.String)
+     */
+    public List<TransactionArchive> getTransactionArchiveByKemidsAndPostedDate(String kemid, String endowmentOption, java.util.Date beginningDate, java.util.Date endingDate, String closedIndicator, String transactionSubType) {
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE, transactionSubType);
+        criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
+        criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
+        
+        QueryByCriteria qbc = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        qbc.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE);
+
+        return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+            
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesByKemid(java.lang.String, java.util.Date, java.util.Date)
+     */
+    public List<TransactionArchive> getTransactionArchivesByKemid(String kemid, java.util.Date beginningDate, java.util.Date endingDate) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
+        criteria.addGreaterOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, beginningDate);
+        criteria.addLessOrEqualThan(EndowPropertyConstants.TRANSACTION_ARCHIVE_POSTED_DATE, endingDate);
+        
+        List<String> documentTypesAllowed = new ArrayList();
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_INCREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_DECREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_CASH_TRANSFER);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_SECURITY_TRANSFER);
+        
+        Criteria c = new Criteria();
+        c.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypesAllowed);
+        
+        Criteria c1 = new Criteria();
+        documentTypesAllowed.clear();
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_INCREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_ASSET_DECREASE);
+        documentTypesAllowed.add(EndowConstants.DocumentTypeNames.ENDOWMENT_LIABILITY_DECREASE);
+        c1.addIn(EndowPropertyConstants.TRANSACTION_ARCHIVE_TYPE_CODE, documentTypesAllowed);
+        c1.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_SUB_TYPE_CODE, EndowConstants.TransactionSubTypeCode.NON_CASH);
+        
+        c.addOrCriteria(c1);
+        
+        criteria.addAndCriteria(c);
+        
+        QueryByCriteria qbc2 = QueryFactory.newQuery(TransactionArchive.class, criteria);
+        qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID);        
+        qbc2.addOrderByAscending(EndowPropertyConstants.TRANSACTION_ARCHIVE_ETRAN_CODE);
+        
+        return (List<TransactionArchive>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc2);
     }
 }

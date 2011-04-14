@@ -1,0 +1,75 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+	<!-- Add missing ledger-only document types for labor distribution. --> 
+    <documentType>
+      <name>PAY</name>
+      <parent>FSLO</parent>
+      <label>Labor - Normal Payroll Activity</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PAYN</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Accrual Reversal</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PAYA</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Accrual</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PAYC</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Check Cancellation</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>PAYE</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Encumbrances</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>ET</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Expense Transfer</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>SACH</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Expense Transfer</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>HDRW</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Hand Drawn Check Payment</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>OPAY</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Overpayment Collection</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+    <documentType>
+      <name>RETR</name>
+      <parent>FSLO</parent>
+      <label>Labor - Payroll Retroactive Adjustment</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

@@ -42,14 +42,14 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         StringBuilder sqlText = new StringBuilder(1500);
 
         /* insert the income records */
-        sqlText.append("INSERT INTO ld_bcn_levl_summ_t \n");
+        sqlText.append("INSERT INTO LD_BCN_LEVL_SUMM_T \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD, INC_EXP_CD, FIN_CONS_SORT_CD, \n");
         sqlText.append(" FIN_LEV_SORT_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY, \n");
         sqlText.append(" APPT_RQST_FTE_QTY, POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, 'A', objc.fin_report_sort_cd, \n");
         sqlText.append(" objl.fin_report_sort_cd, sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), objl.fin_cons_obj_cd, objt.fin_obj_level_cd, \n");
         sqlText.append(" 0, 0, 0, 0 \n");
-        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, ld_bcn_ctrl_list_t ctrl, ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t objt, ca_obj_level_t objl, ca_obj_consoldtn_t objc \n");
+        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, LD_BCN_CTRL_LIST_T ctrl, LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T objt, CA_OBJ_LEVEL_T objl, CA_OBJ_CONSOLDTN_T objc \n");
         sqlText.append("WHERE pick.person_unvl_id = ? \n");
         sqlText.append(" AND pick.report_flag > 0 \n");
         sqlText.append(" AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -74,14 +74,14 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         insertionPoints.clear();
 
         /* insert expenditure records with FTE place holders */
-        sqlText.append("INSERT INTO ld_bcn_levl_summ_t \n");
+        sqlText.append("INSERT INTO LD_BCN_LEVL_SUMM_T \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD, INC_EXP_CD, FIN_CONS_SORT_CD, \n");
         sqlText.append(" FIN_LEV_SORT_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY, \n");
         sqlText.append(" APPT_RQST_FTE_QTY, POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, 'B', objc.fin_report_sort_cd, \n");
         sqlText.append("  objl.fin_report_sort_cd, sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), objl.fin_cons_obj_cd, objt.fin_obj_level_cd, 0, \n");
         sqlText.append(" 0, 0, 0 \n");
-        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, ld_bcn_ctrl_list_t ctrl, ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t objt, ca_obj_level_t objl, ca_obj_consoldtn_t objc \n");
+        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, LD_BCN_CTRL_LIST_T ctrl, LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T objt, CA_OBJ_LEVEL_T objl, CA_OBJ_CONSOLDTN_T objc \n");
         sqlText.append("WHERE pick.person_unvl_id = ? \n");
         sqlText.append(" AND pick.report_flag > 0 \n");
         sqlText.append(" AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -110,7 +110,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append(" FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY, APPT_RQST_FTE_QTY) \n");
         sqlText.append("SELECT  ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, 'B', objl.fin_cons_obj_cd, \n");
         sqlText.append(" objt.fin_obj_level_cd, SUM(bcaf.APPT_RQCSF_FTE_QTY), SUM(bcaf.APPT_RQST_FTE_QTY) \n");
-        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, ld_bcn_ctrl_list_t ctrl, LD_PNDBC_APPTFND_T bcaf, ca_object_code_t objt, ca_obj_level_t objl \n");
+        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, CA_OBJECT_CODE_T objt, CA_OBJ_LEVEL_T objl \n");
         sqlText.append("WHERE pick.person_unvl_id = ? \n");
         sqlText.append(" AND pick.report_flag > 0 \n");
         sqlText.append(" AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -132,41 +132,41 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         /* SQL-92 does not allow the target table of an UPDATE to be aliased.  Supposedly, PostgreSQL enforces this (Gennick, p.156) */  
 
         /* copy the fte values to the report tables */
-        sqlText.append("UPDATE ld_bcn_levl_summ_t \n");
+        sqlText.append("UPDATE LD_BCN_LEVL_SUMM_T \n");
         sqlText.append("SET appt_rqcsf_fte_qty =\n");
         sqlText.append("(SELECT SUM(fq.appt_rqcsf_fte_qty) \n");
         sqlText.append("FROM LD_BCN_BUILD_LEVLSUMM03_MT fq \n");
-        sqlText.append("WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq.org_fin_coa_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.org_cd = fq.org_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_coa_cd = fq.fin_coa_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.inc_exp_cd = fq.inc_exp_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq.fin_obj_level_cd \n");
+        sqlText.append("WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq.org_fin_coa_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.org_cd = fq.org_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq.fin_coa_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq.inc_exp_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq.fin_obj_level_cd \n");
         sqlText.append(" AND fq.sesid = ?), \n");
         sqlText.append("    appt_rqst_fte_qty = \n");
         sqlText.append("(SELECT SUM(fq.appt_rqst_fte_qty) \n");
         sqlText.append("FROM LD_BCN_BUILD_LEVLSUMM03_MT fq \n");
-        sqlText.append("WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq.org_fin_coa_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.org_cd = fq.org_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_coa_cd = fq.fin_coa_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.inc_exp_cd = fq.inc_exp_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
-        sqlText.append(" AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq.fin_obj_level_cd \n");
+        sqlText.append("WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq.org_fin_coa_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.org_cd = fq.org_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq.fin_coa_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq.inc_exp_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
+        sqlText.append(" AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq.fin_obj_level_cd \n");
         sqlText.append(" AND fq.sesid = ?) \n");
-        sqlText.append("WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
+        sqlText.append("WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
         sqlText.append(" AND EXISTS (SELECT * FROM LD_BCN_BUILD_LEVLSUMM03_MT fq2 \n");
-        sqlText.append(" WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq2.org_fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_cd = fq2.org_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq2.sub_fund_grp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_coa_cd = fq2.fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.inc_exp_cd = fq2.inc_exp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq2.fin_cons_obj_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq2.fin_obj_level_cd \n");
+        sqlText.append(" WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq2.org_fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_cd = fq2.org_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq2.sub_fund_grp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq2.fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq2.inc_exp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq2.fin_cons_obj_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq2.fin_obj_level_cd \n");
         sqlText.append("  AND fq2.sesid = ? ) \n");
 
         updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
@@ -178,7 +178,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append(" FIN_OBJ_LEVEL_CD, POS_CSF_FNDSTAT_CD, POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, 'B', objl.fin_cons_obj_cd, \n");
         sqlText.append(" objt.fin_obj_level_cd, NULL, SUM(pos_csf_fte_qty), 0 \n");
-        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, ld_bcn_ctrl_list_t ctrl, ld_bcn_csf_trckr_t bcsf, ca_object_code_t objt, ca_obj_level_t objl \n");
+        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_CSF_TRCKR_T bcsf, CA_OBJECT_CODE_T objt, CA_OBJ_LEVEL_T objl \n");
         sqlText.append("WHERE pick.person_unvl_id = ? \n");
         sqlText.append(" AND pick.report_flag > 0 \n");
         sqlText.append(" AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -211,7 +211,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         // CSF funding status code for leave
         insertionPoints.add(sqlText.length());
         sqlText.append("', 0, SUM(pos_csf_fte_qty) \n");
-        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, ld_bcn_ctrl_list_t ctrl, ld_bcn_csf_trckr_t bcsf, ca_object_code_t objt, ca_obj_level_t objl \n");
+        sqlText.append("FROM LD_BCN_SUBFUND_PICK_T pick, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_CSF_TRCKR_T bcsf, CA_OBJECT_CODE_T objt, CA_OBJ_LEVEL_T objl \n");
         sqlText.append("WHERE pick.person_unvl_id = ? \n");
         sqlText.append(" AND pick.report_flag > 0 \n");
         sqlText.append(" AND pick.sub_fund_grp_cd = ctrl.sel_sub_fund_grp \n");
@@ -236,41 +236,41 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         insertionPoints.clear();
 
         /* copy the fte values to the report table */
-        sqlText.append("UPDATE ld_bcn_levl_summ_t \n");
+        sqlText.append("UPDATE LD_BCN_LEVL_SUMM_T \n");
         sqlText.append("SET pos_csf_fte_qty = ");
         sqlText.append("(SELECT SUM(pos_csf_fte_qty) \n");
         sqlText.append(" FROM LD_BCN_BUILD_LEVLSUMM02_MT fq \n");
-        sqlText.append(" WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq.org_fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_cd = fq.org_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_coa_cd = fq.fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.inc_exp_cd = fq.inc_exp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq.fin_obj_level_cd \n");
+        sqlText.append(" WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq.org_fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_cd = fq.org_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq.fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq.inc_exp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq.fin_obj_level_cd \n");
         sqlText.append("  AND fq.sesid = ?), \n");
         sqlText.append("  pos_csf_lv_fte_qty =\n");
         sqlText.append("(SELECT  SUM(pos_csf_lv_fte_qty)\n");
         sqlText.append(" FROM LD_BCN_BUILD_LEVLSUMM02_MT fq \n");
-        sqlText.append(" WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq.org_fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_cd = fq.org_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_coa_cd = fq.fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.inc_exp_cd = fq.inc_exp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq.fin_obj_level_cd \n");
+        sqlText.append(" WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq.org_fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_cd = fq.org_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq.sub_fund_grp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq.fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq.inc_exp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq.fin_cons_obj_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq.fin_obj_level_cd \n");
         sqlText.append("  AND fq.sesid = ?) \n");
-        sqlText.append("WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
+        sqlText.append("WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
         sqlText.append(" AND EXISTS (SELECT 1 FROM LD_BCN_BUILD_LEVLSUMM02_MT fq2 \n");
-        sqlText.append(" WHERE ld_bcn_levl_summ_t.person_unvl_id = ? \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_fin_coa_cd = fq2.org_fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.org_cd = fq2.org_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.sub_fund_grp_cd = fq2.sub_fund_grp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_coa_cd = fq2.fin_coa_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.inc_exp_cd = fq2.inc_exp_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_cons_obj_cd = fq2.fin_cons_obj_cd \n");
-        sqlText.append("  AND ld_bcn_levl_summ_t.fin_obj_level_cd = fq2.fin_obj_level_cd \n");
+        sqlText.append(" WHERE LD_BCN_LEVL_SUMM_T.person_unvl_id = ? \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_fin_coa_cd = fq2.org_fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.org_cd = fq2.org_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.sub_fund_grp_cd = fq2.sub_fund_grp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_coa_cd = fq2.fin_coa_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.inc_exp_cd = fq2.inc_exp_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_cons_obj_cd = fq2.fin_cons_obj_cd \n");
+        sqlText.append("  AND LD_BCN_LEVL_SUMM_T.fin_obj_level_cd = fq2.fin_obj_level_cd \n");
         sqlText.append("  AND fq2.sesid = ?) \n");
 
         updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
@@ -278,7 +278,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
     }
 
     public void cleanReportsLevelSummaryTable(String principalName) {
-        clearTempTableByUnvlId("ld_bcn_levl_summ_t", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_LEVL_SUMM_T", "PERSON_UNVL_ID", principalName);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
          */

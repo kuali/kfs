@@ -311,6 +311,23 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
+                // Much of the rice frameworks assumes that document instances that are saved via DocumentService.saveDocument are those
+                // that were dynamically created by PojoFormBase (i.e., the Document instance wasn't created from OJB).  We need to make
+                // a deep copy and materialize collections to fulfill that assumption so that collection elements will delete properly
+                
+                // TODO: maybe rewriting PurapService.calculateItemTax could be rewritten so that the a deep copy doesn't need to be made
+                // by taking advantage of OJB's managed array lists
+                try {
+                    ObjectUtils.materializeUpdateableCollections(doc);
+                    for (PaymentRequestItem item : (List<PaymentRequestItem>) doc.getItems()) {
+                        ObjectUtils.materializeUpdateableCollections(item);
+                    }
+                }
+                catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                doc = (PaymentRequestDocument) ObjectUtils.deepCopy(doc);
+                
                 purapService.updateStatus(doc, PaymentRequestStatuses.AUTO_APPROVED);
                 documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
@@ -359,9 +376,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // chart and organization.
         for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
             // check to make sure the account is in the auto approve exclusion list
-            Map<String, String> autoApproveMap = new HashMap<String, String>();
+            Map<String, Object> autoApproveMap = new HashMap<String, Object>();
             autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());
             autoApproveMap.put("accountNumber", line.getAccountNumber());
+            autoApproveMap.put("active", true);
             AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
             if (autoApproveExclude != null) {
                 return false;

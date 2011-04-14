@@ -868,6 +868,15 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
 
         return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
+        
+    /**
+     * Gets the campus code for Endowment Report
+     * 
+     * @return
+     */
+    public String getOrganizationPhysicalCampusCodeForReport() {
+        return organizationPhysicalCampusCode;
+    }
 
     /**
      * Implementing equals so Org will behave reasonably in a hashed datastructure.
@@ -921,4 +930,12 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
         this.active = active;
     }
 
+    /**
+     * Gets the organizationName attribute for report
+     * 
+     * @return Returns the organizationName
+     */
+    public String getOrganizationCodeForReport() {
+        return organizationCode;
+    }
 }

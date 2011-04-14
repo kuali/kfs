@@ -56,7 +56,7 @@ public class CustomerCreditMemoDocumentForm extends FinancialSystemTransactional
         String customerInvoiceNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
         
         //this will make sure that every action has fully populated invoice
-        if(StringUtils.isNotEmpty(customerInvoiceNumber)){
+        if(StringUtils.isNotEmpty(customerInvoiceNumber) /*&& customerCreditMemoDocument.getInvoice() == null*/){
             customerCreditMemoDocument.refreshReferenceObject("invoice");
         }        
     }

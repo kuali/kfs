@@ -1876,6 +1876,7 @@
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.cam.businessobject.inquiry.AssetInquirableImpl"/>
+    <property name="authorizerClass" value="org.kuali.kfs.module.cam.businessobject.authorization.AssetInquiryAuthorizer"/>
   </bean>
 
 <!-- Business Object Lookup Definition -->

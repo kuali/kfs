@@ -58,7 +58,7 @@
 		<ref bean="FeeMethod-feeSecurity.include" />
 		<ref bean="FeeMethod-feePaymentTypes.paymentTypeCode" />        
 		<ref bean="FeeMethod-feePaymentTypes.include" />
-		<ref bean="FeeMethod-feeTransactions.transactionTypeCode" />        
+		<ref bean="FeeMethod-feeTransactions.documentTypeName" />        
 		<ref bean="FeeMethod-feeTransactions.include" />
 		<ref bean="FeeMethod-feeEndowmentTransactionCodes.endowmentTransactionCode" />        
 		<ref bean="FeeMethod-feeEndowmentTransactionCodes.include" />        
@@ -452,10 +452,10 @@
   	<property name="label" value="Include" />
 	<property name="shortLabel" value="Incl"/>  	
   </bean>  
-   <bean id="FeeMethod-feeTransactions.transactionTypeCode" parent="FeeMethod-feeTransactions.transactionTypeCode-parentBean" />        
+   <bean id="FeeMethod-feeTransactions.documentTypeName" parent="FeeMethod-feeTransactions.documentTypeName-parentBean" />        
   
-  <bean id="FeeMethod-feeTransactions.transactionTypeCode-parentBean" abstract="true" parent="FeeTransaction-transactionTypeCode">
-  	<property name="name" value="feeTransactions.transactionTypeCode" />
+  <bean id="FeeMethod-feeTransactions.documentTypeName-parentBean" abstract="true" parent="FeeTransaction-documentTypeName">
+  	<property name="name" value="feeTransactions.documentTypeName" />
   	<property name="label" value="Transaction Document Type" />
 	<property name="shortLabel" value="Transaction Document Type"/>  	
   </bean>  
@@ -662,6 +662,11 @@
     <property name="title" value="Fee Method Lookup" />
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+          	<value>code</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

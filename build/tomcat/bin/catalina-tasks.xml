@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
-  Licensed to the Apache Software Foundation (ASF) under one or more
+ Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
   this work for additional information regarding copyright ownership.
   The ASF licenses this file to You under the Apache License, Version 2.0
@@ -21,19 +21,38 @@
 -->
 
 <project name="catalina-tasks">
-  <description>Catalina Ant Manager and JSPC Tasks</description>
+  <description>Catalina Ant Manager, JMX and JSPC Tasks</description>
   <!-- set catalina.home if it's not already set -->
   <dirname property="catalina.home.bin.dir" file="${ant.file.catalina-tasks}"/>
   <property name="catalina.home" value="${catalina.home.bin.dir}/.."/>
   <taskdef resource="org/apache/catalina/ant/catalina.tasks">
     <classpath>
-      <fileset file="${catalina.home}/bin/commons-logging-api.jar"/>
-      <fileset file="${catalina.home}/common/lib/jasper-compiler.jar"/>
-      <fileset file="${catalina.home}/common/lib/jasper-runtime.jar"/>
-      <fileset file="${catalina.home}/common/lib/servlet-api.jar"/>
-      <fileset file="${catalina.home}/common/lib/jsp-api.jar"/>
-      <fileset file="${catalina.home}/server/lib/catalina-ant.jar"/>
-      <fileset file="${catalina.home}/common/lib/commons-el.jar"/>
+      <fileset file="${catalina.home}/bin/tomcat-juli.jar"/>
+      <fileset file="${catalina.home}/lib/jasper.jar"/>
+      <fileset file="${catalina.home}/lib/jasper-el.jar"/>
+      <fileset file="${catalina.home}/lib/el-api.jar"/>
+      <fileset file="${catalina.home}/lib/jsp-api.jar"/>
+      <fileset file="${catalina.home}/lib/servlet-api.jar"/>
+      <fileset file="${catalina.home}/lib/catalina-ant.jar"/>
     </classpath>
   </taskdef>
+  <taskdef resource="org/apache/catalina/ant/jmx/jmxaccessor.tasks">
+    <classpath>
+      <fileset file="${catalina.home}/lib/catalina-ant.jar"/>
+    </classpath>
+  </taskdef>
+  <typedef
+        name="jmxEquals"
+        classname="org.apache.catalina.ant.jmx.JMXAccessorEqualsCondition">
+    <classpath>
+      <fileset file="${catalina.home}/lib/catalina-ant.jar"/>
+    </classpath>
+  </typedef>
+  <typedef
+        name="jmxCondition"
+        classname="org.apache.catalina.ant.jmx.JMXAccessorCondition">
+    <classpath>
+      <fileset file="${catalina.home}/lib/catalina-ant.jar"/>
+    </classpath>
+  </typedef>
 </project>

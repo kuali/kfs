@@ -162,7 +162,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         insertionPoints.clear();
         
         //report at the account level
-        sqlText.append("INSERT INTO ld_bcn_acct_summ_t (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
+        sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
         sqlText.append(" ctrl.account_nbr, '-----', '");
@@ -287,14 +287,14 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         insertionPoints.clear();
 
         //builds and updates SubFundSummaryReports
-        sqlText.append("INSERT INTO ld_bcn_acct_summ_t(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,  \n");
+        sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,  \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
         sqlText.append(" '-------', '-----', '");
         // INCOME_EXP_TYPE_A
         insertionPoints.add(sqlText.length());
         sqlText.append("', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
-        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf \n");
         sqlText.append("WHERE pbgl.fin_obj_typ_cd in ");
         // IN list of revenue object types
         insertionPoints.add(sqlText.length());
@@ -316,7 +316,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         // INCOME_EXP_TYPE_E
         insertionPoints.add(sqlText.length());
         sqlText.append("', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
-        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t o, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t  pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T  pick, CA_SUB_FUND_GRP_T sf \n");
         sqlText.append("WHERE pbgl.fin_obj_typ_cd in ");
         // IN list of expenditure object types
         insertionPoints.add(sqlText.length());
@@ -342,7 +342,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         // INCOME_EXP_TYPE_T
         insertionPoints.add(sqlText.length());
         sqlText.append("', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
-        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t o, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf \n");
         sqlText.append("WHERE pbgl.fin_obj_typ_cd in ");
         insertionPoints.add(sqlText.length());
         sqlText.append(" \n");
@@ -367,7 +367,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         // INCOME_EXP_TYPE_X
         insertionPoints.add(sqlText.length());
         sqlText.append("', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
-        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t  pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T  pick, CA_SUB_FUND_GRP_T sf \n");
         sqlText.append("WHERE pbgl.fin_obj_typ_cd in ");
         // IN list for expenditure
         insertionPoints.add(sqlText.length());

@@ -145,7 +145,13 @@
   	<bean id="EndowmentCorpusValues-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Endowment Corpus Values Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                 <list>
+          	       <value>kemid</value>
+                 </list>
+               </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

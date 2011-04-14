@@ -12,5 +12,6 @@
 "KFS-LD","Labor Distribution","Y","KFS","KFS-LD"
 "KFS-PDP","Pre-Disbursement Processor","Y","KFS","KFS-PDP"
 "KFS-PURAP","Purchasing/Accounts Payable","Y","KFS","KFS-PURAP"
+"KFS-SEC","Access Security","Y","KFS","KFS-SEC"
 "KFS-SYS","Financial System","Y","KFS","KFS-SYS"
 "KFS-VND","Vendor","Y","KFS","KFS-VND"

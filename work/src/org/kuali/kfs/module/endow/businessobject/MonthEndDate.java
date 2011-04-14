@@ -71,5 +71,22 @@ public class MonthEndDate extends PersistableBusinessObjectBase {
     public void setMonthEndDateId(KualiInteger monthEndDateId) {
         this.monthEndDateId = monthEndDateId;
     }
+    
+    /**
+     * Returns the month end date as beginning date
+     * 
+     * @return
+     */
+    public Date getBeginningDate() {
+        return monthEndDate;
+    }
 
+    /**
+     * Returns the month end date as ending date
+     * 
+     * @return
+     */
+    public Date getEndingDate() {
+        return monthEndDate;
+    }
 }

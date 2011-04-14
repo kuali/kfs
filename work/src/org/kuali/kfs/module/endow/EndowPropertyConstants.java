@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.endow;
 
+import org.kuali.rice.kns.util.KualiInteger;
+
 
 public class EndowPropertyConstants {
 
@@ -110,15 +112,23 @@ public class EndowPropertyConstants {
     public static final String MONTH_END_DATE = "monthEndDate";
 
     // HoldingHistory fields
+    public static final String HOLDING_HISTORY_KEMID = "kemid";
     public static final String HOLDING_HISTORY_MONTH_END_DATE_ID = "monthEndDateId";
     public static final String HOLDING_HISTORY_SECURITY_ID = "securityId";
     public static final String HOLDING_HISTORY_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String HOLDING_HISTORY_SECURITY_CLASS_CODE = "feeClassCode";
     public static final String HOLDING_HISTORY_FEE_METHOD_CODE = "feeMethodCode";
+    public static final String HOLDING_HISTORY_UNITS = "units";
+    public static final String HOLDING_HISTORY_ESTIMATED_INCOME = "estimatedIncome";
+    public static final String HOLDING_HISTORY_MARKET_VALUE = "marketValue";
+    public static final String HOLDING_HISTORY_REMAIDER_OF_FY_ESTIMATED_INCOME = "remainderOfFYEstimatedIncome";
+    public static final String HOLDING_HISTORY_NEXT_FY_ESTIMATED_INCOME = "nextFYEstimatedIncome";
+    
     // CurrentTaxLotBalance fields
     public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_ID = "securityId";
     public static final String CURRENT_TAX_LOT_BALANCE_INCOME_PRINCIPAL_INDICATOR = "incomePrincipalIndicator";
     public static final String CURRENT_TAX_LOT_BALANCE_SECURITY_CLASS_CODE = "feeClassCode";
+    
     // KEMID
     public static final String KEMID = "kemid";
     public static final String KEMID_TYPE_CODE = "typeCode";
@@ -143,7 +153,9 @@ public class EndowPropertyConstants {
     public static final String KEMID_FEES_TAB = "kemidFees";
     public static final String KEMID_CLOSED = "closed_ind";
     public static final String KEMID_CASH_SWEEP_MDL_ID = "cashSweepModelId";
-
+    public static final String KEMID_TYP_PRIN_RESTR_CD = "principalRestrictionCode";
+    public static final String KEMID_PRPS_CD = "purposeCode";
+    
     // links
     public static final String KEMID_CURRENT_AVAILABLE_FUNDS = "currentAvailableFunds";
     public static final String KEMID_CURRENT_BALANCES = "currentBalances";
@@ -175,6 +187,10 @@ public class EndowPropertyConstants {
     public static final String KEMID_AGRMNT_COMM = "comments";
     public static final String KEMID_AGRMNT_ACTIVE_IND = "active";
 
+    //KEMID ETRAN GL Link
+    public static final String KEMID_ETRAN_GL_LNK_CHART_CD = "chartCode";
+    public static final String KEMID_ETRAN_GL_LNK_ETRAN_CD = "endowmentTransactionCode";
+    public static final String KEMID_ETRAN_GL_LNK_ROW_ACTIVE_IND = "active";
 
     // KEMID Source Of Funds
     public static final String KEMID_FND_SRC_SEQ_NBR = "kemidFundSourceSequenceNumber";
@@ -187,6 +203,7 @@ public class EndowPropertyConstants {
     public static final String KEMID_FND_SRC_ACTIVE_IND = "active";
 
     // KEMID Benefitting Org
+    public static final String KEMID_BENE_KEMID = "kemid";
     public static final String KEMID_BENE_ORG_SEQ_NBR = "benefittingOrgSeqNumber";
     public static final String KEMID_BENE_ORG_CD = "benefittingOrgCode";
     public static final String KEMID_BENE_ORG = "organization";
@@ -196,6 +213,11 @@ public class EndowPropertyConstants {
     public static final String KEMID_BENE_ORG_START_DATE = "startDate";
     public static final String KEMID_BENE_ORG_LAST_CHG_DATE = "lastChangeDate";
     public static final String KEMID_BENE_ORG_ACTIVE_IND = "active";
+    
+    // Chart of Account Organization - should be moved to the COA module later
+    public static final String CA_ORG_CAMPUS_CD = "organizationPhysicalCampusCode";
+    public static final String CA_ORG_CHRT_CD = "chartOfAccountsCode";
+    public static final String CA_ORG_CD = "organizationCode";
 
     // KEMID General Ledger Account
     public static final String KEMID_GL_ACCOUNT_IP_INDICATOR_CD = "incomePrincipalIndicatorCode";
@@ -203,6 +225,8 @@ public class EndowPropertyConstants {
     public static final String KEMID_GL_ACCOUNT_CHART = "chart";
     public static final String KEMID_GL_ACCOUNT_NBR = "accountNumber";
     public static final String KEMID_GL_ACCOUNT = "account";
+    public static final String KEMID_GL_ACCOUNT_ROW_ACTV_IND = "active";
+    
 
     // KEMID Payout Instructions
     public static final String KEMID_PAY_INC_SEQ_NBR = "payoutIncomeSequenceNumber";
@@ -332,6 +356,9 @@ public class EndowPropertyConstants {
     public static final String TYPE_INCOME_ACI_MODEL_ID = "incomeACIModelId";
     public static final String TYPE_PRINCIPAL_ACI_MODEL_ID = "principalACIModelId";
 
+    // Type Restrict Code
+    public static final String TYPE_RESTR_PERM_IND = "permanentIndicator";
+    
     // KEMID Type Fee Method
     public static final String FEE_METHOD = "feeMethod";
     public static final String FEE_BASE_CD = "feeBaseCode";
@@ -354,6 +381,7 @@ public class EndowPropertyConstants {
 
     // KEMID Fee Transaction Type
     public static final String FEE_TRANSACTION_TYPE_CODE = "transactionTypeCode";
+    public static final String FEE_TRANSACTION_DOCUMENT_TYPE_CODE = "documentTypeName";
     public static final String FEE_TRANSACTION_INCLUDE = "include";
 
     // KEMID Fee Rate Definition Code
@@ -514,6 +542,8 @@ public class EndowPropertyConstants {
     public static final String FEE_CLASS_CODE_ATTRIBUTE = "feeClassCode";
     public static final String FEE_SECURITY_CODE_ATTRIBUTE = "securityCode";
     public static final String FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE = "transactionTypeCode";
+    public static final String FEE_TRANSACTION_DOCUMENT_TYPE_NAME_ATTRIBUTE = "documentTypeName";
+    
     public static final String FEE_ENDOWMENT_TRANSACTION_TYPE_CODE_ATTRIBUTE = "endowmentTransactionCode";
     public static final String FEE_TYPE_CODE = "feeTypeCode";
     public static final String FEE_BASE_CODE = "feeBaseCode";
@@ -594,7 +624,6 @@ public class EndowPropertyConstants {
     public static final String TRANSACTION_SECURITY = "security";
     public static final String TRANSACTION_REGISTRATION_CD = "registrationCodeObj";
 
-
     public static final String TRANSACTION_SOURCE_SECURITY_PREFIX = "document.sourceTransactionSecurity.";
     public static final String TRANSACTION_TARGET_SECURITY_PREFIX = "document.targetTransactionSecurity.";
 
@@ -608,15 +637,18 @@ public class EndowPropertyConstants {
     public static final String HOLDING_TAX_LOT_REBAL_REGISTRATION_CODE = "registrationCode";
     public static final String HOLDING_TAX_LOT_REBAL_SECURITY_ID = "securityId";
     public static final String HOLDING_TAX_LOT_REBAL_KEMID = "kemid";
-
+    
     // Transaction Archive/Security
     public static final String TRANSACTION_ARCHIVE_KEM_ID = "kemid";
     
     public static final String TRANSACTION_ARCHIVE_SECURITY_ID = "securityId";
+    public static final String TRANSACTION_ARCHIVE_INCOME_PRINCIPAL_ID = "incomePrincipalIndicatorCode";
+    
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_NUMBER = "documentNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_NUMBER = "lineNumber";
     public static final String TRANSACTION_ARCHIVE_LINE_TYPE_CODE = "lineTypeCode";
     public static final String TRANSACTION_ARCHIVE_CORPUS_INDICATOR = "corpusIndicator";
+    public static final String TRANSACTION_ARCHIVE_SUB_TYPE_CODE = "subTypeCode";
 
     public static final String TRANSACTION_ARCHIVE_TYPE_CODE = "typeCode";
     public static final String TRANSACTION_ARCHIVE_POSTED_DATE = "postedDate";
@@ -679,5 +711,31 @@ public class EndowPropertyConstants {
             public static final String CRNT_BALANCE_KEMID = "KEMID";
             public static final String CRNT_BALANCE_PRINCIPAL_AT_MARKET = "PRIN_AT_MARKET";
         }
+        
+        public static class GlInterfaceBatchProcessLine {
+            public static final String TRANSACTION_ARCHIVE_FDOC_NBR = "FDOC_NBR";
+            public static final String TRANSACTION_ARCHIVE_FDOC_LN_NBR = "FDOC_LN_NBR";
+            public static final String TRANSACTION_ARCHIVE_FDOC_LN_TYP_CD = "FDOC_LN_TYP_CD";
+            public static final String TRANSACTION_ARCHIVE_DOC_TYP_NM = "DOC_TYP_NM";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SUB_TYP_CD = "TRAN_SUB_TYP_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_ETRAN_CD = "TRAN_ETRAN_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_IP_IND_CD = "TRAN_IP_IND_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_PRIN_CSH_AMT = "TRAN_PRIN_CSH_AMT";
+            public static final String TRANSACTION_ARCHIVE_TRAN_INC_CSH_AMT = "TRAN_INC_CSH_AMT";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ID = "TRAN_SEC_ID";
+            public static final String TRANSACTION_ARCHIVE_KEM_ID = "TRAN_KEMID";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ETRAN_CD = "TRAN_SEC_ETRAN_CD";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_COST = "TRAN_SEC_COST";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_ST_GAIN_LOSS = "TRAN_SEC_ST_GAIN_LOSS";
+            public static final String TRANSACTION_ARCHIVE_TRAN_SEC_LT_GAIN_LOSS = "TRAN_SEC_LT_GAIN_LOSS";
+            public static final String TRANSACTION_ARCHIVE_CHRT_CD = "CHRT_CD";
+            public static final String TRANSACTION_ARCHIVE_ACCT_NBR = "ACCT_NBR";
+            public static final String TRANSACTION_ARCHIVE_OBJECT = "OBJECT";
+        }
     }
+    
+    public static final String ENDOWMENT_HIST_CASH_KEMID = "kemid";
+    public static final String ENDOWMENT_HIST_CASH_MED_ID = "monthEndDateId";
+    
+    public static final String CAMPUS_CODE = "campusCode";
 }

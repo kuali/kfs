@@ -17,15 +17,16 @@
 
   <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  <bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean"/>
+  
+  <bean id="AccountMaintenanceDocument-baseBean" abstract="true" parent="MaintenanceDocumentEntry" 
   	p:businessObjectClass="org.kuali.kfs.coa.businessobject.Account" 
   	p:maintainableClass="org.kuali.kfs.coa.document.KualiAccountMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
         <ref bean="AccountMaintenanceDocument-AccountResponsibility"/>
-        <ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
-        <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
+          <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
         <ref bean="AccountMaintenanceDocument-AccountDescription"/>
       </list>
     </property>
@@ -33,7 +34,6 @@
         <list>
 	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountPhysicalCampus" p:attributeToHighlightOnFail="accountPhysicalCampusCode" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
@@ -160,35 +160,7 @@
       </list>
     </property>
   </bean>
-  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
-  <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Contracts And Grants"/>
-    <property name="maintainableItems">
-      <list>
-        <dd:maintField attributeName="contractControlFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>contractControlFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
-        <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
-        <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
-        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>indirectCostRcvyFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
-        <dd:maintField attributeName="accountCfdaNumber"/>
-        <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
-      </list>
-    </property>
-  </bean>
   <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose" parent="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
 
   <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">

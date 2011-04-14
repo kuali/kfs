@@ -27,9 +27,7 @@ import org.kuali.kfs.module.endow.businessobject.FeeMethodCodeBase;
 public class FeeTransaction extends FeeMethodCodeBase {
     private static final Logger LOG = Logger.getLogger(FeeTransaction.class);
     
-    private String transactionTypeCode;
-    
- //   private TransactionArchive transactionArchive;
+    private String documentTypeName;
     
     /**
      * Default constructor.
@@ -45,44 +43,26 @@ public class FeeTransaction extends FeeMethodCodeBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
         m.put(EndowPropertyConstants.FEE_METHOD_CODE, super.getFeeMethodCode());
-        m.put(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE, this.getTransactionTypeCode());        
+        m.put(EndowPropertyConstants.FEE_TRANSACTION_DOCUMENT_TYPE_CODE, this.getDocumentTypeName());        
         return m;
         
     }
        
     /**
-     * This method gets transactionTypeCode
+     * This method gets documentTypeName
      * 
-     * @return transactionTypeCode
+     * @return documentTypeName
      */
-    public String getTransactionTypeCode() {
-        return transactionTypeCode;
+    public String getDocumentTypeName() {
+        return documentTypeName;
     }
 
     /**
-     * This method sets transactionTypeCode.
+     * This method sets documentTypeName.
      * 
-     * @param transactionTypeCode
+     * @param documentTypeName
      */
-    public void setTransactionTypeCode(String transactionTypeCode) {
-        this.transactionTypeCode = transactionTypeCode;
+    public void setDocumentTypeName(String documentTypeName) {
+        this.documentTypeName = documentTypeName;
     }
-            
-    /**
-     * This method gets the transactionArchive.
-     * 
-     * @return transactionArchive
-     */
- //   public TransactionArchive getTransactionArchive() {
- //       return transactionArchive;
- //   }
-
-    /**
-     * This method sets the transactionArchive.
-     * 
-     * @param transactionArchive
-     */
- //   public void setTransactionArchive(TransactionArchive transactionArchive) {
- //       this.transactionArchive = transactionArchive;
- //   }
 }

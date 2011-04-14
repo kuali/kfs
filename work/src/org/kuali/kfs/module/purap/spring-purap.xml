@@ -28,7 +28,9 @@
                            
     <bean id="purapModuleConfiguration" parent="purapModuleConfiguration-parentBean" />
 
-    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+    <bean id="purapModuleConfiguration-parentBean" parent="purapModuleConfiguration-base-parentBean" abstract="true" />
+
+    <bean id="purapModuleConfiguration-base-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KFS-PURAP" />
 		<property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -271,9 +273,11 @@
 		<property name="parameterService" ref="parameterService" />
         <property name="imageDao" ref="imageDao" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
 	</bean>
-			
-	<bean id="faxService" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl">
+	
+	<bean id="faxService" parent="FaxService-parentBean"/>		
+	<bean id="FaxService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="vendorService" ref="vendorService" />
@@ -282,7 +286,8 @@
         <property name="imageDao" ref="imageDao" />
 	</bean>
 			
-	<bean id="purchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl">
+	<bean id="purchaseOrderService" parent="PurchaseOrderService-parentBean" />		
+	<bean id="PurchaseOrderService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl">
         <property name="b2bPurchaseOrderService" ref="b2bPurchaseOrderService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -319,7 +324,9 @@
 	    <property name="lookupableHelperService" ref="thresholdLookupableHelperService" />
 	</bean>
 	
-	<bean id="b2bShoppingService" class="org.kuali.kfs.module.purap.document.service.impl.B2BShoppingServiceImpl">
+	<bean id="b2BShoppingService" parent="b2BShoppingService-parentBean"/>
+
+	<bean id="b2BShoppingService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.B2BShoppingServiceImpl">
         <property name="b2bDao" ref="b2bDao"/>
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
@@ -342,39 +349,32 @@
         <property name="b2bUserAgent">
         	<value>${b2b.user.agent}</value>
         </property>
+        <property name="b2bShoppingIdentity">
+        	<value>${b2b.shopping.identity}</value>
+        </property>
         <property name="b2bShoppingPassword">
         	<value>${b2b.shopping.password}</value>
         </property>
-        <property name="b2bPurchaseOrderURL">
-        	<value>${b2b.purchase.order.url}</value>
-        </property>
-        <property name="b2bPurchaseOrderPassword">
-        	<value>${b2b.purchase.order.password}</value>
-        </property>
 	</bean>
 
-    <bean id="b2bPurchaseOrderService" class="org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl">
+    <bean id="b2bPurchaseOrderService" parent="b2bPurchaseOrderService-parentBean"/>
+
+    <bean id="b2bPurchaseOrderService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.B2BPurchaseOrderSciquestServiceImpl">
         <property name="b2bDao" ref="b2bDao"/>
         <property name="requisitionService" ref="requisitionService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="b2bEnvironment">
         	<value>${b2b.environment}</value>
         </property>
-        <property name="b2bPunchoutURL">
-        	<value>${b2b.punch.out.url}</value>
-        </property>
-        <property name="b2bPunchbackURL">
-        	<value>${b2b.punch.back.url}</value>
-        </property>
         <property name="b2bUserAgent">
         	<value>${b2b.user.agent}</value>
-        </property>
-        <property name="b2bShoppingPassword">
-        	<value>${b2b.shopping.password}</value>
         </property>
         <property name="b2bPurchaseOrderURL">
         	<value>${b2b.purchase.order.url}</value>
         </property>
+        <property name="b2bPurchaseOrderIdentity">
+        	<value>${b2b.purchase.order.identity}</value>
+        </property>        
         <property name="b2bPurchaseOrderPassword">
         	<value>${b2b.purchase.order.password}</value>
         </property>
@@ -633,6 +633,15 @@
 	    <property name="schemaLocation">
 	       <value>${externalizable.static.content.url}/xsd/purap/electronicInvoice.xsd</value>
 	    </property>
+	    <property name="reportPrefix">
+	       <value>purapElectronicInvoiceExtractJob</value>
+	    </property>
+	    <property name="reportExtension">
+	       <value>txt</value>
+	    </property>
+    	<property name="reportPath">
+	       <value>${reports.directory}/purap</value>
+	    </property>
 	</bean>
 	
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
@@ -710,6 +719,9 @@
 	      p:localServiceName="sensitiveDataRoleTypeService" />
 	  </property>
 	</bean>
+		
+	<bean id="purchaseOrderParameters" parent="PurchaseOrderParameters-parentBean" scope="prototype"/>	
+	<bean id="PurchaseOrderParameters-parentBean" class="org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters" scope="prototype"/>
 
     <!-- validations -->
 	<import resource="document/validation/configuration/PurapValidatorDefinitions.xml" />

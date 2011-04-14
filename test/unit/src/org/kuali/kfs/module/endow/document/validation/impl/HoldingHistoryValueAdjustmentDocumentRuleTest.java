@@ -21,18 +21,32 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.endow.EndowTestConstants;
+import org.kuali.kfs.module.endow.businessobject.ClassCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SecurityReportingGroup;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
+import org.kuali.kfs.module.endow.fixture.ClassCodeFixture;
+import org.kuali.kfs.module.endow.fixture.EndowmentTransactionCodeFixture;
+import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
+import org.kuali.kfs.module.endow.fixture.KemIdFixture;
+import org.kuali.kfs.module.endow.fixture.MonthEndDateFixture;
+import org.kuali.kfs.module.endow.fixture.RegistrationCodeFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityFixture;
+import org.kuali.kfs.module.endow.fixture.SecurityReportingGroupFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -48,14 +62,13 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
     private HoldingHistoryService holdingHistoryService;
     private SecurityService securityService;
     private UnitTestSqlDao unitTestSqlDao;
+    private Security security;
+    private KEMID kemid;
+    private ClassCode classCode;
+    private SecurityReportingGroup reportingGroup;
+    private EndowmentTransactionCode endowmentTransactionCode;
+    private MonthEndDate monthEndDate;
     
-    private static final BigDecimal ZERO_AMOUNT = new BigDecimal(0);
-    private static final BigDecimal NEGATIVE_AMOUNT = new BigDecimal(-1);
-    private static final BigDecimal POSITIVE_AMOUNT = new BigDecimal(2);
-
-    private static final String REFERENCE_DOCUMENT_NUMBER = "123456";
-    private static final String REFERENCE_DOCUMENT_DESCRIPTION = "Document Description - Unit Test";
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -64,6 +77,13 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
         holdingHistoryService = SpringContext.getBean(HoldingHistoryService.class);
         securityService = SpringContext.getBean(SecurityService.class);  
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);  
+        
+        monthEndDate = MonthEndDateFixture.MONTH_END_DATE_TEST_RECORD.createMonthEndDate();
+        reportingGroup = SecurityReportingGroupFixture.REPORTING_GROUP.createSecurityReportingGroup();
+        endowmentTransactionCode = EndowmentTransactionCodeFixture.INCOME_TRANSACTION_CODE.createEndowmentTransactionCode();
+        classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_CLASS_CODE_2.createClassCodeRecord();
+        security = SecurityFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_ACTIVE_SECURITY.createSecurityRecord();
+        kemid = KemIdFixture.ALLOW_TRAN_KEMID_RECORD.createKemidRecord();
         
         //create the document
         document = createHoldingHistoryValueAdjustmentDocument();
@@ -81,32 +101,23 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
     }
 
     /**
-     * Cleans up data that may be left in the database from manual testing. Ensures that the jUnit inserts will work.
+     * create a blank for HistoryHoldingValueAdjustmentDocuemnt
+     * @return doc
+     * @throws WorkflowException
      */
-    private void cleanupOldHoldingHistoryValueAdjustmentTestData() {
-        try {
-            unitTestSqlDao.sqlCommand("DELETE FROM END_SEC_T where SEC_ID = '000000000'");
-        } catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("RuntimeException caught from attempting to delete a test record from END_SEC_T - ignored and continuing");
-            }
-        }
-
-        try {
-            unitTestSqlDao.sqlCommand("DELETE FROM END_SUBCLS_CD_T where SEC_SUBCLS_CD = 'DUM'");
-        } catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("RuntimeException caught from attempting to delete a test record from END_SUBCLS_CD_T - ignored and continuing");
-            }
-        }
-
-        try {
-            unitTestSqlDao.sqlCommand("DELETE FROM END_CLS_CD_T where SEC_CLS_CD = 'MUD'");
-        } catch (Exception e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("RuntimeException caught from attempting to delete a test record from END_CLS_CD_T - ignored and continuing");
-            }
-        }
+    protected HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument() throws WorkflowException {
+        
+        HoldingHistoryValueAdjustmentDocument doc = (HoldingHistoryValueAdjustmentDocument) documentService.getNewDocument(HoldingHistoryValueAdjustmentDocument.class);
+        doc.getDocumentHeader().setDocumentDescription("This is a test document.");
+        
+        doc.getDocumentHeader().setDocumentNumber(EndowTestConstants.REFERENCE_DOCUMENT_NUMBER);
+        doc.getDocumentHeader().setDocumentDescription(EndowTestConstants.REFERENCE_DOCUMENT_DESCRIPTION);
+        doc.setSecurityId(security.getId());
+        doc.setHoldingMonthEndDate(EndowTestConstants.FIRST_MONTH_END_DATE_ID);
+        doc.setSecurityUnitValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
+        doc.setSecurityMarketValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
+        
+        return doc;
     }
 
     /**
@@ -114,102 +125,45 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * @return doc
      * @throws WorkflowException
      */
-    protected HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument() throws WorkflowException {
-
-        // ensure these inserts work...
-        cleanupOldHoldingHistoryValueAdjustmentTestData();
-
-        //insert into security class code END_SEC_CLS_CD_T table to validate security class code later...
-        String sqlForSecurityClassCode = "INSERT INTO END_CLS_CD_T VALUES ('MUD','Test Class Code Description','LIAB','N','22025','74100','N','L','Y','BLAH BLAH BLAH',1,'U')";
-        int rowsForSecurityClassCode = unitTestSqlDao.sqlCommand(sqlForSecurityClassCode);   
+    protected HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument2() throws WorkflowException {
         
-        // insert into security subclass code because the security table has a foreign key to it
-        String sqlForSecuritySubclassCode = "INSERT INTO END_SUBCLS_CD_T VALUES ('DUM', 'Test subclass code for jUnit required primary key', 'Y', 'TEST TEST TEST', 1)";
-        int rowsForSecuritySubclassCode = unitTestSqlDao.sqlCommand(sqlForSecuritySubclassCode);
-
-        // first add into END_SEC_T with security id = 000000000 so this record would be unique.
-        StringBuilder sbSqlForSecurity = new StringBuilder("INSERT INTO END_SEC_T VALUES (");
-        sbSqlForSecurity.append("'000000000'").append(','); // SEC_ID
-        sbSqlForSecurity.append("'jUnit record'").append(','); // SEC_DESC
-        sbSqlForSecurity.append("''").append(','); // SEC_TKR_SYMB
-        sbSqlForSecurity.append("'MUD'").append(','); // 'SEC_CLS_CD'
-        sbSqlForSecurity.append("'DUM'").append(','); // 'SEC_SUBCLS_CD'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_MAT_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_UNIT_VAL'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_UNITS_HELD'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_VAL_DT'
-        sbSqlForSecurity.append("null").append(','); // 'UNIT_VAL_SRC'
-        sbSqlForSecurity.append("null").append(','); // 'PREV_UNIT_VAL'
-        sbSqlForSecurity.append("null").append(','); // 'PREV_UNIT_VAL_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_CVAL'
-        sbSqlForSecurity.append("null").append(','); // 'LAST_TRAN_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_INC_PAY_FREQ'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_INC_NEXT_PAY_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_RT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_INC_CHG_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_ISS_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_DVDND_REC_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_EX_DVDND_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_DVDND_PAY_DT'
-        sbSqlForSecurity.append("null").append(','); // 'SEC_DVDND_AMT'
-        sbSqlForSecurity.append("null").append(','); // 'CMTMNT_AMT'
-        sbSqlForSecurity.append("'Y'").append(','); // 'ROW_ACTV_IND'
-        sbSqlForSecurity.append("'TEST TEST TEST'").append(','); // 'OBJ_ID'
-        sbSqlForSecurity.append("1").append(','); // 'VER_NBR'
-        sbSqlForSecurity.append("null").append(','); // 'NXT_FSCL_YR_DSTRB_AMT'
-        sbSqlForSecurity.append("null"); // 'SEC_VAL_BY_MKT'
-        sbSqlForSecurity.append(")");
-        int rowsForSecurity = unitTestSqlDao.sqlCommand(sbSqlForSecurity.toString());
-                
         HoldingHistoryValueAdjustmentDocument doc = (HoldingHistoryValueAdjustmentDocument) documentService.getNewDocument(HoldingHistoryValueAdjustmentDocument.class);
         doc.getDocumentHeader().setDocumentDescription("This is a test document.");
         
-        doc.getDocumentHeader().setDocumentNumber(REFERENCE_DOCUMENT_NUMBER);
-        doc.getDocumentHeader().setDocumentDescription(REFERENCE_DOCUMENT_DESCRIPTION);
+        doc.getDocumentHeader().setDocumentNumber(EndowTestConstants.REFERENCE_DOCUMENT_NUMBER);
+        doc.getDocumentHeader().setDocumentDescription(EndowTestConstants.REFERENCE_DOCUMENT_DESCRIPTION);
      
-        doc.setSecurityId("000000000");
-        doc.setHoldingMonthEndDate(new KualiInteger(1));
-        doc.setSecurityUnitValue(ZERO_AMOUNT);
-        doc.setSecurityMarketValue(ZERO_AMOUNT);
-        
-    //    documentService.saveDocument(doc);
+        doc.setHoldingMonthEndDate(EndowTestConstants.FIRST_MONTH_END_DATE_ID);
+        doc.setSecurityUnitValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
+        doc.setSecurityMarketValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
         
         return doc;
     }
     
     /**
-     * test to make sure isSecurityCodeEmpty validation returns true.
+     * test to make sure isSecurityCodeEmpty validation returns true when security id is empty
+     * and return false when security id is filled in.
      */
-    public void testIsSecurityCodeEmpty_True() {
-        document.setSecurityId(null);
+    public void testIsSecurityCodeEmpty() {
+        LOG.info("testIsSecurityCodeEmpty() entered");
         
+        document.setSecurityId(null);
         assertTrue(rule.isSecurityCodeEmpty(document));
+
+        document.setSecurityId(security.getId()); 
+        assertFalse(rule.isSecurityCodeEmpty(document));
     }
     
     /**
-     * test to make sure isSecurityCodeEmpty validation returns false.
-     */
-    public void testIsSecurityCodeEmpty_False() {
-        document.setSecurityId("000000000"); 
-        
-        assertFalse(rule.isSecurityCodeEmpty(document));
-    } 
-
-    /**
-     * test to make sure validate validation returns false.
+     * test to make sure validate validation works correctly.
      */
     public void testValidateSecurityCode_False() {
-        document.setSecurityId(null); 
+        LOG.info("testValidateSecurityCode_False() entered");
         
+        document.setSecurityId(EndowTestConstants.INVALID_SECURITY_ID); 
         assertFalse(rule.validateSecurityCode(document));
-    }
-    
-    /**
-     * test to make sure validate validation returns true.
-     */
-    public void testValidateSecurityCode_True() {
-        document.setSecurityId("000000000"); 
         
+        document.setSecurityId(security.getId()); 
         assertTrue(rule.validateSecurityCode(document));
     }
     
@@ -226,76 +180,72 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * test to make sure that security code does not exists in the END_SEC_T table...
      * testing the service SecurityService.class
      */
-    public void testSecurityCodeExists_False() {
+    public void testSecurityCodeExists() {
+        LOG.info("testSecurityCodeExists() entered");
+                
         setSecurityObjectIntoDocument(null);
-        
         assertFalse(!ObjectUtils.isNull(document.getSecurity()));
-    }
-    
-    /**
-     * test to make sure that security code exists in the END_SEC_T table...
-     * testing the service SecurityService.class
-     */
-    public void testSecurityCodeExists_True() {
-        setSecurityObjectIntoDocument("000000000");
         
+        setSecurityObjectIntoDocument(security.getId());
         assertTrue(ObjectUtils.isNotNull(document.getSecurity()));
     }
-
-    /**
-     * test to make sure isSecurityActive returns false.
-     */
-    public void testIsSecurityActive_False() {
-        setSecurityObjectIntoDocument("000000000");        
-        document.getSecurity().setActive(false);            
-        
-        assertFalse(rule.isSecurityActive(document));
-    }    
     
     /**
-     * test to make sure isSecurityActive returns true.
+     * testing isSecurityActive rule.
      */
-    public void testIsSecurityActive_True() {
-        setSecurityObjectIntoDocument("000000000");        
-        document.getSecurity().setActive(true);            
+    public void testIsSecurityActive() {
+        LOG.info("testIsSecurityActive() entered");
         
+        setSecurityObjectIntoDocument(security.getId());
+        document.getSecurity().setActive(false);
+        assertFalse(rule.isSecurityActive(document));
+        
+        document.getSecurity().setActive(true);
         assertTrue(rule.isSecurityActive(document));
     }    
-
+    
     /**
-     * test to make sure validateSecurityClassCodeTypeNotLiability returns false.
+     * test validateSecurityClassCodeTypeNotLiability rule.
      */
-    public void testValidateSecurityClassCodeTypeNotLiability_False() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
+    public void testValidateSecurityClassCodeTypeNotLiability() {
+        LOG.info("testValidateSecurityClassCodeTypeNotLiability() entered");
         
+        setSecurityObjectIntoDocument(security.getId());
         assertFalse(rule.validateSecurityClassCodeTypeNotLiability(document));
+        
+        ClassCode classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_NOT_LIABILITY_CLASS_CODE_2.createClassCodeRecord();
+        Security security = SecurityFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_ACTIVE_SECURITY_2.createSecurityRecord();
+
+        HoldingHistoryValueAdjustmentDocument doc = null;
+        
+        try {
+            doc = createHoldingHistoryValueAdjustmentDocument2();
+        } catch (WorkflowException wfe) {
+            
+        }
+        doc.setSecurityId(security.getId());
+        Security sec = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(doc.getSecurityId());
+        doc.setSecurity(sec);
+        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(doc));
     }    
 
-    /**
-     * test to make sure validateSecurityClassCodeTypeNotLiability returns true
-     */
-    public void testValidateSecurityClassCodeTypeNotLiability_True() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setClassCodeType("A");        
-        
-        assertTrue(rule.validateSecurityClassCodeTypeNotLiability(document));
-    }
-    
     /**
      * test to make sure checkValuationMethodForUnitOrSecurityValue returns false.
      */
     public void testCheckValuationMethodForUnitOrSecurityValue_False() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
+        LOG.info("testCheckValuationMethodForUnitOrSecurityValue_False() entered");
+        
+        setSecurityObjectIntoDocument(security.getId());
         
         //when valuation method is U, unit value can not be null
-        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("U");
+        document.getSecurity().getClassCode().setValuationMethod(EndowTestConstants.UNIT_VALUATION_METHOD_CODE);
+        document.getSecurity().getClassCode().refreshNonUpdateableReferences();
         document.setSecurityUnitValue(null);
         assertFalse(rule.checkValuationMethodForUnitOrSecurityValue(document));
 
         //when valuation method is U, unit value can not be null
-        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
+        document.getSecurity().getClassCode().setValuationMethod(EndowTestConstants.MARKET_VALUATION_METHOD_CODE);
+        document.getSecurity().getClassCode().refreshNonUpdateableReferences();
         document.setSecurityMarketValue(null);
         assertFalse(rule.checkValuationMethodForUnitOrSecurityValue(document));
     }    
@@ -305,10 +255,13 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * returns true .
      */
     public void testCheckValuationMethodAndSetMarketValueToNull_True() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
+        LOG.info("testCheckValuationMethodAndSetMarketValueToNull_True() entered");
+        
+        setSecurityObjectIntoDocument(security.getId());
         
         //when valuation method is U, make security market value field = null
+        document.getSecurity().getClassCode().setValuationMethod(EndowTestConstants.UNIT_VALUATION_METHOD_CODE);
+        document.getSecurity().getClassCode().refreshNonUpdateableReferences();
         document.setSecurityUnitValue(new BigDecimal(1));
         document.setSecurityMarketValue(new BigDecimal(1));
         //setSecurityMarketValue will be set to null in the rule class...
@@ -318,81 +271,57 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
     /**
      * test to make sure calculateUnitValueWhenMarketValueEntered rule calculates the value
      */
-//    public void testCalculateUnitValueWhenMarketValueEntered() {
-//        
-//        // I could not test my changes due to the fact that I run MySQL locally, and the test inserts were written
-//        // specifically for Oracle (TO_DATE is not database agnostic). So this method got a bit... more verbose.
-//
-//        BigDecimal unitValue = BigDecimal.ZERO;
-//        BigDecimal totalUnits = BigDecimal.ZERO;
-//        int rowsForHoldingHistory = 0;
-//        
-//        // insert into HoldingHistory table some test records.... oracle format
-//        String sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '6234237', '0',sys_guid())";
-//
-//        try {
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        } catch (RuntimeException e) {
-//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                    + " VALUES ('032A017014', '1', '000000000', '0AI', '1', 'I', '1', '1', '107852.3', '0.00', '107852.3', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '6234237', '0',sys_guid())";
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        }
-//
-//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '33.8345', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '3214', '0',sys_guid())";
-//        try {
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        } catch (RuntimeException e) {
-//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                    + " VALUES ('032A017014', '1', '000000000', '0AI', '2', 'I', '2', '2', '96.42', '0.00', '96.42', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '33.8345', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '3214', '0',sys_guid())";
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        }
-//
-//
-//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '10000', '10000',sys_guid())";
-//        try {
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        } catch (RuntimeException e) {
-//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                    + " VALUES ('032A017014', '1', '000000000', '0BI', '3', 'I', '3', '3', '0', '0.00', '0', '1', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '10000', '10000',sys_guid())";
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        }
-//
-//        sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', TO_DATE('1/1/2007', 'mm/dd/yyyy'), '0', '0', '0', TO_DATE('6/30/2007', 'mm/dd/yyyy'), '917278', '917278',sys_guid())";
-//        try {
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        } catch (RuntimeException e) {
-//            // ("RuntimeException" is thrown in unitTestSqlDao) if oracle format failed, try mysql...
-//            sqlForHoldingHistory = "INSERT INTO END_HLDG_HIST_T (KEMID, ME_DT_ID, SEC_ID, REGIS_CD, HLDG_LOT_NBR, HLDG_IP_IND, HLDG_UNITS, HLDG_COST, HLDG_ANNL_INC_EST, HLDG_FY_REM_EST_INC, HLDG_NEXT_FY_EST_INC, SEC_UNIT_VAL, HLDG_ACQD_DT, HLDG_PRIOR_ACRD_INC, HLDG_ACRD_INC_DUE, HLDG_FRGN_TAX_WITH, LAST_TRAN_DT, HLDG_MVAL, AVG_MVAL, OBJ_ID) "
-//                    + " VALUES ('032A017014', '1', '000000000', '0CI', '4', 'I', '4', '4', '39098.39', '0.00', '39098.39', '1.35134', STR_TO_DATE('1/1/2007', '%m/%d/%Y'), '0', '0', '0', STR_TO_DATE('6/30/2007', '%m/%d/%Y'), '917278', '917278',sys_guid())";
-//            rowsForHoldingHistory = unitTestSqlDao.sqlCommand(sqlForHoldingHistory);
-//        }
-//
-//        Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
-//        assertTrue(holdingHistoryRecords.size() == 4);
-//        
-//        setSecurityObjectIntoDocument("000000000");
-//        document.getSecurity().getClassCode().setCode("MUD");          
-//        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
-//        document.setSecurityMarketValue(new BigDecimal(1)); 
-//        
-//        document.setSecurityUnitValue(rule.calculateUnitValueWhenMarketValueEntered(document));
-//        
-//        //the test case classcode type = S (stocks) .. in rule class it is division....
-//        assertTrue(document.getSecurityUnitValue().toString().compareTo("0.10000") == 0);
-//    }
+    public void testCalculateUnitValueWhenMarketValueEntered() {
+        LOG.info("testCalculateUnitValueWhenMarketValueEntered() entered");
+        
+        BigDecimal unitValue = BigDecimal.ZERO;
+        BigDecimal totalUnits = BigDecimal.ZERO;
+        
+        RegistrationCode registrationCode1 = RegistrationCodeFixture.REGISTRATION_CODE_RECORD1_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createRegistrationCode();
+        RegistrationCode registrationCode2 = RegistrationCodeFixture.REGISTRATION_CODE_RECORD2_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createRegistrationCode();
+        
+        HoldingHistory hh1 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD1_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createHoldingHistoryRecord();
+        HoldingHistory hh2 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD2_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createHoldingHistoryRecord();
+        
+        Collection<HoldingHistory> holdingHistoryRecords = SpringContext.getBean(HoldingHistoryService.class).getHoldingHistoryBySecuritIdAndMonthEndId(document.getSecurityId(), document.getHoldingMonthEndDate());
+        assertTrue(holdingHistoryRecords.size() == 2);
+        setSecurityObjectIntoDocument(security.getId());
+        document.setSecurityMarketValue(new BigDecimal(1)); 
+        document.setSecurityUnitValue(rule.calculateUnitValueWhenMarketValueEntered(document));
+
+        assertTrue(document.getSecurityUnitValue().toString().compareTo("0.00250") == 0);
+        
+        // case of classCodeType = B for BONDS....
+        ClassCode classCode = ClassCodeFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_NOT_LIABILITY_CLASS_CODE_2.createClassCodeRecord();
+        Security security2 = SecurityFixture.HOLDING_HISTORY_VALUE_ADJUSTMENT_ACTIVE_SECURITY_2.createSecurityRecord();
+
+        HoldingHistoryValueAdjustmentDocument doc = null;
+        
+        try {
+            doc = createHoldingHistoryValueAdjustmentDocument2();
+        } catch (WorkflowException wfe) {
+            
+        }
+        doc.setSecurityId(security2.getId());
+        Security sec = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(doc.getSecurityId());
+        doc.setSecurity(sec);
+        doc.setSecurityMarketValue(new BigDecimal(1)); 
+
+        HoldingHistory hh3 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD3_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createHoldingHistoryRecord();
+        HoldingHistory hh4 = HoldingHistoryFixture.HOLDING_HISTORY_RECORD4_FOR_HOLDING_HISTORY_VALUE_ADJUSTMENT.createHoldingHistoryRecord();
+        
+        doc.setSecurityUnitValue(rule.calculateUnitValueWhenMarketValueEntered(doc));
+        
+        assertTrue(doc.getSecurityUnitValue().toString().compareTo("0.25000") == 0);
+    }
     
     /**
      * test to make sure if UnitValuePositive returns false.
      */
     public void testIsUnitValuePositive_False() {
-        document.setSecurityUnitValue(ZERO_AMOUNT);
+        LOG.info("testIsUnitValuePositive_False() entered");
+        
+        document.setSecurityUnitValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
         assertFalse(rule.isUnitValuePositive(document));
     }    
 
@@ -400,6 +329,8 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * test to make sure if UnitValuePositive returns true.
      */
     public void testIsUnitValuePositive_True() {
+        LOG.info("testIsUnitValuePositive_True() entered");
+        
         document.setSecurityUnitValue(new BigDecimal(1000));
         assertTrue(rule.isUnitValuePositive(document));
     }    
@@ -408,11 +339,12 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * test to make sure if isMarketValuePositive returns false.
      */
     public void testIsMarketValuePositive_False() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
-        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
+        LOG.info("testIsMarketValuePositive_False() entered");
         
-        document.setSecurityMarketValue(ZERO_AMOUNT);
+        setSecurityObjectIntoDocument(security.getId());
+        document.getSecurity().getClassCode().setValuationMethod(EndowTestConstants.MARKET_VALUATION_METHOD_CODE);
+        document.getSecurity().getClassCode().refreshNonUpdateableReferences();
+        document.setSecurityMarketValue(EndowTestConstants.ZERO_AMOUNT.bigDecimalValue());
         assertFalse(rule.isMarketValuePositive(document));
     }    
 
@@ -420,10 +352,11 @@ public class HoldingHistoryValueAdjustmentDocumentRuleTest extends KualiTestBase
      * test to make sure if isMarketValuePositive returns true.
      */
     public void testIsMarketValuePositive_True() {
-        setSecurityObjectIntoDocument("000000000");
-        document.getSecurity().getClassCode().setCode("MUD");          
-        document.getSecurity().getClassCode().getSecurityValuationMethod().setCode("M");
+        LOG.info("testIsMarketValuePositive_True() entered");
         
+        setSecurityObjectIntoDocument(security.getId());
+        document.getSecurity().getClassCode().setValuationMethod(EndowTestConstants.MARKET_VALUATION_METHOD_CODE);
+        document.getSecurity().getClassCode().refreshNonUpdateableReferences();
         document.setSecurityMarketValue(new BigDecimal(1000));
         assertTrue(rule.isMarketValuePositive(document));
     }    

@@ -17,7 +17,9 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -134,12 +136,44 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
-        }
-        catch (InvalidAddressException e) {
+        } catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address.  Message not sent", e);
         }
+    }
+    
+    /**
+     * KFSMI-6475 - Alter the subject and switch all recipients
+     * 
+     * @param message
+     * @param environmentCode
+     */
+    @SuppressWarnings("rawtypes")
+    public void alterMessageWhenNonProductionInstance( MailMessage message, String environmentCode ) {
+        if ( !kualiConfigurationService.isProductionEnvironment() ) {
+            if ( environmentCode == null ) {
+                environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+            }
+            // Add the environment code to the subject
+            message.setSubject(environmentCode + ": " + message.getSubject());
+            // insert the original recipients into the beginning of the message 
+            StringBuffer recipients = new StringBuffer();
+            recipients.append("To : ").append(message.getToAddresses().toString()).append('\n');
+            recipients.append("Cc : ").append(message.getCcAddresses().toString()).append('\n');
+            recipients.append("Bcc: ").append(message.getBccAddresses().toString()).append('\n');
+            recipients.append('\n');
+            message.setMessage( recipients.toString() + message.getMessage() );
+            // Clear out the recipients
+            message.setToAddresses(new HashSet());
+            message.setCcAddresses(Collections.emptySet());
+            message.setBccAddresses(Collections.emptySet());
+            // Set all to the batch mailing list
+            message.addToAddress(mailService.getBatchMailingList());
+        }        
     }
 
     /**
@@ -180,6 +214,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -240,6 +277,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -280,6 +320,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -321,6 +364,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -345,14 +391,8 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         StringBuffer body = new StringBuffer();
 
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
         String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
-        }
-        else {
-            message.setSubject(environmentCode + "-" + getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
-        }
+        message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
 
         // Get recipient email address
         String toAddresses = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
@@ -368,6 +408,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         body.append(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_MESSAGE, StringUtils.join(creditMemos, ","), StringUtils.join(paymentRequests, ","), lineTotal, maxNoteLines));
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -411,6 +454,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -428,24 +474,11 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            message.addToAddress(paymentGroup.getAdviceEmailAddress());
-            message.addCcAddress(paymentGroup.getAdviceEmailAddress());
-            message.addBccAddress(paymentGroup.getAdviceEmailAddress());
-            message.setFromAddress(customer.getAdviceReturnEmailAddr());
-            message.setSubject(customer.getAdviceSubjectLine());
-        }
-        else {
-            message.addToAddress(mailService.getBatchMailingList());
-            message.addCcAddress(mailService.getBatchMailingList());
-            message.addBccAddress(mailService.getBatchMailingList());
-
-            message.setFromAddress(customer.getAdviceReturnEmailAddr());
-            message.setSubject(environmentCode + ": " + customer.getAdviceSubjectLine() + ":" + paymentGroup.getAdviceEmailAddress());
-        }
-        
+        message.addToAddress(paymentGroup.getAdviceEmailAddress());
+        message.addCcAddress(paymentGroup.getAdviceEmailAddress());
+        message.addBccAddress(paymentGroup.getAdviceEmailAddress());
+        message.setFromAddress(customer.getAdviceReturnEmailAddr());
+        message.setSubject(customer.getAdviceSubjectLine());
 
         LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
 
@@ -534,6 +567,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         message.setMessage(body.toString());
 
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -541,17 +577,15 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             LOG.error("sendAchAdviceEmail() Invalid email address. Sending message to " + customer.getAdviceReturnEmailAddr(), e);
 
             // send notification to advice return address with payment details
-            if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-                message.addToAddress(customer.getAdviceReturnEmailAddr());
-            }
-            else {
-                message.addToAddress(mailService.getBatchMailingList());
-            }
+            message.addToAddress(customer.getAdviceReturnEmailAddr());
             
             message.setFromAddress(mailService.getBatchMailingList());
             message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
 
             LOG.debug("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
+            // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+            alterMessageWhenNonProductionInstance(message, null);
+            
             try {
                 mailService.sendMessage(message);
             }
@@ -571,15 +605,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
         
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
         String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
-        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            message.setSubject("PDP --- Cancelled Payment by Tax");
-        }
-        else {
-            message.setSubject(environmentCode + "-PDP --- Cancelled Payment by Tax");
-        }
+        message.setSubject("PDP --- Cancelled Payment by Tax");
 
         CustomerProfile cp = paymentGroup.getBatch().getCustomerProfile();
         String toAddresses = cp.getAdviceReturnEmailAddr();
@@ -619,7 +647,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         StringBuffer body = new StringBuffer();
 
         String messageKey = kualiConfigurationService.getPropertyString(PdpKeyConstants.MESSAGE_PDP_PAYMENT_MAINTENANCE_EMAIL_LINE_1);
-            body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
+        body.append(MessageFormat.format(messageKey, new Object[] { null }) + " \n\n");
         
         body.append(note + "\n\n");
         String taxEmail = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.TAX_GROUP_EMAIL_ADDRESS);
@@ -673,6 +701,10 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         body.append(paymentTotalLabel + ": " + paymentGroup.getBatch().getPaymentTotalAmount() + " \n\n");
 
         message.setMessage(body.toString());
+
+        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+        alterMessageWhenNonProductionInstance(message, null);
+        
         try {
             mailService.sendMessage(message);
         }
@@ -733,12 +765,6 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      */
     protected String getEmailSubject(String subjectParmaterName) {
         String subject = parameterService.getParameterValue(LoadPaymentsStep.class, subjectParmaterName);
-
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
-        }
 
         return subject;
     }

@@ -1253,8 +1253,6 @@
 
 	<bean id="glCorrectionCriteriaDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.CorrectionCriteriaDaoOjb" />
 
-	<bean id="testDateTimeService" class="org.kuali.rice.kns.service.impl.ConfigurableDateTimeServiceImpl" />
-
 	<bean id="collectorJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

@@ -402,6 +402,11 @@
 
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>aciModelID</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >

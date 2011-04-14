@@ -46,4 +46,11 @@ public interface AssetLocationService {
      * @param offCampusLocation
      */
     public boolean isOffCampusLocationExists(AssetLocation offCampusLocation);
+    
+    /**
+     * check if offCampusLocation is empty
+     * 
+     * @param offCampusLocation
+     */
+    public boolean isOffCampusLocationEmpty(AssetLocation offCampusLocation);
 }

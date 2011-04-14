@@ -667,7 +667,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         accountsPayableService.generateExpiredOrClosedAccountNote(cmDocument, expiredOrClosedAccountList);
 
         // set indicator so a message is displayed for accounts that were replaced due to expired/closed status
-        if (!expiredOrClosedAccountList.isEmpty()) {
+        if (ObjectUtils.isNotNull(expiredOrClosedAccountList) && !expiredOrClosedAccountList.isEmpty()) {
             cmDocument.setContinuationAccountIndicator(true);
         }
 

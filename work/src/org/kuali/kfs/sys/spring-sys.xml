@@ -125,7 +125,8 @@
     </bean>
 
     
-	<bean id="schedulerService" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
+    <bean id="schedulerService" parent="schedulerService-parentBean" />
+	<bean id="schedulerService-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
@@ -202,7 +203,8 @@
 		<property name="batchFileAdminAuthorizationService" ref="batchFileAdminAuthorizationService"/>
 	</bean>
 	
-	<bean id="batchFileAdminAuthorizationService" class="org.kuali.kfs.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl"/>
+	<bean id="batchFileAdminAuthorizationService" parent="batchFileAdminAuthorizationService-parentBean" />
+	<bean id="batchFileAdminAuthorizationService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl" />
 	
 	<bean id="batchFileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 	    <property name="lookupableHelperService">
@@ -351,7 +353,8 @@
 	
 	<bean id="FilePurgeCustomAge" class="org.kuali.kfs.sys.batch.FilePurgeCustomAge" />
 	
-	<bean id="financialSystemUserService" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
+	<bean id="financialSystemUserService" parent="financialSystemUserService-parentBean" />
+	<bean id="financialSystemUserService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
 	
 	<!--
 	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl">

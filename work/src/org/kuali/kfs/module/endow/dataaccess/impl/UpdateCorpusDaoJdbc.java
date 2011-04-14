@@ -24,6 +24,7 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -53,6 +54,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
 
+        LOG.info("updateKemIdCorpusPriorYearValues() completed");
     }
     
     /**
@@ -72,7 +74,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             
             String selectCurrentCorpusSql = "SELECT CRNT_CORPUS_VAL FROM END_CRNT_ENDOW_CORPUS_T WHERE KEMID = ?";
             String updateCurrentCorpusSql = "UPDATE END_CRNT_ENDOW_CORPUS_T SET CRNT_CORPUS_VAL = ? WHERE KEMID = ?";
-            String insertCurrentCorpusSql = "INSERT INTO END_CRNT_ENDOW_CORPUS_T (KEMID, CRNT_CORPUS_VAL, CRNT_PRIN_MVAL, PRIOR_FY_CORPUS_VAL, PRIOR_FY_PRIN_MVAL, VER_NBR, OBJ_ID) VALUES (?, ?, 0, 0, 0, 1, sys_guid())";
+            String insertCurrentCorpusSql = "INSERT INTO END_CRNT_ENDOW_CORPUS_T (KEMID, CRNT_CORPUS_VAL, CRNT_PRIN_MVAL, PRIOR_FY_CORPUS_VAL, PRIOR_FY_PRIN_MVAL, VER_NBR, OBJ_ID) VALUES (?, ?, 0, 0, 0, 1, ?)";
                         
             String updateKemIdCorpusSql = "UPDATE END_KEMID_CORPUS_VAL_T SET CRNT_CORPUS_VAL = ? WHERE KEMID = ?";            
             
@@ -119,7 +121,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
                     currentCorpusAmount = currentCorpusAmount.add(corpusAmount);
 
                     // No current corpus exists, so we need to insert one
-                    getSimpleJdbcTemplate().update(insertCurrentCorpusSql, kemId, currentCorpusAmount);
+                    getSimpleJdbcTemplate().update(insertCurrentCorpusSql, kemId, currentCorpusAmount, new Guid().toString());
                 }
                 
                 // Now update KEM ID Corpus table
@@ -137,19 +139,20 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
         
+        LOG.info("updateCorpusAmountsFromTransactionArchive() completed");
     }
     
     /**
      * 
-     * @see org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao#updateCurrentCorpusPrincipalMarketValue()
+     * @see org.kuali.kfs.module.endow.dataaccess.UpdateCorpusDao#updateKEMIDCorpusPrincipalMarketValue()
      */
-    public void updateCurrentCorpusPrincipalMarketValue(){
+    public void updateKemIdCorpusPrincipalMarketValue(){
      
-        LOG.info("updateCurrentCorpusPrincipalMarketValue() started");
+        LOG.info("updateKemIdCorpusPrincipalMarketValue() started");
         
         try{
-            String selectCurrentBalanceSql = "select t2.KEMID, t2.PRIN_AT_MARKET from END_CRNT_ENDOW_CORPUS_T t1, END_KEMID_CRNT_BAL_V t2 where t1.KEMID = t2.KEMID";
-            String updateCurrentCorpusSql = "UPDATE END_CRNT_ENDOW_CORPUS_T SET CRNT_PRIN_MVAL = ? WHERE KEMID = ?";
+            String selectCurrentBalanceSql = "select t2.KEMID, t2.PRIN_AT_MARKET from END_KEMID_CORPUS_VAL_T t1, END_KEMID_CRNT_BAL_V t2 where t1.KEMID = t2.KEMID";
+            String updateCurrentCorpusSql = "UPDATE END_KEMID_CORPUS_VAL_T SET CRNT_PRIN_MVAL = ? WHERE KEMID = ?";
             
             SqlRowSet pendingEntryRowSet = getJdbcTemplate().queryForRowSet(selectCurrentBalanceSql);
 
@@ -173,13 +176,14 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
                 count++;
             }
             
-            LOG.info ("updateCurrentCorpusPrincipalMarketValue has updated Principal Market Value for " + count + " records in the END_CRNT_ENDOW_CORPUS_T table.");
+            LOG.info ("updateKemIdCorpusPrincipalMarketValue has updated Principal Market Value for " + count + " records in the END_KEMID_CORPUS_VAL_T table.");
         }
         catch (Exception e) {
-            LOG.error("updateCurrentCorpusPrincipalMarketValue() Exception running sql", e);
+            LOG.error("updateKemIdCorpusPrincipalMarketValue() Exception running sql", e);
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
             
+        LOG.info("updateKemIdCorpusPrincipalMarketValue() completed");
     }
     
     /**
@@ -192,10 +196,10 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
         
         try {
             String insertEndowCorpusSql = "INSERT INTO END_ENDOW_CORPUS_T (KEMID, CORPUS_VAL_HIST_DT, CORPUS_VAL, VER_NBR, OBJ_ID)";
-            String selectCurrentCorpusSql = "SELECT KEMID, ?, CRNT_CORPUS_VAL, 1, sys_guid() FROM END_CRNT_ENDOW_CORPUS_T";
+            String selectCurrentCorpusSql = "SELECT KEMID, ?, CRNT_CORPUS_VAL, 1, ? FROM END_CRNT_ENDOW_CORPUS_T";
                 
             //Update the current corpus table's prior year values
-            int count = getSimpleJdbcTemplate().update(insertEndowCorpusSql + " " + selectCurrentCorpusSql, currentDate);
+            int count = getSimpleJdbcTemplate().update(insertEndowCorpusSql + " " + selectCurrentCorpusSql, currentDate, new Guid().toString());
             
             LOG.info ("updateEndowmentCorpusWithCurrentEndowmentCorpus has updated prior year values for " + count + " records in the END_ENDOW_CORPUS_T table.");
         }
@@ -203,6 +207,8 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             LOG.error("updateEndowmentCorpusWithCurrentEndowmentCorpus() Exception running sql", e);
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
+        
+        LOG.info("updateEndowmentCorpusWithCurrentEndowmentCorpus() completed");
 
     }
     

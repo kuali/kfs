@@ -26,24 +26,4 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class ResearchRiskTypeMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
-        Set<String> conditionallyReadOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-
-        ResearchRiskType researchRisk = (ResearchRiskType) document.getNewMaintainableObject().getBusinessObject();
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        ResearchRiskType persistedResearchRisk = (ResearchRiskType) service.retrieve(researchRisk);
-
-        // If the research risk exists in db, set read-only fields
-        if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
-            conditionallyReadOnlyPropertyNames.add(CGPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
-            
-        }
-
-        return conditionallyReadOnlyPropertyNames;
-    }
 }

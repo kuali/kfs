@@ -19,14 +19,14 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountType;
+import org.kuali.kfs.coa.businessobject.BudgetRecordingLevel;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.HigherEducationFunction;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
-import org.kuali.kfs.module.external.kc.businessobject.UnitDTO;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
@@ -34,6 +34,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 
 /**
@@ -41,7 +42,7 @@ import org.kuali.rice.kns.service.PostalCodeService;
  */
 public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase implements Inactivateable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountAutoCreateDefaults.class);
-
+    private Integer accountDefaultId;
     private String kcUnit;
     //private KCUnit kcUnit;
     private String kcUnitName;
@@ -81,6 +82,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
     private String budgetRecordingLevelCode;
+    private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private String accountSufficientFundsCode;
     private boolean pendingAcctSufficientFundsIndicator;
@@ -109,7 +111,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
-    private UnitDTO unitDTO;
+    private ContractsAndGrantsUnit unitDTO;
 
     /**
      * Default no-arg constructor.
@@ -757,7 +759,26 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
         this.budgetRecordingLevelCode = budgetRecordingLevelCode;
     }
+    
+    /**
+     * Gets the budgetRecordingLevel attribute.
+     * 
+     * @return Returns the budgetRecordingLevel.
+     */
+    public BudgetRecordingLevel getBudgetRecordingLevel() {
+        return budgetRecordingLevel;
+    }
 
+    /**
+     * Sets the budgetRecordingLevel attribute value.
+     * 
+     * @param budgetRecordingLevel The budgetRecordingLevel to set.
+     */
+    public void setBudgetRecordingLevel(BudgetRecordingLevel budgetRecordingLevel) {
+        this.budgetRecordingLevel = budgetRecordingLevel;
+    }
+
+    /**
     /**
      * Gets the sufficientFundsCode attribute. 
      * @return Returns the sufficientFundsCode.
@@ -1177,14 +1198,26 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.accountManagerUser = accountManagerUser;
     }
     
-    public UnitDTO getUnitDTO() {
-       // return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
-
-        return unitDTO;
+    public ContractsAndGrantsUnit getUnitDTO() {
+        return unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(this, unitDTO, "unitDTO");        
     }
 
-    public void setUnitDTO(UnitDTO unitDTO) {
+    public void setUnitDTO(ContractsAndGrantsUnit unitDTO) {
         this.unitDTO = unitDTO;
+    }
+
+    /**
+     * 
+     */
+    public Integer getAccountDefaultId() {
+        return accountDefaultId;
+    }
+
+    /**
+     * 
+     */
+    public void setAccountDefaultId(Integer accountDefaultId) {
+        this.accountDefaultId = accountDefaultId;
     }
     
 }

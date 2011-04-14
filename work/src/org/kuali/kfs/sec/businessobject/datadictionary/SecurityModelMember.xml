@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityModelMember" parent="SecurityModelMember-parentBean"/>
+
+  <bean id="SecurityModelMember-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelMember"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityModelMember-inquiryDefinition"/>
+    </property>
+    <property name="titleAttribute" value="definitionId"/>
+    <property name="objectLabel" value="Security Model Member"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityModelMember-modelId"/>
+        <ref bean="SecurityModelMember-securityModel.name"/>
+        <ref bean="SecurityModelMember-memberId"/>
+        <ref bean="SecurityModelMember-memberTypeCode"/>
+        <ref bean="SecurityModelMember-activeFromDate"/>
+        <ref bean="SecurityModelMember-activeToDate"/> 
+        <ref bean="SecurityModelMember-memberName"/>    
+        <ref bean="SecurityModelMember-modelDefinitionSummary"/>   
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="modelMember"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberId" p:targetName="memberId"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="memberTypeCode" p:targetName="memberTypeCode"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="memberName" p:targetName="memberName"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>    
+  </bean>
+
+<!-- Attribute Definitions -->
+  
+  <bean id="SecurityModelMember-modelId" parent="SecurityModelMember-modelId-parentBean"/>
+
+  <bean id="SecurityModelMember-modelId-parentBean" abstract="true" parent="SecurityModel-id">
+    <property name="name" value="modelId"/>
+  </bean>
+  
+  <bean id="SecurityModelMember-securityModel.name" parent="SecurityModelMember-securityModel.name-parentBean"/>
+
+  <bean id="SecurityModelMember-securityModel.name-parentBean" abstract="true" parent="SecurityModel-name">
+    <property name="name" value="securityModel.name"/>
+  </bean>
+  
+  <bean id="SecurityModelMember-memberId" parent="SecurityModelMember-memberId-parentBean"/>
+
+  <bean id="SecurityModelMember-memberId-parentBean" abstract="true" parent="RoleMemberImpl-memberId">
+    <property name="name" value="memberId"/>
+  </bean>
+  
+  <bean id="SecurityModelMember-memberTypeCode" parent="SecurityModelMember-memberTypeCode-parentBean"/>
+
+  <bean id="SecurityModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberImpl-memberTypeCode">
+    <property name="name" value="memberTypeCode"/>
+  </bean>
+  
+  <bean id="SecurityModelMember-activeFromDate" parent="SecurityModelMember-activeFromDate-parentBean"/>
+  
+  <bean id="SecurityModelMember-activeFromDate-parentBean" abstract="true" parent="RoleMemberImpl-activeFromDate">
+    <property name="name" value="activeFromDate"/>
+  </bean>
+  
+  <bean id="SecurityModelMember-activeToDate" parent="SecurityModelMember-activeToDate-parentBean"/>
+
+  <bean id="SecurityModelMember-activeToDate-parentBean" abstract="true" parent="RoleMemberImpl-activeToDate">
+    <property name="name" value="activeToDate"/>
+  </bean> 
+  
+  <bean id="SecurityModelMember-memberName" parent="SecurityModelMember-memberName-parentBean"/>
+
+  <bean id="SecurityModelMember-memberName-parentBean" abstract="true" parent="ModelMember-memberName">
+    <property name="name" value="memberName"/>
+  </bean>   
+  
+  <bean id="SecurityModelMember-modelDefinitionSummary" parent="SecurityModelMember-modelDefinitionSummary-parentBean"/>
+
+  <bean id="SecurityModelMember-modelDefinitionSummary-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="modelDefinitionSummary"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Model Definition Summary"/>
+    <property name="shortLabel" value="Mdl Summary"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityModelMember-inquiryDefinition" parent="SecurityModelMember-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityModelMember-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Model Member Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="modelId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberId"/>
+              <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>              
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.kfs.sec.businessobject.inquiry.SecurityModelMemberInquirable"/>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+</beans>

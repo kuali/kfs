@@ -75,6 +75,8 @@
         <ref bean="Organization-organizationExtension.hrmsIuTitleAllowedFlag"/>
         <ref bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
         <ref bean="Organization-organizationExtension.hrmsLastUpdateDate"/>
+		<ref bean="Organization-organizationPhysicalCampusCodeForReport"/>   
+		<ref bean="Organization-organizationCodeForReport"/>     
       </list>
     </property>
     <property name="relationships">
@@ -207,6 +209,14 @@
   <bean id="Organization-responsibilityCenterCode-parentBean" abstract="true" parent="ResponsibilityCenter-responsibilityCenterCode" />
 
   <bean id="Organization-organizationPhysicalCampusCode" parent="Organization-organizationPhysicalCampusCode-parentBean"/>
+  <bean id="Organization-organizationPhysicalCampusCodeForReport" parent="Organization-organizationPhysicalCampusCode-parentBean">
+  	<property name="name" value="organizationPhysicalCampusCodeForReport"/>  	
+  	<property name="maxLength" value="150" />
+    <property name="control" >
+    	<bean parent="TextControlDefinition" 
+    		  p:size="100" />
+    </property> 
+  </bean>
   <bean id="Organization-organizationPhysicalCampusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
     <property name="name" value="organizationPhysicalCampusCode"/>
     <property name="label" value="Organization Physical Campus Code"/>
@@ -532,6 +542,15 @@
     <property name="shortLabel" value="Last Update Date"/>
   </bean>
 
+  <bean id="Organization-organizationCodeForReport" parent="Organization-organizationCode-parentBean">
+     <property name="name" value="organizationCodeForReport" />
+  	<property name="maxLength" value="150" />
+    <property name="control" >
+    	<bean parent="TextControlDefinition" 
+    		  p:size="100" />
+    </property> 
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

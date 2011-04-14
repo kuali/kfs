@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+  <changeSet author="Winston" id="KFS_401_AP_ELCTRNC_INV_MAP_T_Column_AP_ELCTRNC_INV_MAP_ID" failOnError="true">
+    <comment>KFSMI-6176 EInvoice - all cxml files rejecting due to Invoice Item Type Code (EXMT)</comment>
+    <insert tableName="AP_ELCTRNC_INV_MAP_T">
+      <column name="AP_ELCTRNC_INV_MAP_ID" value="106" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="VER_NBR" valueNumeric="1" />
+      <column name="INV_ITM_TYP_CD" value="EXMT" />
+      <column name="ITM_TYP_CD" value="EXMT" />
+      <column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+    </insert>
+    <modifySql dbms="mysql">
+      <replace replace="SYS_GUID()" with="uuid()" />
+    </modifySql>
+  </changeSet>
+  <changeSet author="Winston" id="KFS_401_PUR_AP_ITM_TYP_T_Column_ITM_TYP_CD" failOnError="true">
+    <comment>KFSMI-6176 EInvoice - all cxml files rejecting due to Invoice Item Type Code (EXMT)</comment>
+    <insert tableName="PUR_AP_ITM_TYP_T">
+      <column name="ITM_TYP_CD" value="EXMT" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="VER_NBR" valueNumeric="1" />
+      <column name="ITM_TYP_DESC" value="Exempt" />
+      <column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+      <column name="QTY_BSD_GL_IND" value="Y" />
+      <column name="ITM_TYP_ADDL_CHRG_IND" value="N" />
+      <column name="TAXABLE_IND" value="N" />
+    </insert>
+    <modifySql dbms="mysql">
+      <replace replace="SYS_GUID()" with="uuid()" />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

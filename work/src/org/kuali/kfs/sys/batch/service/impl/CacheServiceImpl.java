@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 /**
- * @see com.rsmart.kuali.kfs.sys.batch.service.CacheService
+ * @see org.kuali.kfs.sys.batch.service.CacheService
  */
 @NonTransactional
 public class CacheServiceImpl implements CacheService {
@@ -40,7 +40,7 @@ public class CacheServiceImpl implements CacheService {
     private ParameterService parameterService;
 
     /**
-     * @see com.rsmart.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
+     * @see org.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
      */
     public void clearSystemCache() {
         clearMethodCache();

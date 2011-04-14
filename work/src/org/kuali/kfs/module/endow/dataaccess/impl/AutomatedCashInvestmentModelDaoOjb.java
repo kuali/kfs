@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -22,30 +23,20 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.dataaccess.AutomatedCashInvestmentModelDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 
 public class AutomatedCashInvestmentModelDaoOjb extends PlatformAwareDaoBaseOjb implements AutomatedCashInvestmentModelDao {
-    
-    protected KEMService kemService;
-    
+        
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.AutomatedCashInvestmentModelDao#getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate()
      */
-    public List<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate() {
+    public List<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.ACI_MODEL_NEXT_DUE_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.ACI_MODEL_NEXT_DUE_DATE, currentDate);
         criteria.addNotNull(EndowPropertyConstants.ACI_MODEL_FREQUENCY_CDOE);
         criteria.addEqualTo(EndowPropertyConstants.ACI_MODEL_ACTIVE_INDICATOR, "Y");
         return (List<AutomatedCashInvestmentModel>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AutomatedCashInvestmentModel.class, criteria));
     }
 
-    /**
-     * Sets the kemService attribute value.
-     * @param kemService The kemService to set.
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
-    }
 }

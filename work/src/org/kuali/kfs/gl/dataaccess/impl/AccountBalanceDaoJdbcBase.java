@@ -70,7 +70,7 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
      * @param sessionId the unique id of the web session of the inquiring user
      */
     protected void purgeCostShareEntries(String tableName, String sessionIdColumn, String sessionId) {
-        getSimpleJdbcTemplate().update("DELETE FROM " + tableName + " WHERE " + sessionIdColumn + " = ? " + " AND EXISTS (SELECT 1 FROM ca_a21_sub_acct_t a " + " WHERE a.fin_coa_cd = " + tableName + ".fin_coa_cd AND a.account_nbr = " + tableName + ".account_nbr AND a.sub_acct_nbr = " + tableName + ".sub_acct_nbr AND a.sub_acct_typ_cd = 'CS')", sessionId);
+        getSimpleJdbcTemplate().update("DELETE FROM " + tableName + " WHERE " + sessionIdColumn + " = ? " + " AND EXISTS (SELECT 1 FROM CA_A21_SUB_ACCT_T a " + " WHERE a.fin_coa_cd = " + tableName + ".fin_coa_cd AND a.account_nbr = " + tableName + ".account_nbr AND a.sub_acct_nbr = " + tableName + ".sub_acct_nbr AND a.sub_acct_typ_cd = 'CS')", sessionId);
     }
 
     /**

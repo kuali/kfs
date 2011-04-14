@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityModel" parent="SecurityModel-parentBean"/>
+
+  <bean id="SecurityModel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModel"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityModel-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="SecurityModel-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Security Model"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityModel-id"/>
+        <ref bean="SecurityModel-name"/>
+        <ref bean="SecurityModel-description"/>
+        <ref bean="SecurityModel-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="SecurityModel-id" parent="SecurityModel-id-parentBean"/>
+
+  <bean id="SecurityModel-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Model Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-name" parent="SecurityModel-name-parentBean"/>
+
+  <bean id="SecurityModel-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Model Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="SecurityModel-description" parent="SecurityModel-description-parentBean"/>
+
+  <bean id="SecurityModel-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Model Description"/>
+    <property name="shortLabel" value="Desc"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-active" parent="SecurityModel-active-parentBean"/>
+
+  <bean id="SecurityModel-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityModel-inquiryDefinition" parent="SecurityModel-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityModel-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Model Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Model"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition" p:title="Model Definitions">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition" p:attributeName="modelDefinitions" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityModelDefinition">
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
+                    <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
+                    <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+		            <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>
+                    <bean parent="FieldDefinition" p:attributeName="active"/>                  
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition" p:title="Model Members">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition" p:attributeName="modelMembers" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityModelMember">
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/> 
+                    <bean parent="FieldDefinition" p:attributeName="memberId"/>
+                    <bean parent="FieldDefinition" p:attributeName="memberName"/>
+                    <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+                    <bean parent="FieldDefinition" p:attributeName="activeToDate"/>                   
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>        
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SecurityModel-lookupDefinition" parent="SecurityModel-lookupDefinition-parentBean"/>
+
+  <bean id="SecurityModel-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Security Model Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>name</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

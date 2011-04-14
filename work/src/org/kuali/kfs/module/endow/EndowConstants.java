@@ -23,7 +23,7 @@ import org.kuali.rice.kns.util.KualiInteger;
 
 public class EndowConstants extends JSTLConstants {
 
-    public static final String KFS_ENDOW_ROLE_NAMESPACE = KFSConstants.ParameterNamespaces.ENDOWMENT;
+    public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
 
     public static final String YES = "Y";
     public static final String NO = "N";
@@ -56,6 +56,18 @@ public class EndowConstants extends JSTLConstants {
         public static final String CASH_EQUIVALENTS = "CSHEQ";
     }
 
+    public static class KemToGLInterfaceBatchProcess {
+        public static final String DATA_FILE_SUFFIX = ".data";
+        public static final String RECON_FILE_SUFFIX = ".recon";
+        public static final String KEM_TO_GL_ACTIVITY_OUTPUT_DATA_FILE = "endow_endowentry_entp";
+        public static final String KEM_TO_GL_ACTIVITY_OUTPUT_RECONCILE_FILE = "endow_endowentry_entp";
+        public static final String SYSTEM_ORIGINATION_CODE_FOR_ENDOWMENT = "EM";
+        public static final String DEBIT_CODE = "D";
+        public static final String CREDIT_CODE = "C";
+        public static final String SUB_TYPE_CASH = "Cash";
+        public static final String SUB_TYPE_NON_CASH = "Non-Cash";
+    }
+    
     public static class EndowmentTransactionTypeCodes {
         public static final String ASSET_TYPE_CODE = "A";
         public static final String LIABILITY_TYPE_CODE = "L";
@@ -324,8 +336,29 @@ public class EndowConstants extends JSTLConstants {
         public static final String ENDOWMENT_CASH_DECREASE = "ECDD";
         public static final String ENDOWMENT_CASH_TRANSFER = "ECT";
         public static final String ENDOWMENT_LIABILITY_INCREASE = "ELI";
+        public static final String ENDOWMENT_LIABILITY_DECREASE = "ELD";
         public static final String ENDOWMENT_HOLDING_ADJUSTMENT = "EHA";
         public static final String ENDOWMENT_SECURITY_TRANSFER = "EST";
         public static final String ENDOWMENT_CORPORATE_REORGANZATION = "ECR";
+        public static final String ENDOWNENT_HOLDING_VALUE_ADJUSTMENT = "EHVA";
+        public static final String ENDOWMENT_TO_GENERAL_LEDGER_TRANSFER = "EGLT";
+        public static final String GENERAL_LEDGER_TO_ENDOWMENT_TRANSFER = "GLET";
+        public static final String ENDOWMENT_CORPUS_ADJUSTMENT = "ECA";
+        public static final String ENDOWMENT_UNIT_SHARE_ADJUSTMENT = "EUSA";
+        
+    }
+    
+    public static final String KUALI_FREQUENCY_LOOKUPABLE_IMPL = "frequencyCodeLookupable";
+    
+    public static final class EndowmentReport {
+        public static final String ENDOWMENT = "Endowment";
+        public static final String NON_ENDOWED = "Non-Endowed";
+        public static final String BOTH_ENDOWMENT_OPTION = "Both";
+        public static final String DETAIL_REPORT = "Detail";
+        public static final String TOTAL_REPORT = "Total";
+        public static final String BOTH_REPORT_OPTION = "Both";
+        public static final String DETAIL = "D";
+        public static final String TOTAL = "T";
+        public static final String BOTH = "B";
     }
 }

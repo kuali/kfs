@@ -83,7 +83,7 @@
   <bean id="CapitalAssetInformationDetail-buildingRoomNumber" parent="CapitalAssetInformationDetail-buildingRoomNumber-parentBean"/> 
   <bean id="CapitalAssetInformationDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
 	<property name="name" value="buildingRoomNumber"/>
-	<property name="required" value="true"/>
+	<property name="required" value="false"/>
   </bean>
   
   <bean id="CapitalAssetInformationDetail-buildingSubRoomNumber" parent="CapitalAssetInformationDetail-buildingSubRoomNumber-parentBean"/> 

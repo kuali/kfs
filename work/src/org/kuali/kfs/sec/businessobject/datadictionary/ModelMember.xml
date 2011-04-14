@@ -1,0 +1,196 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ModelMember" parent="ModelMember-parentBean" />
+  <bean id="ModelMember-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.kfs.sec.businessobject.ModelMember" p:objectLabel="Model Member">
+    <property name="titleAttribute" value="memberId"/>
+    <property name="lookupDefinition">
+      <ref bean="ModelMember-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="ModelMember-memberId" />
+        <ref bean="ModelMember-memberName" />
+        <ref bean="ModelMember-memberTypeCode" />
+        <ref bean="ModelMember-active" />
+        <ref bean="ModelMember-principalId" />
+        <ref bean="ModelMember-principalName" />
+        <ref bean="ModelMember-entityId" />
+        <ref bean="ModelMember-firstName" />
+        <ref bean="ModelMember-middleName" />
+        <ref bean="ModelMember-lastName" />
+        <ref bean="ModelMember-emailAddress" />
+        <ref bean="ModelMember-employeeId" />
+        <ref bean="ModelMember-roleId" />
+        <ref bean="ModelMember-roleName" />
+        <ref bean="ModelMember-namespaceCode" />
+        <ref bean="ModelMember-groupId" />
+        <ref bean="ModelMember-groupName" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ModelMember-memberId" parent="ModelMember-memberId-parentBean"/>
+
+  <bean id="ModelMember-memberId-parentBean" abstract="true" parent="RoleMemberImpl-memberId">
+    <property name="name" value="memberId"/>
+  </bean>
+  
+  <bean id="ModelMember-memberName" parent="ModelMember-memberName-parentBean"/>
+
+  <bean id="ModelMember-memberName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="memberName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Member Name"/>
+    <property name="shortLabel" value="Mbr Nm"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+  <bean id="ModelMember-memberTypeCode" parent="ModelMember-memberTypeCode-parentBean"/>
+
+  <bean id="ModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberImpl-memberTypeCode">
+    <property name="name" value="memberTypeCode"/>
+  </bean>
+  
+  <bean id="ModelMember-active" parent="ModelMember-active-parentBean"/>
+
+  <bean id="ModelMember-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>  
+  
+  <bean id="ModelMember-principalId" parent="ModelMember-principalId-parentBean"/>
+
+  <bean id="ModelMember-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="principalId"/>
+  </bean> 
+
+  <bean id="ModelMember-principalName" parent="ModelMember-principalName-parentBean"/>
+
+  <bean id="ModelMember-principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="principalName"/>
+  </bean> 
+  
+  <bean id="ModelMember-entityId" parent="ModelMember-entityId-parentBean"/>
+
+  <bean id="ModelMember-entityId-parentBean" abstract="true" parent="PersonImpl-entityId">
+    <property name="name" value="entityId"/>
+  </bean> 
+  
+  <bean id="ModelMember-firstName" parent="ModelMember-firstName-parentBean"/>
+
+  <bean id="ModelMember-firstName-parentBean" abstract="true" parent="PersonImpl-firstName">
+    <property name="name" value="firstName"/>
+  </bean>  
+  
+  <bean id="ModelMember-middleName" parent="ModelMember-middleName-parentBean"/>
+
+  <bean id="ModelMember-middleName-parentBean" abstract="true" parent="PersonImpl-middleName">
+    <property name="name" value="middleName"/>
+  </bean> 
+  
+  <bean id="ModelMember-lastName" parent="ModelMember-lastName-parentBean"/>
+
+  <bean id="ModelMember-lastName-parentBean" abstract="true" parent="PersonImpl-lastName">
+    <property name="name" value="lastName"/>
+  </bean> 
+  
+  <bean id="ModelMember-emailAddress" parent="ModelMember-emailAddress-parentBean"/>
+
+  <bean id="ModelMember-emailAddress-parentBean" abstract="true" parent="PersonImpl-emailAddress">
+    <property name="name" value="emailAddress"/>
+  </bean> 
+  
+  <bean id="ModelMember-employeeId" parent="ModelMember-employeeId-parentBean"/>
+
+  <bean id="ModelMember-employeeId-parentBean" abstract="true" parent="PersonImpl-employeeId">
+    <property name="name" value="employeeId"/>
+  </bean> 
+  
+  <bean id="ModelMember-roleId" parent="ModelMember-roleId-parentBean"/>
+
+  <bean id="ModelMember-roleId-parentBean" abstract="true" parent="RoleImpl-roleId">
+    <property name="name" value="roleId"/>
+  </bean> 
+  
+  <bean id="ModelMember-roleName" parent="ModelMember-roleName-parentBean"/>
+
+  <bean id="ModelMember-roleName-parentBean" abstract="true" parent="RoleImpl-roleName">
+    <property name="name" value="roleName"/>
+  </bean> 
+  
+  <bean id="ModelMember-namespaceCode" parent="ModelMember-namespaceCode-parentBean"/>
+
+  <bean id="ModelMember-namespaceCode-parentBean" abstract="true" parent="RoleImpl-namespaceCode">
+    <property name="name" value="namespaceCode"/>
+  </bean> 
+  
+  <bean id="ModelMember-groupId" parent="ModelMember-groupId-parentBean"/>
+
+  <bean id="ModelMember-groupId-parentBean" abstract="true" parent="GroupImpl-groupId">
+    <property name="name" value="groupId"/>
+  </bean> 
+  
+  <bean id="ModelMember-groupName" parent="ModelMember-groupName-parentBean"/>
+
+  <bean id="ModelMember-groupName-parentBean" abstract="true" parent="GroupImpl-groupName">
+    <property name="name" value="groupName"/>
+  </bean> 
+  
+  <bean id="ModelMember-lookupDefinition" parent="ModelMember-lookupDefinition-parentBean"/>
+
+  <bean id="ModelMember-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Member Lookup"/>
+    <property name="lookupableID" value="modelMemberLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>memberId</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="principalId"/>
+        <bean parent="FieldDefinition" p:attributeName="principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="entityId"/>
+        <bean parent="FieldDefinition" p:attributeName="firstName"/>
+        <bean parent="FieldDefinition" p:attributeName="middleName"/>
+        <bean parent="FieldDefinition" p:attributeName="lastName"/>        
+        <bean parent="FieldDefinition" p:attributeName="emailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="employeeId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="memberTypeCode" p:hidden="true"/>
+        <bean parent="FieldDefinition" p:attributeName="roleId"/>        
+        <bean parent="FieldDefinition" p:attributeName="roleName"/>
+        <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="groupId"/>
+        <bean parent="FieldDefinition" p:attributeName="groupName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="memberId"/>
+        <bean parent="FieldDefinition" p:attributeName="memberName"/>
+        <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+  
+</beans>

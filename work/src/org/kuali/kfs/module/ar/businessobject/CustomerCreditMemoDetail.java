@@ -315,11 +315,11 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     public String getFinancialObjectCode() {
-        getCustomerInvoiceDetail().refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         return getCustomerInvoiceDetail().getFinancialObjectCode();
     }
 
     public ObjectCode getObjectCode() {
+        getCustomerInvoiceDetail().refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         return getCustomerInvoiceDetail().getObjectCode();
     }
 
@@ -376,6 +376,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     }
 
     public CustomerInvoiceDetail getCustomerInvoiceDetail() {
+        
         if (ObjectUtils.isNull(customerInvoiceDetail) && StringUtils.isNotEmpty(financialDocumentReferenceInvoiceNumber) && ObjectUtils.isNotNull(referenceInvoiceItemNumber)) {
             customerInvoiceDetail = SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetail(financialDocumentReferenceInvoiceNumber, referenceInvoiceItemNumber);
         }
@@ -389,8 +390,8 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      */
     public void setCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
         this.customerInvoiceDetail = customerInvoiceDetail;
-    }
-
+    }    
+    
     /**
      * Gets the financialDocumentReferenceInvoiceNumber attribute.
      * 

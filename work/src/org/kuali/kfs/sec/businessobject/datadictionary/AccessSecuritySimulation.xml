@@ -1,0 +1,170 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="AccessSecuritySimulation" parent="AccessSecuritySimulation-parentBean" />
+  <bean id="AccessSecuritySimulation-parentBean" abstract="true" parent="BusinessObjectEntry"
+        p:businessObjectClass="org.kuali.kfs.sec.businessobject.AccessSecuritySimulation" p:objectLabel="Access Security Simulation">
+    <property name="titleAttribute" value="attributeId"/>
+    <property name="lookupDefinition">
+      <ref bean="AccessSecuritySimulation-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="AccessSecuritySimulation-principalId" />
+        <ref bean="AccessSecuritySimulation-attributeName" />
+        <ref bean="AccessSecuritySimulation-templateId" />
+        <ref bean="AccessSecuritySimulation-financialSystemDocumentTypeCode" />
+        <ref bean="AccessSecuritySimulation-inquiryNamespaceCode" />
+        <ref bean="AccessSecuritySimulation-attributeValue" />
+        <ref bean="AccessSecuritySimulation-attributeValueName" />
+        <ref bean="AccessSecuritySimulation-securityPerson.principalName"/>
+        <ref bean="AccessSecuritySimulation-securityPerson.name"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="securityPerson"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:sourceName="securityPerson.principalName" p:targetName="principalName" p:identifier="true"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="securityPerson.name" p:targetName="name"/>                    
+            </list>
+          </property>      
+        </bean>
+      </list>
+    </property>      
+  </bean>
+
+  <bean id="AccessSecuritySimulation-attributeName" parent="AccessSecuritySimulation-attributeName-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-attributeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="attributeName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Attribute"/>
+    <property name="shortLabel" value="Attribute"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.AttributeNameFinder"/>
+    </property>    
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-principalId" parent="AccessSecuritySimulation-principalId-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-principalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+    <property name="name" value="principalId"/>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-templateId" parent="AccessSecuritySimulation-templateId-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-templateId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="templateId"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Action"/>
+    <property name="shortLabel" value="Action"/>
+    <property name="maxLength" value="4"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.SecurityTemplateIdFinder" p:script="customLookupChanged()"/>
+    </property>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-financialSystemDocumentTypeCode" parent="AccessSecuritySimulation-financialSystemDocumentTypeCode-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="SecurityDefinitionDocumentType-financialSystemDocumentTypeCode">
+    <property name="name" value="financialSystemDocumentTypeCode"/>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-inquiryNamespaceCode" parent="AccessSecuritySimulation-inquiryNamespaceCode-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-inquiryNamespaceCode-parentBean" abstract="true" parent="KimTypeImpl-namespaceCode">
+    <property name="name" value="inquiryNamespaceCode"/>
+    <property name="label" value="Inquiry Namespace"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.SecurityInquiryNamespaceFinder"/>
+    </property>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-attributeValue" parent="AccessSecuritySimulation-attributeValue-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-attributeValue-parentBean" abstract="true" parent="SecurityModelDefinition-attributeValue">
+    <property name="name" value="attributeValue"/>
+    <property name="label" value="Value"/>
+    <property name="shortLabel" value="Value"/>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-attributeValueName" parent="AccessSecuritySimulation-attributeValueName-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-attributeValueName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="attributeValueName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Name"/>
+    <property name="shortLabel" value="Nm"/>
+    <property name="maxLength" value="100"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition"/>
+    </property>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-securityPerson.principalName" parent="AccessSecuritySimulation-securityPerson.principalName-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-securityPerson.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+    <property name="name" value="securityPerson.principalName"/>
+    <property name="control">
+      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="securityPerson.name" p:universalIdAttributeName="principalId" p:userIdAttributeName="securityPerson.principalName"/>
+    </property>
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="AccessSecuritySimulation-securityPerson.name" parent="AccessSecuritySimulation-securityPerson.name-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-securityPerson.name-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="securityPerson.name"/>
+    <property name="required" value="false"/>
+  </bean>  
+  
+  <bean id="AccessSecuritySimulation-lookupDefinition" parent="AccessSecuritySimulation-lookupDefinition-parentBean"/>
+
+  <bean id="AccessSecuritySimulation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Access Security Simulation"/>
+    <property name="lookupableID" value="accessSecuritySimulationLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>attributeValue</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="securityPerson.principalName" p:required="true"/>
+        <bean parent="FieldDefinition" p:attributeName="attributeName" p:required="true"/>
+        <bean parent="FieldDefinition" p:attributeName="templateId" p:defaultValue="1006" p:required="true"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" p:defaultValue="KFS"/>
+        <bean parent="FieldDefinition" p:attributeName="inquiryNamespaceCode" p:defaultValue="KFS-GL"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+        <bean parent="FieldDefinition" p:attributeName="attributeValueName"/>
+      </list>
+    </property>
+  </bean>
+  
+</beans>

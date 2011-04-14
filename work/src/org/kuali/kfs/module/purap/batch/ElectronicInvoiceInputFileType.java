@@ -26,6 +26,9 @@ import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
  * Batch input type for the electronic invoice job.
  */
 public class ElectronicInvoiceInputFileType extends XmlBatchInputFileTypeBase {
+    protected String reportPath;
+    protected String reportPrefix;
+    protected String reportExtension;
     
     /**
      * Returns the identifier of the electronic invoice file type
@@ -60,6 +63,43 @@ public class ElectronicInvoiceInputFileType extends XmlBatchInputFileTypeBase {
         int whereDot = fileName.lastIndexOf('.');
         
         return fileName.substring(0, whereDot);
+    }
+    
+    
+    /**
+     * Sets the reportPath attribute value.
+     * @param reportPath The reportPath to set.
+     */
+    public void setReportPath(String reportPath) {
+        this.reportPath = reportPath;
+    }
+
+    /**
+     * Sets the reportExtension attribute value.
+     * @param reportExtension The reportExtension to set.
+     */
+    public void setReportExtension(String reportExtension) {
+        this.reportExtension = reportExtension;
+    }
+
+    /**
+     * Sets the fileReportPrefix attribute value.
+     * @param fileReportPrefix The fileReportPrefix to set.
+     */
+    public void setReportPrefix(String reportPrefix) {
+        this.reportPrefix = reportPrefix;
+    }
+
+    public String getReportPath() {
+        return reportPath;
+    }
+
+    public String getReportPrefix() {
+        return reportPrefix;
+    }
+
+    public String getReportExtension() {
+        return reportExtension;
     }
 }
 

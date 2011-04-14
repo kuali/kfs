@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+
+  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES_oracle" failOnError="false" dbms="oracle">
+    <!-- Preconditions don't seem to be working right - hangs the build 
+  	<preConditions onFail="MARK_RAN">
+  		<not>
+  			<and>
+  				<sequenceExists sequenceName="KRSB_BAM_PARM_S" />
+  				<sequenceExists sequenceName="KRSB_BAM_S" />
+  				<sequenceExists sequenceName="KRSB_MSG_QUE_S" />
+  			</and>
+  		</not>
+  	</preConditions>
+  	-->
+	<comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
+	<createSequence sequenceName="KRSB_BAM_PARM_S" startValue="30000" />
+	<createSequence sequenceName="KRSB_BAM_S" startValue="30000" />
+	<createSequence sequenceName="KRSB_MSG_QUE_S" startValue="30000" />
+  </changeSet>
+
+  <changeSet author="kfs" id="KFS_401_RESTORE_MISSING_RICE_SEQUENCES_mysql" failOnError="false" dbms="mysql">
+    <!--
+  	<preConditions onFail="MARK_RAN">
+  		<not>
+  			<and>
+  				<tableExists tableName="KRSB_BAM_PARM_S" />
+  				<tableExists tableName="KRSB_BAM_S" />
+  				<tableExists tableName="KRSB_MSG_QUE_S" />
+  			</and>
+  		</not>
+  	</preConditions>
+  	-->
+	<comment>Restore Sequences needed if running with a separate standalone Rice server.</comment>
+	<createTable tableName="KRSB_BAM_PARM_S">
+		<column name="id" type="bigint(19)" autoIncrement="true">
+			<constraints primaryKey="true" nullable="false" />
+		</column>
+	</createTable>
+	<createTable tableName="KRSB_BAM_S">
+		<column name="id" type="bigint(19)" autoIncrement="true">
+			<constraints primaryKey="true" nullable="false" />
+		</column>
+	</createTable>
+	<createTable tableName="KRSB_MSG_QUE_S">
+		<column name="id" type="bigint(19)" autoIncrement="true">
+			<constraints primaryKey="true" nullable="false" />
+		</column>
+	</createTable>
+	<modifySql>
+		<append value="ENGINE MyISAM" />
+	</modifySql>
+  </changeSet>
+
+</databaseChangeLog>

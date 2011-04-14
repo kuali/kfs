@@ -135,7 +135,14 @@
   	<bean id="KemidGeneralLedgerAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="General Ledger Account Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>kemid</value>
+                  <value>incomePrincipalIndicatorCode</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

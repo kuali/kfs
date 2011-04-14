@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SecurityDefinition" parent="SecurityDefinition-parentBean"/>
+
+  <bean id="SecurityDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityDefinition"/>
+    <property name="inquiryDefinition">
+      <ref bean="SecurityDefinition-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="SecurityDefinition-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="id"/>
+    <property name="objectLabel" value="Security Definition"/>
+    <property name="attributes">
+      <list>
+        <ref bean="SecurityDefinition-id"/>
+        <ref bean="SecurityDefinition-name"/>
+        <ref bean="SecurityDefinition-description"/>
+        <ref bean="SecurityDefinition-attributeId"/>
+        <ref bean="SecurityDefinition-securityAttribute.name"/>
+        <ref bean="SecurityDefinition-restrictViewAccountingLine"/>
+        <ref bean="SecurityDefinition-restrictEditAccountingLine"/>
+        <ref bean="SecurityDefinition-restrictViewDocument"/>
+        <ref bean="SecurityDefinition-restrictEditDocument"/>
+        <ref bean="SecurityDefinition-restrictViewNotesAndAttachments"/>
+        <ref bean="SecurityDefinition-restrictLookup"/>
+        <ref bean="SecurityDefinition-restrictGLInquiry"/>
+        <ref bean="SecurityDefinition-restrictLaborInquiry"/>
+        <ref bean="SecurityDefinition-active"/>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="securityAttribute"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="SecurityDefinition-id" parent="SecurityDefinition-id-parentBean"/>
+
+  <bean id="SecurityDefinition-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Definition Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityDefinition-name" parent="SecurityDefinition-name-parentBean"/>
+
+  <bean id="SecurityDefinition-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Definition Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+
+  <bean id="SecurityDefinition-description" parent="SecurityDefinition-description-parentBean"/>
+
+  <bean id="SecurityDefinition-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Definition Description"/>
+    <property name="shortLabel" value="Desc"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+  
+  <bean id="SecurityDefinition-attributeId" parent="SecurityDefinition-attributeId-parentBean"/>
+
+  <bean id="SecurityDefinition-attributeId-parentBean" abstract="true" parent="SecurityAttribute-id">
+    <property name="name" value="attributeId"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.SecurityAttributeFinder" p:includeBlankRow="true" />
+    </property>
+  </bean>
+  
+  <bean id="SecurityDefinition-securityAttribute.name" parent="SecurityDefinition-securityAttribute.name-parentBean"/>
+
+  <bean id="SecurityDefinition-securityAttribute.name-parentBean" abstract="true" parent="SecurityAttribute-name">
+    <property name="name" value="securityAttribute.name"/>
+  </bean>
+
+  <bean id="SecurityDefinition-restrictViewAccountingLine" parent="SecurityDefinition-restrictViewAccountingLine-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictViewAccountingLine-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictViewAccountingLine"/>
+    <property name="label" value="Restrict View Accounting Line"/>
+    <property name="shortLabel" value="Rstr View Acct Ln"/>
+    <property name="required" value="true"/>
+  </bean>
+ 
+  <bean id="SecurityDefinition-restrictEditAccountingLine" parent="SecurityDefinition-restrictEditAccountingLine-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictEditAccountingLine-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictEditAccountingLine"/>
+    <property name="label" value="Restrict Use/Edit Accounting Line"/>
+    <property name="shortLabel" value="Rstr Use/Edit Acct Ln"/>
+    <property name="required" value="true"/>
+  </bean>
+
+  <bean id="SecurityDefinition-restrictViewDocument" parent="SecurityDefinition-restrictViewDocument-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictViewDocument-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictViewDocument"/>
+    <property name="label" value="Restrict View Document"/>
+    <property name="shortLabel" value="Rstr View Doc"/>
+    <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="SecurityDefinition-restrictEditDocument" parent="SecurityDefinition-restrictEditDocument-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictEditDocument-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictEditDocument"/>
+    <property name="label" value="Restrict Edit Document"/>
+    <property name="shortLabel" value="Rstr Edit Doc"/>
+    <property name="required" value="true"/>
+  </bean>  
+  
+  <bean id="SecurityDefinition-restrictViewNotesAndAttachments" parent="SecurityDefinition-restrictViewNotesAndAttachments-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictViewNotesAndAttachments-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictViewNotesAndAttachments"/>
+    <property name="label" value="Restrict View Notes And Attachment"/>
+    <property name="shortLabel" value="Rstr View NTE/ATT"/>
+    <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="SecurityDefinition-restrictLookup" parent="SecurityDefinition-restrictLookup-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictLookup-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictLookup"/>
+    <property name="label" value="Restrict Lookup"/>
+    <property name="shortLabel" value="Rstr Lookup"/>
+    <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="SecurityDefinition-restrictGLInquiry" parent="SecurityDefinition-restrictGLInquiry-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictGLInquiry-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictGLInquiry"/>
+    <property name="label" value="Restrict GL Inquiry"/>
+    <property name="shortLabel" value="Rstr GL Inquiry"/>
+    <property name="required" value="true"/>
+  </bean>  
+  
+  <bean id="SecurityDefinition-restrictLaborInquiry" parent="SecurityDefinition-restrictLaborInquiry-parentBean"/>
+
+  <bean id="SecurityDefinition-restrictLaborInquiry-parentBean" abstract="true" parent="GenericAttributes-genericBoolean-parentBean">
+    <property name="name" value="restrictLaborInquiry"/>
+    <property name="label" value="Restrict Labor Inquiry"/>
+    <property name="shortLabel" value="Rstr LD Inquiry"/>
+    <property name="required" value="true"/>
+  </bean>  
+     
+  <bean id="SecurityDefinition-active" parent="SecurityDefinition-active-parentBean"/>
+
+  <bean id="SecurityDefinition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+    <property name="shortLabel" value="Active"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="SecurityDefinition-inquiryDefinition" parent="SecurityDefinition-inquiryDefinition-parentBean"/>
+
+  <bean id="SecurityDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Security Definition Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Definition"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+              <bean parent="FieldDefinition" p:attributeName="securityAttribute.name"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictViewAccountingLine"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictEditAccountingLine"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictViewDocument"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictEditDocument"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictViewNotesAndAttachments"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictLookup"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictGLInquiry"/>
+              <bean parent="FieldDefinition" p:attributeName="restrictLaborInquiry"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition" p:title="Doc Types">
+          <property name="inquiryFields">
+            <list>
+              <bean parent="InquiryCollectionDefinition" p:attributeName="definitionDocumentTypes" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType">
+                <property name="inquiryFields">
+                  <list>
+                    <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
+                  </list>
+                </property>
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="SecurityDefinition-lookupDefinition" parent="SecurityDefinition-lookupDefinition-parentBean"/>
+
+  <bean id="SecurityDefinition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Security Definition Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>name</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="attributeId"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="securityAttribute.name"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

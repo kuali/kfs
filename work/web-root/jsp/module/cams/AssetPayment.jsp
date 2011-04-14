@@ -49,7 +49,8 @@
 	</kul:tab>
 	<cams:viewPaymentInProcessByAsset
 		assetPaymentAssetDetail="${KualiForm.document.assetPaymentAssetDetail}"
-		assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" />
+		assetPaymentDetail="${KualiForm.document.sourceAccountingLines}" 
+		assetPaymentDistribution="${KualiForm.document.assetPaymentDistributor.assetPaymentDistributions}" />
 
 	<kul:notes />
 	<kul:adHocRecipients />

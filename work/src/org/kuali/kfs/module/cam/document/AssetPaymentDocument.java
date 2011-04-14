@@ -29,6 +29,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.validation.event.AssetPaymentManuallyAddAccountingLineEvent;
+import org.kuali.kfs.module.cam.util.AssetPaymentDistributor;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;
@@ -236,5 +237,20 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
             total = total.add(amount);
         }
         return total;
+    }
+    
+    /**
+     * Get the asset payment distributor built by AssetPaymentDetails, AssetPaymentAssetDetail and
+     * totalHistoricalCost 
+     * 
+     * @return AssetPaymentDistributor
+     */
+    public AssetPaymentDistributor getAssetPaymentDistributor() {
+        
+        // instantiate the distributor and calculate the asset payment distributions
+        AssetPaymentDistributor paymentDistributor = new AssetPaymentDistributor(getSourceAccountingLines(),
+                getAssetPaymentAssetDetail(), getAssetsTotalHistoricalCost());
+        
+        return paymentDistributor;
     }
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="GLInterfaceBatchtExceptionReportHeader" parent="GLInterfaceBatchtExceptionReportHeader-parentBean"/>
+
+  <bean id="GLInterfaceBatchtExceptionReportHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionReportHeader"/>
+    
+    <property name="objectLabel" value="GL Interface Batcht Exception Report Header"/>
+    <property name="attributes">
+      <list>
+      	<ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading1"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading2"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading3"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading4"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading5"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading6"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading7"/>
+        <ref bean="GLInterfaceBatchtExceptionReportHeader-columnHeading8"/>        
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading1" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading1-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading1-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading1">
+	<property name="maxLength" value="10"></property>
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading2" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading2-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading2-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading2">
+	<property name="maxLength" value="10"></property>
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading3" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading3-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading3-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading3">
+	<property name="maxLength" value="10"></property>
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading4" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading4-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading4-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading4">
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading5" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading5-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading5-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading5">
+  </bean>  
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading6" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading6-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading6-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading6">
+  </bean> 
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading7" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading7-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading7-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading7">
+  </bean>
+  
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading8" parent="GLInterfaceBatchtExceptionReportHeader-columnHeading8-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionReportHeader-columnHeading8-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+  	<property name="name" value="columnHeading8"/>
+  	<property name="maxLength" value="20"/>
+  </bean>
+  
+</beans>

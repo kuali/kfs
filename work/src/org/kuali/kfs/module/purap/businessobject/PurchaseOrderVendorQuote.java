@@ -60,11 +60,14 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     private PurchaseOrderQuoteStatus purchaseOrderQuoteStatus;
     private Country vendorCountry;
 
+    //non-persisted variables
+    protected boolean isPdfDisplayedToUserOnce;
+    
     /**
      * Default constructor.
      */
     public PurchaseOrderVendorQuote() {
-
+        
     }
 
     public String getDocumentNumber() {
@@ -313,6 +316,27 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
             m.put("purchaseOrderVendorQuoteIdentifier", this.purchaseOrderVendorQuoteIdentifier.toString());
         }
         return m;
+    }
+
+    /**
+     * Method to determine if the the pdf has already been displayed to the user
+     * one time. If false, its set to true and locks this out.
+     * 
+     * @return
+     */
+    public boolean isPdfDisplayedToUserOnce() {
+        boolean valueToReturn = isPdfDisplayedToUserOnce;
+        
+        //if not displayed, we will return false, but subsequent calls will return true.
+        if (valueToReturn == false){
+            isPdfDisplayedToUserOnce = true;
+        }
+        
+        return valueToReturn;
+    }
+
+    public void setPdfDisplayedToUserOnce(boolean isPdfDisplayedToUserOnce) {
+        this.isPdfDisplayedToUserOnce = isPdfDisplayedToUserOnce;
     }
 
 }

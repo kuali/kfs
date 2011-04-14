@@ -36,10 +36,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class AssetTransferAction extends FinancialSystemTransactionalDocumentActionBase {
@@ -129,7 +128,7 @@ public class AssetTransferAction extends FinancialSystemTransactionalDocumentAct
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((KualiDocumentFormBase) form).setErrorMapFromPreviousRequest(new ErrorMap());
+        ((KualiDocumentFormBase) form).setMessageMapFromPreviousRequest(new MessageMap());
         ActionForward actionForward = super.refresh(mapping, form, request, response);
 
         AssetTransferDocument assetTransferDocument = ((AssetTransferForm) form).getAssetTransferDocument();

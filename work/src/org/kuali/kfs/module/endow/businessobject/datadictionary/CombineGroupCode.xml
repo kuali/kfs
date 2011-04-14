@@ -26,6 +26,7 @@
         		<ref bean="CombineGroupCode-name"/>
         		<ref bean="CombineGroupCode-codeAndDescription"/>
 		        <ref bean="CombineGroupCode-active"/>
+		        <ref bean="CombineGroupCode-codeForReport"/>
       		</list>
     	</property>
 	</bean>
@@ -88,6 +89,15 @@
     	<property name="name" value="active"/>
   	</bean>
 
+	<bean id="CombineGroupCode-codeForReport" parent="CombineGroupCode-code-parentBean">
+	  	<property name="name" value="codeForReport" />
+  		<property name="maxLength" value="150" />
+    	<property name="control" >
+    		<bean parent="TextControlDefinition" 
+    			  p:size="100" />
+    	</property> 
+	</bean>
+	
 <!-- Business Object Inquiry Definition -->
 
 	<bean id="CombineGroupCode-inquiryDefinition" parent="CombineGroupCode-inquiryDefinition-parentBean"/>
@@ -121,7 +131,13 @@
   	<bean id="CombineGroupCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Combine Group Code Lookup"/>    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition"/>
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>code</value>
+          	    </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

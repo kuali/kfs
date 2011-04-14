@@ -17,7 +17,7 @@
 
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument" parent="AccountAutoCreateDefaultsMaintenanceDocument-parentBean"/>
 
-  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" p:maintainableClass="org.kuali.kfs.module.external.kc.document.AccountAutoCreateDefaultsMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance"/>
@@ -39,7 +39,9 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountManagerUser" p:attributeToHighlightOnFail="accountManagerUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="budgetRecordingLevel" p:attributeToHighlightOnFail="budgetRecordingLevelCode" />
 	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" /> 
+	        <bean parent="ReferenceDefinition" p:attributeName="accountPhysicalCampus" p:attributeToHighlightOnFail="accountPhysicalCampusCode" /> 
   	    </list>   
     </property>
     <property name="lockingKeys">
@@ -72,7 +74,8 @@
       	<dd:maintField attributeName="kcUnit" required="true"/>
       	<dd:maintField attributeName="kcUnitName"/>
         <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
-         <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="accountPhysicalCampusCode" required="true"/>
         <dd:maintField attributeName="accountZipCode" required="true"/>
         <dd:maintField attributeName="accountCityName" required="true"/>
         <dd:maintField attributeName="accountStateCode" required="true"/>
@@ -104,6 +107,7 @@
         <dd:maintField attributeName="continuationAccountNumber"/>
         <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
         <dd:maintField attributeName="incomeStreamAccountNumber"/>
+        <dd:maintField attributeName="budgetRecordingLevelCode" required="true"/>
         <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
         <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
         <dd:maintField attributeName="intrnlFinEncumSufficntFndIndicator"/>

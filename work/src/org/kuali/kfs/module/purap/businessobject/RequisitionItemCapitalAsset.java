@@ -16,11 +16,17 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiModuleService;
+
 
 /**
  * Requisition Item Capital Asset Business Object.
  */
 public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAssetBase {
+
+    private CapitalAssetManagementAsset asset;
 
     /**
      * Default constructor.
@@ -31,6 +37,10 @@ public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAssetBase 
     
     public RequisitionItemCapitalAsset(Long capitalAssetNumber) {
         super(capitalAssetNumber);
+    }
+
+    public CapitalAssetManagementAsset getAsset() {
+        return asset = (CapitalAssetManagementAsset) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CapitalAssetManagementAsset.class).retrieveExternalizableBusinessObjectIfNecessary(this, asset, "asset");
     }
 
 }

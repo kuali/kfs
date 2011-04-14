@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchEx
 public class ProcessFeeTransactionsStep extends AbstractWrappedBatchStep {
 
     protected ProcessFeeTransactionsService processFeeTransactionsService;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryMarketValuesStep.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessFeeTransactionsStep.class);
     protected String batchFileDirectoryName;
 
     /**

@@ -23,7 +23,6 @@
     <property name="maintainableSections">
       <list>
         <ref bean="ObjectCodeMaintenanceDocument-EditObjectCode"/>
-        <ref bean="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes"/>
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -43,10 +42,7 @@
         <value>financialObjectCode</value>
       </list>
     </property>
-    
-    
-    
-    
+
     
     <property name="documentTypeName" value="OBJT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.ObjectCodeRule"/>
@@ -91,20 +87,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="finObjMandatoryTrnfrelimCd" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialFederalFundedCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="nextYearFinancialObjectCode"/>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes" parent="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean"/>
-
-  <bean id="ObjectCodeMaintenanceDocument-EditResearchAdminAttributes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="researchAdminAttributes"/>
-    <property name="title" value="Research Admin Attributes"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="rschBudgetCategoryCode" />
-        <bean parent="MaintainableFieldDefinition" p:name="rschOnCampusIndicator" />
-        <bean parent="MaintainableFieldDefinition" p:name="rschObjectCodeDescription" />
       </list>
     </property>
   </bean>

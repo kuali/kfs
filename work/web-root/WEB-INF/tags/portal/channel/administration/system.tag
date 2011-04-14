@@ -25,6 +25,15 @@
 		<li><portal:portalLink displayTitle="true" title="Permission" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.PermissionImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		<li><portal:portalLink displayTitle="true" title="Responsibility" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kim.bo.impl.ResponsibilityImpl&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	</ul>
+	<c:if test="${ConfigProperties.module.access.security.enabled == 'true'}">	
+		<strong>Security</strong>
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Attribute" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.SecurityAttribute&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+			<li><portal:portalLink displayTitle="true" title="Definition" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.SecurityDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	    	<li><portal:portalLink displayTitle="true" title="Model" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.SecurityModel&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		    <li><portal:portalLink displayTitle="true" title="Principal" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.SecurityPrincipal&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		</ul>
+	</c:if>
 	<strong>Locations</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Campus" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.kns.bo.Campus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>

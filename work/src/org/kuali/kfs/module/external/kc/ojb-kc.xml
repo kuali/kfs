@@ -16,7 +16,8 @@
 <descriptor-repository version="1.0">
 
 <class-descriptor class="org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults" table="CA_ACCT_AUTO_CREATE_DFLT_T">
-    <field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="accountDefaultId" column="ACCT_DFLT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
+    <field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
@@ -122,6 +123,10 @@
     <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
         <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
+    </reference-descriptor>
+    
+    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.kfs.coa.businessobject.BudgetRecordingLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="budgetRecordingLevelCode" />
     </reference-descriptor>
 
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

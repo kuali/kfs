@@ -130,7 +130,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void generateExpiredOrClosedAccountNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
 
         // create a note of all the replacement accounts
-        if (!expiredOrClosedAccountList.isEmpty()) {
+        if (ObjectUtils.isNotNull(expiredOrClosedAccountList) && !expiredOrClosedAccountList.isEmpty()) {
             addContinuationAccountsNote(document, expiredOrClosedAccountList);
         }
 

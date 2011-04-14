@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+  <changeSet author="KFS401" id="SECURITY_MODULE_REFERENCE_DATA">
+    <comment>Inserting data into the Security module reference tables.</comment>
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="1" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Account" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="2" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Chart" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="3" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Chart-Descend Hierarchy" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="4" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Object" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="5" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Object Level" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="6" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Organization" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="7" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Organization-Descend Hierarchy" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="8" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Principal Investigator" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="9" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Project Code" />
+    </insert>
+
+    <insert tableName="SEC_SCRTY_ATTR_T">
+      <column name="ATTR_ID" valueNumeric="10" />
+      <column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+      <column name="ATTR_NM" value="Sub Account" />
+    </insert>
+
+    <modifySql dbms="mysql">
+      <replace replace="SYS_GUID()" with="uuid()" />
+    </modifySql>
+  </changeSet>
+</databaseChangeLog>

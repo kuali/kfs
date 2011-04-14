@@ -1,11 +1,11 @@
 /*
- * Copyright 2010 The Kuali Foundation.
+ * Copyright 2011 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,65 +15,53 @@
  */
 package org.kuali.kfs.module.external.kc;
 
-public class KcConstants {
-    
-    public static final String MODULE_TARGET_NAMESPACE = "KFS";
-    private KcConstants() {}
-    
-    public static class AccountCreationService {
-        
-        public static final String WEB_SERVICE_NAME = "accountCreationService";
-                
-        public static final String PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION = "RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION";  
-        public static final String PARAMETER_KC_ACCOUNT_ADDRESS_TYPE = "ACCOUNT_ADDRESS_TYPE";
-        public static final String PARAMETER_KC_ACCOUNT_CREATE_ROUTE = "ACCOUNT_AUTO_CREATE_ROUTE";
-        
-        public static final String ADMIN_ADDRESS_TYTPE = "ADMIN";
-        public static final String PAYMENT_ADDRESS_TYTPE = "PAYMENT";
-        public static final String DEFAULT_ADDRESS_TYTPE = "DEFAULT";
-    
-        public static final String STATUS_KC_ACCOUNT_SUCCESS = "success";
-        public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
-        public static final String STATUS_KC_ACCOUNT_WARNING = "warning";
-        
-        public static final String ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.kc.account.params.unit.notfound";
-        public static final String ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.notAllowedToCreateCGMaintenanceDocument";
-        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";
-        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_PROCESS_ROUTING = "error.kc.document.unableToProcessRouting";
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "error.kc.document.workflowException.document.actions";
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT = "error.kc.document.workflowException.unableToCreateDocument";        
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_SAVE_DOCUMENT = "error.kc.document.workflowException.unableToSaveDocument";
-        public static final String ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE = "error.kc.document.system.parameter.incorrect.document.action.value";
-        
-        public static final String WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "warning.kc.document.workflowException.document.actions";
-        
-        public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Account Document Creation";
-    }    
+import java.util.Arrays;
+import java.util.List;
 
-    public static class BudgetAdjustmentService {
-        
-        public static final String WEB_SERVICE_NAME = "budgetAdjustmentService";
-        public static final String PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE = "RESEARCH_ADMIN_BA_DOCUMENT_ROUTE_ACTION";   
-        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
-        public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
-         
-        public static final String STATUS_KC_BA_SUCCESS = "success";
-        public static final String STATUS_KC_ACCOUNT_FAILURE = "failure";
-        public static final String STATUS_KC_ACCOUNT_WARNING = "warning";
-        
-        public static final String ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND = "error.kc.account.params.unit.notfound";
-        public static final String ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.notAllowedToCreateCGMaintenanceDocument";
-        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_CREATE_CG_MAINTENANCE_DOCUMENT = "error.kc.document.unableToCreateCGMaintenanceDocument";
-        public static final String ERROR_KC_DOCUMENT_UNABLE_TO_PROCESS_ROUTING = "error.kc.document.unableToProcessRouting";
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "error.kc.document.workflowException.document.actions";
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED = "error.kc.document.workflowException.document.not.saved";          
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT = "error.kc.document.workflowException.unableToCreateDocument";        
-        public static final String ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_SAVE_DOCUMENT = "error.kc.document.workflowException.unableToSaveDocument";
-        public static final String ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE = "error.kc.document.system.parameter.incorrect.document.action.value";
-        
-        public static final String WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "warning.kc.document.workflowException.document.actions";
-        
-        public static final String AUTOMATCICG_ACCOUNT_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic BA Document Creation";
-    }    
+import javax.xml.namespace.QName;
 
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.util.JSTLConstants;
+
+public class KcConstants  extends JSTLConstants {
+    
+    public static final String KC_NAMESPACE_URI = "KC";        
+    public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
+    public static final String ACCOUNT_CREATE_DEFAULT_IDENTIFIER = "accountDefaultId";
+    public static class AccountCreationDefaults {
+        public static final String CHART_OF_ACCOUNT_CODE = "chartOfAccountsCode";
+    }
+    public static class BudgetCategory {
+        public static final String SOAP_SERVICE_NAME = "budgetCategorySoapService";
+        public static final String SERVICE_PORT = "budgetCategoryServicePort";
+        public static final String SERVICE_NAME = "budgetCategoryService";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("budgetCategoryTypeCode","description","budgetCategoryCode");
+    }
+    public static class Cfda {
+        public static final String SOAP_SERVICE_NAME = "cfdaNumberSoapService";
+        public static final String SERVICE_PORT = "CfdaNumberServicePort";
+        public static final String SERVICE_NAME ="CfdaNumberService";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS= Arrays.asList("cfdaNumber");
+    }
+    public static class Unit {
+        public static final String SOAP_SERVICE_NAME = "institutionalUnitSoapService";
+        public static final String SERVICE_PORT = "institutionalUnitServicePort";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("unitName","unitNumber","parentUnitNumber","organizationId");       
+    }
+    public static class EffortReporting {
+        public static final String SOAP_SERVICE_NAME = "effortReportingServiceSoapService";
+        public static final String SERVICE_PORT = "effortReportingServicePort";
+        public static final String SERVICE_NAME = "effortReportingService";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+    }
+    public static class AwardAccount {
+        public static final String SOAP_SERVICE_NAME = "awardAccountSoapService";
+        public static final String SERVICE_PORT = "awardAccountServicePort";
+        public static final String SERVICE_NAME ="awardAccountService";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("accountNumber", "chartOfAccountsCode");
+    }
 }

@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -123,15 +124,16 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
+    protected DateTimeService dateTimeService;
     private DocumentService documentService;
     private NoteService noteService;
-    private PurapService purapService;
+    protected PurapService purapService;
     private PrintService printService;
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
@@ -916,12 +918,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Break up the note into multiple pieces if the note is too large to fit in the database field.
                 while (noteText.length() > noteMaxSize) {
                     int fromIndex = 0;
-                    fromIndex = noteText.lastIndexOf(';', noteMaxSize);
-
-                    String noteText1 = noteText.substring(0, fromIndex);
+                    String noteText1 = noteText.substring(0, noteMaxSize);
                     Note note1 = documentService.createNoteFromDocument(po, noteText1);
                     documentService.addNoteToDocument(po, note1);
-                    noteText = noteText.substring(fromIndex);
+                    noteText = noteText.substring(noteMaxSize);
                 }
 
                 Note note = documentService.createNoteFromDocument(po, noteText);

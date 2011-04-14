@@ -25,28 +25,53 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
- 	<bean id="kcModuleConfiguration" parent="kcModuleConfiguration-parentBean" />
-    <bean id="kcModuleConfiguration-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcFinancialSystemModuleConfiguration" abstract="true">
-        <property name="namespaceCode" value="KFS-KC" />
+ 	<bean id="cgModuleConfiguration" parent="cgModuleConfiguration-parentBean" />
+    <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcFinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="KFS-CG" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
             <list merge="true">
             	<value>org.kuali.kfs.module.external.kc</value>
-                <value>org.kuali.kfs.integration.kc</value>
+                <value>org.kuali.kfs.integration.cg</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
+	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.external.kc.businessobject.Proposal"/>
              </map>
         </property>
-        <property name="externalizableWebBusinessObjectImplementations">
+        <property name="externalizableBusinessObjectServiceImplementations">
              <map>
-	            <entry key="org.kuali.kfs.integration.kc.KcUnit" value="UnitDTO"/>
-       			<entry key="org.kuali.kfs.integration.kc.BudgetCategory" value="budgetCategoryCode"/>
+	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="cfdaService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
              </map>
         </property>
+        <property name="kfsToKcInquiryUrlClassMapping">
+             <map>
+	            <entry key="org.kuali.kfs.module.external.kc.businessobject.Award" value="org.kuali.kra.award.home.Award"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="org.kuali.kra.bo.Sponsor"/>
+      			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="org.kuali.kra.bo.Unit"/>
+             </map>
+        </property>        
+        <property name="kfsToKcInquiryUrlParameterMapping">
+             <map>
+	            <entry key="org.kuali.kfs.module.external.kc.businessobject.Award.proposalNumber" value="awardId"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>
+      			
+             </map>
+        </property>        
  		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/external/kc/businessobject/datadictionary</value>
@@ -59,11 +84,12 @@
 			</list>
 		</property>
  	</bean>
-    <bean id="kcModuleService" parent="kcModuleService-parentBean"/>
-
-    <bean id="kcModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
-		<property name="moduleConfiguration" ref="kcModuleConfiguration" />
+    <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
+ 
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.KcKfsModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
+	<bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl"/>
 	
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
         <property name="serviceDefinition">
@@ -75,6 +101,18 @@
             <bean parent="kfsService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentService" />
         </property>
     </bean>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeService" />
+        </property>
+    </bean>
+    
+<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+        <property name="serviceDefinition">
+            <bean parent="kfsService" p:service-ref="kcAccountService" p:localServiceName="kcAccountService" />
+        </property>
+    </bean>
+    
     <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
@@ -97,6 +135,29 @@
             </list>
         </property>
     </bean>
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
+        <property name="serviceDefinition">
+            <bean parent="kfsJaxWsSoapService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" />
+        </property>
+        <property name="exportIf">
+            <list>
+                <value>kcObjectCodeServiceSOAP.expose</value>
+            </list>
+        </property>
+    </bean>
+            
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
+        <property name="serviceDefinition">
+            <bean parent="kfsJaxWsSoapService" p:service-ref="kcAccountService" p:localServiceName="kcAccountServiceSOAP" />
+        </property>
+        <property name="exportIf">
+            <list>
+                <value>kcAccountServiceSOAP.expose</value>
+            </list>
+        </property>
+    </bean>
             
     <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
         <property name="documentService" ref="documentService" />
@@ -111,30 +172,18 @@
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-
-	 <bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl">
-	 	<property name="wsdlLocation" value="http://test.kc.kuali.org/kc-trunk/remoting/institutionalUnitSoapService?wsdl"/>
-	</bean>
+	<bean id="kcObjectCodeService" class = "org.kuali.kfs.module.external.kc.service.impl.KcObjectCodeServiceImpl"/>
 	
-	<bean id="unitDTOLookupableHelperService"
-		class="org.kuali.kfs.module.external.kc.businessobject.lookup.KualiUnitDTOLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService" />
-
-	<bean id="unitDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="unitDTOLookupableHelperService" />
-		</property>
-	</bean>
-
-  	<bean id="budgetCategoryDTOLookupableHelperService"
-		class="org.kuali.kfs.module.external.kc.businessobject.lookup.BudgetCategoryDTOLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService" />
-	<bean id="budgetCategoryDTOLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="budgetCategoryDTOLookupableHelperService" />
-		</property>
-	</bean>
+	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
+	
+	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
+		 	
+  	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
+  	
+  	<bean id="kcAccountService" class="org.kuali.kfs.module.external.kc.service.impl.KcAccountServiceImpl">
+    	<property name="parameterService" ref="parameterService"/>
+    </bean>
+  	
+  	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  	
   	
 </beans>

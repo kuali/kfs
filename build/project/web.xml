@@ -110,6 +110,14 @@
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classes/ksb-locale-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>threadContextInheritable</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

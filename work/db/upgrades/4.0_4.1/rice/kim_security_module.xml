@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="KFS41" id="SEC_KIM_ATTRIBUTE_DEFINITIONS">
+		<comment>Add the new KIM attribute definitions for the Access Security Module</comment>
+		
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC100" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sec.identity.SecKimAttributes" />
+			<column name="NM" value="operator" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC101" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sec.identity.SecKimAttributes" />
+			<column name="NM" value="propertyValue" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC102" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sec.identity.SecKimAttributes" />
+			<column name="NM" value="constraintCode" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC103" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sec.identity.SecKimAttributes" />
+			<column name="NM" value="overrideDeny" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+
+	<changeSet author="KFS41" id="SEC_KIM_TYPES">
+		<comment>Add the new KIM types for the Access Security Module</comment>
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Attribute Name &amp; Document Type" />
+			<column name="SRVC_NM" value="securityAttributeDocTypePermissionTypeService" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSSEC2" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Attribute Name" />
+			<column name="SRVC_NM" value="securityAttributePermissionTypeService" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSSEC3" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Attribute Name &amp; Namespace" />
+			<column name="SRVC_NM" value="securityAttributeNamespacePermissionTypeService" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSSEC4" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Constraint, Operator, &amp; Value" />
+			<column name="SRVC_NM" value="securityAttributeRoleTypeService" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+    </changeSet>
+
+	<changeSet author="KFS41" id="SEC_KIM_TYPE_ATTRIBUTES">
+		<comment>Add the new KIM types attributes for the Access Security Module</comment>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1001" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" /><!-- document type -->
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1002" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="b" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="KIM_ATTR_DEFN_ID" value="6" /><!-- propertyName -->
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1003" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSSEC2" />
+			<column name="KIM_ATTR_DEFN_ID" value="6" /><!-- propertyName -->
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1004" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSSEC3" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" /><!-- namespaceCode -->
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1005" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="b" />
+			<column name="KIM_TYP_ID" value="KFSSEC3" />
+			<column name="KIM_ATTR_DEFN_ID" value="6" /><!-- propertyName -->
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1006" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSSEC4" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC102" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1007" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="b" />
+			<column name="KIM_TYP_ID" value="KFSSEC4" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC100" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1008" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="c" />
+			<column name="KIM_TYP_ID" value="KFSSEC4" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC101" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSSEC1009" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="SORT_CD" value="d" />
+			<column name="KIM_TYP_ID" value="KFSSEC4" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSSEC103" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+    </changeSet>
+
+	<changeSet author="KFS41" id="SEC_KIM_PERMISSION_TEMPLATES">
+		<comment>Add the new KIM permission templates for the Access Security Module</comment>
+	
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1001" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="View Document with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1002" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="View Accounting Line with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1003" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="View Notes/Attachments with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1004" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Edit Document with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1005" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Edit Accounting Line with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1006" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Lookup with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_TMPL_T">
+			<column name="PERM_TMPL_ID" value="KFSSEC1007" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Balance Inquiry with Field Value" />
+			<column name="KIM_TYP_ID" value="KFSSEC3" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+	
+	<changeSet author="KFS41" id="SEC_INIT_DOC_PERM">
+		
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6001" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="10" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Initiate Document" />
+			<column name="DESC_TXT" value="Authorizes the initiation of Access Security Simple Maintenance Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="PERM_ID" value="KFSSEC6001" />
+			<column name="ATTR_DATA_ID" value="KFSSEC6001-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_TYP_ID" value="3" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="AccessSecuritySimpleMaintenanceDocument" />
+		</insert>
+	
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6001" />
+			<column name="ROLE_ID" value="51" />
+			<column name="ROLE_PERM_ID" value="KFSSEC6001-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
+	
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS41" id="SEC_LOOKUP_PERM">
+		
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6002" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="23" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Look Up Records" />
+			<column name="DESC_TXT" value="Authorizes the lookup of Access Security records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="PERM_ID" value="KFSSEC6002" />
+			<column name="ATTR_DATA_ID" value="KFSSEC6002-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_TYP_ID" value="10" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" />
+			<column name="ATTR_VAL" value="KFS-SEC" />
+		</insert>
+	
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6002" />
+			<column name="ROLE_ID" value="51" />
+			<column name="ROLE_PERM_ID" value="KFSSEC6002-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
+	
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS41" id="SEC_INQUIRY_PERM">
+		
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6003" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="24" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Inquire Into Records" />
+			<column name="DESC_TXT" value="Authorizes inquiry of Access Security records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="PERM_ID" value="KFSSEC6003" />
+			<column name="ATTR_DATA_ID" value="KFSSEC6003-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_TYP_ID" value="10" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" />
+			<column name="ATTR_VAL" value="KFS-SEC" />
+		</insert>
+	
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6003" />
+			<column name="ROLE_ID" value="51" />
+			<column name="ROLE_PERM_ID" value="KFSSEC6003-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
+	
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS41" id="SEC_EDIT_DOC_PERM">
+		
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6004" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="16" />
+			<column name="NMSPC_CD" value="KFS-SEC" />
+			<column name="NM" value="Edit Document" />
+			<column name="DESC_TXT" value="Authorizes edit of Access Security Simple Maintenance Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="PERM_ID" value="KFSSEC6004" />
+			<column name="ATTR_DATA_ID" value="KFSSEC6004-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="AccessSecuritySimpleMaintenanceDocument" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="PERM_ID" value="KFSSEC6004" />
+			<column name="ATTR_DATA_ID" value="KFSSEC6004-2" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="PreRoute" />
+		</insert>
+	
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="PERM_ID" value="KFSSEC6004" />
+			<column name="ROLE_ID" value="51" />
+			<column name="ROLE_PERM_ID" value="KFSSEC6004-1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
+	
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="UUID" />
+		</modifySql>
+	</changeSet>
+
+</databaseChangeLog>

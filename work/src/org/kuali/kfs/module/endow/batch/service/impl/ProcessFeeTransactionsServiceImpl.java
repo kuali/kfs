@@ -107,29 +107,29 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine;
     
     //the properties to hold count, total amounts and fee etc.
-    private long totalNumberOfRecords = 0;
-    private BigDecimal totalAmountCalculated = BigDecimal.ZERO;
-    private BigDecimal feeToBeCharged = BigDecimal.ZERO;    
-    private BigDecimal transactionIncomeAmount = BigDecimal.ZERO;
-    private BigDecimal transacationPrincipalAmount = BigDecimal.ZERO;
-    private BigDecimal totalHoldingUnits = BigDecimal.ZERO;
+    protected long totalNumberOfRecords = 0;
+    protected BigDecimal totalAmountCalculated = BigDecimal.ZERO;
+    protected BigDecimal feeToBeCharged = BigDecimal.ZERO;    
+    protected BigDecimal transactionIncomeAmount = BigDecimal.ZERO;
+    protected BigDecimal transacationPrincipalAmount = BigDecimal.ZERO;
+    protected BigDecimal totalHoldingUnits = BigDecimal.ZERO;
     
     //properties to help in writing subtotals and grand totals lines.
     //lines generated
-    private int totalProcessedLinesGeneratedSubTotal = 0;
-    private int totalProcessedLinesGeneratedGrandTotal = 0;
+    protected int totalProcessedLinesGeneratedSubTotal = 0;
+    protected int totalProcessedLinesGeneratedGrandTotal = 0;
     
     //income, principal subtotals at the eDoc level
-    private BigDecimal totalProcessedIncomeAmountSubTotalEDoc = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountSubTotalEDoc = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountSubTotalEDoc = BigDecimal.ZERO; 
     
     //income, principal subtotals at the fee method level
-    private BigDecimal totalProcessedIncomeAmountSubTotal = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountSubTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountSubTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountSubTotal = BigDecimal.ZERO; 
     
     //income, principal subtotals at the grand total level
-    private BigDecimal totalProcessedIncomeAmountGrandTotal = BigDecimal.ZERO; 
-    private BigDecimal totalProcessedPrincipalAmountGrandTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedIncomeAmountGrandTotal = BigDecimal.ZERO; 
+    protected BigDecimal totalProcessedPrincipalAmountGrandTotal = BigDecimal.ZERO; 
     
     /**
      * Constructs a HoldingHistoryMarketValuesUpdateServiceImpl instance
@@ -386,12 +386,12 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
     
     /**
-     * performs calculations when Fee Rate Definition Code is C
+     * performs calculations when Fee Rate Definition Code is V
      */
     protected void performFeeRateDefintionForValueCalculations(FeeMethod feeMethod) {
         String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
         
-        //when FEE_BAL_TYP_CD = AU OR CU then total END_HLDG_HIST_T:HLDG_UNITS column
+        //when FEE_BAL_TYP_CD = AMV OR MMV then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || 
             feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) { 
             totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);
@@ -863,12 +863,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         boolean saved = true;
         
         try {
-            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
-            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
-            
             documentService.saveDocument(cashDecreaseDocument);
         }
         catch (WorkflowException wfe) {
+            LOG.info("CashDecreaseDocument Rules Failed.  The transaction line is not added for Document: " + cashDecreaseDocument.getDocumentNumber());
+            wrtieExceptionMessagaeFromGlobalVariables(feeMethodCode, null);
             return false;
         }
         catch (Exception ex) {

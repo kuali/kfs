@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
-import java.util.Collection;
 import java.util.Date;
-import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import java.util.List;
+
 import org.kuali.rice.kns.util.KualiInteger;
 
 /**
@@ -55,4 +55,18 @@ public interface MonthEndDateService {
      */
     public KualiInteger getNextMonthEndIdForNewRecord();
     
+    /**
+     * gets the first dates of month 
+     * 
+     * @return
+     */
+    public List<String> getBeginningDates();
+    
+    /**
+     * gets the month end dates
+     * 
+     * @return
+     */
+    public List<String> getEndingDates();
+        
 }

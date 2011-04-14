@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader" parent="GLInterfaceBatchTotalsProcessedReportHeader-parentBean"/>
+
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchTotalsProcessedReportHeader"/>
+    
+    <property name="objectLabel" value="GL Interface Batcht Total Processed Report Header"/>
+    <property name="attributes">
+      <list>
+      	<ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading1"/>
+        <ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading2"/>
+        <ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading3"/>
+        <ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading4"/>
+        <ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading5"/>
+        <ref bean="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading6"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading1" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading1-parentBean"/>
+
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading1-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading1">
+	<property name="maxLength" value="25"></property>
+  </bean>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading2" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading2-parentBean"/>
+
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading2-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading2">
+	<property name="maxLength" value="20"></property>
+  </bean>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading3" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading3-parentBean"/>
+
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading3-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading3">
+	<property name="maxLength" value="11"></property>
+  </bean>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading4" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading4-parentBean"/>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading4-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading4">
+	<property name="maxLength" value="22"></property>
+  </bean>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading5" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading5-parentBean"/>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading5-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading5">
+	<property name="maxLength" value="22"></property>
+  </bean>  
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading6" parent="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading6-parentBean"/>
+  <bean id="GLInterfaceBatchTotalsProcessedReportHeader-columnHeading6-parentBean" abstract="true" parent="EndowmentExceptionReportHeader-columnHeading6">
+  	<property name="maxLength" value="15"></property>
+  </bean> 
+  
+</beans>

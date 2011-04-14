@@ -63,7 +63,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
      * This method tests if the YEAR_END_AUTO_DISAPPROVE_DOCUMENTS_RUN_DATE parameter is setup.  If not, accessing it will cause a NPE
      */
     public final void testCheckIfRunDateParameterExists() {
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = autoDisapproveDocumentsService.checkIfRunDateParameterExists();
@@ -75,7 +75,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
      * This method tests if the YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE parameter is setup.  If not, accessing it will cause a NPE
      */
     public final void testCheckIfParentDocumentTypeParameterExists() {
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = autoDisapproveDocumentsService.checkIfParentDocumentTypeParameterExists();
@@ -87,7 +87,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
      * This method tests if the YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE parameter is setup.  If not, accessing it will cause a NPE
      */
     public final void testCheckIfDocumentCompareCreateDateParameterExists() {
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = autoDisapproveDocumentsService.checkIfDocumentCompareCreateDateParameterExists();
@@ -99,7 +99,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
      * This method tests if the YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter is setup.  If not, accessing it will cause a NPE
      */
     public final void testCheckIfDocumentTypesExceptionParameterExists() {
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = autoDisapproveDocumentsService.checkIfParentDocumentTypeParameterExists();
@@ -111,7 +111,7 @@ public class AutoDisapproveDocumentsServiceImplTest extends KualiTestBase {
      * This method tests if the YEAR_END_AUTO_DISAPPROVE_ANNOTATION parameter is setup.  If not, accessing it will cause a NPE
      */
     public final void testCheckIfAnnotationForDisapprovalParameterExists() {
-        List systemParameters = unitTestSqlDao.sqlSelect("select * from krns_parm_t where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_ANNOTATION'");
+        List systemParameters = unitTestSqlDao.sqlSelect("select * from KRNS_PARM_T where PARM_DTL_TYP_CD = 'AutoDisapproveDocumentsStep' and parm_nm = 'YEAR_END_AUTO_DISAPPROVE_ANNOTATION'");
         
         if (!systemParameters.isEmpty()) {
             boolean parameterExists = autoDisapproveDocumentsService.checkIfAnnotationForDisapprovalParameterExists();

@@ -27,7 +27,7 @@ import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
-import org.kuali.kfs.module.endow.document.service.KemidCurrentCashOpenRecordsService;
+import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -41,7 +41,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AvailableCashUpdateServiceImpl.class);
     
     protected ParameterService parameterService;
-    protected KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService;
+    protected KemidCurrentCashService kemidCurrentCashService;
     protected HoldingTaxLotService holdingTaxLotService;
     protected KEMIDService kEMIDService;
     protected KEMIDCurrentAvailableBalanceService kEMIDCurrentAvailableBalanceService;
@@ -118,7 +118,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected BigDecimal getAvailableIncomeCash(String kemId) {
         BigDecimal availableIncomeCash = BigDecimal.ZERO;
         
-        KemidCurrentCash kemidCurrentCash = kemidCurrentCashOpenRecordsService.getByPrimaryKey(kemId);
+        KemidCurrentCash kemidCurrentCash = kemidCurrentCashService.getByPrimaryKey(kemId);
         if (ObjectUtils.isNotNull(kemidCurrentCash)) {
             availableIncomeCash = availableIncomeCash.add(kemidCurrentCash.getCurrentIncomeCash().bigDecimalValue());
         }
@@ -154,7 +154,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
             return availablePrincipalCash;
         }
         
-        KemidCurrentCash kemidCurrentCash = kemidCurrentCashOpenRecordsService.getByPrimaryKey(kemId);
+        KemidCurrentCash kemidCurrentCash = kemidCurrentCashService.getByPrimaryKey(kemId);
         
         if (ObjectUtils.isNotNull(kemidCurrentCash)) {
             availablePrincipalCash = availablePrincipalCash.add(kemidCurrentCash.getCurrentPrincipalCash().bigDecimalValue());
@@ -188,21 +188,21 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     }
 
     /**
-     * gets the kemidCurrentCashOpenRecordsService
+     * gets the kemidCurrentCashService
      * 
-     * @param kemidCurrentCashOpenRecordsService The kemidCurrentCashOpenRecordsService to get.
+     * @param kemidCurrentCashService The kemidCurrentCashService to get.
      */
-    protected KemidCurrentCashOpenRecordsService getKemidCurrentCashOpenRecordsService() {
-        return kemidCurrentCashOpenRecordsService;
+    protected KemidCurrentCashService getKemidCurrentCashOpenRecordsService() {
+        return kemidCurrentCashService;
     }
 
     /**
-     * Sets the kemidCurrentCashOpenRecordsService
+     * Sets the kemidCurrentCashService
      * 
-     * @param kemidCurrentCashOpenRecordsService The kemidCurrentCashOpenRecordsService to set.
+     * @param kemidCurrentCashService The kemidCurrentCashService to set.
      */
-    public void setKemidCurrentCashOpenRecordsService(KemidCurrentCashOpenRecordsService kemidCurrentCashOpenRecordsService) {
-        this.kemidCurrentCashOpenRecordsService = kemidCurrentCashOpenRecordsService;
+    public void setKemidCurrentCashService(KemidCurrentCashService kemidCurrentCashService) {
+        this.kemidCurrentCashService = kemidCurrentCashService;
     }
 
     /**

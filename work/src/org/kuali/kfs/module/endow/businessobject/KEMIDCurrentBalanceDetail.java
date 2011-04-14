@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.ParseException;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowConstants;
@@ -25,8 +24,6 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
 
 public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
 
@@ -37,6 +34,9 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
     private BigDecimal annualEstimatedIncome;
     private BigDecimal remainderOfFYEstimatedIncome;
     private BigDecimal nextFYEstimatedIncome;
+
+    // not persisted; used to tell whether there will be a drill down on value at market
+    private boolean noDrillDownOnMarketVal;
 
     private KEMID kemidObj;
     private SecurityReportingGroup reportingGroup;
@@ -213,13 +213,13 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the incomeAtMarket. If icome principal indicator is 'I' then the valueAtMarket represents the incomeAtMarket. Otherwise
+     * Gets the incomeAtMarket. If income principal indicator is 'I' then the valueAtMarket represents the incomeAtMarket. Otherwise
      * the incomeAtMarket will be zero.
      * 
      * @return incomeAtMarket
      */
     public BigDecimal getIncomeAtMarket() {
-        BigDecimal incomeAtMarket = BigDecimal.ZERO;
+        BigDecimal incomeAtMarket = BigDecimal.ZERO.setScale(2);
         if (EndowConstants.IncomePrincipalIndicator.INCOME.equalsIgnoreCase(incomePrincipalIndicator)) {
             incomeAtMarket = valueAtMarket;
         }
@@ -227,13 +227,13 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the principalAtMarket. If icome principal indicator is 'P' then the valueAtMarket represents the principalAtMarket.
+     * Gets the principalAtMarket. If income principal indicator is 'P' then the valueAtMarket represents the principalAtMarket.
      * Otherwise the principalAtMarket will be zero.
      * 
      * @return
      */
     public BigDecimal getPrincipalAtMarket() {
-        BigDecimal principalAtMarket = BigDecimal.ZERO;
+        BigDecimal principalAtMarket = BigDecimal.ZERO.setScale(2);
         if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(incomePrincipalIndicator)) {
             principalAtMarket = valueAtMarket;
         }
@@ -288,6 +288,26 @@ public class KEMIDCurrentBalanceDetail extends PersistableBusinessObjectBase {
      */
     public void setReportingGroup(SecurityReportingGroup reportingGroup) {
         this.reportingGroup = reportingGroup;
+    }
+
+
+    /**
+     * Gets the noDrillDownOnMarketVal.
+     * 
+     * @return noDrillDownOnMarketVal
+     */
+    public boolean isNoDrillDownOnMarketVal() {
+        return noDrillDownOnMarketVal;
+    }
+
+
+    /**
+     * Sets the noDrillDownOnMarketVal.
+     * 
+     * @param noDrillDownOnMarketVal
+     */
+    public void setNoDrillDownOnMarketVal(boolean noDrillDownOnMarketVal) {
+        this.noDrillDownOnMarketVal = noDrillDownOnMarketVal;
     }
 
 }

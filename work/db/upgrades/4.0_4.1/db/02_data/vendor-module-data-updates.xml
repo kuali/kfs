@@ -1,0 +1,293 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='Winston' id='PUR_PMT_TERM_TYP_TUdpate'>
+    <comment>KFSMI-6199 Payment Terms -fields are required when they shouldn't be</comment>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 5 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="5"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="5"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N05'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 7 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="7"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="7"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N07'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 10 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="10"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N10'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 14 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="14"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="12"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N14'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 15 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="15"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="13"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N15'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 10th Prox"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="date"/>
+<column name="VNDR_NET_DUE_NBR" value="10"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N1T'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 20 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="20"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="18"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N20'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 25 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="25"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="23"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N25'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 10th or 25th Prox"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="date"/>
+<column name="VNDR_NET_DUE_NBR" value="25"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="date"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N2T'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 30 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="30"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N30'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1/3 Prepaid Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="0"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N33'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 45 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="45"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="43"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N45'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="Net 60 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="0"/>
+<column name="VNDR_DSCT_DUE_NBR" value="60"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="58"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='00N60'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1/2% 10 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="0.5"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='05D10'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 5 Days Net 10"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="5"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="10"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D05'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 10 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="11"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D10'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 10 Days Net 11"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="11"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D11'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 15 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="13"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D15'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 10th Prox Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="date"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D1T'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 20 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="18"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D20'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1% 30 Days Net 31"/>
+<column name="VNDR_PMT_TERM_PCT" value="1"/>
+<column name="VNDR_DSCT_DUE_NBR" value="28"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="29"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='10D30'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1-1/2% 10 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1.5"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='15D10'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="1-1/2% 15 Days Net 30"/>
+<column name="VNDR_PMT_TERM_PCT" value="1.5"/>
+<column name="VNDR_DSCT_DUE_NBR" value="13"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='15D15'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="2% 5 Days Net 30 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="2"/>
+<column name="VNDR_DSCT_DUE_NBR" value="5"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='20D05'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="2% 10 Days Net 30 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="2"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='20D10'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="2% 15 Days Net 30 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="2"/>
+<column name="VNDR_DSCT_DUE_NBR" value="13"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='20D15'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="2% 10th Net 30 Days"/>
+<column name="VNDR_PMT_TERM_PCT" value="2"/>
+<column name="VNDR_DSCT_DUE_NBR" value="10"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="date"/>
+<column name="VNDR_NET_DUE_NBR" value="28"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='20D1T'</where>
+</update>
+<update tableName="PUR_PMT_TERM_TYP_T">
+<column name="VNDR_PMT_TERM_DESC" value="2% 30 Days Net 31"/>
+<column name="VNDR_PMT_TERM_PCT" value="2"/>
+<column name="VNDR_DSCT_DUE_NBR" value="28"/>
+<column name="VNDR_DSCT_DUE_TYP_DESC" value="days"/>
+<column name="VNDR_NET_DUE_NBR" value="29"/>
+<column name="VNDR_NET_DUE_TYP_DESC" value="days"/>
+<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y"/>
+<where>VNDR_PMT_TERM_CD='20D30'</where>
+</update>
+
+ </changeSet>
+    <changeSet author="Sam" id="KFS_401_pur_vndr_typ_t_UpdateColumn_vndr_rvw_txt" failOnError="true">
+    <comment>KFSMI-KFSMI-6332 Update vendor review page tags</comment>
+    <update tableName="PUR_VNDR_TYP_T">
+      <column name="vndr_rvw_txt" value="The new vendor, {0}, is about to be routed.[br] The vendor&apos;&apos;s document ID is {1}.[br] [br] Please fax your W-9/W-8BEN documentation to 111-111-1111 and reference the Vendor document number on the form. [br] [br] For inquiries regarding vendor additions, changes or other vendor-related requests, please contact the workgroup at 222-222-2222 or email &lt;a href='mailto:knoreceipt-l@indiana.edu'&gt;knoreceipt-l@indiana.edu&lt;/a&gt;. [br] [br] For general questions, please contact your local purchasing office. [br] [br] [table dataTable] [tr] [th]Campus[th] [th]Hotline[th][tr] [tr][td]Main[td][td]333-333-3333[td][tr] [tr][td]East[td][td]444-444-4444[td][tr] [tr][td]West[td][td]555-555-5555[td][tr] [table] [br] [br] Press 'yes' below if you understand these instructions. Press 'no' if you wish to return to the document before routing." />
+      <where>VNDR_TYP_CD in ('DV', 'PO')</where>
+    </update>
+  </changeSet>
+</databaseChangeLog>

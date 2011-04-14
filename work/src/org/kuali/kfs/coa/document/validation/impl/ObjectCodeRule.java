@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -40,7 +37,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -206,8 +202,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
             this.putFieldError("universityFiscalYear", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Fiscal Year");
         }
         
-        result = checkResearchAdminAttributes(objectCode);
-
         /*
          * The framework handles this: Pending object must not have duplicates waiting for approval Description (fdoc_desc) must be
          * entered Verify the DD handles these: Fiscal year (univ_fisal_yr) must be entered Chart code (fin_coa_code) must be
@@ -455,28 +449,4 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return result;
     }
     
-    /**
-     * 
-     * This method verifies the budget category value
-     * @param objectCodeGlobal
-     * @return true if valid
-     */
-    protected boolean checkResearchAdminAttributes(ObjectCode objectCode) {
-        
-        String budgetCategoryCode = objectCode.getRschBudgetCategoryCode();
-        
-//        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
-//            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//            HashMap<String, String> criteria = new HashMap<String, String>();
-//            criteria.put("budgetCategoryCode", budgetCategoryCode); 
-//            BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE));
-//            budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-//            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-//                GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code");
-//                return false;
-//            }                
-//        }
-        
-        return true;        
-    }
 }

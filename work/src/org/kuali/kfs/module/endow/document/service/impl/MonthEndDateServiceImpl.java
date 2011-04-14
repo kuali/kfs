@@ -16,27 +16,32 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import org.kuali.kfs.module.endow.dataaccess.MonthEndDateDao;
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides service for MonthEndDateService
  */
+@Transactional
 public class MonthEndDateServiceImpl implements MonthEndDateService {
 
     private BusinessObjectService businessObjectService;
+    private MonthEndDateDao monthEndDateDao;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getMonthEndIdDate(KualiInteger)
@@ -109,6 +114,40 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
     }
     
     /**
+     * 
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getBeginningDates()
+     */
+    public List<String> getBeginningDates() {
+                
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        List<String> beginningDates = new ArrayList<String>();
+        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDatesOrderByDescending();
+        // remove the latest one because it cannot be greater than the latest ending date
+        monthEndDateRecords.remove(0);
+        Calendar calendar = Calendar.getInstance();
+        for (MonthEndDate monthEndDate : monthEndDateRecords) {
+            calendar.setTime(monthEndDate.getMonthEndDate());
+            calendar.add(Calendar.DATE, 1);
+            beginningDates.add(dateTimeService.toDateString(new java.sql.Date(calendar.getTimeInMillis())));
+        }
+        return beginningDates;
+    }
+    
+    /** 
+     * 
+     * @see org.kuali.kfs.module.endow.document.service.MonthEndDateService#getBeginningDates()
+     */
+    public List<String> getEndingDates() {
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        List<MonthEndDate> monthEndDateRecords = monthEndDateDao.getAllMonthEndDatesOrderByDescending();
+        List<String> endingDates = new ArrayList<String>();
+        for (MonthEndDate monthEndDate : monthEndDateRecords) {
+            endingDates.add(dateTimeService.toDateString(monthEndDate.getMonthEndDate()));
+        }        
+        return endingDates;
+    }
+        
+    /**
      * This method gets the businessObjectService.
      * 
      * @return businessObjectService
@@ -125,4 +164,14 @@ public class MonthEndDateServiceImpl implements MonthEndDateService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    /**
+     * Sets the monthEndDateDao
+     * 
+     * @param monthEndDateDao
+     */
+    public void setMonthEndDateDao(MonthEndDateDao monthEndDateDao) {
+        this.monthEndDateDao = monthEndDateDao;
+    }
+    
 }

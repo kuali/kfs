@@ -376,7 +376,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     public boolean hasOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isEmpty(documentTypeName)) return false;
         try {
-            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.COAConstants.NODE_NAME_ORGANIZATION_HIERARCHY);
+            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY);
         } catch(WorkflowException wex){
             throw new RuntimeException("Workflow Exception occurred: "+wex);
         }
@@ -385,7 +385,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isEmpty(documentTypeName)) return false;
         try{ 
-            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.COAConstants.NODE_NAME_ACCOUNTING_ORGANIZATION_HIERARCHY);
+            return (new WorkflowInfo()).hasRouteNode(documentTypeName, KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY);
         } catch(WorkflowException wex){
             throw new RuntimeException("Workflow Exception occurred: "+wex);
         }
@@ -394,9 +394,9 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
         if(StringUtils.isEmpty(documentTypeName)) return null;
         Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
-        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
-        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
-        potentialParentDocumentTypeNames.add(KFSConstants.COAConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT);
+        potentialParentDocumentTypeNames.add(KFSConstants.FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT);
         return KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
     }
 
@@ -433,17 +433,17 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         }
 
         List<String> roleToConsider = new ArrayList<String>();
-        if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName))
+        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName))
             roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
             if(hasOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
             if(hasAccountingOrganizationHierarchy) roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
             //readonly
-        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
             roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);                
             roleToConsider.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         } else{
-            if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName))
+            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName))
                 roleToConsider.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
             else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
                 throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
@@ -465,14 +465,14 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         boolean hasOrganizationHierarchy = hasOrganizationHierarchy(documentTypeName);
         boolean hasAccountingOrganizationHierarchy = hasAccountingOrganizationHierarchy(documentTypeName);
     
-        if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)){
+        if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestParentDocumentTypeName)){
             //valid
         }else if(hasOrganizationHierarchy || hasAccountingOrganizationHierarchy){
           //valid
-        } else if(KFSConstants.COAConstants.FINANCIAL_SYSTEM_DOCUMENT.equals(documentTypeName)){
+        } else if(KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName)){
           //valid
         } else{
-            if(documentTypeName.equals(KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.COAConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)){
+            if(documentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT.equals(closestParentDocumentTypeName)){
               //valid
             }else if(currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles(documentTypeName)){
                 isValid = false;

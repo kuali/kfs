@@ -85,7 +85,6 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -312,6 +311,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#doesItemNeedCapitalAsset(java.lang.String, java.util.List)
+     */
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines) {
         if (PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(itemTypeCode)) {
             // FIXME: Chris - this should be true but need to look to see where itemline number is referenced first
@@ -329,6 +331,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateUpdateCAMSView(org.kuali.kfs.sys.document.AccountingDocument)
+     */
     public boolean validateUpdateCAMSView(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
         boolean valid = true;
@@ -346,6 +351,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAddItemCapitalAssetBusinessRules(org.kuali.kfs.integration.purap.ItemCapitalAsset)
+     */
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset) {
         boolean valid = true;
         if (asset.getCapitalAssetNumber() == null) {
@@ -358,11 +366,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        }
+        }else{        
+            Map<String, String> params = new HashMap<String, String>();
+            params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+            Asset retrievedAsset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
+            if (ObjectUtils.isNull(retrievedAsset)) {
+                valid = false;
+                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
+                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine." + KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
+            }
+
+        }
         return valid;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#warningObjectLevelCapital(org.kuali.kfs.sys.document.AccountingDocument)
+     */
     public boolean warningObjectLevelCapital(AccountingDocument accountingDocument) {
         org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument purapDocument = (org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument) accountingDocument;
         for (PurApItem item : purapDocument.getItems()) {
@@ -1124,8 +1145,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return (StringUtils.containsIgnoreCase(capitalAssetObjectSubType, oc.getFinancialObjectSubTypeCode()) ? true : false);
     }
 
+    /**
+     * Not documented
+     * @param capitalAssetSystems
+     * @return
+     */
     protected boolean validateCapitalAssetLocationAddressFieldsOneOrMultipleSystemType(List<CapitalAssetSystem> capitalAssetSystems) {
         boolean valid = true;
+        boolean ignoreRoom = false;
         int systemCount = 0;
         for (CapitalAssetSystem system : capitalAssetSystems) {
             List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
@@ -1134,14 +1161,22 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             int locationCount = 0;
             for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + locationCount++ + "].");
-                valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
+                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
+                ignoreRoom = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
+                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, errorKey);
             }
         }
         return valid;
     }
 
+    /**
+     * Not Documented
+     * @param capitalAssetItems
+     * @return
+     */
     protected boolean validateCapitalAssetLocationAddressFieldsForIndividualSystemType(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
+        boolean ignoreRoom = false;
         for (PurchasingCapitalAssetItem item : capitalAssetItems) {
             CapitalAssetSystem system = item.getPurchasingCapitalAssetSystem();
             List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
@@ -1150,13 +1185,22 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             int i = 0;
             for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + i++ + "].");
-                valid &= validateCapitalAssetLocationAddressFields(location, errorKey);
+                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
+                ignoreRoom = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
+                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, errorKey);
             }
         }
         return valid;
     }
 
-    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, StringBuffer errorKey) {
+    /**
+     * Not documented
+     * @param location
+     * @param ignoreRoom Is used to identify if room number should be validated.  If true then room is ignored in this validation.
+     * @param errorKey
+     * @return
+     */
+    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, boolean ignoreRoom, StringBuffer errorKey) {
         boolean valid = true;
         if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
             GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
@@ -1189,8 +1233,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
                 valid &= false;
             }
-            if (StringUtils.isBlank(location.getBuildingRoomNumber())) {
+            
+            if (StringUtils.isBlank(location.getBuildingRoomNumber()) && !ignoreRoom) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
+                valid &= false;
+            }
+            
+            if (!StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
         }
@@ -1421,11 +1471,27 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid = false;
             }
 
-            if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
-                String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
-                valid = false;
+            // Room is not required for non-moveable
+            AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
+            if (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator()) {
+                if (StringUtils.isBlank(dtl.getBuildingRoomNumber())) {
+                    String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_REQUIRED, label);
+                    valid = false;
+                }
             }
+            
+            // Room number not allowed for non-moveable assets
+            if (ObjectUtils.isNotNull(assetType) && !assetType.isMovingIndicator()) {
+                if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
+                    String label = this.getDataDictionaryService().getAttributeLabel(Room.class, KFSPropertyConstants.BUILDING_ROOM_NUMBER);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, label);
+                    valid = false;
+                }
+            }
+            
+            
+
             index++;
         }
 
@@ -1488,7 +1554,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
             params.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, dtl.getBuildingRoomNumber());
             Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
-            if (ObjectUtils.isNull(room)) {
+            AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
+            if (ObjectUtils.isNull(room) && (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator())) {
                 valid = false;
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_ROOM_NUMBER, dtl.getBuildingRoomNumber(), dtl.getBuildingCode(), dtl.getCampusCode());
             }
@@ -1505,10 +1572,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     public boolean isAssetTypeExisting(String assetTypeCode) {
+        AssetType assetType = getAssetType(assetTypeCode);
+        return ObjectUtils.isNotNull(assetType);
+    }
+
+    /**
+     * Retrieve the Asset type from the provided assetType Code
+     * 
+     * @param assetTypeCode
+     * @return {@link AssetType}
+     */
+    protected AssetType getAssetType(String assetTypeCode) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, assetTypeCode);
         AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
-        return ObjectUtils.isNotNull(assetType);
+        return assetType;
     }
 
     /**

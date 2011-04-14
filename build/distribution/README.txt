@@ -1,5 +1,5 @@
 *********************
-** KFS Release 3.0 **
+** KFS Release 4.1 **
 *********************
 
 Documentation Links:

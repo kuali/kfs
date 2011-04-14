@@ -79,7 +79,8 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         account.setActive(true);
         super.processAfterCopy(document, parameters);
     }
-
+    
+ 
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> maintenanceLocks = super.generateMaintenanceLocks();
@@ -94,7 +95,7 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
 
     protected Account retrieveExistingAccountFromDB() {
         Account newAccount = (Account) getBusinessObject();
-        Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
+         Account oldAccount = SpringContext.getBean(AccountService.class).getByPrimaryId(newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber());
         return oldAccount;
     }
 

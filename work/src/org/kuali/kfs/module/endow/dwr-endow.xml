@@ -126,13 +126,6 @@
 	    	<param name="beanName" value="feeRateDefinitionCodeService" />
 	        <include method="getByPrimaryKey" />
 	    </create>
-	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TransactionTypeCode">
-            <param name="include" value="description" />
-        </convert>
-    	<create creator="spring" javascript="TransactionTypeService">
-	    	<param name="beanName" value="transactionTypeService" />
-	        <include method="getByPrimaryKey" />
-	    </create>
 	    <convert converter="bean" match="org.kuali.kfs.module.endow.businessobject.TypeCode">
             <param name="include" value="cashSweepModelId,incomeACIModelId,principalACIModelId" />
         </convert>

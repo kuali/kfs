@@ -41,10 +41,11 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.purap.util.PurapSearchUtils;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -1353,12 +1354,20 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
      */
     public BigDecimal getInvoiceItemTaxAmount() {
         BigDecimal returnValue = zero;
+        boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+        
         try {
-            for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
-                BigDecimal toAddAmount = eiri.getInvoiceItemTaxAmount();
-                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
-                returnValue = returnValue.add(toAddAmount);
+            //if sales tax enabled, calculate total by totaling items
+            if(enableSalesTaxInd){
+                for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                    BigDecimal toAddAmount = eiri.getInvoiceItemTaxAmount();
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    returnValue = returnValue.add(toAddAmount);
+                }
+            }else{ //else take the total, which should be the summary tax total
+                returnValue = returnValue.add(this.invoiceItemTaxAmount);
             }
+            
             LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
             return returnValue;
         }

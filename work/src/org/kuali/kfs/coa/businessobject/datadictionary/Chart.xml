@@ -48,6 +48,7 @@
         <ref bean="Chart-icrIncomeFinancialObjectCode"/>
         <ref bean="Chart-icrExpenseFinancialObjectCd"/>
         <ref bean="Chart-fundBalanceObjectCode"/>
+        <ref bean="Chart-chartCodeForReport"/>
       </list>
     </property>
     <property name="relationships">
@@ -249,6 +250,15 @@
     <property name="required" value="false"/>
   </bean>
 
+  <bean id="Chart-chartCodeForReport" parent="Chart-chartOfAccountsCode-parentBean">
+  	<property name="name" value="chartCodeForReport" />
+  	<property name="maxLength" value="150" />
+    <property name="control" >
+    	<bean parent="TextControlDefinition" 
+    		  p:size="100" />
+    </property> 
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 

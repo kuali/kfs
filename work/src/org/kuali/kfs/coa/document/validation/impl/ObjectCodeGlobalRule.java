@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,7 +37,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -517,9 +514,6 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             // check reports to object code
             success &= checkReportsToObjectCodeAllLines(objectCodeGlobal);
             
-            // check research admin attributes
-            success &= checkResearchAdminAttributes(objectCodeGlobal);
-
         }
         return success;
     }
@@ -705,31 +699,6 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    /**
-     * 
-     * This method verifies the budget category value
-     * @param objectCodeGlobal
-     * @return true if valid
-     */
-    protected boolean checkResearchAdminAttributes(ObjectCodeGlobal objectCodeGlobal) {
-        
-        String budgetCategoryCode = objectCodeGlobal.getRschBudgetCategoryCode();
-        
-//        if (StringUtils.isNotEmpty(budgetCategoryCode)) { 
-//            List<BudgetCategoryDTO> budgetCategoryList = new ArrayList<BudgetCategoryDTO>();
-//            HashMap<String, String> criteria = new HashMap<String, String>();
-//            criteria.put("budgetCategoryCode", budgetCategoryCode); 
-//            BudgetCategoryService budgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(new QName(KFSConstants.Reserch.KC_NAMESPACE_URI, KFSConstants.Reserch.KC_BUDGET_CATEGORY_SERVICE));
-//            budgetCategoryList = budgetCategoryService.lookupBudgetCategories(criteria);
-//            if (budgetCategoryList == null || budgetCategoryList.isEmpty()) {
-//                GlobalVariables.getMessageMap().putErrorForSectionId(KcConstants.BudgetAdjustmentService.SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES, KFSKeyConstants.ERROR_DOCUMENT_OBJECTMAINT_BUDGET_CATEGORY_CODE, "Budget Category Code 2");
-//                return false;
-//            }                
-//        }        
-        
-        return true;
-    }
-
     protected void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
 

@@ -456,7 +456,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         else if (parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, paymentReasonCode).evaluationSucceeds()) {
             pnt = new PaymentNoteText();
             pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText("Payment is for the following indviuals/charges:");
+            pnt.setCustomerNoteText("Payment is for the following individuals/charges:");
             pd.addNote(pnt);
             if (LOG.isDebugEnabled()) {
                 LOG.info("Creating prepaid travel note note: "+pnt.getCustomerNoteText());

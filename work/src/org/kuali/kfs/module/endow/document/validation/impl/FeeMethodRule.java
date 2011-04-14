@@ -31,12 +31,10 @@ import org.kuali.kfs.module.endow.businessobject.FeePaymentType;
 import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
 import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.businessobject.TransactionTypeCode;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
-import org.kuali.kfs.module.endow.document.service.TransactionTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
@@ -546,15 +544,12 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             FeeTransaction feeTransaction = (FeeTransaction) bo;
             // bo.refreshReferenceObject(EndowPropertyConstants.FEE_TRANSACTION_ARCHIVE_REF);
 
-            if (isEmptyFeeTransactionTypeCode(bo)) {
+            if (isEmptyFeeTransactionDocumentTypeName(bo)) {
                 return false;
             }
-            if (duplicateFeeTransactionTypeCode(feeMethod, bo)) {
+            if (duplicateFeeTransactionDocumentTypeName(feeMethod, bo)) {
                 return false;
             }
-            // if (!validateFeeTransactionTypeCode(bo)) {
-            // isValid = false;
-            // }
         }
 
         // process add line for feeEndowmentTransaction collection
@@ -726,40 +721,17 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      * This method checks to make sure that fee transaction type code is not empty
      * 
      * @param bo bo to be mapped into feeTransaction
-     * @return isValid is true if fee transaction code is empty else return false
+     * @return isValid is true if fee transaction document name is empty else return false
      */
-    private boolean isEmptyFeeTransactionTypeCode(PersistableBusinessObject bo) {
+    private boolean isEmptyFeeTransactionDocumentTypeName(PersistableBusinessObject bo) {
         boolean isValid = false;
 
         FeeTransaction feeTransaction = (FeeTransaction) bo;
-        String feeTransactionTypeCode = feeTransaction.getTransactionTypeCode();
+        String feeTransactionTypeName = feeTransaction.getDocumentTypeName();
 
-        if (ObjectUtils.isNull(feeTransactionTypeCode)) {
-            putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_TRANSACTION_TYPE_CODE_ENTERED);
+        if (ObjectUtils.isNull(feeTransactionTypeName)) {
+            putFieldError(EndowPropertyConstants.FEE_TRANSACTION_DOCUMENT_TYPE_NAME_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_BLANK_DOCUMENT_TYPE_NAME_ENTERED);
             return true;
-        }
-
-        return isValid;
-    }
-
-    /**
-     * This method checks to make sure that fee transaction type code exists in TransactionType table
-     * 
-     * @param feeTransaction The object feeTranaction
-     * @return isValid is true if fee transaction type code is in the database else return false
-     */
-    private boolean validateFeeTransactionTypeCode(PersistableBusinessObject bo) {
-        boolean isValid = true;
-
-        FeeTransaction feeTransaction = (FeeTransaction) bo;
-        String feeTransactionTypeCode = feeTransaction.getTransactionTypeCode();
-
-        TransactionTypeService transactionTypeService = SpringContext.getBean(TransactionTypeService.class);
-        TransactionTypeCode transactionTypeCode = transactionTypeService.getByPrimaryKey(feeTransactionTypeCode);
-
-        if (ObjectUtils.isNull(transactionTypeCode)) {
-            putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_TYPE_CODE_ENTERED);
-            return false;
         }
 
         return isValid;
@@ -770,20 +742,20 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
      * transaction type code on the line to the fee transaction type codes in the list to make sure it is not a duplicate
      * 
      * @param feeMethod, bo
-     * @return isDuplicate is true if fee transaction type code is already in the list else return false
+     * @return isDuplicate is true if fee transaction document type name is already in the list else return false
      */
-    private boolean duplicateFeeTransactionTypeCode(FeeMethod feeMethod, PersistableBusinessObject bo) {
+    private boolean duplicateFeeTransactionDocumentTypeName(FeeMethod feeMethod, PersistableBusinessObject bo) {
         boolean isDuplicate = false;
 
         FeeTransaction feeTransaction = (FeeTransaction) bo;
-        String feeTransactionTypeCode = feeTransaction.getTransactionTypeCode();
+        String feeTransactionDocumentTypeName = feeTransaction.getDocumentTypeName();
 
         List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
 
         for (FeeTransaction feeTransactionsRecord : feeTransactions) {
-            if (feeTransactionsRecord.getTransactionTypeCode().equalsIgnoreCase(feeTransactionTypeCode)) {
+            if (feeTransactionsRecord.getDocumentTypeName().equalsIgnoreCase(feeTransactionDocumentTypeName)) {
                 isDuplicate = true;
-                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_TRANSACTION_TYPE_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_DOCUMENT_TYPE_NAME_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_DUPLICATE_TRANSACTION_TYPE_NAME_ENTERED);
             }
         }
 
@@ -945,13 +917,13 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
             List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
 
             for (FeeTransaction feeTransactionsRecord : feeTransactions) {
-                if (feeTransactionsRecord.getTransactionTypeCode().equals(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
+                if (feeTransactionsRecord.getDocumentTypeName().equals(EndowConstants.FeeMethod.ENDOWMENT_HISTORY_VALUE_ADJUSTMENT)) {
                     valid = false;
                     break;
                 }
             }
             if (!valid) {
-                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_TYPE_CODE_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED);
+                putFieldError(EndowPropertyConstants.FEE_TRANSACTION_DOCUMENT_TYPE_NAME_ATTRIBUTE, EndowKeyConstants.FeeMethodConstants.ERROR_INVALID_TRANSACTION_DOCUMENT_TYPE_CODE_ENTERED);
             }
         }
 

@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
@@ -30,13 +33,17 @@ import org.kuali.kfs.module.purap.exception.FaxServerUnavailableError;
 import org.kuali.kfs.module.purap.exception.FaxSubmissionError;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
-import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
@@ -45,17 +52,20 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Transactional
 public class FaxServiceImpl implements FaxService {
 
-    private static final Logger LOG = Logger.getLogger(BulkReceivingServiceImpl.class);
+    private static final Logger LOG = Logger.getLogger(FaxServiceImpl.class);
 
-    private KualiConfigurationService kualiConfigurationService;
-    private ParameterService parameterService;
-    private VendorService vendorService;
-    private BusinessObjectService businessObjectService;
-    private CountryService countryService;
-    private ImageDao imageDao;
+    protected KualiConfigurationService kualiConfigurationService;
+    protected ParameterService parameterService;
+    protected VendorService vendorService;
+    protected BusinessObjectService businessObjectService;
+    protected CountryService countryService;
+    protected ImageDao imageDao;
+
+    
 
     /**
      * Create the Purchase Order Pdf document and send it via fax to the recipient in the PO
@@ -80,6 +90,8 @@ public class FaxServiceImpl implements FaxService {
         this.faxPurchaseOrderPdf(po, pdfFileLocation, imageTempLocation, isRetransmit);
     }
 
+  
+
     /**
      * Create the Purchase Order Pdf document and send it via fax to the recipient in the PO
      * 
@@ -89,67 +101,7 @@ public class FaxServiceImpl implements FaxService {
      */
     public void faxPurchaseOrderPdf(PurchaseOrderDocument po, String pdfFileLocation, String imageTempLocation, boolean isRetransmit) {
         LOG.debug("faxPurchaseOrderPdf() started with locations");
-
-        PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
-
-        String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-
-        String pdfFilename = System.currentTimeMillis() + "_" + environment + "_" + po.getPurapDocumentIdentifier().toString() + ".pdf";
-
-        // Get images
-        String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
-        String campusCode = po.getDeliveryCampusCode().toLowerCase();
-        LOG.debug("Getting images. key is " + key + ". campusCode is " + campusCode);
-        String logoImage;
-        if ((logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null) {
-            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "logoImage is null.");
-            LOG.debug("faxPurchaseOrderPdf() ended");
-        }
-        String directorSignatureImage;
-        if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
-            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "directorSignatureImage is null." );
-            LOG.debug("faxPurchaseOrderPdf() ended");
-        }
-        String contractManagerSignatureImage;
-        if ((contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManager().getContractManagerCode(), imageTempLocation)) == null) {
-            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "contractManagerSignatureImage is null.");
-            LOG.debug("faxPurchaseOrderPdf() ended");
-        }
-
-        CampusParameter deliveryCampus = pdfParameters.getCampusParameter();
-
-        if (deliveryCampus == null) {
-            GlobalVariables.getMessageMap().putError("errors", "pdf.error", "delivery campus is null.");
-            LOG.debug("faxPurchaseOrderPdf() ended");
-        }
-        String campusName = deliveryCampus.getCampus().getCampusName();
-        if (campusName == null) {
-            LOG.debug("faxPurchaseOrderPdf() ended");
-            throw new RuntimeException("Campus Information is missing - campusName: " + campusName);
-        }
-        String statusInquiryUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
-        if (statusInquiryUrl == null) {
-            LOG.debug("faxPurchaseOrderPdf() ended");
-            throw new RuntimeException("Application Setting STATUS_INQUIRY_URL is missing.");
-        }
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
-        CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
-
-        StringBuffer contractLanguage = new StringBuffer();
-        criteria.put(KFSPropertyConstants.ACTIVE, true);
-        List<PurchaseOrderContractLanguage> contractLanguageList = (List<PurchaseOrderContractLanguage>) (businessObjectService.findMatching(PurchaseOrderContractLanguage.class, criteria));
-        if (!contractLanguageList.isEmpty()) {
-            int lineNumber = 1;
-            for (PurchaseOrderContractLanguage row : contractLanguageList) {
-                if (row.getCampusCode().equals(po.getDeliveryCampusCode())) {
-                    contractLanguage.append(lineNumber + " " + row.getPurchaseOrderContractLanguageDescription() + "\n");
-                    ++lineNumber;
-                }
-            }
-        }
-
+     
         // Get the vendor's country name.
         if (po.getVendorCountryCode() != null) {
             Country vendorCountry = countryService.getByPrimaryId(po.getVendorCountryCode());
@@ -157,17 +109,22 @@ public class FaxServiceImpl implements FaxService {
                 po.setVendorCountryCode(vendorCountry.getPostalCountryCode());
             }
             else {
-                po.setVendorCountryCode("N/A");
+                po.setVendorCountryCode("NA");
             }
         }
         else {
-            po.setVendorCountryCode("N/A");
+            po.setVendorCountryCode("NA");
         }
-
+        
+       
+        PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+        purchaseOrderParameters.setPurchaseOrderPdfAndFaxParameters(po);
+        
         PurchaseOrderPdf poPdf = null;
         try {
+            String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
             poPdf = new PurchaseOrderPdf();
-            poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
+            poPdf.savePdf(po, purchaseOrderParameters , isRetransmit, environment);
         }
         catch (PurError e) {
             GlobalVariables.getMessageMap().putError("errors", "error.blank");
@@ -181,16 +138,12 @@ public class FaxServiceImpl implements FaxService {
             LOG.debug("faxPurchaseOrderPdf() ended");
         }
 
-        LOG.info("faxPurchaseOrderPdf() PO: " + po.getPurapDocumentIdentifier() + " with vendor fax number: " + po.getVendorFaxNumber() + " and contract manager ID/Name: " + po.getContractManager().getContractManagerUserIdentifier() + " - " + po.getContractManager().getContractManagerName() + " and long distance code: " + po.getContractManager().getContractManagerPhoneNumber());
-        String faxDescription = "PO: " + po.getPurapDocumentIdentifier() + " Cntrct Mgr: " + po.getContractManager().getContractManagerUserIdentifier();
-        if (!kualiConfigurationService.isProductionEnvironment()) {
-            faxDescription = environment + " TEST - " + faxDescription;
-        }
+        PurchaseOrderTransmitParameters transmitParameters =  (PurchaseOrderTransmitParameters)purchaseOrderParameters;
         String[] files = new String[1];
-        files[0] = pdfFilename;
+        files[0] = transmitParameters.getPdfFileName();
 
         try {
-            this.faxPDF(files, pdfFileLocation, po.getVendorFaxNumber(), po.getVendorName(), faxDescription);
+            this.faxPDF(files,purchaseOrderParameters); 
         }
         catch (FaxSubmissionError e) {
             GlobalVariables.getMessageMap().putError("errors", "error.blank");
@@ -208,14 +161,14 @@ public class FaxServiceImpl implements FaxService {
         finally {
             try {
                 if (poPdf != null) {
-                    poPdf.deletePdf(pdfFileLocation, pdfFilename);
+                    poPdf.deletePdf(pdfFileLocation, transmitParameters.getPdfFileName());
                 }
                 else {
                     // ignore - PDF can't be deleted if PDF doesn't exist
                 }
             }
             catch (Throwable e) {
-                LOG.error("faxPurchaseOrderPdf() Error deleting PDF" + pdfFilename + " - Exception was " + e.getMessage(), e);
+                LOG.error("faxPurchaseOrderPdf() Error deleting PDF - Exception was " + e.getMessage(), e);
                 GlobalVariables.getMessageMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
             }
         }
@@ -224,100 +177,99 @@ public class FaxServiceImpl implements FaxService {
     }
 
     public void faxPurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq) {
-        // TODO Auto-generated method stub
+        LOG.debug("faxPurchaseOrderQuotePdf() started");
+        
+       
+        PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+        purchaseOrderParameters.setPurchaseOrderPdfAndFaxParameters(po,povq);
+        String environmentCode = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        
+        PurchaseOrderQuotePdf poQuotePdf = new PurchaseOrderQuotePdf();
+        Collection errors = new ArrayList();
+        
+        
+        try {
+          
+          // Get the vendor's country name.
+          if (povq.getVendorCountryCode() != null) {
+              Country vendorCountry = countryService.getByPrimaryId(po.getVendorCountryCode());
+              if (vendorCountry != null) {
+                  povq.setVendorCountryCode(vendorCountry.getPostalCountryCode());
+              }
+              else {
+                  povq.setVendorCountryCode("NA");
+              }
+          }
+          else {
+              povq.setVendorCountryCode("NA");
+          }
+
+          poQuotePdf.savePOQuotePDF(po, povq, purchaseOrderParameters, environmentCode);
+        } catch (PurError e) {
+          GlobalVariables.getMessageMap().putError("errors", "error.blank");
+          LOG.debug("faxPurchaseOrderQuotePdf() ended");
+          
+        } catch (Throwable e) {
+          LOG.error("faxPurchaseOrderQuotePdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
+          LOG.error("faxPurchaseOrderQuotePdf() Faxing Failed on PDF creation - Exception was " + e.getMessage(), e);
+          GlobalVariables.getMessageMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
+        }
+
+        LOG.debug("faxPurchaseOrderQuotePdf() Quote PDF saved successfully for PO " + po.getPurapDocumentIdentifier() + " and Quote ID " + povq.getPurchaseOrderVendorQuoteIdentifier());
+
+       
+     
+        
+        PurchaseOrderTransmitParameters transmitParameters =  (PurchaseOrderTransmitParameters)purchaseOrderParameters;
+        String pdfFileLocation = transmitParameters.getPdfFileLocation();
+        String pdfFileName     = transmitParameters.getPdfFileName();
+        String[] files = new String[1];
+        files[0] = pdfFileName;
+        
+        try {
+          this.faxPDF(files,transmitParameters);
+        } catch (FaxSubmissionError e) {
+            LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError("errors", "error.blank");
+            
+        } catch (FaxServerUnavailableError e) {
+            LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
+            
+        } catch (PurError e) {
+            LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
+            
+        } catch (Throwable e) {
+            LOG.error("faxPurchaseOrderQuotePdf() Error faxing Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError("errors", "error.blank","The document did not successfully transmit to the fax server. Report this to the Procurement Services Technology group, make note of the document you attempted to transmit and try again when the issue has been resolved");
+            
+        } finally {
+          try {
+            poQuotePdf.deletePdf(pdfFileLocation, pdfFileName);
+          } catch (Throwable e) {
+            LOG.error("faxPurchaseOrderQuotePdf() Error deleting Quote PDF" + pdfFileName + " - Exception was " + e.getMessage(), e);
+            GlobalVariables.getMessageMap().putError("errors", "error.blank","Your fax was sent successfully but an error occurred that is unrelated to faxing. Please report this problem to Purchasing");
+        
+          }
+        }
+        
+        
+        LOG.debug("faxPurchaseOrderQuotePdf() ended");
+        
+    
     }
-
-    /**
-     * Returns the PurchaseOrderPdfParameters given the PurchaseOrderDocument.
-     * 
-     * @param po The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
-     * @return The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
-     */
-    protected PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
-        String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
-        String campusCode = po.getDeliveryCampusCode().toLowerCase();
-        String imageTempLocation = "";
-        String logoImage = "";
-        String directorSignatureImage = "";
-        String contractManagerSignatureImage = "";
-        boolean useImage = true;
-        if (parameterService.parameterExists(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR)) {
-            useImage = parameterService.getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_IMAGES_AVAILABLE_INDICATOR);
-        }
-        // We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the
-        // images as blank space
-        if (useImage) {
-            imageTempLocation = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + "/";
-
-            if (imageTempLocation == null) {
-                throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");
-            }
-
-            // Get images
-            if ((logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null) {
-                throw new PurapConfigurationException("logoImage is null.");
-            }
-            if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
-                throw new PurapConfigurationException("directorSignatureImage is null.");
-            }
-            if ((contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
-                throw new PurapConfigurationException("contractManagerSignatureImage is null.");
-            }
-        }
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
-        CampusParameter campusParameter = (CampusParameter) ((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
-
-        String statusInquiryUrl = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.STATUS_INQUIRY_URL);
-        if (statusInquiryUrl == null) {
-            LOG.debug("generatePurchaseOrderPdf() ended");
-            throw new PurapConfigurationException("Application Setting INVOICE_STATUS_INQUIRY_URL is missing.");
-        }
-
-        StringBuffer contractLanguage = new StringBuffer();
-        criteria.put(KFSPropertyConstants.ACTIVE, true);
-        List<PurchaseOrderContractLanguage> contractLanguageList = (List<PurchaseOrderContractLanguage>) (businessObjectService.findMatching(PurchaseOrderContractLanguage.class, criteria));
-        if (!contractLanguageList.isEmpty()) {
-            int lineNumber = 1;
-            for (PurchaseOrderContractLanguage row : contractLanguageList) {
-                if (row.getCampusCode().equals(po.getDeliveryCampusCode())) {
-                    contractLanguage.append(lineNumber + " " + row.getPurchaseOrderContractLanguageDescription() + "\n");
-                    ++lineNumber;
-                }
-            }
-        }
-
-        String pdfFileLocation = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PDF_DIRECTORY);
-        if (pdfFileLocation == null) {
-            LOG.debug("savePurchaseOrderPdf() ended");
-            throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
-        }
-
-        String pdfFileName = "PURAP_PO_" + po.getPurapDocumentIdentifier().toString() + "_" + System.currentTimeMillis() + ".pdf";
-
-        PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
-        pdfParameters.setCampusParameter(campusParameter);
-        pdfParameters.setContractLanguage(contractLanguage.toString());
-        pdfParameters.setContractManagerSignatureImage(contractManagerSignatureImage);
-        pdfParameters.setDirectorSignatureImage(directorSignatureImage);
-        pdfParameters.setImageTempLocation(imageTempLocation);
-        pdfParameters.setKey(key);
-        pdfParameters.setLogoImage(logoImage);
-        pdfParameters.setStatusInquiryUrl(statusInquiryUrl);
-        pdfParameters.setPdfFileLocation(pdfFileLocation);
-        pdfParameters.setPdfFileName(pdfFileName);
-        pdfParameters.setUseImage(useImage);
-        return pdfParameters;
-    }
-
+ 
+    
     /**
      * Here is where the PDF is actually faxed, needs to be implemented at each institution
      */
-    protected void faxPDF(String[] files, String pdfFileLocation, String recipientFaxNumber, String vendorName, String faxDescription) {
+    protected void faxPDF(String[] files, PurchaseOrderParameters transmitParameters ) {
         LOG.info("faxPDF() NEEDS TO BE IMPLEMENTED!");
         throw new RuntimeException("faxPDF() NEEDS TO BE IMPLEMENTED!");
     }
+    
+  
     
     public KualiConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
@@ -354,6 +306,10 @@ public class FaxServiceImpl implements FaxService {
     public CountryService getCountryService() {
         return countryService;
     }
+    
+    public PurchaseOrderParameters getPurchaseOrderParameters() {
+        return SpringContext.getBean(PurchaseOrderParameters.class);
+    }
 
     public void setCountryService(CountryService countryService) {
         this.countryService = countryService;
@@ -366,5 +322,8 @@ public class FaxServiceImpl implements FaxService {
     public void setImageDao(ImageDao imageDao) {
         this.imageDao = imageDao;
     }
+    
+
+
 
 }

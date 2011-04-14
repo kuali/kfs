@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Copyright 2005-2007 The Kuali Foundation. Licensed under the
+		Educational Community License, Version 1.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl1.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+	<bean id="secModule" parent="secModule-parentBean" />
+
+	<bean id="secModule-parentBean" parent="secModule-coreOnly-parentBean" abstract="true" />
+
+	<bean id="secModule-coreOnly-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
+		<property name="namespaceCode" value="KFS-SEC"/>
+		<property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.kfs.sec</value>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/kfs/sec/businessobject/datadictionary</value>
+				<value>org/kuali/kfs/sec/document/datadictionary</value>
+				<value>org/kuali/kfs/sec/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/kfs/sec/ojb-sec.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="secModuleService" parent="secModuleService-parent"/>
+    <bean id="secModuleService-parent" abstract="true" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl">
+    	<property name="moduleConfiguration" ref="secModule"/>
+    </bean>
+	
+	<bean id="accessSecurityService" class="org.kuali.kfs.sec.service.impl.AccessSecurityServiceImpl">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="permissionService">
+			<ref bean="kimPermissionService" />
+		</property>
+		<property name="roleManagementService">
+			<ref bean="kimRoleManagementService" />
+		</property>		
+		<property name="contractsAndGrantsModuleService">
+			<ref bean="contractsAndGrantsModuleService" />
+		</property>							
+	</bean>
+	
+	<bean id="securityAttributePermissionTypeService" class="org.kuali.kfs.sec.identity.SecurityAttributePermissionTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="securityAttributePermissionTypeService"
+	      p:localServiceName="securityAttributePermissionTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="securityAttributeDocTypePermissionTypeService" class="org.kuali.kfs.sec.identity.SecurityAttributeDocTypePermissionTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="securityAttributeDocTypePermissionTypeService"
+	      p:localServiceName="securityAttributeDocTypePermissionTypeService" />
+	  </property>
+	</bean>
+	
+	<bean id="securityAttributeNamespacePermissionTypeService" class="org.kuali.kfs.sec.identity.SecurityAttributeNamespacePermissionTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="securityAttributeNamespacePermissionTypeService"
+	      p:localServiceName="securityAttributeNamespacePermissionTypeService" />
+	  </property>
+	</bean>	
+	
+	<bean id="securityAttributeRoleTypeService" class="org.kuali.kfs.sec.identity.SecurityAttributeRoleTypeServiceImpl"/>
+    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	  <property name="serviceDefinition">
+	    <bean parent="kfsService"
+	      p:service-ref="securityAttributeRoleTypeService"
+	      p:localServiceName="securityAttributeRoleTypeService" />
+	  </property>
+	</bean>	
+	
+	<!-- security lookupables -->
+	<bean id="securityAccountLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>				
+	</bean>	
+	
+	<bean id="securityAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="securityAccountLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="securityLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>				
+	</bean>		
+		
+	<bean id="securityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="securityLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="modelMemberLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="roleService">
+			<ref bean="kimRoleManagementService" />
+		</property>	
+		<property name="groupSevice">
+			<ref bean="kimGroupService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>	
+	</bean>
+
+	<bean id="modelMemberLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="modelMemberLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="accessSecuritySimulationLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecuritySimulationLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>	
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>			
+	</bean>
+
+	<bean id="accessSecuritySimulationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="accessSecuritySimulationLookupableHelperService" />
+		</property>
+	</bean>	
+	
+	<bean id="securityAccountDelegateModelLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>				
+	</bean>	
+	
+	<bean id="securityAccountDelegateModelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="securityAccountDelegateModelLookupableHelperService" />
+		</property>
+	</bean>
+    
+    <bean id="securityOrgReviewRoleLookupableHelperService" class="org.kuali.kfs.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+        <property name="accessSecurityService">
+            <ref bean="accessSecurityService" />
+        </property>             
+    </bean> 
+    
+    <bean id="securityOrgReviewRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="securityOrgReviewRoleLookupableHelperService" />
+        </property>
+    </bean>    
+</beans>	

@@ -15,202 +15,117 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Properties;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.cxf.Bus;
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
-import org.kuali.kfs.module.external.kc.service.KcFinancialSystemModuleConfig;
+import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
-    private static Map<Class, Class> externalizedWebBOs = new HashMap<Class, Class>();
-    private static Map<Class, String> externalWebBusinessObjectPrimaryKeys = new HashMap<Class,String>();
 
     public <T extends ExternalizableBusinessObject> T getExternalizableBusinessObject(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
-        if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObject(businessObjectClass, fieldValues);
-        return (T) getBusinessObjectFromClass(getExternalizableBusinessObjectImplementation(businessObjectClass));
+        Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
+        return (T) getExternalizableBusinessObjectService(implementationClass).findByPrimaryKey(fieldValues);
     }
-     
-     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {
-        BusinessObject object = null;
-        if (! externalizedWebBOs.containsKey(businessObjectClass)) return super.getExternalizableBusinessObjectsList(businessObjectClass, fieldValues);
-        List returnList = new ArrayList();
-        object = getBusinessObjectFromClass( getExternalizableBusinessObjectImplementation(businessObjectClass));   
-        returnList.add(object);
-        return returnList;
-     }
 
     public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsListForLookup(Class<T> businessObjectClass, Map<String, Object> fieldValues, boolean unbounded) {
-        if (! externalizedWebBOs.containsValue(businessObjectClass)) return super.getExternalizableBusinessObjectsListForLookup(businessObjectClass, fieldValues,unbounded);
         return getExternalizableBusinessObjectsList( businessObjectClass,fieldValues);
-     }
-
-    /***
-     * 
-     * This method assumes that the externalizableClazz is an interface
-     * and gets the concrete implementation for it
-     * 
-     * @see org.kuali.rice.kns.service.ModuleService#retrieveExternalizableBusinessObjectIfNecessary(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
-     */
-
-    @SuppressWarnings("unchecked")
-    public List<? extends ExternalizableBusinessObject> retrieveExternalizableBusinessObjectsList(
-            BusinessObject businessObject, String externalizableRelationshipName, Class externalizableClazz) {
-        if (! externalizedWebBOs.containsKey(businessObject)) return super.retrieveExternalizableBusinessObjectsList(businessObject, externalizableRelationshipName, externalizableClazz);
-        return (List<? extends ExternalizableBusinessObject>) getExternalizableBusinessObjectsList(null, null);
     }
-  
-    /***
-     * 
-     * This method assumes that the property type for externalizable relationship in the business object is an interface
-     * and gets the concrete implementation for it
-     *  
-     * @see org.kuali.rice.kns.service.ModuleService#retrieveExternalizableBusinessObjectIfNecessary(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
-     */
 
-    public <T extends ExternalizableBusinessObject> T retrieveExternalizableBusinessObjectIfNecessary(BusinessObject businessObject, T currentInstanceExternalizableBO, String externalizableRelationshipName) {
-        if (! externalizedWebBOs.containsKey(businessObject)) return super.retrieveExternalizableBusinessObjectIfNecessary(businessObject, currentInstanceExternalizableBO,externalizableRelationshipName);
-        if(businessObject==null) return null;
-        Class<org.kuali.rice.kns.bo.ExternalizableBusinessObject> clazz;
-        try{
-            clazz = getExternalizableBusinessObjectImplementation(
-                    PropertyUtils.getPropertyType(businessObject, externalizableRelationshipName));
-        } catch(Exception iex){
-            LOG.warn("Exception:"+iex+" thrown while trying to get property type for property:"+externalizableRelationshipName+
-                    " from business object:"+businessObject);
+    public <T extends ExternalizableBusinessObject> List<T> getExternalizableBusinessObjectsList(Class<T> businessObjectClass, Map<String, Object> fieldValues) {                
+        Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
+        return (List<T>) getExternalizableBusinessObjectService(implementationClass).findMatching(fieldValues);                   
+    }
+
+    /**
+     * Finds the business object service via the class to service mapping provided in the module configuration.
+     * 
+     * @param clazz
+     * @return
+     */
+    private ExternalizableBusinessObjectService getExternalizableBusinessObjectService(Class clazz){
+        String serviceName = null;
+        ExternalizableBusinessObjectService eboService = null;
+        
+        Map<Class, String> externalizableBusinessObjectServices = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getExternalizableBusinessObjectServiceImplementations();
+        
+        if(ObjectUtils.isNotNull(externalizableBusinessObjectServices) && ObjectUtils.isNotNull(clazz)){
+            serviceName = (String)externalizableBusinessObjectServices.get(clazz);
+            eboService = (ExternalizableBusinessObjectService)SpringContext.getService(serviceName);            
+        }
+        
+        return eboService;
+    }
+
+    /**
+     * Gets primary key fields from the Datadictionary entries for the object.
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
+     */
+    public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
+        Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
+        final BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
+        if (boEntry == null) {
             return null;
         }
-        return  (T) this.getExternalizableBusinessObject(clazz, null);
-
-    };
-  
-
-    /***
-     * @see org.kuali.rice.kns.service.ModuleService#getExternalizableBusinessObject(java.lang.Class, java.util.Map)
-     */
-
-    private BusinessObject getBusinessObjectFromClass(Class clazz){
-        if(clazz==null) return null;
-        try{
-            return (BusinessObject)clazz.newInstance();
-        } catch(Exception ex){
-          return null; //  return new ExternalCfdaDiffPackage();
-        }
-    }
-
-
-  
-    /***
-     * 
-     * This method assumes that the externalizableClazz is an interface
-     * and gets the concrete implementation for it
-     * 
-     * @see org.kuali.rice.kns.service.ModuleService#retrieveExternalizableBusinessObjectIfNecessary(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
-     */
-
-    public List listPrimaryKeyFieldNames(Class externalizableBusinessObjectInterface){
-        int classModifiers = externalizableBusinessObjectInterface.getModifiers();
-       if (! externalizedWebBOs.containsKey(externalizableBusinessObjectInterface)) return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
-       List primaryKeys = new ArrayList();
-        if (!Modifier.isInterface(classModifiers) && !Modifier.isAbstract(classModifiers)) {
-            // the interface is really a non-abstract class
-           Class[] intfaces = externalizableBusinessObjectInterface.getInterfaces();
-           for (Class iface : intfaces) {
-                   primaryKeys.addAll(listPrimaryKeyNamesForConcreteClass(iface));               
-           }
-           return primaryKeys;
-          }
-        Class clazz = getExternalizableBusinessObjectImplementation(externalizableBusinessObjectInterface);
-        primaryKeys.addAll(listPrimaryKeyNamesForConcreteClass(clazz));
-        if(primaryKeys!=null)  return primaryKeys;
-        return super.listPrimaryKeyFieldNames(externalizableBusinessObjectInterface);
-    }
-
-    public List listPrimaryKeyNamesForConcreteClass(Class clazz){
-         List primaryKeys = new ArrayList();
-        if (externalWebBusinessObjectPrimaryKeys.containsKey(clazz)) {
-            primaryKeys.add(externalWebBusinessObjectPrimaryKeys.get(clazz));
-        }
-         return primaryKeys;
+        return boEntry.getPrimaryKeys();
     }
     
-  
-    
-
     /**
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#setModuleConfiguration(org.kuali.rice.kns.bo.ModuleConfiguration)
+     * Changing the base url to KC url
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getInquiryUrl(java.lang.Class)
      */
-    @Override
-    public void setModuleConfiguration(ModuleConfiguration moduleConfiguration) {   
-          KcFinancialSystemModuleConfig kcModuleConfiguration = (KcFinancialSystemModuleConfig) moduleConfiguration;
-          
-          Map<Class,String> externalWebBusinessObjects = kcModuleConfiguration.getExternalizableWebBusinessObjectImplementations();
- 
-          Iterable<Class> webos = externalWebBusinessObjects.keySet();
-          if (webos != null) {
-              Map<Class,Class> ebos = moduleConfiguration.getExternalizableBusinessObjectImplementations();
-              for (Class webo : webos) {
-                  if (ebos.containsKey(webo)) {
-                      externalizedWebBOs.put(webo, ebos.get(webo));
-                      externalizedWebBOs.put(ebos.get(webo), ebos.get(webo));
-                      externalWebBusinessObjectPrimaryKeys.put(webo, externalWebBusinessObjects.get(webo));
-                   }
-              }
-          }
-          super.setModuleConfiguration(moduleConfiguration);
-    }
-
-
-    /**
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getExternalizableBusinessObjectDictionaryEntry(java.lang.Class)
-     */
-    public BusinessObjectEntry getExternalizableBusinessObjectDictionaryEntry(Class businessObjectInterfaceClass) {
-            Class boClass = businessObjectInterfaceClass;
-            if(businessObjectInterfaceClass.isInterface()) {
-                boClass = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
-                if (boClass == null) return null;
-                   DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
-                   Map<String, BusinessObjectEntry> boEntries = dataDictionary.getBusinessObjectEntries();
-                   BusinessObjectEntry businessObjectEntry = boEntries.get(boClass.getName());
-                   if (businessObjectEntry != null) return businessObjectEntry;
-                   // try again but look for the simple name
-                   businessObjectEntry = boEntries.get(boClass.getSimpleName());
-                   return businessObjectEntry;
-             }
-            DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
-            Map<String, BusinessObjectEntry> boEntries = dataDictionary.getBusinessObjectEntries();
-            BusinessObjectEntry businessObjectEntry = boEntries.get(boClass.getName());
-            if (businessObjectEntry != null) return businessObjectEntry;
-            businessObjectEntry = boEntries.get(boClass.getSimpleName());
-            return businessObjectEntry;
+    protected String getInquiryUrl(Class inquiryBusinessObjectClass){
+        String baseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+        String inquiryUrl = baseUrl;
+        if (!inquiryUrl.endsWith("/")) {
+            inquiryUrl = inquiryUrl + "/";
         }
-
-  
-    /**
-     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#isExternalizableBusinessObjectLookupable(java.lang.Class)
-     */
-    @Override
-    public boolean isExternalizableBusinessObjectLookupable(Class boClass) {
-        // TODO Auto-generated method stub
-        String boName = boClass.getSimpleName();
-        if (externalWebBusinessObjectPrimaryKeys.containsValue(boName)) return true;
-        return super.isExternalizableBusinessObjectLookupable(boClass);
+        return inquiryUrl + "kr/" + KNSConstants.INQUIRY_ACTION;
     }
+
+    /**
+     * Mapping the kfs classes and parameters over to KC equivalents
+     * 
+     * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getUrlParameters(java.lang.String, java.util.Map)
+     */
+    protected Properties getUrlParameters(String businessObjectClassAttribute, Map<String, String[]> parameters){
+        Properties urlParameters = new Properties();
+        String paramNameToConvert = null;        
+        Map<String, String> kfsToKcInquiryUrlParameterMapping = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getKfsToKcInquiryUrlParameterMapping();
+        Map<String, String> kfsToKcInquiryUrlClassMapping = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getKfsToKcInquiryUrlClassMapping();
+        
+        for (String paramName : parameters.keySet()) {
+            String parameterName = paramName;
+            String[] parameterValues = parameters.get(paramName);
+            
+            if (parameterValues.length > 0) {
+                //attempt to convert parameter name if necessary
+                paramNameToConvert = businessObjectClassAttribute + "." + paramName;
+                if( kfsToKcInquiryUrlParameterMapping.containsKey(paramNameToConvert) ){
+                    parameterName = (String)kfsToKcInquiryUrlParameterMapping.get(paramNameToConvert);
+                }
+                urlParameters.put(parameterName, parameterValues[0]);
+            }
+        }
+        
+        urlParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
+        urlParameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, 
+                KNSConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
+        return urlParameters;
+    }
+        
 }

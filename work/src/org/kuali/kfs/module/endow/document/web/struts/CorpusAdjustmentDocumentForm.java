@@ -27,9 +27,8 @@ public class CorpusAdjustmentDocumentForm extends EndowmentTransactionLinesDocum
 
     public CorpusAdjustmentDocumentForm() {
         super();
-
-        setSourceGroupLabelName(EndowConstants.INCREASE_TRANSACTION_LINE_GROUP_LABEL_NAME);
-        setTargetGroupLabelName(EndowConstants.DECREASE_TRANSACTION_LINE_GROUP_LABEL_NAME);
+        setSourceGroupLabelName(EndowConstants.DECREASE_TRANSACTION_LINE_GROUP_LABEL_NAME);
+        setTargetGroupLabelName(EndowConstants.INCREASE_TRANSACTION_LINE_GROUP_LABEL_NAME);
 
         // don't show these values on the edoc.
         setShowIncomeTotalAmount(false);

@@ -36,8 +36,9 @@ import org.kuali.kfs.module.purap.document.service.PrintService;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.module.purap.pdf.BulkReceivingPdf;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
-import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdfParameters;
+import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
 import org.kuali.kfs.sys.KFSConstants;
@@ -63,23 +64,10 @@ public class PrintServiceImpl implements PrintService {
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
+    private PurchaseOrderParameters purchaseOrderParameters;
     
     
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setImageDao(ImageDao imageDao) {
-        this.imageDao = imageDao;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
+   
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderQuoteRequestsListPdf(org.kuali.kfs.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
@@ -91,7 +79,7 @@ public class PrintServiceImpl implements PrintService {
         PurchaseOrderQuoteRequestsPdf poQuoteRequestsPdf = new PurchaseOrderQuoteRequestsPdf();
 
         try {
-            PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuoteRequestsListPdfParameters(po);
+            PurchaseOrderTransmitParameters pdfParameters = getPurchaseOrderQuoteRequestsListPdfParameters(po);
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream, pdfParameters.getCampusParameter().getPurchasingInstitutionName());
 
@@ -126,7 +114,7 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    protected PurchaseOrderPdfParameters getPurchaseOrderQuotePdfParameters(PurchaseOrderDocument po) {
+    /*protected PurchaseOrderPdfFaxParameters getPurchaseOrderQuotePdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -165,7 +153,7 @@ public class PrintServiceImpl implements PrintService {
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
         }
 
-        PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
+        PurchaseOrderPdfFaxParameters pdfParameters = new PurchaseOrderPdfFaxParameters();
         pdfParameters.setImageTempLocation(imageTempLocation);
         pdfParameters.setKey(key);
         pdfParameters.setLogoImage(logoImage);
@@ -174,7 +162,7 @@ public class PrintServiceImpl implements PrintService {
         pdfParameters.setPdfFileLocation(pdfFileLocation);
         pdfParameters.setUseImage(useImage);
         return pdfParameters;
-    }
+    }*/
 
     /**
      * Returns the PurchaseOrderPdfParameters given the PurchaseOrderDocument.
@@ -182,8 +170,11 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    protected PurchaseOrderPdfParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
-        String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
+    protected PurchaseOrderTransmitParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
+        PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+        purchaseOrderParameters.setPurchaseOrderPdfParameters(po);
+        return (PurchaseOrderTransmitParameters)purchaseOrderParameters;
+        /*String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
         String logoImage = "";
@@ -221,7 +212,7 @@ public class PrintServiceImpl implements PrintService {
             throw new PurapConfigurationException("Application Setting PDF_DIRECTORY is missing.");
         }
 
-        PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
+        PurchaseOrderPdfFaxParameters pdfParameters = new PurchaseOrderPdfFaxParameters();
         pdfParameters.setImageTempLocation(imageTempLocation);
         pdfParameters.setKey(key);
         pdfParameters.setLogoImage(logoImage);
@@ -229,7 +220,7 @@ public class PrintServiceImpl implements PrintService {
         pdfParameters.setContractManagerCampusCode(contractManagerCampusCode);
         pdfParameters.setPdfFileLocation(pdfFileLocation);
         pdfParameters.setUseImage(useImage);
-        return pdfParameters;
+        return pdfParameters;*/
     }
 
     /**
@@ -242,7 +233,9 @@ public class PrintServiceImpl implements PrintService {
         Collection errors = new ArrayList();
 
         try {
-            PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderQuotePdfParameters(po);
+            PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+            purchaseOrderParameters.setPurchaseOrderPdfParameters(po,povq);
+            PurchaseOrderTransmitParameters pdfParameters = (PurchaseOrderTransmitParameters)purchaseOrderParameters;
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuotePdf.generatePOQuotePDF(po, povq, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), byteArrayOutputStream, environment);
         }
@@ -268,11 +261,13 @@ public class PrintServiceImpl implements PrintService {
         PurchaseOrderQuotePdf poQuotePdf = new PurchaseOrderQuotePdf();
         Collection errors = new ArrayList();
 
-        PurchaseOrderPdfParameters pdfParameters = null;
+        PurchaseOrderTransmitParameters pdfParameters = null;
         try {
-            pdfParameters = getPurchaseOrderQuotePdfParameters(po);
+            PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+            purchaseOrderParameters.setPurchaseOrderPdfParameters(po,povq);
+            pdfParameters = (PurchaseOrderTransmitParameters)purchaseOrderParameters;
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
-            poQuotePdf.savePOQuotePDF(po, povq, pdfParameters.getPdfFileLocation(), pdfQuoteFilename, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), environment);
+            poQuotePdf.savePOQuotePDF(po, povq, pdfParameters, environment);
         }
         catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -302,7 +297,7 @@ public class PrintServiceImpl implements PrintService {
      * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
      * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
      */
-    protected PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
+   /* protected PurchaseOrderPdfFaxParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
         String imageTempLocation = "";
@@ -365,7 +360,7 @@ public class PrintServiceImpl implements PrintService {
 
         String pdfFileName = "PURAP_PO_" + po.getPurapDocumentIdentifier().toString() + "_" + System.currentTimeMillis() + ".pdf";
 
-        PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
+        PurchaseOrderPdfFaxParameters pdfParameters = new PurchaseOrderPdfFaxParameters();
         pdfParameters.setCampusParameter(campusParameter);
         pdfParameters.setContractLanguage(contractLanguage.toString());
         pdfParameters.setContractManagerSignatureImage(contractManagerSignatureImage);
@@ -378,7 +373,7 @@ public class PrintServiceImpl implements PrintService {
         pdfParameters.setPdfFileName(pdfFileName);
         pdfParameters.setUseImage(useImage);
         return pdfParameters;
-    }
+    }*/
 
     /**
      * Creates purchase order pdf document given the input parameters.
@@ -390,13 +385,15 @@ public class PrintServiceImpl implements PrintService {
      * @param retransmitItems        The items selected by the user to be retransmitted.
      * @return                       Collection of error strings.
      */
-    protected Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
+     protected Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
         LOG.debug("generatePurchaseOrderPdf() started");
 
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();
         Collection errors = new ArrayList();
         try {
-            PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
+            PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+            purchaseOrderParameters.setPurchaseOrderPdfParameters(po);
+            PurchaseOrderTransmitParameters pdfParameters = (PurchaseOrderTransmitParameters)purchaseOrderParameters;
             poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment, retransmitItems);
         }
         catch (PurError e) {
@@ -419,6 +416,8 @@ public class PrintServiceImpl implements PrintService {
     public Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String environment, List<PurchaseOrderItem> retransmitItems) {
         return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_NOT_RETRANSMIT, environment, retransmitItems);
     }
+
+  
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.PrintService#generatePurchaseOrderPdfForRetransmission(org.kuali.kfs.module.purap.document.PurchaseOrderDocument,
@@ -443,10 +442,12 @@ public class PrintServiceImpl implements PrintService {
         PurchaseOrderPdf poPdf = new PurchaseOrderPdf();
         Collection errors = new ArrayList();
 
-        PurchaseOrderPdfParameters pdfParameters = null;
+        PurchaseOrderTransmitParameters pdfParameters = null;
 
         try {
-            pdfParameters = getPurchaseOrderPdfParameters(po);
+            PurchaseOrderParameters purchaseOrderParameters = getPurchaseOrderParameters();
+            purchaseOrderParameters.setPurchaseOrderPdfParameters(po);
+            pdfParameters = (PurchaseOrderTransmitParameters)purchaseOrderParameters;
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
         }
         catch (PurError e) {
@@ -532,6 +533,30 @@ public class PrintServiceImpl implements PrintService {
 
         LOG.debug("generateBulkReceivingPDF() ended");
         return errors;
+    }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setImageDao(ImageDao imageDao) {
+        this.imageDao = imageDao;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setPurchaseOrderParameters(PurchaseOrderParameters purchaseOrderParameters) {
+        this.purchaseOrderParameters = purchaseOrderParameters;
+    }
+    
+    public PurchaseOrderParameters getPurchaseOrderParameters() {
+        return SpringContext.getBean(PurchaseOrderParameters.class);
     }
     
 }

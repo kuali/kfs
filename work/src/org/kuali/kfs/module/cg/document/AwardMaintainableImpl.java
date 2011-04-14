@@ -21,7 +21,9 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.AWARD_SUBCONTRACTORS;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * Methods for the Award maintenance document UI.
  */
 public class AwardMaintainableImpl extends FinancialSystemMaintainable {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardMaintainableImpl.class);
     /**
      * Constructs an AwardMaintainableImpl.
      */
@@ -97,19 +99,89 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         if (organizations.size() == 1) {
             organizations.get(0).setAwardPrimaryOrganizationIndicator(true);
         }
+        // need to populate the synthetic keys for these records
+        // since we can not depend on the keys which exist, we need to determine all those which could match
+        // so we can avoid them
         List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
-        int i = 0;
         if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
+            // convert the list into a map of lists containing the used award subcontractor number/amendment number
+            Map<String,List<AwardSubcontractor>> subcontractorAwardMap = new HashMap<String, List<AwardSubcontractor>>();
+            List<AwardSubcontractor> newSubcontractorRecords = new ArrayList<AwardSubcontractor>();
             for (AwardSubcontractor awardSubcontractor : awardSubcontractors) {
-                i++;
-                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorAmendmentNumber())) {
-                    awardSubcontractor.setAwardSubcontractorAmendmentNumber("" + i);
-                }
-                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber())) {
-                    awardSubcontractor.setAwardSubcontractorNumber("" + i);
+                if ( !StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber()) ) {
+                    // already has key - add to map
+                    if ( !subcontractorAwardMap.containsKey(awardSubcontractor.getSubcontractorNumber()) ) {
+                        subcontractorAwardMap.put(awardSubcontractor.getSubcontractorNumber(), new ArrayList<AwardSubcontractor>() );
+                    }
+                    subcontractorAwardMap.get(awardSubcontractor.getSubcontractorNumber()).add(awardSubcontractor);
+                } else {
+                    // new record, add to new map
+                    newSubcontractorRecords.add(awardSubcontractor);
                 }
             }
+            
+            // now, loop over the new records
+            for (AwardSubcontractor awardSubcontractor : newSubcontractorRecords) {
+                String awardSubcontractorNumber = "1";
+                String awardSubcontractorAmendmentNumber = "1";
+                // get the other ones for the same subcontractor
+                List<AwardSubcontractor> oldSubcontractors = subcontractorAwardMap.get(awardSubcontractor.getSubcontractorNumber());
+                if ( oldSubcontractors != null ) {
+                    // we have a hit - find the first non-used number                    
+                    // build an array from the unsorted list
+                    boolean[][] nums = new boolean[100][100];
+                    for ( AwardSubcontractor oldSub : oldSubcontractors ) {
+                        try {
+                            nums[Integer.valueOf( oldSub.getAwardSubcontractorNumber() )][Integer.valueOf( oldSub.getAwardSubcontractorAmendmentNumber() )] = true;
+                        } catch ( NumberFormatException ex ) {
+                            // do nothing
+                            LOG.warn( "Unexpected non-integer award subcontractor / amendment number: " + oldSub.getAwardSubcontractorNumber() + " / " + oldSub.getAwardSubcontractorAmendmentNumber() );
+                        }
+                    }
+                    // iterate over the array to get the first empty value
+                    // loop over the awardSubcontractorNumbers first
+                    boolean foundNumbers = false;
+                    for ( int i = 1; i <= 99; i++ ) {
+                        for ( int j = 1; j <= 99; j++ ) {
+                            if ( !nums[j][i] ) { 
+                                // save the values 
+                                awardSubcontractorNumber = Integer.toString(j); 
+                                awardSubcontractorAmendmentNumber = Integer.toString(i); 
+                                // mark the cell as used before the next pass 
+                                nums[j][i] = true; 
+                                // just a flag to allow us to break out of both loops 
+                                foundNumbers = true; 
+                                break; 
+                            }
+                        }
+                        if ( foundNumbers ) {
+                            break;
+                        }
+                        // JHK - yes, this will break down if there are more than 9801 subcontracts
+                        // however, the UI will probably break down far before then...
+                    }
+                }
+                awardSubcontractor.setAwardSubcontractorNumber(awardSubcontractorNumber);
+                awardSubcontractor.setAwardSubcontractorAmendmentNumber(awardSubcontractorAmendmentNumber);
+            }
+            
         }
+        
+        
+// The implementation below is **** - allows for easy key collisions         
+//        List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
+//        int i = 0;
+//        if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
+//            for (AwardSubcontractor awardSubcontractor : awardSubcontractors) {
+//                i++;
+//                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorAmendmentNumber())) {
+//                    awardSubcontractor.setAwardSubcontractorAmendmentNumber("" + i);
+//                }
+//                if (StringUtils.isBlank(awardSubcontractor.getAwardSubcontractorNumber())) {
+//                    awardSubcontractor.setAwardSubcontractorNumber("" + i);
+//                }
+//            }
+//        }
 
         super.prepareForSave();
     }

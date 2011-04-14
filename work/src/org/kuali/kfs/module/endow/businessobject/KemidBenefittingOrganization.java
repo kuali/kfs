@@ -252,4 +252,21 @@ public class KemidBenefittingOrganization extends PersistableBusinessObjectBase 
         this.organization = organization;
     }
 
+    /**
+     * Gets the organization code for report 
+     * 
+     * @return benefittingOrgCode
+     */
+    public String getBenefittingOrgCodeForReport() {
+        return benefittingOrgCode;
+    }
+
+    /**
+     * Gets the organization chart code for report 
+     * 
+     * @return benefittingChartCode
+     */
+    public String getBenefittingChartCodeForReport() {
+        return benefittingChartCode;
+    }
 }

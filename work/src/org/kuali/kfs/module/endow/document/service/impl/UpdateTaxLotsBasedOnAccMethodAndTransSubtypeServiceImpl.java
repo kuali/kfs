@@ -30,6 +30,7 @@ import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.AssetDecreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocument;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
@@ -61,31 +62,40 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
         Security security = securityService.getByPrimaryKey(endowmentTransactionSecurity.getSecurityID());
 
         if (ObjectUtils.isNotNull(security)) {
-            if (EndowConstants.TaxLotsAccountingMethodOptions.AVERAGE_BALANCE.equalsIgnoreCase(accountingMethod) || (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && !security.getClassCode().isTaxLotIndicator())) {
-                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(true, isUpdate, endowmentTransactionSecurity, transLine);
-                }
-                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, endowmentTransactionSecurity, transLine);
-                    setTransactionLineTotal(transLine);
-                }
+            // In the Asset Decrease document, if transaction sub type is non-cash and IF the user inserts an amount in the
+            // transaction amount, that amount along with the units sill be used to generate the transaction tax lot lines. The
+            // amount will not be calculated by the addition of the transaction line. In the event the user has entered an amount in
+            // the transaction amount field, that amount along with the units will be spread proportionately among the tax lots.
+            if (endowmentTaxLotLinesDocument instanceof AssetDecreaseDocument && EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode()) && transLine.getTransactionAmount() != null && transLine.getTransactionAmount().bigDecimalValue().compareTo(BigDecimal.ZERO) != 0) {
+                updateTaxLotsForSubTypeNonCashAndTransAmtNonZero(isUpdate, endowmentTransactionSecurity, transLine);
             }
+            else {
 
-            if ((EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) || EndowConstants.TaxLotsAccountingMethodOptions.LIFO.equalsIgnoreCase(accountingMethod)) && security.getClassCode().isTaxLotIndicator()) {
-                boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
-
-                if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(true, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
+                if (EndowConstants.TaxLotsAccountingMethodOptions.AVERAGE_BALANCE.equalsIgnoreCase(accountingMethod) || (EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) && !security.getClassCode().isTaxLotIndicator())) {
+                    if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                        updateTaxLotsForAccountingMethodAverageBalance(true, isUpdate, endowmentTransactionSecurity, transLine);
+                    }
+                    if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                        updateTaxLotsForAccountingMethodAverageBalance(false, isUpdate, endowmentTransactionSecurity, transLine);
+                        setTransactionLineTotal(transLine);
+                    }
                 }
-                if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
-                    updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
-                    setTransactionLineTotal(transLine);
+
+                if ((EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod) || EndowConstants.TaxLotsAccountingMethodOptions.LIFO.equalsIgnoreCase(accountingMethod)) && security.getClassCode().isTaxLotIndicator()) {
+                    boolean isFIFO = EndowConstants.TaxLotsAccountingMethodOptions.FIFO.equalsIgnoreCase(accountingMethod);
+
+                    if (EndowConstants.TransactionSubTypeCode.CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                        updateTaxLotsForAccountingMethodFIFOorLIFO(true, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
+                    }
+                    if (EndowConstants.TransactionSubTypeCode.NON_CASH.equalsIgnoreCase(endowmentTaxLotLinesDocument.getTransactionSubTypeCode())) {
+                        updateTaxLotsForAccountingMethodFIFOorLIFO(false, isUpdate, isFIFO, endowmentTransactionSecurity, transLine);
+                        setTransactionLineTotal(transLine);
+                    }
                 }
             }
         }
 
     }
-
 
     /**
      * Updates the tax lots for the transaction line in the case the accounting method is Average Balance.
@@ -235,11 +245,15 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
         }
     }
 
+
     /**
      * Adjusts the number of units if the total is different from the transaction line units.
      * 
+     * @param lotsMap
      * @param transLine
      * @param keepIntegers
+     * @param isSubTypeCash
+     * @param perUnitValue
      */
     private void adjustUnitsNumberAndAmountsForAverageBalance(Map<Integer, HoldingTaxLot> lotsMap, EndowmentTransactionLine transLine, boolean keepIntegers, boolean isSubTypeCash, BigDecimal perUnitValue) {
         // Adjust the number of units if the total is different from the transaction line units
@@ -425,6 +439,160 @@ public class UpdateTaxLotsBasedOnAccMethodAndTransSubtypeServiceImpl implements 
                 }
             }
         }
+    }
+
+    /**
+     * Updates the tax lots for the transaction line in the case the transaction sub type is non-cash and the user entered the
+     * transaction amount. This method is specific to the Asset Decrease document.
+     * 
+     * @param isSubTypeCash
+     * @param endowmentTransactionSecurity
+     * @param transLine
+     */
+    private void updateTaxLotsForSubTypeNonCashAndTransAmtNonZero(boolean isUpdate, EndowmentTransactionSecurity endowmentTransactionSecurity, EndowmentTransactionLine transLine) {
+
+        BigDecimal transactionUnits = transLine.getTransactionUnits().bigDecimalValue();
+        BigDecimal totalTaxLotsUnits = BigDecimal.ZERO;
+        BigDecimal transactionAmount = transLine.getTransactionAmount().bigDecimalValue();
+        BigDecimal perUnitValue = BigDecimal.ZERO;
+
+        List<HoldingTaxLot> holdingTaxLots = new ArrayList<HoldingTaxLot>();
+        Map<Integer, HoldingTaxLot> lotsMap = new HashMap<Integer, HoldingTaxLot>();
+
+        if (!isUpdate) {
+            transLine.getTaxLotLines().clear();
+            holdingTaxLots = taxLotService.getAllTaxLots(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), transLine.getTransactionIPIndicatorCode());
+        }
+        else {
+            List<EndowmentTransactionTaxLotLine> existingTransactionLines = transLine.getTaxLotLines();
+            for (EndowmentTransactionTaxLotLine endowmentTransactionTaxLotLine : existingTransactionLines) {
+                HoldingTaxLot holdingTaxLot = taxLotService.getByPrimaryKey(transLine.getKemid(), endowmentTransactionSecurity.getSecurityID(), endowmentTransactionSecurity.getRegistrationCode(), endowmentTransactionTaxLotLine.getTransactionHoldingLotNumber(), transLine.getTransactionIPIndicatorCode());
+
+                if (ObjectUtils.isNotNull(holdingTaxLot)) {
+                    holdingTaxLots.add(holdingTaxLot);
+                }
+            }
+
+            transLine.getTaxLotLines().clear();
+        }
+
+        Map<KualiInteger, EndowmentTransactionTaxLotLine> decreaseHoldingTaxLots = new HashMap<KualiInteger, EndowmentTransactionTaxLotLine>();
+
+        if (holdingTaxLots != null && holdingTaxLots.size() > 0) {
+            boolean keepIntegers = true;
+            // compute the total number of units for tax lots
+            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+                totalTaxLotsUnits = totalTaxLotsUnits.add(holdingTaxLot.getUnits());
+
+                // 3. Calculate the number of units to be transacted in each lot
+                // check if percentage and tax lot units are integers
+                BigDecimal lotUnits = BigDecimal.ZERO;
+                try {
+                    int lotUnitsInt = holdingTaxLot.getUnits().intValueExact();
+                }
+                catch (ArithmeticException ex) {
+                    keepIntegers = false;
+                }
+
+            }
+
+            for (HoldingTaxLot holdingTaxLot : holdingTaxLots) {
+                EndowmentTransactionTaxLotLine taxLotLine = new EndowmentTransactionTaxLotLine();
+                taxLotLine.setDocumentLineNumber(transLine.getTransactionLineNumber());
+
+                BigDecimal lotUnits = BigDecimal.ZERO;
+                // 2. Calculate percentage each lot holds out of the total units
+                BigDecimal percentage = KEMCalculationRoundingHelper.divide(holdingTaxLot.getUnits(), totalTaxLotsUnits, 5);
+
+
+                lotUnits = KEMCalculationRoundingHelper.multiply(percentage, transLine.getTransactionUnits().bigDecimalValue(), 5);
+
+                // IF all original units per lot are integers (no decimal values), the result is rounded to the nearest
+                // integer and stored with the five decimals as zero. If the original units are not all integers, then the
+                // value is rounded to five decimals and stored as the five decimal values.
+                if (keepIntegers) {
+                    lotUnits = lotUnits.setScale(0, BigDecimal.ROUND_HALF_UP);
+                    lotUnits = lotUnits.setScale(5);
+                }
+                taxLotLine.setLotUnits(lotUnits);
+
+                // 6. Calculate holding cost
+                BigDecimal holdingCost = KEMCalculationRoundingHelper.multiply(percentage, transactionAmount, 2);
+                taxLotLine.setLotHoldingCost(holdingCost);
+
+
+                // set tax lot line lot number and acquired date
+                taxLotLine.setTransactionHoldingLotNumber(holdingTaxLot.getLotNumber().intValue());
+                taxLotLine.setKemid(transLine.getKemid());
+                taxLotLine.setSecurityID(holdingTaxLot.getSecurityId());
+                taxLotLine.setRegistrationCode(holdingTaxLot.getRegistrationCode());
+                taxLotLine.setIpIndicator(holdingTaxLot.getIncomePrincipalIndicator());
+                taxLotLine.setLotAcquiredDate(holdingTaxLot.getAcquiredDate());
+
+                // set the new lot indicator
+                taxLotLine.setNewLotIndicator(false);
+
+                // add the new tax lot line to the transaction line tax lots
+                addTaxLotLine(transLine, taxLotLine);
+                lotsMap.put(taxLotLine.getTransactionHoldingLotNumber(), holdingTaxLot);
+            }
+            adjustUnitsAndAmountsForNonCashAndTransactionAmtNotZero(transLine);
+
+        }
+    }
+
+    /**
+     * Adjusts the number of units and the amounts if the total is different from the transaction line units. The correction will be
+     * done on the oldest tax lot. This method is specific to the Asset Decrease document and is used in
+     * updateTaxLotsForSubTypeNonCashAndTransAmtNonZero().
+     * 
+     * @param transLine
+     * @param keepIntegers
+     */
+    private void adjustUnitsAndAmountsForNonCashAndTransactionAmtNotZero(EndowmentTransactionLine transLine) {
+        // Adjust the number of units if the total is different from the transaction line units
+        BigDecimal totalComputedTaxLotUnits = BigDecimal.ZERO;
+        BigDecimal totalComputedCost = BigDecimal.ZERO;
+        EndowmentTransactionTaxLotLine oldestTaxLotLine = null;
+
+        if (transLine.getTaxLotLines() != null && transLine.getTaxLotLines().size() > 0) {
+            for (EndowmentTransactionTaxLotLine taxLotLine : transLine.getTaxLotLines()) {
+                BigDecimal lotUnits = taxLotLine.getLotUnits().negate();
+
+                // calculate the total number of units to be decreased
+                totalComputedTaxLotUnits = totalComputedTaxLotUnits.add(lotUnits);
+                totalComputedCost = totalComputedCost.add(taxLotLine.getLotHoldingCost().negate());
+
+                if (taxLotLine.getLotShortTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotShortTermGainLoss());
+                }
+
+                if (taxLotLine.getLotLongTermGainLoss() != null) {
+                    totalComputedCost = totalComputedCost.add(taxLotLine.getLotLongTermGainLoss());
+                }
+
+                // keep the tax lot with the oldest acquired date so that we can adjust the units for that one in case the
+                // number of units needs and adjustment
+                if (oldestTaxLotLine != null) {
+                    if (oldestTaxLotLine.getLotAcquiredDate().after(taxLotLine.getLotAcquiredDate())) {
+                        oldestTaxLotLine = taxLotLine;
+                    }
+                }
+                else {
+                    oldestTaxLotLine = taxLotLine;
+                }
+            }
+        }
+
+        // compare with the negated number of units on the transaction line because the units on the tax lots have been negated
+        if (totalComputedTaxLotUnits.compareTo(transLine.getTransactionUnits().bigDecimalValue().negate()) != 0) {
+            BigDecimal difUnits = transLine.getTransactionUnits().bigDecimalValue().subtract(totalComputedTaxLotUnits);
+            oldestTaxLotLine.setLotUnits(oldestTaxLotLine.getLotUnits().add(difUnits.negate()));
+
+            BigDecimal difAmount = transLine.getTransactionAmount().bigDecimalValue().subtract(totalComputedCost);
+            oldestTaxLotLine.setLotHoldingCost(oldestTaxLotLine.getLotHoldingCost().add(difAmount.negate()));
+        }
+
     }
 
     /**

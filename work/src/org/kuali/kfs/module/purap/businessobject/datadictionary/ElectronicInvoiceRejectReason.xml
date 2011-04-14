@@ -109,7 +109,7 @@
     <property name="shortLabel" value="Name"/>
     <property name="maxLength" value="200"/>
     <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="45"/>

@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.module.cg.service.CfdaService;
@@ -188,6 +187,10 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      */
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
+    }
+    
+    public List<String> getParentUnits(String unitNumber) {
+        return null;
     }
 }
 

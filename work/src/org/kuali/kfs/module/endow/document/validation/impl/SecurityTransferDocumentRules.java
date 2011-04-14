@@ -77,7 +77,7 @@ public class SecurityTransferDocumentRules extends EndowmentTransactionLinesDocu
      * @param endowmentTransactionLinesDocument
      * @return true if valid, false otherwise
      */
-    private boolean validateOnlyOneSourceTransactionLine(boolean validateForAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
+    protected boolean validateOnlyOneSourceTransactionLine(boolean validateForAdd, EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, int index) {
         boolean isValid = true;
 
         if (line instanceof EndowmentSourceTransactionLine) {

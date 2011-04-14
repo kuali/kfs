@@ -73,7 +73,12 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         if (StringUtils.isBlank(question) || (question.equals(VendorConstants.CHANGE_TO_PARENT_QUESTION_ID))) {
             detectAndConfirmChangeToParent(document);
         }
-        displayReview(document);
+        
+        //check to page review ONLY if it is a new vendor
+        if (newVendorDetail.getVendorHeaderGeneratedIdentifier() == null &&
+                newVendorDetail.getVendorDetailAssignedIdentifier() == null) {
+            displayReview(document);
+        }
         return true;
     }
 

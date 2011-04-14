@@ -1,0 +1,282 @@
+/*
+ * Copyright 2006 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.kuali.kfs.module.external.kc.businessobject;
+
+import java.util.LinkedHashMap;
+
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.util.ObjectUtils;
+
+/**
+ * This class represents an association between an award and an account. It's like a reference to the account from the award. This
+ * way an award can maintain a collection of these references instead of owning accounts directly.
+ */
+public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
+
+    private Long proposalNumber;    
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String principalId;
+    private boolean active = true;
+    private boolean newCollectionRecord;
+    
+    private Account account;
+    private Chart chartOfAccounts;
+    private Person projectDirector;
+    private Award award;
+    
+    /**
+     * Default constructor.
+     */
+    public AwardAccount() {
+        // Struts needs this instance to populate the secondary key, principalName.
+        try {
+            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        } catch (Exception e) {}
+    }
+
+    public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber){
+        // Struts needs this instance to populate the secondary key, principalName.
+        try {
+            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        } catch (Exception e) {}
+        
+
+        //setup this class from DTO        
+        Proposal proposal = new Proposal();
+        Award award = new Award();
+        Agency agency = new Agency();
+        Agency primeAgency = new Agency();
+        
+        this.setAccountNumber(accountNumber);        
+        this.setChartOfAccountsCode(chartOfAccountsCode);
+        this.setPrincipalId(awardAccountDTO.getProjectDirector());
+        this.setProposalNumber(awardAccountDTO.getAwardId());
+        this.setActive(true);
+        
+        award.setAwardNumber(awardAccountDTO.getProposalNumber());                       
+        award.setProposalNumber(awardAccountDTO.getAwardId());
+        award.setAgencyNumber(awardAccountDTO.getSponsorCode());
+        award.setAwardTitle(awardAccountDTO.getAwardTitle());        
+        award.setGrantNumber(awardAccountDTO.getGrantNumber());
+        award.setCfdaNumber(cfdaNumber);
+        
+        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());                
+        proposal.setProposalNumber(awardAccountDTO.getAwardId());
+                
+        proposal.setAward(award);
+        this.setAward(award);
+        this.getAward().setProposal(proposal);
+                
+        agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
+        agency.setReportingName(awardAccountDTO.getSponsorName());                
+        primeAgency.setAgencyNumber(awardAccountDTO.getPrimeSponsorCode());
+        primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
+        this.getAward().setAgency(agency);        
+        this.getAward().setPrimeAgency(primeAgency);
+    }
+    
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
+
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param proposalNumber The proposalNumber to set.
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
+     */
+    public String getPrincipalId() {
+        return principalId;
+    }
+
+    /**
+     * Sets the principalId attribute.
+     * 
+     * @param principalId The principalId to set.
+     */
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccount()
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     */
+    @Deprecated
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccounts()
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     */
+    @Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /***
+     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirector()
+     */
+    public Person getProjectDirector() {
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        return projectDirector;
+    }
+
+    /**
+     * Sets the project director attribute
+     * 
+     * @param projectDirector The projectDirector to set.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
+     *             creation of the object and should not be changed.
+     */
+    @Deprecated
+    public void setProjectDirector(Person projectDirector) {
+        this.projectDirector = projectDirector;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    @SuppressWarnings("unchecked")    
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        if (this.proposalNumber != null) {
+            m.put("proposalNumber", this.proposalNumber.toString());
+        }
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        m.put("accountNumber", this.accountNumber);
+        return m;
+    }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     */
+    public void setActive(boolean active) {
+        this.active = true;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
+     */
+    public String getProjectDirectorName() {
+        if (!ObjectUtils.isNull(getProjectDirector())) {
+            return getProjectDirector().getName();
+        }
+        return null;
+    }
+
+  //  @Override
+    public void prepareForWorkflow() {
+        
+    }
+
+  //  @Override
+    public void refresh() {
+    }
+
+    public boolean isNewCollectionRecord() {
+        return false;
+    }
+
+    public void setNewCollectionRecord(boolean newCollectionRecord) {
+        this.newCollectionRecord = newCollectionRecord;
+    }
+}
+

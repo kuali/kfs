@@ -21,8 +21,11 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -1064,5 +1067,26 @@ public class KEMID extends PersistableBusinessObjectBase {
      */
     public void setKemidAuthorizations(List<KemidAuthorizations> kemidAuthorizations) {
         this.kemidAuthorizations = kemidAuthorizations;
+    }
+    
+    /**
+     * Gets kemid for report
+     * 
+     * @return kemid
+     */
+    public String getKemidForReport() {
+        return this.kemid;
+    }
+    
+    /**
+     * Gets the current date for report
+     * 
+     * @return
+     */
+    public String getReportDate() {
+        KEMService kemService = SpringContext.getBean(KEMService.class);
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        Date currentDate = kemService.getCurrentDate();
+        return dateTimeService.toDateString(currentDate);
     }
 }

@@ -16,22 +16,17 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentCreationStatusDTO;
-import org.kuali.kfs.module.external.kc.dto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.module.external.kc.dto.HashMapElement;
-import org.kuali.kfs.module.external.kc.dto.KcObjectCode;
-import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.DocumentTypeAttributes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -44,6 +39,7 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -51,7 +47,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentServiceImpl.class);
@@ -60,7 +55,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     private ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
-       
+
     /**
      * This is the web service method that facilitates budget adjustment  
      * 1. Creates a Budget Adjustment Doc using the parameters from KC 
@@ -73,13 +68,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         
         BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus = new BudgetAdjustmentCreationStatusDTO();
         budgetAdjustmentCreationStatus.setErrorMessages(new ArrayList<String>());
-        budgetAdjustmentCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_SUCCESS);
+        budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                 
         // check to see if the user has the permission to create account
         String principalId = budgetAdjustmentParameters.getPrincipalId();
         if (!isValidUser(principalId)) {
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
-            budgetAdjustmentCreationStatus.setStatus(KcConstants.AccountCreationService.STATUS_KC_ACCOUNT_FAILURE);
+            budgetAdjustmentCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT);
+            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return budgetAdjustmentCreationStatus;
         }
                 
@@ -87,7 +82,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         BudgetAdjustmentDocument budgetAdjustmentDoc = createBudgetAdjustmentObject(budgetAdjustmentParameters, budgetAdjustmentCreationStatus);
       
         // set required values to AccountCreationStatus
-        if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.BudgetAdjustmentService.STATUS_KC_BA_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
+        if (budgetAdjustmentCreationStatus.getStatus().equals(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
             routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);  
             budgetAdjustmentCreationStatus.setDocumentNumber(budgetAdjustmentDoc.getDocumentNumber());
         }      
@@ -113,25 +108,27 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         //The Comment section of the KC Award Budget Document will carry a BA document number for a reference purpose.
         budgetAdjustmentDocument.getDocumentHeader().setExplanation(parameters.getComment());
         budgetAdjustmentDocument.setPostingPeriodCode(parameters.getPostingPeriodCode());
-     //   budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
+        budgetAdjustmentDocument.setPostingYear(new Integer(parameters.getPostingYear()));
         budgetAdjustmentDocument.getDocumentHeader().setOrganizationDocumentNumber("");
-        
-         for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
-           switch (detail.getLineType().charAt(0)) {
-                 case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
-                        break;
-                 case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
-                        break;
-             }
-     
-          }
+        if (parameters != null && parameters.getDetails() != null) {
+            for (BudgetAdjustmentParametersDTO.Details detail : parameters.getDetails()) {
+                switch (detail.getLineType().charAt(0)) {
+                    case 'F':   budgetAdjustmentDocument.addSourceAccountingLine( createBudgetAdjustmentSourceAccountingLine(detail));
+                    break;
+                    case 'T':   budgetAdjustmentDocument.addTargetAccountingLine( createBudgetAdjustmentTargetAccountingLine(detail));
+                    break;
+                }
+
+            }
+        }
         // save the document 
         try{
             getDocumentService().saveDocument(budgetAdjustmentDocument);
-        }catch(WorkflowException wfe){
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  wfe.getMessage());
-            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
+        } catch (Exception ex) {   
+            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED +  ex.getMessage());           
+            budgetAdjustmentCreationStatus.setErrorMessages( GlobalVariablesExtractHelper.extractGlobalVariableErrors() );
+            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+           
         }
          
          return budgetAdjustmentDocument;
@@ -182,8 +179,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(TransactionalDocumentDictionaryService.class).getDocumentClassByName("BA"));
             return document;
         } catch (Exception e) {
-            budgetAdjustmentCreationStatusDTO.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_UNABLE_TO_CREATE_DOCUMENT + e.getMessage());
-            budgetAdjustmentCreationStatusDTO.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
+            budgetAdjustmentCreationStatusDTO.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+            budgetAdjustmentCreationStatusDTO.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
 
             
@@ -204,15 +201,15 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         try {
             //getParameterService().setParameterForTesting(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
 
-            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
+            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
             //String BudgetAdjustAutoRouteValue = getParameterService().getParameterValue(Account.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE);
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) &&
                 !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_ROUTE) &&
                 !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) 
             {                
-                budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
-                budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_FAILURE);
+                budgetAdjustmentCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
+                budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
                 return false;
             }
             
@@ -227,16 +224,10 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             }             
             return true;
             
-        }  catch (WorkflowException wfe) { 
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  wfe.getMessage());
-            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
-            return false;
-
         }  catch (Exception ex) { 
-            LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage()); 
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage());
-            budgetAdjustmentCreationStatus.setStatus(KcConstants.BudgetAdjustmentService.STATUS_KC_ACCOUNT_WARNING);
+            LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS +  ex.getMessage()); 
+            budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
+            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_WARNING);
             return false;
         }
     }
@@ -273,8 +264,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             try {
                 Person user = personService.getPerson(principalId);
                // Person user = personService.getPersonByPrincipalName(principalId);
-                DocumentAuthorizer documentAuthorizer = new TransactionalDocumentAuthorizerBase();
-                if (documentAuthorizer.canInitiate(DocumentTypeAttributes.ACCOUNTING_DOCUMENT_TYPE_NAME, user)) {
+                DocumentAuthorizer documentAuthorizer = new TransactionalDocumentAuthorizerBase();                
+                if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
                     // set the user session so that the user name can be displayed in the saved document        
                     GlobalVariables.setUserSession(new UserSession(user.getPrincipalName()));
                     return true;
@@ -282,7 +273,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                     return false;
                 }
             } catch (Exception ex) {
-                LOG.error(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT + principalId) ;
+                LOG.error(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_NOT_ALLOWED_TO_CREATE_CG_MAINTENANCE_DOCUMENT + principalId) ;
                 return false;    
             }
         }
@@ -347,42 +338,5 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
-    /**
-     * @see org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService#lookupObjectCodes(java.util.HashMap)
-     */
-
-    public List<KcObjectCode> lookupObjectCodes(java.util.List<HashMapElement> searchCriteria) {
-        HashMap <String, String> hashMap = new HashMap();
-        for (HashMapElement hashMapElement: searchCriteria) {
-            hashMap.put(hashMapElement.getKey(), hashMapElement.getValue());
-        }
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        List <ObjectCode> objCodeList = (List<ObjectCode>) (boService.findMatching(ObjectCode.class, hashMap));
-        List <KcObjectCode> kcObjectCodeList = new ArrayList();
-        for (ObjectCode objectCode : objCodeList) {
-            kcObjectCodeList.add( createKcObjectCode(objectCode));
-        }
-        return kcObjectCodeList;
-    }
-    
-    /**
-     * 
-        @see org.kuali.kfs.module.external.kc.service.getObjectCode(String, String, String)
-     */
-    public KcObjectCode getObjectCode(String universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Integer fiscalYear = new Integer(universityFiscalYear);
-        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
-        ObjectCode objectCode = (ObjectCode) objectCodeService.getByPrimaryId(fiscalYear, chartOfAccountsCode, financialObjectCode);
-        return createKcObjectCode(objectCode);
-    }
  
-    protected KcObjectCode createKcObjectCode(ObjectCode objectCode) {
-        KcObjectCode kcObjectCode = new KcObjectCode();
-        kcObjectCode.setObjectCodeName(objectCode.getCode());
-        kcObjectCode.setBudgetCategoryCode(objectCode.getRschBudgetCategoryCode());
-        kcObjectCode.setDescription(objectCode.getName());
-        kcObjectCode.setOnOffCampusFlag(objectCode.isRschOnCampusIndicator());
-        return kcObjectCode;
-    }
 }

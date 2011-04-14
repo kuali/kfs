@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
@@ -26,5 +27,5 @@ public interface AutomatedCashInvestmentModelDao {
      * 
      * @return List<AutomatedCashInvestmentModel>
      */
-    public List<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate();
+    public List<AutomatedCashInvestmentModel> getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate(Date currentDate);
 }

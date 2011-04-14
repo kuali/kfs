@@ -120,22 +120,25 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total units are balanced
      */
-    private boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject,
-                                       HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateTotalUnits(HoldingTaxLotRebalance oldBusinessObject, HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         
-        // Calculate the total number of units from the new document to ensure
+        // Calculate the total number of units from the new and old documents to ensure
         // that they still match the original (old) document.
-        BigDecimal totalUnits  = new BigDecimal(0);
+        BigDecimal totalOldUnits  = BigDecimal.ZERO;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
-            totalUnits = totalUnits.add(taxLot.getUnits());
+            totalOldUnits = totalOldUnits.add(taxLot.getUnits());
+        }
+
+        BigDecimal totalNewUnits  = BigDecimal.ZERO;
+        for (HoldingTaxLot taxLot : oldBusinessObject.getHoldingTaxLots()) {
+            totalNewUnits = totalNewUnits.add(taxLot.getUnits());
         }
         
         // Determine if the calculated total value of all the tax lots is still equal
         // to the original total i.e. is still balanced.
-        if (!totalUnits.equals(oldBusinessObject.getTotalUnits())) {
-
+        if (totalNewUnits.compareTo(totalOldUnits) != 0) {
             putFieldError(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_LOTS_TAB, 
                     EndowKeyConstants.HoldingTaxLotRebalanceConstants.ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_UNITS_NOT_BALANCED);
             isValid = false;
@@ -151,20 +154,24 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if total cost is balanced
      */
-    private boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject,
-                                      HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateTotalCost(HoldingTaxLotRebalance oldBusinessObject, HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
-        // Calculate the total cost from the new document to ensure
+        // Calculate the total cost from the new and old documents to ensure
         // that they still match the original (old) document.
-        BigDecimal totalCost = new BigDecimal(0);
+        BigDecimal totalOldCost = BigDecimal.ZERO;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
-            totalCost = totalCost.add(taxLot.getCost());
+            totalOldCost = totalOldCost.add(taxLot.getCost());
+        }
+        
+        BigDecimal totalNewCost = BigDecimal.ZERO;
+        for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
+            totalNewCost = totalNewCost.add(taxLot.getCost());
         }
         
         // Determine if the calculated total value of all the tax lots is still equal
         // to the original total i.e. is still balanced.
-        if (!totalCost.equals(oldBusinessObject.getTotalCost())) {
+        if (totalNewCost.compareTo(totalOldCost) != 0) {
             putFieldError(EndowPropertyConstants.HOLDING_TAX_LOT_REBAL_LOTS_TAB, 
                     EndowKeyConstants.HoldingTaxLotRebalanceConstants.ERROR_HLDG_TAX_LOT_REBALANCE_TOTAL_COST_NOT_BALANCED);
             isValid = false;
@@ -179,7 +186,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if units is non-negative.
      */
-    private boolean validateUnitValue(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateUnitValue(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
@@ -200,7 +207,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return True if cost is non-negative.
      */
-    private boolean validateCostValue(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateCostValue(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {
@@ -221,7 +228,7 @@ public class HoldingTaxLotRebalanceRule extends MaintenanceDocumentRuleBase {
      * @param newDocument
      * @return false if only one of the units or cost fields are zero.
      */
-    private boolean validateAllZero(HoldingTaxLotRebalance newBusinessObject)
+    protected boolean validateAllZero(HoldingTaxLotRebalance newBusinessObject)
     {
         boolean isValid = true;
         for (HoldingTaxLot taxLot : newBusinessObject.getHoldingTaxLots()) {

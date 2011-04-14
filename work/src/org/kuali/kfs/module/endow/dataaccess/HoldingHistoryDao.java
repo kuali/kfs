@@ -16,8 +16,11 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
+import org.kuali.rice.kns.util.KualiInteger;
 
 public interface HoldingHistoryDao {
 
@@ -34,4 +37,43 @@ public interface HoldingHistoryDao {
      * @return totalHoldingMarketValue
      */
     public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod);
+    
+    /**
+     * Gets HoldingHistory
+     * 
+     * @param kemid
+     * @param medId
+     * @return
+     */
+    public List<HoldingHistory> getHoldingHistory(String kemid, KualiInteger medId);
+    
+    /**
+     * Gets HoldingHistory records
+     * 
+     * @param kemid
+     * @return List<HoldingHistory>
+     */
+    public List<HoldingHistory> getHoldingHistoryByKemid(String kemid);
+
+    /**
+     * Gets the sum of the given attribute
+     * 
+     * @param kemid
+     * @param medId
+     * @param securityId
+     * @param ipInd
+     * @param attributeName
+     * @return
+     */
+    public BigDecimal getSumOfHoldginHistoryAttribute(String attributeName, String kemid, KualiInteger medId, String securityId, String ipInd); 
+    
+    /**
+     * Gets a list of HoldingHistory by kemid, medId, ipInd and with units > 0
+     * 
+     * @param kemid
+     * @param monthEndId
+     * @param ipInd
+     * @return
+     */
+    public List<HoldingHistory> getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(String kemid, KualiInteger monthEndId, String ipInd);
 }

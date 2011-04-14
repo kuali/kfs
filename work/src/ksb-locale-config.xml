@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
+
+  <bean id="securityProperties"
+    class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean">
+    <property name="secureMode" value="true" />
+  </bean>
+
+  <bean id="propertyPlaceholderConfigurer"
+    class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true"></property>
+    <property name="propertiesArray">
+      <list>
+        <ref bean="properties" />
+        <ref bean="securityProperties" />
+      </list>
+    </property>
+  </bean>
+
+
+	<bean id="dataSource" class="org.kuali.rice.core.database.PrimaryDataSourceFactoryBean">
+        <property name="preferredDataSourceParams">
+			<list>
+				<value>datasource</value>
+			</list>
+		</property>
+		<property name="preferredDataSourceJndiParams">
+			<list>
+				<value>datasource.jndi.location</value>
+			</list>
+		</property>
+    </bean>
+    
+	<bean id="nonTransactionalDataSource" class="org.kuali.rice.core.database.PrimaryDataSourceFactoryBean">
+        <property name="preferredDataSourceParams">
+			<list>
+				<value>nonTransactionalDatasource</value>
+			</list>
+		</property>
+		<property name="preferredDataSourceJndiParams">
+			<list>
+				<value>nonTransactional.datasource.jndi.location</value>
+			</list>
+		</property>
+    </bean>
+
+    <bean id="persistenceService" class="org.kuali.rice.kns.service.impl.PersistenceServiceOjbImpl">
+      <property name="persistenceDao" ref="persistenceDao" />
+    </bean>
+
+	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+  
+  	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+  <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb" />
+
+  <bean id="userTransaction" class="org.kuali.rice.core.jta.UserTransactionFactoryBean" lazy-init="true" />
+
+  <bean id="jtaTransactionManager" class="org.kuali.rice.core.jta.TransactionManagerFactoryBean" lazy-init="true" />
+
+  <bean id="ojbConfigurer" class="org.kuali.rice.core.ojb.JtaOjbConfigurer">
+    <property name="transactionManager" ref="jtaTransactionManager" />
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+    <property name="userTransaction">
+      <ref local="userTransaction" />
+    </property>
+    <property name="transactionManager">
+      <ref local="jtaTransactionManager" />
+    </property>
+  </bean>
+
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+	<bean id="advisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="classFilter" ref="transactionAdvisorClassFilter" />
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
+
+	<bean id="transactionAdvisorClassFilter" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationFilter">
+		<constructor-arg value="org.springframework.transaction.annotation.Transactional" />
+	</bean>
+
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="transactionAttributeSource" />
+	</bean>
+
+	<bean id="transactionAttributeSource" class="org.kuali.rice.kns.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
+		<property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
+		<property name="transactionTimeout" value="${transaction.timeout}" />
+	</bean>
+
+	<bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+	
+	<!-- batch transactional settings -->
+    <!--bean id="batchAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="classFilter" ref="batchTransactionAdvisorClassFilter" />
+		<property name="transactionInterceptor" ref="batchTransactionInterceptor" />
+	</bean>
+
+	<bean id="batchTransactionAdvisorClassFilter" class="org.kuali.kfs.sys.context.BatchStepClassFilter"/>
+
+	<bean id="batchTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="batchTransactionAttributeSource" />
+	</bean>
+	
+	<bean id="batchTransactionAttributeSource" class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource">
+		<property name="transactionAttribute">
+		    <bean class="org.springframework.transaction.interceptor.DefaultTransactionAttribute">
+		        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW"/>
+		        <property name="timeout" value="${batch.transaction.timeout}"/>
+		    </bean>
+		</property>
+	</bean>-->
+
+ 	<bean id="methodCacheAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="methodCacheInterceptor" />
+		<property name="pointcut" ref="methodCachePointcut" />
+	</bean>
+
+    <bean id="methodCacheNoCopyAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="methodCacheNoCopyInterceptor" />
+        <property name="pointcut" ref="methodCacheNoCopyPointcut" />
+    </bean>
+
+	<bean id="methodCacheInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheInterceptor">
+		<property name="cache" ref="methodCache" />
+		<property name="expirationTimeInSeconds">
+			<value>${kns.cache.methodresult.max.age.seconds}</value>
+		</property>
+	</bean>
+
+    <bean id="methodCacheNoCopyInterceptor" class="org.kuali.rice.kns.util.cache.MethodCacheNoCopyInterceptor">
+        <property name="cache" ref="methodCacheNoCopy" />
+        <property name="expirationTimeInSeconds">
+            <value>${kns.cache.methodresult.nocopy.max.age.seconds}</value>
+		</property>
+	</bean>
+
+	<bean id="methodCache" factory-bean="methodResultsCacheAdministrator" factory-method="getCache" />
+
+	<bean id="methodResultsCacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy">
+		<constructor-arg index="0">
+			<props>
+				<prop key="cache.memory">true</prop>
+				<prop key="cache.key">__oscache_mrcache</prop>
+				<prop key="cache.persistence.overflow.only">false</prop>
+				<prop key="cache.capacity">${kns.cache.methodresult.max.size}</prop>
+				<prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheMonitor</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+
+    <bean id="methodCacheNoCopy" factory-bean="methodResultsCacheNoCopyAdministrator" factory-method="getCache" />
+
+    <bean id="methodResultsCacheNoCopyAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy">
+        <constructor-arg index="0">
+            <props>
+                <prop key="cache.memory">true</prop>
+                <prop key="cache.key">__oscache_mrcache</prop>
+                <prop key="cache.persistence.overflow.only">false</prop>
+                <prop key="cache.capacity">${kns.cache.methodresult.nocopy.max.size}</prop>
+                <prop key="cache.event.listeners">org.kuali.rice.kns.util.cache.MethodResultsCacheNoCopyMonitor</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
+	<bean id="methodCachePointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.rice.kns.util.spring.Cached" />
+	</bean>
+
+    <bean id="methodCacheNoCopyPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+        <constructor-arg value="org.kuali.rice.kns.util.spring.CacheNoCopy" />
+	</bean>
+
+	<bean id="methodLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="methodLoggingInterceptor" />
+		<property name="pointcut" ref="methodLoggingPointcut" />
+	</bean>
+
+	<bean id="methodLoggingInterceptor" class="org.kuali.rice.kns.util.spring.MethodLoggingInterceptor" />
+
+	<bean id="methodLoggingPointcut" class="org.kuali.rice.kns.util.spring.ClassOrMethodAnnotationPointcut">
+		<constructor-arg value="org.kuali.rice.kns.util.spring.Logged" />
+	</bean>
+	
+	<bean id="encryptionService" class="org.kuali.rice.core.service.impl.DemonstrationGradeEncryptionServiceImpl">
+		<property name="secretKey">
+			<value>${encryption.key}</value>
+		</property>
+	</bean>	
+	
+	<bean id="enEncryptionService" class="org.kuali.rice.core.service.impl.DemonstrationGradeEncryptionServiceImpl" lazy-init="true">      
+		<property name="secretKey">
+			<value>${encryption.key}</value>
+		</property>
+	</bean>
+	
+	<bean id="ksbJavaSecurityManagementService" class="org.kuali.rice.ksb.security.admin.service.impl.JavaSecurityManagementServiceImpl" lazy-init="true" >
+		<property name="moduleKeyStoreAlias" value="${keystore.alias}" />
+		<property name="moduleKeyStorePassword" value="${keystore.password}" />
+	</bean>	
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+		<property name="defaultLocale" value="${kfs.locale}" />
+	</bean>
+	
+</beans>

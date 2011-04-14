@@ -76,6 +76,9 @@
  <bean id="CustomerAgingReportDetail-reportRunDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
     <property name="name" value="reportRunDate"/>
     <property name="label" value="Report Run Date"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:datePicker="true" p:size="10" p:ranged="false"/>
+    </property>  
  </bean>
   
 <bean id="CustomerAgingReportDetail-customerName" parent="CustomerAgingReportDetail-customerName-parentBean"/>

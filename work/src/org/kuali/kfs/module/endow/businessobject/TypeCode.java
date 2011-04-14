@@ -243,4 +243,12 @@ public class TypeCode extends KualiCodeBase {
         return super.getCodeAndDescription();
     }
 
+    /**
+     * Gets the code for report
+     * 
+     * @return code
+     */
+    public String getCodeForReport() {
+        return code;
+    }
 }

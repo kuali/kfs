@@ -153,6 +153,6 @@ public class AccountBalanceInquirableImpl extends AbstractGeneralLedgerInquirabl
         parameter.put(Constant.AMOUNT_VIEW_OPTION, Constant.MONTHLY);
 
         String balanceTypeCode = (String) getUserDefinedAttributeMap().get(getAttributeName(attributeName));
-        parameter.put(KFSConstants.BALANCE_TYPE_PROPERTY_NAME, balanceTypeCode);
+        parameter.put(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypeCode);
     }
 }

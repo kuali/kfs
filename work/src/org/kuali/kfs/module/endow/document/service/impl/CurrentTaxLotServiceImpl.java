@@ -422,7 +422,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         // rule 3.b
         if (nextIncomeDueDate.before(fiscalYearEndDate)) {
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
-            long daysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate);
+            long daysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate, nextIncomeDueDate);
 
             amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
             amount = amount.multiply(BigDecimal.valueOf(daysToLastPayment));
@@ -436,12 +436,12 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     /**
      * Helper method to calculate the number of days to the last payment
      */
-    protected long getTotalDaysToLastPayment(Date lastPaymentDate) {
+    protected long getTotalDaysToLastPayment(Date lastPaymentDate, Date nextIncomeDueDate) {
         long totalDays = 0;
         long MILLISECS_PER_DAY = (1000*60*60*24) ; // total milliseconds in a day
         
         Calendar currentDateCalendar = Calendar.getInstance();
-        currentDateCalendar.setTime(getFiscalYearEndDate());
+        currentDateCalendar.setTime(kEMService.getCurrentDate());
         currentDateCalendar.set(Calendar.HOUR, 0);
         currentDateCalendar.set(Calendar.MINUTE, 0);
         currentDateCalendar.set(Calendar.SECOND, 0);
@@ -769,7 +769,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
             
             Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
 
-            long paymentsRemaining = getTotalPaymentsRemaining(lastPaymentDate, fiscalYearEndDate, incomePayFrequency);
+            long paymentsRemaining = getTotalPaymentsRemaining(lastPaymentDate, fiscalYearEndDate, incomePayFrequency, nextIncomeDueDate);
             
             long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
 
@@ -787,9 +787,9 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param lastPaymentDate, fiscalYearEndDate, incomePayFrequency
      * @return totalPaymentsRemaining
      */
-    protected long getTotalPaymentsRemaining(Date lastPaymentDate, Date fiscalYearEndDate, String incomePayFrequency) {
+    protected long getTotalPaymentsRemaining(Date lastPaymentDate, Date fiscalYearEndDate, String incomePayFrequency, Date nextIncomeDueDate) {
         long totalPaymentsRemaining = 0;
-        long totalDaysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate);
+        long totalDaysToLastPayment = getTotalDaysToLastPayment(lastPaymentDate, nextIncomeDueDate);
         
         String frequencyType = incomePayFrequency.substring(0, 1);
         
@@ -1071,10 +1071,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         }
         
         //other cases...
-        if (!EndowConstants.ClassCodeTypes.OTHER.equalsIgnoreCase(classCodeType)) {
-            holdingMarketValue = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getUnitValue(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-            return holdingMarketValue;            
-        }
+        holdingMarketValue =  KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getUnitValue(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
         
         return holdingMarketValue;
     }

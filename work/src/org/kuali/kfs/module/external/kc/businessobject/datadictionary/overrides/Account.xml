@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean parent="DataDictionaryBeanOverride">
+  	<property name="beanName" value="Account-inquiryDefinition" />
+  	<property name="fieldOverrides">
+  		<list>
+  			<bean parent="FieldOverrideForListElementInsert" >
+  				<property name="propertyName" value="inquirySections" />
+				<property name="propertyNameForElementCompare" value="title" />
+  				<property name="element">
+  					<bean parent="InquirySectionDefinition" p:title="Account Description"/>			    	
+			    </property>
+  				<property name="insertAfter">
+  					<list>
+			        <bean parent="InquirySectionDefinition" p:title="Contracts and Grants">
+			          <property name="inquiryFields">
+			            <list>
+			              <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>
+			              <bean parent="FieldDefinition" p:attributeName="contractControlAccountNumber"/>
+			              <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
+			              <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
+			              <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
+			              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>			              
+			              <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
+			            </list>
+			          </property>
+			        </bean>
+			    
+			        <bean parent="InquirySectionDefinition" p:title="Awards">
+			          <property name="inquiryFields">
+			            <list>
+			              <bean parent="InquiryCollectionDefinition" p:attributeName="awards" p:businessObjectClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
+			                <property name="inquiryFields">
+			                  <list>
+			                    <bean parent="FieldDefinition" p:attributeName="award.awardNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.awardTitle"/>
+			                    <bean parent="FieldDefinition" p:attributeName="projectDirectorName"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.primeAgency.reportingName"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.grantNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>			                    			                    
+			                    <bean parent="FieldDefinition" p:attributeName="award.cfdaNumber"/>
+			                  </list>
+			                </property>
+			              </bean>			              
+			             </list>
+			          </property>
+			       </bean>
+			       </list>			        
+  				</property>
+  			</bean>  		
+  		</list>
+  	</property>
+  </bean>
+</beans>

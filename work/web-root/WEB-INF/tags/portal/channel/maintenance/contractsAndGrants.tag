@@ -18,6 +18,12 @@
 <channel:portalChannelTop channelTitle="Contracts & Grants" />
 <div class="body">
 	<ul class="chan">
+
+ 	<c:choose>
+ 	<c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
+ 		<li><portal:portalLink displayTitle="true" title="CG Account Default" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </c:when>
+    <c:otherwise>
 		<li>
 			<portal:portalLink displayTitle="true" title="Agency"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Agency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -75,7 +81,9 @@
 		<li>
 			<portal:portalLink displayTitle="true" title="Sub-Contractor"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.SubContractor&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>		
+		</li>	
+	</c:otherwise>
+	</c:choose>
 	</ul>
 </div>
 <channel:portalChannelBottom />

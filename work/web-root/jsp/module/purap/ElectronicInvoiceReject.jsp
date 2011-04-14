@@ -235,7 +235,7 @@
 								    <kul:htmlControlAttribute
 									    attributeEntry="${documentAttributes.invoiceItemTaxAmount}"
 									    property="document.invoiceItemTaxAmount"
-									    readOnly="${true}" />
+									    readOnly="${not fullEntryMode || KualiForm.document.invoiceFileTaxInLineIndicator}" />									    
 								</td>
 							</tr>
 							<tr>

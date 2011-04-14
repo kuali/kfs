@@ -23,7 +23,7 @@
     	<property name="attributes">
       		<list>
         		<ref bean="FeeTransaction-feeMethodCode" />
-        		<ref bean="FeeTransaction-transactionTypeCode" />
+        		<ref bean="FeeTransaction-documentTypeName" />
 		        <ref bean="FeeTransaction-include" />
         		<ref bean="FeeTransaction-newCollectionRecord" />		        
       		</list>
@@ -36,10 +36,10 @@
 
   	<bean id="FeeTransaction-feeMethodCode-parentBean" abstract="true" parent="FeeMethodCodeBase-feeMethodCode">
 	</bean>
-	<bean id="FeeTransaction-transactionTypeCode" parent="FeeTransaction-transactionTypeCode-parentBean" />
+	<bean id="FeeTransaction-documentTypeName" parent="FeeTransaction-documentTypeName-parentBean" />
 
- 	<bean id="FeeTransaction-transactionTypeCode-parentBean" abstract="true" parent="TransactionArchive-typeCode">
-    	<property name="name" value="transactionTypeCode" />
+ 	<bean id="FeeTransaction-documentTypeName-parentBean" abstract="true" parent="TransactionArchive-typeCode">
+    	<property name="name" value="documentTypeName" />
     	<property name="label" value="Transaction Document Type" />
         <property name="forceUppercase" value="true" />
         <property name="required" value="true" />
@@ -69,7 +69,7 @@
               				<bean parent="FieldDefinition" 
               				      p:attributeName="feeMethodCode" />
               				<bean parent="FieldDefinition" 
-              				      p:attributeName="transactionTypeCode" />
+              				      p:attributeName="documentTypeName" />
               				<bean parent="FieldDefinition" 
               				      p:attributeName="include" />
             			</list>
@@ -86,14 +86,21 @@
   	<bean id="FeeTransaction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Fee Transaction Document Type Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>feeMethodCode</value>
+          	      <value>documentTypeName</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>
             	<bean parent="FieldDefinition" 
               		  p:attributeName="feeMethodCode" />
               	<bean parent="FieldDefinition" 
-              		  p:attributeName="transactionTypeCode" />
+              		  p:attributeName="documentTypeName" />
               	<bean parent="FieldDefinition" 
               		  p:attributeName="include" />
       		</list>
@@ -103,7 +110,7 @@
             	<bean parent="FieldDefinition" 
               		  p:attributeName="feeMethodCode" />
               	<bean parent="FieldDefinition" 
-              		  p:attributeName="transactionTypeCode" />
+              		  p:attributeName="documentTypeName" />
               	<bean parent="FieldDefinition" 
               		  p:attributeName="include" />
       		</list>

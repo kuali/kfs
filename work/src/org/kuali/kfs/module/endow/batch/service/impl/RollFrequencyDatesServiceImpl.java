@@ -31,10 +31,12 @@ import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
 import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
-import org.kuali.kfs.module.endow.document.service.FrequencyCodeService;
+import org.kuali.kfs.module.endow.document.service.FrequencyDatesService;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,7 +47,8 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RollFrequencyDatesServiceImpl.class);
     
     protected BusinessObjectService businessObjectService;
-    protected FrequencyCodeService frequencyCodeService;
+    protected KEMService kemService;
+    protected FrequencyDatesService frequencyDatesService;
     
     protected SecurityDao securityDao;
     protected FeeMethodDao feeMethodDao;
@@ -67,21 +70,21 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         
         // update Security Income Next Pay Dates
         updateSecurityIncomeNextPayDates();
-                       
+                  
         // update Tickler Next Due Dates
         updateTicklerNextDueDates();
         
-        // update Fee Next Process Dates
-        updateFeeProcessDates();
+        // update Fee Method Next Process Dates
+        updateFeeMethodProcessDates();
         
         // update Recurring Cash Transfer Next Process Dates
         updateRecurringCashTransferProcessDates();
-        
-        // update Cash Investment Model Next Due Dates
-        updateAutomatedCashInvestmentModelNextDueDates();
-        
+
         // update Cash Sweep Model Next Due Dates
         updateCashSweepModelNextDueDates();
+
+        // update Cash Investment Model Next Due Dates
+        updateAutomatedCashInvestmentModelNextDueDates();
         
         LOG.info("The batch Roll Frequncy Dates was finished.");
         
@@ -91,42 +94,69 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     /**
      * This method updates the income next pay dates in Security
      */
-    protected void updateSecurityIncomeNextPayDates() {
+    protected boolean updateSecurityIncomeNextPayDates() {
+        
+        boolean success = true;
         
         int counter = 0;
+        // get all the active security records whose next income pay date is equal to the current date
         List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
         if (securityRecords != null) {
             for (Security security : securityRecords) {
-                String frequencyCode = security.getIncomePayFrequency();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode);
-                if (nextDate != null) {
-                    security.setIncomeNextPayDate(nextDate);
-                    if (updateBusinessObject(security)) {
-                        counter++;
-                        generateTotalReport("END_SEC_T", counter);
-                    } else {
-                        LOG.error("Failed to update Security " + security.getId());
-                        generateExceptionReport("END_SEC_T", security.getId());
-                        
+
+                Date incomeNextPayDate = security.getIncomeNextPayDate();
+                
+                // if maturity date is equals to income next pay date, do nothing
+                Date maturityDate = security.getMaturityDate();                
+                if (ObjectUtils.isNotNull(maturityDate) && ObjectUtils.isNotNull(incomeNextPayDate)) {
+                    if (maturityDate.compareTo(incomeNextPayDate) == 0) {
+                        continue;
                     }
+                }
+                
+                // replace income next date
+                // first, with the next date calculated based on the frequency code
+                // if it is invalid, with the dividend pay date 
+                String frequencyCode = security.getIncomePayFrequency();
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate());
+                if (nextDate == null) {
+                    nextDate = security.getDividendPayDate();
+                    if (ObjectUtils.isNull(nextDate) || (ObjectUtils.isNotNull(incomeNextPayDate) && nextDate.compareTo(incomeNextPayDate) == 0)) {
+                        // we don't need to update income next pay date
+                        continue;
+                    }
+                }
+                // update income next pay date
+                security.setIncomeNextPayDate(nextDate);
+                if (updateBusinessObject(security)) {
+                    counter++;
+                    generateTotalReport("END_SEC_T", counter);
+                } else {
+                    LOG.error("Failed to update Security " + security.getId());
+                    generateExceptionReport("END_SEC_T", security.getId());
+                    success = false; 
                 }
             }
         }
         
-        LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter); 
+        LOG.info("Total Security Income Next Pay Dates updated in END_SEC_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next due dates in Tickler
      */
-    protected void updateTicklerNextDueDates() {
+    protected boolean updateTicklerNextDueDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<Tickler> ticklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
         if (ticklerRecords != null) {
             for (Tickler tickler : ticklerRecords) {
                 String frequencyCode = tickler.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     tickler.setNextDueDate(nextDate);
                     if (updateBusinessObject(tickler)) {
@@ -135,25 +165,30 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update Tickler " + tickler.getNumber());
                         generateExceptionReport("END_TKLR_T", tickler.getNumber());
+                        success = false;
                     }
                 }                
             }
         }
         
         LOG.info("Total Tickler Next Due Dates updated in END_TKLR_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next process dates in FeeMethod
      */
-    protected void updateFeeProcessDates() {
+    protected boolean updateFeeMethodProcessDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<FeeMethod> feeMethodRecords = feeMethodDao.getFeeMethodWithNextPayDateEqualToCurrentDate();
         if (feeMethodRecords != null) {
             for (FeeMethod feeMethod : feeMethodRecords) {                        
                 String frequencyCode = feeMethod.getFeeFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     feeMethod.setFeeLastProcessDate(feeMethod.getFeeNextProcessDate());
                     feeMethod.setFeeNextProcessDate(nextDate);
@@ -163,25 +198,30 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update FeeMethod " + feeMethod.getCode());
                         generateExceptionReport("END_FEE_MTHD_T", feeMethod.getCode());
+                        success = false;
                     }
                 }
             }
         }
         
         LOG.info("Total Fee Next Process Dates and Fee Last Process Dates updated in END_FEE_MTHD_T: " + counter);
+        
+        return success;
     }
     
     /**
      * This method updates the next process dates in EndowmentRecurringCashTransfer
      */
-    protected void updateRecurringCashTransferProcessDates() {
+    protected boolean updateRecurringCashTransferProcessDates() {
+        
+        boolean success = true;
         
         int counter = 0;
         List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
         if (recurringCashTransferRecords != null) {
             for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {                       
                 String frequencyCode = recurringCashTransfer.getFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     recurringCashTransfer.setLastProcessDate(recurringCashTransfer.getNextProcessDate());
                     recurringCashTransfer.setNextProcessDate(nextDate);
@@ -191,46 +231,27 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update EndowmentRecurringCashTransfer " + recurringCashTransfer.getTransferNumber());
                         generateExceptionReport("END_REC_CSH_XFR_T", recurringCashTransfer.getTransferNumber());
+                        success = false;
                     }
                 }                
             }
         }
         
         LOG.info("Total Next Process Dates and Last Process Dates updated in END_REC_CSH_XFR_T: " + counter);
+        
+        return success;
     }
-    
-    protected void updateAutomatedCashInvestmentModelNextDueDates() {
+ 
+    protected boolean updateCashSweepModelNextDueDates() {
+        
+        boolean success = true;
         
         int counter = 0;
-        List<AutomatedCashInvestmentModel> aciRecords = automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate();
-        if (aciRecords != null) {
-            for (AutomatedCashInvestmentModel aci : aciRecords) {                        
-                String frequencyCode = aci.getAciFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
-                if (nextDate != null) {
-                    aci.setAciNextDueDate(nextDate);
-                    if (updateBusinessObject(aci)) {
-                        counter++;
-                        generateTotalReport("END_AUTO_CSH_INVEST_MDL_T", counter);
-                    } else {
-                        LOG.error("Failed to update FeeMethod " + aci.getAciModelID());
-                        generateExceptionReport("END_AUTO_CSH_INVEST_MDL_T", aci.getAciModelID().toString());
-                    }
-                }
-            }
-        }
-        
-        LOG.info("Total ACI Next Due Dates updated in END_AUTO_CSH_INVEST_MDL_T: " + counter);
-    }
-
-    protected void updateCashSweepModelNextDueDates() {
-        
-        int counter = 0;
-        List<CashSweepModel> csmRecords = cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate();
+        List<CashSweepModel> csmRecords = cashSweepModelDao.getCashSweepModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
         if (csmRecords != null) {
             for (CashSweepModel csm : csmRecords) {                        
                 String frequencyCode = csm.getCashSweepFrequencyCode();           
-                Date nextDate = frequencyCodeService.calculateProcessDate(frequencyCode); 
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
                 if (nextDate != null) {
                     csm.setCashSweepNextDueDate(nextDate);
                     if (updateBusinessObject(csm)) {
@@ -239,12 +260,44 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
                     } else {
                         LOG.error("Failed to update FeeMethod " + csm.getCashSweepModelID());
                         generateExceptionReport("END_CSH_SWEEP_MDL_T", csm.getCashSweepModelID().toString());
+                        success = false;
                     }
                 }
             }
         }
        
         LOG.info("Total Cash Sweep Model Next Due Dates updated in END_CSH_SWEEP_MDL_T: " + counter);
+        
+        return success;
+    }
+    
+    protected boolean updateAutomatedCashInvestmentModelNextDueDates() {
+        
+        boolean success = true;
+        
+        int counter = 0;
+        List<AutomatedCashInvestmentModel> aciRecords = automatedCashInvestmentModelDao.getAutomatedCashInvestmentModelWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
+        if (aciRecords != null) {
+            for (AutomatedCashInvestmentModel aci : aciRecords) {                        
+                String frequencyCode = aci.getAciFrequencyCode();           
+                Date nextDate = frequencyDatesService.calculateNextDueDate(frequencyCode, kemService.getCurrentDate()); 
+                if (nextDate != null) {
+                    aci.setAciNextDueDate(nextDate);
+                    if (updateBusinessObject(aci)) {
+                        counter++;
+                        generateTotalReport("END_AUTO_CSH_INVEST_MDL_T", counter);
+                    } else {
+                        LOG.error("Failed to update FeeMethod " + aci.getAciModelID());
+                        generateExceptionReport("END_AUTO_CSH_INVEST_MDL_T", aci.getAciModelID().toString());
+                        success = false;
+                    }
+                }
+            }
+        }
+        
+        LOG.info("Total ACI Next Due Dates updated in END_AUTO_CSH_INVEST_MDL_T: " + counter);
+        
+        return success;
     }
     
     /**
@@ -312,6 +365,14 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     }
 
     /**
+     * Sets the kemService attribute value.
+     * @param kemService The kemService to set.
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
+    }
+    
+    /**
      * Sets the securityDao attribute value.
      * @param securityDao The securityDao to set.
      */
@@ -376,18 +437,18 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     }
     
     /**
-     * Gets the frequencyCodeService attribute. 
-     * @return Returns the frequencyCodeService.
+     * Gets the frequencyDatesService attribute. 
+     * @return Returns the frequencyDatesService.
      */
-    protected FrequencyCodeService getFrequencyCodeService() {
-        return frequencyCodeService;
+    protected FrequencyDatesService getFrequencyDatesService() {
+        return frequencyDatesService;
     }
 
     /**
-     * Sets the frequencyCodeService attribute value.
-     * @param frequencyCodeService The frequencyCodeService to set.
+     * Sets the frequencyDatesService attribute value.
+     * @param frequencyDatesService The frequencyDatesService to set.
      */
-    public void setFrequencyCodeService(FrequencyCodeService frequencyCodeService) {
-        this.frequencyCodeService = frequencyCodeService;
+    public void setFrequencyDatesService(FrequencyDatesService frequencyDatesService) {
+        this.frequencyDatesService = frequencyDatesService;
     }
 }

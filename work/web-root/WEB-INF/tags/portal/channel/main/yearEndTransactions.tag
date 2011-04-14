@@ -24,18 +24,20 @@
 		<li><portal:portalLink displayTitle="true" title="Year End General Error Correction" url="financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=YEGE" /></li>
 		<li><portal:portalLink displayTitle="true" title="Year End Transfer of Funds" url="financialYearEndTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=YETF" /></li>
     </ul>
-    <strong>Labor Distribution</strong><br />
-    <ul class="chan">
-	  	<li>
-			<portal:portalLink displayTitle="true"
-				title="Year End Benefit Expense Transfer"
-				url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
-		</li>
-		<li>
-			<portal:portalLink displayTitle="true"
-				title="Year End Salary Expense Transfer"
-				url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEST" />
-		</li>
-    </ul>
+    <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
+	    <strong>Labor Distribution</strong><br />
+	    <ul class="chan">
+		  	<li>
+				<portal:portalLink displayTitle="true"
+					title="Year End Benefit Expense Transfer"
+					url="laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEBT" />
+			</li>
+			<li>
+				<portal:portalLink displayTitle="true"
+					title="Year End Salary Expense Transfer"
+					url="laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=YEST" />
+			</li>
+	    </ul>
+    </c:if>
 </div>
 <channel:portalChannelBottom />

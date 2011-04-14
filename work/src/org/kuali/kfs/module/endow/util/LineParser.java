@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.purap.businessobject.PurApItem;
 
 /**
  * Defines an abstraction for parsing serialized <code>PurApItem</code> lines.

@@ -25,6 +25,7 @@
 <%@ attribute name="isAwarded" required="false" description="vendor has been awarded?" %>
 <%@ attribute name="isTransmitPrintDisplayed" required="false" description="vendor quote is ready to print?" %>
 <%@ attribute name="isTrasnmitted" required="false" description="PO transmitted to vendor?" %>
+<%@ attribute name="isPdfDisplayedToUserOnce" required="false" description="PDF shown to user at least one time?" %>
 
 <c:set var="tabindexOverrideBase" value="60" />
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
@@ -159,16 +160,18 @@
 					alt="transmit quote" title="transmit quote" 
 					styleClass="tinybutton" />
 		<c:if test="${isTransmitPrintDisplayed}">
-		<script language ="javascript">
-			window.onload = dothis();
-    		function dothis() {
-				_win = window.open('purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}', 'printpopdf');
-			}
-		</script>
-		Transmit information saved.
-		<a href="purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}" target="_BLANK">
-			Click here to print Quote.
-		</a>
+			<c:if test="${isPdfDisplayedToUserOnce eq false}">		
+			<script language ="javascript">
+				window.onload = dothis();
+	    		function dothis() {
+					_win = window.open('purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}', 'printpopdf');
+				}
+			</script>
+			</c:if>
+			Transmit information saved.
+			<a href="purapPrint.do?poDocNumber=${KualiForm.document.documentHeader.documentNumber}&vendorQuoteId=${KualiForm.document.purchaseOrderVendorQuotes[ctr].purchaseOrderVendorQuoteIdentifier}" target="_BLANK">
+				Click here to print Quote.
+			</a>
 		</c:if>
 		</c:if>
 	</td>

@@ -34,19 +34,19 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     public BudgetPullupDaoJdbc() {
         
         StringBuilder sqlText = new StringBuilder(500);
-        sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
+        sqlText.append("INSERT INTO LD_BCN_PULLUP_T \n");
         sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
         sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
-        sqlText.append("FROM ld_bcn_org_rpts_t r \n");
+        sqlText.append("FROM LD_BCN_ORG_RPTS_T r \n");
         sqlText.append("WHERE fin_coa_cd = ? \n");
         sqlText.append("  AND org_cd = ? \n");
         initPointOfViewTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
-        sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
+        sqlText.append("INSERT INTO LD_BCN_PULLUP_T \n");
         sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
         sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
-        sqlText.append("FROM ld_bcn_org_rpts_t r, ld_bcn_pullup_t p, ca_org_t o \n");
+        sqlText.append("FROM LD_BCN_ORG_RPTS_T r, LD_BCN_PULLUP_T p, CA_ORG_T o \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("  AND p.pull_flag = ? \n");
         sqlText.append("  AND p.fin_coa_cd = r.rpts_to_fin_coa_cd \n");
@@ -58,7 +58,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         insertChildOrgTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
-        sqlText.append("UPDATE ld_bcn_pullup_t \n");
+        sqlText.append("UPDATE LD_BCN_PULLUP_T \n");
         sqlText.append("SET pull_flag = 0 \n");
         sqlText.append("WHERE person_unvl_id = ? \n");
         insertChildOrgTemplates[1] = sqlText.toString();

@@ -81,7 +81,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.setAmount(assetPayment.getAccountChargeAmount());
     }
     
-
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -97,6 +96,24 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         m.put("projectCode",getProjectCode());
         m.put("postingYear",this.getPostingYear().toString());
         return m;
+    }
+    
+    /**
+     * Create a key including the 
+     * <li><b>expenditureFinancialDocumentNumber</b></li>
+     * <li><b>expenditureFinancialDocumentTypeCode</b></li>
+     * with accounting information for asset payment distribution
+     * 
+     * Make sure the full accounting line information is part of the key
+     * chartOfAccount, accountNumber, subAccountNumber, objectCode, subObjectCode, projectCode 
+     * 
+     * @return
+     */
+    public String getAssetPaymentDetailKey() {
+        LinkedHashMap<String,String> m = toStringMapper();
+        m.put("expenditureFinancialDocumentTypeCode",this.getExpenditureFinancialDocumentTypeCode());
+        m.put("expenditureFinancialDocumentNumber",this.getExpenditureFinancialDocumentNumber());
+        return toStringBuilder(m);
     }
 
     public String getExpenditureFinancialSystemOriginationCode() {

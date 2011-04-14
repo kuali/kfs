@@ -153,7 +153,15 @@
   	<bean id="KemidSpecialInstruction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Special Instruction Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>kemid</value>
+          	      <value>instructionSeq</value>
+          	      <value>agreementSpecialInstructionCode</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

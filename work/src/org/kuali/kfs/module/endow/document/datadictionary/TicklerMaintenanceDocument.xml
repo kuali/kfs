@@ -112,7 +112,7 @@
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="securities" />
           <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TicklerSecurity"/>
-          <property name="summaryTitle" value="KEMID" />
+          <property name="summaryTitle" value="Security ID" />
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" 

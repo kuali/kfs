@@ -86,7 +86,7 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
         
         return currentDate;
     }
-
+    
     /**
      * Method to calculate the next processing week date based on the frequency type
      * adds the appropriate number of days to the current date
@@ -158,7 +158,7 @@ public class FrequencyCodeServiceImpl implements FrequencyCodeService {
         
         return new java.sql.Date(calendar.getTimeInMillis());
     }
-   
+    
     /**
      * Method to calculate the next processing monthly date based on the frequency type
      * Sets the day in the calendar based on day part of the frequency code.

@@ -130,7 +130,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param document
      * @return true if valid, false otherwise
      */
-    private boolean hasAtLeastOneTransactionLine(EndowmentTransactionLinesDocumentBase document) {
+    protected boolean hasAtLeastOneTransactionLine(EndowmentTransactionLinesDocumentBase document) {
 
         List<EndowmentTransactionLine> transactionLineList = new ArrayList<EndowmentTransactionLine>();
         transactionLineList.addAll(document.getSourceTransactionLines());
@@ -169,7 +169,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param endowmentTransactionLinesDocument
      * @return true if valid, false otherwise
      */
-    private boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
+    protected boolean hasOnlySourceOrTargetTransactionLines(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument) {
         boolean isValid = true;
 
         boolean hasSourceTransLines = endowmentTransactionLinesDocument.getSourceTransactionLines() != null && endowmentTransactionLinesDocument.getSourceTransactionLines().size() > 0;
@@ -222,7 +222,7 @@ public class EndowmentUnitShareAdjustmentDocumentRules extends EndowmentTransact
      * @param index
      * @return true if there are tax lots that meet the criteria, false otherwise
      */
-    private boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
+    protected boolean validateKemidHasTaxLots(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine transLine, int index) {
         boolean isValid = true;
         HoldingTaxLotService holdingTaxLotService = SpringContext.getBean(HoldingTaxLotService.class);
         EndowmentUnitShareAdjustmentDocument unitShareAdjustmentDocument = (EndowmentUnitShareAdjustmentDocument) endowmentTransactionLinesDocument;

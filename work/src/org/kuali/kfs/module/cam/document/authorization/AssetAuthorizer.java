@@ -26,6 +26,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * AssetAuthorizer for Asset edit.
+ * @see org.kuali.kfs.module.cam.businessobject.authorization.AssetInquiryAuthorizer
  */
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     @Override

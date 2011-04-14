@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="KFS401" id="KFS_40_KC_FIX_COL_LENGTH">
+		<comment>Fix column length on auto-creation defaults table</comment>
+	    <modifyColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+			<column name="CONTR_CTRLACCT_NBR" type="VARCHAR2(7)" />
+		</modifyColumn>
+        <modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+	    </modifySql>
+	</changeSet>
+
+  <changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_T_AddColumn">
+		<comment>KFSMI-6552 create an incrementing ID for account creation default table</comment>
+		<dropPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" />
+		<modifyColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+			<column name="KC_UNIT">
+				<constraints nullable="false" />
+			</column>
+		</modifyColumn>
+		<addColumn tableName="CA_ACCT_AUTO_CREATE_DFLT_T">
+		  <column name="ACCT_DFLT_ID" type="NUMBER(22)" />
+		</addColumn>
+		<addPrimaryKey tableName="CA_ACCT_AUTO_CREATE_DFLT_T" constraintName="CA_ACCT_AUTO_CREATE_DFLT_PK"
+						columnNames="ACCT_DFLT_ID" />		
+        <modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+	    </modifySql>
+   </changeSet>
+
+	<changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_SEQ_oracle" dbms="oracle">
+    	<createSequence sequenceName="CA_ACCT_AUTO_CREATE_DFLT_SEQ"/>
+  	</changeSet>
+   
+	<changeSet author="KFS401" id="KFS_401_CA_ACCT_AUTO_CREATE_DFLT_SEQ_mysql" dbms="mysql">
+	  	<createTable tableName="CA_ACCT_AUTO_CREATE_DFLT_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+  	</changeSet>
+   
+</databaseChangeLog>
+	

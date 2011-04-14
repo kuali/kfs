@@ -429,7 +429,7 @@ public class PosterServiceImpl implements PosterService {
                     writeErrorEntry(line, invalidGroup);
                 }
                 catch (IOException ioe) {
-                    LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage());
+                    LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage(), ioe);
                     throw new RuntimeException("PosterServiceImpl Stopped: " + ioe.getMessage(), ioe);
                 }
             }
@@ -473,12 +473,12 @@ public class PosterServiceImpl implements PosterService {
             return false;
         }
         catch (IOException ioe) {
-            LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage());
+            LOG.error("PosterServiceImpl Stopped: " + ioe.getMessage(), ioe);
             throw new RuntimeException("PosterServiceImpl Stopped: " + ioe.getMessage(), ioe);
 
         }
         catch (RuntimeException re) {
-            LOG.error("PosterServiceImpl Stopped: " + re.getMessage());
+            LOG.error("PosterServiceImpl Stopped: " + re.getMessage(), re);
             throw new RuntimeException("PosterServiceImpl Stopped: " + re.getMessage(), re);
         }
     }

@@ -118,7 +118,6 @@ public class CashSweepModel extends PersistableBusinessObjectBase implements Ina
      * @param sweepIncomeCashLimit
      */
     public void setSweepIncomeCashLimit(BigDecimal sweepIncomeCashLimit) {
-        System.out.println("sweepIncomeCashLimit="+sweepIncomeCashLimit);
         this.sweepIncomeCashLimit = sweepIncomeCashLimit;
     }
     

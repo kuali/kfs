@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="SecurityModelMaintenanceDocument" parent="SecurityModelMaintenanceDocument-parentBean"/>
+
+  <bean id="SecurityModelMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModel"/>
+    <property name="maintainableClass" value="org.kuali.kfs.sec.document.SecurityModelMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SecurityModelMaintenanceDocument-EditSecurityModel"/>
+        <ref bean="SecurityModelMaintenanceDocument-EditModelDefinitions"/>
+        <ref bean="SecurityModelMaintenanceDocument-EditModelMembers"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:collection="modelDefinitions" p:attributeName="securityDefinition" p:attributeToHighlightOnFail="definitionId"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="SecurityModelMaintenanceDocument"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.sec.document.validation.impl.SecurityModelRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="SecurityModelMaintenanceDocument-workflowAttributes"/>
+    </property> 
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="SecurityModelMaintenanceDocument-EditSecurityModel" parent="SecurityModelMaintenanceDocument-EditSecurityModel-parentBean"/>
+
+  <bean id="SecurityModelMaintenanceDocument-EditSecurityModel-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Security Model"/>
+    <property name="title" value="Edit Security Model"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sec.businessobject.defaultvalue.NextSecurityModelIdFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" p:readOnlyAfterAdd="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModelMaintenanceDocument-EditModelDefinitions" parent="SecurityModelMaintenanceDocument-EditModelDefinitions-parentBean"/>
+
+  <bean id="SecurityModelMaintenanceDocument-EditModelDefinitions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Model Definitions"/>
+    <property name="title" value="Edit Model Definitions"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="modelDefinitions"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelDefinition"/>
+          <property name="summaryTitle" value="Edit Model Definition"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="securityDefinition.name" />
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="modelDefinitionId" p:required="true" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="definitionId" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="securityDefinition.name" p:required="true" p:readOnlyAfterAdd="true" p:lookupReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="constraintCode" p:required="true" p:defaultValue="A"/>
+              <bean parent="MaintainableFieldDefinition" p:name="operatorCode" p:required="true" p:defaultValue="="/>
+              <bean parent="MaintainableFieldDefinition" p:name="attributeValue" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="overrideDeny" p:defaultValue="false"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+  
+  <bean id="SecurityModelMaintenanceDocument-EditModelMembers" parent="SecurityModelMaintenanceDocument-EditModelMembers-parentBean"/>
+
+  <bean id="SecurityModelMaintenanceDocument-EditModelMembers-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Model Members"/>
+    <property name="title" value="Edit Model Members"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="modelMembers"/>
+          <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelMember"/>
+          <property name="summaryTitle" value="Edit Model Member"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="memberTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="memberId"/>
+            </list>
+          </property>
+          <property name="duplicateIdentificationFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="memberTypeCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="memberId"/>
+            </list>
+          </property>                 
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="memberTypeCode" p:required="true" p:readOnlyAfterAdd="true" p:noLookup="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="memberId" p:required="true" p:readOnlyAfterAdd="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="memberName" p:required="false" p:unconditionallyReadOnly="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="false"/>
+              <bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="false"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>   
+
+  <!-- workflow attributes -->
+  
+  <bean id="SecurityModelMaintenanceDocument-workflowAttributes" parent="SecurityModelMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="SecurityModelMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+	
+</beans>

@@ -186,7 +186,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
         
         Collection <CurrentTaxLotBalance> currentTaxLotBalanceRecords = getCurrentTaxLotBalances(feeMethod);
         for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalanceRecords) {
-            totalHoldingUnits.add(currentTaxLotBalance.getUnits());    
+            totalHoldingUnits = totalHoldingUnits.add(currentTaxLotBalance.getUnits());    
         }
         
         return totalHoldingUnits;
@@ -200,7 +200,7 @@ public class CurrentTaxLotBalanceDaoOjb extends PlatformAwareDaoBaseOjb implemen
         
         Collection <CurrentTaxLotBalance> currentTaxLotBalanceRecords = getCurrentTaxLotBalances(feeMethod);
         for (CurrentTaxLotBalance currentTaxLotBalance : currentTaxLotBalanceRecords) {
-            totalHoldingMarkteValue.add(currentTaxLotBalance.getMarketValue());    
+            totalHoldingMarkteValue = totalHoldingMarkteValue.add(currentTaxLotBalance.getMarketValue());    
         }
         
         return totalHoldingMarkteValue;

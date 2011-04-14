@@ -1,0 +1,211 @@
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+    <bean id="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="SourceAccountingLine-account.organizationCode" parent="SourceAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="SourceAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>
+  
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode" parent="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="objectCode.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="TargetAccountingLine-account.organizationCode" parent="TargetAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="TargetAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>    
+    
+    <bean id="AccountBalance-objectCode.financialObjectLevelCode" parent="AccountBalance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="AccountBalance-account.organizationCode" parent="AccountBalance-account.organizationCode-parentBean"/>
+    <bean id="AccountBalance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>  
+    
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode" parent="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="AccountBalanceByConsolidation-account.organizationCode" parent="AccountBalanceByConsolidation-account.organizationCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>  
+    
+    <bean id="AccountBalanceByLevel-objectCode.financialObjectLevelCode" parent="AccountBalanceByLevel-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalanceByLevel-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="AccountBalanceByLevel-account.organizationCode" parent="AccountBalanceByLevel-account.organizationCode-parentBean"/>
+    <bean id="AccountBalanceByLevel-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>   
+    
+    <bean id="AccountBalanceByObject-objectCode.financialObjectLevelCode" parent="AccountBalanceByObject-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalanceByObject-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="AccountBalanceByObject-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalanceByObject-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalanceByObject-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="AccountBalanceByObject-account.organizationCode" parent="AccountBalanceByObject-account.organizationCode-parentBean"/>
+    <bean id="AccountBalanceByObject-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>        
+    
+    <bean id="CashBalance-objectCode.financialObjectLevelCode" parent="CashBalance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="CashBalance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="CashBalance-account.organizationCode" parent="CashBalance-account.organizationCode-parentBean"/>
+    <bean id="CashBalance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>               
+ 
+    <bean id="Balance-objectCode.financialObjectLevelCode" parent="Balance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Balance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Balance-account.organizationCode" parent="Balance-account.organizationCode-parentBean"/>
+    <bean id="Balance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>    
+    
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode" parent="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="GeneralLedgerPendingEntry-account.organizationCode" parent="GeneralLedgerPendingEntry-account.organizationCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>      
+    
+    <bean id="Entry-objectCode.financialObjectLevelCode" parent="Entry-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Entry-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Entry-account.organizationCode" parent="Entry-account.organizationCode-parentBean"/>
+    <bean id="Entry-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean> 
+    
+    <bean id="Encumbrance-objectCode.financialObjectLevelCode" parent="Encumbrance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Encumbrance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Encumbrance-account.organizationCode" parent="Encumbrance-account.organizationCode-parentBean"/>
+    <bean id="Encumbrance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>   
+    
+    <bean id="AccountDelegate-account.organizationCode" parent="AccountDelegate-account.organizationCode-parentBean"/>
+    <bean id="AccountDelegate-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>   
+    
+    <bean id="ObjectCode-financialObjectLevel.financialConsolidationObjectCode" parent="ObjectCode-financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="ObjectCode-financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+    
+    <bean id="SubAccount-account.organizationCode" parent="SubAccount-account.organizationCode-parentBean"/>
+    <bean id="SubAccount-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean> 
+    
+    <bean id="SubObjectCode-objectCode.financialObjectLevelCode" parent="SubObjectCode-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="SubObjectCode-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="SubObjectCode-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="SubObjectCode-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="SubObjectCode-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="SubObjectCode-account.organizationCode" parent="SubObjectCode-account.organizationCode-parentBean"/>
+    <bean id="SubObjectCode-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>                                               
+</beans>        

@@ -94,50 +94,65 @@ public class SchedulerServiceImpl implements SchedulerService {
         jobListener.setSchedulerService(this);
         try {
             scheduler.addGlobalJobListener(jobListener);
-        }
-        catch (SchedulerException e) {
+        } catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        JobDescriptor jobDescriptor;
         for (ModuleService moduleService : kualiModuleService.getInstalledModuleServices()) {
-            if ( LOG.isInfoEnabled() ) {
-                LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
-            }
-            if ( moduleService.getModuleConfiguration().getJobNames() != null ) { 
-                for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
-                    try {
-                        if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
-                            jobDescriptor = new JobDescriptor();
-                            jobDescriptor.setBeanName(jobName);
-                            jobDescriptor.setGroup(SCHEDULED_GROUP);
-                            jobDescriptor.setDurable(false);
-                            externalizedJobDescriptors.put(jobName, jobDescriptor);
-                        }
-                        else {
-                            jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
-                        }
-                        jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
-                        loadJob(jobDescriptor);
-                    } catch (NoSuchBeanDefinitionException ex) {
-                        LOG.error("unable to find job bean definition for job: " + ex.getBeanName());
-                    } catch ( Exception ex ) {
-                        LOG.error( "Unable to install " + jobName + " job into scheduler.", ex );
+            initializeJobsForModule(moduleService);
+            initializeTriggersForModule(moduleService);
+        }
+    }
+    /**
+     * Initializes all of the jobs into Quartz for the given ModuleService
+     * @param moduleService the ModuleService implementation to initalize jobs for
+     */
+    protected void initializeJobsForModule(ModuleService moduleService) {
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
+        }
+        JobDescriptor jobDescriptor;
+        if ( moduleService.getModuleConfiguration().getJobNames() != null ) { 
+            for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
+                try {
+                    if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
+                        jobDescriptor = new JobDescriptor();
+                        jobDescriptor.setBeanName(jobName);
+                        jobDescriptor.setGroup(SCHEDULED_GROUP);
+                        jobDescriptor.setDurable(false);
+                        externalizedJobDescriptors.put(jobName, jobDescriptor);
                     }
-                }
-            }
-            if ( moduleService.getModuleConfiguration().getTriggerNames() != null ) {
-                for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
-                    try {
-                        addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
-                    } catch (NoSuchBeanDefinitionException ex) {
-                        LOG.error("unable to find trigger definition: " + ex.getBeanName());
-                    } catch ( Exception ex ) {
-                        LOG.error( "Unable to install " + triggerName + " trigger into scheduler.", ex );
+                    else {
+                        jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
                     }
+                    jobDescriptor.setNamespaceCode(moduleService.getModuleConfiguration().getNamespaceCode());
+                    loadJob(jobDescriptor);
+                } catch (NoSuchBeanDefinitionException ex) {
+                    LOG.error("unable to find job bean definition for job: " + ex.getBeanName());
+                } catch ( Exception ex ) {
+                    LOG.error( "Unable to install " + jobName + " job into scheduler.", ex );
                 }
             }
         }
     }
+
+    /**
+     * Loops through all the triggers associated with the given module service, adding each trigger to Quartz
+     * @param moduleService the ModuleService instance to initialize triggers for
+     */
+    protected void initializeTriggersForModule(ModuleService moduleService) {
+        if ( moduleService.getModuleConfiguration().getTriggerNames() != null ) {
+            for (String triggerName : moduleService.getModuleConfiguration().getTriggerNames()) {
+                try {
+                    addTrigger(BatchSpringContext.getTriggerDescriptor(triggerName).getTrigger());
+                } catch (NoSuchBeanDefinitionException ex) {
+                    LOG.error("unable to find trigger definition: " + ex.getBeanName());
+                } catch ( Exception ex ) {
+                    LOG.error( "Unable to install " + triggerName + " trigger into scheduler.", ex );
+                }
+            }
+        }
+    }
+
 
     protected void loadJob(JobDescriptor jobDescriptor) {
         JobDetail jobDetail = jobDescriptor.getJobDetail();

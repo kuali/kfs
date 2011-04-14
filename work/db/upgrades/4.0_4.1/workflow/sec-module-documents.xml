@@ -1,0 +1,35 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>AccessSecuritySimpleMaintenanceDocument</name>
+			<label>Access Security Simple Maintenance Documents</label>
+			<parent>FSSM</parent>
+		</documentType>
+		<documentType>
+			<name>SecurityAttributeMaintenanceDocument</name>
+			<label>Security Attribute</label>
+			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fattribute.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SecurityDefinitionMaintenanceDocument</name>
+			<label>Security Definition</label>
+			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fdefinition.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SecurityModelMaintenanceDocument</name>
+			<label>Security Model</label>
+			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fmodel.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>SecurityPrincipalMaintenanceDocument</name>
+			<label>Security Principal</label>
+			<parent>AccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fprincipal.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>
+</data>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+	<changeSet author="KFS401" id="SECURITY_MODULE_TABLES">
+		<comment>Install the new tables for the security module.</comment>
+		
+		<createTable tableName="SEC_SCRTY_ATTR_T">
+			<column name="ATTR_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_ATTR_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_ATTR_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ATTR_NM" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="SEC_SCRTY_DEFN_T">
+			<column name="DEFN_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_DEFN_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_DEFN_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="DEFN_NM" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="DEFN_DESC_TXT" type="VARCHAR2(400)" />
+			<column name="ROLE_ID" type="VARCHAR2(40)" />
+			<column name="ATTR_ID" type="NUMBER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_VIEW_ACCT_LINE_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_EDIT_ACCT_LINE_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_VIEW_DOC_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_EDIT_DOC_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_VIEW_NTE_ATT_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_LU_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_GL_INQ_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="RSTR_LD_INQ_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<createTable tableName="SEC_SCRTY_DEFN_DOC_TYP_T">
+			<column name="DEFN_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_DEFN_DOC_TYP_TP1" />
+			</column>
+			<column name="DOC_TYP_NM" type="VARCHAR2(64)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_DEFN_DOC_TYP_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_DEFN_DOC_TYP_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="SEC_SCRTY_MDL_T">
+			<column name="MDL_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_MDL_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_MDL_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="MDL_NM" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="MDL_DESC_TXT" type="VARCHAR2(400)" />
+			<column name="ROLE_ID" type="VARCHAR2(40)" />
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="SEC_SCRTY_MDL_DEFN_T">
+			<column name="MDL_DEFN_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_MDL_DEFN_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_MDL_DEFN_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="MDL_ID" type="NUMBER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="DEFN_ID" type="NUMBER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CONS_CD" type="VARCHAR2(1)" defaultValue="A">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPR_CD" type="VARCHAR2(2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ATTR_VAL" type="VARCHAR2(400)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OVRD_DNY_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="SEC_SCRTY_MDL_MBR_T">
+			<column name="MDL_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_MDL_MBR_TP1" />
+			</column>
+			<column name="MBR_ID" type="VARCHAR2(40)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_MDL_MBR_TP1" />
+			</column>
+			<column name="MBR_TYP_CD" type="CHAR(1)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_MDL_MBR_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_MDL_MBR_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_FRM_DT" type="DATE" />
+			<column name="ACTV_TO_DT" type="DATE" />
+		</createTable>
+
+		<createTable tableName="SEC_SCRTY_PRNCPL_T">
+			<column name="PRNCPL_ID" type="VARCHAR2(40)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_PRNCPL_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_PRNCPL_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="SEC_SCRTY_PRNCPL_DEFN_T">
+			<column name="PRNCPL_DEFN_ID" type="NUMBER(10)">
+				<constraints primaryKey="true" primaryKeyName="SEC_SCRTY_PRNCPL_DEFN_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="SEC_SCRTY_PRNCPL_DEFN_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="DEFN_ID" type="NUMBER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="PRNCPL_ID" type="VARCHAR2(40)">
+				<constraints nullable="false" />
+			</column>
+			<column name="CONS_CD" type="VARCHAR2(1)" defaultValue="A">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPR_CD" type="VARCHAR2(2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ATTR_VAL" type="VARCHAR2(400)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OVRD_DNY_IND" type="CHAR(1)" defaultValue="N">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="CHAR(1)" defaultValue="Y">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<modifySql dbms="mysql">
+			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+
+
+	<changeSet author="KFS401" id="SECURITY_MODULE_SEQUENCES_oracle" dbms="oracle">
+		<createSequence sequenceName="SEC_SCRTY_DEFN_ID_SEQ" startValue="1" incrementBy="1" ordered="true"/>
+		<createSequence sequenceName="SEC_SCRTY_MDL_ID_SEQ" startValue="1" incrementBy="1" ordered="true"/>
+		<createSequence sequenceName="SEC_SCRTY_MDL_DEFN_ID_SEQ" startValue="1" incrementBy="1" ordered="true"/>
+		<createSequence sequenceName="SEC_SCRTY_PRNCPL_DEFN_ID_SEQ" startValue="1" incrementBy="1" ordered="true"/>
+	</changeSet>
+	
+	<changeSet author="KFS401" id="SECURITY_MODULE_SEQUENCES_mysql" dbms="mysql">
+	  	<createTable tableName="SEC_SCRTY_DEFN_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="SEC_SCRTY_MDL_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="SEC_SCRTY_MDL_DEFN_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<createTable tableName="SEC_SCRTY_PRNCPL_DEFN_ID_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
+	  			<constraints nullable="false" primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE MyISAM"/>
+	  	</modifySql>
+  	</changeSet>
+	
+</databaseChangeLog>

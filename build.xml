@@ -170,9 +170,14 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 
 	<target name="clean" depends="clean-project,clean-local" description="Remove all build output" />
 
-	<target name="init-property-files" depends="check-for-kfs-build">
-		<echo message="Reading Properties: ${local.env.config.file}" />
-		<property file="${local.env.config.file}" />
+	<target name="init-property-files">
+		<if>
+			<available file="${user.home}/${ant.project.name}-build.properties" />
+			<then>
+				<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
+				<property file="${user.home}/${ant.project.name}-build.properties" />
+			</then>
+		</if>
 		<if>
 			<available file="${institution.build.properties.file}" />
 			<then>
@@ -215,116 +220,207 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<property file="${properties.directory}/b2b.properties" />
 	</target>
 	
-	<target name="init-properties" depends="init-property-files">
+	<target name="init-properties" depends="init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties" />
+		
+	<target name="init-base-properties" depends="init-property-files">
 		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
-		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><isset property="is.local.build" /></condition>
-		<property name="context.docbase" value="" />
+		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"' else="">
+			<isset property="is.local.build" />
+		</condition>
+
+		<condition property="appenders" value="INFO, LogFile, StdOut" else="INFO, LogFile"><isset property="is.local.build" /></condition>
 		
-		<condition property="datasource.url" value="${mysql.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.url" value="${oracle.datasource.url}" />
-		<condition property="use.p6spy.local">
+		<condition property="use.quartz.jdbc.jobstore" value="false" else="true"><isset property="is.local.build" /></condition>
+
+		<condition property="distributable.tag" value="&lt;distributable /&gt;" else="">
+			<istrue value="${is.clustered}"/>
+		</condition>
+		
+		<!-- update the lib paths for the app server based on the tomcat version -->
+	    <if>
+	        <equals arg1="5" arg2="${tomcat.version}" trim="true" />
+	        <then>
+	            <property name="appserver.lib.dir" value="${appserver.home}/common/lib" />
+	            <property name="appserver.classes.dir" value="${appserver.home}/common/classes" />
+	        </then>
+        </if>
+		<!-- default to this version unless 5 selected --> 
+        <property name="appserver.lib.dir" value="${appserver.home}/lib" />
+        <property name="appserver.classes.dir" value="${appserver.home}/lib" />
+		
+	</target>
+	
+	<target name="init-database-properties" depends="init-property-files">
+		<condition property="datasource.url" value="${mysql.datasource.url}" else="${oracle.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="use.p6spy.local" value="true">
 			<and>
 			    <isset property="is.local.build" />
-				<equals arg1="${use.p6spy}" arg2="true" />
+				<istrue value="${use.p6spy}" />
 			</and>
 		</condition>
-		<condition property="rice.standalone.flag">
-			<equals arg1="${rice.standalone}" arg2="true" />
+		<!-- (all other uses presently commented out)
+		<condition property="rice.standalone.flag" value="true">
+			<istrue arg1="${rice.standalone}" />
 		</condition>
-		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
-		<condition property="datasource.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.driver.class" value="${oracle.driver.class}" />
-		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
-		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />		
-		
-		<condition property="appenders" value="INFO, LogFile, StdOut"><isset property="is.local.build" /></condition>
-		<property name="appenders" value="INFO, LogFile" />
-		
-		<condition property="use.quartz.jdbc.jobstore" value="false"><isset property="is.local.build" /></condition>
-		<property name="use.quartz.jdbc.jobstore" value="true" />
-		
-		<condition property="b2b.environment" value="${b2b.production.environment}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.environment" value="${b2b.test.environment}" />
-		<condition property="b2b.purchase.order.password" value="${b2b.production.purchase.order.password}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.purchase.order.password" value="${b2b.test.purchase.order.password}" />
-		<condition property="b2b.shopping.password" value="${b2b.production.shopping.password}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.shopping.password" value="${b2b.test.shopping.password}" />
-		<condition property="b2b.purchase.order.url" value="${b2b.production.purchase.order.url}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.purchase.order.url" value="${b2b.test.purchase.order.url}" />
-		<condition property="b2b.punch.back.url" value="${b2b.production.punch.back.url}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.punch.back.url" value="${b2b.test.punch.back.url}" />
-		<condition property="b2b.punch.out.url" value="${b2b.production.punch.out.url}">
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		<property name="b2b.punch.out.url" value="${b2b.test.punch.out.url}" />
+		-->
+		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><isset property="use.p6spy.local" /></condition>
+		<condition property="datasource.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}" else="${oracle.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 
-		<condition property="real.notifications.enabled" value="true" else="false" >
-			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
-		</condition>
-		
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
-		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="rice.server.datasource.platform" value="${oracle.server.datasource.platform}" />
-		<condition property="rice.dev.mode" value="false"><equals arg1="${rice.standalone}" arg2="true" /></condition>
-		<condition property="rice.dev.mode" value="true"><isset property="is.local.build" /></condition>
-		<property name="rice.dev.mode" value="false" />		
+		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+
+		<property name="cas.datasource.url" value="${datasource.url}" />
+		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
+	</target>
+
+	<target name="init-spring-properties" depends="init-property-files">
+		<!-- need to build up internal strings for the properties, since we can only set each property once
+			   we need to build all the components of the string, setting them to blank if we don't want that piece. -->
+		
+		<!-- check if the various optional modules are being included -->
+		<condition property="internal.contracts.and.grants.spring.files" value="${contracts.and.grants.spring.files}" else="">
+			<istrue value="${module.contracts.and.grants.enabled}"/>
+		</condition>
+		<condition property="internal.kuali.coeus.spring.files" value="${kuali.coeus.spring.files}" else="">
+			<istrue value="${module.external.kuali.coeus.enabled}"/>
+		</condition>
+		<condition property="internal.accounts.receivable.spring.files" value="${accounts.receivable.spring.files}" else="">
+			<istrue value="${module.accounts.receivable.enabled}"/>
+		</condition>
+		<condition property="internal.purchasing.spring.files" value="${purchasing.spring.files}" else="">
+			<istrue value="${module.purchasing.enabled}"/>
+		</condition>
+		<condition property="internal.capital.asset.spring.files" value="${capital.asset.spring.files}" else="">
+			<istrue value="${module.capital.asset.enabled}"/>
+		</condition>
+		<condition property="internal.labor.distribution.spring.files" value="${labor.distribution.spring.files}" else="">
+			<istrue value="${module.labor.distribution.enabled}"/>
+		</condition>
+		<condition property="internal.endowment.spring.files" value="${endowment.spring.files}" else="">
+			<istrue value="${module.endowment.enabled}"/>
+		</condition>
+
+		<!-- Do the same for the test configurations for the optional modules -->
+		<condition property="internal.contracts.and.grants.spring.test.files" value="${contracts.and.grants.spring.test.files}" else="">
+			<istrue value="${module.contracts.and.grants.enabled}"/>
+		</condition>
+		<condition property="internal.accounts.receivable.spring.test.files" value="${accounts.receivable.spring.test.files}" else="">
+			<istrue value="${module.accounts.receivable.enabled}"/>
+		</condition>
+		<condition property="internal.purchasing.spring.test.files" value="${purchasing.spring.test.files}" else="">
+			<istrue value="${module.purchasing.enabled}"/>
+		</condition>
+		<condition property="internal.capital.asset.spring.test.files" value="${capital.asset.spring.test.files}" else="">
+			<istrue value="${module.capital.asset.enabled}"/>
+		</condition>
+		<condition property="internal.labor.distribution.spring.test.files" value="${labor.distribution.spring.test.files}" else="">
+			<istrue value="${module.labor.distribution.enabled}"/>
+		</condition>
+		<condition property="internal.endowment.spring.test.files" value="${endowment.spring.test.files}" else="">
+			<istrue value="${module.endowment.enabled}"/>
+		</condition>
+		
+		<!-- Access security files - these are split into three files, since pieces 
+			 affect the KFS Code, the LD optional module, and Rice -->
+		<condition property="internal.access.security.core.spring.files" value="${access.security.core.spring.files}" else="">
+			<istrue value="${module.access.security.enabled}"/>
+		</condition>
+		<condition property="internal.access.security.ld.spring.files" value="${access.security.ld.spring.files}" else="">
+			<and>
+				<istrue value="${module.access.security.enabled}"/>
+				<istrue value="${module.labor.distribution.enabled}"/>
+			</and>
+		</condition>
+		<condition property="internal.access.security.purap.spring.files" value="${access.security.purap.spring.files}" else="">
+			<and>
+				<istrue value="${module.access.security.enabled}"/>
+				<istrue value="${module.purchasing.enabled}"/>
+			</and>
+		</condition>
+		<condition property="internal.access.security.rice.spring.files" value="${access.security.rice.spring.files}" else="">
+			<istrue value="${module.access.security.enabled}"/>
+		</condition>
+		
+		<!-- see if we need to include the additional batch server configuration -->
+        <condition property="internal.batch.spring.files" value="${batch.spring.files}" else="">
+    		<istrue value="${use.quartz.scheduling}" />
+        </condition>
+		
+		<!-- build the optional module spring files lists, but defer to ones set by the institution -->
+		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}" />
+		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}" />
+		
+		<!-- set the final properties used by the server (placed into configuration.properties) -->
+		<property name="spring.source.files"
+				  value="${core.spring.source.files}${internal.access.security.core.spring.files}${integration.spring.files}${optional.module.spring.source.files}${institution.spring.source.files}" />
+		<property name="spring.test.files" 
+			      value="${core.spring.test.files}${optional.module.spring.test.files}${institution.spring.test.files}" />	
+        <property name="kfs.rice.override.spring.files" 
+        		  value="${base.kfs.rice.override.spring.files}${internal.access.security.rice.spring.files}${internal.batch.spring.files}" />
+	</target>
+	
+	<target name="init-rice-properties" depends="init-property-files">
+		<condition property="rice.dev.mode" value="false"><istrue value="${rice.standalone}" /></condition>
+		<condition property="rice.dev.mode" value="true" else="false"><isset property="is.local.build" /></condition>
 		<!-- <rice module>.mode... 
 		    # local - used in development - embedding everything, including web content
 		    # embedded - using standalone rice server but running KEW / KIM services locally
 			# remote - accessing KIM core services over the KSB - not currently supported by KFS for KEW - KSB is always local  -->
 		<condition property="kim.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
 		<condition property="kew.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
-		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}">
-		    <equals arg1="${rice.standalone}" arg2="true" />
+		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}" else="${application.url}">
+		    <istrue value="${rice.standalone}" />
 		</condition>
-        <property name="rice.url" value="${application.url}"/>
         <property name="rice.kr.url" value="${rice.url}/${rice.application}"/>
         <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
         <property name="rice.kew.url" value="${rice.url}/${kew.application}"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
-		<condition property="rice.ksb.message.persistence" value="false"><isset property="is.local.build" /></condition>
-		<property name="rice.ksb.message.persistence" value="true" />
-		<condition property="rice.ksb.use.quartz.database" value="true">
+		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
+		<condition property="rice.ksb.use.quartz.database" value="true" else="false">
 			<and>
-				<equals arg1="${use.quartz.scheduling}" arg2="true" />
-			    <equals arg1="${use.quartz.jdbc.jobstore}" arg2="true" />
+				<istrue value="${use.quartz.scheduling}" />
+			    <istrue value="${use.quartz.jdbc.jobstore}" />
 			</and>
 		</condition>
-		<property name="rice.ksb.use.quartz.database" value="false" />
-		<condition property="rice.kew.exception.routing.immediate" value="true"><equals arg1="${use.quartz.scheduling}" arg2="false" /></condition>
-		<property name="rice.kew.exception.routing.immediate" value="false" />
-        <condition property="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files},spring-kfs-batch.xml"><equals arg1="${use.quartz.scheduling}" arg2="true"/></condition>
-        <property name="kfs.rice.override.spring.files" value="${base.kfs.rice.override.spring.files}" />
-		
-		<property name="cas.datasource.url" value="${datasource.url}" />
-		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
+		<condition property="rice.kew.exception.routing.immediate" value="true" else="false"><isfalse value="${use.quartz.scheduling}" /></condition>
 
-	   <if>
-		   <equals arg1="true" arg2="${is.clustered}" casesensitive="false" trim="true" />
-		   <then>
-			   <property name="distributable.tag" value="&lt;distributable /&gt;"/>
-		   </then>
-		   <else>
-			   <property name="distributable.tag" value=""/>
-		   </else>
-	   </if>
-               
+		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
+	
+	</target>
 
+	<target name="init-b2b-properties" depends="init-property-files">
+		<condition property="b2b.environment" value="${b2b.production.environment}" else="${b2b.test.environment}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.purchase.order.identity" value="${b2b.production.purchase.order.identity}" else="${b2b.test.purchase.order.identity}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.purchase.order.password" value="${b2b.production.purchase.order.password}" else="${b2b.test.purchase.order.password}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.shopping.identity" value="${b2b.production.shopping.identity}" else="${b2b.test.shopping.identity}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.shopping.password" value="${b2b.production.shopping.password}" else="${b2b.test.shopping.password}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.purchase.order.url" value="${b2b.production.purchase.order.url}" else="${b2b.test.purchase.order.url}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.punch.back.url" value="${b2b.production.punch.back.url}" else="${b2b.test.punch.back.url}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+		<condition property="b2b.punch.out.url" value="${b2b.production.punch.out.url}" else="${b2b.test.punch.out.url}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
+	</target>
+
+	<target name="init-other-properties" depends="init-property-files">
 		<loadfile property="configuration" srcfile="${build.project.directory}/${configuration.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
 	    	<and>
@@ -362,20 +458,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
         </if>
 		
 		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
-		
-		<!-- update the lib paths for the app server based on the tomcat version -->
-	    <if>
-	        <equals arg1="6" arg2="${tomcat.version}" trim="true" />
-	        <then>
-	            <property name="appserver.lib.dir" value="${appserver.home}/lib" />
-	            <property name="appserver.classes.dir" value="${appserver.home}/lib" />
-	        </then>
-            <else> <!-- default back to Tomcat 5 locations -->
-	            <property name="appserver.lib.dir" value="${appserver.home}/common/lib" />
-	            <property name="appserver.classes.dir" value="${appserver.home}/common/classes" />
-            </else>
-        </if>
 		
 	</target>
 
@@ -962,8 +1044,21 @@ The workflow files you want to run must exist in the pending subdirectory and wi
         </java>
         
     </target>
+
+	<target name="extract-rice-libraries" depends="init-properties,init-additional-properties">
+		<delete verbose="true" failonerror="false">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</delete>
+
+		<unzip dest="${build.rice.lib.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
+		    <mapper type="flatten"/>
+		</unzip>
+	</target>
 	
-	<target name="build-eclipse-classpath" depends="init-properties,init-additional-properties">
+	<target name="build-eclipse-classpath" depends="init-properties">
 		<!-- this property is here to make it easy to test without replacing the classpath -->
 		<property name="classpath.file" value=".classpath"/>
     	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />
@@ -977,12 +1072,19 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<fileset dir="${test.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
 			<fileset dir="${build.directory}"  includes="log4j*.jar" />
 		</path>		  		
-		<for param="jarname">
+
+		<!-- Convert paths to unix format for replacement -->
+		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
+			<path location="${basedir}" />
+		</pathconvert>
+		<pathconvert property="kfs.library.jars.safe" dirsep="/" pathsep=";">
 			<path refid="kfs.library.jars" />
+		</pathconvert>
+		<for list="${kfs.library.jars.safe}" param="jarname" delimiter=";">
 			<sequential>
 				<propertyregex property="file" 
 							 	input="@{jarname}" 
-							 	regexp="${basedir}/" 
+							 	regexp="${basedir.safe}/" 
 							 	replace="" 
 							 	override="true" />
 				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}" />
@@ -998,12 +1100,21 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<fileset dir="${build.appserver.directory}" includes="${runtime.only.jars}" />
 			<fileset dir="${test.lib.directory}" includes="${runtime.only.jars}" />
 		</path>		  		
-		<for param="jarname">
+
+		<!-- Convert paths to unix format for replacement -->
+		<pathconvert property="kfs.runtime.library.jars.safe" targetos="unix">
 			<path refid="kfs.runtime.library.jars" />
+		</pathconvert>
+		<path id="unix.kfs.runtime.library.jars">
+		   <pathelement path="${kfs.runtime.library.jars.safe}" />
+		</path>
+
+		<for param="jarname">
+			<path refid="unix.kfs.runtime.library.jars" />
 			<sequential>
 				<propertyregex property="file" 
 							 	input="@{jarname}" 
-							 	regexp="${basedir}/" 
+							 	regexp="${basedir.safe}/" 
 							 	replace="" 
 							 	override="true" />
 				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}">

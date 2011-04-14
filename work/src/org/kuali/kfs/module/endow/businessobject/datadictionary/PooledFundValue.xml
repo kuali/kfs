@@ -261,14 +261,18 @@
 
     <property name="defaultSort" >
       <bean parent="SortDefinition">
+      	<property name="attributeNames" >
+          <list>
+            <value>pooledSecurityID</value>
+            <value>valueEffectiveDate</value>
+          </list>
+        </property>
       </bean>
     </property>
     <property name="lookupFields" >
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="pooledSecurityID" />
-<!--              p:noLookup="true"  -->
-		 
         <bean parent="FieldDefinition"
               p:attributeName="valueEffectiveDate" />
         <bean parent="FieldDefinition"

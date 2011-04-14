@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.BalanceCalculator;
@@ -29,6 +31,7 @@ import org.kuali.kfs.gl.businessobject.CashBalance;
 import org.kuali.kfs.gl.businessobject.inquiry.CashBalanceInquirableImpl;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -36,6 +39,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 
 /**
  * An extension of KualiLookupableImpl to support cash lookups
@@ -218,6 +224,26 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
      */
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
+    }
+
+    @Override
+    public List<Row> getRows() {
+        // TODO Auto-generated method stub
+        List<Row> rows = super.getRows();
+        
+        //look for field and replace BO class
+        for (Iterator iter = rows.iterator(); iter.hasNext();) {
+            Row row = (Row) iter.next();                
+            for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
+                    Field field = (Field) iterator.next();
+                    
+                    if(ObjectUtils.isNotNull(field) && StringUtils.equalsIgnoreCase(field.getPropertyName(), KFSPropertyConstants.ACCOUNT_NUMBER)){                        
+                        field.setQuickFinderClassNameImpl(Account.class.getName());
+                    }
+            }
+        }
+        
+        return rows;
     }
 
 }

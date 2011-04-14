@@ -34,7 +34,9 @@
         		<ref bean="KemidBenefittingOrganization-benefittingChartCode-desc"/>
         		<ref bean="KemidBenefittingOrganization-benefittingOrgCode-desc" />
         		<ref bean="KemidBenefittingOrganization-benefittingChartCode.codeAndDescription"/>   
-        		<ref bean="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription"/>     		        		
+        		<ref bean="KemidBenefittingOrganization-benefittingOrgCode.codeAndDescription"/>
+        		<ref bean="KemidBenefittingOrganization-benefittingChartCodeForReport" />
+		        <ref bean="KemidBenefittingOrganization-benefittingOrgCodeForReport" />     		        		
       		</list>
     	</property>
 	</bean>
@@ -73,7 +75,7 @@
 
  	<bean id="KemidBenefittingOrganization-benefittingChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
     	<property name="name" value="benefittingChartCode" />
-    	<property name="label" value="Benefitting Chart" />
+    	<property name="label" value="Benefitting Organziation Chart" />
   	</bean>  	
   	<bean id="KemidBenefittingOrganization-benefittingChartCode-desc" parent="KemidBenefittingOrganization-benefittingChartCode-desc-parentBean" />
 
@@ -140,6 +142,26 @@
 
   	<bean id="KemidBenefittingOrganization-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   	</bean>
+  	
+  	<bean id="KemidBenefittingOrganization-benefittingOrgCodeForReport" parent="KemidBenefittingOrganization-benefittingOrgCode-parentBean" >
+  	  	<property name="name" value="benefittingOrgCodeForReport" />
+  	  	<property name="label" value="Benefitting Organization" />
+        <property name="shortLabel" value="Benefitting Organization" />
+  		<property name="maxLength" value="150" />
+  		<property name="control">
+     		<bean parent="TextControlDefinition" p:size="100"/>
+    	</property>
+  	</bean>
+  	
+  	<bean id="KemidBenefittingOrganization-benefittingChartCodeForReport" parent="KemidBenefittingOrganization-benefittingChartCode-parentBean" >
+  	  	<property name="name" value="benefittingChartCodeForReport" />
+  	  	<property name="label" value="Benefitting Organization Chart" />
+        <property name="shortLabel" value="Benefitting Organization Chart" />
+  		<property name="maxLength" value="150" />
+  		<property name="control">
+     		<bean parent="TextControlDefinition" p:size="100"/>
+    	</property>
+  	</bean>
   
 <!-- Business Object Inquiry Definition -->
 
@@ -182,7 +204,16 @@
   	<bean id="KemidBenefittingOrganization-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     	<property name="title" value="Benefitting Organization Lookup" />    
     	<property name="defaultSort">
-	      	<bean parent="SortDefinition" />
+	      	<bean parent="SortDefinition">
+	      	  <property name="attributeNames" >
+                <list>
+          	      <value>kemid</value>
+                  <value>benefittingOrgSeqNumber</value>
+                  <value>benefittingChartCode</value>
+                  <value>benefittingOrgCode</value>
+                </list>
+              </property>
+	      	</bean>
     	</property>
     	<property name="lookupFields">
       		<list>

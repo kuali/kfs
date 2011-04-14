@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="SecKimAttributes" parent="SecKimAttributes-parentBean" />
+  <bean id="SecKimAttributes-parentBean" abstract="true" parent="KfsKimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.kfs.sec.identity.SecKimAttributes"
+        p:objectLabel="Access Security KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="SecKimAttributes-constraintCode" />
+        <ref bean="SecKimAttributes-operator" />
+        <ref bean="SecKimAttributes-propertyValue" />
+        <ref bean="SecKimAttributes-overrideDeny" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecKimAttributes-constraintCode" parent="SecKimAttributes-constraintCode-parentBean"/>
+  <bean id="SecKimAttributes-constraintCode-parentBean" abstract="true" parent="SecurityModelDefinition-constraintCode">
+    <property name="name" value="constraintCode"/>
+  </bean>  
+
+  <bean id="SecKimAttributes-operator" parent="SecKimAttributes-operator-parentBean"/>
+  <bean id="SecKimAttributes-operator-parentBean" abstract="true" parent="SecurityModelDefinition-operatorCode">
+    <property name="name" value="operator"/>
+  </bean>
+  
+  <bean id="SecKimAttributes-propertyValue" parent="SecKimAttributes-propertyValue-parentBean"/>
+  <bean id="SecKimAttributes-propertyValue-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="propertyValue"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Property Value"/>
+    <property name="shortLabel" value="Value"/>
+    <property name="maxLength" value="400"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="40"/>
+    </property>
+  </bean>
+  
+  <bean id="SecKimAttributes-overrideDeny" parent="SecKimAttributes-overrideDeny-parentBean"/>
+  <bean id="SecKimAttributes-overrideDeny-parentBean" abstract="true" parent="SecurityModelDefinition-overrideDeny">
+    <property name="name" value="overrideDeny"/>
+  </bean>  
+
+</beans>

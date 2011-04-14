@@ -81,6 +81,8 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
         if( isFirstDayOfFiscalYear() ){
                         
             updateCorpusDao.updateKemIdCorpusPriorYearValues();                        
+        }else{
+            LOG.info("updateKemIdCorpusPriorYearValues() skipped - not first day of fiscal year");
         }
         
     }
@@ -98,13 +100,13 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
     }
     
     /**
-     * Update the field PRIN_MVAL for every record in Current Endowment Corpus with
-     * a the field Prin at Market from Current Balance table 
+     * Update the field PRIN_MVAL for every record in KEMID Corpus with
+     * a the field Prin at Market from KEMID CRNT BAL view 
      * 
      */
     protected void runProcess3(){
         
-        updateCorpusDao.updateCurrentCorpusPrincipalMarketValue();
+        updateCorpusDao.updateKemIdCorpusPrincipalMarketValue();
         
     }
 
@@ -118,6 +120,8 @@ public class UpdateCorpusServiceImpl implements UpdateCorpusService {
         if( isLastDayOfFiscalYear() ){
             
             updateCorpusDao.updateEndowmentCorpusWithCurrentEndowmentCorpus(currentDate);
+        }else{
+            LOG.info("updateEndowmentCorpusWithCurrentEndowmentCorpus() skipped - not last day of fiscal year");
         }
         
     }

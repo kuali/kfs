@@ -16,12 +16,13 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -32,6 +33,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetOrganization;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.AssetTransferDocument;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetObjectCodeService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -87,6 +89,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     private AssetPaymentService assetPaymentService;
     private AssetObjectCodeService assetObjectCodeService;
     private DateTimeService dateTimeService;
+    private AssetLocationService assetLocationService;
 
 
     /**
@@ -114,6 +117,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
             postable.setSubAccountNumber(null);
         }
+        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
         postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
@@ -121,7 +126,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         postable.setProjectCode(assetPayment.getProjectCode());
         postable.setOrganizationReferenceId(assetPayment.getOrganizationReferenceId());
 
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, objectCode.getFinancialObjectSubTypeCode());
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
         LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
@@ -134,15 +139,18 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     public void createGLPostables(AssetTransferDocument document) {
         document.clearGlPostables();
         // Create GL entries only for capital assets
+        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+
         Asset asset = document.getAsset();
         if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
+   
             String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
             if (finObjectSubTypeCode == null) {
                 AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
-                firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-                finObjectSubTypeCode = firstAssetPayment.getFinancialObject().getFinancialObjectSubTypeCode();
+                ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(), firstAssetPayment.getFinancialObjectCode());
+                finObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
             }
             boolean movableAsset = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
             if (isGLPostable(document, asset, movableAsset)) {
@@ -256,10 +264,12 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         else {
             srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
+        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+
         for (AssetPayment assetPayment : assetPayments) {
             if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
-                assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-                if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
+                 ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
+                if (ObjectUtils.isNotNull(objectCode)) {
                     if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
                         document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
@@ -444,6 +454,11 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
         offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
         offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
+        
+        // remove off Campus Location if it's an empty record. When asset transfer from off to on campus, the off campus location will be removed.
+        if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) { 
+            saveAsset.getAssetLocations().remove(offCampusLocation); 
+        }
     }
 
 
@@ -524,5 +539,23 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the assetLocationService attribute.
+     * 
+     * @return Returns the assetLocationService
+     */
+    public AssetLocationService getAssetLocationService() {
+        return assetLocationService;
+    }
+
+    /**
+     * Sets the assetLocationService attribute.
+     * 
+     * @param assetLocationService  The assetLocationService to set
+     */
+    public void setAssetLocationService(AssetLocationService assetLocationService) {
+        this.assetLocationService = assetLocationService;
     }
 }

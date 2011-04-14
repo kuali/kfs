@@ -340,6 +340,10 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <property name="attributeNames" >
           <list>
             <value>kemid</value>
+            <value>securityId</value>
+            <value>registrationCode</value>
+            <value>lotNumber</value>
+            <value>incomePrincipalIndicator</value>
           </list>
         </property>
       </bean>

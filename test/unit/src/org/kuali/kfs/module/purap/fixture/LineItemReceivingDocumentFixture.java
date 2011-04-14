@@ -27,7 +27,7 @@ public enum LineItemReceivingDocumentFixture {
 
     // Receiving Line FIXTURES
     EMPTY_LINE_ITEM_RECEIVING(
-            "",//carrierCode
+            null,//carrierCode
             "",//shipmentPackingSlipNumber,
             "",//shipmentReferenceNumber,
             "",//shipmentBillOfLadingNumber,
@@ -56,19 +56,19 @@ public enum LineItemReceivingDocumentFixture {
             "",//deliveryToPhoneNumber,
             new Date(108, 7, 11),//deliveryRequiredDate,
             "",//deliveryInstructionText,
-            "",//deliveryRequiredDateReasonCode,    
+            null,//deliveryRequiredDateReasonCode,    
             new Integer(0),//alternateVendorHeaderGeneratedIdentifier,
             new Integer(0),//alternateVendorDetailAssignedIdentifier,
             "",//alternateVendorName,        
             false,//deliveryBuildingOther,
-            "",//vendorNumber,
+            null,//vendorNumber,
             new Integer(0),//vendorAddressGeneratedIdentifier,
-            "",//alternateVendorNumber
+            null,//alternateVendorNumber
             new Integer(0),//purchaseOrderIdentifier
             new LineItemReceivingItemFixture[] {} //lineItemReceivingItemFixtures
         ),    
     REQUIRED_FIELDS(
-        "",//carrierCode
+        null,//carrierCode
         "",//shipmentPackingSlipNumber,
         "",//shipmentReferenceNumber,
         "",//shipmentBillOfLadingNumber,
@@ -104,7 +104,7 @@ public enum LineItemReceivingDocumentFixture {
         false,//deliveryBuildingOther,
         "1000-0",//vendorNumber,
         new Integer(1000),//vendorAddressGeneratedIdentifier,
-        "",//alternateVendorNumber
+        null,//alternateVendorNumber
         new Integer(0),//purchaseOrderIdentifier
         new LineItemReceivingItemFixture[] { //lineItemReceivingItemFixtures
             LineItemReceivingItemFixture.NORMAL_ITEM_1 }

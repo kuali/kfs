@@ -904,6 +904,9 @@
         <property name="ledgerEntryBalanceCachingDao">
         	<ref bean="glLedgerEntryBalanceCachingDao" />
         </property>
+        <property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
         
         <property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
     </bean>
@@ -1128,14 +1131,7 @@
 
 	<bean id="glBalanceHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceHistoryDaoOjb" />
 	
-	<bean id="glLedgerEntryBalanceCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerEntryBalanceCachingDaoJdbc">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
-	</bean>
+	<bean id="glLedgerEntryBalanceCachingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.batch.dataaccess.impl.LedgerEntryBalanceCachingDaoJdbc" />
 
 	<bean id="glLedgerBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
 

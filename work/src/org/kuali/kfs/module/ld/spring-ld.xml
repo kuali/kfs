@@ -200,14 +200,7 @@
 
     <bean id="laborLedgerEntryBalanceCachingDao" parent="platformAwareDaoJdbc"
         class="org.kuali.kfs.module.ld.batch.dataaccess.impl.LaborLedgerEntryBalanceCachingDaoJdbc"
-    >
-        <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-        <property name="universityDateService">
-            <ref bean="universityDateService" />
-        </property>
-    </bean>
+    />
 
     <bean id="laborBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborBalancingDaoJdbc" />
 
@@ -492,6 +485,10 @@
         <property name="reportWriterService">
             <ref bean="laborBalancingReportWriterService" />
         </property>
+        <property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
     </bean>
 

@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.batch.dataaccess.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ import org.kuali.kfs.sys.batch.dataaccess.impl.AbstractPreparedStatementCachingD
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedStatementCachingDaoJdbc implements LedgerPreparedStatementCachingDao {
-    static final Map<String,String> sql = new HashMap<String,String>();
+    static final Map<String, String> sql = new HashMap<String, String>();
     static {
         sql.put(RETRIEVE_PREFIX + Integer.class, "select max(trn_entr_seq_nbr) from GL_ENTRY_T where univ_fiscal_yr = ? and fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? and fin_object_cd = ? and fin_sub_obj_cd = ? and fin_balance_typ_cd = ? and fin_obj_typ_cd = ? and univ_fiscal_prd_cd = ? and fdoc_typ_cd = ? and fs_origin_cd = ? and fdoc_nbr = ?");
         sql.put(RETRIEVE_PREFIX + Balance.class, "select ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, CONTR_GR_BB_AC_AMT, MO1_ACCT_LN_AMT, MO2_ACCT_LN_AMT, MO3_ACCT_LN_AMT, MO4_ACCT_LN_AMT, MO5_ACCT_LN_AMT, MO6_ACCT_LN_AMT, MO7_ACCT_LN_AMT, MO8_ACCT_LN_AMT, MO9_ACCT_LN_AMT, MO10_ACCT_LN_AMT, MO11_ACCT_LN_AMT, MO12_ACCT_LN_AMT, MO13_ACCT_LN_AMT from GL_BALANCE_T where UNIV_FISCAL_YR = ? and FIN_COA_CD = ? and ACCOUNT_NBR = ? and SUB_ACCT_NBR = ? and FIN_OBJECT_CD = ? and FIN_SUB_OBJ_CD = ? and FIN_BALANCE_TYP_CD = ? and FIN_OBJ_TYP_CD = ?");
@@ -57,7 +58,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         sql.put(INSERT_PREFIX + Entry.class, "INSERT INTO GL_ENTRY_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, TRN_POST_DT, TIMESTAMP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         sql.put(INSERT_PREFIX + Reversal.class, "INSERT INTO GL_REVERSAL_T (FDOC_REVERSAL_DT, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, FDOC_TYP_CD, FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, TRN_ENCUM_UPDT_CD, TRN_POST_DT) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     }
-    
+
     @Override
     protected Map<String, String> getSql() {
         return sql;
@@ -80,13 +81,14 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(11, t.getFinancialSystemOriginationCode());
                 preparedStatement.setString(12, t.getDocumentNumber());
             }
+
             @Override
             protected Integer extractResult(ResultSet resultSet) throws SQLException {
                 return resultSet.getInt(1);
             }
         }.get(Integer.class);
     }
-    
+
     public AccountBalance getAccountBalance(final Transaction t) {
         return new RetrievingJdbcWrapper<AccountBalance>() {
             @Override
@@ -98,6 +100,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(5, t.getFinancialObjectCode());
                 preparedStatement.setString(6, t.getFinancialSubObjectCode());
             }
+
             @Override
             protected AccountBalance extractResult(ResultSet resultSet) throws SQLException {
                 AccountBalance accountBalance = new AccountBalance();
@@ -115,32 +118,32 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(AccountBalance.class);
     }
 
-    public void insertAccountBalance(final AccountBalance accountBalance) {
+    public void insertAccountBalance(final AccountBalance accountBalance, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<AccountBalance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
-               preparedStatement.setInt(1, accountBalance.getUniversityFiscalYear());
-               preparedStatement.setString(2, accountBalance.getChartOfAccountsCode());
-               preparedStatement.setString(3, accountBalance.getAccountNumber());
-               preparedStatement.setString(4, accountBalance.getSubAccountNumber());
-               preparedStatement.setString(5, accountBalance.getObjectCode());
-               preparedStatement.setString(6, accountBalance.getSubObjectCode());
-               preparedStatement.setBigDecimal(7, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
-               preparedStatement.setBigDecimal(8, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
-               preparedStatement.setBigDecimal(9, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
-               preparedStatement.setTimestamp(10, dateTimeService.getCurrentTimestamp());               
-           }
+                preparedStatement.setInt(1, accountBalance.getUniversityFiscalYear());
+                preparedStatement.setString(2, accountBalance.getChartOfAccountsCode());
+                preparedStatement.setString(3, accountBalance.getAccountNumber());
+                preparedStatement.setString(4, accountBalance.getSubAccountNumber());
+                preparedStatement.setString(5, accountBalance.getObjectCode());
+                preparedStatement.setString(6, accountBalance.getSubObjectCode());
+                preparedStatement.setBigDecimal(7, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
+                preparedStatement.setBigDecimal(8, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
+                preparedStatement.setBigDecimal(9, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
+                preparedStatement.setTimestamp(10, currentTimestamp);
+            }
         }.execute(AccountBalance.class);
     }
 
-    public void updateAccountBalance(final AccountBalance accountBalance) {
+    public void updateAccountBalance(final AccountBalance accountBalance, final Timestamp currentTimestamp) {
         new UpdatingJdbcWrapper<AccountBalance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
                 preparedStatement.setBigDecimal(1, accountBalance.getCurrentBudgetLineBalanceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(2, accountBalance.getAccountLineActualsBalanceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(3, accountBalance.getAccountLineEncumbranceBalanceAmount().bigDecimalValue());
-                preparedStatement.setTimestamp(4, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(4, currentTimestamp);
                 preparedStatement.setInt(5, accountBalance.getUniversityFiscalYear());
                 preparedStatement.setString(6, accountBalance.getChartOfAccountsCode());
                 preparedStatement.setString(7, accountBalance.getAccountNumber());
@@ -148,7 +151,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(9, accountBalance.getObjectCode());
                 preparedStatement.setString(10, accountBalance.getSubObjectCode());
             }
-         }.execute(AccountBalance.class);
+        }.execute(AccountBalance.class);
     }
 
     public Balance getBalance(final Transaction t) {
@@ -164,6 +167,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(7, t.getFinancialBalanceTypeCode());
                 preparedStatement.setString(8, t.getFinancialObjectTypeCode());
             }
+
             @Override
             protected Balance extractResult(ResultSet resultSet) throws SQLException {
                 Balance balance = new Balance();
@@ -196,7 +200,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(Balance.class);
     }
 
-    public void insertBalance(final Balance balance) {
+    public void insertBalance(final Balance balance, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<Balance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -224,12 +228,12 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(22, balance.getMonth11Amount().bigDecimalValue());
                 preparedStatement.setBigDecimal(23, balance.getMonth12Amount().bigDecimalValue());
                 preparedStatement.setBigDecimal(24, balance.getMonth13Amount().bigDecimalValue());
-                preparedStatement.setTimestamp(25, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(25, currentTimestamp);
             }
-         }.execute(Balance.class);
+        }.execute(Balance.class);
     }
 
-    public void updateBalance(final Balance balance) {
+    public void updateBalance(final Balance balance, final Timestamp currentTimestamp) {
         new UpdatingJdbcWrapper<Balance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -249,7 +253,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(14, balance.getMonth11Amount().bigDecimalValue());
                 preparedStatement.setBigDecimal(15, balance.getMonth12Amount().bigDecimalValue());
                 preparedStatement.setBigDecimal(16, balance.getMonth13Amount().bigDecimalValue());
-                preparedStatement.setTimestamp(17, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(17, currentTimestamp);
                 preparedStatement.setInt(18, balance.getUniversityFiscalYear());
                 preparedStatement.setString(19, balance.getChartOfAccountsCode());
                 preparedStatement.setString(20, balance.getAccountNumber());
@@ -259,7 +263,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(24, balance.getBalanceTypeCode());
                 preparedStatement.setString(25, balance.getObjectTypeCode());
             }
-         }.execute(Balance.class);
+        }.execute(Balance.class);
     }
 
     public Encumbrance getEncumbrance(final Entry entry) {
@@ -277,6 +281,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(9, entry.getFinancialSystemOriginationCode());
                 preparedStatement.setString(10, entry.getDocumentNumber());
             }
+
             @Override
             protected Encumbrance extractResult(ResultSet resultSet) throws SQLException {
                 Encumbrance encumbrance = new Encumbrance();
@@ -300,7 +305,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(Encumbrance.class);
     }
 
-    public void insertEncumbrance(final Encumbrance encumbrance) {
+    public void insertEncumbrance(final Encumbrance encumbrance, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<Encumbrance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -319,12 +324,12 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(13, encumbrance.getAccountLineEncumbranceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(14, encumbrance.getAccountLineEncumbranceClosedAmount().bigDecimalValue());
                 preparedStatement.setString(15, encumbrance.getAccountLineEncumbrancePurgeCode());
-                preparedStatement.setTimestamp(16, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(16, currentTimestamp);
             }
-         }.execute(Encumbrance.class);
+        }.execute(Encumbrance.class);
     }
 
-    public void updateEncumbrance(final Encumbrance encumbrance) {
+    public void updateEncumbrance(final Encumbrance encumbrance, final Timestamp currentTimestamp) {
         new UpdatingJdbcWrapper<Encumbrance>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -333,7 +338,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(3, encumbrance.getAccountLineEncumbranceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(4, encumbrance.getAccountLineEncumbranceClosedAmount().bigDecimalValue());
                 preparedStatement.setString(5, encumbrance.getAccountLineEncumbrancePurgeCode());
-                preparedStatement.setTimestamp(6, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(6, currentTimestamp);
                 preparedStatement.setInt(7, encumbrance.getUniversityFiscalYear());
                 preparedStatement.setString(8, encumbrance.getChartOfAccountsCode());
                 preparedStatement.setString(9, encumbrance.getAccountNumber());
@@ -345,7 +350,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(15, encumbrance.getOriginCode());
                 preparedStatement.setString(16, encumbrance.getDocumentNumber());
             }
-         }.execute(Encumbrance.class);
+        }.execute(Encumbrance.class);
     }
 
     public ExpenditureTransaction getExpenditureTransaction(final Transaction t) {
@@ -362,8 +367,9 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(8, t.getFinancialObjectTypeCode());
                 preparedStatement.setString(9, t.getUniversityFiscalPeriodCode());
                 preparedStatement.setString(10, t.getProjectCode());
-                preparedStatement.setString(11, StringUtils.isBlank(t.getOrganizationReferenceId()) ? GeneralLedgerConstants.getDashOrganizationReferenceId() : t.getOrganizationReferenceId()); 
+                preparedStatement.setString(11, StringUtils.isBlank(t.getOrganizationReferenceId()) ? GeneralLedgerConstants.getDashOrganizationReferenceId() : t.getOrganizationReferenceId());
             }
+
             @Override
             protected ExpenditureTransaction extractResult(ResultSet resultSet) throws SQLException {
                 ExpenditureTransaction expenditureTransaction = new ExpenditureTransaction();
@@ -401,7 +407,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(11, expenditureTransaction.getOrganizationReferenceId());
                 preparedStatement.setBigDecimal(12, expenditureTransaction.getAccountObjectDirectCostAmount().bigDecimalValue());
             }
-         }.execute(ExpenditureTransaction.class);
+        }.execute(ExpenditureTransaction.class);
     }
 
     public void updateExpenditureTransaction(final ExpenditureTransaction expenditureTransaction) {
@@ -421,7 +427,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(11, expenditureTransaction.getProjectCode());
                 preparedStatement.setString(12, expenditureTransaction.getOrganizationReferenceId());
             }
-         }.execute(ExpenditureTransaction.class);
+        }.execute(ExpenditureTransaction.class);
     }
 
     public SufficientFundBalances getSufficientFundBalances(final Integer universityFiscalYear, final String chartOfAccountsCode, final String accountNumber, final String financialObjectCode) {
@@ -433,6 +439,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(3, accountNumber);
                 preparedStatement.setString(4, financialObjectCode);
             }
+
             @Override
             protected SufficientFundBalances extractResult(ResultSet resultSet) throws SQLException {
                 SufficientFundBalances sufficientFundBalances = new SufficientFundBalances();
@@ -449,7 +456,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(SufficientFundBalances.class);
     }
 
-    public void insertSufficientFundBalances(final SufficientFundBalances sufficientFundBalances) {
+    public void insertSufficientFundBalances(final SufficientFundBalances sufficientFundBalances, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<SufficientFundBalances>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -461,12 +468,12 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(6, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(7, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
                 preparedStatement.setBigDecimal(8, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
-                preparedStatement.setTimestamp(9, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(9, currentTimestamp);
             }
-         }.execute(SufficientFundBalances.class);
+        }.execute(SufficientFundBalances.class);
     }
 
-    public void updateSufficientFundBalances(final SufficientFundBalances sufficientFundBalances) {
+    public void updateSufficientFundBalances(final SufficientFundBalances sufficientFundBalances, final Timestamp currentTimestamp) {
         new UpdatingJdbcWrapper<SufficientFundBalances>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -474,16 +481,16 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setBigDecimal(2, sufficientFundBalances.getCurrentBudgetBalanceAmount().bigDecimalValue());
                 preparedStatement.setBigDecimal(3, sufficientFundBalances.getAccountActualExpenditureAmt().bigDecimalValue());
                 preparedStatement.setBigDecimal(4, sufficientFundBalances.getAccountEncumbranceAmount().bigDecimalValue());
-                preparedStatement.setTimestamp(5, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(5, currentTimestamp);
                 preparedStatement.setInt(6, sufficientFundBalances.getUniversityFiscalYear());
                 preparedStatement.setString(7, sufficientFundBalances.getChartOfAccountsCode());
                 preparedStatement.setString(8, sufficientFundBalances.getAccountNumber());
                 preparedStatement.setString(9, sufficientFundBalances.getFinancialObjectCode());
             }
-         }.execute(SufficientFundBalances.class);
+        }.execute(SufficientFundBalances.class);
     }
-    
-    public void insertEntry(final Entry entry) {
+
+    public void insertEntry(final Entry entry, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<Entry>() {
             @Override
             protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -513,10 +520,11 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setDate(24, entry.getFinancialDocumentReversalDate());
                 preparedStatement.setString(25, entry.getTransactionEncumbranceUpdateCode());
                 preparedStatement.setDate(26, entry.getTransactionPostingDate());
-                preparedStatement.setTimestamp(27, dateTimeService.getCurrentTimestamp());
+                preparedStatement.setTimestamp(27, currentTimestamp);
             }
-         }.execute(Entry.class);
+        }.execute(Entry.class);
     }
+
     public void insertReversal(final Reversal reversal) {
         new InsertingJdbcWrapper<Reversal>() {
             @Override
@@ -548,6 +556,6 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(25, reversal.getTransactionEncumbranceUpdateCode());
                 preparedStatement.setDate(26, reversal.getTransactionPostingDate());
             }
-         }.execute(Reversal.class);
+        }.execute(Reversal.class);
     }
 }

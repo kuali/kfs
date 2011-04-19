@@ -56,12 +56,12 @@ public class LaborAccountingCycleCachingServiceImpl extends AccountingCycleCachi
     }
 
     public void insertLedgerBalance(LedgerBalance ledgerBalance) {
-        laborLedgerDao.insertLedgerBalance(ledgerBalance);
+        laborLedgerDao.insertLedgerBalance(ledgerBalance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(LedgerBalance.class).update(ledgerBalance, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 
     public void updateLedgerBalance(LedgerBalance ledgerBalance) {
-        laborLedgerDao.updateLedgerBalance(ledgerBalance);
+        laborLedgerDao.updateLedgerBalance(ledgerBalance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(LedgerBalance.class).update(ledgerBalance, ledgerBalance.getUniversityFiscalYear(), ledgerBalance.getChartOfAccountsCode(), ledgerBalance.getAccountNumber(), ledgerBalance.getSubAccountNumber(), ledgerBalance.getFinancialObjectCode(), ledgerBalance.getFinancialSubObjectCode(), ledgerBalance.getFinancialBalanceTypeCode(), ledgerBalance.getFinancialObjectTypeCode(), ledgerBalance.getPositionNumber(), ledgerBalance.getEmplid());
     }
 

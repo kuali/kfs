@@ -81,7 +81,6 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
     }
 
     protected Map<String, PreparedStatement> preparedStatementCache;
-    protected DateTimeService dateTimeService;
 
     protected abstract Map<String, String> getSql();
 
@@ -109,7 +108,4 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
         }
     }
 
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 }

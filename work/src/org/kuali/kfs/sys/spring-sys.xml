@@ -787,9 +787,7 @@
 		</property>		
 	</bean>
 
-	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true">
-		<property name="dateTimeService" ref="dateTimeService" />
-	</bean>
+	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true" />
 	
 	<bean id="businessObjectReportHelper" abstract="true" class="org.kuali.kfs.sys.report.BusinessObjectReportHelper">
         <property name="minimumMessageLength" value="10" />

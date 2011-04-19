@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch.dataaccess;
 
+import java.sql.Timestamp;
+
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -27,19 +29,19 @@ import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
 
 public interface LedgerPreparedStatementCachingDao extends PreparedStatementCachingDao {
     public int getMaxSequenceNumber(Transaction t);
-    
+
 
     public Balance getBalance(Transaction t);
 
-    public void insertBalance(Balance balance);
+    public void insertBalance(Balance balance, Timestamp currentTimestamp);
 
-    public void updateBalance(Balance balance);
+    public void updateBalance(Balance balance, Timestamp currentTimestamp);
 
     public Encumbrance getEncumbrance(Entry entry);
 
-    public void insertEncumbrance(Encumbrance encumbrance);
+    public void insertEncumbrance(Encumbrance encumbrance, Timestamp currentTimestamp);
 
-    public void updateEncumbrance(Encumbrance encumbrance);
+    public void updateEncumbrance(Encumbrance encumbrance, Timestamp currentTimestamp);
 
     public ExpenditureTransaction getExpenditureTransaction(Transaction t);
 
@@ -49,18 +51,18 @@ public interface LedgerPreparedStatementCachingDao extends PreparedStatementCach
 
     public SufficientFundBalances getSufficientFundBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
 
-    public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
+    public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances, Timestamp currentTimestamp);
 
-    public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances);
+    public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances, Timestamp currentTimestamp);
 
     public AccountBalance getAccountBalance(Transaction t);
 
-    public void insertAccountBalance(AccountBalance accountBalance);
+    public void insertAccountBalance(AccountBalance accountBalance, Timestamp currentTimestamp);
 
-    public void updateAccountBalance(AccountBalance accountBalance);
+    public void updateAccountBalance(AccountBalance accountBalance, Timestamp currentTimestamp);
 
 
     public void insertReversal(Reversal reversal);
 
-    public void insertEntry(Entry entry);
+    public void insertEntry(Entry entry, Timestamp currentTimestamp);
 }

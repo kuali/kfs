@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactionalCachingService implements AccountingCycleCachingService {
     protected org.kuali.kfs.sys.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao systemReferenceValueDao;
@@ -63,6 +64,7 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     
     protected UniversityDateService universityDateService;
     protected FinancialSystemDocumentTypeService financialSystemDocumentTypeService;
+    protected DateTimeService dateTimeService;
 
     public void initialize() {
         super.initialize();
@@ -352,32 +354,32 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
 
 
     public void insertAccountBalance(AccountBalance accountBalance) {
-        ledgerDao.insertAccountBalance(accountBalance);
+        ledgerDao.insertAccountBalance(accountBalance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(AccountBalance.class).update(accountBalance, accountBalance.getUniversityFiscalYear(), accountBalance.getChartOfAccountsCode(), accountBalance.getAccountNumber(), accountBalance.getSubAccountNumber(), accountBalance.getObjectCode(), accountBalance.getSubObjectCode());
     }
 
     public void updateAccountBalance(AccountBalance accountBalance) {
-        ledgerDao.updateAccountBalance(accountBalance);        
+        ledgerDao.updateAccountBalance(accountBalance, dateTimeService.getCurrentTimestamp());        
         previousValueCache.get(AccountBalance.class).update(accountBalance, accountBalance.getUniversityFiscalYear(), accountBalance.getChartOfAccountsCode(), accountBalance.getAccountNumber(), accountBalance.getSubAccountNumber(), accountBalance.getObjectCode(), accountBalance.getSubObjectCode());
     }
 
     public void insertBalance(Balance balance) {
-        ledgerDao.insertBalance(balance);
+        ledgerDao.insertBalance(balance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(Balance.class).update(balance, balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getAccountNumber(), balance.getSubAccountNumber(), balance.getObjectCode(), balance.getSubObjectCode(), balance.getBalanceTypeCode(), balance.getObjectTypeCode());
     }
 
     public void updateBalance(Balance balance) {
-        ledgerDao.updateBalance(balance);
+        ledgerDao.updateBalance(balance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(Balance.class).update(balance, balance.getUniversityFiscalYear(), balance.getChartOfAccountsCode(), balance.getAccountNumber(), balance.getSubAccountNumber(), balance.getObjectCode(), balance.getSubObjectCode(), balance.getBalanceTypeCode(), balance.getObjectTypeCode());
     }
 
     public void insertEncumbrance(Encumbrance encumbrance) {
-        ledgerDao.insertEncumbrance(encumbrance);
+        ledgerDao.insertEncumbrance(encumbrance, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(Encumbrance.class).update(encumbrance, encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber(), encumbrance.getObjectCode(), encumbrance.getSubObjectCode(), encumbrance.getBalanceTypeCode(), encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode(), encumbrance.getDocumentNumber());
     }
 
     public void updateEncumbrance(Encumbrance encumbrance) {
-        ledgerDao.updateEncumbrance(encumbrance);        
+        ledgerDao.updateEncumbrance(encumbrance, dateTimeService.getCurrentTimestamp());        
         previousValueCache.get(Encumbrance.class).update(encumbrance, encumbrance.getUniversityFiscalYear(), encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber(), encumbrance.getObjectCode(), encumbrance.getSubObjectCode(), encumbrance.getBalanceTypeCode(), encumbrance.getDocumentTypeCode(), encumbrance.getOriginCode(), encumbrance.getDocumentNumber());
     }
 
@@ -392,17 +394,17 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
     }
 
     public void insertSufficientFundBalances(SufficientFundBalances sufficientFundBalances) {
-        ledgerDao.insertSufficientFundBalances(sufficientFundBalances);
+        ledgerDao.insertSufficientFundBalances(sufficientFundBalances, dateTimeService.getCurrentTimestamp());
         previousValueCache.get(SufficientFundBalances.class).update(sufficientFundBalances, sufficientFundBalances.getUniversityFiscalYear(), sufficientFundBalances.getChartOfAccountsCode(), sufficientFundBalances.getAccountNumber(), sufficientFundBalances.getFinancialObjectCode());
     }
 
     public void updateSufficientFundBalances(SufficientFundBalances sufficientFundBalances) {
-        ledgerDao.updateSufficientFundBalances(sufficientFundBalances);        
+        ledgerDao.updateSufficientFundBalances(sufficientFundBalances, dateTimeService.getCurrentTimestamp());        
         previousValueCache.get(SufficientFundBalances.class).update(sufficientFundBalances, sufficientFundBalances.getUniversityFiscalYear(), sufficientFundBalances.getChartOfAccountsCode(), sufficientFundBalances.getAccountNumber(), sufficientFundBalances.getFinancialObjectCode());
     }
 
     public void insertEntry(Entry entry) {
-        ledgerDao.insertEntry(entry);
+        ledgerDao.insertEntry(entry, dateTimeService.getCurrentTimestamp());
     }
 
     public void insertReversal(Reversal reversal) {
@@ -431,5 +433,14 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
      */
     public void setFinancialSystemDocumentTypeService(FinancialSystemDocumentTypeService financialSystemDocumentTypeService) {
         this.financialSystemDocumentTypeService = financialSystemDocumentTypeService;
+    }
+
+    /**
+     * Sets the dateTimeService.
+     * 
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

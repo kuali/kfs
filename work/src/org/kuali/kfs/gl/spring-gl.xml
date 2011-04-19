@@ -2245,6 +2245,7 @@
 	<bean id="accountingCycleCachingService" class="org.kuali.kfs.gl.batch.service.impl.AccountingCycleCachingServiceImpl">
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="systemReferenceValueDao" ref="systemLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="chartReferenceValueDao" ref="chartLedgerReferenceValuePreparedStatementCachingDao" />
 		<property name="ledgerDao" ref="generalLedgerPreparedStatementCachingDao" />

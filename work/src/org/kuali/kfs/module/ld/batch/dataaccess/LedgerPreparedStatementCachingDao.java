@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ld.batch.dataaccess;
 
+import java.sql.Timestamp;
+
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
@@ -29,9 +31,9 @@ public interface LedgerPreparedStatementCachingDao extends PreparedStatementCach
 
     public LedgerBalance getLedgerBalance(LedgerBalance ledgerBalance);
 
-    public void insertLedgerBalance(LedgerBalance ledgerBalance);
+    public void insertLedgerBalance(LedgerBalance ledgerBalance, Timestamp currentTimestamp);
 
-    public void updateLedgerBalance(LedgerBalance ledgerBalance);
+    public void updateLedgerBalance(LedgerBalance ledgerBalance, Timestamp currentTimestamp);
 
 
     public void insertLedgerEntry(LedgerEntry ledgerEntry);

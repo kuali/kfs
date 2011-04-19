@@ -795,6 +795,12 @@
         <property name="genesisService">
             <ref bean="genesisService"/>
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="homeOriginationService">
+            <ref bean="homeOriginationService"/>
+        </property>
     </bean>
     
     <bean id="budgetConstructionHumanResourcesPayrollInterfaceService" class="org.kuali.kfs.module.bc.batch.service.impl.BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl">
@@ -812,14 +818,7 @@
     <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
     </bean>
 
-    <bean id="generalLedgerBudgetLoadDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.GeneralLedgerBudgetLoadDaoOjb">
-        <property name="homeOriginationService">
-            <ref bean="homeOriginationService"/>
-        </property>
-        <property name="dateTimeService">
-        	<ref bean="dateTimeService"/>
-        </property>
-    </bean>
+    <bean id="generalLedgerBudgetLoadDao" parent="budgetConstructionBatchHelperDao" class="org.kuali.kfs.module.bc.batch.dataaccess.impl.GeneralLedgerBudgetLoadDaoOjb" />
     
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.kfs.module.bc.document.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>

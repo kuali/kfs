@@ -37,8 +37,6 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLe
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GeneralLedgerBudgetLoadDao {
@@ -46,13 +44,10 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
     /* turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerBudgetLoadDaoOjb.class);
 
-    private DateTimeService dateTimeService;
-    private HomeOriginationService homeOriginationService;
-
     /*
      * see GeneralLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget
      */
-    public void loadGeneralLedgerFromBudget(Integer fiscalYear) {
+    public void loadGeneralLedgerFromBudget(Integer fiscalYear, Date currentSqlDate, String financialSystemOriginationCode) {
         /**
          * this method calls a series of steps that load the general ledger from the budget into the general ledger pending entry
          * table. this method takes a fiscal year as input, but all that is required is that this object be a key labeling the
@@ -65,7 +60,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         // (2) the initial sequence numbers for each document to be loaded
         // (3) the run date (which will be the transaction date)
         // (4) the "origination code", which comes from the database
-        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables(fiscalYear);
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables(fiscalYear, currentSqlDate, financialSystemOriginationCode);
         /**
          * initiliaze the counter variables
          */
@@ -461,8 +456,8 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
     }
 
     /*******************************************************************************************************************************
-     * These two classes are containers so we can make certain variables accessible to all methods without making them global to the *
-     * outer class and without cluttering up the method signatures. *
+     * These two classes are containers so we can make certain variables accessible to all methods without making them global to the
+     * * outer class and without cluttering up the method signatures. *
      ******************************************************************************************************************************/
 
     /**
@@ -536,12 +531,12 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         private String financialSystemOriginationCode;
         private HashSet<String> accountsNotToBeLoaded;
 
-        public DaoGlobalVariables(Integer requestYear) {
+        public DaoGlobalVariables(Integer requestYear, Date currentSqlDate, String financialSystemOriginationCode) {
             this.requestYear = requestYear;
             this.entrySequenceNumber = entrySequenceNumber(requestYear);
             // this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-            this.transactionDate = dateTimeService.getCurrentSqlDate();
-            this.financialSystemOriginationCode = homeOriginationService.getHomeOrigination().getFinSystemHomeOriginationCode();
+            this.transactionDate = currentSqlDate;
+            this.financialSystemOriginationCode = financialSystemOriginationCode;
             this.accountsNotToBeLoaded = getAccountsNotToBeLoaded();
         }
 
@@ -569,14 +564,6 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         public boolean shouldThisAccountLoad(String accountAndChart) {
             return (!accountsNotToBeLoaded.contains(accountAndChart));
         }
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public void setHomeOriginationService(HomeOriginationService homeOriginationService) {
-        this.homeOriginationService = homeOriginationService;
     }
 
 }

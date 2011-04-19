@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.module.bc.batch.dataaccess;
 
+import java.sql.Date;
+
 public interface GeneralLedgerBudgetLoadDao {
     /*
      * param: fiscal year (or budget period key) this method loads the general ledger from the budget to the accounting general
      * ledger
      */
-    public void loadGeneralLedgerFromBudget(Integer fiscalYear);
+    public void loadGeneralLedgerFromBudget(Integer fiscalYear, Date currentSqlDate, String financialSystemOriginationCode);
 
 }

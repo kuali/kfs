@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -22,9 +23,6 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.kim.bo.Person;
 
 

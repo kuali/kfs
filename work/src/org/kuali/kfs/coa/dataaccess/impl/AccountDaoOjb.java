@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,7 +30,6 @@ import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -99,54 +99,54 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "Y"))));
+    public List getPrimaryDelegationByExample(AccountDelegate delegateExample, Date currentSqlDate, String totalDollarAmount) {
+        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, currentSqlDate, totalDollarAmount, "Y"))));
     }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "N"))));
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, Date currentSqlDate, String totalDollarAmount) {
+        return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountDelegate.class, getDelegateByExampleCriteria(delegateExample, currentSqlDate, totalDollarAmount, "N"))));
     }
 
     /**
-     * This method creates a {@link Criteria} based on {@link Delegate}, dollar amount and whether or not it is the primary
-     * delegate
+     * This method creates a {@link Criteria} based on {@link Delegate}, dollar amount and whether or not it is the primary delegate
      * 
      * @param delegateExample
      * @param totalDollarAmount
      * @param accountsDelegatePrmrtIndicator
      * @return example {@link Delegate} {@link Criteria}
      */
-    protected Criteria getDelegateByExampleCriteria(AccountDelegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
+    protected Criteria getDelegateByExampleCriteria(AccountDelegate delegateExample, Date currentSqlDate, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
         criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
         criteria.addEqualTo("active", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        criteria.addLessOrEqualThan("accountDelegateStartDate", currentSqlDate);
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", accountsDelegatePrmrtIndicator);
         if (totalDollarAmount != null) {
-            // (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) or (fromAmt is nullish and (toAmt is nullish or toAmt >= total)) or (fromAmt <= total and toAmount >= total)
-            
+            // (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) or (fromAmt is nullish and (toAmt is nullish or toAmt
+            // >= total)) or (fromAmt <= total and toAmount >= total)
+
             /* to not active clause: (toAmt is nullish and (fromAmt is nullish or fromAmt <= total)) */
             Criteria toAmountIsNullish = new Criteria();
             toAmountIsNullish.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT);
             Criteria toAmountIsZero1 = new Criteria();
             toAmountIsZero1.addEqualTo(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, "0");
             toAmountIsNullish.addOrCriteria(toAmountIsZero1);
-                        
+
             Criteria fromMatchesClause = new Criteria();
             fromMatchesClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
             Criteria fromAmountIsLessThanTotal = new Criteria();
             fromAmountIsLessThanTotal.addLessOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, totalDollarAmount);
             fromMatchesClause.addOrCriteria(fromAmountIsLessThanTotal);
-            
+
             Criteria toNotActiveClause = new Criteria();
             toNotActiveClause.addAndCriteria(toAmountIsNullish);
             toNotActiveClause.addAndCriteria(fromMatchesClause);
-            
+
             /* from not active clause: (fromAmt is nullish and (toAmt is nullish or toAmt >= total)) */
             Criteria toMatchesClause = new Criteria();
             toMatchesClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT);
@@ -156,7 +156,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
             Criteria toAmountIsGreaterThanTotal = new Criteria();
             toAmountIsGreaterThanTotal.addGreaterOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, totalDollarAmount);
             toMatchesClause.addOrCriteria(toAmountIsGreaterThanTotal);
-            
+
             Criteria fromIsNullClause = new Criteria();
             fromIsNullClause.addIsNull(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT);
             Criteria fromIsZeroClause = new Criteria();
@@ -167,11 +167,11 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
             Criteria fromNotActiveClause = new Criteria();
             fromNotActiveClause.addAndCriteria(fromIsNullishClause);
             fromNotActiveClause.addAndCriteria(toMatchesClause);
-            
+
             Criteria bothActive = new Criteria();
             bothActive.addLessOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_FROM_THIS_AMT, totalDollarAmount);
             bothActive.addGreaterOrEqualThan(KFSPropertyConstants.FIN_DOC_APPROVAL_TO_THIS_AMOUNT, totalDollarAmount);
-            
+
             Criteria totalDollarAmountCriteria = new Criteria();
             totalDollarAmountCriteria.addOrCriteria(toNotActiveClause);
             totalDollarAmountCriteria.addOrCriteria(fromNotActiveClause);
@@ -302,7 +302,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
         criteria.addEqualTo("active", true);
         criteria.addAndCriteria(getAccountNotExpiredCriteria());
-        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+        return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
@@ -313,7 +313,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
         criteria.addEqualTo("active", true);
         criteria.addAndCriteria(getAccountNotExpiredCriteria());
-        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+        return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
@@ -324,7 +324,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
         criteria.addEqualTo("active", true);
         criteria.addAndCriteria(getAccountExpiredCriteria());
-        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+        return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
@@ -335,11 +335,12 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
         criteria.addEqualTo("active", true);
         criteria.addAndCriteria(getAccountExpiredCriteria());
-        return (Iterator<Account>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
+        return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
-    
+
     /**
      * Builds a criteria to find expired accounts
+     * 
      * @return a Criteria for expired accounts
      */
     protected Criteria getAccountExpiredCriteria() {
@@ -348,18 +349,19 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
         return criteria;
     }
-    
+
     /**
      * Builds a criteria to find non-expired accounts
+     * 
      * @return a Criteria for non-expired accounts
      */
     protected Criteria getAccountNotExpiredCriteria() {
         Criteria criteria = new Criteria();
         criteria.addIsNull("accountExpirationDate");
-        
+
         Criteria notYetExpiredCriteria = new Criteria();
         notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
-        
+
         criteria.addOrCriteria(notYetExpiredCriteria);
         return criteria;
     }
@@ -370,9 +372,10 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     public boolean isPrincipalInAnyWayShapeOrFormAccountManager(String principalId) {
         return queryPrincipalHasAccountRole(principalId, "accountManagerSystemIdentifier");
     }
-    
+
     /**
      * Determines if any non-closed accounts exist where the principal id is in the role of the role name
+     * 
      * @param principalId the principal id to check
      * @param principalRoleName the name of the field on account to check for the principal id in
      * @return true if the principal has that account role, false otherwise
@@ -381,20 +384,20 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         Criteria criteria = new Criteria();
         criteria.addEqualTo(principalRoleName, principalId);
         criteria.addEqualTo("active", "Y");
-        
+
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(Account.class, criteria);
         reportQuery.setAttributes(new String[] { "count(*)" });
-        
+
         int resultCount = 0;
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         while (iter.hasNext()) {
-            final Object[] results = (Object[])iter.next();
-            resultCount = (results[0] instanceof Number) ? ((Number)results[0]).intValue() : new Integer(results[0].toString()).intValue();
+            final Object[] results = (Object[]) iter.next();
+            resultCount = (results[0] instanceof Number) ? ((Number) results[0]).intValue() : new Integer(results[0].toString()).intValue();
         }
         return resultCount > 0;
     }
 
-    
+
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#isPrincipalInAnyWayShapeOrFormAccountSupervisor(java.lang.String)
      */
@@ -423,4 +426,3 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 }
-

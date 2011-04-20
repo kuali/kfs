@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -41,13 +42,13 @@ public interface AccountDao {
      * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount);
+    public List getPrimaryDelegationByExample(AccountDelegate delegateExample, Date currentSqlDate, String totalDollarAmount);
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getSecondaryDelegationsByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */
-    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount);
+    public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, Date currentSqlDate, String totalDollarAmount);
 
     /**
      * fetch the AccountResponsibility objects that the user has associated with them

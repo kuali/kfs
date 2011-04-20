@@ -86,6 +86,9 @@
 		<property name="accountDao">
 			<ref bean="accountDao" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 
 	<bean id="AccountPersistenceStructureService" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl">

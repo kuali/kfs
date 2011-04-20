@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.spring.Cached;
@@ -50,6 +52,7 @@ public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
 
     private AccountDao accountDao;
+    protected DateTimeService dateTimeService;
 
     /**
      * Retrieves an Account object based on primary key.
@@ -113,7 +116,8 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountDelegate getPrimaryDelegationByExample(AccountDelegate delegateExample, String totalDollarAmount) {
         String documentTypeName = delegateExample.getFinancialDocumentTypeCode();
-        List primaryDelegations = filterAccountDelegates(delegateExample, accountDao.getPrimaryDelegationByExample(delegateExample, totalDollarAmount));
+        Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+        List primaryDelegations = filterAccountDelegates(delegateExample, accountDao.getPrimaryDelegationByExample(delegateExample, currentSqlDate, totalDollarAmount));
         if (primaryDelegations.isEmpty()) {
             return null;
         }
@@ -124,7 +128,7 @@ public class AccountServiceImpl implements AccountService {
                 return delegate;
             }
         }
-        return (AccountDelegate)primaryDelegations.iterator().next();
+        return (AccountDelegate) primaryDelegations.iterator().next();
     }
 
     /**
@@ -132,7 +136,8 @@ public class AccountServiceImpl implements AccountService {
      *      java.lang.String)
      */
     public List getSecondaryDelegationsByExample(AccountDelegate delegateExample, String totalDollarAmount) {
-        List secondaryDelegations = accountDao.getSecondaryDelegationsByExample(delegateExample, totalDollarAmount);
+        Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+        List secondaryDelegations = accountDao.getSecondaryDelegationsByExample(delegateExample, currentSqlDate, totalDollarAmount);
         return filterAccountDelegates(delegateExample, secondaryDelegations);
     }
 
@@ -146,20 +151,18 @@ public class AccountServiceImpl implements AccountService {
      * @param accountDelegatesToFilterFrom
      * @return
      */
-    protected List<AccountDelegate> filterAccountDelegates(AccountDelegate delegateExample, List<AccountDelegate> accountDelegatesToFilterFrom){
+    protected List<AccountDelegate> filterAccountDelegates(AccountDelegate delegateExample, List<AccountDelegate> accountDelegatesToFilterFrom) {
         String documentTypeName = delegateExample.getFinancialDocumentTypeCode();
         AccountDelegate delegate;
         List<AccountDelegate> filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, documentTypeName);
-        if(filteredAccountDelegates.size()==0){
+        if (filteredAccountDelegates.size() == 0) {
             Set<String> potentialParentDocumentTypeNames = getPotentialParentDocumentTypeNames(accountDelegatesToFilterFrom);
-            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(
-                    KEWServiceLocator.getDocumentTypeService().findByName(documentTypeName), 
-                    potentialParentDocumentTypeNames);
+            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(KEWServiceLocator.getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
             filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, closestParentDocumentTypeName);
         }
         return filteredAccountDelegates;
     }
-    
+
     /**
      * This method filters account delegates by performing an exact match on the document type name passed in.
      * 
@@ -167,12 +170,12 @@ public class AccountServiceImpl implements AccountService {
      * @param documentTypeNameToFilterOn
      * @return
      */
-    protected List<AccountDelegate> filterAccountDelegates(List<AccountDelegate> delegations, String documentTypeNameToFilterOn){
+    protected List<AccountDelegate> filterAccountDelegates(List<AccountDelegate> delegations, String documentTypeNameToFilterOn) {
         AccountDelegate delegate;
         List<AccountDelegate> filteredSecondaryDelegations = new ArrayList<AccountDelegate>();
-        for(Object delegateObject: delegations){
-            delegate = (AccountDelegate)delegateObject;
-            if(StringUtils.equals(delegate.getFinancialDocumentTypeCode(), documentTypeNameToFilterOn)){
+        for (Object delegateObject : delegations) {
+            delegate = (AccountDelegate) delegateObject;
+            if (StringUtils.equals(delegate.getFinancialDocumentTypeCode(), documentTypeNameToFilterOn)) {
                 filteredSecondaryDelegations.add(delegate);
             }
         }
@@ -180,18 +183,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * This method gets a list of potential parent document type names 
-     * by collecting the unique doc type names from the list of account delegations
+     * This method gets a list of potential parent document type names by collecting the unique doc type names from the list of
+     * account delegations
      * 
      * @param delegations
      * @return
      */
-    protected Set<String> getPotentialParentDocumentTypeNames(List<AccountDelegate> delegations){
+    protected Set<String> getPotentialParentDocumentTypeNames(List<AccountDelegate> delegations) {
         AccountDelegate delegate;
         Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
-        for(Object delegateObject: delegations){
-            delegate = (AccountDelegate)delegateObject;
-            if(!potentialParentDocumentTypeNames.contains(delegate.getFinancialDocumentTypeCode()))
+        for (Object delegateObject : delegations) {
+            delegate = (AccountDelegate) delegateObject;
+            if (!potentialParentDocumentTypeNames.contains(delegate.getFinancialDocumentTypeCode()))
                 potentialParentDocumentTypeNames.add(delegate.getFinancialDocumentTypeCode());
         }
         return potentialParentDocumentTypeNames;
@@ -268,7 +271,7 @@ public class AccountServiceImpl implements AccountService {
     public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
         return accountDao.getAccountsForAccountNumber(accountNumber);
     }
-    
+
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)
      */
@@ -277,35 +280,44 @@ public class AccountServiceImpl implements AccountService {
         Account account = null;
         // there should be only one account in the collection
         if (accounts.hasNext()) {
-            account = (Account)accounts.next();
+            account = (Account) accounts.next();
         }
         return account;
     }
-    
+
     /**
      * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
      */
     public boolean accountsCanCrossCharts() {
         return SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND);
     }
-    
+
     /**
      * @see org.kuali.kfs.coa.service.AccountService#accountsCanCrossCharts()
      */
     public void populateAccountingLineChartIfNeeded(AccountingLine line) {
-        if (!accountsCanCrossCharts() /*&& line.getChartOfAccountsCode() == null*/) {
+        if (!accountsCanCrossCharts() /* && line.getChartOfAccountsCode() == null */) {
             Account account = getUniqueAccountForAccountNumber(line.getAccountNumber());
             if (ObjectUtils.isNotNull(account)) {
                 line.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
-    
+
     /**
      * @param accountDao The accountDao to set.
      */
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
+    }
+
+    /**
+     * Sets the dateTimeService.
+     * 
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 }

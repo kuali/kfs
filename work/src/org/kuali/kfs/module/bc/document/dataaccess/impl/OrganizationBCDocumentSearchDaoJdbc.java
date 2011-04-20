@@ -31,8 +31,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
     private static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
-    private DataDictionaryService dataDictionaryService;
-
     public OrganizationBCDocumentSearchDaoJdbc() {
 
         StringBuilder sqlText = new StringBuilder(500);
@@ -263,22 +261,6 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      */
     public void cleanAccountSelectPullList(String principalName) {
         clearTempTableByUnvlId("LD_BCN_ACCTSEL_T", "PERSON_UNVL_ID", principalName);
-    }
-
-    /**
-     * Gets the dataDictionaryService attribute. 
-     * @return Returns the dataDictionaryService.
-     */
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

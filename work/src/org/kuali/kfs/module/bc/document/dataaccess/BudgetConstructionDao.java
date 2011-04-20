@@ -190,15 +190,6 @@ public interface BudgetConstructionDao {
     public List<BudgetConstructionAccountOrganizationHierarchy> getAccountOrgHierForAccount(String chartOfAccountsCode, String accountNumber, Integer universityFiscalYear);
 
     /**
-     * Returns a list of labor objects that are Salary Setting detail related
-     * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @return
-     */
-    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode);
-
-    /**
      * Returns a list of Pending Budget GL rows that are Salary Setting detail related, based on the set of salarySettingObjects
      * passed in
      * 

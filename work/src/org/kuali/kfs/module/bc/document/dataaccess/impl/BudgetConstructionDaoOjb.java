@@ -58,8 +58,6 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
-    private DataDictionaryService dataDictionaryService;
-    private KualiModuleService kualiModuleService;
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
@@ -456,26 +454,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getDetailSalarySettingLaborObjects(java.lang.Integer,
-     *      java.lang.String)
-     */
-    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode) {
-        List<String> detailSalarySettingObjects = new ArrayList<String>();
-
-        Map<String, Object> laborObjectCodeMap = new HashMap<String, Object>();
-        laborObjectCodeMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        laborObjectCodeMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        laborObjectCodeMap.put(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR, true);
-        List<LaborLedgerObject> laborLedgerObjects = kualiModuleService.getResponsibleModuleService(LaborLedgerObject.class).getExternalizableBusinessObjectsList(LaborLedgerObject.class, laborObjectCodeMap);
-
-        for (LaborLedgerObject laborObject : laborLedgerObjects) {
-            detailSalarySettingObjects.add(laborObject.getFinancialObjectCode());
-        }
-
-        return detailSalarySettingObjects;
-    }
-
-    /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#getPBGLSalarySettingRows(java.lang.String,
      *      java.util.List)
      */
@@ -508,30 +486,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         return (List<PendingBudgetConstructionAppointmentFunding>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
-    /**
-     * Sets the kualiModuleService attribute value.
-     * 
-     * @param kualiModuleService The kualiModuleService to set.
-     */
-    public void setKualiModuleService(KualiModuleService kualiModuleService) {
-        this.kualiModuleService = kualiModuleService;
-    }
-
-    /**
-     * Gets the dataDictionaryService attribute. 
-     * @return Returns the dataDictionaryService.
-     */
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
 
 }
 

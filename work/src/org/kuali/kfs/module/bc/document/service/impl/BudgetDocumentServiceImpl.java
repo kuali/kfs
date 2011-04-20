@@ -33,6 +33,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
+import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
@@ -362,11 +363,30 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     @Transactional
     public List<PendingBudgetConstructionGeneralLedger> getPBGLSalarySettingRows(BudgetConstructionDocument bcDocument) {
 
-        List<String> ssObjects = budgetConstructionDao.getDetailSalarySettingLaborObjects(bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode());
+        List<String> ssObjects = getDetailSalarySettingLaborObjects(bcDocument.getUniversityFiscalYear(), bcDocument.getChartOfAccountsCode());
         ssObjects.add(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
         List<PendingBudgetConstructionGeneralLedger> pbglSalarySettingRows = budgetConstructionDao.getPBGLSalarySettingRows(bcDocument.getDocumentNumber(), ssObjects);
 
         return pbglSalarySettingRows;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getDetailSalarySettingLaborObjects(java.lang.Integer, java.lang.String)
+     */
+    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode) {
+        List<String> detailSalarySettingObjects = new ArrayList<String>();
+
+        Map<String, Object> laborObjectCodeMap = new HashMap<String, Object>();
+        laborObjectCodeMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        laborObjectCodeMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        laborObjectCodeMap.put(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR, true);
+        List<LaborLedgerObject> laborLedgerObjects = kualiModuleService.getResponsibleModuleService(LaborLedgerObject.class).getExternalizableBusinessObjectsList(LaborLedgerObject.class, laborObjectCodeMap);
+
+        for (LaborLedgerObject laborObject : laborLedgerObjects) {
+            detailSalarySettingObjects.add(laborObject.getFinancialObjectCode());
+        }
+
+        return detailSalarySettingObjects;
     }
 
     /**

@@ -324,6 +324,15 @@ public interface BudgetDocumentService {
      * @throws WorkflowException
      */
     public BudgetConstructionDocument instantiateNewBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument) throws WorkflowException;
+    
+    /**
+     * Returns a list of labor objects that are Salary Setting detail related
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @return
+     */
+    public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode);
 
 
 }

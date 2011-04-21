@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -47,7 +48,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kfs.coa.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-        return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+        return (Organization)boService.findByPrimaryKey(Organization.class, keys);
     }
 
     /**
@@ -58,7 +62,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Cached
     public Organization getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
-        return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+        return (Organization)boService.findByPrimaryKey(Organization.class, keys);
     }
 
     /**
@@ -104,8 +111,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (StringUtils.isBlank(parentOrganizationCode)) {
             throw new IllegalArgumentException("String parameter parentOrganizationCode was null or blank.");
         }
-    
-        Organization currOrg = organizationDao.getByPrimaryId(childChartOfAccountsCode, childOrganizationCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, childChartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, childOrganizationCode);
+        Organization currOrg = (Organization)boService.findByPrimaryKey(Organization.class, keys);
+
         while ( currOrg != null ) {
             if ( currOrg.getReportsToChartOfAccountsCode().equals(parentChartOfAccountsCode)
                     && currOrg.getReportsToOrganizationCode().equals(parentOrganizationCode) ) {
@@ -119,7 +129,10 @@ public class OrganizationServiceImpl implements OrganizationService {
                     ) {
                 return false;
             }
-            currOrg = organizationDao.getByPrimaryId(currOrg.getReportsToChartOfAccountsCode(), currOrg.getReportsToOrganizationCode());
+            keys.clear();
+            keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, currOrg.getReportsToChartOfAccountsCode());
+            keys.put(KFSPropertyConstants.ORGANIZATION_CODE, currOrg.getReportsToOrganizationCode());
+            currOrg = (Organization)boService.findByPrimaryKey(Organization.class, keys);
         }
         
         

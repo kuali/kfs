@@ -19,7 +19,9 @@ package org.kuali.kfs.coa.service.impl;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.dataaccess.ProjectCodeDao;
 import org.kuali.kfs.coa.service.ProjectCodeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
@@ -40,7 +42,7 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
     //   KFSMI-2612
     @CacheNoCopy
     public ProjectCode getByPrimaryId(String projectCode) {
-        return projectCodeDao.getByPrimaryId(projectCode);
+        return (ProjectCode)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProjectCode.class, projectCode);
     }
 
     /**

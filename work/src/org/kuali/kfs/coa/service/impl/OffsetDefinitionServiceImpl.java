@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.dataaccess.OffsetDefinitionDao;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class is the service implementation for the OffsetDefinition structure. This is the default implementation, that is
@@ -34,7 +40,12 @@ public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
      *      java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
-        return offsetDefinitionDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialDocumentTypeCode, financialBalanceTypeCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, financialDocumentTypeCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, financialBalanceTypeCode);
+        return (OffsetDefinition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, keys);
     }
 
     /**

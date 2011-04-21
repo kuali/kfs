@@ -15,11 +15,17 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
@@ -36,7 +42,14 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
      *      java.lang.String, java.lang.String, java.lang.String)
      */
     public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
-        return subObjectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
+        
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, financialSubObjectCode);
+        return (SubObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjectCode.class, keys);
     }
 
     /**

@@ -31,11 +31,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -53,7 +52,7 @@ public class ChartServiceImpl implements ChartService {
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {
-        return chartDao.getByPrimaryId(chartOfAccountsCode);
+        return (Chart)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
     }
 
     /**

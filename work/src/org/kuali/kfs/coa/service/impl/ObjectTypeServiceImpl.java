@@ -22,9 +22,11 @@ import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
@@ -42,14 +44,15 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String objectTypeCode) {
-        return objectTypeDao.getByPrimaryKey(objectTypeCode);
+        return (ObjectType)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ObjectType.class, objectTypeCode);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getAssetObjectType(java.lang.Integer)
      */
     public String getAssetObjectType(Integer universityFiscalYear) {
-        return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeAssetsCd();
+        SystemOptions options = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
+        return options.getFinancialObjectTypeAssetsCd();
     }
 
     /**
@@ -58,7 +61,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicExpenseObjectTypes = new ArrayList<String>();
-        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         basicExpenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
@@ -71,7 +74,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      */
     public List<String> getExpenseObjectTypes(Integer universityFiscalYear) {
         List<String> expenseObjectTypes = new ArrayList<String>();
-        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         expenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         expenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         expenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
@@ -86,7 +89,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicIncomeObjectTypes = new ArrayList<String>();
-        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         basicIncomeObjectTypes.add(option.getFinObjectTypeIncomecashCode());
         basicIncomeObjectTypes.add(option.getFinObjTypeIncomeNotCashCd());
         basicIncomeObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
@@ -98,14 +101,16 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getExpenseTransferObjectType(java.lang.Integer)
      */
     public String getExpenseTransferObjectType(Integer universityFiscalYear) {
-        return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeTransferExpenseCd();
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
+        return option.getFinancialObjectTypeTransferExpenseCd();
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getIncomeTransferObjectType(java.lang.Integer)
      */
     public String getIncomeTransferObjectType(Integer universityFiscalYear) {
-        return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeTransferIncomeCd();
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
+        return option.getFinancialObjectTypeTransferIncomeCd();
     }
 
     /**
@@ -156,7 +161,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      */
     public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear) {
         List<String> nominalClosingObjectTypes = new ArrayList<String>();
-        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
         nominalClosingObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
         nominalClosingObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         nominalClosingObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
@@ -172,7 +177,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getGeneralForwardBalanceObjectTypes(java.lang.Integer)
      */
     public List<String> getGeneralForwardBalanceObjectTypes(Integer fiscalYear) {
-        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
         List<String> generalBalanceForwardObjectTypes = new ArrayList<String>();
         generalBalanceForwardObjectTypes.add(option.getFinancialObjectTypeAssetsCd());
         generalBalanceForwardObjectTypes.add(option.getFinObjectTypeLiabilitiesCode());
@@ -184,7 +189,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getCumulativeForwardBalanceObjectTypes(java.lang.Integer)
      */
     public List<String> getCumulativeForwardBalanceObjectTypes(Integer fiscalYear) {
-        SystemOptions option = optionsDao.getByPrimaryId(fiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, fiscalYear);
         List<String> cumulativeBalanceForwardsObjectTypes = new ArrayList<String>();
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeExpNotExpendCode());

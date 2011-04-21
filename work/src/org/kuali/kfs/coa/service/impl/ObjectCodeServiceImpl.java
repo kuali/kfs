@@ -16,7 +16,9 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -24,8 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 
 /**
@@ -43,7 +48,11 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        return (ObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
     }
 
     /**
@@ -52,7 +61,11 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      */
     @CacheNoCopy
     public ObjectCode getByPrimaryIdWithCaching(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
+        return (ObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
     }
 
     /**

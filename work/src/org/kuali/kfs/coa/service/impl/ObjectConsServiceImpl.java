@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
 import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 import org.kuali.kfs.coa.service.ObjectConsService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali.
@@ -32,7 +38,10 @@ public class ObjectConsServiceImpl implements ObjectConsService {
      * @see org.kuali.kfs.coa.service.ObjectConsService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
-        return objectConsDao.getByPrimaryId(chartOfAccountsCode, objectConsCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, objectConsCode);
+        return (ObjectConsolidation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectConsolidation.class, keys);
     }
 
     /**

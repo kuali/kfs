@@ -16,12 +16,18 @@
 package org.kuali.kfs.coa.service.impl;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
 import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +49,10 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
      * @see org.kuali.kfs.coa.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
      */
     public PriorYearAccount getByPrimaryKey(String chartCode, String accountNumber) {
-        return priorYearAccountDao.getByPrimaryId(chartCode, accountNumber);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        return (PriorYearAccount)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PriorYearAccount.class, keys);
     }
 
     /**

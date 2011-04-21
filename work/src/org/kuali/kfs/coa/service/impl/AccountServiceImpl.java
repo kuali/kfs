@@ -18,9 +18,11 @@ package org.kuali.kfs.coa.service.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +32,7 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -38,6 +41,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -66,9 +70,11 @@ public class AccountServiceImpl implements AccountService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieving account by primaryId (" + chartOfAccountsCode + "," + accountNumber + ")");
         }
-
-        Account account = accountDao.getByPrimaryId(chartOfAccountsCode, accountNumber);
-
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        Account account = (Account)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
+ 
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieved account by primaryId (" + chartOfAccountsCode + "," + accountNumber + ")");
         }
@@ -82,7 +88,10 @@ public class AccountServiceImpl implements AccountService {
      */
     @Cached
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
-        return accountDao.getByPrimaryId(chartOfAccountsCode, accountNumber);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        return (Account)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
     }
 
     /**

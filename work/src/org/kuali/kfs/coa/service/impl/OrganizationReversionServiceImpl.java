@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.dataaccess.OrganizationReversionDao;
@@ -29,7 +28,7 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
 import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -53,7 +52,11 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
      */
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
         LOG.debug("getByPrimaryId() started");
-        return organizationReversionDao.getByPrimaryId(fiscalYear, chartCode, orgCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
+        return (OrganizationReversion)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationReversion.class, keys);
     }
 
     /**

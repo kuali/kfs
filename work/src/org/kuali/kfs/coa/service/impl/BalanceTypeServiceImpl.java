@@ -17,12 +17,16 @@ package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.coa.service.BalanceTypeService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -104,7 +108,10 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      */
     @CacheNoCopy
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
-        return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
+        return option.getCostShareEncumbranceBalanceTypeCd();
     }
 
     /**
@@ -113,7 +120,9 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      */
     @CacheNoCopy
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
-        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);        
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
         encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
@@ -146,7 +155,9 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      */
     @CacheNoCopy
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
-        SystemOptions option = optionsDao.getByPrimaryId(universityFiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
         List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>();
         continuationAccountBypassBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         continuationAccountBypassBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());

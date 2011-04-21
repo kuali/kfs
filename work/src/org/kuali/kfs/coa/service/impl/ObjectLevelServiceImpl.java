@@ -15,10 +15,16 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This service implementation is the default implementation of the ObjLevel service that is delivered with Kuali.
@@ -32,7 +38,10 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
-        return objectLevelDao.getByPrimaryId(chartOfAccountsCode, objectLevelCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevelCode);
+        return (ObjectLevel)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
     }
 
     /**

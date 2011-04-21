@@ -15,13 +15,18 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.dataaccess.SubAccountDao;
 import org.kuali.kfs.coa.service.SubAccountService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -39,7 +44,11 @@ public class SubAccountServiceImpl implements SubAccountService {
      * @see org.kuali.kfs.coa.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
      */
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        return (SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, keys);
     }
 
     /**
@@ -49,7 +58,11 @@ public class SubAccountServiceImpl implements SubAccountService {
      */
     @Cached
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        return (SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, keys);
     }
 
     /**

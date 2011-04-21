@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -22,7 +25,10 @@ import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -39,7 +45,11 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
      * @see org.kuali.kfs.coa.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        return (A21SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(A21SubAccount.class, keys);
     }
 
     /**

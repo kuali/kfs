@@ -16,13 +16,18 @@
 package org.kuali.kfs.module.bc.document.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,7 +49,10 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
      *      java.lang.String)
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-        return budgetConstructionOrganizationReportsDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+        return (BudgetConstructionOrganizationReports)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, keys);
     }
     
     public List getBySearchCriteria(Class cls, Map searchCriteria) {

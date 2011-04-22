@@ -17,14 +17,15 @@ package org.kuali.kfs.gl.batch.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionAccountDao;
 import org.kuali.kfs.coa.dataaccess.IndirectCostRecoveryExclusionTypeDao;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
@@ -35,8 +36,11 @@ import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.ExpenditureTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -191,7 +195,11 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @return true if there's an exclusion by type record for this type code and object code
      */
     protected boolean hasExclusionByType(String indirectCostRecoveryTypeCode, ObjectCode objectCode) {
-        final IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(indirectCostRecoveryTypeCode, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.ACCOUNT_INDIRECT_COST_RECOVERY_TYPE_CODE, indirectCostRecoveryTypeCode);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, objectCode.getChartOfAccountsCode());
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
+        final IndirectCostRecoveryExclusionType excType = (IndirectCostRecoveryExclusionType)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(IndirectCostRecoveryExclusionType.class, keys);
         return !ObjectUtils.isNull(excType) && excType.isActive();
     }
     
@@ -223,7 +231,13 @@ public class PostExpenditureTransaction implements IndirectCostRecoveryService, 
      * @return true if the given account and object code have an exclusion by account record, false otherwise
      */
     protected boolean hasExclusionByAccount(Account account, ObjectCode objectCode) {
-        final IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CHART_OF_ACCOUNT_CODE, objectCode.getChartOfAccountsCode());
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCode());
+        final IndirectCostRecoveryExclusionAccount excAccount = (IndirectCostRecoveryExclusionAccount)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(IndirectCostRecoveryExclusionAccount.class, keys);
+        
         return !ObjectUtils.isNull(excAccount);
     }
     

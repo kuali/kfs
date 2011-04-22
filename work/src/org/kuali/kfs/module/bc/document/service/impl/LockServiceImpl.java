@@ -25,6 +25,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
@@ -36,10 +37,11 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLockDao;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableException;
-import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -210,7 +212,14 @@ public class LockServiceImpl implements LockService {
         BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
 
         if (!isAccountLocked(bcHeader)) {
-            BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), principalId);
+            Map<String, Object> keys = new HashMap<String, Object>();
+            keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bcHeader.getChartOfAccountsCode());
+            keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bcHeader.getAccountNumber());
+            keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, bcHeader.getSubAccountNumber());
+            keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, bcHeader.getUniversityFiscalYear());
+            keys.put("appointmentFundingLockUserId", principalId);
+            BudgetConstructionFundingLock budgetConstructionFundingLock = (BudgetConstructionFundingLock)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionFundingLock.class, keys);
+            
             if (budgetConstructionFundingLock != null && budgetConstructionFundingLock.getAppointmentFundingLockUserId().equals(principalId)) {
                 bcLockStatus.setLockStatus(LockStatus.SUCCESS);
             }
@@ -261,8 +270,14 @@ public class LockServiceImpl implements LockService {
     public LockStatus unlockFunding(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId) {
 
         LockStatus lockStatus;
-
-        BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        keys.put("appointmentFundingLockUserId", principalId);
+        BudgetConstructionFundingLock budgetConstructionFundingLock = (BudgetConstructionFundingLock)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionFundingLock.class, keys);
+        
         if (budgetConstructionFundingLock != null) {
             budgetConstructionDao.deleteBudgetConstructionFundingLock(budgetConstructionFundingLock);
             lockStatus = LockStatus.SUCCESS;
@@ -304,7 +319,14 @@ public class LockServiceImpl implements LockService {
      */
     @Transactional
     public boolean isFundingLockedByUser(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId) {
-        BudgetConstructionFundingLock budgetConstructionFundingLock = budgetConstructionDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber, fiscalYear, principalId);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        keys.put("appointmentFundingLockUserId", principalId);
+        BudgetConstructionFundingLock budgetConstructionFundingLock = (BudgetConstructionFundingLock)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionFundingLock.class, keys);
+        
         if (budgetConstructionFundingLock != null) {
             return true;
         }
@@ -319,7 +341,11 @@ public class LockServiceImpl implements LockService {
     public BudgetConstructionLockStatus lockPosition(String positionNumber, Integer fiscalYear, String principalId) {
 
         BudgetConstructionLockStatus bcLockStatus = new BudgetConstructionLockStatus();
-        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        BudgetConstructionPosition bcPosition = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
+ 
         if (bcPosition != null) {
             if (bcPosition.getPositionLockUserIdentifier() == null) {
                 bcPosition.setPositionLockUserIdentifier(principalId);
@@ -368,8 +394,11 @@ public class LockServiceImpl implements LockService {
      */
     @Transactional
     public boolean isPositionLocked(String positionNumber, Integer fiscalYear) {
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        BudgetConstructionPosition bcPosition = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
 
-        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
         if (bcPosition != null) {
             if (bcPosition.getPositionLockUserIdentifier() != null) {
                 return true;
@@ -389,7 +418,11 @@ public class LockServiceImpl implements LockService {
      */
     @Transactional
     public boolean isPositionLockedByUser(String positionNumber, Integer fiscalYear, String principalId) {
-        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        BudgetConstructionPosition bcPosition = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
+        
         if (bcPosition != null && bcPosition.getPositionLockUserIdentifier() != null && bcPosition.getPositionLockUserIdentifier().equals(principalId)) {
             return true;
         }
@@ -413,8 +446,10 @@ public class LockServiceImpl implements LockService {
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear) {
 
         LockStatus lockStatus;
-
-        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        BudgetConstructionPosition bcPosition = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
         if (bcPosition != null) {
             if (bcPosition.getPositionLockUserIdentifier() != null) {
                 bcPosition.setPositionLockUserIdentifier(null);
@@ -442,7 +477,11 @@ public class LockServiceImpl implements LockService {
      */
     @Transactional
     public LockStatus unlockPosition(String positionNumber, Integer fiscalYear, String principalId) {
-        BudgetConstructionPosition bcPosition = budgetConstructionDao.getByPrimaryId(positionNumber, fiscalYear);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        BudgetConstructionPosition bcPosition = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
+
         if (bcPosition == null || !principalId.equals(bcPosition.getPositionLockUserIdentifier())) {
             return LockStatus.NO_DOOR;
         }
@@ -726,7 +765,11 @@ public class LockServiceImpl implements LockService {
         }
 
         if (BCConstants.LockTypes.POSITION_FUNDING_LOCK.equals(lockType)) {
-            BudgetConstructionPosition position = budgetConstructionDao.getByPrimaryId(lockSummary.getPositionNumber(), lockSummary.getUniversityFiscalYear());
+            Map<String, Object> keys = new HashMap<String, Object>();
+            keys.put(KFSPropertyConstants.POSITION_NUMBER, lockSummary.getPositionNumber());
+            keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, lockSummary.getUniversityFiscalYear());
+            BudgetConstructionPosition position = (BudgetConstructionPosition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionPosition.class, keys);
+     
             for (PendingBudgetConstructionAppointmentFunding appointmentFunding : position.getPendingBudgetConstructionAppointmentFunding()) {
                 this.unlockFunding(appointmentFunding.getChartOfAccountsCode(), appointmentFunding.getAccountNumber(), appointmentFunding.getSubAccountNumber(), appointmentFunding.getUniversityFiscalYear(), lockSummary.getLockUser().getPrincipalId());
             }

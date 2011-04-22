@@ -16,11 +16,16 @@
 package org.kuali.kfs.sys.service.impl;
 
 
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
 import org.kuali.rice.kns.util.spring.Cached;
 
@@ -35,13 +40,12 @@ public class OptionsServiceImpl implements OptionsService {
     public SystemOptions getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
         Integer fy = universityDateService.getCurrentFiscalYear();
-        return optionsDao.getByPrimaryId(fy);
+        return (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, fy);
     }
 
     public SystemOptions getOptions(Integer universityFiscalYear) {
         LOG.debug("getOptions() started");
-
-        return optionsDao.getByPrimaryId(universityFiscalYear);
+        return (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
     }
 
     public void setOptionsDao(OptionsDao od) {

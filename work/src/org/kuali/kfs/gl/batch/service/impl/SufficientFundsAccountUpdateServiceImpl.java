@@ -204,7 +204,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
 
-        options = optionsDao.getByPrimaryId(universityFiscalYear);
+        options = (SystemOptions)boService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
 
         if (options == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));

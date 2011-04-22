@@ -16,10 +16,13 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.spring.CacheNoCopy;
@@ -47,8 +50,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
         java.util.Date now = dateTimeService.getCurrentDate();
-
-        return universityDateDao.getByPrimaryKey(DateUtils.clearTimeFields(now));
+        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, DateUtils.clearTimeFields(now));
     }
 
     /**
@@ -80,8 +82,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-
-        UniversityDate uDate = universityDateDao.getByPrimaryKey(date);
+        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, date);
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 

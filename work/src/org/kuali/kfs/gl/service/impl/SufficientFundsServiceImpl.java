@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
@@ -248,7 +249,12 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             return true;
         }
 
-        SufficientFundBalances sfBalance = sufficientFundBalancesDao.getByPrimaryId(item.getYear().getUniversityFiscalYear(), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), item.getSufficientFundsObjectCode());
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, item.getYear().getUniversityFiscalYear());
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, item.getAccount().getChartOfAccountsCode());
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, item.getAccount().getAccountNumber());
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, item.getSufficientFundsObjectCode());
+        SufficientFundBalances sfBalance = (SufficientFundBalances)businessObjectService.findByPrimaryKey(SufficientFundBalances.class, keys);
 
         if (sfBalance == null) {
             Map criteria = new HashMap();
@@ -351,7 +357,12 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         // This only gets called for sufficient funds type of Cash at Account (H). The object code in the table for this type is
         // always
         // 4 spaces.
-        SufficientFundBalances bal = sufficientFundBalancesDao.getByPrimaryId(Integer.valueOf(item.getYear().getUniversityFiscalYear().intValue() - 1), item.getAccount().getChartOfAccountsCode(), item.getAccount().getAccountNumber(), "    ");
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, Integer.valueOf(item.getYear().getUniversityFiscalYear().intValue() - 1));
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, item.getAccount().getChartOfAccountsCode());
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, item.getAccount().getAccountNumber());
+        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "    ");
+        SufficientFundBalances bal = (SufficientFundBalances)businessObjectService.findByPrimaryKey(SufficientFundBalances.class, keys);
 
         if (bal != null) {
             amounts.budget = bal.getCurrentBudgetBalanceAmount();

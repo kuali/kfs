@@ -23,6 +23,7 @@ import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,6 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
@@ -65,6 +65,7 @@ import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.exception.ReferentialIntegrityException;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiRuleService;
@@ -193,8 +194,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      */
     public GeneralLedgerPendingEntry getByPrimaryId(Integer transactionEntrySequenceId, String documentHeaderId) {
         LOG.debug("getByPrimaryId() started");
-
-        return generalLedgerPendingEntryDao.getByPrimaryId(documentHeaderId, transactionEntrySequenceId);
+        Map<String, Object> keys = new HashMap<String, Object>();
+        keys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
+        keys.put("transactionLedgerEntrySequenceNumber", transactionEntrySequenceId);
+        return (GeneralLedgerPendingEntry)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
     }
 
     public void fillInFiscalPeriodYear(GeneralLedgerPendingEntry glpe) {

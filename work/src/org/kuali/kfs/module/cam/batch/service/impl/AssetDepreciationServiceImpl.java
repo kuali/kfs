@@ -40,7 +40,6 @@ import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
 import org.kuali.kfs.module.cam.batch.service.ReportService;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationTransaction;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
-import org.kuali.kfs.module.cam.document.AssetDepreciationDocument;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.KFSConstants;
@@ -131,8 +130,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation run date: " + depreciationDateParameter);
 
-
-            UniversityDate universityDate = universityDateDao.getByPrimaryKey(depreciationDate.getTime());
+            UniversityDate universityDate =  (UniversityDate)businessObjectService.findBySinglePrimaryKey(UniversityDate.class, depreciationDate.getTime());
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
             }

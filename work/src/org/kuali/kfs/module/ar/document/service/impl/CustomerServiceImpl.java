@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getByPrimaryKey(java.lang.String)
      */
     public Customer getByPrimaryKey(String customerNumber) {
-       return customerDao.getByPrimaryId(customerNumber);
+       return (Customer)businessObjectService.findBySinglePrimaryKey(Customer.class, customerNumber);
     }
 
     public Customer getByTaxNumber(String taxNumber) {

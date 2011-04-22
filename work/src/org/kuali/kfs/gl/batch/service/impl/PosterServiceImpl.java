@@ -214,7 +214,7 @@ public class PosterServiceImpl implements PosterService {
         String GLEN_RECORD;
         Date executionDate = new Date(dateTimeService.getCurrentDate().getTime());
         Date runDate = new Date(runDateService.calculateRunDate(executionDate).getTime());
-        UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
+        UniversityDate runUniversityDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, runDate);       
         LedgerSummaryReport ledgerSummaryReport = new LedgerSummaryReport();
 
         // Build the summary map so all the possible combinations of destination & operation
@@ -359,7 +359,8 @@ public class PosterServiceImpl implements PosterService {
                 else if (KFSConstants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
                     reversal.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
                 }
-                UniversityDate udate = universityDateDao.getByPrimaryKey(reversal.getFinancialDocumentReversalDate());
+                UniversityDate udate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, reversal.getFinancialDocumentReversalDate());       
+                
                 if (udate != null) {
                     reversal.setUniversityFiscalYear(udate.getUniversityFiscalYear());
                     reversal.setUniversityFiscalPeriodCode(udate.getUniversityFiscalAccountingPeriod());

@@ -534,7 +534,6 @@ public class GeneralLedgerBudgetLoadDaoOjb extends BudgetConstructionBatchHelper
         public DaoGlobalVariables(Integer requestYear, Date currentSqlDate, String financialSystemOriginationCode) {
             this.requestYear = requestYear;
             this.entrySequenceNumber = entrySequenceNumber(requestYear);
-            // this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
             this.transactionDate = currentSqlDate;
             this.financialSystemOriginationCode = financialSystemOriginationCode;
             this.accountsNotToBeLoaded = getAccountsNotToBeLoaded();

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -32,11 +31,9 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionPositionFundingDetailReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsPositionFundingDetailTable = new ArrayList<SQLForStep>(5);
-    
-    private PersistenceService persistenceService;
-    
+
     public BudgetConstructionPositionFundingDetailReportDaoJdbc() {
-        
+
         /* populate the table based on threshold settings */
         /* sum the request and base by ssn */
         StringBuilder sqlText = new StringBuilder(1500);
@@ -61,11 +58,11 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-        sqlText.append("GROUP BY bcaf.emplid \n");          
+        sqlText.append("GROUP BY bcaf.emplid \n");
 
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
+
         /* get the set where percent change (fraction * 100) in the salary exceeds the threshold */
         sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
@@ -87,11 +84,11 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" AND ROUND((((tssn.appt_rqst_amt - tssn.pos_csf_amt) / tssn.pos_csf_amt) * 100),1) >= ? \n");
         sqlText.append(" AND tssn.pos_csf_amt <> 0 \n");
         sqlText.append(" AND tssn.sesid = ? \n");
-                                            
+
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
-        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */        
+
+        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */
         sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
@@ -112,10 +109,10 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" AND ROUND((((tssn.appt_rqst_amt - tssn.pos_csf_amt) / tssn.pos_csf_amt) * 100),1) <= ? \n");
         sqlText.append(" AND tssn.pos_csf_amt <> 0 \n");
         sqlText.append(" AND tssn.sesid = ? \n");
-        
+
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
+
         /* populate the table using the full set--no check on the percent change in the salary */
         sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
@@ -132,71 +129,67 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-        
+
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
     }
-    
+
     public void cleanReportsPositionFundingDetailTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-    /**
-     * 
-     * build a list of people with salaries at or above the threshold
-     * @param principalName--the user requesting the list
-     * @param thresholdPercent--the percent marking the threshold
-     */
-    protected void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent)
-    {
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
-        // get rid of any previous reporting data from this user
-        cleanReportsPositionFundingDetailTable(principalName);
-        // sum the FTE and amounts into a temporary table
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,principalName);
-        // fill the reporting table with only those people who are at or above the threshold
-        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
-        // (apparently, creating a new value from a cast doesn't help either)
-        Number thresholdValue = thresholdPercent.floatValue();
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(),principalName, principalName, thresholdValue, idForSession);
-        // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
     }
 
     /**
+     * build a list of people with salaries at or above the threshold
      * 
-     * build a list of people with salaries at or below the threshhold
      * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
-    protected void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent)
-    {
+    protected void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent) {
         Guid guid = new Guid();
         String idForSession = guid.toString();
         // get rid of any previous reporting data from this user
         cleanReportsPositionFundingDetailTable(principalName);
         // sum the FTE and amounts into a temporary table
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(),idForSession,principalName);
-        // fill the reporting table with only those people who are at or below the threshold
-        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't help: 04/09/2008)
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(), idForSession, principalName);
+        // fill the reporting table with only those people who are at or above the threshold
+        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't
+        // help: 04/09/2008)
         // (apparently, creating a new value from a cast doesn't help either)
         Number thresholdValue = thresholdPercent.floatValue();
-        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(),principalName, principalName, thresholdValue, idForSession);
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(), principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt","SESID",idForSession);
+        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt", "SESID", idForSession);
     }
-    
+
     /**
+     * build a list of people with salaries at or below the threshhold
      * 
+     * @param principalName--the user requesting the list
+     * @param thresholdPercent--the percent marking the threshold
+     */
+    protected void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent) {
+        Guid guid = new Guid();
+        String idForSession = guid.toString();
+        // get rid of any previous reporting data from this user
+        cleanReportsPositionFundingDetailTable(principalName);
+        // sum the FTE and amounts into a temporary table
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(0).getSQL(), idForSession, principalName);
+        // fill the reporting table with only those people who are at or below the threshold
+        // (jdbcTemplate will apparenlty not accept a parameter of type KualiDecimal, and a cast when we pass the parameter doesn't
+        // help: 04/09/2008)
+        // (apparently, creating a new value from a cast doesn't help either)
+        Number thresholdValue = thresholdPercent.floatValue();
+        getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(), principalName, principalName, thresholdValue, idForSession);
+        // remove the data for this user's session from the temporary table for total amounts and FTE
+        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt", "SESID", idForSession);
+    }
+
+    /**
      * build a list of all salaries which this user can see
+     * 
      * @param principalName--the user requesting the list
      */
-    protected void updateReportsPositionFundingDetailTableWithAllData(String principalName)
-    {
+    protected void updateReportsPositionFundingDetailTableWithAllData(String principalName) {
         // get rid of any previous reporting data from this user
         cleanReportsPositionFundingDetailTable(principalName);
         // dump all the data this user is authorized to report on into the reporting table
@@ -204,35 +197,22 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao#updateReportsPositionFundingDetailTable(java.lang.String, boolean, boolean, java.lang.Number)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao#updateReportsPositionFundingDetailTable(java.lang.String,
+     *      boolean, boolean, java.lang.Number)
      */
     public void updateReportsPositionFundingDetailTable(String principalName, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent) {
         // if there is no threshold, just dump everything in and return
-        if (! applyAThreshold)
-        {
+        if (!applyAThreshold) {
             updateReportsPositionFundingDetailTableWithAllData(principalName);
             return;
         }
         // the user wants a threshold--list above or below?
-        if (selectOnlyGreaterThanOrEqualToThreshold)
-        {
+        if (selectOnlyGreaterThanOrEqualToThreshold) {
             updateReportsPositionFundingDetailTableAboveThreshold(principalName, thresholdPercent);
         }
-        else
-        {
+        else {
             updateReportsPositionFundingDetailTableBelowThreshold(principalName, thresholdPercent);
         }
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
     }
 
 }
-

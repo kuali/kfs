@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -32,19 +31,17 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionSalarySummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSalarySummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryThreshold           = new ArrayList<SQLForStep>(7);
-    private static ArrayList<SQLForStep> salarySummaryAboveThreshold                   = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> salarySummaryBelowThreshold                   = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdReason   = new ArrayList<SQLForStep>(1);
+    private static ArrayList<SQLForStep> updateReportsSalarySummaryThreshold = new ArrayList<SQLForStep>(7);
+    private static ArrayList<SQLForStep> salarySummaryAboveThreshold = new ArrayList<SQLForStep>(1);
+    private static ArrayList<SQLForStep> salarySummaryBelowThreshold = new ArrayList<SQLForStep>(1);
+    private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdReason = new ArrayList<SQLForStep>(1);
     private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdNoReason = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryCommon              = new ArrayList<SQLForStep>(2);
-    
-    private PersistenceService persistenceService;
+    private static ArrayList<SQLForStep> updateReportsSalarySummaryCommon = new ArrayList<SQLForStep>(2);
 
     public BudgetConstructionSalarySummaryReportDaoJdbc() {
 
         // builds and updates SalarySummaryReports
-        
+
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
         StringBuilder sqlText = new StringBuilder(1500);
 
@@ -64,7 +61,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append(" AND bcaf.emplid <> '");
-        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        // empolyee ID for a vacant line in budget construction CSF and appointment funding
         insertionPoints.add(sqlText.length());
         sqlText.append("' \n");
         sqlText.append(" AND bcaf.appt_fnd_dur_cd = '");
@@ -77,7 +74,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.univ_fiscal_yr = posn.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.position_nbr = posn.position_nbr \n");
 
-        updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -99,7 +96,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append(" AND bcaf.emplid <> '\n");
-        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        // empolyee ID for a vacant line in budget construction CSF and appointment funding
         insertionPoints.add(sqlText.length());
         sqlText.append("' \n");
         sqlText.append(" AND bcaf.appt_fnd_dur_cd <> '");
@@ -112,7 +109,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.univ_fiscal_yr = posn.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.position_nbr = posn.position_nbr \n");
 
-        updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -133,7 +130,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
 
-        /* for each emplid, find the CSF from the previous year with the largest salary (break ties by taking the row with the smallest position number */
+        /*
+         * for each emplid, find the CSF from the previous year with the largest salary (break ties by taking the row with the
+         * smallest position number
+         */
         sqlText.append("INSERT INTO ld_bcn_build_salsumm03_mt\n");
         sqlText.append("(SESID, EMPLID, CSF_MTHS, CSF_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, p.iu_norm_work_months, p.iu_pay_months \n");
@@ -168,7 +168,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.delete(0, sqlText.length());
 
         /* restate the csf for all records, adjusting it so that it reflects changes in months appointment and percent time. */
-        /* the adjustment factor is (req pct time/base pct time)(req mnths appt/req position mnths appt)/(base mnths appt)/(base position mnths appt)*/
+        /*
+         * the adjustment factor is (req pct time/base pct time)(req mnths appt/req position mnths appt)/(base mnths appt)/(base
+         * position mnths appt)
+         */
         sqlText.append("UPDATE ld_bcn_build_salsumm04_mt \n");
         sqlText.append("SET res_csf_amt = ROUND(COALESCE(((pos_csf_amt * sal_pct * sal_mths * csf_pmths) \n");
         sqlText.append(" / (pos_csf_tm_pct * csf_mths * sal_pmths)), 0.00),0) \n");
@@ -223,7 +226,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append(" AND bcaf.emplid <> '");
-        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        // empolyee ID for a vacant line in budget construction CSF and appointment funding
         insertionPoints.add(sqlText.length());
         sqlText.append("' \n");
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
@@ -241,7 +244,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND rpk.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND rpk.select_flag <> 0 \n");
 
-        updateReportsSalarySummaryNoThresholdReason.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsSalarySummaryNoThresholdReason.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -256,18 +259,18 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append(" AND bcaf.emplid <> '");
-        //  empolyee ID for a vacant line in budget construction CSF and appointment funding
+        // empolyee ID for a vacant line in budget construction CSF and appointment funding
         insertionPoints.add(sqlText.length());
         sqlText.append("' \n");
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-        
-        updateReportsSalarySummaryNoThresholdNoReason.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsSalarySummaryNoThresholdNoReason.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
-        /*  these are the two common driving SQL statements for all the reports  */
+
+        /* these are the two common driving SQL statements for all the reports */
 
         /* get the name recs for the set of EMPLIDs */
         sqlText.append("INSERT INTO ld_bcn_sal_ssn_t \n");
@@ -305,34 +308,34 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" AND bcaf.fin_object_cd = pick.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-          
+
         updateReportsSalarySummaryCommon.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
 
     }
 
     /**
-     * 
      * clean out all rows in the report tables associated with this user
+     * 
      * @param principalName--the user requesting the report
      */
     protected void clearUserPreviouSalarySummaryReports(String principalName) {
         this.clearTempTableByUnvlId("ld_bcn_sal_ssn_t", "PERSON_UNVL_ID", principalName);
         this.clearTempTableByUnvlId("ld_bcn_sal_fnd_t", "PERSON_UNVL_ID", principalName);
     }
-    
+
     /**
-     * 
      * clean out the work table used by all reports
+     * 
      * @param idForSession--the session which requested the report
      */
     protected void clearCommonWorkTable(String idForSession) {
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM05_MT", "SESID", idForSession);
     }
-    
+
     /**
-     * 
      * clean out the work tables for reporting by threshold
+     * 
      * @param idForSession--the session which requested the report
      */
     protected void clearThresholdWorkTables(String idForSession) {
@@ -341,10 +344,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM03_MT", "SESID", idForSession);
         this.clearTempTableBySesId("LD_BCN_BUILD_SALSUMM04_MT", "SESID", idForSession);
     }
-    
+
     /**
-     * 
      * runs SQL used by every report
+     * 
      * @param principalName--the user requesting the report
      * @param idForSession--the session of the user
      */
@@ -353,24 +356,24 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
         clearCommonWorkTable(idForSession);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String, java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String,
+     *      java.lang.Integer, boolean, org.kuali.rice.kns.util.KualiDecimal)
      */
     public void updateSalaryAndReasonSummaryReportsWithThreshold(String principalName, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
-        
+
         // clean out anything left from a previous report requested by this user
         clearUserPreviouSalarySummaryReports(principalName);
-        
+
         // default duration code is inserted into a couple of the SQL queries--get it now
         ArrayList<String> durationCodeDefault = new ArrayList<String>(2);
         durationCodeDefault.add(BCConstants.VACANT_EMPLID);
         durationCodeDefault.add(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
-        
+
         // fetch the base and request salary parameters for people who are marked as not going on leave
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(0).getSQL(durationCodeDefault), idForSession, principalName);
         // fetch the base and request salary parameters for people who are marked as going on leave
@@ -381,21 +384,21 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(3).getSQL(), idForSession, idForSession, previousFiscalYear);
         // combine the base and request months/percent time/position months into a single table
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(4).getSQL(), idForSession, idForSession);
-        // adjust the base salary so that it reflects the same appointment parameters as the request salary (increase it if the person will work 12 months this year, but worked only 10 last year, for example)
+        // adjust the base salary so that it reflects the same appointment parameters as the request salary (increase it if the
+        // person will work 12 months this year, but worked only 10 last year, for example)
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(5).getSQL(), idForSession);
         // adjust the base salary for changes in the position months versus last year
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryThreshold.get(6).getSQL(), idForSession);
         // the salaries taken will either be above or below the threshold
-        // April 09, 2008: Jdbc (at least Oracle's implementation) chokes on a KualiDecimal, with a message that says "illegal column type"
+        // April 09, 2008: Jdbc (at least Oracle's implementation) chokes on a KualiDecimal, with a message that says
+        // "illegal column type"
         // a simple cast to Number has the same result
         // using the code below works
         BigDecimal thresholdValue = threshold.bigDecimalValue();
-        if (reportGreaterThanOrEqualToThreshold)
-        {
+        if (reportGreaterThanOrEqualToThreshold) {
             getSimpleJdbcTemplate().update(salarySummaryAboveThreshold.get(0).getSQL(), idForSession, idForSession, thresholdValue);
         }
-        else
-        {
+        else {
             getSimpleJdbcTemplate().update(salarySummaryBelowThreshold.get(0).getSQL(), idForSession, idForSession, thresholdValue);
         }
         // populate the holding table with the rows to be reported
@@ -404,42 +407,36 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
         // salary data for the rows to be reported
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
-        
+
         // clear out the threshold work tables for this session
         clearThresholdWorkTables(idForSession);
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
-    
+
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String, boolean)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String,
+     *      boolean)
      */
     public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String principalName, boolean listSalariesWithReasonCodes) {
-        
+
         // get the session ID
         Guid guid = new Guid();
         String idForSession = guid.toString();
-        
+
         // get the insertion String for the vacant EMPLID
         ArrayList<String> vacantEmplid = new ArrayList<String>(1);
         vacantEmplid.add(BCConstants.VACANT_EMPLID);
-        
+
         // clean out anything left from a previous report requested by this user
         clearUserPreviouSalarySummaryReports(principalName);
-        
-        //  the option exists to report only those people with a salary increase reason code, or to report everyone
-        if (listSalariesWithReasonCodes)
-        {
+
+        // the option exists to report only those people with a salary increase reason code, or to report everyone
+        if (listSalariesWithReasonCodes) {
             getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdReason.get(0).getSQL(vacantEmplid), idForSession, principalName);
         }
-        else
-        {
+        else {
             getSimpleJdbcTemplate().update(updateReportsSalarySummaryNoThresholdNoReason.get(0).getSQL(vacantEmplid), idForSession, principalName);
         }
         // populate the holding table with the rows to be reported
@@ -447,21 +444,9 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(0).getSQL(), principalName, principalName, idForSession);
         // salary data for the rows to be reported
         getSimpleJdbcTemplate().update(updateReportsSalarySummaryCommon.get(1).getSQL(), principalName, principalName, idForSession);
-        
+
         // clear out the common work table for this session
         clearCommonWorkTable(idForSession);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
     }
 
 }
-
-
-

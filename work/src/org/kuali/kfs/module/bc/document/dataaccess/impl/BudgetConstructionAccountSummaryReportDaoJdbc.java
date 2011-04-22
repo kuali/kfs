@@ -20,30 +20,28 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants.Report;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 
 /**
- *  builds rows for the general ledger summary report.  allows three different levels of aggregation: account/sub-account, account, and subfund
+ * builds rows for the general ledger summary report. allows three different levels of aggregation: account/sub-account, account,
+ * and subfund
  */
 
 public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountSummaryReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsAccountSummaryTable = new ArrayList<SQLForStep>(1);
-    
+
     private static ArrayList<SQLForStep> updateReportsAccountSummaryTableWithConsolidation = new ArrayList<SQLForStep>(1);
-    
+
     private static ArrayList<SQLForStep> updateSubFundSummaryReport = new ArrayList<SQLForStep>(1);
-    
-    private PersistenceService persistenceService;
-    
+
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
-        
-        //builds and updates AccountSummaryReports
-        
+
+        // builds and updates AccountSummaryReports
+
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
-        
-        //report the detail
+
+        // report the detail
         StringBuilder sqlText = new StringBuilder(10000);
         sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append("  ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
@@ -156,12 +154,12 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd,\n");
         sqlText.append(" ctrl.sel_sub_fund_grp, ctrl.account_nbr, ctrl.sub_acct_nbr \n");
-        
-        updateReportsAccountSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsAccountSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
-        //report at the account level
+
+        // report at the account level
         sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
@@ -175,7 +173,7 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         sqlText.append(" CA_SUB_FUND_GRP_T  sf \n");
         sqlText.append("WHERE pbgl.fin_obj_typ_cd in ");
         insertionPoints.add(sqlText.length());
-        // IN list of revenue object types 
+        // IN list of revenue object types
         sqlText.append(" \n");
         sqlText.append(" AND ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND ctrl.person_unvl_id = pick.person_unvl_id \n");
@@ -282,11 +280,11 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, \n");
         sqlText.append(" sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr \n");
 
-        updateReportsAccountSummaryTableWithConsolidation.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsAccountSummaryTableWithConsolidation.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
-        //builds and updates SubFundSummaryReports
+        // builds and updates SubFundSummaryReports
         sqlText.append("INSERT INTO LD_BCN_ACCT_SUMM_T(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,  \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
@@ -383,21 +381,17 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         sqlText.append(" AND pbgl.account_nbr = ctrl.account_nbr \n");
         sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp \n");
-        
-        updateSubFundSummaryReport.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateSubFundSummaryReport.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#cleanReportsAccountSummaryTable(java.lang.String)
      */
     public void cleanReportsAccountSummaryTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
 
     /**
@@ -418,10 +412,6 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
 
 
@@ -443,12 +433,8 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
      */
@@ -467,15 +453,6 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         stringsToInsert.add(expenditureList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateSubFundSummaryReport.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
-    }
-}
 
+}

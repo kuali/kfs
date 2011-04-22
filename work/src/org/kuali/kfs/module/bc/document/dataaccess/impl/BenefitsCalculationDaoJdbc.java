@@ -20,42 +20,39 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
- * 
- * implements the SQL procedures to calculate benefits for the personnel object codes in the budget.  
- * apply the appropriate percentage to each object type in the general ledger, and split the result out into the monthly budget lines 
- * if monthly budgets exist for the accounting key.
+ * implements the SQL procedures to calculate benefits for the personnel object codes in the budget. apply the appropriate
+ * percentage to each object type in the general ledger, and split the result out into the monthly budget lines if monthly budgets
+ * exist for the accounting key.
  */
 
 public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase implements BenefitsCalculationDao {
 
-    private static ArrayList<SQLForStep> sqlAnnualSteps  = new ArrayList<SQLForStep>(6);
+    private static ArrayList<SQLForStep> sqlAnnualSteps = new ArrayList<SQLForStep>(6);
     private static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(4);
-    
-    private PersistenceService persistenceService;
-    
-    
+
+
     /**
-     *  these will be set to constant values in the constructor and used throughout SQL for the various steps.
+     * these will be set to constant values in the constructor and used throughout SQL for the various steps.
      */
 
     public BenefitsCalculationDaoJdbc() {
 
-        //this is a bean constructor, so it is dangerous to access static constants defined in other classes here.  the other classes may not have been loaded yet.
-        //so, we use insertion points to indicate where such constants should be placed in the SQL, and we splice them in a run time.  we also use insertion points to splice in run time constants from SH_PARM_T.
+        // this is a bean constructor, so it is dangerous to access static constants defined in other classes here. the other
+        // classes may not have been loaded yet.
+        // so, we use insertion points to indicate where such constants should be placed in the SQL, and we splice them in a run
+        // time. we also use insertion points to splice in run time constants from SH_PARM_T.
         StringBuilder sqlBuilder = new StringBuilder(2500);
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>();
         /**
-         * this needs to be done before we can get rid of annual fringe benefits objects with no base.
-         * LD_BNCSTR_MNTH_T has an RI child constraint on LD_PND_BCNSTR_GL_T.  So, before we eliminate any Budget Construction
-         * general ledger rows, we have to get rid of any dependent Budget Construction Monthly rows.  If we call this set of
-         * queries to rebuild budgeted benefits for the general ledger, the next set of queries will also have to be called if
-         * monthly budgets exist.  If no monthly budgets exist, the query below will not do anything.  In that case, calling the
-         * Budget Construction general ledger benefits calculation routine without calling the monthly benefits calculation 
-         * routine will be acceptable. 
+         * this needs to be done before we can get rid of annual fringe benefits objects with no base. LD_BNCSTR_MNTH_T has an RI
+         * child constraint on LD_PND_BCNSTR_GL_T. So, before we eliminate any Budget Construction general ledger rows, we have to
+         * get rid of any dependent Budget Construction Monthly rows. If we call this set of queries to rebuild budgeted benefits
+         * for the general ledger, the next set of queries will also have to be called if monthly budgets exist. If no monthly
+         * budgets exist, the query below will not do anything. In that case, calling the Budget Construction general ledger
+         * benefits calculation routine without calling the monthly benefits calculation routine will be acceptable.
          */
         sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
         sqlBuilder.append("WHERE (LD_BCNSTR_MONTH_T.FDOC_NBR = ?)\n");
@@ -76,7 +73,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)\n");
         sqlBuilder.append("         AND (LD_PND_BCNSTR_GL_T.FIN_BEG_BAL_LN_AMT = 0)))\n");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
-        sqlBuilder.delete(0,sqlBuilder.length());
+        sqlBuilder.delete(0, sqlBuilder.length());
         /**
          * get rid of fringe benefits objects with no base
          */
@@ -160,15 +157,18 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("              WHERE (sesid = ?)\n");
         sqlBuilder.append("                AND (ld_pnd_bcnstr_gl_t.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
-        // expenditure object types 
+        // expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
-        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
         /**
-         * now re-insert rows with zero base which still have benefits-eligible object codes in pending BC GL.  all budget construction GL lines added by the budget construction application have an object type code of FinObjTypeExpenditureexpCd, which we pass at run time as a parameter.  we have an IN clause to check for other object types which may have been loaded in the base from the general ledger.  the request for such lines will not have this object type.
-         * 
+         * now re-insert rows with zero base which still have benefits-eligible object codes in pending BC GL. all budget
+         * construction GL lines added by the budget construction application have an object type code of
+         * FinObjTypeExpenditureexpCd, which we pass at run time as a parameter. we have an IN clause to check for other object
+         * types which may have been loaded in the base from the general ledger. the request for such lines will not have this
+         * object type.
          */
         sqlBuilder.append("INSERT INTO ld_pnd_bcnstr_gl_t\n");
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
@@ -204,20 +204,19 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (ld_pnd_bcnstr_gl_t.fin_obj_typ_cd IN ");
-        //  expenditure object types
+        // expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))))");
-        sqlAnnualSteps.add(new SQLForStep(sqlBuilder,insertionPoints));
+        sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
         /**
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
          */
         /**
-         * Cleanup the rare case where annual request goes to zero with existing monthly buckets.
-         * This gives monthly calc benefits problems from constraints since the annual benefit target row
-         * might be non-existent when it inserts the new results from the left over monthly buckets
-         * This is usually the case since annual benefits are usually calculated first.
+         * Cleanup the rare case where annual request goes to zero with existing monthly buckets. This gives monthly calc benefits
+         * problems from constraints since the annual benefit target row might be non-existent when it inserts the new results from
+         * the left over monthly buckets This is usually the case since annual benefits are usually calculated first.
          */
         sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
         sqlBuilder.append("WHERE ld_bcnstr_month_t.fdoc_nbr = ?\n");
@@ -272,7 +271,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
         sqlBuilder.delete(0, sqlBuilder.length());
         /**
-         * calc benefits for source objects and sum to target objects.   all budget construction GL lines added by the budget construction application have an object type code of FinObjTypeExpenditureexpCd, which we pass at run time as a parameter.  we have an IN clause to check for other object types which may have been loaded in the base from the general ledger.  the request for such lines will not have this object type.
+         * calc benefits for source objects and sum to target objects. all budget construction GL lines added by the budget
+         * construction application have an object type code of FinObjTypeExpenditureexpCd, which we pass at run time as a
+         * parameter. we have an IN clause to check for other object types which may have been loaded in the base from the general
+         * ledger. the request for such lines will not have this object type.
          */
         sqlBuilder.append("INSERT INTO ld_bcnstr_month_t\n");
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
@@ -332,7 +334,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = ld_lbr_obj_bene_t.fin_coa_cd\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.pos_benefit_typ_cd = ld_lbr_obj_bene_t.finobj_bene_typ_cd\n");
         sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd");
-        sqlMonthlySteps.add(new SQLForStep(sqlBuilder,insertionPoints));
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
 
@@ -376,14 +378,16 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String, Integer, String, String, String, String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String,
+     *      Integer, String, String, String, String)
      */
     public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
 
         // the first thing to do is get the SQL IN list of expenditure object code types allowed in budget construction.
         // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
-        // if the benefits portion of budget construction is not in use at a particular site, then doing it this way will have no impact.
-        
+        // if the benefits portion of budget construction is not in use at a particular site, then doing it this way will have no
+        // impact.
+
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
@@ -394,22 +398,18 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        // re-set general ledger amount for existing fringe benefits object codes 
+        // re-set general ledger amount for existing fringe benefits object codes
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
         // insert general ledger lines for new fringe benefits object codes.
-        stringsToInsert.add(2,stringsToInsert.get(0));
-        stringsToInsert.add(3,stringsToInsert.get(1));
+        stringsToInsert.add(2, stringsToInsert.get(0));
+        stringsToInsert.add(3, stringsToInsert.get(1));
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
         String idForSession = (new Guid()).toString();
@@ -420,20 +420,12 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
         // get rid of monthly buckets for any rows with annual zero request
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        // get rid of existing monthly budgets for this key       
+        // get rid of existing monthly budgets for this key
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         // add any rounding errors to the first month
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
-    }
+
 }

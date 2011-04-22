@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountFundingDetailReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 
 /**
  * 
@@ -29,11 +28,9 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountFundingDetailReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsAccountFundingDetailTable = new ArrayList<SQLForStep>(1);
-    
-    private PersistenceService persistenceService;
-        
+
     public BudgetConstructionAccountFundingDetailReportDaoJdbc() {
-        
+
         /* get accounts for selected orgs and objects */
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO ld_bcn_objt_dump_t \n");
@@ -50,31 +47,18 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
         sqlText.append(" AND pick.fin_object_cd = af.fin_object_cd \n");
         sqlText.append(" AND pick.person_unvl_id = ctrl.person_unvl_id \n");
         sqlText.append(" AND pick.select_flag > 0 \n");
-          
+
         updateReportsAccountFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
     }
+
     public void cleanReportsAccountFundingDetailTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_objt_dump_t", "PERSON_UNVL_ID", principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
 
     public void updateReportsAccountFundingDetailTable(String principalName) {
         cleanReportsAccountFundingDetailTable(principalName);
         getSimpleJdbcTemplate().update(updateReportsAccountFundingDetailTable.get(0).getSQL(), principalName, principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
     }
 
 }
-

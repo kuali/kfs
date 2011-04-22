@@ -20,27 +20,23 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDocumentAccountObjectDetailReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 
 
 public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionDocumentAccountObjectDetailReportDao {
 
-    private PersistenceService persistenceService;
-    
-    private SQLForStep initialInsert;     
+    private SQLForStep initialInsert;
     private SQLForStep setNonLeaveCSFFTE;
-    private SQLForStep setLeaveCSFFTE;   
-    
+    private SQLForStep setLeaveCSFFTE;
+
     private ArrayList<Integer> insertionPoints = new ArrayList<Integer>(4);
-    
-    public BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc()
-    {
+
+    public BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc() {
         StringBuilder sqlText = new StringBuilder(750);
         sqlText.append("INSERT INTO LD_BCN_BAL_BY_ACCT_T\n");
-        sqlText.append("(PERSON_UNVL_ID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");                            
-        sqlText.append(" FIN_SUB_OBJ_CD, FIN_OBJ_TYP_CD, FIN_OBJ_LEVEL_CD, TYP_FIN_REPORT_SORT_CD, FIN_CONS_SORT_CD,\n");                               
-        sqlText.append(" LEV_FIN_REPORT_SORT_CD, APPT_RQST_FTE_QTY, APPT_RQCSF_FTE_QTY, POS_CSF_FTE_QTY,\n");                                
-        sqlText.append(" ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, POS_CSF_LV_FTE_QTY)\n");                             
+        sqlText.append("(PERSON_UNVL_ID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
+        sqlText.append(" FIN_SUB_OBJ_CD, FIN_OBJ_TYP_CD, FIN_OBJ_LEVEL_CD, TYP_FIN_REPORT_SORT_CD, FIN_CONS_SORT_CD,\n");
+        sqlText.append(" LEV_FIN_REPORT_SORT_CD, APPT_RQST_FTE_QTY, APPT_RQCSF_FTE_QTY, POS_CSF_FTE_QTY,\n");
+        sqlText.append(" ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, POS_CSF_LV_FTE_QTY)\n");
         sqlText.append("SELECT ?,\n");
         sqlText.append("    a.univ_fiscal_yr,\n");
         sqlText.append("    a.fin_coa_cd,\n");
@@ -64,11 +60,11 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("          (a.account_nbr = p.account_nbr) AND\n");
         sqlText.append("          (a.sub_acct_nbr = p.sub_acct_nbr) AND\n");
         sqlText.append("          (a.fin_object_cd = p.fin_object_cd) AND\n");
-        sqlText.append("          (a.fin_sub_obj_cd = p.fin_sub_obj_cd))),\n"); 
+        sqlText.append("          (a.fin_sub_obj_cd = p.fin_sub_obj_cd))),\n");
         sqlText.append("    CA_OBJECT_CODE_T o,\n");
         sqlText.append("    CA_OBJ_TYPE_T t,\n");
         sqlText.append("    CA_OBJ_LEVEL_T l,\n");
-        sqlText.append("    CA_OBJ_CONSOLDTN_T c\n");                  
+        sqlText.append("    CA_OBJ_CONSOLDTN_T c\n");
         sqlText.append("WHERE a.fdoc_nbr = ?\n");
         sqlText.append("  AND a.univ_fiscal_yr = ?\n");
         sqlText.append("  AND a.fin_coa_cd = ?\n");
@@ -96,13 +92,13 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         sqlText.append("    a.acln_annl_bal_amt,\n");
         sqlText.append("    a.fin_beg_bal_ln_amt");
         // initial insertion into the table
-        initialInsert = new SQLForStep(sqlText,insertionPoints);
-        sqlText.delete(0,sqlText.length());
+        initialInsert = new SQLForStep(sqlText, insertionPoints);
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
         //
         // update non-leave CSF FTE
-        sqlText.append("UPDATE LD_BCN_BAL_BY_ACCT_T\n"); 
-        sqlText.append("SET pos_csf_fte_qty =\n"); 
+        sqlText.append("UPDATE LD_BCN_BAL_BY_ACCT_T\n");
+        sqlText.append("SET pos_csf_fte_qty =\n");
         sqlText.append("    (SELECT sum(pos_csf_fte_qty)\n");
         sqlText.append("    FROM LD_BCN_CSF_TRCKR_T c\n");
         sqlText.append("    WHERE person_unvl_id = ?\n");
@@ -130,8 +126,8 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         insertionPoints.add(sqlText.length());
         sqlText.append("')");
         // update non-leave CSF FTE
-        setNonLeaveCSFFTE = new SQLForStep(sqlText,insertionPoints);
-        sqlText.delete(0,sqlText.length());
+        setNonLeaveCSFFTE = new SQLForStep(sqlText, insertionPoints);
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
         //
         // update leave CSF FTE
@@ -164,23 +160,23 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         insertionPoints.add(sqlText.length());
         sqlText.append("')");
         // update leave CSF FTE
-        setLeaveCSFFTE = new SQLForStep(sqlText,insertionPoints);
-        sqlText.delete(0,sqlText.length());
+        setLeaveCSFFTE = new SQLForStep(sqlText, insertionPoints);
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDocumentAccountObjectDetailReportDao#updateDocumentAccountObjectDetailReportTable(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDocumentAccountObjectDetailReportDao#updateDocumentAccountObjectDetailReportTable(java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         // eliminate any rows already extant in the table for this user
         this.clearTempTableByUnvlId("LD_BCN_BAL_BY_ACCT_T", "PERSON_UNVL_ID", principalName);
         // insert the substring function into the SQL string
-        StringBuilder sqlText = this.getSqlSubStringFunction("t.fin_report_sort_cd",1,1);
+        StringBuilder sqlText = this.getSqlSubStringFunction("t.fin_report_sort_cd", 1, 1);
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
         stringsToInsert.add(sqlText.toString());
-        getSimpleJdbcTemplate().update(initialInsert.getSQL(stringsToInsert),principalName, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber); 
+        getSimpleJdbcTemplate().update(initialInsert.getSQL(stringsToInsert), principalName, documentNumber, universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
         // set the non-leave CSF FTE
         stringsToInsert.clear();
         stringsToInsert.add(new String(BCConstants.csfFundingStatusFlag.LEAVE.getFlagValue()));
@@ -189,15 +185,6 @@ public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends 
         // set the CSF FTE for people on leave
         // (we are inserting the same set of leave flags as in the previous step)
         getSimpleJdbcTemplate().update(setLeaveCSFFTE.getSQL(stringsToInsert), principalName, principalName);
-        // clear the cache (OJB data from the last report for this user might still be cached)
-        persistenceService.clearCache();
     }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
-    }
-
 
 }
-

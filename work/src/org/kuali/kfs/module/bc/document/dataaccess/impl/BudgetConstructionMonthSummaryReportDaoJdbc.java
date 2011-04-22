@@ -20,33 +20,30 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
- * report general ledger and monthly summaries from the budget by organization, subfund group, and object code 
+ * report general ledger and monthly summaries from the budget by organization, subfund group, and object code
  */
 
 public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionMonthSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthSummaryReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsMonthSummaryTable = new ArrayList<SQLForStep>(9);
-    
-    private PersistenceService persistenceService;
-    
+
     public BudgetConstructionMonthSummaryReportDaoJdbc() {
-        
-        //builds and updates MonthSummaryReports
-        StringBuilder sqlText              = new StringBuilder(2500);
+
+        // builds and updates MonthSummaryReports
+        StringBuilder sqlText = new StringBuilder(2500);
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
-        
+
         /* sum pending budget income records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM01_MT \n");
         sqlText.append(" (SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, INC_EXP_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, ACLN_ANNL_BAL_AMT) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, \n");
         sqlText.append(" ctrl.fin_coa_cd, 'A', pbgl.fin_object_cd, '");
-        //default sub object code
+        // default sub object code
         insertionPoints.add(sqlText.length());
         sqlText.append("', sum(pbgl.acln_annl_bal_amt) \n");
         sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T  pick \n");
@@ -61,11 +58,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, \n");
         sqlText.append(" ctrl.fin_coa_cd, pbgl.fin_object_cd \n");
-               
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum pending budget expenditure records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM01_MT \n");
         sqlText.append(" (SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, \n");
@@ -86,11 +83,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         insertionPoints.add(sqlText.length());
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, pbgl.fin_object_cd \n");
-        
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum monthly budget income records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM02_MT \n");
         sqlText.append("(SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, FIN_COA_CD, INC_EXP_CD, \n");
@@ -115,11 +112,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, \n");
         sqlText.append(" ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, mnth.fin_object_cd \n");
-          
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum monthly budget expenditure records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM02_MT \n");
         sqlText.append("(SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, FIN_COA_CD, INC_EXP_CD, \n");
@@ -143,9 +140,9 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         insertionPoints.add(sqlText.length());
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, mnth.fin_object_cd \n");
-                
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
-        sqlText.delete(0, sqlText.length());                  
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
         /* sum to the sub-object code */
@@ -167,11 +164,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, \n");
         sqlText.append(" ctrl.fin_coa_cd, pbgl.fin_object_cd, pbgl.fin_sub_obj_cd \n");
-                  
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
-        sqlText.delete(0, sqlText.length());                  
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum pending budget expenditure records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM01_MT \n");
         sqlText.append("(SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, \n");
@@ -190,11 +187,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, \n");
         sqlText.append(" ctrl.fin_coa_cd, pbgl.fin_object_cd, pbgl.fin_sub_obj_cd \n");
-        
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum monthly budget income records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM02_MT \n");
         sqlText.append("(SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, FIN_COA_CD, INC_EXP_CD, \n");
@@ -216,11 +213,11 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, \n");
         sqlText.append(" ctrl.fin_coa_cd, mnth.fin_object_cd, mnth.fin_sub_obj_cd \n");
-        
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* sum monthly budget expenditure records */
         sqlText.append("INSERT INTO LD_BCN_BUILD_MNTHSUMM02_MT \n");
         sqlText.append("(SESID, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_SUB_FUND_GRP, UNIV_FISCAL_YR, FIN_COA_CD, INC_EXP_CD, \n");
@@ -242,12 +239,12 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("\n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, \n");
         sqlText.append(" mnth.fin_object_cd, mnth.fin_sub_obj_cd \n");
-          
-        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
-        sqlText.delete(0, sqlText.length());  
+
+        updateReportsMonthSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
+        sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-         
-        /* join the summed values and merge level and consolidation info */         
+
+        /* join the summed values and merge level and consolidation info */
         sqlText.append("INSERT INTO LD_BCN_MNTH_SUMM_T \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD, INC_EXP_CD, FIN_CONS_SORT_CD, \n");
         sqlText.append(" FIN_LEV_SORT_CD, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, ACLN_ANNL_BAL_AMT, FDOC_LN_MO1_AMT, FDOC_LN_MO2_AMT, \n");
@@ -281,58 +278,54 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("AND objl.fin_cons_obj_cd = objc.fin_cons_obj_cd \n");
 
         updateReportsMonthSummaryTable.add(new SQLForStep(sqlText));
-        sqlText.delete(0, sqlText.length());  
+        sqlText.delete(0, sqlText.length());
 
     }
-    
+
     public void cleanReportsMonthSummaryTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_MNTH_SUMM_T", "PERSON_UNVL_ID", principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
-    
+
     /**
-     * 
      * sums general ledger and montly budgets by subfund and organization to the object-code level
+     * 
      * @param principalName--the user requesting the report
      * @param idForSession--the session id for the user
      */
     protected void consolidateMonthSummaryReportToObjectCodeLevel(String principalName, String idForSession) {
 
-       // set up the things that need to be inserted into the SQL (default sub object code and an object type IN list) 
-       ArrayList<String> revenueInsertions     = new ArrayList<String>(2);
-       ArrayList<String> expenditureInsertions = new ArrayList<String>(2);
-       revenueInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
-       revenueInsertions.add(this.getRevenueINList());
-       expenditureInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
-       expenditureInsertions.add(this.getExpenditureINList());
-       
-       // sum revenue from the pending general ledger to the object code level
-       getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(0).getSQL(revenueInsertions), idForSession, principalName);
-       // sum expenditure from the pending general ledger to the object code level
-       getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(1).getSQL(expenditureInsertions), idForSession, principalName);
-       // sum revenue from the monthly budgets to the object code level
-       getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(2).getSQL(revenueInsertions), idForSession, principalName);
-       // sum expenditure from the monthly budgets to the object code level
-       getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(3).getSQL(expenditureInsertions), idForSession, principalName);
+        // set up the things that need to be inserted into the SQL (default sub object code and an object type IN list)
+        ArrayList<String> revenueInsertions = new ArrayList<String>(2);
+        ArrayList<String> expenditureInsertions = new ArrayList<String>(2);
+        revenueInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
+        revenueInsertions.add(this.getRevenueINList());
+        expenditureInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
+        expenditureInsertions.add(this.getExpenditureINList());
+
+        // sum revenue from the pending general ledger to the object code level
+        getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(0).getSQL(revenueInsertions), idForSession, principalName);
+        // sum expenditure from the pending general ledger to the object code level
+        getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(1).getSQL(expenditureInsertions), idForSession, principalName);
+        // sum revenue from the monthly budgets to the object code level
+        getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(2).getSQL(revenueInsertions), idForSession, principalName);
+        // sum expenditure from the monthly budgets to the object code level
+        getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(3).getSQL(expenditureInsertions), idForSession, principalName);
     }
-    
+
     /**
-     * 
      * sums general ledger and monthly amounts by organization and subfund group to the sub-object level
+     * 
      * @param principalName--the user requesting the report
      * @param idForSession--the ID for the user's session
      */
-    protected void detailedMonthSummaryTableReport(String principalName, String idForSession)  {
-       
-       // set up the strings to be inserted into the SQL (revenue and expenditure object types 
-        ArrayList<String> revenueInsertions     = new ArrayList<String>(2);
+    protected void detailedMonthSummaryTableReport(String principalName, String idForSession) {
+
+        // set up the strings to be inserted into the SQL (revenue and expenditure object types
+        ArrayList<String> revenueInsertions = new ArrayList<String>(2);
         ArrayList<String> expenditureInsertions = new ArrayList<String>(2);
         revenueInsertions.add(this.getRevenueINList());
         expenditureInsertions.add(this.getExpenditureINList());
-        
+
         // sum revenue from the pending general ledger to the sub-object code level
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(4).getSQL(revenueInsertions), idForSession, principalName);
         // sum expenditure from the pending general ledger to the sub-object code level
@@ -344,41 +337,30 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String, boolean)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String,
+     *      boolean)
      */
     public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel) {
 
         Guid guid = new Guid();
         String idForSession = guid.toString();
-        
+
         // remove any previous reporting rows for this user
         this.cleanReportsMonthSummaryTable(principalName);
-        
-        if (consolidateToObjectCodeLevel)
-        {
+
+        if (consolidateToObjectCodeLevel) {
             consolidateMonthSummaryReportToObjectCodeLevel(principalName, idForSession);
         }
-        else
-        {
+        else {
             detailedMonthSummaryTableReport(principalName, idForSession);
         }
         // join monthly budgets and general ledger to build the final table for the report
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(8).getSQL(), principalName, idForSession);
-        
+
         // clear out the user's work table rows for this session
-        this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM01_MT","SESID",idForSession);
-        this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM02_MT","SESID",idForSession);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
+        this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM01_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_MNTHSUMM02_MT", "SESID", idForSession);
+
     }
 
 }
-

@@ -20,25 +20,26 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
-import org.kuali.rice.kns.service.PersistenceService;
 
 /**
- * builds the report for accounts which are out of balance because benefits have been calculated on salaries and the amounts don't match what is in GL.  the discrepancy is in an object code called '2PLG'.
+ * builds the report for accounts which are out of balance because benefits have been calculated on salaries and the amounts don't
+ * match what is in GL. the discrepancy is in an object code called '2PLG'.
  */
 
 public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionList2PLGReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionList2PLGReportDaoJdbc.class);
 
     private static ArrayList<SQLForStep> updateReportsList2PLGTable = new ArrayList<SQLForStep>(1);
-    
-    private PersistenceService persistenceService;
 
     public BudgetConstructionList2PLGReportDaoJdbc() {
 
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(1);
-        
+
         // builds and updates List2PLGReports
-        /* get accounts, sub-accounts that have an imbalance between detailed salary and general ledger, displayed in the object class 2PLG */
+        /*
+         * get accounts, sub-accounts that have an imbalance between detailed salary and general ledger, displayed in the object
+         * class 2PLG
+         */
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO ld_bcn_2plg_list_mt \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, ACLN_ANNL_BAL_AMT) \n");
@@ -55,41 +56,30 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
         insertionPoints.add(sqlText.length());
         sqlText.append("'");
 
-        updateReportsList2PLGTable.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsList2PLGTable.add(new SQLForStep(sqlText, insertionPoints));
         insertionPoints.clear();
         sqlText.delete(0, sqlText.length());
 
     }
 
     /**
-     *  remove from the table rows for any previous report requested by this user
+     * remove from the table rows for any previous report requested by this user
      */
     protected void cleanReportsList2PLGTable(String principalName) {
         clearTempTableByUnvlId("ld_bcn_2plg_list_mt", "PERSON_UNVL_ID", principalName);
     }
 
     /**
-     * 
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGReportDao#updateReportsList2PLGTable(java.lang.String)
      */
     public void updateList2PLGReportsTable(String principalName) {
         // get rid of any rows from a previous report requested by this user
         cleanReportsList2PLGTable(principalName);
         // fetch the constant naming the 2PLG object class
-        ArrayList<String> stringToInsert = new ArrayList<String>(1); 
+        ArrayList<String> stringToInsert = new ArrayList<String>(1);
         stringToInsert.add(BudgetConstructionConstants.OBJECT_CODE_2PLG);
         // fill the table
         getSimpleJdbcTemplate().update(updateReportsList2PLGTable.get(0).getSQL(stringToInsert), principalName, principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
-    }
-    
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
     }
 
 }
-

@@ -32,8 +32,6 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
 
     private static ArrayList<SQLForStep> updateReportsLevelSummaryTable = new ArrayList<SQLForStep>(7);
     ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
-    
-    private PersistenceService persistenceService;
 
 
     public BudgetConstructionLevelSummaryReportDaoJdbc() {
@@ -279,10 +277,6 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
 
     public void cleanReportsLevelSummaryTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_LEVL_SUMM_T", "PERSON_UNVL_ID", principalName);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
     }
 
     public void updateReportsLevelSummaryTable(String principalName) {
@@ -316,17 +310,8 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(6).getSQL(), principalName, idForSession, principalName, idForSession, principalName, principalName, idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM02_MT", "SESID", idForSession);
         clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM03_MT", "SESID", idForSession);
-        /**
-         * this is necessary to clear any rows for the tables we have just updated from the OJB cache.  otherwise, subsequent calls to OJB will fetch the old, unupdated cached rows.
-         */
-        persistenceService.clearCache();
 
     }
     
-    public void setPersistenceService(PersistenceService persistenceService)
-    {
-        this.persistenceService = persistenceService;
-    }
-
 }
 

@@ -23,14 +23,6 @@ import org.kuali.kfs.coa.businessobject.Organization;
  * This interface defines data access methods for {@link Org}
  */
 public interface OrganizationDao {
-    /**
-     * This method retrieves a {@link Org} based on primary keys
-     * 
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return an {@link Org} based on primary keys
-     */
-    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method saves a specific {@link Org}

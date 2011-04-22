@@ -723,9 +723,6 @@
 		<property name="sufficientFundRebuildDao">
 			<ref bean="glSufficientFundRebuildDao" />
 		</property>
-		<property name="optionsDao">
-			<ref bean="optionsDao" />
-		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
@@ -1138,8 +1135,6 @@
 	<bean id="glBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
 
 	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb" />
-
-	<bean id="glOptionsDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OptionsDaoOjb" />
 
 	<bean id="originEntryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb">
 		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull"/>

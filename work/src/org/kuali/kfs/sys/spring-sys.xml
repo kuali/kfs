@@ -388,8 +388,6 @@
 	<bean id="homeOriginationDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.HomeOriginationDaoOjb" />
 
 	<bean id="originationCodeDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" />
-
-	<bean id="optionsDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OptionsDaoOjb" />
 	
 	<bean id="generalLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb">
 		<property name="parameterService">
@@ -443,9 +441,6 @@
 	</bean>
 	
 	<bean id="optionsService" class="org.kuali.kfs.sys.service.impl.OptionsServiceImpl">
-		<property name="optionsDao">
-			<ref bean="optionsDao" />
-		</property>
         <property name="universityDateService" ref="universityDateService" />
 	</bean>
 	

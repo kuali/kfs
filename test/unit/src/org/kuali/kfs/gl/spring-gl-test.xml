@@ -181,9 +181,6 @@
 		<property name="sufficientFundRebuildDao">
 			<ref bean="glSufficientFundRebuildDao" />
 		</property>
-		<property name="optionsDao">
-			<ref bean="optionsDao" />
-		</property>
 		<property name="reportWriterService" ref="mockReportWriterService" />
 		<property name="accountService">
 			<ref bean="accountService" />

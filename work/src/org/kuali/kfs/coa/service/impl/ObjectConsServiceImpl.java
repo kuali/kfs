@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectConsolidation;
-import org.kuali.kfs.coa.dataaccess.ObjectConsDao;
 import org.kuali.kfs.coa.service.ObjectConsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +31,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class ObjectConsServiceImpl implements ObjectConsService {
-    private ObjectConsDao objectConsDao;
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectConsService#getByPrimaryId(java.lang.String, java.lang.String)
@@ -44,17 +42,5 @@ public class ObjectConsServiceImpl implements ObjectConsService {
         return (ObjectConsolidation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectConsolidation.class, keys);
     }
 
-    /**
-     * @return Returns the objectLevelDao.
-     */
-    public ObjectConsDao getObjectConsDao() {
-        return objectConsDao;
-    }
 
-    /**
-     * @param objectLevelDao The objectLevelDao to set.
-     */
-    public void setObjectConsDao(ObjectConsDao objectConsDao) {
-        this.objectConsDao = objectConsDao;
-    }
 }

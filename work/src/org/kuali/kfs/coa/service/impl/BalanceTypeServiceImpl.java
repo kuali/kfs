@@ -27,7 +27,6 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -48,8 +47,6 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
     private BalanceTypeDao balanceTypeDao;
 
     private UniversityDateService universityDateService;
-    private OptionsDao optionsDao;
-
     
     /**
      * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance type's code.
@@ -92,15 +89,6 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }
-
-    /**
-     * 
-     * This method injects the OptionsDao
-     * @param optionsDao
-     */
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
     }
 
     /**

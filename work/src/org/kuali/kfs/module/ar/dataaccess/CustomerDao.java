@@ -19,14 +19,6 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 
 public interface CustomerDao {
     
-    /**
-     * This method returns a Customer with the provided customerNumber 
-     * 
-     * @param customerNumber
-     * @return
-     */
-    public Customer getByPrimaryId( String customerNumber );
-    
     public Customer getByTaxNumber(String taxNumber);
     
     public Customer getByName(String customerName);

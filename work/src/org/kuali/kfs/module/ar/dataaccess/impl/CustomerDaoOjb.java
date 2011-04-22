@@ -26,16 +26,6 @@ public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerD
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
-    /**
-     * @see org.kuali.kfs.module.ar.dataaccess.CustomerDao#getByPrimaryId(java.lang.String)
-     */
-    public Customer getByPrimaryId(String customerNumber) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("customerNumber", customerNumber==null?customerNumber:customerNumber.toUpperCase());
-
-        return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
-    }
-
     public Customer getByTaxNumber(String taxNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("customerTaxNbr", taxNumber);

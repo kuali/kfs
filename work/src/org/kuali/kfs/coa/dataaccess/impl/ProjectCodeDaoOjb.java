@@ -29,20 +29,6 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeDaoOjb.class);
 
     /**
-     * Retrieves project code business object by primary key
-     * 
-     * @param projectCode - part of composite key
-     * @return Project
-     * @see ProjectCodeDao#getByPrimaryId(String)
-     */
-    public ProjectCode getByPrimaryId(String projectCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("code", projectCode);
-
-        return (ProjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
-    }
-
-    /**
      * Retrieves project code business object by project name
      * 
      * @param name - part of composite key

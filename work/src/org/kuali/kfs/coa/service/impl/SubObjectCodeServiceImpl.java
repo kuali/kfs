@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.coa.dataaccess.SubObjectCodeDao;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -34,7 +33,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
-    private SubObjectCodeDao subObjectCodeDao;
     private UniversityDateService universityDateService;
 
     /**
@@ -58,15 +56,6 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
      */
     public SubObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
-    }
-
-    /**
-     * 
-     * This method injects SubObjectCodeDao
-     * @param subObjectCodeDao
-     */
-    public void setSubObjectCodeDao(SubObjectCodeDao subObjectCodeDao) {
-        this.subObjectCodeDao = subObjectCodeDao;
     }
 
     /**

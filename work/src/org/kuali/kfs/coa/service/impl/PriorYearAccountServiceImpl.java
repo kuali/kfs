@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
-import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
 import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
@@ -37,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     private static final Logger LOG = Logger.getLogger(PriorYearAccountServiceImpl.class);
 
-    private PriorYearAccountDao priorYearAccountDao;
     private PriorYearAccountDaoJdbc priorYearAccountDaoJdbc;
 
     public PriorYearAccountServiceImpl() {
@@ -69,16 +67,6 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year accounts copied to prior year : " + copiedCount);
         }
-    }
-
-
-    /**
-     * This method sets the local dao variable to the value provided.
-     * 
-     * @param priorYearAccountDao The priorYearAccountDao to set.
-     */
-    public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
-        this.priorYearAccountDao = priorYearAccountDao;
     }
 
     /**

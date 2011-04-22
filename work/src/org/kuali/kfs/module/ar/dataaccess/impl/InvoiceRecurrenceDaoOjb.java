@@ -27,21 +27,6 @@ public class InvoiceRecurrenceDaoOjb extends PlatformAwareDaoBaseOjb implements 
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceDaoOjb.class);
 
-    /**
-     * @see org.kuali.module.ar.dao.OrganizationOptionsDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-    public InvoiceRecurrence getByPrimaryId(String invoiceNumber) {
-        LOG.debug("getByPrimaryId() started"); 
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("invoiceNumber", invoiceNumber);
-
-        QueryByCriteria query = new QueryByCriteria(InvoiceRecurrence.class, criteria);
-        query.addOrderByAscending("invoiceNumber");
-        
-        return (InvoiceRecurrence) getPersistenceBrokerTemplate().getObjectByQuery(query);
-    }
-
     public Iterator<InvoiceRecurrence> getAllActiveInvoiceRecurrences() {
         LOG.debug("getAllActiveInvoiceRecurrences() started"); 
 

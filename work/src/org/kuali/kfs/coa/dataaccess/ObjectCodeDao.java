@@ -17,24 +17,11 @@ package org.kuali.kfs.coa.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-
 
 /**
  * This interface defines basic methods that ObjectCode Dao's must provide
  */
 public interface ObjectCodeDao {
-
-    /**
-     * Retrieves an ObjectCode object by primary key.
-     * 
-     * @param universityFiscalYear - part of composite key
-     * @param chartOfAccountsCode - part of composite key
-     * @param financialObjectCode - part of composite key
-     * @return ObjectCode
-     */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
-
 
     /**
      * This method retrieves a list of years based on the chart of accounts code and object code passed in

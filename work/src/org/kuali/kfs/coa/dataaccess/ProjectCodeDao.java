@@ -24,14 +24,6 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 public interface ProjectCodeDao {
 
     /**
-     * Retrieves a ProjectCode object by primary key.
-     * 
-     * @param projectCode - primary key
-     * @return {@link ProjectCode} by primary key
-     */
-    public ProjectCode getByPrimaryId(String projectCode);
-
-    /**
      * Retrieves a ProjectCode object by primary name.
      * 
      * @param name

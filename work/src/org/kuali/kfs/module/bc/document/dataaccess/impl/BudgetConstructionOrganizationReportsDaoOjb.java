@@ -33,20 +33,6 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionOrganizationReportsDao {
-
-    /**
-     * @see BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-    public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("organizationCode", organizationCode);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria);
-       
-        // Since using primaryId, getObject should be better than collection.
-        return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-    }
     
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionOrganizationReportsDao#getBySearchCriteria(java.lang.Class, java.util.Map)

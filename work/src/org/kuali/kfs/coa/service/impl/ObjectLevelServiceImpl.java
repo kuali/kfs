@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
-import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +31,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class ObjectLevelServiceImpl implements ObjectLevelService {
-    private ObjectLevelDao objectLevelDao;
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
@@ -44,17 +42,4 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
         return (ObjectLevel)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
     }
 
-    /**
-     * @return Returns the objectLevelDao.
-     */
-    public ObjectLevelDao getObjectLevelDao() {
-        return objectLevelDao;
-    }
-
-    /**
-     * @param objectLevelDao The objectLevelDao to set.
-     */
-    public void setObjectLevelDao(ObjectLevelDao objectLevelDao) {
-        this.objectLevelDao = objectLevelDao;
-    }
 }

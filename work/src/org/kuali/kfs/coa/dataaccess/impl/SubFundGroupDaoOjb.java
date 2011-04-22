@@ -28,16 +28,6 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFundGroupDao {
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.SubFundGroupDao#getByPrimaryId(java.lang.String)
-     */
-    public SubFundGroup getByPrimaryId(String subFundGroupCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("subFundGroupCode", subFundGroupCode);
-
-        return (SubFundGroup) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
-    }
-
-    /**
      * @see org.kuali.kfs.coa.dataaccess.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {

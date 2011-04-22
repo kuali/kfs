@@ -39,13 +39,6 @@ public interface ChartDao {
      */
     public Chart getUniversityChart();
 
-    /**
-     * This method retrieves a given Chart based on it's primary key
-     * 
-     * @param chartOfAccountsCode
-     * @return Chart object that matches this primary key
-     */
-    public Chart getByPrimaryId(String chartOfAccountsCode);
 
     /**
      * This method retrieves a list of Chart objects that a specific User is responsible for

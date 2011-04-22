@@ -110,9 +110,6 @@
 	</bean>
 
 	<bean id="subObjectCodeService" class="org.kuali.kfs.coa.service.impl.SubObjectCodeServiceImpl">
-		<property name="subObjectCodeDao">
-			<ref bean="subObjectCodeDao" />
-		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
@@ -126,19 +123,11 @@
 			<ref bean="universityDateService" />
 		</property>
 	</bean>
-
-	<bean id="objectLevelService" class="org.kuali.kfs.coa.service.impl.ObjectLevelServiceImpl">
-		<property name="objectLevelDao">
-			<ref bean="objectLevelDao" />
-		</property>
-	</bean>
-
-	<bean id="objectConsService" class="org.kuali.kfs.coa.service.impl.ObjectConsServiceImpl">
-		<property name="objectConsDao">
-			<ref bean="objectConsDao" />
-		</property>
-	</bean>
-
+	
+	<bean id="objectLevelService" class="org.kuali.kfs.coa.service.impl.ObjectLevelServiceImpl"/>
+	
+	<bean id="objectConsService" class="org.kuali.kfs.coa.service.impl.ObjectConsServiceImpl"/>
+		
 	<bean id="chartService" class="org.kuali.kfs.coa.service.impl.ChartServiceImpl">
 		<property name="chartDao">
 			<ref bean="chartDao" />
@@ -159,9 +148,6 @@
 
 	<bean id="priorYearAccountService"
 		class="org.kuali.kfs.coa.service.impl.PriorYearAccountServiceImpl">
-		<property name="priorYearAccountDao">
-			<ref bean="priorYearAccountDao" />
-		</property>
 		<property name="priorYearAccountDaoJdbc">
 			<ref bean="priorYearAccountDaoJdbc" />
 		</property>
@@ -173,14 +159,9 @@
 			<ref bean="priorYearOrganizationDao" />
 		</property>
 	</bean>
-
-	<bean id="offsetDefinitionService"
-		class="org.kuali.kfs.coa.service.impl.OffsetDefinitionServiceImpl">
-		<property name="offsetDefinitionDao">
-			<ref bean="offsetDefinitionDao" />
-		</property>
-	</bean>
-
+	
+	<bean id="offsetDefinitionService" class="org.kuali.kfs.coa.service.impl.OffsetDefinitionServiceImpl"/>
+		
 	<bean id="balanceTypService" class="org.kuali.kfs.coa.service.impl.BalanceTypeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -188,9 +169,6 @@
 		<property name="balanceTypeDao">
 			<ref bean="balanceTypeDao" />
 		</property>
-		<property name="optionsDao">
-            <ref bean="optionsDao" />
-        </property>
         <property name="universityDateService">
             <ref bean="universityDateService" />
         </property>
@@ -216,9 +194,6 @@
 		<property name="objectTypeDao">
 			<ref bean="objectTypeDao" />
 		</property>
-        <property name="optionsDao">
-            <ref bean="optionsDao" />
-        </property>
         <property name="universityDateService">
             <ref bean="universityDateService" />
         </property>
@@ -265,35 +240,20 @@
 	<bean id="organizationDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationDaoOjb" />
 
-	<bean id="offsetDefinitionDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.OffsetDefinitionDaoOjb" />
-
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />
 
 	<bean id="projectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ProjectCodeDaoOjb" />
 
-	<bean id="objectLevelDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ObjectLevelDaoOjb" />
-
-	<bean id="objectConsDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ObjectConsDaoOjb" />
-
 	<bean id="subAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.SubAccountDaoOjb" />
-
-	<bean id="subObjectCodeDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.SubObjectCodeDaoOjb" />
 
 	<bean id="organizationReversionDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationReversionDaoOjb" />
 
 	<bean id="balanceTypeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.BalanceTypeDaoOjb" />
-
-	<bean id="priorYearAccountDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoOjb" />
 
 	<bean id="priorYearAccountDaoJdbc" parent="platformAwareDaoJdbc"
 		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl">

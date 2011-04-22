@@ -26,16 +26,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 public interface SubAccountDao {
 
     /**
-     * Retrieves a {@link SubAccount} object by primary key.
-     * 
-     * @param chartOfAccountsCode - part of composite key
-     * @param accountNumber - part of composite key
-     * @param subAccountNumber - part of composite key
-     * @return {@link SubAccount} by primary key
-     */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
-
-    /**
      * Retrieves {@link SubAccount} objects associated with the given chart-org-subAccount code combination
      * 
      * @param chartOfAccountsCode - 'Reports To' Chart of Accounts Code

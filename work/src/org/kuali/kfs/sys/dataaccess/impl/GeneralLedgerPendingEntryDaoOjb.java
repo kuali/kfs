@@ -193,21 +193,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.dao.GeneralLedgerPendingEntryDao#getByPrimaryId(java.lang.Long, java.lang.Long)
-     */
-    public GeneralLedgerPendingEntry getByPrimaryId(String documentHeaderId, Integer transactionLedgerEntrySequenceNumber) {
-        LOG.debug("getByPrimaryId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
-        criteria.addEqualTo(TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, transactionLedgerEntrySequenceNumber);
-
-        return (GeneralLedgerPendingEntry) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(this.getEntryClass(), criteria));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.kuali.dao.GeneralLedgerPendingEntryDao#save(org.kuali.bo.GeneralLedgerPendingEntry)
      */
     public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry) {

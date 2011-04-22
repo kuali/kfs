@@ -33,19 +33,6 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
-    /**
-     * Retrieves object code business object by primary key
-     * 
-     * @see org.kuali.kfs.coa.dataaccess.ObjectCodeDao#getByPrimaryId(Integer, String, String)
-     */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("financialObjectCode", financialObjectCode);
-
-        return (ObjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
-    }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.ObjectCodeDao#getYearList(java.lang.String, java.lang.String)

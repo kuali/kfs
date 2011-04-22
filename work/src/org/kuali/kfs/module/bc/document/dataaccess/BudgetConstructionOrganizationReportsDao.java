@@ -22,15 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 
 public interface BudgetConstructionOrganizationReportsDao {
-    /**
-     * gets a BudgetConstructionOrganizationReports object with PrimaryId
-     * 
-     * @param chartOfAccountsCode
-     * @param organizationCode
-     * @return
-     */
-    public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * gets Collection with searchCriteria
      * 

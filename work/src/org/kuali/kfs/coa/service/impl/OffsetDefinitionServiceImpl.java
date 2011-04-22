@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.coa.dataaccess.OffsetDefinitionDao;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -33,7 +32,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 @NonTransactional
 public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
-    private OffsetDefinitionDao offsetDefinitionDao;
 
     /**
      * @see org.kuali.kfs.coa.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String,
@@ -48,10 +46,4 @@ public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
         return (OffsetDefinition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, keys);
     }
 
-    /**
-     * @param offsetDefinitionDao The offsetDefinitionDao to set.
-     */
-    public void setOffsetDefinitionDao(OffsetDefinitionDao offsetDefinitionDao) {
-        this.offsetDefinitionDao = offsetDefinitionDao;
-    }
 }

@@ -82,13 +82,6 @@ public interface GeneralLedgerPendingEntryDao {
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
 
     /**
-     * @param documentHeaderId
-     * @param transactionLedgerEntrySequenceNumber
-     * @return a pending ledger entry
-     */
-    public GeneralLedgerPendingEntry getByPrimaryId(String documentHeaderId, Integer transactionLedgerEntrySequenceNumber);
-
-    /**
      * @param generalLedgerPendingEntry
      */
     public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry);

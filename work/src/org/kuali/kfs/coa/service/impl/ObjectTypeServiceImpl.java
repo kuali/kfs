@@ -23,7 +23,6 @@ import org.kuali.kfs.coa.dataaccess.ObjectTypeDao;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -38,7 +37,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
 
     private UniversityDateService universityDateService;
     private ObjectTypeDao objectTypeDao;
-    private OptionsDao optionsDao;
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
@@ -207,14 +205,6 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      */
     public void setObjectTypeDao(ObjectTypeDao objectTypeDao) {
         this.objectTypeDao = objectTypeDao;
-    }
-
-    public OptionsDao getOptionsDao() {
-        return optionsDao;
-    }
-
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
     }
 
     public UniversityDateService getUniversityDateService() {

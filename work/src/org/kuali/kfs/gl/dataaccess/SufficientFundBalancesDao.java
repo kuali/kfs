@@ -44,17 +44,6 @@ public interface SufficientFundBalancesDao {
     public int deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
     /**
-     * Returns a sufficient fund balance by its primary key values
-     * 
-     * @param universityFiscalYear the university fiscal year of the sufficient funds balance to return
-     * @param chartOfAccountsCode the chart of accounts code of the sufficient funds balance to return
-     * @param accountNumber the account number of the sufficient funds balance to return
-     * @param financialObjectCode the object code of the sufficient funds balance to return
-     * @return the qualifying sufficient funds balance record, or null no suitable record can be found
-     */
-    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
-
-    /**
      * Save a sufficient funds balance
      * 
      * @param sfb the sufficient funds balance to save

@@ -21,13 +21,6 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
  * This interface specifies data access methods for {@link SubFundGroup}
  */
 public interface SubFundGroupDao {
-    /**
-     * This method retrieves a specific {@link SubFundGroup} based on primary key
-     * 
-     * @param subFundGroupCode
-     * @return a {@link SubFundGroup} based on primary key
-     */
-    public SubFundGroup getByPrimaryId(String subFundGroupCode);
 
     /**
      * This method retrieves a specific {@link SubFundGroup} based on chart code and account number

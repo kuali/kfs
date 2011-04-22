@@ -21,14 +21,6 @@ import org.kuali.kfs.module.ar.businessobject.Lockbox;
 
 public interface LockboxDao {
     
-    /**
-     * Retrieves a Lockbox object by primary key.
-     * 
-     * @param invoiceSequenceNumber - primary key
-     * @return Lockbox
-     */
-    public Lockbox getByPrimaryId(Long invoiceSequenceNumber);
-
     public Iterator<Lockbox> getByLockboxNumber(String lockboxNumber);
     
     public Iterator<Lockbox> getAllLockboxes();

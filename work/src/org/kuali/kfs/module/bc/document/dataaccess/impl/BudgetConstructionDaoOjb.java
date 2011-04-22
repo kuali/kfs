@@ -19,10 +19,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
@@ -30,7 +28,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
@@ -48,8 +45,6 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
@@ -92,29 +87,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument) {
         getPersistenceBrokerTemplate().store(bcDocument);
-    }
-
-    /**
-     * This gets a BudgetConstructionFundingLock using the primary key chart, account, subaccount, fiscalyear, pUId
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @param principalId
-     * @return BudgetConstructionFundingLock
-     */
-    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId) {
-        // LOG.debug("getByPrimaryId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("appointmentFundingLockUserId", principalId);
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("subAccountNumber", subAccountNumber);
-        criteria.addEqualTo("universityFiscalYear", fiscalYear);
-
-        return (BudgetConstructionFundingLock) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionFundingLock.class, criteria));
     }
 
     /**
@@ -193,23 +165,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
             }
         }
         return positionNumber;
-    }
-
-    /**
-     * Gets a BudgetConstructionPosition from the database by the primary key positionNumber, fiscalYear
-     * 
-     * @param positionNumber
-     * @param fiscalYear
-     * @return BudgetConstructionPosition
-     */
-    public BudgetConstructionPosition getByPrimaryId(String positionNumber, Integer fiscalYear) {
-        // LOG.debug("getByPrimaryId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("positionNumber", positionNumber);
-        criteria.addEqualTo("universityFiscalYear", fiscalYear);
-
-        return (BudgetConstructionPosition) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionPosition.class, criteria));
     }
 
     /**

@@ -41,7 +41,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.dataaccess.OptionsDao;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -63,7 +62,6 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private SufficientFundRebuildDao sufficientFundRebuildDao;
     private SufficientFundsService sufficientFundsService;
-    private OptionsDao optionsDao;
     private AccountService accountService;
     private ReportWriterService reportWriterService;
     private BusinessObjectService boService;
@@ -458,10 +456,6 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
     public void setSufficientFundBalancesDao(SufficientFundBalancesDao sufficientFundBalancesDao) {
         this.sufficientFundBalancesDao = sufficientFundBalancesDao;
-    }
-
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
     }
 
     public void setReportWriterService(ReportWriterService sfrs) {

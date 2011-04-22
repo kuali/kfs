@@ -32,13 +32,6 @@ import org.kuali.rice.kim.bo.Person;
 public interface AccountDao {
 
     /**
-     * @param chartOfAccountsCode - part of composite key
-     * @param accountNumber - part of composite key
-     * @return Account Retrieves an Account object based on primary key.
-     */
-    public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
-
-    /**
      * @see org.kuali.kfs.coa.service.AccountService#getPrimaryDelegationByExample(org.kuali.kfs.coa.businessobject.AccountDelegate,
      *      java.lang.String)
      */

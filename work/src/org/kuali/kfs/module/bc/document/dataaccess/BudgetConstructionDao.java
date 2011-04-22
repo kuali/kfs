@@ -61,19 +61,6 @@ public interface BudgetConstructionDao {
      */
     public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument);
 
-
-    /**
-     * This gets a BudgetConstructionFundingLock using the primary key chart, account, subaccount, fiscalyear, pUId
-     * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param subAccountNumber
-     * @param fiscalYear
-     * @param principalId
-     * @return BudgetConstructionFundingLock
-     */
-    public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String principalId);
-
     /**
      * This saves a BudgetConstructionFundingLock to the database
      * 
@@ -108,15 +95,6 @@ public interface BudgetConstructionDao {
      * @return position number associated with lock
      */
     public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
-
-    /**
-     * Gets a BudgetConstructionPosition from the database by the primary key positionNumber, fiscalYear
-     * 
-     * @param positionNumber
-     * @param fiscalYear
-     * @return BudgetConstructionPosition
-     */
-    public BudgetConstructionPosition getByPrimaryId(String positionNumber, Integer fiscalYear);
 
     /**
      * Saves a BudgetConstructionPosition to the database

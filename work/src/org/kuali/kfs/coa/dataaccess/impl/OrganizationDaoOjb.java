@@ -39,17 +39,6 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDaoOjb.class);
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-    public Organization getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("organizationCode", organizationCode);
-
-        return (Organization) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Organization.class, criteria));
-    }
-
-    /**
      * @see org.kuali.kfs.coa.dataaccess.OrganizationDao#save(org.kuali.kfs.coa.businessobject.Org)
      */
     public void save(Organization organization) {

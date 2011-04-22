@@ -21,14 +21,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 
 public interface InvoiceRecurrenceDao {
     
-    /**
-     * Retrieves a InvoiceRecurrence object by primary key.
-     * 
-     * @param documentNumber - primary key
-     * @return InvoiceRecurrence
-     */
-    public InvoiceRecurrence getByPrimaryId(String invoiceNumber);
-    
     public Iterator<InvoiceRecurrence> getAllActiveInvoiceRecurrences();
 
     public Iterator<InvoiceRecurrence> getAllInvoiceRecurrences();

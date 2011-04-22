@@ -31,24 +31,6 @@ public class SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements SubAcco
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountDaoOjb.class);
 
     /**
-     * Retrieves sub account business object by primary key
-     * 
-     * @param chartOfAccountsCode - part of composite key
-     * @param accountNumber - part of composite key
-     * @param subAccountNumber - part of composite key
-     * @return SubAccount
-     * @see SubAccountDao#getByPrimaryId(String, String, String)
-     */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("subAccountNumber", subAccountNumber);
-
-        return (SubAccount) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
-    }
-
-    /**
      * Retrieves SubAccount objects associated with the given chart-org-subAccount code combination
      * 
      * @param chartOfAccountsCode - 'Reports To' Chart of Accounts Code

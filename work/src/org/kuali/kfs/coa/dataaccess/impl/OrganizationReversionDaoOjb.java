@@ -31,20 +31,6 @@ import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationReversionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);
 
-    /**
-     * @see org.kuali.kfs.coa.dataaccess.OrganizationReversionDao#getByPrimaryId(java.lang.Integer, java.lang.String,
-     *      java.lang.String)
-     */
-    public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode) {
-        LOG.debug("getByPrimaryId() started");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
-        criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
-        criteria.addEqualTo("organizationCode", organizationCode);
-
-        return (OrganizationReversion) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class, criteria));
-    }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.OrganizationReversionDao#getCategories()

@@ -32,29 +32,6 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundBalancesDaoOjb.class);
 
     /**
-     * Builds an OJB primary key query from the given parameters and returns the result
-     * 
-     * @param universityFiscalYear the university fiscal year of the sufficient funds balance to return
-     * @param chartOfAccountsCode the chart of accounts code of the sufficient funds balance to return
-     * @param accountNumber the account number of the sufficient funds balance to return
-     * @param financialObjectCode the object code of the sufficient funds balance to return
-     * @return the qualifying sufficient funds balance record, or null no suitable record can be found
-     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
-     */
-    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
-        LOG.debug("getByPrimaryId() started");
-
-        Criteria crit = new Criteria();
-        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
-        return (SufficientFundBalances) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-    }
-
-    /**
      * Saves a sufficient fund balance record
      * @param sfb the sufficient funds balance record to save
      * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#save(org.kuali.kfs.gl.businessobject.SufficientFundBalances)

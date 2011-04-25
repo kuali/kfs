@@ -17,6 +17,7 @@ package org.kuali.kfs.module.bc.document.service.impl;
 
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
 import org.kuali.kfs.module.bc.document.service.BenefitsCalculationService;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +62,9 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         /**
          * calculate annual benefits
          */
-        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList);
     }
 
     /**
@@ -90,7 +93,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      */
     public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
         /**
-         *  do nothing if benefits calculation is disabled
+         * do nothing if benefits calculation is disabled
          */
         if (isBenefitsCalculationDisabled())
             return;
@@ -101,7 +104,9 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         /**
          * call both annual and monthly calculations (order is important)
          */
-        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList);
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
 

@@ -29,9 +29,10 @@ public interface BudgetConstructionLevelSummaryReportDao {
      *  updates Level Summary table.
      * 
      * @param principalName--the user requesting the report
-     * @return
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
      */
-    public void updateReportsLevelSummaryTable(String principalName);
+    public void updateReportsLevelSummaryTable(String principalName, String expenditureINList, String revenueINList);
 
     
 }

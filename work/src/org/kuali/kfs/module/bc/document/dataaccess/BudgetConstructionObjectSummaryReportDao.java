@@ -16,25 +16,26 @@
 package org.kuali.kfs.module.bc.document.dataaccess;
 
 /**
- * 
- * produce rows to feed a general ledger summary report by object code requested by a specific user from a budget construction screen
+ * produce rows to feed a general ledger summary report by object code requested by a specific user from a budget construction
+ * screen
  */
 
 public interface BudgetConstructionObjectSummaryReportDao {
-    
+
     /**
-     * 
      * clean out any rows left by this user from a previous general ledger object summary report
+     * 
      * @param principalName--the user currently logged in making the on-line report request
      */
     public void cleanGeneralLedgerObjectSummaryTable(String principalName);
-    
+
     /**
-     * 
      * populate the table to feed the report with the rows which match the current request
+     * 
      * @param principalName--the user currently logged in making the on-line report request
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
      */
-    public void updateGeneralLedgerObjectSummaryTable(String principalName);
+    public void updateGeneralLedgerObjectSummaryTable(String principalName, String revenueINList, String expenditureINList);
 
 }
-

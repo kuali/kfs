@@ -291,16 +291,18 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * 
      * @param principalName--the user requesting the report
      * @param idForSession--the session id for the user
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    protected void consolidateMonthSummaryReportToObjectCodeLevel(String principalName, String idForSession) {
+    protected void consolidateMonthSummaryReportToObjectCodeLevel(String principalName, String idForSession, String revenueINList, String expenditureINList) {
 
         // set up the things that need to be inserted into the SQL (default sub object code and an object type IN list)
         ArrayList<String> revenueInsertions = new ArrayList<String>(2);
         ArrayList<String> expenditureInsertions = new ArrayList<String>(2);
         revenueInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
-        revenueInsertions.add(this.getRevenueINList());
+        revenueInsertions.add(revenueINList);
         expenditureInsertions.add(KFSConstants.getDashFinancialSubObjectCode());
-        expenditureInsertions.add(this.getExpenditureINList());
+        expenditureInsertions.add(expenditureINList);
 
         // sum revenue from the pending general ledger to the object code level
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(0).getSQL(revenueInsertions), idForSession, principalName);
@@ -317,14 +319,16 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * 
      * @param principalName--the user requesting the report
      * @param idForSession--the ID for the user's session
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    protected void detailedMonthSummaryTableReport(String principalName, String idForSession) {
+    protected void detailedMonthSummaryTableReport(String principalName, String idForSession, String revenueINList, String expenditureINList) {
 
         // set up the strings to be inserted into the SQL (revenue and expenditure object types
         ArrayList<String> revenueInsertions = new ArrayList<String>(2);
         ArrayList<String> expenditureInsertions = new ArrayList<String>(2);
-        revenueInsertions.add(this.getRevenueINList());
-        expenditureInsertions.add(this.getExpenditureINList());
+        revenueInsertions.add(revenueINList);
+        expenditureInsertions.add(expenditureINList);
 
         // sum revenue from the pending general ledger to the sub-object code level
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(4).getSQL(revenueInsertions), idForSession, principalName);
@@ -336,11 +340,12 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(7).getSQL(expenditureInsertions), idForSession, principalName);
     }
 
+
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String,
-     *      boolean)
+     *      boolean, java.lang.String, java.lang.String)
      */
-    public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel) {
+    public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel, String revenueINList, String expenditureINList) {
 
         Guid guid = new Guid();
         String idForSession = guid.toString();
@@ -349,10 +354,10 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
         this.cleanReportsMonthSummaryTable(principalName);
 
         if (consolidateToObjectCodeLevel) {
-            consolidateMonthSummaryReportToObjectCodeLevel(principalName, idForSession);
+            consolidateMonthSummaryReportToObjectCodeLevel(principalName, idForSession, revenueINList, expenditureINList);
         }
         else {
-            detailedMonthSummaryTableReport(principalName, idForSession);
+            detailedMonthSummaryTableReport(principalName, idForSession, revenueINList, expenditureINList);
         }
         // join monthly budgets and general ledger to build the final table for the report
         getSimpleJdbcTemplate().update(updateReportsMonthSummaryTable.get(8).getSQL(), principalName, idForSession);

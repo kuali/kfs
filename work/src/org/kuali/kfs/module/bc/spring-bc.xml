@@ -384,9 +384,6 @@
     </bean>
 	
 	<bean id="bcBudgetConstructionDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase">
-	    <property name="parameterService">
-	       <ref bean="parameterService"/>
-	    </property> 
 	    <property name="ojbPlatform" value="${datasource.ojb.platform}"/>
 	    <property name="ojbOraclePlatform" ref="oracleIndicator"/>
 	</bean>

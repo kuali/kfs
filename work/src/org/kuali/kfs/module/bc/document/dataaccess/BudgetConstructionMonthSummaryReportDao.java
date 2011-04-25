@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess;
 public interface BudgetConstructionMonthSummaryReportDao {
 
     /**
-     *  cleans month summary table.
+     * cleans month summary table.
      * 
      * @param principalName
      * @return
@@ -26,12 +26,13 @@ public interface BudgetConstructionMonthSummaryReportDao {
     public void cleanReportsMonthSummaryTable(String principalName);
 
     /**
-     * 
      * insert rows into the monthly summary report table for this user
+     * 
      * @param principalName--the user requesting the report
      * @param consolidateToObjectCodeLevel--true if sub object codes are to be consolidated, false if sub-object detail is desired
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel);
+    public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel, String revenueINList, String expenditureINList);
 
 }
-

@@ -182,11 +182,11 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteRevenue(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String revenueINList) {
 
         // get the revenue object types as an SQL IN list
         ArrayList<String> inSqlString = new ArrayList<String>();
-        inSqlString.add(getRevenueINList());
+        inSqlString.add(revenueINList);
 
         // run the delete-all SQL with the revenue object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(0).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
@@ -197,11 +197,11 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsDeleteExpenditure(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String expenditureINList) {
 
         // get the expenditure object types as an SQL IN list
         ArrayList<String> inSqlString = new ArrayList<String>();
-        inSqlString.add(getExpenditureINList());
+        inSqlString.add(expenditureINList);
 
         // run the delete-all SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(deleteAllSql.get(1).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber);
@@ -212,14 +212,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadRevenue(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String revenueINList) {
 
         // for revenue, we delete all existing rows, and spread all the corresponding rows in the general ledger
         // if there is any revenue for benefits, it will be spread, not calculated based on non-benefits rows as expenditure
         // benefits will be
         // get the revenue IN list
         ArrayList<String> inSqlString = new ArrayList<String>();
-        inSqlString.add(getRevenueINList());
+        inSqlString.add(revenueINList);
 
 
         // delete what is there now for this document for the revenue object classes
@@ -237,14 +237,14 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao#BudgetConstructionMonthlyBudgetsSpreadExpenditure(java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) {
+    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String expenditureINList) {
 
         // spread general ledger expenditures across 12 months, excluding benefits object types. benefits object expenditure will be
         // recalculated and spread later, because several object codes eligible for benefits can target the same fringe benefit
         // object
         // get the expenditure object types as an SQL IN list
         ArrayList<String> inSqlString = new ArrayList<String>();
-        inSqlString.add(getExpenditureINList());
+        inSqlString.add(expenditureINList);
 
         // run the delete-all-except-benefits SQL with the expenditure object classes
         int returnCount = getSimpleJdbcTemplate().update(spreadExpenditureSql.get(0).getSQL(inSqlString), documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, fiscalYear, chartCode);

@@ -29,6 +29,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummar
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +48,9 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)
      */
     public void updateMonthSummaryReport(String principalName, boolean consolidateToObjectCodeLevel) {
-        budgetConstructionMonthSummaryReportDao.updateReportsMonthSummaryTable(principalName, consolidateToObjectCodeLevel);
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList = BudgetConstructionUtils.getRevenueINList();
+        budgetConstructionMonthSummaryReportDao.updateReportsMonthSummaryTable(principalName, consolidateToObjectCodeLevel, revenueINList, expenditureINList);
 
     }
 
@@ -744,4 +747,3 @@ public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetCo
     }
 
 }
-

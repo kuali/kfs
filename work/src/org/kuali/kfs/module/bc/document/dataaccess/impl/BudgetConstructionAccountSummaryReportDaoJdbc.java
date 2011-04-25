@@ -394,63 +394,58 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
 
+    
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao#updateReportsAccountSummaryTable(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void updateReportsAccountSummaryTable(String principalName) {
-        // build the list of strings to insert
-        String revenueList = getRevenueINList();
-        String expenditureList = getExpenditureINList();
+    public void updateReportsAccountSummaryTable(String principalName, String revenueINList, String expenditureINList) {
         ArrayList<String> stringsToInsert = new ArrayList<String>(8);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_A);
-        stringsToInsert.add(revenueList);
+        stringsToInsert.add(revenueINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_E);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_T);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTable.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
     }
 
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao#updateReportsAccountSummaryTableWithConsolidation(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void updateReportsAccountSummaryTableWithConsolidation(String principalName) {
-        // build the list of strings to insert
-        String revenueList = getRevenueINList();
-        String expenditureList = getExpenditureINList();
+    public void updateReportsAccountSummaryTableWithConsolidation(String principalName, String revenueINList, String expenditureINList) {
+
         ArrayList<String> stringsToInsert = new ArrayList<String>(8);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_A);
-        stringsToInsert.add(revenueList);
+        stringsToInsert.add(revenueINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_E);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_T);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
     }
 
+    
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSummaryReportDao#updateSubFundSummaryReport(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void updateSubFundSummaryReport(String principalName) {
-        // build the list of strings to insert
-        String revenueList = getRevenueINList();
-        String expenditureList = getExpenditureINList();
+    public void updateSubFundSummaryReport(String principalName, String revenueINList, String expenditureINList) {
+
         ArrayList<String> stringsToInsert = new ArrayList<String>(8);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_A);
-        stringsToInsert.add(revenueList);
+        stringsToInsert.add(revenueINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_E);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_T);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         stringsToInsert.add(Report.INCOME_EXP_TYPE_X);
-        stringsToInsert.add(expenditureList);
+        stringsToInsert.add(expenditureINList);
         // run the SQL after inserting the constant strings
         getSimpleJdbcTemplate().update(updateSubFundSummaryReport.get(0).getSQL(stringsToInsert), principalName, principalName, principalName, principalName, principalName, principalName, principalName, principalName);
     }

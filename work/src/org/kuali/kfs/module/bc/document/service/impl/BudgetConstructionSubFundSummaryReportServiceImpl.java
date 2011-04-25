@@ -29,6 +29,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSumm
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionSubFundSummaryReportService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +49,10 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
     public void updateSubFundSummaryReport(String principalName) {
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
-        budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(principalName);
+        budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(principalName, revenueINList, expenditureINList);
     }
 
     /**
@@ -151,7 +154,7 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * @param subFundSummary
      */
     public void buildReportsBody(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummary) {
-        
+
         // build income expense description
         if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
             orgSubFundSummaryReportEntry.setIncExpDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_REVENUE));
@@ -390,4 +393,3 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 }
-

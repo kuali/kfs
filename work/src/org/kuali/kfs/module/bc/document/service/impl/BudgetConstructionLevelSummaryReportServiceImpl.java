@@ -29,6 +29,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLevelSummar
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +48,10 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)
      */
     public void updateLevelSummaryReport(String principalName) {
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionLevelSummaryReportDao.cleanReportsLevelSummaryTable(principalName);
-        budgetConstructionLevelSummaryReportDao.updateReportsLevelSummaryTable(principalName);
+        budgetConstructionLevelSummaryReportDao.updateReportsLevelSummaryTable(principalName, expenditureINList, revenueINList);
     }
 
     /**

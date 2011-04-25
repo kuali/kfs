@@ -27,7 +27,7 @@ public interface BenefitsCalculationDao {
      * @param accountNumber
      * @param subAccountNumber
      */
-    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd);
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList);
 
     /**
      * calculate the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the

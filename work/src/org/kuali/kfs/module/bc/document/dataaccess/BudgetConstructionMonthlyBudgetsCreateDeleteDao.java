@@ -17,56 +17,59 @@ package org.kuali.kfs.module.bc.document.dataaccess;
 
 
 /**
- * 
- * provides the data access methods to distribute a set of budget construction general ledger amounts among tweleve monthly periods in a budget
- * construction monthly budget row with the same key. any rounding errors are added/subtracted from the first monthly period, so the total of the
- * monthly periods equals the original amount distributed
+ * provides the data access methods to distribute a set of budget construction general ledger amounts among tweleve monthly periods
+ * in a budget construction monthly budget row with the same key. any rounding errors are added/subtracted from the first monthly
+ * period, so the total of the monthly periods equals the original amount distributed
  */
 public interface BudgetConstructionMonthlyBudgetsCreateDeleteDao {
 
     /**
-     * 
      * remove the existing revenue monthly budgets for this key
-     * @param documentNumber  the budget construction document number
-     * @param fiscalYear      the fiscal year for which the budget is being built
+     * 
+     * @param documentNumber the budget construction document number
+     * @param fiscalYear the fiscal year for which the budget is being built
      * @param chartCode
      * @param accountNumber
      * @param subAccountNumber
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
      */
-      public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-      
-      /**
-       * 
-       * remove the existing expenditure monthly budgets for this key
-       * @param documentNumber  the budget construction document number
-       * @param fiscalYear      the fiscal year for which the budget is being built
-       * @param chartCode
-       * @param accountNumber
-       * @param subAccountNumber
-       */ 
-       public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String revenueINList);
 
-       /**
-        * 
-        * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
-        * @param documentNumber  the budget construction document number
-        * @param fiscalYear      the fiscal year for which the budget is being built
-        * @param chartCode
-        * @param accountNumber
-        * @param subAccountNumber
-        */
-       public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
+    /**
+     * remove the existing expenditure monthly budgets for this key
+     * 
+     * @param documentNumber the budget construction document number
+     * @param fiscalYear the fiscal year for which the budget is being built
+     * @param chartCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
+     */
+    public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String expenditureINList);
 
-       /**
-        * 
-        * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month 
-        * @param documentNumber  the budget construction document number
-        * @param fiscalYear      the fiscal year for which the budget is being built
-        * @param chartCode
-        * @param accountNumber
-        * @param subAccountNumber
-        * @return true benefits need to be recomputed, false otherwise
-        */
-       public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber);
-       
+    /**
+     * spread the revenue for this key evenly over 12 months, with any remainder mod 12 added to the first month
+     * 
+     * @param documentNumber the budget construction document number
+     * @param fiscalYear the fiscal year for which the budget is being built
+     * @param chartCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     */
+    public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String revenueINList);
+
+    /**
+     * spread the expenditures for this key evenly over 12 months, with any reaminder mod 12 added to the first month
+     * 
+     * @param documentNumber the budget construction document number
+     * @param fiscalYear the fiscal year for which the budget is being built
+     * @param chartCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
+     * @return true benefits need to be recomputed, false otherwise
+     */
+    public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber, String expenditureINList);
+
 }

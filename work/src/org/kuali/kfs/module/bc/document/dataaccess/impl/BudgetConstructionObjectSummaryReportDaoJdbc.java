@@ -379,14 +379,15 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
         this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
 
+
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void updateGeneralLedgerObjectSummaryTable(String principalName) {
+    public void updateGeneralLedgerObjectSummaryTable(String principalName, String revenueINList, String expenditureINList) {
         String idForSession = (new Guid()).toString();
         ArrayList<String> inLists = new ArrayList<String>(2);
-        inLists.add(this.getRevenueINList());
-        inLists.add(this.getExpenditureINList());
+        inLists.add(revenueINList);
+        inLists.add(expenditureINList);
 
         // get rid of anything left over from the last time this user ran this report
         cleanGeneralLedgerObjectSummaryTable(principalName);

@@ -33,6 +33,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObje
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountObjectDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -53,11 +54,13 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
     public void updateAccountObjectDetailReport(String principalName, boolean consolidated) {
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList =  BudgetConstructionUtils.getRevenueINList();
         if (consolidated) {
-            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectConsolidatedTable(principalName);
+            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectConsolidatedTable(principalName,expenditureINList, revenueINList);
         }
         else {
-            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectDetailTable(principalName);
+            budgetConstructionAccountObjectDetailReportDao.updateReportsAccountObjectDetailTable(principalName, expenditureINList, revenueINList);
         }
     }
 

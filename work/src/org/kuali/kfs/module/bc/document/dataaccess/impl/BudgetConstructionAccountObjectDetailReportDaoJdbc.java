@@ -255,15 +255,15 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
         insertionPoints.clear();
     }
 
-    protected void buildInitialAccountBalances(String sessionId, String principalName) {
+    protected void buildInitialAccountBalances(String sessionId, String principalName, String expenditureINList, String revenueINList) {
         // remove any rows previously processed by this user
         cleanReportsAccountObjectDetailTable(principalName);
 
         // build the tables used both for detail and for consolidation
         // insert the funding with all FTE zeroed out
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);
-        stringsToInsert.add(this.getRevenueINList());
-        stringsToInsert.add(this.getExpenditureINList());
+        stringsToInsert.add(revenueINList);
+        stringsToInsert.add(expenditureINList);
         getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(0).getSQL(stringsToInsert), sessionId, principalName, sessionId, principalName);
         // fill in the FTE fields that come from appointment fundinng
         getSimpleJdbcTemplate().update(updateReportsAccountObjectDetailTable.get(1).getSQL(), sessionId);
@@ -288,13 +288,13 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
      */
-    public void updateReportsAccountObjectDetailTable(String principalName) {
+    public void updateReportsAccountObjectDetailTable(String principalName, String expenditureINList, String revenueINList) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();
 
         // add the reporting rows to the common base tables
-        this.buildInitialAccountBalances(sessionId, principalName);
+        this.buildInitialAccountBalances(sessionId, principalName, expenditureINList, revenueINList);
 
         // fill in the detail rows
         getSimpleJdbcTemplate().update(insertDetailForReport.get(0).getSQL(), principalName, sessionId);
@@ -307,13 +307,13 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
      */
-    public void updateReportsAccountObjectConsolidatedTable(String principalName) {
+    public void updateReportsAccountObjectConsolidatedTable(String principalName, String expenditureINList, String revenueINList) {
 
         // get a unique ID to identify this user's session
         String sessionId = (new Guid()).toString();
 
         // add the reporting rows to the common base tables
-        this.buildInitialAccountBalances(sessionId, principalName);
+        this.buildInitialAccountBalances(sessionId, principalName, expenditureINList, revenueINList );
 
         // fill in the consolidated rows with the default subaccount and the default subobject
         ArrayList<String> stringsToInsert = new ArrayList<String>(2);

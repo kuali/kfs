@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLevelSummaryReportDao;
-import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
@@ -67,7 +66,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, objc.fin_report_sort_cd, \n");
         sqlText.append(" objl.fin_report_sort_cd, objl.fin_cons_obj_cd, objt.fin_obj_level_cd \n");
 
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -98,7 +97,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append(" AND objc.fin_cons_obj_cd = objl.fin_cons_obj_cd \n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, objc.fin_report_sort_cd, objl.fin_report_sort_cd, objl.fin_cons_obj_cd, objt.fin_obj_level_cd \n");
 
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -126,8 +125,8 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
 
         updateReportsLevelSummaryTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
-        /* SQL-92 does not allow the target table of an UPDATE to be aliased.  Supposedly, PostgreSQL enforces this (Gennick, p.156) */  
+
+        /* SQL-92 does not allow the target table of an UPDATE to be aliased. Supposedly, PostgreSQL enforces this (Gennick, p.156) */
 
         /* copy the fte values to the report tables */
         sqlText.append("UPDATE LD_BCN_LEVL_SUMM_T \n");
@@ -196,7 +195,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append(" AND objl.fin_obj_level_cd = objt.fin_obj_level_cd \n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, objl.fin_cons_obj_cd, objt.fin_obj_level_cd \n");
 
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -229,7 +228,7 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.append(" AND objl.fin_obj_level_cd = objt.fin_obj_level_cd \n");
         sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.fin_coa_cd, objl.fin_cons_obj_cd, objt.fin_obj_level_cd \n");
 
-        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText,insertionPoints));
+        updateReportsLevelSummaryTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
@@ -279,21 +278,21 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         clearTempTableByUnvlId("LD_BCN_LEVL_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
 
-    public void updateReportsLevelSummaryTable(String principalName) {
-        
+    public void updateReportsLevelSummaryTable(String principalName, String expenditureINList, String revenueINList) {
+
         Guid guid = new Guid();
         String idForSession = guid.toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>(10);
-        
+
         cleanReportsLevelSummaryTable(principalName);
-        
+
         // insert revenue by object level from pending budget construction general ledger into the report-by-level table
-        stringsToInsert.add(this.getRevenueINList());
+        stringsToInsert.add(revenueINList);
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(0).getSQL(stringsToInsert), principalName, principalName);
         // insert expenditure by object level from pending budget construction general ledger into the report-by-level table
         stringsToInsert.clear();
-        stringsToInsert.add(this.getExpenditureINList());
+        stringsToInsert.add(expenditureINList);
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(1).getSQL(stringsToInsert), principalName, principalName);
         // sum the FTE from appointment funding
         getSimpleJdbcTemplate().update(updateReportsLevelSummaryTable.get(2).getSQL(), idForSession, principalName);
@@ -312,6 +311,5 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         clearTempTableBySesId("LD_BCN_BUILD_LEVLSUMM03_MT", "SESID", idForSession);
 
     }
-    
-}
 
+}

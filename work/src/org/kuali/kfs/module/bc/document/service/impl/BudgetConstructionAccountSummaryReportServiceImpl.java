@@ -31,6 +31,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSumm
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,16 +51,20 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
     public void updateReportsAccountSummaryTable(String principalName) {
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
-        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(principalName);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(principalName, revenueINList, expenditureINList);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String principalName) {
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+        String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(principalName);
-        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(principalName);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(principalName, revenueINList, expenditureINList);
     }
 
     /**

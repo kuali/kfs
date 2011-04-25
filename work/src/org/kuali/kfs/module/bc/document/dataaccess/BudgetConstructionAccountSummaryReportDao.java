@@ -18,7 +18,7 @@ package org.kuali.kfs.module.bc.document.dataaccess;
 public interface BudgetConstructionAccountSummaryReportDao {
 
     /**
-     *  cleans acount summary table.
+     * cleans acount summary table.
      * 
      * @param principalName
      * @return
@@ -26,26 +26,29 @@ public interface BudgetConstructionAccountSummaryReportDao {
     public void cleanReportsAccountSummaryTable(String principalName);
 
     /**
-     *  updates acount summary table.
+     * updates acount summary table.
      * 
      * @param principalName
-     * @return
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    public void updateReportsAccountSummaryTable(String principalName);
+    public void updateReportsAccountSummaryTable(String principalName, String revenueINList, String expenditureINList);
 
     /**
-     *  updates acount summary table when users choose consolidation.
+     * updates acount summary table when users choose consolidation.
      * 
      * @param principalName
-     * @return
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    public void updateReportsAccountSummaryTableWithConsolidation(String principalName);
-    
+    public void updateReportsAccountSummaryTableWithConsolidation(String principalName, String revenueINList, String expenditureINList);
+
     /**
      * updates acount summary table for SubFundSummaryReport.
      * 
      * @param principalName
+     * @param revenueINList a SQL IN list containing the budget construction revenue object types
+     * @param expenditureINList a SQL IN list containing the budget construction expenditure object types
      */
-    public void updateSubFundSummaryReport(String principalName);
+    public void updateSubFundSummaryReport(String principalName, String revenueINList, String expenditureINList);
 }
-

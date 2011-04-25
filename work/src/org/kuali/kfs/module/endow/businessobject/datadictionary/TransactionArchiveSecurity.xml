@@ -1,197 +1,203 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="TransactionArchiveSecurity" parent="TransactionArchiveSecurity-parentBean" />
+	<bean id="TransactionArchiveSecurity" parent="TransactionArchiveSecurity-parentBean" />
 
-  <bean id="TransactionArchiveSecurity-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" />
-    <property name="inquiryDefinition" >
-      <ref bean="TransactionArchiveSecurity-inquiryDefinition" />
-    </property>
-    <property name="lookupDefinition" >
-      <ref bean="TransactionArchiveSecurity-lookupDefinition" />
-    </property>
-    <property name="titleAttribute" value="TransactionArchiveSecurity"/>
-    <property name="objectLabel" value="Transaction Archive" />
-    <property name="attributes" >
-      <list>
-        <ref bean="TransactionArchiveSecurity-unitsHeld" />
-        <ref bean="TransactionArchiveSecurity-holdingCost" />
-        <ref bean="TransactionArchiveSecurity-registrationCode" />
-        <ref bean="TransactionArchiveSecurity-etranCode" />
-        <ref bean="TransactionArchiveSecurity-longTermGainLoss" />
-        <ref bean="TransactionArchiveSecurity-shortTermGainLoss" />
-        <ref bean="TransactionArchiveSecurity-unitValue" />
-        <ref bean="TransactionArchiveSecurity-securityId" />
-      </list>
-    </property>
-  </bean>
+	<bean id="TransactionArchiveSecurity-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity" />
+		<property name="inquiryDefinition">
+			<ref bean="TransactionArchiveSecurity-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="TransactionArchiveSecurity-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="TransactionArchiveSecurity" />
+		<property name="objectLabel" value="Transaction Archive" />
+		<property name="attributes">
+			<list>
+				<ref bean="TransactionArchiveSecurity-unitsHeld" />
+				<ref bean="TransactionArchiveSecurity-holdingCost" />
+				<ref bean="TransactionArchiveSecurity-registrationCode" />
+				<ref bean="TransactionArchiveSecurity-etranCode" />
+				<ref bean="TransactionArchiveSecurity-longTermGainLoss" />
+				<ref bean="TransactionArchiveSecurity-shortTermGainLoss" />
+				<ref bean="TransactionArchiveSecurity-unitValue" />
+				<ref bean="TransactionArchiveSecurity-securityId" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="TransactionArchiveSecurity-securityId" parent="TransactionArchiveSecurity-securityId-parentBean" />
-  <bean id="TransactionArchiveSecurity-securityId-parentBean" abstract="true" parent="Security-id">
-    <property name="name" value="securityId" />
-  </bean>
+	<bean id="TransactionArchiveSecurity-securityId" parent="TransactionArchiveSecurity-securityId-parentBean" />
+	<bean id="TransactionArchiveSecurity-securityId-parentBean"
+		abstract="true" parent="Security-id">
+		<property name="name" value="securityId" />
+	</bean>
 
-  <bean id="TransactionArchiveSecurity-unitValue" parent="TransactionArchiveSecurity-unitValue-parentBean" />
-  <bean id="TransactionArchiveSecurity-unitValue-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="unitValue" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Transaction Unit Value" />
-    <property name="shortLabel" value="Transaction Unit Value" />
-    <property name="maxLength" value="25" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="5" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="26" />
-    </property>
-  </bean>
-  
-  <bean id="TransactionArchiveSecurity-shortTermGainLoss" parent="TransactionArchiveSecurity-shortTermGainLoss-parentBean" />
-  <bean id="TransactionArchiveSecurity-shortTermGainLoss-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="shortTermGainLoss" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Short Term Gain (Loss)" />
-    <property name="shortLabel" value="Short Term Gain (Loss)" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="23" />
-    </property>
-  </bean>
-  
-  <bean id="TransactionArchiveSecurity-longTermGainLoss" parent="TransactionArchiveSecurity-longTermGainLoss-parentBean" />
-  <bean id="TransactionArchiveSecurity-longTermGainLoss-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="longTermGainLoss" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Long Term Gain (Loss)" />
-    <property name="shortLabel" value="Long Term Gain (Loss)" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="23" />
-    </property>
-  </bean>
+	<bean id="TransactionArchiveSecurity-unitValue" parent="TransactionArchiveSecurity-unitValue-parentBean" />
+	<bean id="TransactionArchiveSecurity-unitValue-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="unitValue" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Transaction Unit Value" />
+		<property name="shortLabel" value="Transaction Unit Value" />
+		<property name="maxLength" value="25" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="19"
+				p:scale="5" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="26" />
+		</property>
+	</bean>
 
-  <bean id="TransactionArchiveSecurity-etranCode" parent="TransactionArchiveSecurity-etranCode-parentBean" />
-  <bean id="TransactionArchiveSecurity-etranCode-parentBean" abstract="true" parent="EndowmentTransactionCode-code">
-    <property name="name" value="etranCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Security Transaction Code" />
-    <property name="shortLabel" value="Security Transaction Code" />
-  </bean>
-  
-  <bean id="TransactionArchiveSecurity-registrationCode" parent="TransactionArchiveSecurity-registrationCode-parentBean" />
-  <bean id="TransactionArchiveSecurity-registrationCode-parentBean" abstract="true" parent="RegistrationCode-codeAndDescription">
-    <property name="name" value="registrationCode" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Registration Code" />
-    <property name="shortLabel" value="Registration Code" />
-  </bean>
-  
-  <bean id="TransactionArchiveSecurity-unitsHeld" parent="TransactionArchiveSecurity-unitsHeld-parentBean" />
-  <bean id="TransactionArchiveSecurity-unitsHeld-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="unitsHeld" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Units Held" />
-    <property name="shortLabel" value="Units Held" />
-    <property name="maxLength" value="21" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="16"
-            p:scale="4" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="22" />
-    </property>
-  </bean>
-  
-  <bean id="TransactionArchiveSecurity-holdingCost" parent="TransactionArchiveSecurity-holdingCost-parentBean" />
-  <bean id="TransactionArchiveSecurity-holdingCost-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="holdingCost" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Holding Cost" />
-    <property name="shortLabel" value="Holding Cost" />
-    <property name="maxLength" value="22" />
-    <property name="required" value="true" />
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern"
-            p:precision="19"
-            p:scale="2" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="23" />
-    </property>
-  </bean>
-  
-  <!-- Business Object Inquiry Definition -->
+	<bean id="TransactionArchiveSecurity-shortTermGainLoss" parent="TransactionArchiveSecurity-shortTermGainLoss-parentBean" />
+	<bean id="TransactionArchiveSecurity-shortTermGainLoss-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="shortTermGainLoss" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Short Term Gain (Loss)" />
+		<property name="shortLabel" value="Short Term Gain (Loss)" />
+		<property name="maxLength" value="22" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="19"
+				p:scale="2" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="23" />
+		</property>
+	</bean>
 
-  <bean id="TransactionArchiveSecurity-inquiryDefinition" parent="TransactionArchiveSecurity-inquiryDefinition-parentBean" />
-  <bean id="TransactionArchiveSecurity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Current Security Holder Inquiry" />
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
-            <list>                                                                           
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="TransactionArchiveSecurity-longTermGainLoss" parent="TransactionArchiveSecurity-longTermGainLoss-parentBean" />
+	<bean id="TransactionArchiveSecurity-longTermGainLoss-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="longTermGainLoss" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Long Term Gain (Loss)" />
+		<property name="shortLabel" value="Long Term Gain (Loss)" />
+		<property name="maxLength" value="22" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="19"
+				p:scale="2" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="23" />
+		</property>
+	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<bean id="TransactionArchiveSecurity-etranCode" parent="TransactionArchiveSecurity-etranCode-parentBean" />
+	<bean id="TransactionArchiveSecurity-etranCode-parentBean"
+		abstract="true" parent="EndowmentTransactionCode-code">
+		<property name="name" value="etranCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Security Transaction Code" />
+		<property name="shortLabel" value="Security Transaction Code" />
+	</bean>
 
-  <bean id="TransactionArchiveSecurity-lookupDefinition" parent="TransactionArchiveSecurity-lookupDefinition-parentBean" />
-  <bean id="TransactionArchiveSecurity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Endowment Transaction Archive Security Lookup" />
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-        <property name="attributeNames" >
-          <list>
-          	<value>documentNumber</value>
-            <value>lineNumber</value>
-            <value>lineTypeCode</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>                                                           
-      </list>
-    </property>
-  </bean>
+	<bean id="TransactionArchiveSecurity-registrationCode" parent="TransactionArchiveSecurity-registrationCode-parentBean" />
+	<bean id="TransactionArchiveSecurity-registrationCode-parentBean"
+		abstract="true" parent="RegistrationCode-codeAndDescription">
+		<property name="name" value="registrationCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Registration Code" />
+		<property name="shortLabel" value="Registration Code" />
+	</bean>
+
+	<bean id="TransactionArchiveSecurity-unitsHeld" parent="TransactionArchiveSecurity-unitsHeld-parentBean" />
+	<bean id="TransactionArchiveSecurity-unitsHeld-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="unitsHeld" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Units Held" />
+		<property name="shortLabel" value="Units Held" />
+		<property name="maxLength" value="21" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="16"
+				p:scale="4" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="22" />
+		</property>
+	</bean>
+
+	<bean id="TransactionArchiveSecurity-holdingCost" parent="TransactionArchiveSecurity-holdingCost-parentBean" />
+	<bean id="TransactionArchiveSecurity-holdingCost-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="holdingCost" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Holding Cost" />
+		<property name="shortLabel" value="Holding Cost" />
+		<property name="maxLength" value="22" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="19"
+				p:scale="2" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="23" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="TransactionArchiveSecurity-inquiryDefinition" parent="TransactionArchiveSecurity-inquiryDefinition-parentBean" />
+	<bean id="TransactionArchiveSecurity-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Current Security Holder Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="TransactionArchiveSecurity-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="TransactionArchiveSecurity-inquirySectionDefinition"
+		parent="TransactionArchiveSecurity-inquirySectionDefinition-parentBean" />
+	<bean id="TransactionArchiveSecurity-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="TransactionArchiveSecurity-lookupDefinition" parent="TransactionArchiveSecurity-lookupDefinition-parentBean" />
+	<bean id="TransactionArchiveSecurity-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title"
+			value="Endowment Transaction Archive Security Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>documentNumber</value>
+						<value>lineNumber</value>
+						<value>lineTypeCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+			</list>
+		</property>
+	</bean>
 </beans>

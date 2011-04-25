@@ -1,147 +1,163 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2007-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2007-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="ResponsibilityCenter" parent="ResponsibilityCenter-parentBean" />
 
-  <bean id="ResponsibilityCenter" parent="ResponsibilityCenter-parentBean"/>
+	<bean id="ResponsibilityCenter-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.coa.businessobject.ResponsibilityCenter" />
+		<property name="inquiryDefinition">
+			<ref bean="ResponsibilityCenter-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="ResponsibilityCenter-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="responsibilityCenterCode" />
+		<property name="objectLabel" value="Responsibility Center" />
+		<property name="attributes">
+			<list>
+				<ref bean="ResponsibilityCenter-responsibilityCenterCode" />
+				<ref bean="ResponsibilityCenter-responsibilityCenterName" />
+				<ref bean="ResponsibilityCenter-responsibilityCenterShortName" />
+				<ref bean="ResponsibilityCenter-active" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="ResponsibilityCenter-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ResponsibilityCenter"/>
-    <property name="inquiryDefinition">
-      <ref bean="ResponsibilityCenter-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="ResponsibilityCenter-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="responsibilityCenterCode"/>
-    <property name="objectLabel" value="Responsibility Center"/>
-    <property name="attributes">
-      <list>
-        <ref bean="ResponsibilityCenter-responsibilityCenterCode"/>
-        <ref bean="ResponsibilityCenter-responsibilityCenterName"/>
-        <ref bean="ResponsibilityCenter-responsibilityCenterShortName"/>
-        <ref bean="ResponsibilityCenter-active"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="ResponsibilityCenter-responsibilityCenterCode" parent="ResponsibilityCenter-responsibilityCenterCode-parentBean"/>
-  <bean id="ResponsibilityCenter-responsibilityCenterCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="responsibilityCenterCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Responsibility Center Code"/>
-    <property name="shortLabel" value="RC"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AlphaNumericValidation" />
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <ref bean="TwoCharacterTextControl" />
-    </property>
-  </bean>
-  
-  <bean id="ResponsibilityCenter-responsibilityCenterName" parent="ResponsibilityCenter-responsibilityCenterName-parentBean"/>
-  <bean id="ResponsibilityCenter-responsibilityCenterName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="responsibilityCenterName"/>
-    <property name="label" value="Responsibility Center Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <ref bean="StandardNameTextControl" />
-    </property>
-  </bean>
-  <bean id="ResponsibilityCenter-responsibilityCenterShortName" parent="ResponsibilityCenter-responsibilityCenterShortName-parentBean"/>
-
-  <bean id="ResponsibilityCenter-responsibilityCenterShortName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="responsibilityCenterShortName"/>
-    <property name="label" value="Responsibility Center Short Name"/>
-    <property name="shortLabel" value="Short Name"/>
-    <property name="maxLength" value="12"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <ref bean="StandardShortNameTextControl" />
-    </property>
-  </bean>
-  <bean id="ResponsibilityCenter-active" parent="ResponsibilityCenter-active-parentBean"/>
-
-  <bean id="ResponsibilityCenter-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="ResponsibilityCenter-inquiryDefinition" parent="ResponsibilityCenter-inquiryDefinition-parentBean"/>
+	<bean id="ResponsibilityCenter-responsibilityCenterCode"
+		parent="ResponsibilityCenter-responsibilityCenterCode-parentBean" />
+	<bean id="ResponsibilityCenter-responsibilityCenterCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="responsibilityCenterCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Responsibility Center Code" />
+		<property name="shortLabel" value="RC" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="TwoCharacterTextControl" />
+		</property>
+	</bean>
 
-  <bean id="ResponsibilityCenter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Responsibility Center Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
-              <bean parent="FieldDefinition" p:attributeName="responsibilityCenterName"/>
-              <bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="ResponsibilityCenter-responsibilityCenterName"
+		parent="ResponsibilityCenter-responsibilityCenterName-parentBean" />
+	<bean id="ResponsibilityCenter-responsibilityCenterName-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="responsibilityCenterName" />
+		<property name="label" value="Responsibility Center Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+	<bean id="ResponsibilityCenter-responsibilityCenterShortName"
+		parent="ResponsibilityCenter-responsibilityCenterShortName-parentBean" />
 
-<!-- Business Object Lookup Definition -->
+	<bean id="ResponsibilityCenter-responsibilityCenterShortName-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="responsibilityCenterShortName" />
+		<property name="label" value="Responsibility Center Short Name" />
+		<property name="shortLabel" value="Short Name" />
+		<property name="maxLength" value="12" />
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardShortNameTextControl" />
+		</property>
+	</bean>
+	<bean id="ResponsibilityCenter-active" parent="ResponsibilityCenter-active-parentBean" />
+
+	<bean id="ResponsibilityCenter-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="ResponsibilityCenter-lookupDefinition" parent="ResponsibilityCenter-lookupDefinition-parentBean"/>
+	<bean id="ResponsibilityCenter-inquiryDefinition" parent="ResponsibilityCenter-inquiryDefinition-parentBean" />
 
-  <bean id="ResponsibilityCenter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Responsibility Center Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-        <property name="attributeNames">
-          <list>
-            <value>responsibilityCenterCode</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterName"/>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterName"/>
-        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="ResponsibilityCenter-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Responsibility Center Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="ResponsibilityCenter-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ResponsibilityCenter-inquirySectionDefinition"
+		parent="ResponsibilityCenter-inquirySectionDefinition-parentBean" />
+	<bean id="ResponsibilityCenter-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterName" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="ResponsibilityCenter-lookupDefinition" parent="ResponsibilityCenter-lookupDefinition-parentBean" />
+
+	<bean id="ResponsibilityCenter-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Responsibility Center Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>responsibilityCenterCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterName" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterName" />
+				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterShortName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

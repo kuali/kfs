@@ -122,7 +122,14 @@
     <property name="title" value="Effort Certification Detail Build Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+        <ref bean="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailBuild"/>
+        <ref bean="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailLinesBuild"/>
+      </list>
+    </property>
+  </bean>
+  
+ <bean id="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailBuild" parent="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailBuild-parentBean"/>
+ <bean id="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailBuild-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Effort Certification Detail Build"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -134,13 +141,20 @@
               <bean parent="FieldDefinition" p:attributeName="emplid"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
+  </bean>
+        
+ <bean id="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailLinesBuild" parent="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailLinesBuild-parentBean"/>
+ <bean id="EffortCertificationDocumentBuild-inquirySectionDefinition-effortCertificationDetailLinesBuild-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Effort Certification Detail Lines Build"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean parent="InquiryCollectionDefinition">
+              <ref bean="EffortCertificationDocumentBuild-inquiryCollectionDefinition-effortCertificationDetailLinesBuild"/> 
+            </list>
+          </property>
+  </bean>
+ <bean id="EffortCertificationDocumentBuild-inquiryCollectionDefinition-effortCertificationDetailLinesBuild" parent="EffortCertificationDocumentBuild-inquiryCollectionDefinition-effortCertificationDetailLinesBuild-parentBean"/>
+ <bean id="EffortCertificationDocumentBuild-inquiryCollectionDefinition-effortCertificationDetailLinesBuild-parentBean" parent="InquiryCollectionDefinition" abstract="true">     
                 <property name="attributeName" value="effortCertificationDetailLinesBuild"/>
                 <property name="businessObjectClass" value="org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild"/>
                 <property name="numberOfColumns" value="1"/>
@@ -162,14 +176,8 @@
                     <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
                   </list>
                 </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
+ </bean>
+                     
 <!-- Business Object Lookup Definition -->
 
 

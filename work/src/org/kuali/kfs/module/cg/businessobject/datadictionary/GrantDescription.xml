@@ -1,127 +1,137 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="GrantDescription" parent="GrantDescription-parentBean" />
 
-  <bean id="GrantDescription" parent="GrantDescription-parentBean"/>
+	<bean id="GrantDescription-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.GrantDescription" />
+		<property name="inquiryDefinition">
+			<ref bean="GrantDescription-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="GrantDescription-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Grant Description" />
+		<property name="attributes">
+			<list>
+				<ref bean="GrantDescription-grantDescription" />
+				<ref bean="GrantDescription-grantDescriptionCode" />
+				<ref bean="GrantDescription-active" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="GrantDescription-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.GrantDescription"/>
-    <property name="inquiryDefinition">
-      <ref bean="GrantDescription-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="GrantDescription-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Grant Description"/>
-    <property name="attributes">
-      <list>
-        <ref bean="GrantDescription-grantDescription"/>
-        <ref bean="GrantDescription-grantDescriptionCode"/>
-        <ref bean="GrantDescription-active"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="GrantDescription-grantDescription" parent="GrantDescription-grantDescription-parentBean"/>
-
-  <bean id="GrantDescription-grantDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantDescription"/>
-    <property name="label" value="Grant Description"/>
-    <property name="shortLabel" value="Description"/>
-    <property name="maxLength" value="25"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="27"/>
-    </property>
-  </bean>
-  <bean id="GrantDescription-grantDescriptionCode" parent="GrantDescription-grantDescriptionCode-parentBean"/>
-
-  <bean id="GrantDescription-grantDescriptionCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantDescriptionCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Grant Description Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <ref bean="AlphaNumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-  </bean>
-  <bean id="GrantDescription-active" parent="GrantDescription-active-parentBean"/>
-
-  <bean id="GrantDescription-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="GrantDescription-inquiryDefinition" parent="GrantDescription-inquiryDefinition-parentBean"/>
+	<bean id="GrantDescription-grantDescription" parent="GrantDescription-grantDescription-parentBean" />
 
-  <bean id="GrantDescription-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Grant Description Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Grant Description Details"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="grantDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="grantDescriptionCode"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="GrantDescription-grantDescription-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="grantDescription" />
+		<property name="label" value="Grant Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="25" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="27" />
+		</property>
+	</bean>
+	<bean id="GrantDescription-grantDescriptionCode" parent="GrantDescription-grantDescriptionCode-parentBean" />
 
-<!-- Business Object Lookup Definition -->
+	<bean id="GrantDescription-grantDescriptionCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="grantDescriptionCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Grant Description Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+	<bean id="GrantDescription-active" parent="GrantDescription-active-parentBean" />
+
+	<bean id="GrantDescription-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="GrantDescription-lookupDefinition" parent="GrantDescription-lookupDefinition-parentBean"/>
+	<bean id="GrantDescription-inquiryDefinition" parent="GrantDescription-inquiryDefinition-parentBean" />
 
-  <bean id="GrantDescription-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Grant Description Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="grantDescription"/>
-        <bean parent="FieldDefinition" p:attributeName="grantDescriptionCode"/>
-        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="grantDescription"/>
-        <bean parent="FieldDefinition" p:attributeName="grantDescriptionCode"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="GrantDescription-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Grant Description Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="GrantDescription-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="GrantDescription-inquirySectionDefinition" parent="GrantDescription-inquirySectionDefinition-parentBean" />
+	<bean id="GrantDescription-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Grant Description Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="grantDescription" />
+				<bean parent="FieldDefinition" p:attributeName="grantDescriptionCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="GrantDescription-lookupDefinition" parent="GrantDescription-lookupDefinition-parentBean" />
+
+	<bean id="GrantDescription-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Grant Description Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="grantDescription" />
+				<bean parent="FieldDefinition" p:attributeName="grantDescriptionCode" />
+				<bean parent="FieldDefinition" p:defaultValue="Y"
+					p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="grantDescription" />
+				<bean parent="FieldDefinition" p:attributeName="grantDescriptionCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -157,7 +157,12 @@
     <property name="title" value="Effort Certification Extract Line Build Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+        <ref bean="EffortCertificationDetailBuild-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+<bean id="EffortCertificationDetailBuild-inquirySectionDefinition" parent="EffortCertificationDetailBuild-inquirySectionDefinition-parentBean"/>
+ <bean id="EffortCertificationDetailBuild-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value=""/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -181,11 +186,8 @@
               <bean parent="FieldDefinition" p:attributeName="effortCertificationOriginalPayrollAmount"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -95,7 +95,12 @@
     <property name="title" value="Effort Certification Report Position Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="EffortCertificationReportPosition-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+<bean id="EffortCertificationReportPosition-inquirySectionDefinition" parent="EffortCertificationReportPosition-inquirySectionDefinition-parentBean"/>
+ <bean id="EffortCertificationReportPosition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value=""/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -106,11 +111,8 @@
               <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

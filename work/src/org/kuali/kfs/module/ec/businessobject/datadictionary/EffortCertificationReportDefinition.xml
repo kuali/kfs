@@ -208,7 +208,12 @@
     <property name="title" value="Effort Certification Report Definition Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="EffortCertificationReportDefinition-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+<bean id="EffortCertificationReportDefinition-inquirySectionDefinition" parent="EffortCertificationReportDefinition-inquirySectionDefinition-parentBean"/>
+ <bean id="EffortCertificationReportDefinition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value=""/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -227,11 +232,8 @@
               <bean parent="FieldDefinition" p:attributeName="effortCertificationReportReturnDate"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

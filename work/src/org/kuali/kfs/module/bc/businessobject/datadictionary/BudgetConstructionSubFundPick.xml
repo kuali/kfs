@@ -1,151 +1,171 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="BudgetConstructionSubFundPick" parent="BudgetConstructionSubFundPick-parentBean" />
 
-  <bean id="BudgetConstructionSubFundPick" parent="BudgetConstructionSubFundPick-parentBean"/>
+	<bean id="BudgetConstructionSubFundPick-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick" />
+		<property name="inquiryDefinition">
+			<ref bean="BudgetConstructionSubFundPick-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="BudgetConstructionSubFundPick-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Budget Construction Sub Fund Pick" />
+		<property name="attributes">
+			<list>
+				<ref bean="BudgetConstructionSubFundPick-principalId" />
+				<ref bean="BudgetConstructionSubFundPick-reportFlag" />
+				<ref bean="BudgetConstructionSubFundPick-subFundGroupCode" />
+				<ref
+					bean="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="BudgetConstructionSubFundPick-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick"/>
-    <property name="inquiryDefinition">
-      <ref bean="BudgetConstructionSubFundPick-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="BudgetConstructionSubFundPick-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Budget Construction Sub Fund Pick"/>
-    <property name="attributes">
-      <list>
-        <ref bean="BudgetConstructionSubFundPick-principalId"/>
-        <ref bean="BudgetConstructionSubFundPick-reportFlag"/>
-        <ref bean="BudgetConstructionSubFundPick-subFundGroupCode"/>
-        <ref bean="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="BudgetConstructionSubFundPick-principalId" parent="BudgetConstructionSubFundPick-principalId-parentBean"/>
-
-  <bean id="BudgetConstructionSubFundPick-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="principalId"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Person Universal Identifier"/>
-    <property name="shortLabel" value="Identifier"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <ref bean="StandardShortNameTextControl" />
-    </property>
-    
-    
-  </bean>
-  <bean id="BudgetConstructionSubFundPick-reportFlag" parent="BudgetConstructionSubFundPick-reportFlag-parentBean"/>
-
-  <bean id="BudgetConstructionSubFundPick-reportFlag-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="reportFlag"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Report Flag"/>
-    <property name="shortLabel" value="Flag"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-    
-    
-  </bean>
-  <bean id="BudgetConstructionSubFundPick-subFundGroupCode" parent="BudgetConstructionSubFundPick-subFundGroupCode-parentBean"/>
-
-  <bean id="BudgetConstructionSubFundPick-subFundGroupCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subFundGroupCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Fund Group Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="6"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="8"/>
-    </property>
-    
-    
-  </bean>
-  <bean id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription" parent="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean"/>
-
-  <bean id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean" abstract="true" parent="SubFundGroup-subFundGroupDescription">
-    <property name="name" value="subFundGroup.subFundGroupDescription"/>
-    <property name="required" value="false"/>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionSubFundPick-inquiryDefinition" parent="BudgetConstructionSubFundPick-inquiryDefinition-parentBean"/>
+	<bean id="BudgetConstructionSubFundPick-principalId" parent="BudgetConstructionSubFundPick-principalId-parentBean" />
 
-  <bean id="BudgetConstructionSubFundPick-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Sub Fund Pick Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="principalId"/>
-              <bean parent="FieldDefinition" p:attributeName="reportFlag"/>
-              <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Business Object Lookup Definition -->
+	<bean id="BudgetConstructionSubFundPick-principalId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="principalId" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Person Universal Identifier" />
+		<property name="shortLabel" value="Identifier" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<ref bean="StandardShortNameTextControl" />
+		</property>
 
 
-  <bean id="BudgetConstructionSubFundPick-lookupDefinition" parent="BudgetConstructionSubFundPick-lookupDefinition-parentBean"/>
+	</bean>
+	<bean id="BudgetConstructionSubFundPick-reportFlag" parent="BudgetConstructionSubFundPick-reportFlag-parentBean" />
 
-  <bean id="BudgetConstructionSubFundPick-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Sub Fund Pick Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId"/>
-        <bean parent="FieldDefinition" p:attributeName="reportFlag"/>
-        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="principalId"/>
-        <bean parent="FieldDefinition" p:attributeName="reportFlag"/>
-        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="BudgetConstructionSubFundPick-reportFlag-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportFlag" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Report Flag" />
+		<property name="shortLabel" value="Flag" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+
+
+	</bean>
+	<bean id="BudgetConstructionSubFundPick-subFundGroupCode"
+		parent="BudgetConstructionSubFundPick-subFundGroupCode-parentBean" />
+
+	<bean id="BudgetConstructionSubFundPick-subFundGroupCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="subFundGroupCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Sub Fund Group Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="8" />
+		</property>
+
+
+	</bean>
+	<bean
+		id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription"
+		parent="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean" />
+
+	<bean
+		id="BudgetConstructionSubFundPick-subFundGroup.subFundGroupDescription-parentBean"
+		abstract="true" parent="SubFundGroup-subFundGroupDescription">
+		<property name="name" value="subFundGroup.subFundGroupDescription" />
+		<property name="required" value="false" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="BudgetConstructionSubFundPick-inquiryDefinition"
+		parent="BudgetConstructionSubFundPick-inquiryDefinition-parentBean" />
+
+	<bean id="BudgetConstructionSubFundPick-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Budget Construction Sub Fund Pick Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="BudgetConstructionSubFundPick-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BudgetConstructionSubFundPick-inquirySectionDefinition"
+		parent="BudgetConstructionSubFundPick-inquirySectionDefinition-parentBean" />
+	<bean
+		id="BudgetConstructionSubFundPick-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="reportFlag" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="BudgetConstructionSubFundPick-lookupDefinition"
+		parent="BudgetConstructionSubFundPick-lookupDefinition-parentBean" />
+
+	<bean id="BudgetConstructionSubFundPick-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Budget Construction Sub Fund Pick Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="reportFlag" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="reportFlag" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
+			</list>
+		</property>
+	</bean>
 </beans>

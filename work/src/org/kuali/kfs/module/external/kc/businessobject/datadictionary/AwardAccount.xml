@@ -225,7 +225,12 @@
     <property name="title" value="Award Account Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="AwardAccount-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+   <bean id="AwardAccount-inquirySectionDefinition" parent="AwardAccount-inquirySectionDefinition-parentBean"/>
+   <bean id="AwardAccount-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Award Account Details"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -237,9 +242,5 @@
               <bean parent="FieldDefinition" p:attributeName="active"/> 
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-  
+   </bean>
 </beans>

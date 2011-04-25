@@ -221,7 +221,19 @@
     <property name="title" value="CG Account Defaults Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Details">
+        <ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDetails"/>
+        <ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsResponsibility"/>
+		<ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsContractsandGrants"/>
+        <ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsGuidelinesandPurpose"/>
+        <ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDescription"/>
+ <!--   <ref bean="AccountAutoCreateDefaults-inquirySectionDefinition-Awards"/>   --> 
+      </list>
+    </property>
+    <property name="inquirableClass" value="org.kuali.kfs.module.external.kc.businessobject.inquiry.AccountAutoCreateDefInquirable"/>
+  </bean>
+  
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDetails" parent="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDetails-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDetails-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="CG Account Defaults Details">
           <property name="inquiryFields">
             <list>
            	  <bean parent="FieldDefinition" p:attributeName="accountDefaultId"/>
@@ -242,11 +254,11 @@
               <bean parent="FieldDefinition" p:attributeName="financialHigherEdFunction.codeAndDescription"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Responsibility">
+  </bean>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsResponsibility" parent="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsResponsibility-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsResponsibility-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="CG Account Defaults Responsibility">
           <property name="inquiryFields">
             <list>
-
               <bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName"/>
               <bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName"/>
               <bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName"/>
@@ -263,8 +275,10 @@
               <bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Contracts and Grants">
+  </bean>
+  
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsContractsandGrants" parent="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsContractsandGrants-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsContractsandGrants-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="CG Account Defaults Contracts and Grants">        
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
@@ -273,8 +287,9 @@
               <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Guidelines and Purpose">
+  </bean>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsGuidelinesandPurpose" parent="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsGuidelinesandPurpose-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsGuidelinesandPurpose-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="CG Account Defaults Guidelines and Purpose">        
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="accountExpenseGuidelineText"/>
@@ -282,16 +297,19 @@
               <bean parent="FieldDefinition" p:attributeName="accountPurposeText"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="CG Account Defaults Description">
+ </bean>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDescription" parent="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDescription-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-cgAccountDefaultsDescription-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="CG Account Defaults Description">        
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="accountDescriptionCampusCode"/>
               <bean parent="FieldDefinition" p:attributeName="accountDescriptionBuildingCode"/>
             </list>
           </property>
-        </bean>
-<!--        <bean parent="InquirySectionDefinition" p:title="Awards">
+  </bean>
+  <!-- 
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-Awards" parent="AccountAutoCreateDefaults-inquirySectionDefinition-Awards-parentBean"/>
+ <bean id="AccountAutoCreateDefaults-inquirySectionDefinition-Awards-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="Awards">        
           <property name="inquiryFields">
             <list>
               <bean parent="InquiryCollectionDefinition" p:attributeName="awards" p:businessObjectClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
@@ -308,12 +326,9 @@
               </bean>
             </list>
           </property>
-        </bean>  --> 
-      </list>
-    </property>
-    <property name="inquirableClass" value="org.kuali.kfs.module.external.kc.businessobject.inquiry.AccountAutoCreateDefInquirable"/>
-  </bean>
-
+        </bean>
+  --> 
+ 
 <!-- Business Object Lookup Definition -->
 
 

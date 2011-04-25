@@ -70,7 +70,13 @@
     <property name="title" value="Budget Category Code"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Budget Category Code Details">
+       <ref bean="budgetCategoryDTO-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+  
+ <bean id="budgetCategoryDTO-inquirySectionDefinition" parent="budgetCategoryDTO-inquirySectionDefinition-parentBean"/>
+ <bean id="budgetCategoryDTO-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true"  p:title="Budget Category Code Details">
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
@@ -78,9 +84,6 @@
               <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
-        </bean>
-        </list>
-    </property>
   </bean>
 
 <!-- Business Object Lookup Definition -->

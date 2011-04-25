@@ -147,7 +147,14 @@
     <property name="title" value="Award Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="Award-inquirySectionDefinition-awardDetails"/>
+         <ref bean="Award-inquirySectionDefinition-accounts"/>
+      </list>
+    </property>
+  </bean>
+  
+ <bean id="Award-inquirySectionDefinition-awardDetails" parent="Award-inquirySectionDefinition-awardDetails-parentBean"/>
+ <bean id="Award-inquirySectionDefinition-awardDetails-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Award Details"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -156,13 +163,20 @@
               <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
             </list>
           </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
+ </bean>
+
+ <bean id="Award-inquirySectionDefinition-accounts" parent="Award-inquirySectionDefinition-accounts-parentBean"/>
+ <bean id="Award-inquirySectionDefinition-accounts-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Accounts"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean parent="InquiryCollectionDefinition">
+              <ref bean="Award-inquiryCollectionDefinition-awardAccounts"/> 
+            </list>
+          </property>
+ </bean>        
+ <bean id="Award-inquiryCollectionDefinition-awardAccounts" parent="Award-inquiryCollectionDefinition-awardAccounts-parentBean"/>
+ <bean id="Award-inquiryCollectionDefinition-awardAccounts-parentBean" parent="InquiryCollectionDefinition" abstract="true">     
                 <property name="attributeName" value="awardAccounts"/>
                 <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount"/>
                 <property name="numberOfColumns" value="1"/>
@@ -180,14 +194,8 @@
                     <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
                   </list>
                 </property>
-              </bean>
-            </list>
-          </property>
-        </bean>        
-      </list>
-    </property>
   </bean>
-
+              
   <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean"/>
 
   <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">

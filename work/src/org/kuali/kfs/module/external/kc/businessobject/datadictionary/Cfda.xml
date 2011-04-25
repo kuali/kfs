@@ -89,7 +89,12 @@
     <property name="title" value="CFDA Reference Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="CFDA-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+ <bean id="CFDA-inquirySectionDefinition" parent="CFDA-inquirySectionDefinition-parentBean"/>
+ <bean id="CFDA-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value="Catalog of Federal Domestic Assistance Details"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -100,11 +105,8 @@
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

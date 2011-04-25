@@ -1,348 +1,379 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2008-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2008-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="InvoiceRecurrence" parent="InvoiceRecurrence-parentBean" />
 
-  <bean id="InvoiceRecurrence" parent="InvoiceRecurrence-parentBean"/>
+	<bean id="InvoiceRecurrence-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence" />
+		<property name="inquiryDefinition">
+			<ref bean="InvoiceRecurrence-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="InvoiceRecurrence-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="invoiceNumber" />
+		<property name="objectLabel" value="Invoice Recurrence" />
+		<property name="attributes">
+			<list>
+				<ref bean="InvoiceRecurrence-invoiceNumber" />
+				<ref bean="InvoiceRecurrence-customerNumber" />
+				<ref bean="InvoiceRecurrence-customer.customerName" />
+				<ref bean="InvoiceRecurrence-documentRecurrenceBeginDate" />
+				<ref bean="InvoiceRecurrence-documentRecurrenceEndDate" />
+				<ref bean="InvoiceRecurrence-documentTotalRecurrenceNumber" />
+				<ref bean="InvoiceRecurrence-documentRecurrenceIntervalCode" />
+				<ref bean="InvoiceRecurrence-documentInitiatorUserIdentifier" />
+				<ref bean="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier" />
+				<ref bean="InvoiceRecurrence-documentInitiatorUser.principalName" />
+				<ref bean="InvoiceRecurrence-documentInitiatorUser.name" />
 
-  <bean id="InvoiceRecurrence-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence"/>
-    <property name="inquiryDefinition">
-      <ref bean="InvoiceRecurrence-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="InvoiceRecurrence-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="invoiceNumber"/>
-    <property name="objectLabel" value="Invoice Recurrence"/>
-    <property name="attributes">
-      <list>
-        <ref bean="InvoiceRecurrence-invoiceNumber"/>
-        <ref bean="InvoiceRecurrence-customerNumber"/>
-        <ref bean="InvoiceRecurrence-customer.customerName"/>
-        <ref bean="InvoiceRecurrence-documentRecurrenceBeginDate"/>
-        <ref bean="InvoiceRecurrence-documentRecurrenceEndDate"/>
-        <ref bean="InvoiceRecurrence-documentTotalRecurrenceNumber"/>
-        <ref bean="InvoiceRecurrence-documentRecurrenceIntervalCode"/>
-        <ref bean="InvoiceRecurrence-documentInitiatorUserIdentifier"/>
-        <ref bean="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier"/>
-        <ref bean="InvoiceRecurrence-documentInitiatorUser.principalName"/>
-        <ref bean="InvoiceRecurrence-documentInitiatorUser.name"/>
+				<ref bean="InvoiceRecurrence-documentLastCreateDate" />
+				<ref bean="InvoiceRecurrence-active" />
+			</list>
+		</property>
 
-        <ref bean="InvoiceRecurrence-documentLastCreateDate"/>
-        <ref bean="InvoiceRecurrence-active"/>
-      </list>
-    </property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="accountsReceivableDocumentHeader" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="invoiceNumber"
+								p:targetName="documentNumber" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+							<!--
+								<bean parent="SupportAttributeDefinition"
+								p:sourceName="customer.customerName"
+								p:targetName="customer.customerName" />
+							-->
+						</list>
+					</property>
+				</bean>
+				<!--
+					<bean parent="RelationshipDefinition"> <property
+					name="objectAttributeName" value="customer" /> <property
+					name="primitiveAttributes" > <list> <bean
+					parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+					p:targetName="customerNumber" /> </list> </property> <property
+					name="supportAttributes" > <list> <bean
+					parent="SupportAttributeDefinition"
+					p:sourceName="customer.customerName" p:targetName="customerName" />
+					</list> </property> </bean>
+				-->
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="documentInitiatorUser" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentInitiatorUserIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="documentInitiatorUser.principalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="documentInitiatorUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
-    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="accountsReceivableDocumentHeader"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="invoiceNumber" p:targetName="documentNumber"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber"/>
-<!-- 
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="customer.customerName"
-                    p:targetName="customer.customerName" />
--->
-            </list>
-          </property>
-        </bean>
-<!--
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="customer" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition"
-                    p:sourceName="customerNumber"
-                    p:targetName="customerNumber" />
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition"
-                    p:sourceName="customer.customerName"
-                    p:targetName="customerName" />
-            </list>
-          </property>
-        </bean>
--->
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="documentInitiatorUser"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="documentInitiatorUserIdentifier" p:targetName="principalId"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="documentInitiatorUser.principalName" p:targetName="principalName"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="documentInitiatorUser.name" p:targetName="name"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="InvoiceRecurrence-invoiceNumber" parent="InvoiceRecurrence-invoiceNumber-parentBean"/>
+	<bean id="InvoiceRecurrence-invoiceNumber" parent="InvoiceRecurrence-invoiceNumber-parentBean" />
 
-  <bean id="InvoiceRecurrence-invoiceNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="invoiceNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Number"/>
-    <property name="shortLabel" value="InvNum"/>
-  </bean>
-<!--
-  <bean id="InvoiceRecurrence-referenceFinancialDocumentNumber" parent="InvoiceRecurrence-referenceFinancialDocumentNumber-parentBean" />
+	<bean id="InvoiceRecurrence-invoiceNumber-parentBean" abstract="true"
+		parent="DocumentHeader-documentNumber">
+		<property name="name" value="invoiceNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Number" />
+		<property name="shortLabel" value="InvNum" />
+	</bean>
+	<!--
+		<bean id="InvoiceRecurrence-referenceFinancialDocumentNumber"
+		parent="InvoiceRecurrence-referenceFinancialDocumentNumber-parentBean"
+		/> <bean
+		id="InvoiceRecurrence-referenceFinancialDocumentNumber-parentBean"
+		abstract="true" parent="DocumentHeader-documentNumber"> <property
+		name="name" value="referenceFinancialDocumentNumber" /> <property
+		name="forceUppercase" value="true" /> <property name="label"
+		value="Reference Invoice Number" /> <property name="shortLabel"
+		value="RefInvNbr" /> <property name="required" value="true" /> </bean>
+	-->
+	<bean id="InvoiceRecurrence-customerNumber" parent="InvoiceRecurrence-customerNumber-parentBean" />
 
-  <bean id="InvoiceRecurrence-referenceFinancialDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="name" value="referenceFinancialDocumentNumber" />
-    <property name="forceUppercase" value="true" />
-    <property name="label" value="Reference Invoice Number" />
-    <property name="shortLabel" value="RefInvNbr" />
-    <property name="required" value="true" />
-  </bean>
--->
-  <bean id="InvoiceRecurrence-customerNumber" parent="InvoiceRecurrence-customerNumber-parentBean"/>
+	<bean id="InvoiceRecurrence-customerNumber-parentBean" abstract="true"
+		parent="Customer-customerNumber">
+		<property name="name" value="customerNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="CustNum" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="11" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-customer.customerName" parent="InvoiceRecurrence-customer.customerName-parentBean" />
 
-  <bean id="InvoiceRecurrence-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
-    <property name="name" value="customerNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Customer Number"/>
-    <property name="shortLabel" value="CustNum"/>
-    <property name="required" value="false"/>
-    <property name="maxLength" value="9"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="11"/>
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-customer.customerName" parent="InvoiceRecurrence-customer.customerName-parentBean"/>
+	<bean id="InvoiceRecurrence-customer.customerName-parentBean"
+		abstract="true" parent="Customer-customerName">
+		<property name="name" value="customer.customerName" />
+	</bean>
+	<bean id="InvoiceRecurrence-documentRecurrenceBeginDate"
+		parent="InvoiceRecurrence-documentRecurrenceBeginDate-parentBean" />
 
-  <bean id="InvoiceRecurrence-customer.customerName-parentBean" abstract="true" parent="Customer-customerName">
-    <property name="name" value="customer.customerName"/>    
-  </bean>
-  <bean id="InvoiceRecurrence-documentRecurrenceBeginDate" parent="InvoiceRecurrence-documentRecurrenceBeginDate-parentBean"/>
+	<bean id="InvoiceRecurrence-documentRecurrenceBeginDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="documentRecurrenceBeginDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Recurrence Begin Date" />
+		<property name="shortLabel" value="BegDate" />
+		<property name="required" value="true" />
+		<property name="maxLength" value="10" />
+	</bean>
+	<bean id="InvoiceRecurrence-documentRecurrenceEndDate" parent="InvoiceRecurrence-documentRecurrenceEndDate-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentRecurrenceBeginDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="documentRecurrenceBeginDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Recurrence Begin Date"/>
-    <property name="shortLabel" value="BegDate"/>
-    <property name="required" value="true"/>
-    <property name="maxLength" value="10"/>
-  </bean>
-  <bean id="InvoiceRecurrence-documentRecurrenceEndDate" parent="InvoiceRecurrence-documentRecurrenceEndDate-parentBean"/>
+	<bean id="InvoiceRecurrence-documentRecurrenceEndDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="documentRecurrenceEndDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Recurrence End Date" />
+		<property name="shortLabel" value="EndDate" />
+		<property name="maxLength" value="10" />
+	</bean>
+	<bean id="InvoiceRecurrence-documentTotalRecurrenceNumber"
+		parent="InvoiceRecurrence-documentTotalRecurrenceNumber-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentRecurrenceEndDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-    <property name="name" value="documentRecurrenceEndDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Recurrence End Date"/>
-    <property name="shortLabel" value="EndDate"/>
-    <property name="maxLength" value="10"/>
-  </bean>
-  <bean id="InvoiceRecurrence-documentTotalRecurrenceNumber" parent="InvoiceRecurrence-documentTotalRecurrenceNumber-parentBean"/>
+	<bean id="InvoiceRecurrence-documentTotalRecurrenceNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="documentTotalRecurrenceNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Total Number of Recurrences" />
+		<property name="shortLabel" value="TotRecur" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-documentRecurrenceIntervalCode"
+		parent="InvoiceRecurrence-documentRecurrenceIntervalCode-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentTotalRecurrenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentTotalRecurrenceNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Total Number of Recurrences"/>
-    <property name="shortLabel" value="TotRecur"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-documentRecurrenceIntervalCode" parent="InvoiceRecurrence-documentRecurrenceIntervalCode-parentBean"/>
+	<bean id="InvoiceRecurrence-documentRecurrenceIntervalCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="documentRecurrenceIntervalCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Recurrence Interval Code" />
+		<property name="shortLabel" value="IntCd" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceRecurrenceIntervalCodeValuesFinder"
+				p:includeKeyInLabel="true" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-documentInitiatorUserIdentifier"
+		parent="InvoiceRecurrence-documentInitiatorUserIdentifier-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentRecurrenceIntervalCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentRecurrenceIntervalCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Recurrence Interval Code"/>
-    <property name="shortLabel" value="IntCd"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceRecurrenceIntervalCodeValuesFinder" p:includeKeyInLabel="true"/>
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-documentInitiatorUserIdentifier" parent="InvoiceRecurrence-documentInitiatorUserIdentifier-parentBean"/>
+	<bean id="InvoiceRecurrence-documentInitiatorUserIdentifier-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="documentInitiatorUserIdentifier" />
+		<property name="label" value="Invoice Initiator Unvl ID" />
+		<property name="shortLabel" value="InvInitID" />
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="documentInitiatorUser.principalName" />
+	</bean>
+	<bean id="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier"
+		parent="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentInitiatorUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="documentInitiatorUserIdentifier"/>
-    <property name="label" value="Invoice Initiator Unvl ID"/>
-    <property name="shortLabel" value="InvInitID"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    <property name="displayLabelAttribute" value="documentInitiatorUser.principalName"/>
-  </bean>
-  <bean id="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier" parent="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier-parentBean"/>
+	<bean
+		id="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="documentInitiatorUserPersonUserIdentifier" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Initiator Network Principal Name" />
+		<property name="shortLabel" value="InvInitID" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-documentInitiatorUser.principalName"
+		parent="InvoiceRecurrence-documentInitiatorUser.principalName-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentInitiatorUserPersonUserIdentifier-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="documentInitiatorUserPersonUserIdentifier"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Initiator Network Principal Name"/>
-    <property name="shortLabel" value="InvInitID"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-documentInitiatorUser.principalName" parent="InvoiceRecurrence-documentInitiatorUser.principalName-parentBean"/>
+	<bean
+		id="InvoiceRecurrence-documentInitiatorUser.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="documentInitiatorUser.principalName" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Initiator Principal Name" />
+		<property name="shortLabel" value="InvInitID" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="documentInitiatorUser.name"
+				p:universalIdAttributeName="documentInitiatorUserIdentifier"
+				p:userIdAttributeName="documentInitiatorUser.principalName" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-documentInitiatorUser.name" parent="InvoiceRecurrence-documentInitiatorUser.name-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentInitiatorUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="documentInitiatorUser.principalName"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Initiator Principal Name"/>
-    <property name="shortLabel" value="InvInitID"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="documentInitiatorUser.name" p:universalIdAttributeName="documentInitiatorUserIdentifier" p:userIdAttributeName="documentInitiatorUser.principalName"/>
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-documentInitiatorUser.name" parent="InvoiceRecurrence-documentInitiatorUser.name-parentBean"/>
+	<bean id="InvoiceRecurrence-documentInitiatorUser.name-parentBean"
+		abstract="true" parent="PersonImpl-name">
+		<property name="name" value="documentInitiatorUser.name" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Initiator Name" />
+		<property name="shortLabel" value="InvInitNm" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="InvoiceRecurrence-documentLastCreateDate" parent="InvoiceRecurrence-documentLastCreateDate-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentInitiatorUser.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="documentInitiatorUser.name"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Initiator Name"/>
-    <property name="shortLabel" value="InvInitNm"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="InvoiceRecurrence-documentLastCreateDate" parent="InvoiceRecurrence-documentLastCreateDate-parentBean"/>
+	<bean id="InvoiceRecurrence-documentLastCreateDate-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="documentLastCreateDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Last Create Date" />
+		<property name="shortLabel" value="LstCrDt" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<ref bean="DateValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+	</bean>
+	<bean id="InvoiceRecurrence-active" parent="InvoiceRecurrence-active-parentBean" />
 
-  <bean id="InvoiceRecurrence-documentLastCreateDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentLastCreateDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Last Create Date"/>
-    <property name="shortLabel" value="LstCrDt"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <ref bean="DateValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
-  <bean id="InvoiceRecurrence-active" parent="InvoiceRecurrence-active-parentBean"/>
+	<bean id="InvoiceRecurrence-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
 
-  <bean id="InvoiceRecurrence-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="InvoiceRecurrence-inquiryDefinition" parent="InvoiceRecurrence-inquiryDefinition-parentBean"/>
+	<bean id="InvoiceRecurrence-inquiryDefinition" parent="InvoiceRecurrence-inquiryDefinition-parentBean" />
 
-  <bean id="InvoiceRecurrence-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="InvoiceRecurrence Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate"/>
-              <bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate"/>
-              <bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode"/>
-<!--
-              <bean parent="FieldDefinition"
-                    p:attributeName="documentInitiatorUserIdentifier" />
--->
-              <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName"/>
-              <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name"/>
-              <bean parent="FieldDefinition" p:attributeName="documentLastCreateDate"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="InvoiceRecurrence-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="InvoiceRecurrence Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="InvoiceRecurrence-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<bean id="InvoiceRecurrence-inquirySectionDefinition" parent="InvoiceRecurrence-inquirySectionDefinition-parentBean" />
+	<bean id="InvoiceRecurrence-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode" />
+				<!--
+					<bean parent="FieldDefinition"
+					p:attributeName="documentInitiatorUserIdentifier" />
+				-->
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name" />
+				<bean parent="FieldDefinition" p:attributeName="documentLastCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="InvoiceRecurrence-lookupDefinition" parent="InvoiceRecurrence-lookupDefinition-parentBean"/>
+	<!-- Business Object Lookup Definition -->
 
-  <bean id="InvoiceRecurrence-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Invoice Recurrence Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-<!-- 
-        <bean parent="FieldDefinition"
-              p:attributeName="customer.customerName" />
--->
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate"/>
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate"/>
-        <bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode"/>
-        <bean parent="FieldDefinition" p:attributeName="documentInitiatorUserIdentifier"/>
-        <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName"/>
-        <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name"/>
-        <bean parent="FieldDefinition" p:attributeName="documentLastCreateDate"/>
-        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate"/>
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate"/>
-        <bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode"/>
-<!--
-        <bean parent="FieldDefinition"
-              p:attributeName="documentInitiatorUserIdentifier" />
--->
-        <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName"/>
-        <bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name"/>
-        <bean parent="FieldDefinition" p:attributeName="documentLastCreateDate"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="InvoiceRecurrence-lookupDefinition" parent="InvoiceRecurrence-lookupDefinition-parentBean" />
+
+	<bean id="InvoiceRecurrence-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Invoice Recurrence Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<!--
+					<bean parent="FieldDefinition"
+					p:attributeName="customer.customerName" />
+				-->
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUserIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name" />
+				<bean parent="FieldDefinition" p:attributeName="documentLastCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="active"
+					p:defaultValue="Y" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceBeginDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceEndDate" />
+				<bean parent="FieldDefinition" p:attributeName="documentTotalRecurrenceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentRecurrenceIntervalCode" />
+				<!--
+					<bean parent="FieldDefinition"
+					p:attributeName="documentInitiatorUserIdentifier" />
+				-->
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="documentInitiatorUser.name" />
+				<bean parent="FieldDefinition" p:attributeName="documentLastCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

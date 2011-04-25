@@ -1,228 +1,284 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="BudgetConstructionAppointmentFundingReason" parent="BudgetConstructionAppointmentFundingReason-parentBean" />
 
-  <bean id="BudgetConstructionAppointmentFundingReason" parent="BudgetConstructionAppointmentFundingReason-parentBean"/>
+	<bean id="BudgetConstructionAppointmentFundingReason-parentBean"
+		abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason" />
+		<property name="inquiryDefinition">
+			<ref bean="BudgetConstructionAppointmentFundingReason-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="BudgetConstructionAppointmentFundingReason-lookupDefinition" />
+		</property>
+		<property name="objectLabel"
+			value="Budget Construction Appointment Funding Reason" />
+		<property name="attributes">
+			<list>
+				<ref bean="BudgetConstructionAppointmentFundingReason-accountNumber" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode" />
+				<ref bean="BudgetConstructionAppointmentFundingReason-emplid" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-financialObjectCode" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-financialSubObjectCode" />
+				<ref bean="BudgetConstructionAppointmentFundingReason-positionNumber" />
+				<ref bean="BudgetConstructionAppointmentFundingReason-subAccountNumber" />
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="BudgetConstructionAppointmentFundingReason-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReason"/>
-    <property name="inquiryDefinition">
-      <ref bean="BudgetConstructionAppointmentFundingReason-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="BudgetConstructionAppointmentFundingReason-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Budget Construction Appointment Funding Reason"/>
-    <property name="attributes">
-      <list>
-        <ref bean="BudgetConstructionAppointmentFundingReason-accountNumber"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-emplid"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-financialObjectCode"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-financialSubObjectCode"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-positionNumber"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-subAccountNumber"/>
-        <ref bean="BudgetConstructionAppointmentFundingReason-universityFiscalYear"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="BudgetConstructionAppointmentFundingReason-accountNumber" parent="BudgetConstructionAppointmentFundingReason-accountNumber-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount" parent="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="appointmentFundingReasonAmount"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Appointment Funding Reason Amount"/>
-    <property name="shortLabel" value="Reason Amount"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-      <ref bean="FloatingPointValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-    
-    
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode" parent="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="appointmentFundingReasonCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Appointment Funding Reason Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.AppointmentFundingReasonValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode" parent="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-emplid" parent="BudgetConstructionAppointmentFundingReason-emplid-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-emplid-parentBean" abstract="true" parent="PersonImpl-employeeId">
-    <property name="name" value="emplid"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Emplid"/>
-    <property name="shortLabel" value="Emplid"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="13"/>
-    </property>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-financialObjectCode" parent="BudgetConstructionAppointmentFundingReason-financialObjectCode-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-financialSubObjectCode" parent="BudgetConstructionAppointmentFundingReason-financialSubObjectCode-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false"/>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-positionNumber" parent="BudgetConstructionAppointmentFundingReason-positionNumber-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Position Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="8"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-subAccountNumber" parent="BudgetConstructionAppointmentFundingReason-subAccountNumber-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subAccountNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Sub Account Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-  </bean>
-
-  <bean id="BudgetConstructionAppointmentFundingReason-universityFiscalYear" parent="BudgetConstructionAppointmentFundingReason-universityFiscalYear-parentBean"/>
-  <bean id="BudgetConstructionAppointmentFundingReason-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="University Fiscal Year"/>
-    <property name="shortLabel" value="Year"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="BudgetConstructionAppointmentFundingReason-inquiryDefinition" parent="BudgetConstructionAppointmentFundingReason-inquiryDefinition-parentBean"/>
+	<bean id="BudgetConstructionAppointmentFundingReason-accountNumber"
+		parent="BudgetConstructionAppointmentFundingReason-accountNumber-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-accountNumber-parentBean"
+		abstract="true" parent="AccountAttribute">
+		<property name="required" value="false" />
+	</bean>
 
-  <bean id="BudgetConstructionAppointmentFundingReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Construction Appointment Funding Reason Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="emplid"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Business Object Lookup Definition -->
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount"
+		parent="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonAmount-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="appointmentFundingReasonAmount" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Appointment Funding Reason Amount" />
+		<property name="shortLabel" value="Reason Amount" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="FloatingPointValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
 
 
-  <bean id="BudgetConstructionAppointmentFundingReason-lookupDefinition" parent="BudgetConstructionAppointmentFundingReason-lookupDefinition-parentBean"/>
+	</bean>
 
-  <bean id="BudgetConstructionAppointmentFundingReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Construction Appointment Funding Reason Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="emplid"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="emplid"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-      </list>
-    </property>
-  </bean>
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode"
+		parent="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-appointmentFundingReasonCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="appointmentFundingReasonCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Appointment Funding Reason Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.bc.businessobject.options.AppointmentFundingReasonValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode"
+		parent="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-chartOfAccountsCode-parentBean"
+		abstract="true" parent="ChartAttribute-TextControl">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-emplid"
+		parent="BudgetConstructionAppointmentFundingReason-emplid-parentBean" />
+	<bean id="BudgetConstructionAppointmentFundingReason-emplid-parentBean"
+		abstract="true" parent="PersonImpl-employeeId">
+		<property name="name" value="emplid" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Emplid" />
+		<property name="shortLabel" value="Emplid" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="13" />
+		</property>
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-financialObjectCode"
+		parent="BudgetConstructionAppointmentFundingReason-financialObjectCode-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-financialObjectCode-parentBean"
+		abstract="true" parent="ObjectCodeAttribute">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-financialSubObjectCode"
+		parent="BudgetConstructionAppointmentFundingReason-financialSubObjectCode-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-financialSubObjectCode-parentBean"
+		abstract="true" parent="SubObjectCode-financialSubObjectCode">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-positionNumber"
+		parent="BudgetConstructionAppointmentFundingReason-positionNumber-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-positionNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="positionNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Position Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<ref bean="TenCharacterTextControl" />
+		</property>
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-subAccountNumber"
+		parent="BudgetConstructionAppointmentFundingReason-subAccountNumber-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-subAccountNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="subAccountNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Sub Account Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+	</bean>
+
+	<bean id="BudgetConstructionAppointmentFundingReason-universityFiscalYear"
+		parent="BudgetConstructionAppointmentFundingReason-universityFiscalYear-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-universityFiscalYear-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="universityFiscalYear" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="University Fiscal Year" />
+		<property name="shortLabel" value="Year" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="BudgetConstructionAppointmentFundingReason-inquiryDefinition"
+		parent="BudgetConstructionAppointmentFundingReason-inquiryDefinition-parentBean" />
+
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title"
+			value="Budget Construction Appointment Funding Reason Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref
+					bean="BudgetConstructionAppointmentFundingReason-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-inquirySectionDefinition"
+		parent="BudgetConstructionAppointmentFundingReason-inquirySectionDefinition-parentBean" />
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="emplid" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="BudgetConstructionAppointmentFundingReason-lookupDefinition"
+		parent="BudgetConstructionAppointmentFundingReason-lookupDefinition-parentBean" />
+
+	<bean
+		id="BudgetConstructionAppointmentFundingReason-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title"
+			value="Budget Construction Appointment Funding Reason Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="emplid" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonAmount" />
+				<bean parent="FieldDefinition" p:attributeName="appointmentFundingReasonCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="emplid" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
 </beans>

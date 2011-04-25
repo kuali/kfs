@@ -1,218 +1,253 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2007-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2007-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="AccountsReceivableDocumentHeader" parent="AccountsReceivableDocumentHeader-parentBean" />
 
-  <bean id="AccountsReceivableDocumentHeader" parent="AccountsReceivableDocumentHeader-parentBean"/>
+	<bean id="AccountsReceivableDocumentHeader-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+		<property name="inquiryDefinition">
+			<ref bean="AccountsReceivableDocumentHeader-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="AccountsReceivableDocumentHeader-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="AR Document Header" />
+		<property name="attributes">
+			<list>
+				<ref bean="AccountsReceivableDocumentHeader-customerNumber" />
+				<ref bean="AccountsReceivableDocumentHeader-documentNumber" />
+				<ref bean="AccountsReceivableDocumentHeader-entryDate" />
+				<ref
+					bean="AccountsReceivableDocumentHeader-financialDocumentExplanationText" />
+				<ref bean="AccountsReceivableDocumentHeader-processingChartOfAccountCode" />
+				<ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode" />
+				<ref
+					bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" />
+				<ref bean="AccountsReceivableDocumentHeader-documentStatus" />
+				<ref bean="AccountsReceivableDocumentHeader-createDate" />
+				<ref bean="AccountsReceivableDocumentHeader-initiatorId" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="AccountsReceivableDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader"/>
-    <property name="inquiryDefinition">
-      <ref bean="AccountsReceivableDocumentHeader-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="AccountsReceivableDocumentHeader-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="AR Document Header"/>
-    <property name="attributes">
-      <list>
-        <ref bean="AccountsReceivableDocumentHeader-customerNumber"/>
-        <ref bean="AccountsReceivableDocumentHeader-documentNumber"/>
-        <ref bean="AccountsReceivableDocumentHeader-entryDate"/>
-        <ref bean="AccountsReceivableDocumentHeader-financialDocumentExplanationText"/>
-        <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccountCode"/>
-        <ref bean="AccountsReceivableDocumentHeader-processingOrganizationCode"/>
-        <ref bean="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode"/>
-        <ref bean="AccountsReceivableDocumentHeader-documentStatus"/>
-        <ref bean="AccountsReceivableDocumentHeader-createDate"/>
-        <ref bean="AccountsReceivableDocumentHeader-initiatorId"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="AccountsReceivableDocumentHeader-customerNumber" parent="AccountsReceivableDocumentHeader-customerNumber-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
-  </bean>
-  <bean id="AccountsReceivableDocumentHeader-documentNumber" parent="AccountsReceivableDocumentHeader-documentNumber-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber"/>
-  
-  <bean id="AccountsReceivableDocumentHeader-entryDate" parent="AccountsReceivableDocumentHeader-entryDate-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-entryDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="entryDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Entry Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <ref bean="DateValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
-  <bean id="AccountsReceivableDocumentHeader-financialDocumentExplanationText" parent="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentExplanationText"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Financial Document Explanation Text"/>
-    <property name="shortLabel" value="Text"/>
-    <property name="maxLength" value="400"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
-    </property>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean"/>
-  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="processingChartOfAccountCode"/>
-    <property name="required" value="false"/>
-    <property name="label" value="Processing Chart Code"/>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode" parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean"/>
-  <bean id="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-    <property name="name" value="processingOrganizationCode"/>
-    <property name="required" value="false"/>
-    <property name="label" value="Processing Organization Code"/>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode" parent="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean"/>
-
-  <bean id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="processingChartOfAccCodeAndOrgCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Processing Org"/>
-    <property name="shortLabel" value="Processing Org"/>
-    <property name="maxLength" value="11"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="11"/>
-    </property>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-documentStatus" parent="AccountsReceivableDocumentHeader-documentStatus-parentBean"/>
-  
-  <bean id="AccountsReceivableDocumentHeader-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentStatus"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Status"/>
-    <property name="shortLabel" value="Status"/>
-    <property name="maxLength" value="15"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
-    </property>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-createDate" parent="AccountsReceivableDocumentHeader-createDate-parentBean"/>
-  
-  <bean id="AccountsReceivableDocumentHeader-createDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="createDate"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Create Date"/>
-    <property name="shortLabel" value="Date"/>
-    <property name="maxLength" value="15"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
-    </property>
-  </bean>
-
-  <bean id="AccountsReceivableDocumentHeader-initiatorId" parent="AccountsReceivableDocumentHeader-initiatorId-parentBean"/>
-  
-  <bean id="AccountsReceivableDocumentHeader-initiatorId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="initiatorId"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Initiator ID"/>
-    <property name="shortLabel" value="Initiator"/>
-    <property name="maxLength" value="15"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
-    </property>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="AccountsReceivableDocumentHeader-inquiryDefinition" parent="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean"/>
+	<bean id="AccountsReceivableDocumentHeader-customerNumber"
+		parent="AccountsReceivableDocumentHeader-customerNumber-parentBean" />
 
-  <bean id="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Accounts Receivable Document Header Inquiry"/>
-    
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="entryDate"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText"/>
-              <bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode"/>
-              <bean parent="FieldDefinition" p:attributeName="processingOrganizationCode"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="AccountsReceivableDocumentHeader-customerNumber-parentBean"
+		abstract="true" parent="Customer-customerNumber">
+	</bean>
+	<bean id="AccountsReceivableDocumentHeader-documentNumber"
+		parent="AccountsReceivableDocumentHeader-documentNumber-parentBean" />
 
-<!-- Business Object Lookup Definition -->
+	<bean id="AccountsReceivableDocumentHeader-documentNumber-parentBean"
+		abstract="true" parent="DocumentHeader-documentNumber" />
+
+	<bean id="AccountsReceivableDocumentHeader-entryDate" parent="AccountsReceivableDocumentHeader-entryDate-parentBean" />
+
+	<bean id="AccountsReceivableDocumentHeader-entryDate-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="entryDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Entry Date" />
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<ref bean="DateValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+	</bean>
+	<bean
+		id="AccountsReceivableDocumentHeader-financialDocumentExplanationText"
+		parent="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean" />
+
+	<bean
+		id="AccountsReceivableDocumentHeader-financialDocumentExplanationText-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialDocumentExplanationText" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Financial Document Explanation Text" />
+		<property name="shortLabel" value="Text" />
+		<property name="maxLength" value="400" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="80" />
+		</property>
+	</bean>
+
+	<bean id="AccountsReceivableDocumentHeader-processingChartOfAccountCode"
+		parent="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean" />
+	<bean
+		id="AccountsReceivableDocumentHeader-processingChartOfAccountCode-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="name" value="processingChartOfAccountCode" />
+		<property name="required" value="false" />
+		<property name="label" value="Processing Chart Code" />
+	</bean>
+
+	<bean id="AccountsReceivableDocumentHeader-processingOrganizationCode"
+		parent="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean" />
+	<bean
+		id="AccountsReceivableDocumentHeader-processingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="processingOrganizationCode" />
+		<property name="required" value="false" />
+		<property name="label" value="Processing Organization Code" />
+	</bean>
+
+	<bean
+		id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode"
+		parent="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean" />
+
+	<bean
+		id="AccountsReceivableDocumentHeader-processingChartOfAccCodeAndOrgCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="processingChartOfAccCodeAndOrgCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Processing Org" />
+		<property name="shortLabel" value="Processing Org" />
+		<property name="maxLength" value="11" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="11" />
+		</property>
+	</bean>
+
+	<bean id="AccountsReceivableDocumentHeader-documentStatus"
+		parent="AccountsReceivableDocumentHeader-documentStatus-parentBean" />
+
+	<bean id="AccountsReceivableDocumentHeader-documentStatus-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="documentStatus" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Document Status" />
+		<property name="shortLabel" value="Status" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+	</bean>
+
+	<bean id="AccountsReceivableDocumentHeader-createDate" parent="AccountsReceivableDocumentHeader-createDate-parentBean" />
+
+	<bean id="AccountsReceivableDocumentHeader-createDate-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="createDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Create Date" />
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+	</bean>
+
+	<bean id="AccountsReceivableDocumentHeader-initiatorId" parent="AccountsReceivableDocumentHeader-initiatorId-parentBean" />
+
+	<bean id="AccountsReceivableDocumentHeader-initiatorId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="initiatorId" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Initiator ID" />
+		<property name="shortLabel" value="Initiator" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountsReceivableDocumentHeader-lookupDefinition" parent="AccountsReceivableDocumentHeader-lookupDefinition-parentBean"/>
+	<bean id="AccountsReceivableDocumentHeader-inquiryDefinition"
+		parent="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean" />
 
-  <bean id="AccountsReceivableDocumentHeader-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Accounts Receivable Document Header Lookup"/>
-    <property name="lookupableID" value="accountsReceivablesDocumentHeaderLookupable"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="entryDate"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText"/>
-        <bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode"/>
-        <bean parent="FieldDefinition" p:attributeName="processingOrganizationCode"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="entryDate"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText"/>
-        <bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode"/>
-        <bean parent="FieldDefinition" p:attributeName="processingOrganizationCode"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="AccountsReceivableDocumentHeader-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Accounts Receivable Document Header Inquiry" />
+
+		<property name="inquirySections">
+			<list>
+				<ref bean="AccountsReceivableDocumentHeader-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="AccountsReceivableDocumentHeader-inquirySectionDefinition"
+		parent="AccountsReceivableDocumentHeader-inquirySectionDefinition-parentBean" />
+	<bean
+		id="AccountsReceivableDocumentHeader-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="">
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="entryDate" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText" />
+				<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="processingOrganizationCode" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="AccountsReceivableDocumentHeader-lookupDefinition"
+		parent="AccountsReceivableDocumentHeader-lookupDefinition-parentBean" />
+
+	<bean id="AccountsReceivableDocumentHeader-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Accounts Receivable Document Header Lookup" />
+		<property name="lookupableID" value="accountsReceivablesDocumentHeaderLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="entryDate" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText" />
+				<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="processingOrganizationCode" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="entryDate" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentExplanationText" />
+				<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="processingOrganizationCode" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -1,136 +1,144 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="AccountType" parent="AccountType-parentBean" />
 
-  <bean id="AccountType" parent="AccountType-parentBean"/>
+	<bean id="AccountType-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountType" />
+		<property name="inquiryDefinition">
+			<ref bean="AccountType-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="AccountType-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="accountTypeCode" />
+		<property name="objectLabel" value="Account Type" />
+		<property name="attributes">
+			<list>
+				<ref bean="AccountType-accountTypeCode" />
+				<ref bean="AccountType-accountTypeName" />
+				<ref bean="AccountType-active" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="AccountType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountType"/>
-    <property name="inquiryDefinition">
-      <ref bean="AccountType-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="AccountType-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="accountTypeCode"/>
-    <property name="objectLabel" value="Account Type"/>
-    <property name="attributes">
-      <list>
-        <ref bean="AccountType-accountTypeCode"/>
-        <ref bean="AccountType-accountTypeName"/>
-        <ref bean="AccountType-active"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="AccountType-accountTypeCode" parent="AccountType-accountTypeCode-parentBean"/>
-
-  <bean id="AccountType-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountTypeCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Account Type Code"/>
-    <property name="shortLabel" value="Account Type"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AlphaNumericValidationPattern" p:exactLength="2"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <ref bean="TwoCharacterTextControl" />
-    </property>
-  </bean>
-  <bean id="AccountType-accountTypeName" parent="AccountType-accountTypeName-parentBean"/>
-
-  <bean id="AccountType-accountTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountTypeName"/>
-    <property name="label" value="Account Type Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="50"/>
-    </property>
-  </bean>
-  <bean id="AccountType-active" parent="AccountType-active-parentBean"/>
-
-  <bean id="AccountType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
+	<!-- Attribute Definitions -->
 
 
-<!-- Business Object Inquiry Definition -->
+	<bean id="AccountType-accountTypeCode" parent="AccountType-accountTypeCode-parentBean" />
+
+	<bean id="AccountType-accountTypeCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accountTypeCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Account Type Code" />
+		<property name="shortLabel" value="Account Type" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:exactLength="2" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="TwoCharacterTextControl" />
+		</property>
+	</bean>
+	<bean id="AccountType-accountTypeName" parent="AccountType-accountTypeName-parentBean" />
+
+	<bean id="AccountType-accountTypeName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accountTypeName" />
+		<property name="label" value="Account Type Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="AccountType-active" parent="AccountType-active-parentBean" />
+
+	<bean id="AccountType-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
 
 
-  <bean id="AccountType-inquiryDefinition" parent="AccountType-inquiryDefinition-parentBean"/>
-
-  <bean id="AccountType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Account Type Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountTypeName"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Business Object Lookup Definition -->
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="AccountType-lookupDefinition" parent="AccountType-lookupDefinition-parentBean"/>
+	<bean id="AccountType-inquiryDefinition" parent="AccountType-inquiryDefinition-parentBean" />
 
-  <bean id="AccountType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Account Type Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-        <property name="attributeNames">
-          <list>
-            <value>accountTypeCode</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="AccountType-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Account Type Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="AccountType-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountType-inquirySectionDefinition" parent="AccountType-inquirySectionDefinition-parentBean" />
+	<bean id="AccountType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
+		abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="AccountType-lookupDefinition" parent="AccountType-lookupDefinition-parentBean" />
+
+	<bean id="AccountType-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Account Type Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>accountTypeCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

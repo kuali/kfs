@@ -1,133 +1,179 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2008-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2008-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="PurchasingAccountsPayableItemAsset" parent="PurchasingAccountsPayableItemAsset-parentBean" />
 
-  <bean id="PurchasingAccountsPayableItemAsset" parent="PurchasingAccountsPayableItemAsset-parentBean"/>
+	<bean id="PurchasingAccountsPayableItemAsset-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset" />
+		<property name="inquiryDefinition">
+			<ref bean="PurchasingAccountsPayableItemAsset-inquiryDefinition" />
+		</property>
+		<property name="objectLabel" value="Purchasing Accounts Payable Item Asset" />
+		<property name="attributes">
+			<list>
+				<ref bean="PurchasingAccountsPayableItemAsset-documentNumber" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" />
+				<ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber" />
+				<ref
+					bean="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" />
+				<ref bean="PurchasingAccountsPayableItemAsset-itemTypeCode" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset"/>
-    <property name="inquiryDefinition">
-      <ref bean="PurchasingAccountsPayableItemAsset-inquiryDefinition"/>
-    </property>
-    <property name="objectLabel" value="Purchasing Accounts Payable Item Asset"/>
-    <property name="attributes">
-      <list>
-        <ref bean="PurchasingAccountsPayableItemAsset-documentNumber"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-itemLineNumber"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode"/>
-        <ref bean="PurchasingAccountsPayableItemAsset-itemTypeCode"/>
-      </list>
-    </property>
-  </bean>
+	<!-- Attribute Definitions -->
 
-<!-- Attribute Definitions -->
-  
-  <bean id="PurchasingAccountsPayableItemAsset-documentNumber" parent="PurchasingAccountsPayableItemAsset-documentNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" abstract="true" parent="PurchasingAccountsPayableDocument-documentNumber">
-    <property name="label" value="PurAp Document Number"/>
-    <property name="shortLabel" value="Number"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
-    <property name="name" value="accountsPayableLineItemIdentifier"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Accounts Payable Line Item Identifier"/>
-    <property name="shortLabel" value="Number"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="capitalAssetBuilderLineNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Capital Asset Builder Line Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-  </bean>
+	<bean id="PurchasingAccountsPayableItemAsset-documentNumber"
+		parent="PurchasingAccountsPayableItemAsset-documentNumber-parentBean" />
+	<bean id="PurchasingAccountsPayableItemAsset-documentNumber-parentBean"
+		abstract="true" parent="PurchasingAccountsPayableDocument-documentNumber">
+		<property name="label" value="PurAp Document Number" />
+		<property name="shortLabel" value="Number" />
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode" parent="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" abstract="true" parent="PurchaseOrderItem-itemTypeCode">
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription" parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" abstract="true" parent="PurchaseOrderItem-itemDescription">
-    <property name="name" value="accountsPayableLineItemDescription"/>
-    <property name="label" value="Asset Description"/>
-    <property name="required" value="true"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity" parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" abstract="true" parent="PurchaseOrderItem-itemQuantity">
-    <property name="name" value="accountsPayableItemQuantity"/>
-    <property name="label" value="Accounts Payable Item Quantity"/>
-    <property name="shortLabel" value="Qty"/>
-  </bean>
+	<bean
+		id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier"
+		parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemIdentifier-parentBean"
+		abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
+		<property name="name" value="accountsPayableLineItemIdentifier" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Accounts Payable Line Item Identifier" />
+		<property name="shortLabel" value="Number" />
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber" parent="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="name" value="capitalAssetManagementDocumentNumber"/>
-    <property name="label" value="Capital Asset Management Document Number"/>
-    <property name="shortLabel" value="Number"/>
-  </bean>
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber"
+		parent="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetBuilderLineNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="capitalAssetBuilderLineNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Capital Asset Builder Line Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber" parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" abstract="true" parent="PurchaseOrderItem-itemLineNumber">
-   <property name="name" value="itemLineNumber"/>
-    <property name="label" value="Line #"/>
-    <property name="shortLabel" value="Line #"/>
-  </bean>
+	<bean id="PurchasingAccountsPayableItemAsset-itemTypeCode"
+		parent="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean" />
+	<bean id="PurchasingAccountsPayableItemAsset-itemTypeCode-parentBean"
+		abstract="true" parent="PurchaseOrderItem-itemTypeCode">
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode" parent="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" abstract="true" parent="AssetTransactionType-capitalAssetTransactionTypeCode">
-    <property name="label" value="CAMS Transaction"/>
-    <property name="shortLabel" value="CAMS Transaction"/>
-  </bean>
-  
-<!-- Business Object Inquiry Definition -->
+	<bean
+		id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription"
+		parent="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-accountsPayableLineItemDescription-parentBean"
+		abstract="true" parent="PurchaseOrderItem-itemDescription">
+		<property name="name" value="accountsPayableLineItemDescription" />
+		<property name="label" value="Asset Description" />
+		<property name="required" value="true" />
+	</bean>
 
-  <bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition" parent="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean"/>
-  <bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Purchasing Accounts Payable Item Asset Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetBuilderLineNumber"/>
-			  <bean parent="FieldDefinition" p:attributeName="accountsPayableLineItemIdentifier"/>                    
-              <bean parent="FieldDefinition" p:attributeName="accountsPayableItemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetManagementDocumentNumber"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity"
+		parent="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-accountsPayableItemQuantity-parentBean"
+		abstract="true" parent="PurchaseOrderItem-itemQuantity">
+		<property name="name" value="accountsPayableItemQuantity" />
+		<property name="label" value="Accounts Payable Item Quantity" />
+		<property name="shortLabel" value="Qty" />
+	</bean>
+
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber"
+		parent="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetManagementDocumentNumber-parentBean"
+		abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
+		<property name="name" value="capitalAssetManagementDocumentNumber" />
+		<property name="label" value="Capital Asset Management Document Number" />
+		<property name="shortLabel" value="Number" />
+	</bean>
+
+	<bean id="PurchasingAccountsPayableItemAsset-itemLineNumber"
+		parent="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean" />
+	<bean id="PurchasingAccountsPayableItemAsset-itemLineNumber-parentBean"
+		abstract="true" parent="PurchaseOrderItem-itemLineNumber">
+		<property name="name" value="itemLineNumber" />
+		<property name="label" value="Line #" />
+		<property name="shortLabel" value="Line #" />
+	</bean>
+
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode"
+		parent="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-capitalAssetTransactionTypeCode-parentBean"
+		abstract="true" parent="AssetTransactionType-capitalAssetTransactionTypeCode">
+		<property name="label" value="CAMS Transaction" />
+		<property name="shortLabel" value="CAMS Transaction" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition"
+		parent="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean" />
+	<bean id="PurchasingAccountsPayableItemAsset-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title"
+			value="Purchasing Accounts Payable Item Asset Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="PurchasingAccountsPayableItemAsset-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="PurchasingAccountsPayableItemAsset-inquirySectionDefinition"
+		parent="PurchasingAccountsPayableItemAsset-inquirySectionDefinition-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableItemAsset-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="capitalAssetBuilderLineNumber" />
+				<bean parent="FieldDefinition" p:attributeName="accountsPayableLineItemIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="accountsPayableItemQuantity" />
+				<bean parent="FieldDefinition" p:attributeName="capitalAssetManagementDocumentNumber" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

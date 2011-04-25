@@ -1,157 +1,189 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-<!--
- Copyright 2008-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!--
+		Copyright 2008-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="PurchasingAccountsPayableDocument" parent="PurchasingAccountsPayableDocument-parentBean" />
 
-  <bean id="PurchasingAccountsPayableDocument" parent="PurchasingAccountsPayableDocument-parentBean"/>
-  
-  <bean id="PurchasingAccountsPayableDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument"/>
-    <property name="lookupDefinition" ref="PurchasingAccountsPayableDocument-lookupDefinition" />
-    <property name="inquiryDefinition">
-      <ref bean="PurchasingAccountsPayableDocument-inquiryDefinition"/>
-    </property>
-    <property name="objectLabel" value="Purchasing Accounts Payable Document"/>
-    <property name="attributes">
-      <list>
-      	<ref bean="PurchasingAccountsPayableDocument-documentNumber"/>
-        <ref bean="PurchasingAccountsPayableDocument-purapDocumentIdentifier"/>
-        <ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier"/>
-        <ref bean="PurchasingAccountsPayableDocument-activityStatusCode"/>
-        <ref bean="PurchasingAccountsPayableDocument-documentTypeCode"/>
-        <ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress"/>
-        <ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber"/>
-        <ref bean="PurchasingAccountsPayableDocument-statusDescription"/>
-      </list>
-    </property>
-    <property name="relationships">
-    	<list>
-    		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
-		        <property name="primitiveAttributes">
-		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeCode" p:targetName="name"/>
-		            </list>
-		        </property>
-    		</bean>
-    	</list>
-    </property>
-  </bean>
+	<bean id="PurchasingAccountsPayableDocument-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument" />
+		<property name="lookupDefinition"
+			ref="PurchasingAccountsPayableDocument-lookupDefinition" />
+		<property name="inquiryDefinition">
+			<ref bean="PurchasingAccountsPayableDocument-inquiryDefinition" />
+		</property>
+		<property name="objectLabel" value="Purchasing Accounts Payable Document" />
+		<property name="attributes">
+			<list>
+				<ref bean="PurchasingAccountsPayableDocument-documentNumber" />
+				<ref bean="PurchasingAccountsPayableDocument-purapDocumentIdentifier" />
+				<ref bean="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" />
+				<ref bean="PurchasingAccountsPayableDocument-activityStatusCode" />
+				<ref bean="PurchasingAccountsPayableDocument-documentTypeCode" />
+				<ref bean="PurchasingAccountsPayableDocument-purApContactEmailAddress" />
+				<ref bean="PurchasingAccountsPayableDocument-purApContactPhoneNumber" />
+				<ref bean="PurchasingAccountsPayableDocument-statusDescription" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeCode"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="PurchasingAccountsPayableDocument-documentNumber" parent="PurchasingAccountsPayableDocument-documentNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
-    <property name="forceUppercase" value="true"/>
-  	<property name="label" value="Document/Notification Id"/>
-    <property name="shortLabel" value="Document/Notification Id"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier" parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
-  	<property name="label" value="Invoice"/>
-    <property name="shortLabel" value="Invoice"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier" parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier">
-    <property name="name" value="purchaseOrderIdentifier"/>
-  	<property name="label" value="Purchase Order Nbr"/>
-    <property name="shortLabel" value="PO Identifier"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-activityStatusCode" parent="PurchasingAccountsPayableDocument-activityStatusCode-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-activityStatusCode-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
-  	<property name="name" value="activityStatusCode"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-documentTypeCode" parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
-  	<property name="name" value="documentTypeCode"/>
-  	<property name="label" value="Doc Typ"/>
-    <property name="shortLabel" value="Doc Type"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress" parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactEmailAddress">
-    <property name="name" value="purApContactEmailAddress"/>
-    <property name="label" value="Email Address"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber" parent="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
-    <property name="name" value="purApContactPhoneNumber"/>
-    <property name="label" value="Phone"/>
-  </bean>
-  
-  <bean id="PurchasingAccountsPayableDocument-statusDescription" parent="PurchasingAccountsPayableDocument-statusDescription-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-statusDescription-parentBean" abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
-    <property name="name" value="statusDescription"/>
-    <property name="label" value="Status Description"/>
-  </bean>
+	<bean id="PurchasingAccountsPayableDocument-documentNumber"
+		parent="PurchasingAccountsPayableDocument-documentNumber-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-documentNumber-parentBean"
+		abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Document/Notification Id" />
+		<property name="shortLabel" value="Document/Notification Id" />
+	</bean>
 
-<!-- Business Object Inquiry Definition -->
+	<bean id="PurchasingAccountsPayableDocument-purapDocumentIdentifier"
+		parent="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableDocument-purapDocumentIdentifier-parentBean"
+		abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+		<property name="label" value="Invoice" />
+		<property name="shortLabel" value="Invoice" />
+	</bean>
 
-  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition" parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean"/>
-  <bean id="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="CAB Purchasing Accounts Payable Document"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="activityStatusCode"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier"
+		parent="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableDocument-purchaseOrderIdentifier-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-purapDocumentIdentifier">
+		<property name="name" value="purchaseOrderIdentifier" />
+		<property name="label" value="Purchase Order Nbr" />
+		<property name="shortLabel" value="PO Identifier" />
+	</bean>
 
-<!-- Business Object Lookup Definition -->
-  <bean id="PurchasingAccountsPayableDocument-lookupDefinition" 
-        parent="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-activityStatusCode"
+		parent="PurchasingAccountsPayableDocument-activityStatusCode-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-activityStatusCode-parentBean"
+		abstract="true" parent="GenericAttributes-oneDigitTextCode">
+		<property name="name" value="activityStatusCode" />
+	</bean>
 
-  <bean id="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" abstract="true" 
-        parent="LookupDefinition">
-        
-    <property name="title" value="Purchasing Accounts Payable Document Search" />
-              
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <dd:field attributeName="documentNumber"  />
-        <dd:field attributeName="purchaseOrderIdentifier" />
-        <dd:field attributeName="purapDocumentIdentifier" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-         <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-         <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-         <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
-         <bean parent="FieldDefinition" p:attributeName="activityStatusCode"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="PurchasingAccountsPayableDocument-documentTypeCode"
+		parent="PurchasingAccountsPayableDocument-documentTypeCode-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-documentTypeCode-parentBean"
+		abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+		<property name="name" value="documentTypeCode" />
+		<property name="label" value="Doc Typ" />
+		<property name="shortLabel" value="Doc Type" />
+	</bean>
+
+	<bean id="PurchasingAccountsPayableDocument-purApContactEmailAddress"
+		parent="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableDocument-purApContactEmailAddress-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-institutionContactEmailAddress">
+		<property name="name" value="purApContactEmailAddress" />
+		<property name="label" value="Email Address" />
+	</bean>
+
+	<bean id="PurchasingAccountsPayableDocument-purApContactPhoneNumber"
+		parent="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableDocument-purApContactPhoneNumber-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
+		<property name="name" value="purApContactPhoneNumber" />
+		<property name="label" value="Phone" />
+	</bean>
+
+	<bean id="PurchasingAccountsPayableDocument-statusDescription"
+		parent="PurchasingAccountsPayableDocument-statusDescription-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-statusDescription-parentBean"
+		abstract="true" parent="PurchaseOrderDocument-institutionContactPhoneNumber">
+		<property name="name" value="statusDescription" />
+		<property name="label" value="Status Description" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="PurchasingAccountsPayableDocument-inquiryDefinition"
+		parent="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean" />
+	<bean id="PurchasingAccountsPayableDocument-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="CAB Purchasing Accounts Payable Document" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="PurchasingAccountsPayableDocument-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="PurchasingAccountsPayableDocument-inquirySectionDefinition"
+		parent="PurchasingAccountsPayableDocument-inquirySectionDefinition-parentBean" />
+	<bean
+		id="PurchasingAccountsPayableDocument-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="activityStatusCode" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="PurchasingAccountsPayableDocument-lookupDefinition"
+		parent="PurchasingAccountsPayableDocument-lookupDefinition-parentBean" />
+
+	<bean id="PurchasingAccountsPayableDocument-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+
+		<property name="title" value="Purchasing Accounts Payable Document Search" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<dd:field attributeName="documentNumber" />
+				<dd:field attributeName="purchaseOrderIdentifier" />
+				<dd:field attributeName="purapDocumentIdentifier" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="activityStatusCode" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -104,7 +104,12 @@
     <property name="title" value="Effort Certification Report Earn Pay Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="EffortCertificationReportEarnPaygroup-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+<bean id="EffortCertificationReportEarnPaygroup-inquirySectionDefinition" parent="EffortCertificationReportEarnPaygroup-inquirySectionDefinition-parentBean"/>
+ <bean id="EffortCertificationReportEarnPaygroup-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value=""/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -116,11 +121,8 @@
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

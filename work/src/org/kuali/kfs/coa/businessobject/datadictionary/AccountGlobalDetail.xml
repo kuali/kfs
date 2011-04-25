@@ -1,105 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2007-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2007-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="AccountGlobalDetail" parent="AccountGlobalDetail-parentBean" />
 
-  <bean id="AccountGlobalDetail" parent="AccountGlobalDetail-parentBean"/>
+	<bean id="AccountGlobalDetail-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.coa.businessobject.AccountGlobalDetail" />
+		<property name="inquiryDefinition">
+			<ref bean="AccountGlobalDetail-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="AccountGlobalDetail-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Account Change Detail" />
+		<property name="attributes">
+			<list>
+				<ref bean="AccountGlobalDetail-accountNumber" />
+				<ref bean="AccountGlobalDetail-chartOfAccountsCode" />
+				<ref bean="AccountGlobalDetail-account.accountName" />
+				<ref bean="AccountGlobalDetail-documentNumber" />
+				<ref bean="AccountGlobalDetail-newCollectionRecord" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="AccountGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountGlobalDetail"/>
-    <property name="inquiryDefinition">
-      <ref bean="AccountGlobalDetail-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="AccountGlobalDetail-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Account Change Detail"/>
-    <property name="attributes">
-      <list>
-        <ref bean="AccountGlobalDetail-accountNumber"/>
-        <ref bean="AccountGlobalDetail-chartOfAccountsCode"/>
-        <ref bean="AccountGlobalDetail-account.accountName"/>
-        <ref bean="AccountGlobalDetail-documentNumber"/>
-        <ref bean="AccountGlobalDetail-newCollectionRecord"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="AccountGlobalDetail-accountNumber" parent="AccountGlobalDetail-accountNumber-parentBean"/>
-  <bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
+	<bean id="AccountGlobalDetail-accountNumber" parent="AccountGlobalDetail-accountNumber-parentBean" />
+	<bean id="AccountGlobalDetail-accountNumber-parentBean" abstract="true"
+		parent="Account-accountNumber" />
 
-  <bean id="AccountGlobalDetail-chartOfAccountsCode" parent="AccountGlobalDetail-chartOfAccountsCode-parentBean"/>
-  <bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl" />
+	<bean id="AccountGlobalDetail-chartOfAccountsCode" parent="AccountGlobalDetail-chartOfAccountsCode-parentBean" />
+	<bean id="AccountGlobalDetail-chartOfAccountsCode-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl" />
 
-  <bean id="AccountGlobalDetail-account.accountName" parent="AccountGlobalDetail-account.accountName-parentBean"/>
-  <bean id="AccountGlobalDetail-account.accountName-parentBean" abstract="true" parent="Account-accountName">
-    <property name="name" value="account.accountName"/>
-  </bean>
+	<bean id="AccountGlobalDetail-account.accountName" parent="AccountGlobalDetail-account.accountName-parentBean" />
+	<bean id="AccountGlobalDetail-account.accountName-parentBean"
+		abstract="true" parent="Account-accountName">
+		<property name="name" value="account.accountName" />
+	</bean>
 
-  <bean id="AccountGlobalDetail-documentNumber" parent="AccountGlobalDetail-documentNumber-parentBean"/>
-  <bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+	<bean id="AccountGlobalDetail-documentNumber" parent="AccountGlobalDetail-documentNumber-parentBean" />
+	<bean id="AccountGlobalDetail-documentNumber-parentBean" abstract="true"
+		parent="DocumentHeader-documentNumber" />
 
-  <bean id="AccountGlobalDetail-newCollectionRecord" parent="GenericAttributes-newCollectionRecord"/>
+	<bean id="AccountGlobalDetail-newCollectionRecord" parent="GenericAttributes-newCollectionRecord" />
 
-<!-- Business Object Inquiry Definition -->
+	<!-- Business Object Inquiry Definition -->
 
-  <bean id="AccountGlobalDetail-inquiryDefinition" parent="AccountGlobalDetail-inquiryDefinition-parentBean"/>
-  <bean id="AccountGlobalDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Account Change Detail Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="AccountGlobalDetail-inquiryDefinition" parent="AccountGlobalDetail-inquiryDefinition-parentBean" />
+	<bean id="AccountGlobalDetail-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Account Change Detail Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="AccountGlobalDetail-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="AccountGlobalDetail-inquirySectionDefinition" parent="AccountGlobalDetail-inquirySectionDefinition-parentBean" />
+	<bean id="AccountGlobalDetail-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<!-- Business Object Lookup Definition -->
 
-  <bean id="AccountGlobalDetail-lookupDefinition" parent="AccountGlobalDetail-lookupDefinition-parentBean"/>
-  <bean id="AccountGlobalDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Account Change Detail Lookup"/>
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="AccountGlobalDetail-lookupDefinition" parent="AccountGlobalDetail-lookupDefinition-parentBean" />
+	<bean id="AccountGlobalDetail-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Account Change Detail Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+	</bean>
 </beans>

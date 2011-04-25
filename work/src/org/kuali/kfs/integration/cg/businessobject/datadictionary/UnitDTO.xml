@@ -108,7 +108,13 @@
     <property name="title" value="KC Unit Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Unit Number Details">
+       <ref bean="unitDTO-inquirySectionDefinition"/>
+        </list>
+    </property>
+  </bean>
+  
+ <bean id="unitDTO-inquirySectionDefinition" parent="unitDTO-inquirySectionDefinition-parentBean"/>
+ <bean id="unitDTO-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true"  p:title="Unit Number Details">
           <property name="inquiryFields">
             <list>
               <bean parent="FieldDefinition" p:attributeName="unitNumber"/>
@@ -117,10 +123,8 @@
               <bean parent="FieldDefinition" p:attributeName="organizationId"/>
             </list>
           </property>
-        </bean>
-        </list>
-    </property>
-  </bean>
+ </bean>
+
 
 <!-- Business Object Lookup Definition -->
 

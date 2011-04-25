@@ -1,134 +1,165 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="IndirectCostRecoveryExclusionAccount" parent="IndirectCostRecoveryExclusionAccount-parentBean" />
 
-  <bean id="IndirectCostRecoveryExclusionAccount" parent="IndirectCostRecoveryExclusionAccount-parentBean"/>
+	<bean id="IndirectCostRecoveryExclusionAccount-parentBean"
+		abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount" />
+		<property name="inquiryDefinition">
+			<ref bean="IndirectCostRecoveryExclusionAccount-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="IndirectCostRecoveryExclusionAccount-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Indirect Cost Recovery Exclusion By Account" />
+		<property name="attributes">
+			<list>
+				<ref bean="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" />
+				<ref bean="IndirectCostRecoveryExclusionAccount-accountNumber" />
+				<ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode" />
+				<ref
+					bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" />
+				<ref bean="IndirectCostRecoveryExclusionAccount-active" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="IndirectCostRecoveryExclusionAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryExclusionAccount"/>
-    <property name="inquiryDefinition">
-      <ref bean="IndirectCostRecoveryExclusionAccount-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="IndirectCostRecoveryExclusionAccount-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Indirect Cost Recovery Exclusion By Account"/>
-    <property name="attributes">
-      <list>
-        <ref bean="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode"/>
-        <ref bean="IndirectCostRecoveryExclusionAccount-accountNumber"/>
-        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectCode"/>
-        <ref bean="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode"/>
-        <ref bean="IndirectCostRecoveryExclusionAccount-active"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode" parent="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode" />
-
-  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber" parent="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-  </bean>
-
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-  </bean>
-
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode" parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="name" value="financialObjectChartOfAccountCode"/>
-    <property name="label" value="Object Chart"/>
-    <property name="shortLabel" value="Object Chart"/>
-  </bean>
-  
-  <bean id="IndirectCostRecoveryExclusionAccount-active" parent="IndirectCostRecoveryExclusionAccount-active-parentBean"/>
-  <bean id="IndirectCostRecoveryExclusionAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition" parent="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean"/>
+	<bean id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode"
+		parent="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean" />
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode" />
 
-  <bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Indirect Cost Recovery Exclusion By Account Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="IndirectCostRecoveryExclusionAccount-accountNumber"
+		parent="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean" />
+	<bean id="IndirectCostRecoveryExclusionAccount-accountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber">
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<bean id="IndirectCostRecoveryExclusionAccount-financialObjectCode"
+		parent="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean" />
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-financialObjectCode-parentBean"
+		abstract="true" parent="ObjectCode-financialObjectCode">
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+	</bean>
+
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode"
+		parent="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean" />
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-financialObjectChartOfAccountCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="financialObjectChartOfAccountCode" />
+		<property name="label" value="Object Chart" />
+		<property name="shortLabel" value="Object Chart" />
+	</bean>
+
+	<bean id="IndirectCostRecoveryExclusionAccount-active" parent="IndirectCostRecoveryExclusionAccount-active-parentBean" />
+	<bean id="IndirectCostRecoveryExclusionAccount-active-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition" parent="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean"/>
+	<bean id="IndirectCostRecoveryExclusionAccount-inquiryDefinition"
+		parent="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean" />
 
-  <bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Indirect Cost Recovery Exclusion By Account Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-        <property name="attributeNames">
-          <list>
-            <value>accountNumber</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode"/>
-        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title"
+			value="Indirect Cost Recovery Exclusion By Account Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="IndirectCostRecoveryExclusionAccount-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="IndirectCostRecoveryExclusionAccount-inquirySectionDefinition"
+		parent="IndirectCostRecoveryExclusionAccount-inquirySectionDefinition-parentBean" />
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="IndirectCostRecoveryExclusionAccount-lookupDefinition"
+		parent="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean" />
+
+	<bean
+		id="IndirectCostRecoveryExclusionAccount-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title"
+			value="Indirect Cost Recovery Exclusion By Account Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>accountNumber</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:defaultValue="Y"
+					p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectChartOfAccountCode" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

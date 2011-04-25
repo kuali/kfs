@@ -88,7 +88,12 @@
     <property name="title" value="Report Type Code"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
+         <ref bean="EffortCertificationReportType-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+ <bean id="EffortCertificationReportType-inquirySectionDefinition" parent="EffortCertificationReportType-inquirySectionDefinition-parentBean"/>
+ <bean id="EffortCertificationReportType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
           <property name="title" value=""/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
@@ -98,11 +103,8 @@
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
-        </bean>
-      </list>
-    </property>
   </bean>
-
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -1,216 +1,232 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2008-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2008-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="InvoicePaidApplied" parent="InvoicePaidApplied-parentBean" />
 
-  <bean id="InvoicePaidApplied" parent="InvoicePaidApplied-parentBean"/>
+	<bean id="InvoicePaidApplied-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied" />
+		<property name="inquiryDefinition">
+			<ref bean="InvoicePaidApplied-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="InvoicePaidApplied-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Invoice Paid Applied" />
+		<property name="attributes">
+			<list>
+				<ref bean="InvoicePaidApplied-documentNumber" />
+				<ref bean="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber" />
+				<ref bean="InvoicePaidApplied-invoiceItemAppliedAmount" />
+				<ref bean="InvoicePaidApplied-invoiceItemNumber" />
+				<ref bean="InvoicePaidApplied-paidAppliedItemNumber" />
+				<ref bean="InvoicePaidApplied-universityFiscalPeriodCode" />
+				<ref bean="InvoicePaidApplied-universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="InvoicePaidApplied-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied"/>
-    <property name="inquiryDefinition">
-      <ref bean="InvoicePaidApplied-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="InvoicePaidApplied-lookupDefinition"/>
-    </property>
-    <property name="objectLabel" value="Invoice Paid Applied"/>
-    <property name="attributes">
-      <list>
-        <ref bean="InvoicePaidApplied-documentNumber"/>
-        <ref bean="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber"/>
-        <ref bean="InvoicePaidApplied-invoiceItemAppliedAmount"/>
-        <ref bean="InvoicePaidApplied-invoiceItemNumber"/>
-        <ref bean="InvoicePaidApplied-paidAppliedItemNumber"/>
-        <ref bean="InvoicePaidApplied-universityFiscalPeriodCode"/>
-        <ref bean="InvoicePaidApplied-universityFiscalYear"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="InvoicePaidApplied-documentNumber" parent="InvoicePaidApplied-documentNumber-parentBean"/>
-
-  <bean id="InvoicePaidApplied-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Document Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="16"/>
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber" parent="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber-parentBean"/>
-
-  <bean id="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentReferenceInvoiceNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Financial Document Reference Invoice Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="16"/>
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-invoiceItemAppliedAmount" parent="InvoicePaidApplied-invoiceItemAppliedAmount-parentBean"/>
-
-  <bean id="InvoicePaidApplied-invoiceItemAppliedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemAppliedAmount"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Item Applied Amount"/>
-    <property name="shortLabel" value="Amount"/>
-    <property name="maxLength" value="19"/>
-    <property name="validationPattern">
-      <bean parent="FloatingPointValidationPattern">
-      	<property name="allowNegative" value="true"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="21"/>
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-invoiceItemNumber" parent="InvoicePaidApplied-invoiceItemNumber-parentBean"/>
-
-  <bean id="InvoicePaidApplied-invoiceItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="invoiceItemNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Invoice Item Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-paidAppliedItemNumber" parent="InvoicePaidApplied-paidAppliedItemNumber-parentBean"/>
-
-  <bean id="InvoicePaidApplied-paidAppliedItemNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="paidAppliedItemNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Paid Applied Item Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-universityFiscalPeriodCode" parent="InvoicePaidApplied-universityFiscalPeriodCode-parentBean"/>
-
-  <bean id="InvoicePaidApplied-universityFiscalPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalPeriodCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="University Fiscal Period Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <ref bean="FourCharacterTextControl" />
-    </property>
-  </bean>
-  <bean id="InvoicePaidApplied-universityFiscalYear" parent="InvoicePaidApplied-universityFiscalYear-parentBean"/>
-
-  <bean id="InvoicePaidApplied-universityFiscalYear-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="University Fiscal Year"/>
-    <property name="shortLabel" value="Year"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="InvoicePaidApplied-inquiryDefinition" parent="InvoicePaidApplied-inquiryDefinition-parentBean"/>
+	<bean id="InvoicePaidApplied-documentNumber" parent="InvoicePaidApplied-documentNumber-parentBean" />
 
-  <bean id="InvoicePaidApplied-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Invoice Paid Applied Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="InvoicePaidApplied-documentNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="documentNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Document Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="14" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber"
+		parent="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber-parentBean" />
 
-<!-- Business Object Lookup Definition -->
+	<bean
+		id="InvoicePaidApplied-financialDocumentReferenceInvoiceNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialDocumentReferenceInvoiceNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Financial Document Reference Invoice Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="14" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-invoiceItemAppliedAmount" parent="InvoicePaidApplied-invoiceItemAppliedAmount-parentBean" />
+
+	<bean id="InvoicePaidApplied-invoiceItemAppliedAmount-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceItemAppliedAmount" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Item Applied Amount" />
+		<property name="shortLabel" value="Amount" />
+		<property name="maxLength" value="19" />
+		<property name="validationPattern">
+			<bean parent="FloatingPointValidationPattern">
+				<property name="allowNegative" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="21" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-invoiceItemNumber" parent="InvoicePaidApplied-invoiceItemNumber-parentBean" />
+
+	<bean id="InvoicePaidApplied-invoiceItemNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceItemNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Item Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-paidAppliedItemNumber" parent="InvoicePaidApplied-paidAppliedItemNumber-parentBean" />
+
+	<bean id="InvoicePaidApplied-paidAppliedItemNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paidAppliedItemNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Paid Applied Item Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="7" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-universityFiscalPeriodCode"
+		parent="InvoicePaidApplied-universityFiscalPeriodCode-parentBean" />
+
+	<bean id="InvoicePaidApplied-universityFiscalPeriodCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="universityFiscalPeriodCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="University Fiscal Period Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<ref bean="FourCharacterTextControl" />
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-universityFiscalYear" parent="InvoicePaidApplied-universityFiscalYear-parentBean" />
+
+	<bean id="InvoicePaidApplied-universityFiscalYear-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="universityFiscalYear" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="University Fiscal Year" />
+		<property name="shortLabel" value="Year" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="InvoicePaidApplied-lookupDefinition" parent="InvoicePaidApplied-lookupDefinition-parentBean"/>
+	<bean id="InvoicePaidApplied-inquiryDefinition" parent="InvoicePaidApplied-inquiryDefinition-parentBean" />
 
-  <bean id="InvoicePaidApplied-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Invoice Paid Applied Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="invoiceItemNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="invoiceItemNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="InvoicePaidApplied-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Invoice Paid Applied Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="InvoicePaidApplied-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="InvoicePaidApplied-inquirySectionDefinition" parent="InvoicePaidApplied-inquirySectionDefinition-parentBean" />
+	<bean id="InvoicePaidApplied-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="InvoicePaidApplied-lookupDefinition" parent="InvoicePaidApplied-lookupDefinition-parentBean" />
+
+	<bean id="InvoicePaidApplied-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Invoice Paid Applied Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialDocumentReferenceInvoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemAppliedAmount" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="paidAppliedItemNumber" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -1,926 +1,1123 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-<!--
- Copyright 2006-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-
-  <bean id="Account" parent="Account-parentBean"/>
-  <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account"/>
-    <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>
-    <property name="lookupDefinition" ref="Account-lookupDefinition"/>
-    <property name="titleAttribute" value="accountNumber"/>
-    <property name="objectLabel" value="Account"/>
-    <property name="attributes">
-      <list>
-        <ref bean="Account-chartOfAccountsCode"/>
-        <ref bean="Account-chartOfAccounts.codeAndDescription"/>
-        <ref bean="Account-endowmentIncomeChartOfAccounts.codeAndDescription"/>
-        <ref bean="Account-accountNumber"/>
-        <ref bean="Account-accountName"/>
-        <ref bean="Account-organizationCode"/>
-        <ref bean="Account-organization.codeAndDescription"/>
-        <ref bean="Account-accountTypeCode"/>
-        <ref bean="Account-accountPhysicalCampusCode"/>
-        <ref bean="Account-subFundGroupCode"/>
-        <ref bean="Account-subFundGroup.codeAndDescription"/>
-        <ref bean="Account-accountsFringesBnftIndicator"/>
-        <ref bean="Account-financialHigherEdFunctionCd"/>
-        <ref bean="Account-financialHigherEdFunction.codeAndDescription"/>
-        <ref bean="Account-accountRestrictedStatusCode"/>
-        <ref bean="Account-accountRestrictedStatusDate"/>
-        <ref bean="Account-accountCityName"/>
-        <ref bean="Account-accountStateCode"/>
-        <ref bean="Account-accountState.codeAndDescription"/>
-        <ref bean="Account-accountStreetAddress"/>
-        <ref bean="Account-accountZipCode"/>
-        <ref bean="Account-postalZipCode.postalCode"/>
-        <ref bean="Account-reportsToChartOfAccountsCode"/>
-        <ref bean="Account-reportsToAccountNumber"/>
-        <ref bean="Account-accountCreateDate"/>
-        <ref bean="Account-accountEffectiveDate"/>
-        <ref bean="Account-accountExpirationDate"/>
-        <ref bean="Account-continuationFinChrtOfAcctCd"/>
-        <ref bean="Account-continuationAccountNumber"/>
-        <ref bean="Account-endowmentIncomeAcctFinCoaCd"/>
-        <ref bean="Account-endowmentIncomeAccountNumber"/>
-        <ref bean="Account-contractControlFinCoaCode"/>
-        <ref bean="Account-contractControlAccountNumber"/>
-        <ref bean="Account-incomeStreamFinancialCoaCode"/>
-        <ref bean="Account-incomeStreamAccountNumber"/>
-        <ref bean="Account-acctIndirectCostRcvyTypeCd"/>
-        <ref bean="Account-acctIndirectCostRcvyType.codeAndDescription"/>
-        <ref bean="Account-acctCustomIndCstRcvyExclCd"/>
-        <ref bean="Account-financialIcrSeriesIdentifier"/>
-        <ref bean="Account-indirectCostRcvyFinCoaCode"/>
-        <ref bean="Account-indirectCostRecoveryAcctNbr"/>
-        <ref bean="Account-accountInFinancialProcessingIndicator"/>
-        <ref bean="Account-budgetRecordingLevelCode"/>
-        <ref bean="Account-accountSufficientFundsCode"/>
-        <ref bean="Account-pendingAcctSufficientFundsIndicator"/>
-        <ref bean="Account-extrnlFinEncumSufficntFndIndicator"/>
-        <ref bean="Account-intrnlFinEncumSufficntFndIndicator"/>
-        <ref bean="Account-finPreencumSufficientFundIndicator"/>
-        <ref bean="Account-financialObjectivePrsctrlIndicator"/>
-        <ref bean="Account-accountCfdaNumber"/>
-        <ref bean="Account-accountOffCampusIndicator"/>
-        <ref bean="Account-active"/>
-        <ref bean="Account-closed"/>
-        <ref bean="Account-accountFiscalOfficerSystemIdentifier"/>
-        <ref bean="Account-accountFiscalOfficerSystemIdentifierForSearching"/>
-        <ref bean="Account-accountFiscalOfficerUser.principalName"/>
-        <ref bean="Account-accountFiscalOfficerUser.name"/>
-        <ref bean="Account-accountsSupervisorySystemsIdentifier"/>
-        <ref bean="Account-accountsSupervisorySystemsIdentifierForSearching"/>
-        <ref bean="Account-accountSupervisoryUser.principalName"/>
-        <ref bean="Account-accountSupervisoryUser.name"/>
-        <ref bean="Account-accountManagerSystemIdentifier"/>
-        <ref bean="Account-accountManagerSystemIdentifierForSearching"/>
-        <ref bean="Account-accountManagerUser.principalName"/>
-        <ref bean="Account-accountManagerUser.name"/>
-        <ref bean="Account-accountGuideline.accountExpenseGuidelineText"/>
-        <ref bean="Account-accountGuideline.accountIncomeGuidelineText"/>
-        <ref bean="Account-accountGuideline.accountPurposeText"/>
-        <ref bean="Account-accountDescription.campusDescription"/>
-        <ref bean="Account-accountDescription.organizationDescription"/>
-        <ref bean="Account-accountDescription.responsibilityCenterDescription"/>
-        <ref bean="Account-accountDescription.campusCode"/>
-        <ref bean="Account-accountDescription.buildingCode"/>
-        <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
-      </list>
-    </property>
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="subAccounts" p:label="Sub-Accounts" p:shortLabel="Sub-Accounts"/>
-        <bean parent="CollectionDefinition" p:name="awards" p:label="Awards" p:shortLabel="Awards"/>
-      </list>
-    </property>
-    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountFiscalOfficerUser">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountFiscalOfficerSystemIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
-        			<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="accountFiscalOfficerUser.principalName" p:targetName="principalName" />
-        			<bean parent="SupportAttributeDefinition" p:sourceName="accountFiscalOfficerUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountSupervisoryUser">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountsSupervisorySystemsIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
-        			<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.principalName" p:targetName="principalName" p:identifier="true" />
-        			<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountManagerUser">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountManagerSystemIdentifier" p:targetName="principalId" />
-        		</list>
-        	</property>
-        	<property name="supportAttributes">
-        		<list>
-        			<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.principalName" p:targetName="principalName" p:identifier="true" />
-        			<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.name" p:targetName="name" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountGuideline">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber" p:targetName="cfdaNumber" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="postalCode" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="postalStateCode" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="campusCode" />
-        		</list>
-        	</property>
-        </bean>        
-      </list>
-    </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountType"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
-      </list>
-    </property>
-  </bean>
-
-<!-- Attribute Definitions -->
-
-
-  <bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" />
-  <bean id="Account-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl"/>
-  	
-
-  <bean id="Account-chartOfAccounts.codeAndDescription" parent="Account-chartOfAccounts.codeAndDescription-parentBean"/>
-
-  <bean id="Account-chartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription" p:name="chartOfAccounts.codeAndDescription"/>
-
-  <bean id="Account-endowmentIncomeChartOfAccounts.codeAndDescription" parent="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean"/>
-
-  <bean id="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" abstract="true" parent="Chart-codeAndDescription" p:name="endowmentIncomeChartOfAccounts.codeAndDescription" p:label="Endowment Chart of Accounts Code" p:shortLabel="Endowment Chart Code"/>
-  
-  <bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
-  <bean id="Account-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
-  
-  <bean id="Account-accountName" parent="Account-accountName-parentBean"/>
-  <bean id="Account-accountName-parentBean" abstract="true" parent="AttributeDefinition" p:name="accountName" p:label="Account Name" p:shortLabel="AcctName" p:forceUppercase="false" p:maxLength="40" p:required="true">
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterWithWhitespaceValidation" p:allowWhitespace="true" />
-    </property>
-  </bean>
-
-  <bean id="Account-organizationCode" parent="Account-organizationCode-parentBean"/>
-  <bean id="Account-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode"/>
-
-  <bean id="Account-organization.codeAndDescription" parent="Account-organization.codeAndDescription-parentBean"/>
-  <bean id="Account-organization.codeAndDescription-parentBean" abstract="true" parent="Organization-codeAndDescription" p:name="organization.codeAndDescription"/>
-
-  <bean id="Account-accountTypeCode" parent="Account-accountTypeCode-parentBean"/>
-
-  <bean id="Account-accountTypeCode-parentBean" abstract="true" parent="AccountType-accountTypeCode">
-    <property name="control">
-  	  <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder"/>
-  	</property>
-  </bean>
-  
-  <bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean"/>
-  <bean id="Account-accountPhysicalCampusCode-parentBean" abstract="true" parent="Campus-campusCode" p:name="accountPhysicalCampusCode">
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"/>
-    </property>
-  </bean>
-
-  <bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean"/>
-  <bean id="Account-subFundGroupCode-parentBean" abstract="true" parent="SubFundGroup-subFundGroupCode" p:shortLabel="SubFundGrpCd"/>
-
-  <bean id="Account-subFundGroup.codeAndDescription" parent="Account-subFundGroup.codeAndDescription-parentBean"/>
-
-  <bean id="Account-subFundGroup.codeAndDescription-parentBean" abstract="true" parent="SubFundGroup-codeAndDescription" p:name="subFundGroup.codeAndDescription" p:label="SubFund Group Code" p:shortLabel="SubFund Group Code"/>
-  
-  <bean id="Account-accountsFringesBnftIndicator" parent="Account-accountsFringesBnftIndicator-parentBean"/>
-
-  <bean id="Account-accountsFringesBnftIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="accountsFringesBnftIndicator"/>
-    <property name="label" value="Account Fringe Benefit"/>
-    <property name="shortLabel" value="FringeBene"/>
-    <property name="required" value="true"/>
-  </bean>
-
-  <bean id="Account-financialHigherEdFunctionCd" parent="Account-financialHigherEdFunctionCd-parentBean"/>
-  <bean id="Account-financialHigherEdFunctionCd-parentBean" abstract="true" parent="HigherEducationFunction-financialHigherEdFunctionCd" p:shortLabel="HighEdFncCd" />  
-
-  <bean id="Account-financialHigherEdFunction.codeAndDescription" parent="Account-financialHigherEdFunction.codeAndDescription-parentBean"/>
-
-  <bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean" abstract="true" parent="HigherEducationFunction-codeAndDescription" p:name="financialHigherEdFunction.codeAndDescription" p:label="Higher Ed Function Code" p:shortLabel="Higher Ed Function Code"/>
-
-  <bean id="Account-accountRestrictedStatusCode" parent="Account-accountRestrictedStatusCode-parentBean"/>
-
-  <bean id="Account-accountRestrictedStatusCode-parentBean" abstract="true" parent="RestrictedStatus-accountRestrictedStatusCode">
-    <property name="label" value="Account Restricted Status Code"/>
-    <property name="shortLabel" value="RstrcStatCd"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.RestrictedStatusValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-  <bean id="Account-accountRestrictedStatusDate" parent="Account-accountRestrictedStatusDate-parentBean"/>
-
-  <bean id="Account-accountRestrictedStatusDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="accountRestrictedStatusDate"/>
-    <property name="label" value="Account Restricted Status Date"/>
-    <property name="shortLabel" value="RstrcStatDt"/>
-  </bean>
-
-  <bean id="Account-accountCityName" parent="Account-accountCityName-parentBean"/>
-  <bean id="Account-accountCityName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountCityName"/>
-    <property name="label" value="Account City Name"/>
-    <property name="shortLabel" value="CityName"/>
-    <property name="maxLength" value="25"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="25"/>
-    </property>
-  </bean>
-  <bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean"/>
-
-  <bean id="Account-accountStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
-    <property name="name" value="accountStateCode"/>
-    <property name="label" value="Account State Code"/>
-    <property name="shortLabel" value="StateCd"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-accountState.codeAndDescription" parent="Account-accountState.codeAndDescription-parentBean"/>
-
-  <bean id="Account-accountState.codeAndDescription-parentBean" abstract="true" parent="State-codeAndDescription" p:name="accountState.codeAndDescription" p:label="Account State Code" p:shortLabel="Account State Code"/>
-  
-  <bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean"/>
-
-  <bean id="Account-accountStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountStreetAddress"/>
-    <property name="label" value="Account Street Address"/>
-    <property name="shortLabel" value="StreetAddr"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
-    </property>
-  </bean>
-  <bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean"/>
-
-  <bean id="Account-accountZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
-    <property name="name" value="accountZipCode"/>
-    <property name="label" value="Account Postal Code"/>
-    <property name="shortLabel" value="ZipCode"/>
-  </bean>
-  
-  <bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean"/>
-
-  <bean id="Account-postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-postalCode" p:name="postalZipCode.postalCode" p:label="Account Postal Code" p:shortLabel="ZipCode"/>
-  <bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean"/>
-
-  <bean id="Account-reportsToChartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="reportsToChartOfAccountsCode"/>
-    <property name="label" value="Fringe Benefit Chart Of Accounts Code"/>
-    <property name="shortLabel" value="FringeChart"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-reportsToAccountNumber" parent="Account-reportsToAccountNumber-parentBean"/>
-
-  <bean id="Account-reportsToAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="reportsToAccountNumber"/>
-    <property name="label" value="Fringe Benefit Account Number"/>
-    <property name="shortLabel" value="FringeAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountCreateDate" parent="Account-accountCreateDate-parentBean"/>
-
-  <bean id="Account-accountCreateDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="accountCreateDate"/>
-    <property name="label" value="Account Create Date"/>
-    <property name="shortLabel" value="CreateDate"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
-  <bean id="Account-accountEffectiveDate" parent="Account-accountEffectiveDate-parentBean"/>
-
-  <bean id="Account-accountEffectiveDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="accountEffectiveDate"/>
-    <property name="label" value="Account Effective Date"/>
-    <property name="shortLabel" value="EffDate"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-accountExpirationDate" parent="Account-accountExpirationDate-parentBean"/>
-
-  <bean id="Account-accountExpirationDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
-    <property name="name" value="accountExpirationDate"/>
-    <property name="label" value="Account Expiration Date"/>
-    <property name="shortLabel" value="ExpDate"/>
-  </bean>
-  <bean id="Account-continuationFinChrtOfAcctCd" parent="Account-continuationFinChrtOfAcctCd-parentBean"/>
-
-  <bean id="Account-continuationFinChrtOfAcctCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="continuationFinChrtOfAcctCd"/>
-    <property name="label" value="Continuation Chart Of Accounts Code"/>
-    <property name="shortLabel" value="ContChartCd"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-continuationAccountNumber" parent="Account-continuationAccountNumber-parentBean"/>
-
-  <bean id="Account-continuationAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="continuationAccountNumber"/>
-    <property name="label" value="Continuation Account Number"/>
-    <property name="shortLabel" value="ContAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  
-  <bean id="Account-endowmentIncomeAcctFinCoaCd" parent="Account-endowmentIncomeAcctFinCoaCd-parentBean"/>
-
-  <bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="endowmentIncomeAcctFinCoaCd"/>
-    <property name="label" value="Endowment Chart Of Accounts Code"/>
-    <property name="shortLabel" value="EndowChart"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-endowmentIncomeAccountNumber" parent="Account-endowmentIncomeAccountNumber-parentBean"/>
-
-  <bean id="Account-endowmentIncomeAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="endowmentIncomeAccountNumber"/>
-    <property name="label" value="Endowment Account Number"/>
-    <property name="shortLabel" value="EndowAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-contractControlFinCoaCode" parent="Account-contractControlFinCoaCode-parentBean"/>
-
-  <bean id="Account-contractControlFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="contractControlFinCoaCode"/>
-    <property name="label" value="Contract Control Chart of Accounts Code"/>
-    <property name="shortLabel" value="CntrctChart"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-contractControlAccountNumber" parent="Account-contractControlAccountNumber-parentBean"/>
-
-  <bean id="Account-contractControlAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="contractControlAccountNumber"/>
-    <property name="label" value="Contract Control Account Number"/>
-    <property name="shortLabel" value="CntrctAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-incomeStreamFinancialCoaCode" parent="Account-incomeStreamFinancialCoaCode-parentBean"/>
-
-  <bean id="Account-incomeStreamFinancialCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="incomeStreamFinancialCoaCode"/>
-    <property name="label" value="Income Stream Chart Of Accounts Code"/>
-    <property name="shortLabel" value="IncStrChart"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-incomeStreamAccountNumber" parent="Account-incomeStreamAccountNumber-parentBean"/>
-
-  <bean id="Account-incomeStreamAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="incomeStreamAccountNumber"/>
-    <property name="label" value="Income Stream Account Number"/>
-    <property name="shortLabel" value="IncStrAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-acctIndirectCostRcvyTypeCd" parent="Account-acctIndirectCostRcvyTypeCd-parentBean"/>
-
-  <bean id="Account-acctIndirectCostRcvyTypeCd-parentBean" abstract="true" parent="GenericAttributes-twoDigitTextCode">
-    <property name="name" value="acctIndirectCostRcvyTypeCd"/>
-    <property name="label" value="Account Indirect Cost Recovery Type Code"/>
-    <property name="shortLabel" value="IndCstTypCd"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-acctIndirectCostRcvyType.codeAndDescription" parent="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean"/>
-
-  <bean id="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean" abstract="true" parent="IndirectCostRecoveryType-codeAndDescription">
-    <property name="name" value="acctIndirectCostRcvyType.codeAndDescription"/>
-    <property name="label" value="Account Indirect Cost Recovery Type Code"/>
-    <property name="shortLabel" value="Account Indirect Cost Recovery Type Code"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
-  <bean id="Account-acctCustomIndCstRcvyExclCd" parent="Account-acctCustomIndCstRcvyExclCd-parentBean"/>
-
-  <bean id="Account-acctCustomIndCstRcvyExclCd-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
-    <property name="name" value="acctCustomIndCstRcvyExclCd"/>
-    <property name="label" value="Account Customized Indirect Cost Exclusion Code"/>
-    <property name="shortLabel" value="IndCstExclCd"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-financialIcrSeriesIdentifier" parent="Account-financialIcrSeriesIdentifier-parentBean"/>
-
-  <bean id="Account-financialIcrSeriesIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialIcrSeriesIdentifier"/>
-    <property name="label" value="Indirect Cost Rate"/>
-    <property name="shortLabel" value="Indr Cost Rate"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-  </bean>
-  <bean id="Account-indirectCostRcvyFinCoaCode" parent="Account-indirectCostRcvyFinCoaCode-parentBean"/>
-
-  <bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
-    <property name="name" value="indirectCostRcvyFinCoaCode"/>
-    <property name="label" value="Indirect Cost Recovery Chart Of Accounts Code"/>
-    <property name="shortLabel" value="IndCstChart"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-indirectCostRecoveryAcctNbr" parent="Account-indirectCostRecoveryAcctNbr-parentBean"/>
-
-  <bean id="Account-indirectCostRecoveryAcctNbr-parentBean" abstract="true" parent="Account-accountNumber">
-    <property name="name" value="indirectCostRecoveryAcctNbr"/>
-    <property name="label" value="Indirect Cost Recovery Account Number"/>
-    <property name="shortLabel" value="IndCstAcct"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountInFinancialProcessingIndicator" parent="Account-accountInFinancialProcessingIndicator-parentBean"/>
-
-  <bean id="Account-accountInFinancialProcessingIndicator-parentBean" abstract="true" parent="GenericAttributes-oneDigitTextCode">
-    <property name="name" value="accountInFinancialProcessingIndicator"/>
-    <property name="label" value="Account In Financial Processing"/>
-    <property name="shortLabel" value="AcctFinProc"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-budgetRecordingLevelCode" parent="Account-budgetRecordingLevelCode-parentBean"/>
-
-  <bean id="Account-budgetRecordingLevelCode-parentBean" abstract="true" parent="BudgetRecordingLevel-code">
-    <property name="name" value="budgetRecordingLevelCode"/>
-    <property name="label" value="Budget Record Level Code"/>
-    <property name="shortLabel" value="BdgLevelCd"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BudgetRecordingLevelValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-  <bean id="Account-accountSufficientFundsCode" parent="Account-accountSufficientFundsCode-parentBean"/>
-
-  <bean id="Account-accountSufficientFundsCode-parentBean" abstract="true" parent="SufficientFundsCode-code">
-    <property name="name" value="accountSufficientFundsCode"/>
-    <property name="shortLabel" value="SuffFndsCd"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SufficientFundsCodeValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-  </bean>
-  <bean id="Account-pendingAcctSufficientFundsIndicator" parent="Account-pendingAcctSufficientFundsIndicator-parentBean"/>
-
-  <bean id="Account-pendingAcctSufficientFundsIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="pendingAcctSufficientFundsIndicator"/>
-    <property name="label" value="Transaction Processing Sufficient Funds Check"/>
-    <property name="shortLabel" value="TPSuffChk"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-extrnlFinEncumSufficntFndIndicator" parent="Account-extrnlFinEncumSufficntFndIndicator-parentBean"/>
-
-  <bean id="Account-extrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="extrnlFinEncumSufficntFndIndicator"/>
-    <property name="label" value="External Encumbrance Sufficient Funds Indicator"/>
-    <property name="shortLabel" value="ExtEncSuffFndsInd"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-intrnlFinEncumSufficntFndIndicator" parent="Account-intrnlFinEncumSufficntFndIndicator-parentBean"/>
-
-  <bean id="Account-intrnlFinEncumSufficntFndIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="intrnlFinEncumSufficntFndIndicator"/>
-    <property name="label" value="Internal Encumbrance Sufficient Funds Indicator"/>
-    <property name="shortLabel" value="IntEncSuffFndsInd"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-finPreencumSufficientFundIndicator" parent="Account-finPreencumSufficientFundIndicator-parentBean"/>
-
-  <bean id="Account-finPreencumSufficientFundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="finPreencumSufficientFundIndicator"/>
-    <property name="label" value="Pre-Encumbrance Sufficient Funds Indicator"/>
-    <property name="shortLabel" value="PreEncSuffFndsInd"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-financialObjectivePrsctrlIndicator" parent="Account-financialObjectivePrsctrlIndicator-parentBean"/>
-
-  <bean id="Account-financialObjectivePrsctrlIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="financialObjectivePrsctrlIndicator"/>
-    <property name="label" value="Object Presence Control Indicator"/>
-    <property name="shortLabel" value="ObjPrsCntrl"/>
-    <property name="required" value="true"/>
-  </bean>
-  
-  <bean id="Account-accountCfdaNumber" parent="Account-accountCfdaNumber-parentBean"/>
-
-  <bean id="Account-accountCfdaNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" p:sourceAttributeName="cfdaNumber"> 
-	<property name="name" value="accountCfdaNumber"/>
-    <property name="required" value="false"/>
-  </bean>
-  
-  <bean id="Account-accountOffCampusIndicator" parent="Account-accountOffCampusIndicator-parentBean"/>
-
-  <bean id="Account-accountOffCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="accountOffCampusIndicator"/>
-    <property name="label" value="Account Off Campus Indicator"/>
-    <property name="shortLabel" value="OffCmpsInd"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="Account-active" parent="Account-active-parentBean"/>
-
-  <bean id="Account-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-    <property name="label" value="Active?"/>
-  </bean>
-  
-  <bean id="Account-closed" parent="Account-closed-parentBean"/>
-  
-  <bean id="Account-closed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-  	<property name="name" value="closed"/>
-  	<property name="label" value="Closed?"/>
-  </bean>
-  <bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean"/>
-
-  <bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="accountFiscalOfficerSystemIdentifier"/>
-    <property name="label" value="Fiscal Officer Unvl ID"/>
-    <property name="shortLabel" value="FiscOffId"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName"/>
-  </bean>
-
-  <bean id="Account-accountFiscalOfficerSystemIdentifierForSearching" parent="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean"/>
-
-  <bean id="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="accountFiscalOfficerSystemIdentifierForSearching"/>
-    <property name="label" value="Fiscal Officer Unvl ID"/>
-    <property name="shortLabel" value="FiscOffId"/>
-    <property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName"/>
-  </bean>
-
-
-  <bean id="Account-accountFiscalOfficerUser.principalName" parent="Account-accountFiscalOfficerUser.principalName-parentBean"/>
-
-  <bean id="Account-accountFiscalOfficerUser.principalName-parentBean" parent="PersonImpl-principalName" abstract="true" p:name="accountFiscalOfficerUser.principalName" p:label="Fiscal Officer Principal Name" p:shortLabel="Principal Name" p:required="false">
-    <property name="control">
-      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountFiscalOfficerUser.name" p:universalIdAttributeName="accountFiscalOfficerSystemIdentifier" p:userIdAttributeName="accountFiscalOfficerUser.principalName"/>
-    </property>
-  </bean>
-
-  <bean id="Account-accountFiscalOfficerUser.name" parent="Account-accountFiscalOfficerUser.name-parentBean"/>
-
-  <bean id="Account-accountFiscalOfficerUser.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="accountFiscalOfficerUser.name"/>
-    <property name="label" value="Fiscal Officer Name"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountsSupervisorySystemsIdentifier" parent="Account-accountsSupervisorySystemsIdentifier-parentBean"/>
-
-  <bean id="Account-accountsSupervisorySystemsIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="accountsSupervisorySystemsIdentifier"/>
-    <property name="label" value="Supervisor Unvl ID"/>
-    <property name="shortLabel" value="SprvsrId"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName"/>
-  </bean>
-  
-  <bean id="Account-accountsSupervisorySystemsIdentifierForSearching" parent="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean"/>
-
-  <bean id="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
-     <property name="name" value="accountsSupervisorySystemsIdentifierForSearching"/>
-    <property name="label" value="Supervisor Unvl ID"/>
-    <property name="shortLabel" value="SprvsrId"/>
-    <property name="displayLabelAttribute" value="accountSupervisoryUser.principalName"/>
-  </bean>
-
-  <bean id="Account-accountSupervisoryUser.principalName" parent="Account-accountSupervisoryUser.principalName-parentBean"/>
-
-  <bean id="Account-accountSupervisoryUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="accountSupervisoryUser.principalName"/>
-    <property name="label" value="Account Supervisor Principal Name"/>
-    <property name="shortLabel" value="Principal Name"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountSupervisoryUser.name" p:universalIdAttributeName="accountsSupervisorySystemsIdentifier" p:userIdAttributeName="accountSupervisoryUser.principalName"/>
-    </property>
-  </bean>
-  <bean id="Account-accountSupervisoryUser.name" parent="Account-accountSupervisoryUser.name-parentBean"/>
-
-  <bean id="Account-accountSupervisoryUser.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="accountSupervisoryUser.name"/>
-    <property name="label" value="Account Supervisor Name"/>
-    <property name="required" value="false"/>
-  </bean>
-  
-  <bean id="Account-accountManagerSystemIdentifier" parent="Account-accountManagerSystemIdentifier-parentBean"/>
-
-  <bean id="Account-accountManagerSystemIdentifier-parentBean" abstract="true" parent="PersonImpl-principalId">
-    <property name="name" value="accountManagerSystemIdentifier"/>
-    <property name="label" value="Manager Unvl ID"/>
-    <property name="shortLabel" value="MgrId"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    <property name="displayLabelAttribute" value="accountManagerUser.principalName"/>
-  </bean>
-  
-  <bean id="Account-accountManagerSystemIdentifierForSearching" parent="Account-accountManagerSystemIdentifierForSearching-parentBean"/>
-  
-  <bean id="Account-accountManagerSystemIdentifierForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
-   <property name="name" value="accountManagerSystemIdentifierForSearching"/>
-    <property name="label" value="Manager Unvl ID"/>
-    <property name="shortLabel" value="MgrId"/>
-    <property name="displayLabelAttribute" value="accountManagerUser.principalName"/>
-  </bean>
-  
-  <bean id="Account-accountManagerUser.principalName" parent="Account-accountManagerUser.principalName-parentBean"/>
-
-  <bean id="Account-accountManagerUser.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
-    <property name="name" value="accountManagerUser.principalName"/>
-    <property name="label" value="Account Manager Principal Name"/>
-    <property name="shortLabel" value="Principal Name"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="accountManagerUser.name" p:universalIdAttributeName="accountManagerSystemIdentifier" p:userIdAttributeName="accountManagerUser.principalName"/>
-    </property>
-  </bean>
-  <bean id="Account-accountManagerUser.name" parent="Account-accountManagerUser.name-parentBean"/>
-
-  <bean id="Account-accountManagerUser.name-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="accountManagerUser.name"/>
-    <property name="label" value="Account Manager Name"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountGuideline.accountExpenseGuidelineText" parent="Account-accountGuideline.accountExpenseGuidelineText-parentBean"/>
-
-  <bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="accountGuideline.accountExpenseGuidelineText"/>
-    <property name="label" value="Account Expense Guideline Text"/>
-    <property name="shortLabel" value="ExpGuideTxt"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountGuideline.accountIncomeGuidelineText" parent="Account-accountGuideline.accountIncomeGuidelineText-parentBean"/>
-
-  <bean id="Account-accountGuideline.accountIncomeGuidelineText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="accountGuideline.accountIncomeGuidelineText"/>
-    <property name="label" value="Account Income Guideline Text"/>
-    <property name="shortLabel" value="IncGuideTxt"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountGuideline.accountPurposeText" parent="Account-accountGuideline.accountPurposeText-parentBean"/>
-
-  <bean id="Account-accountGuideline.accountPurposeText-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-    <property name="name" value="accountGuideline.accountPurposeText"/>
-    <property name="label" value="Account Purpose Text"/>
-    <property name="shortLabel" value="AcctPurpTxt"/>
-    <property name="required" value="false"/>
-  </bean>
-  <bean id="Account-accountDescription.campusDescription" parent="Account-accountDescription.campusDescription-parentBean"/>
-
-  <bean id="Account-accountDescription.campusDescription-parentBean" abstract="true" parent="AccountDescription-campusDescription">
-    <property name="name" value="accountDescription.campusDescription"/>
-  </bean>
-  <bean id="Account-accountDescription.organizationDescription" parent="Account-accountDescription.organizationDescription-parentBean"/>
-
-  <bean id="Account-accountDescription.organizationDescription-parentBean" abstract="true" parent="AccountDescription-organizationDescription">
-    <property name="name" value="accountDescription.organizationDescription"/>
-  </bean>
-  <bean id="Account-accountDescription.responsibilityCenterDescription" parent="Account-accountDescription.responsibilityCenterDescription-parentBean"/>
-
-  <bean id="Account-accountDescription.responsibilityCenterDescription-parentBean" abstract="true" parent="AccountDescription-responsibilityCenterDescription">
-    <property name="name" value="accountDescription.responsibilityCenterDescription"/>
-  </bean>
-  <bean id="Account-accountDescription.campusCode" parent="Account-accountDescription.campusCode-parentBean"/>
-
-  <bean id="Account-accountDescription.campusCode-parentBean" abstract="true" parent="AccountDescription-campusCode">
-    <property name="name" value="accountDescription.campusCode"/>
-  </bean>
-  <bean id="Account-accountDescription.buildingCode" parent="Account-accountDescription.buildingCode-parentBean"/>
-
-  <bean id="Account-accountDescription.buildingCode-parentBean" abstract="true" parent="AccountDescription-buildingCode">
-    <property name="name" value="accountDescription.buildingCode"/>
-  </bean>
-
-  <bean id="Account-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean"/>
-  <bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contractsAndGrantsAccountResponsibilityId"/>
-    <property name="label" value="CG Account Responsibility Id"/>
-    <property name="shortLabel" value="Responsibility Id"/>
-    <property name="maxLength" value="4"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder" p:includeKeyInLabel="false"/>
-    </property>
-    
-    
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
-
-
-  <bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean"/>
-
-  <bean id="Account-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Account Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition" p:title="Account Details">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber" p:noInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="accountName"/>
-              <bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountPhysicalCampusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountEffectiveDate"/>
-              <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
-              <bean parent="FieldDefinition" p:attributeName="postalZipCode.postalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="accountState.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountStreetAddress"/>
-              <bean parent="FieldDefinition" p:attributeName="accountOffCampusIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="closed"/>
-              <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="subFundGroup.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountsFringesBnftIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="reportsToAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialHigherEdFunction.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusDate"/>
-              <bean parent="FieldDefinition" p:attributeName="endowmentIncomeChartOfAccounts.codeAndDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="endowmentIncomeAccountNumber"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Account Responsibility">
-          <property name="inquiryFields">
-            <list>
-
-              <bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName"/>
-              <bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName"/>
-              <bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode"/>
-              <bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="budgetRecordingLevelCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountSufficientFundsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="extrnlFinEncumSufficntFndIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="finPreencumSufficientFundIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Guidelines and Purpose">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountGuideline.accountExpenseGuidelineText"/>
-              <bean parent="FieldDefinition" p:attributeName="accountGuideline.accountIncomeGuidelineText"/>
-              <bean parent="FieldDefinition" p:attributeName="accountGuideline.accountPurposeText"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Account Description">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountDescription.campusDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountDescription.organizationDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountDescription.responsibilityCenterDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="accountDescription.campusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountDescription.buildingCode"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-    <property name="inquirableClass" value="org.kuali.kfs.coa.businessobject.inquiry.AccountInquirable"/>
-  </bean>
-
-<!-- Business Object Lookup Definition -->
-
-
-  <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean"/>
-
-  <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Account Lookup"/>
-    <property name="lookupableID" value="accountLookupable"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-        <property name="attributeNames">
-          <list>
-            <value>accountNumber</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber" p:noLookup="true"/>
-        <bean parent="FieldDefinition" p:attributeName="accountName"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName"/>        
-        <bean parent="FieldDefinition" p:attributeName="closed" p:defaultValue="N"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="accountName"/>
-        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-        <bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.name" p:forceInquiry="true"/>    
-        <bean parent="FieldDefinition" p:attributeName="closed"/>
-        <bean parent="FieldDefinition" p:attributeName="accountManagerUser.name" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="accountCreateDate"/>
-        <bean parent="FieldDefinition" p:attributeName="accountExpirationDate"/>
-      </list>
-    </property>
-  </bean>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!--
+		Copyright 2006-2009 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="Account" parent="Account-parentBean" />
+	<bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account" />
+		<property name="inquiryDefinition" ref="Account-inquiryDefinition" />
+		<property name="lookupDefinition" ref="Account-lookupDefinition" />
+		<property name="titleAttribute" value="accountNumber" />
+		<property name="objectLabel" value="Account" />
+		<property name="attributes">
+			<list>
+				<ref bean="Account-chartOfAccountsCode" />
+				<ref bean="Account-chartOfAccounts.codeAndDescription" />
+				<ref bean="Account-endowmentIncomeChartOfAccounts.codeAndDescription" />
+				<ref bean="Account-accountNumber" />
+				<ref bean="Account-accountName" />
+				<ref bean="Account-organizationCode" />
+				<ref bean="Account-organization.codeAndDescription" />
+				<ref bean="Account-accountTypeCode" />
+				<ref bean="Account-accountPhysicalCampusCode" />
+				<ref bean="Account-subFundGroupCode" />
+				<ref bean="Account-subFundGroup.codeAndDescription" />
+				<ref bean="Account-accountsFringesBnftIndicator" />
+				<ref bean="Account-financialHigherEdFunctionCd" />
+				<ref bean="Account-financialHigherEdFunction.codeAndDescription" />
+				<ref bean="Account-accountRestrictedStatusCode" />
+				<ref bean="Account-accountRestrictedStatusDate" />
+				<ref bean="Account-accountCityName" />
+				<ref bean="Account-accountStateCode" />
+				<ref bean="Account-accountState.codeAndDescription" />
+				<ref bean="Account-accountStreetAddress" />
+				<ref bean="Account-accountZipCode" />
+				<ref bean="Account-postalZipCode.postalCode" />
+				<ref bean="Account-reportsToChartOfAccountsCode" />
+				<ref bean="Account-reportsToAccountNumber" />
+				<ref bean="Account-accountCreateDate" />
+				<ref bean="Account-accountEffectiveDate" />
+				<ref bean="Account-accountExpirationDate" />
+				<ref bean="Account-continuationFinChrtOfAcctCd" />
+				<ref bean="Account-continuationAccountNumber" />
+				<ref bean="Account-endowmentIncomeAcctFinCoaCd" />
+				<ref bean="Account-endowmentIncomeAccountNumber" />
+				<ref bean="Account-contractControlFinCoaCode" />
+				<ref bean="Account-contractControlAccountNumber" />
+				<ref bean="Account-incomeStreamFinancialCoaCode" />
+				<ref bean="Account-incomeStreamAccountNumber" />
+				<ref bean="Account-acctIndirectCostRcvyTypeCd" />
+				<ref bean="Account-acctIndirectCostRcvyType.codeAndDescription" />
+				<ref bean="Account-acctCustomIndCstRcvyExclCd" />
+				<ref bean="Account-financialIcrSeriesIdentifier" />
+				<ref bean="Account-indirectCostRcvyFinCoaCode" />
+				<ref bean="Account-indirectCostRecoveryAcctNbr" />
+				<ref bean="Account-accountInFinancialProcessingIndicator" />
+				<ref bean="Account-budgetRecordingLevelCode" />
+				<ref bean="Account-accountSufficientFundsCode" />
+				<ref bean="Account-pendingAcctSufficientFundsIndicator" />
+				<ref bean="Account-extrnlFinEncumSufficntFndIndicator" />
+				<ref bean="Account-intrnlFinEncumSufficntFndIndicator" />
+				<ref bean="Account-finPreencumSufficientFundIndicator" />
+				<ref bean="Account-financialObjectivePrsctrlIndicator" />
+				<ref bean="Account-accountCfdaNumber" />
+				<ref bean="Account-accountOffCampusIndicator" />
+				<ref bean="Account-active" />
+				<ref bean="Account-closed" />
+				<ref bean="Account-accountFiscalOfficerSystemIdentifier" />
+				<ref bean="Account-accountFiscalOfficerSystemIdentifierForSearching" />
+				<ref bean="Account-accountFiscalOfficerUser.principalName" />
+				<ref bean="Account-accountFiscalOfficerUser.name" />
+				<ref bean="Account-accountsSupervisorySystemsIdentifier" />
+				<ref bean="Account-accountsSupervisorySystemsIdentifierForSearching" />
+				<ref bean="Account-accountSupervisoryUser.principalName" />
+				<ref bean="Account-accountSupervisoryUser.name" />
+				<ref bean="Account-accountManagerSystemIdentifier" />
+				<ref bean="Account-accountManagerSystemIdentifierForSearching" />
+				<ref bean="Account-accountManagerUser.principalName" />
+				<ref bean="Account-accountManagerUser.name" />
+				<ref bean="Account-accountGuideline.accountExpenseGuidelineText" />
+				<ref bean="Account-accountGuideline.accountIncomeGuidelineText" />
+				<ref bean="Account-accountGuideline.accountPurposeText" />
+				<ref bean="Account-accountDescription.campusDescription" />
+				<ref bean="Account-accountDescription.organizationDescription" />
+				<ref bean="Account-accountDescription.responsibilityCenterDescription" />
+				<ref bean="Account-accountDescription.campusCode" />
+				<ref bean="Account-accountDescription.buildingCode" />
+				<ref bean="Account-contractsAndGrantsAccountResponsibilityId" />
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="subAccounts"
+					p:label="Sub-Accounts" p:shortLabel="Sub-Accounts" />
+				<bean parent="CollectionDefinition" p:name="awards" p:label="Awards"
+					p:shortLabel="Awards" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountFiscalOfficerUser">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountFiscalOfficerSystemIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="accountFiscalOfficerUser.principalName"
+								p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountFiscalOfficerUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountSupervisoryUser">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountsSupervisorySystemsIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.principalName"
+								p:targetName="principalName" p:identifier="true" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountSupervisoryUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountManagerUser">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountManagerSystemIdentifier"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.principalName"
+								p:targetName="principalName" p:identifier="true" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountManagerUser.name"
+								p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountGuideline">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode"
+								p:targetName="chartOfAccountsCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber"
+								p:targetName="accountNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber"
+								p:targetName="cfdaNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="awards"
+					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode"
+								p:targetName="chartOfAccountsCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber"
+								p:targetName="accountNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode"
+								p:targetName="postalCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode"
+								p:targetName="postalStateCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode"
+								p:targetName="campusCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="inactivationBlockingDefinitions">
+			<list>
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="accountType" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="acctIndirectCostRcvyType" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="budgetRecordingLevel" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="financialHigherEdFunction" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="postalZipCode" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="accountRestrictedStatus" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="subFundGroup" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="sufficientFundsCode" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="accountState" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="Account-chartOfAccountsCode" parent="Account-chartOfAccountsCode-parentBean" />
+	<bean id="Account-chartOfAccountsCode-parentBean" abstract="true"
+		parent="ChartAttribute-TextControl" />
+
+
+	<bean id="Account-chartOfAccounts.codeAndDescription" parent="Account-chartOfAccounts.codeAndDescription-parentBean" />
+
+	<bean id="Account-chartOfAccounts.codeAndDescription-parentBean"
+		abstract="true" parent="Chart-codeAndDescription" p:name="chartOfAccounts.codeAndDescription" />
+
+	<bean id="Account-endowmentIncomeChartOfAccounts.codeAndDescription"
+		parent="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean" />
+
+	<bean
+		id="Account-endowmentIncomeChartOfAccounts.codeAndDescription-parentBean"
+		abstract="true" parent="Chart-codeAndDescription"
+		p:name="endowmentIncomeChartOfAccounts.codeAndDescription" p:label="Endowment Chart of Accounts Code"
+		p:shortLabel="Endowment Chart Code" />
+
+	<bean id="Account-accountNumber" parent="Account-accountNumber-parentBean" />
+	<bean id="Account-accountNumber-parentBean" abstract="true"
+		parent="AccountAttribute" />
+
+	<bean id="Account-accountName" parent="Account-accountName-parentBean" />
+	<bean id="Account-accountName-parentBean" abstract="true"
+		parent="AttributeDefinition" p:name="accountName" p:label="Account Name"
+		p:shortLabel="AcctName" p:forceUppercase="false" p:maxLength="40"
+		p:required="true">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterWithWhitespaceValidation"
+				p:allowWhitespace="true" />
+		</property>
+	</bean>
+
+	<bean id="Account-organizationCode" parent="Account-organizationCode-parentBean" />
+	<bean id="Account-organizationCode-parentBean" abstract="true"
+		parent="Organization-organizationCode" />
+
+	<bean id="Account-organization.codeAndDescription" parent="Account-organization.codeAndDescription-parentBean" />
+	<bean id="Account-organization.codeAndDescription-parentBean"
+		abstract="true" parent="Organization-codeAndDescription" p:name="organization.codeAndDescription" />
+
+	<bean id="Account-accountTypeCode" parent="Account-accountTypeCode-parentBean" />
+
+	<bean id="Account-accountTypeCode-parentBean" abstract="true"
+		parent="AccountType-accountTypeCode">
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AcctTypeValuesFinder" />
+		</property>
+	</bean>
+
+	<bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean" />
+	<bean id="Account-accountPhysicalCampusCode-parentBean" abstract="true"
+		parent="Campus-campusCode" p:name="accountPhysicalCampusCode">
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" />
+		</property>
+	</bean>
+
+	<bean id="Account-subFundGroupCode" parent="Account-subFundGroupCode-parentBean" />
+	<bean id="Account-subFundGroupCode-parentBean" abstract="true"
+		parent="SubFundGroup-subFundGroupCode" p:shortLabel="SubFundGrpCd" />
+
+	<bean id="Account-subFundGroup.codeAndDescription" parent="Account-subFundGroup.codeAndDescription-parentBean" />
+
+	<bean id="Account-subFundGroup.codeAndDescription-parentBean"
+		abstract="true" parent="SubFundGroup-codeAndDescription" p:name="subFundGroup.codeAndDescription"
+		p:label="SubFund Group Code" p:shortLabel="SubFund Group Code" />
+
+	<bean id="Account-accountsFringesBnftIndicator" parent="Account-accountsFringesBnftIndicator-parentBean" />
+
+	<bean id="Account-accountsFringesBnftIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="accountsFringesBnftIndicator" />
+		<property name="label" value="Account Fringe Benefit" />
+		<property name="shortLabel" value="FringeBene" />
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="Account-financialHigherEdFunctionCd" parent="Account-financialHigherEdFunctionCd-parentBean" />
+	<bean id="Account-financialHigherEdFunctionCd-parentBean"
+		abstract="true" parent="HigherEducationFunction-financialHigherEdFunctionCd"
+		p:shortLabel="HighEdFncCd" />
+
+	<bean id="Account-financialHigherEdFunction.codeAndDescription"
+		parent="Account-financialHigherEdFunction.codeAndDescription-parentBean" />
+
+	<bean id="Account-financialHigherEdFunction.codeAndDescription-parentBean"
+		abstract="true" parent="HigherEducationFunction-codeAndDescription"
+		p:name="financialHigherEdFunction.codeAndDescription" p:label="Higher Ed Function Code"
+		p:shortLabel="Higher Ed Function Code" />
+
+	<bean id="Account-accountRestrictedStatusCode" parent="Account-accountRestrictedStatusCode-parentBean" />
+
+	<bean id="Account-accountRestrictedStatusCode-parentBean"
+		abstract="true" parent="RestrictedStatus-accountRestrictedStatusCode">
+		<property name="label" value="Account Restricted Status Code" />
+		<property name="shortLabel" value="RstrcStatCd" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.RestrictedStatusValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="Account-accountRestrictedStatusDate" parent="Account-accountRestrictedStatusDate-parentBean" />
+
+	<bean id="Account-accountRestrictedStatusDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="accountRestrictedStatusDate" />
+		<property name="label" value="Account Restricted Status Date" />
+		<property name="shortLabel" value="RstrcStatDt" />
+	</bean>
+
+	<bean id="Account-accountCityName" parent="Account-accountCityName-parentBean" />
+	<bean id="Account-accountCityName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accountCityName" />
+		<property name="label" value="Account City Name" />
+		<property name="shortLabel" value="CityName" />
+		<property name="maxLength" value="25" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+	<bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
+
+	<bean id="Account-accountStateCode-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
+		p:sourceAttributeName="postalStateCode">
+		<property name="name" value="accountStateCode" />
+		<property name="label" value="Account State Code" />
+		<property name="shortLabel" value="StateCd" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-accountState.codeAndDescription" parent="Account-accountState.codeAndDescription-parentBean" />
+
+	<bean id="Account-accountState.codeAndDescription-parentBean"
+		abstract="true" parent="State-codeAndDescription" p:name="accountState.codeAndDescription"
+		p:label="Account State Code" p:shortLabel="Account State Code" />
+
+	<bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
+
+	<bean id="Account-accountStreetAddress-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accountStreetAddress" />
+		<property name="label" value="Account Street Address" />
+		<property name="shortLabel" value="StreetAddr" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+	<bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
+
+	<bean id="Account-accountZipCode-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
+		p:sourceAttributeName="postalCode">
+		<property name="name" value="accountZipCode" />
+		<property name="label" value="Account Postal Code" />
+		<property name="shortLabel" value="ZipCode" />
+	</bean>
+
+	<bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean" />
+
+	<bean id="Account-postalZipCode.postalCode-parentBean" abstract="true"
+		parent="PostalCode-postalCode" p:name="postalZipCode.postalCode"
+		p:label="Account Postal Code" p:shortLabel="ZipCode" />
+	<bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean" />
+
+	<bean id="Account-reportsToChartOfAccountsCode-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="name" value="reportsToChartOfAccountsCode" />
+		<property name="label" value="Fringe Benefit Chart Of Accounts Code" />
+		<property name="shortLabel" value="FringeChart" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-reportsToAccountNumber" parent="Account-reportsToAccountNumber-parentBean" />
+
+	<bean id="Account-reportsToAccountNumber-parentBean" abstract="true"
+		parent="Account-accountNumber">
+		<property name="name" value="reportsToAccountNumber" />
+		<property name="label" value="Fringe Benefit Account Number" />
+		<property name="shortLabel" value="FringeAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountCreateDate" parent="Account-accountCreateDate-parentBean" />
+
+	<bean id="Account-accountCreateDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="accountCreateDate" />
+		<property name="label" value="Account Create Date" />
+		<property name="shortLabel" value="CreateDate" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+	<bean id="Account-accountEffectiveDate" parent="Account-accountEffectiveDate-parentBean" />
+
+	<bean id="Account-accountEffectiveDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="accountEffectiveDate" />
+		<property name="label" value="Account Effective Date" />
+		<property name="shortLabel" value="EffDate" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-accountExpirationDate" parent="Account-accountExpirationDate-parentBean" />
+
+	<bean id="Account-accountExpirationDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="accountExpirationDate" />
+		<property name="label" value="Account Expiration Date" />
+		<property name="shortLabel" value="ExpDate" />
+	</bean>
+	<bean id="Account-continuationFinChrtOfAcctCd" parent="Account-continuationFinChrtOfAcctCd-parentBean" />
+
+	<bean id="Account-continuationFinChrtOfAcctCd-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="name" value="continuationFinChrtOfAcctCd" />
+		<property name="label" value="Continuation Chart Of Accounts Code" />
+		<property name="shortLabel" value="ContChartCd" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-continuationAccountNumber" parent="Account-continuationAccountNumber-parentBean" />
+
+	<bean id="Account-continuationAccountNumber-parentBean" abstract="true"
+		parent="Account-accountNumber">
+		<property name="name" value="continuationAccountNumber" />
+		<property name="label" value="Continuation Account Number" />
+		<property name="shortLabel" value="ContAcct" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="Account-endowmentIncomeAcctFinCoaCd" parent="Account-endowmentIncomeAcctFinCoaCd-parentBean" />
+
+	<bean id="Account-endowmentIncomeAcctFinCoaCd-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="name" value="endowmentIncomeAcctFinCoaCd" />
+		<property name="label" value="Endowment Chart Of Accounts Code" />
+		<property name="shortLabel" value="EndowChart" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-endowmentIncomeAccountNumber" parent="Account-endowmentIncomeAccountNumber-parentBean" />
+
+	<bean id="Account-endowmentIncomeAccountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber">
+		<property name="name" value="endowmentIncomeAccountNumber" />
+		<property name="label" value="Endowment Account Number" />
+		<property name="shortLabel" value="EndowAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-contractControlFinCoaCode" parent="Account-contractControlFinCoaCode-parentBean" />
+
+	<bean id="Account-contractControlFinCoaCode-parentBean" abstract="true"
+		parent="ChartAttribute-SelectControl">
+		<property name="name" value="contractControlFinCoaCode" />
+		<property name="label" value="Contract Control Chart of Accounts Code" />
+		<property name="shortLabel" value="CntrctChart" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-contractControlAccountNumber" parent="Account-contractControlAccountNumber-parentBean" />
+
+	<bean id="Account-contractControlAccountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber">
+		<property name="name" value="contractControlAccountNumber" />
+		<property name="label" value="Contract Control Account Number" />
+		<property name="shortLabel" value="CntrctAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-incomeStreamFinancialCoaCode" parent="Account-incomeStreamFinancialCoaCode-parentBean" />
+
+	<bean id="Account-incomeStreamFinancialCoaCode-parentBean"
+		abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="name" value="incomeStreamFinancialCoaCode" />
+		<property name="label" value="Income Stream Chart Of Accounts Code" />
+		<property name="shortLabel" value="IncStrChart" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-incomeStreamAccountNumber" parent="Account-incomeStreamAccountNumber-parentBean" />
+
+	<bean id="Account-incomeStreamAccountNumber-parentBean" abstract="true"
+		parent="Account-accountNumber">
+		<property name="name" value="incomeStreamAccountNumber" />
+		<property name="label" value="Income Stream Account Number" />
+		<property name="shortLabel" value="IncStrAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-acctIndirectCostRcvyTypeCd" parent="Account-acctIndirectCostRcvyTypeCd-parentBean" />
+
+	<bean id="Account-acctIndirectCostRcvyTypeCd-parentBean" abstract="true"
+		parent="GenericAttributes-twoDigitTextCode">
+		<property name="name" value="acctIndirectCostRcvyTypeCd" />
+		<property name="label" value="Account Indirect Cost Recovery Type Code" />
+		<property name="shortLabel" value="IndCstTypCd" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-acctIndirectCostRcvyType.codeAndDescription"
+		parent="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean" />
+
+	<bean id="Account-acctIndirectCostRcvyType.codeAndDescription-parentBean"
+		abstract="true" parent="IndirectCostRecoveryType-codeAndDescription">
+		<property name="name" value="acctIndirectCostRcvyType.codeAndDescription" />
+		<property name="label" value="Account Indirect Cost Recovery Type Code" />
+		<property name="shortLabel" value="Account Indirect Cost Recovery Type Code" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+	<bean id="Account-acctCustomIndCstRcvyExclCd" parent="Account-acctCustomIndCstRcvyExclCd-parentBean" />
+
+	<bean id="Account-acctCustomIndCstRcvyExclCd-parentBean" abstract="true"
+		parent="GenericAttributes-oneDigitTextCode">
+		<property name="name" value="acctCustomIndCstRcvyExclCd" />
+		<property name="label"
+			value="Account Customized Indirect Cost Exclusion Code" />
+		<property name="shortLabel" value="IndCstExclCd" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-financialIcrSeriesIdentifier" parent="Account-financialIcrSeriesIdentifier-parentBean" />
+
+	<bean id="Account-financialIcrSeriesIdentifier-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="financialIcrSeriesIdentifier" />
+		<property name="label" value="Indirect Cost Rate" />
+		<property name="shortLabel" value="Indr Cost Rate" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+	<bean id="Account-indirectCostRcvyFinCoaCode" parent="Account-indirectCostRcvyFinCoaCode-parentBean" />
+
+	<bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true"
+		parent="ChartAttribute-SelectControl">
+		<property name="name" value="indirectCostRcvyFinCoaCode" />
+		<property name="label"
+			value="Indirect Cost Recovery Chart Of Accounts Code" />
+		<property name="shortLabel" value="IndCstChart" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-indirectCostRecoveryAcctNbr" parent="Account-indirectCostRecoveryAcctNbr-parentBean" />
+
+	<bean id="Account-indirectCostRecoveryAcctNbr-parentBean"
+		abstract="true" parent="Account-accountNumber">
+		<property name="name" value="indirectCostRecoveryAcctNbr" />
+		<property name="label" value="Indirect Cost Recovery Account Number" />
+		<property name="shortLabel" value="IndCstAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountInFinancialProcessingIndicator"
+		parent="Account-accountInFinancialProcessingIndicator-parentBean" />
+
+	<bean id="Account-accountInFinancialProcessingIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-oneDigitTextCode">
+		<property name="name" value="accountInFinancialProcessingIndicator" />
+		<property name="label" value="Account In Financial Processing" />
+		<property name="shortLabel" value="AcctFinProc" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-budgetRecordingLevelCode" parent="Account-budgetRecordingLevelCode-parentBean" />
+
+	<bean id="Account-budgetRecordingLevelCode-parentBean" abstract="true"
+		parent="BudgetRecordingLevel-code">
+		<property name="name" value="budgetRecordingLevelCode" />
+		<property name="label" value="Budget Record Level Code" />
+		<property name="shortLabel" value="BdgLevelCd" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.BudgetRecordingLevelValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="Account-accountSufficientFundsCode" parent="Account-accountSufficientFundsCode-parentBean" />
+
+	<bean id="Account-accountSufficientFundsCode-parentBean" abstract="true"
+		parent="SufficientFundsCode-code">
+		<property name="name" value="accountSufficientFundsCode" />
+		<property name="shortLabel" value="SuffFndsCd" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SufficientFundsCodeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="Account-pendingAcctSufficientFundsIndicator" parent="Account-pendingAcctSufficientFundsIndicator-parentBean" />
+
+	<bean id="Account-pendingAcctSufficientFundsIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="pendingAcctSufficientFundsIndicator" />
+		<property name="label"
+			value="Transaction Processing Sufficient Funds Check" />
+		<property name="shortLabel" value="TPSuffChk" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-extrnlFinEncumSufficntFndIndicator" parent="Account-extrnlFinEncumSufficntFndIndicator-parentBean" />
+
+	<bean id="Account-extrnlFinEncumSufficntFndIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="extrnlFinEncumSufficntFndIndicator" />
+		<property name="label"
+			value="External Encumbrance Sufficient Funds Indicator" />
+		<property name="shortLabel" value="ExtEncSuffFndsInd" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-intrnlFinEncumSufficntFndIndicator" parent="Account-intrnlFinEncumSufficntFndIndicator-parentBean" />
+
+	<bean id="Account-intrnlFinEncumSufficntFndIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="intrnlFinEncumSufficntFndIndicator" />
+		<property name="label"
+			value="Internal Encumbrance Sufficient Funds Indicator" />
+		<property name="shortLabel" value="IntEncSuffFndsInd" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-finPreencumSufficientFundIndicator" parent="Account-finPreencumSufficientFundIndicator-parentBean" />
+
+	<bean id="Account-finPreencumSufficientFundIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="finPreencumSufficientFundIndicator" />
+		<property name="label" value="Pre-Encumbrance Sufficient Funds Indicator" />
+		<property name="shortLabel" value="PreEncSuffFndsInd" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-financialObjectivePrsctrlIndicator" parent="Account-financialObjectivePrsctrlIndicator-parentBean" />
+
+	<bean id="Account-financialObjectivePrsctrlIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="financialObjectivePrsctrlIndicator" />
+		<property name="label" value="Object Presence Control Indicator" />
+		<property name="shortLabel" value="ObjPrsCntrl" />
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="Account-accountCfdaNumber" parent="Account-accountCfdaNumber-parentBean" />
+
+	<bean id="Account-accountCfdaNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+		p:sourceAttributeName="cfdaNumber">
+		<property name="name" value="accountCfdaNumber" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="Account-accountOffCampusIndicator" parent="Account-accountOffCampusIndicator-parentBean" />
+
+	<bean id="Account-accountOffCampusIndicator-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="accountOffCampusIndicator" />
+		<property name="label" value="Account Off Campus Indicator" />
+		<property name="shortLabel" value="OffCmpsInd" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="Account-active" parent="Account-active-parentBean" />
+
+	<bean id="Account-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active?" />
+	</bean>
+
+	<bean id="Account-closed" parent="Account-closed-parentBean" />
+
+	<bean id="Account-closed-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="closed" />
+		<property name="label" value="Closed?" />
+	</bean>
+	<bean id="Account-accountFiscalOfficerSystemIdentifier" parent="Account-accountFiscalOfficerSystemIdentifier-parentBean" />
+
+	<bean id="Account-accountFiscalOfficerSystemIdentifier-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="accountFiscalOfficerSystemIdentifier" />
+		<property name="label" value="Fiscal Officer Unvl ID" />
+		<property name="shortLabel" value="FiscOffId" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
+	</bean>
+
+	<bean id="Account-accountFiscalOfficerSystemIdentifierForSearching"
+		parent="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean" />
+
+	<bean
+		id="Account-accountFiscalOfficerSystemIdentifierForSearching-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name"
+			value="accountFiscalOfficerSystemIdentifierForSearching" />
+		<property name="label" value="Fiscal Officer Unvl ID" />
+		<property name="shortLabel" value="FiscOffId" />
+		<property name="displayLabelAttribute" value="accountFiscalOfficerUser.principalName" />
+	</bean>
+
+
+	<bean id="Account-accountFiscalOfficerUser.principalName"
+		parent="Account-accountFiscalOfficerUser.principalName-parentBean" />
+
+	<bean id="Account-accountFiscalOfficerUser.principalName-parentBean"
+		parent="PersonImpl-principalName" abstract="true"
+		p:name="accountFiscalOfficerUser.principalName" p:label="Fiscal Officer Principal Name"
+		p:shortLabel="Principal Name" p:required="false">
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="accountFiscalOfficerUser.name"
+				p:universalIdAttributeName="accountFiscalOfficerSystemIdentifier"
+				p:userIdAttributeName="accountFiscalOfficerUser.principalName" />
+		</property>
+	</bean>
+
+	<bean id="Account-accountFiscalOfficerUser.name" parent="Account-accountFiscalOfficerUser.name-parentBean" />
+
+	<bean id="Account-accountFiscalOfficerUser.name-parentBean"
+		abstract="true" parent="PersonImpl-name">
+		<property name="name" value="accountFiscalOfficerUser.name" />
+		<property name="label" value="Fiscal Officer Name" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountsSupervisorySystemsIdentifier" parent="Account-accountsSupervisorySystemsIdentifier-parentBean" />
+
+	<bean id="Account-accountsSupervisorySystemsIdentifier-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="accountsSupervisorySystemsIdentifier" />
+		<property name="label" value="Supervisor Unvl ID" />
+		<property name="shortLabel" value="SprvsrId" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
+	</bean>
+
+	<bean id="Account-accountsSupervisorySystemsIdentifierForSearching"
+		parent="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean" />
+
+	<bean
+		id="Account-accountsSupervisorySystemsIdentifierForSearching-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name"
+			value="accountsSupervisorySystemsIdentifierForSearching" />
+		<property name="label" value="Supervisor Unvl ID" />
+		<property name="shortLabel" value="SprvsrId" />
+		<property name="displayLabelAttribute" value="accountSupervisoryUser.principalName" />
+	</bean>
+
+	<bean id="Account-accountSupervisoryUser.principalName" parent="Account-accountSupervisoryUser.principalName-parentBean" />
+
+	<bean id="Account-accountSupervisoryUser.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="accountSupervisoryUser.principalName" />
+		<property name="label" value="Account Supervisor Principal Name" />
+		<property name="shortLabel" value="Principal Name" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="accountSupervisoryUser.name"
+				p:universalIdAttributeName="accountsSupervisorySystemsIdentifier"
+				p:userIdAttributeName="accountSupervisoryUser.principalName" />
+		</property>
+	</bean>
+	<bean id="Account-accountSupervisoryUser.name" parent="Account-accountSupervisoryUser.name-parentBean" />
+
+	<bean id="Account-accountSupervisoryUser.name-parentBean"
+		abstract="true" parent="PersonImpl-name">
+		<property name="name" value="accountSupervisoryUser.name" />
+		<property name="label" value="Account Supervisor Name" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="Account-accountManagerSystemIdentifier" parent="Account-accountManagerSystemIdentifier-parentBean" />
+
+	<bean id="Account-accountManagerSystemIdentifier-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="accountManagerSystemIdentifier" />
+		<property name="label" value="Manager Unvl ID" />
+		<property name="shortLabel" value="MgrId" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="accountManagerUser.principalName" />
+	</bean>
+
+	<bean id="Account-accountManagerSystemIdentifierForSearching"
+		parent="Account-accountManagerSystemIdentifierForSearching-parentBean" />
+
+	<bean id="Account-accountManagerSystemIdentifierForSearching-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="accountManagerSystemIdentifierForSearching" />
+		<property name="label" value="Manager Unvl ID" />
+		<property name="shortLabel" value="MgrId" />
+		<property name="displayLabelAttribute" value="accountManagerUser.principalName" />
+	</bean>
+
+	<bean id="Account-accountManagerUser.principalName" parent="Account-accountManagerUser.principalName-parentBean" />
+
+	<bean id="Account-accountManagerUser.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="accountManagerUser.principalName" />
+		<property name="label" value="Account Manager Principal Name" />
+		<property name="shortLabel" value="Principal Name" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="accountManagerUser.name"
+				p:universalIdAttributeName="accountManagerSystemIdentifier"
+				p:userIdAttributeName="accountManagerUser.principalName" />
+		</property>
+	</bean>
+	<bean id="Account-accountManagerUser.name" parent="Account-accountManagerUser.name-parentBean" />
+
+	<bean id="Account-accountManagerUser.name-parentBean" abstract="true"
+		parent="PersonImpl-name">
+		<property name="name" value="accountManagerUser.name" />
+		<property name="label" value="Account Manager Name" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountGuideline.accountExpenseGuidelineText"
+		parent="Account-accountGuideline.accountExpenseGuidelineText-parentBean" />
+
+	<bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean"
+		abstract="true" parent="GenericAttributes-genericBigText">
+		<property name="name" value="accountGuideline.accountExpenseGuidelineText" />
+		<property name="label" value="Account Expense Guideline Text" />
+		<property name="shortLabel" value="ExpGuideTxt" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountGuideline.accountIncomeGuidelineText"
+		parent="Account-accountGuideline.accountIncomeGuidelineText-parentBean" />
+
+	<bean id="Account-accountGuideline.accountIncomeGuidelineText-parentBean"
+		abstract="true" parent="GenericAttributes-genericBigText">
+		<property name="name" value="accountGuideline.accountIncomeGuidelineText" />
+		<property name="label" value="Account Income Guideline Text" />
+		<property name="shortLabel" value="IncGuideTxt" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountGuideline.accountPurposeText" parent="Account-accountGuideline.accountPurposeText-parentBean" />
+
+	<bean id="Account-accountGuideline.accountPurposeText-parentBean"
+		abstract="true" parent="GenericAttributes-genericBigText">
+		<property name="name" value="accountGuideline.accountPurposeText" />
+		<property name="label" value="Account Purpose Text" />
+		<property name="shortLabel" value="AcctPurpTxt" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="Account-accountDescription.campusDescription" parent="Account-accountDescription.campusDescription-parentBean" />
+
+	<bean id="Account-accountDescription.campusDescription-parentBean"
+		abstract="true" parent="AccountDescription-campusDescription">
+		<property name="name" value="accountDescription.campusDescription" />
+	</bean>
+	<bean id="Account-accountDescription.organizationDescription"
+		parent="Account-accountDescription.organizationDescription-parentBean" />
+
+	<bean id="Account-accountDescription.organizationDescription-parentBean"
+		abstract="true" parent="AccountDescription-organizationDescription">
+		<property name="name" value="accountDescription.organizationDescription" />
+	</bean>
+	<bean id="Account-accountDescription.responsibilityCenterDescription"
+		parent="Account-accountDescription.responsibilityCenterDescription-parentBean" />
+
+	<bean
+		id="Account-accountDescription.responsibilityCenterDescription-parentBean"
+		abstract="true" parent="AccountDescription-responsibilityCenterDescription">
+		<property name="name"
+			value="accountDescription.responsibilityCenterDescription" />
+	</bean>
+	<bean id="Account-accountDescription.campusCode" parent="Account-accountDescription.campusCode-parentBean" />
+
+	<bean id="Account-accountDescription.campusCode-parentBean"
+		abstract="true" parent="AccountDescription-campusCode">
+		<property name="name" value="accountDescription.campusCode" />
+	</bean>
+	<bean id="Account-accountDescription.buildingCode" parent="Account-accountDescription.buildingCode-parentBean" />
+
+	<bean id="Account-accountDescription.buildingCode-parentBean"
+		abstract="true" parent="AccountDescription-buildingCode">
+		<property name="name" value="accountDescription.buildingCode" />
+	</bean>
+
+	<bean id="Account-contractsAndGrantsAccountResponsibilityId"
+		parent="Account-contractsAndGrantsAccountResponsibilityId-parentBean" />
+	<bean id="Account-contractsAndGrantsAccountResponsibilityId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="contractsAndGrantsAccountResponsibilityId" />
+		<property name="label" value="CG Account Responsibility Id" />
+		<property name="shortLabel" value="Responsibility Id" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+
+
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="Account-inquiryDefinition" parent="Account-inquiryDefinition-parentBean" />
+
+	<bean id="Account-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Account Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="Account-inquirySectionDefinition-accountDetails" />
+				<ref bean="Account-inquirySectionDefinition-accountResponsibility" />
+				<ref bean="Account-inquirySectionDefinition-guidelinesAndPurpose" />
+				<ref bean="Account-inquirySectionDefinition-accountDescription" />
+			</list>
+		</property>
+		<property name="inquirableClass"
+			value="org.kuali.kfs.coa.businessobject.inquiry.AccountInquirable" />
+	</bean>
+
+	<bean id="Account-inquirySectionDefinition-accountDetails"
+		parent="Account-inquirySectionDefinition-accountDetails-parentBean" />
+	<bean id="Account-inquirySectionDefinition-accountDetails-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="Account Details">
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccounts.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber"
+					p:noInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="accountName" />
+				<bean parent="FieldDefinition" p:attributeName="organization.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountPhysicalCampusCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountEffectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
+				<bean parent="FieldDefinition" p:attributeName="postalZipCode.postalCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountCityName" />
+				<bean parent="FieldDefinition" p:attributeName="accountState.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountStreetAddress" />
+				<bean parent="FieldDefinition" p:attributeName="accountOffCampusIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="closed" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroup.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountsFringesBnftIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="reportsToAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="financialHigherEdFunction.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountRestrictedStatusDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="endowmentIncomeChartOfAccounts.codeAndDescription" />
+				<bean parent="FieldDefinition" p:attributeName="endowmentIncomeAccountNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Account-inquirySectionDefinition-accountResponsibility"
+		parent="Account-InquirySection-accountResponsibility-parentBean" />
+	<bean id="Account-InquirySection-accountResponsibility-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="Account Responsibility">
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="continuationFinChrtOfAcctCd" />
+				<bean parent="FieldDefinition" p:attributeName="continuationAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode" />
+				<bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="budgetRecordingLevelCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountSufficientFundsCode" />
+				<bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="extrnlFinEncumSufficntFndIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="finPreencumSufficientFundIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="financialObjectivePrsctrlIndicator" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Account-inquirySectionDefinition-guidelinesAndPurpose"
+		parent="Account-inquirySectionDefinition-guidelinesAndPurpose-parentBean" />
+	<bean
+		id="Account-inquirySectionDefinition-guidelinesAndPurpose-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="Guidelines and Purpose">
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountGuideline.accountExpenseGuidelineText" />
+				<bean parent="FieldDefinition" p:attributeName="accountGuideline.accountIncomeGuidelineText" />
+				<bean parent="FieldDefinition" p:attributeName="accountGuideline.accountPurposeText" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Account-inquirySectionDefinition-accountDescription"
+		parent="Account-inquirySectionDefinition-accountDescription-parentBean" />
+	<bean id="Account-inquirySectionDefinition-accountDescription-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="Account Description">
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountDescription.campusDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountDescription.organizationDescription" />
+				<bean parent="FieldDefinition"
+					p:attributeName="accountDescription.responsibilityCenterDescription" />
+				<bean parent="FieldDefinition" p:attributeName="accountDescription.campusCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountDescription.buildingCode" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="Account-lookupDefinition" parent="Account-lookupDefinition-parentBean" />
+
+	<bean id="Account-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Account Lookup" />
+		<property name="lookupableID" value="accountLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>accountNumber</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber"
+					p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="accountName" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="closed"
+					p:defaultValue="N" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="accountName" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.name"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="closed" />
+				<bean parent="FieldDefinition" p:attributeName="accountManagerUser.name"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="accountCreateDate" />
+				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
+			</list>
+		</property>
+	</bean>
 </beans>

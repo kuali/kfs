@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.cam.batch.service;
 
+import java.util.Collection;
+
+import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 
 public interface AssetDepreciationService {
@@ -29,5 +32,13 @@ public interface AssetDepreciationService {
      * @param depreciationBatchDao
      */
     public void setDepreciationBatchDao(DepreciationBatchDao depreciationBatchDao);
+
+    /**
+     * This method retrieves a list of valid asset object codes for a particular fiscal year
+     * 
+     * @param fiscalYear
+     * @return Collection<AssetObjectCode>
+     */
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
 
 }

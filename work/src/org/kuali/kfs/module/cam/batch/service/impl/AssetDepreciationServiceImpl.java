@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -35,6 +36,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
 import org.kuali.kfs.module.cam.batch.service.ReportService;
@@ -51,6 +53,7 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -61,6 +64,7 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.spring.CacheNoCopy;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +90,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private KualiConfigurationService kualiConfigurationService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private BusinessObjectService businessObjectService;
+    private OptionsService optionsService;
     private UniversityDateDao universityDateDao;
     private WorkflowDocumentService workflowDocumentService;
     private DataDictionaryService dataDictionaryService;
@@ -130,7 +135,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation run date: " + depreciationDateParameter);
 
-            UniversityDate universityDate =  (UniversityDate)businessObjectService.findBySinglePrimaryKey(UniversityDate.class, depreciationDate.getTime());
+            UniversityDate universityDate = (UniversityDate) businessObjectService.findBySinglePrimaryKey(UniversityDate.class, depreciationDate.getTime());
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
             }
@@ -139,7 +144,14 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             this.fiscalMonth = new Integer(universityDate.getUniversityFiscalAccountingPeriod());
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + this.fiscalYear + " & Fiscal Period=" + this.fiscalMonth);
-            reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate));
+            String depreciationDateAsString = dateTimeService.toDateString(depreciationDate.getTime());
+            int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
+            // Generating a list of depreciation expense object codes.
+            List<String> depreExpObjCodes = this.getExpenseObjectCodes(fiscalYear);
+
+            // Generating a list of accumulated depreciation object codes.
+            List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(fiscalYear);
+            reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes));
             // update if fiscal period is 12
             depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
             // Retrieving eligible asset payment details
@@ -164,7 +176,14 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         finally {
             if (!hasErrors) {
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, this.documentNos, fiscalYear, fiscalMonth, depreciationDate));
+                String depreciationDateAsString = dateTimeService.toDateString(depreciationDate.getTime());
+                int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
+                // Generating a list of depreciation expense object codes.
+                List<String> depreExpObjCodes = this.getExpenseObjectCodes(fiscalYear);
+
+                // Generating a list of accumulated depreciation object codes.
+                List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(fiscalYear);
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, this.documentNos, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes));
             }
             // the report will be generated only when there is an error or when the log has something.
             if (!reportLog.isEmpty() || !errorMsg.trim().equals(""))
@@ -497,7 +516,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      */
     protected Map<String, AssetObjectCode> buildChartObjectToCapitalizationObjectMap() {
         Map<String, AssetObjectCode> assetObjectCodeMap = new HashMap<String, AssetObjectCode>();
-        Collection<AssetObjectCode> assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
+        Collection<AssetObjectCode> assetObjectCodes = getAssetObjectCodes(fiscalYear);
 
         for (AssetObjectCode assetObjectCode : assetObjectCodes) {
             List<ObjectCode> objectCodes = assetObjectCode.getObjectCode();
@@ -509,6 +528,82 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             }
         }
         return assetObjectCodeMap;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#getAssetObjectCodes(java.lang.Integer)
+     */
+    @CacheNoCopy
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
+
+        Collection<AssetObjectCode> assetObjectCodesCollection;
+        HashMap<String, Object> fields = new HashMap<String, Object>();
+        fields.put(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        fields.put(CamsPropertyConstants.AssetObject.ACTIVE, Boolean.TRUE);
+        assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
+
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  ended");
+        return assetObjectCodesCollection;
+    }
+
+    /**
+     * This method gets a list of Expense object codes from the asset object code table for a particular fiscal year
+     * 
+     * @param fiscalYear
+     * @return a List<String>
+     */
+    @CacheNoCopy
+    protected List<String> getExpenseObjectCodes(Integer fiscalYear) {
+        LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  started");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting expense object codes");
+
+        List<String> depreExpObjCodes = new ArrayList<String>();
+        Collection<AssetObjectCode> assetObjectCodesCollection = this.getAssetObjectCodes(fiscalYear);
+
+        // Creating a list of depreciation expense object codes.
+        for (Iterator<AssetObjectCode> iterator = assetObjectCodesCollection.iterator(); iterator.hasNext();) {
+            AssetObjectCode assetObjectCode = iterator.next();
+
+            String objCode = assetObjectCode.getDepreciationExpenseFinancialObjectCode();
+            if (objCode != null && !objCode.equals("") && !depreExpObjCodes.contains(objCode)) {
+                depreExpObjCodes.add(objCode);
+            }
+        }
+        LOG.debug("DepreciableAssetsDAoOjb.getExpenseObjectCodes() -  ended");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting expense object codes which are:" + depreExpObjCodes.toString());
+        return depreExpObjCodes;
+    }
+
+    /**
+     * This method gets a list of Accumulated Depreciation Object Codes from the asset object code table for a particular fiscal
+     * year.
+     * 
+     * @param fiscalYear
+     * @return List<String>
+     */
+    @CacheNoCopy
+    protected List<String> getAccumulatedDepreciationObjectCodes(Integer fiscalYear) {
+        LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  started");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting accum depreciation object codes");
+
+        List<String> accumulatedDepreciationObjCodes = new ArrayList<String>();
+        Collection<AssetObjectCode> assetObjectCodesCollection = this.getAssetObjectCodes(fiscalYear);
+
+        // Creating a list of depreciation expense object codes.
+        for (Iterator<AssetObjectCode> iterator = assetObjectCodesCollection.iterator(); iterator.hasNext();) {
+            AssetObjectCode assetObjectCode = iterator.next();
+
+            String objCode = assetObjectCode.getAccumulatedDepreciationFinancialObjectCode();
+            if (objCode != null && !objCode.equals("") && !accumulatedDepreciationObjCodes.contains(objCode)) {
+                accumulatedDepreciationObjCodes.add(objCode);
+            }
+        }
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting accum depreciation object codes which are:" + accumulatedDepreciationObjCodes.toString());
+        LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  ended");
+        return accumulatedDepreciationObjCodes;
     }
 
     public void setParameterService(ParameterService parameterService) {
@@ -572,5 +667,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      */
     public void setDepreciationBatchDao(DepreciationBatchDao depreciationBatchDao) {
         this.depreciationBatchDao = depreciationBatchDao;
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

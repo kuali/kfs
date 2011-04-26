@@ -190,7 +190,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                         saveDocumentFromPostProcessing();
                     }
                     else {
-                        LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
+                        }
                     }
                 }
             }

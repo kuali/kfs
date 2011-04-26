@@ -106,8 +106,9 @@ public class LaborCorrectionAction extends CorrectionAction {
         }
 
         LaborCorrectionForm rForm = (LaborCorrectionForm) form;
-        LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());    
+        }
         Collection<OriginEntryFull> persistedOriginEntries = null;
 
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new
@@ -203,8 +204,9 @@ public class LaborCorrectionAction extends CorrectionAction {
         document.setCorrectionOutputFileName(null);
 
         SpringContext.getBean(LaborCorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, laborCorrectionForm);
-        
-        LOG.debug("save() doc type name: " + laborCorrectionForm.getDocTypeName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("save() doc type name: " + laborCorrectionForm.getDocTypeName());
+        }
         ActionForward af = super.superSave(mapping, form, request, response);
         return af;
     }

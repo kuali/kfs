@@ -151,7 +151,9 @@ public class BulkReceivingPdf extends PurapPdf {
                             String logoImage,
                             String environment) {
         
-        LOG.debug("generatePdf() started for bulk receiving - " + blkRecDoc.getDocumentNumber());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generatePdf() started for bulk receiving - " + blkRecDoc.getDocumentNumber());
+        }
 
         Document document = null;
         
@@ -184,7 +186,9 @@ public class BulkReceivingPdf extends PurapPdf {
                 document.close();
             }
         }
-        LOG.debug("generatePdf() completed for bulk receiving - " + blkRecDoc.getDocumentNumber());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generatePdf() completed for bulk receiving - " + blkRecDoc.getDocumentNumber());
+        }
     }
     
     private PdfPTable createVendorAndDeliveryDetailsTable(){

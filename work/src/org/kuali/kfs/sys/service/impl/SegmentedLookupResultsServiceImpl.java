@@ -86,7 +86,9 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
         lookupResults.setSerializedLookupResults(resultTableString);
         lookupResults.setLookupDate(now);
         getBusinessObjectService().save(lookupResults);
-        LOG.debug("Wrote resultTable " + resultTable);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Wrote resultTable " + resultTable);
+        }
     }
 
     /**
@@ -152,7 +154,9 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
      * @return Collection<PersistableBusinessObject>
      */
     public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String personId) throws Exception {
-        LOG.debug("Retrieving results for class " + boClass + " with objectIds " + setOfSelectedObjIds);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Retrieving results for class " + boClass + " with objectIds " + setOfSelectedObjIds);
+        }
         if (setOfSelectedObjIds.isEmpty()) {
             // OJB throws exception if querying on empty set
             return new ArrayList<PersistableBusinessObject>();

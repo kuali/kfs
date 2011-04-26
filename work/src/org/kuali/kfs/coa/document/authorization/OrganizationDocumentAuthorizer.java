@@ -91,10 +91,14 @@ public class OrganizationDocumentAuthorizer extends FinancialSystemMaintenanceDo
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
         if (!isAuthorized) {
-            LOG.debug("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
+            }
         }
         else {
-            LOG.debug("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
+            }
         }
 
         return isAuthorized;

@@ -192,9 +192,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 int i = 0;
                 Object[] array = (Object[]) collectionEntry;
                 AccountStatusCurrentFunds cf = new AccountStatusCurrentFunds();
-                LOG.debug("element length " + array.length);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("element length " + array.length);
+                }
                 for (Object element : array) {
-                    LOG.debug("I found this element " + element);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("I found this element " + element);    
+                    }
                 }
 
                 if (AccountStatusCurrentFunds.class.isAssignableFrom(getBusinessObjectClass())) {
@@ -295,8 +299,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         // Balance
         // Type
         fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid());
-        LOG.debug("using " + fieldValues.values());
-        LOG.debug("using " + fieldValues.keySet());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("using " + fieldValues.values());
+            LOG.debug("using " + fieldValues.keySet());    
+        }
         return (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
     }
 

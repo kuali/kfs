@@ -484,7 +484,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         accountsPayableService.cancelAccountsPayableDocument(cmDocument, "");
-        LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        }
         LOG.debug("cancelExtractedCreditMemo() ended");
 
     }
@@ -512,7 +514,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
         purapService.saveDocumentNoValidation(cmDocument);
 
-        LOG.debug("resetExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("resetExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+        }
         LOG.debug("resetExtractedCreditMemo() ended");
     }
 

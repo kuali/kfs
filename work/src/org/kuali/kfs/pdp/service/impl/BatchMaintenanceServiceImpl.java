@@ -57,7 +57,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param note a note from the user
      */
     public void changeStatus(PaymentGroup paymentGroup, String newPaymentStatus, String changeStatus, String note, Person user) {
-        LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("changeStatus() enter method with new status of " + newPaymentStatus);
+        }
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         PaymentChangeCode paymentChange = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, changeStatus);
@@ -89,7 +91,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param user (User) Actor making change.
      */
     public boolean cancelPendingBatch(Integer paymentBatchId, String note, Person user) {
-        LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("cancelPendingBatch() Enter method to cancel batch with id = " + paymentBatchId);
+        }
 
         if (doBatchPaymentsHaveOpenOrHeldStatus(paymentBatchId)) {
             List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);
@@ -129,7 +133,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param user (User) Actor making change.
      */
     public boolean holdPendingBatch(Integer paymentBatchId, String note, Person user) {
-        LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("holdPendingBatch() Enter method to hold batch with id = " + paymentBatchId);
+        }
 
         if (doBatchPaymentsHaveOpenStatus(paymentBatchId)) {
             List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);
@@ -169,7 +175,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @param user (User) Actor making change.
      */
     public boolean removeBatchHold(Integer paymentBatchId, String note, Person user) {
-        LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("removeBatchHold() Enter method to remove hold batch with id = " + paymentBatchId);
+        }
 
         if (doBatchPaymentsHaveHeldStatus(paymentBatchId)) {
             List<PaymentGroup> paymentGroupList = this.paymentGroupService.getByBatchId(paymentBatchId);

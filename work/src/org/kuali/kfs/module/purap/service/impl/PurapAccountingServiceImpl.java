@@ -816,7 +816,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     KualiDecimal calcAmount = new KualiDecimal(calcAmountBd);
                     if (calcAmount.compareTo(accountAmount) != 0) {
                         // rounding error
-                        LOG.debug("convertMoneyToPercent() Rounding error on " + account);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("convertMoneyToPercent() Rounding error on " + account);
+                        }
                         String param1 = identifier + "." + accountIdentifier;
                         String param2 = calcAmount.bigDecimalValue().subtract(accountAmount.bigDecimalValue()).toString();
                         GlobalVariables.getMessageMap().putError(item.getItemIdentifierString(), PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ROUNDING, param1, param2);
@@ -824,7 +826,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     }
 
                     // update percent
-                    LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
+                    }
                     account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
 
                     // check total based on adjusted amount

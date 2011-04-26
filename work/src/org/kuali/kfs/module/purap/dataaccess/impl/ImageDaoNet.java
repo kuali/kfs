@@ -77,7 +77,9 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
      * @see org.kuali.kfs.module.purap.dataaccess.ImageDao#getLogo(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getLogo(String key, String campusCode, String location) {
-        LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
+        }
 
         String prefix = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_PREFIX);
         String extension = "." + parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.LOGO_IMAGE_EXTENSION);
@@ -111,7 +113,9 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         }
 
         String completeUrl = urlpath + prefix + "_" + fileKey.toLowerCase() + extension;
-        LOG.debug("getFile() URL = " + completeUrl);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getFile() URL = " + completeUrl);
+        }
         return completeUrl;
     }
 

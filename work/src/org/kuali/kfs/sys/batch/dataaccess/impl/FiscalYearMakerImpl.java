@@ -70,7 +70,9 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      *      org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     public void changeForNewYear(Integer baseFiscalYear, PersistableBusinessObject currentRecord) {
-        LOG.debug("starting changeForNewYear() for bo class " + businessObjectClass.getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("starting changeForNewYear() for bo class " + businessObjectClass.getName());
+        }
 
         try {
             // increment fiscal year by 1
@@ -129,7 +131,9 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      * @see org.kuali.kfs.coa.dataaccess.FiscalYearMaker#createSelectionCriteria(java.lang.Integer)
      */
     public Criteria createSelectionCriteria(Integer baseFiscalYear) {
-        LOG.debug("starting createSelectionCriteria() for bo class " + businessObjectClass.getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("starting createSelectionCriteria() for bo class " + businessObjectClass.getName());
+        }
 
         Criteria criteria = new Criteria();
         addYearCriteria(criteria, baseFiscalYear, false);
@@ -149,7 +153,9 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      * @see org.kuali.kfs.coa.batch.dataaccess.FiscalYearMakerHelper#createDeleteCriteria(java.lang.Integer)
      */
     public Criteria createDeleteCriteria(Integer baseFiscalYear) {
-        LOG.debug("starting createDeleteCriteria() for bo class " + businessObjectClass.getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("starting createDeleteCriteria() for bo class " + businessObjectClass.getName());
+        }
 
         Criteria criteria = new Criteria();
         addYearCriteria(criteria, baseFiscalYear + 1, twoYearCopy);

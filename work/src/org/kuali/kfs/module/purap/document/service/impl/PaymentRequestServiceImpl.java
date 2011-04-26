@@ -1240,8 +1240,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         paymentRequest.setReopenPurchaseOrderIndicator(false);
 
         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(paymentRequest, ""); // Performs save, so no explicit save is necessary
-        LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
-        LOG.debug("cancelExtractedPaymentRequest() ended");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
+            LOG.debug("cancelExtractedPaymentRequest() ended");
+        }
     }
 
     /**
@@ -1265,7 +1267,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
         purapService.saveDocumentNoValidation(paymentRequest);
-        LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("resetExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Reset from Extracted status");
+        }
     }
 
     /**

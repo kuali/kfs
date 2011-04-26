@@ -299,7 +299,9 @@ public class BalanceForwardRuleHelper {
             flexibleOffsetAccountService.updateOffset(activeEntry);
         }
         catch (InvalidFlexibleOffsetException e) {
-            LOG.debug("processBalance() Balance Forward Flexible Offset Error: " + e.getMessage());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("processBalance() Balance Forward Flexible Offset Error: " + e.getMessage());    
+            }
         }
         activeEntry.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE);
         activeEntry.setFinancialDocumentTypeCode(this.annualClosingDocType);

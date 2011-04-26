@@ -79,7 +79,9 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         KualiWorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
 
-        LOG.debug("sendPurchaseOrder(): b2bPurchaseOrderURL is " + b2bPurchaseOrderURL);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("sendPurchaseOrder(): b2bPurchaseOrderURL is " + b2bPurchaseOrderURL);
+        }
 
         String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorNetworkId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
         if (!StringUtils.isEmpty(validateErrors)) {
@@ -99,7 +101,9 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
 
             PurchaseOrderResponse poResponse = B2BParserHelper.getInstance().parsePurchaseOrderResponse(responseCxml);
             String statusText = poResponse.getStatusText();
-            LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("sendPurchaseOrder(): statusText is " + statusText);
+            }
             if (ObjectUtils.isNull(statusText) || (!"success".equalsIgnoreCase(statusText.trim()))) {
                 LOG.error("sendPurchaseOrder(): PO cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + " failed sending to SciQuest:\n" + statusText);
                 transmitErrors.append("Unable to send Purchase Order: " + statusText);
@@ -316,7 +320,9 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("  </PurchaseOrder>\n");
         cxml.append("</PurchaseOrderMessage>");
 
-        LOG.debug("getCxml(): cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":\n" + cxml.toString());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getCxml(): cXML for po number " + purchaseOrder.getPurapDocumentIdentifier() + ":\n" + cxml.toString());
+        }
 
         return cxml.toString();
     }

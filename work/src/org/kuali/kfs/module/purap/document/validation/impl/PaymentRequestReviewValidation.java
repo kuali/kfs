@@ -42,7 +42,9 @@ public class PaymentRequestReviewValidation extends GenericValidation {
 
         String identifier = itemForValidation.getItemIdentifierString();
         BigDecimal total = BigDecimal.ZERO;
-        LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("validatePaymentRequestReview() The " + identifier + " is getting the total percent field set to " + BigDecimal.ZERO);
+        }
 
         if ((itemForValidation.getTotalAmount() != null && itemForValidation.getTotalAmount().isNonZero() && itemForValidation.getItemType().isLineItemIndicator() && ((itemForValidation.getItemType().isAmountBasedGeneralLedgerIndicator() && (itemForValidation.getPoOutstandingAmount() == null || itemForValidation.getPoOutstandingAmount().isZero())) || (itemForValidation.getItemType().isQuantityBasedGeneralLedgerIndicator() && (itemForValidation.getPoOutstandingQuantity() == null || itemForValidation.getPoOutstandingQuantity().isZero()))))) {
             // ERROR because we have total amount and no open encumberance on the PO item

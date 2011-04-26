@@ -1369,7 +1369,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             return null;
         try {
             Date date = SpringContext.getBean(DateTimeService.class).convertToSqlDate(this.getAccountsPayableApprovalTimestamp());
-            LOG.debug("getAccountsPayableApprovalDateForSearching() returns " + date);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getAccountsPayableApprovalDateForSearching() returns " + date);
+            }
             return date;
         }
         catch (Exception e) {

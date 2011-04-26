@@ -45,7 +45,9 @@ public class ElectronicInvoiceMappingServiceImpl implements ElectronicInvoiceMap
   }
 
   public Map getItemMappingMap(Integer vendorHeaderId, Integer vendorDetailId) {
-    LOG.debug("getItemMappingMap() started for vendor id " + vendorHeaderId + "-" + vendorDetailId);
+      if (LOG.isDebugEnabled()) {
+          LOG.debug("getItemMappingMap() started for vendor id " + vendorHeaderId + "-" + vendorDetailId);
+      }
     return electronicInvoicingDao.getItemMappingMap(vendorHeaderId,vendorDetailId);
   }
   

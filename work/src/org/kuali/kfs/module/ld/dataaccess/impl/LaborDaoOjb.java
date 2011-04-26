@@ -120,8 +120,10 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     // build the query for balance search
     protected <T> Query getAccountStatusQuery(Class<T> clazz, Map fieldValues, boolean isConsolidated) {
         LOG.debug("getAccountStatusQuery(Class<T>, Map, boolean) started");
-        LOG.debug("Building criteria from map fields: " + fieldValues.entrySet());
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Building criteria from map fields: " + fieldValues.entrySet());
+        }
+        
         Criteria criteria = new Criteria();
         try {
             criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, clazz.newInstance()));
@@ -132,8 +134,10 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         }
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(clazz, criteria);
-        LOG.debug("Built query: " + query);
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Built query: " + query);
+        }
+        
         // if consolidated, then ignore subaccount number and balance type code
         if (isConsolidated) {
             ConsolidationUtil.buildConsolidatedQuery(query, ConsolidationUtil.sum(AccountingPeriodProperties.JULY.propertyName));

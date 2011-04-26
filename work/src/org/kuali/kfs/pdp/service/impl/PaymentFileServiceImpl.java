@@ -83,7 +83,9 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         for (String incomingFileName : fileNamesToLoad) {
             try {
-                LOG.debug("processPaymentFiles() Processing " + incomingFileName);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("processPaymentFiles() Processing " + incomingFileName);
+                }
 
                 // collect various information for status of load
                 LoadPaymentStatus status = new LoadPaymentStatus();

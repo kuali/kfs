@@ -439,10 +439,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
                 if (toAddAmount1 != null) {
                     toAddAmount = new KualiDecimal(toAddAmount1.setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR));
                 }
-                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                }
                 returnValue = returnValue.add(toAddAmount);
             }
-            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            }
             return returnValue;
         }
         catch (NumberFormatException n) {
@@ -461,10 +465,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         try {
             for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
                 KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemNetAmount());
-                LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                }
                 returnValue = returnValue.add(toAddAmount);
             }
-            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            }
 
             if (this.getInvoiceItemSpecialHandlingAmount() != null && zero.compareTo(this.getInvoiceItemSpecialHandlingAmount()) != 0) {
                 returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemSpecialHandlingAmount()));
@@ -478,7 +486,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             if (this.getInvoiceItemDiscountAmount() != null && zero.compareTo(this.getInvoiceItemDiscountAmount()) != 0) {
                 returnValue = returnValue.subtract(new KualiDecimal(this.getInvoiceItemDiscountAmount()));
             }
-            LOG.debug("getGrandTotalAmount() returning amount " + returnValue.doubleValue());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getGrandTotalAmount() returning amount " + returnValue.doubleValue());
+            }
             return returnValue;
         }
         catch (NumberFormatException n) {
@@ -978,10 +988,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             try {
                 for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
                     BigDecimal toAddAmount = eiri.getInvoiceItemDiscountAmount();
-                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    }
                     returnValue = returnValue.add(toAddAmount);
                 }
-                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                }
                 return returnValue;
             }
             catch (NumberFormatException n) {
@@ -1207,10 +1221,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             try {
                 for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
                     BigDecimal toAddAmount = eiri.getInvoiceItemShippingAmount();
-                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    }
                     returnValue = returnValue.add(toAddAmount);
                 }
-                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                }
                 return returnValue;
             }
             catch (NumberFormatException n) {
@@ -1268,10 +1286,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             try {
                 for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
                     BigDecimal toAddAmount = eiri.getInvoiceItemSpecialHandlingAmount();
-                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    }
                     returnValue = returnValue.add(toAddAmount);
                 }
-                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+                }
                 return returnValue;
             }
             catch (NumberFormatException n) {
@@ -1361,14 +1383,18 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             if(enableSalesTaxInd){
                 for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
                     BigDecimal toAddAmount = eiri.getInvoiceItemTaxAmount();
-                    LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    }
                     returnValue = returnValue.add(toAddAmount);
                 }
             }else{ //else take the total, which should be the summary tax total
                 returnValue = returnValue.add(this.invoiceItemTaxAmount);
             }
             
-            LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
+            }
             return returnValue;
         }
         catch (NumberFormatException n) {

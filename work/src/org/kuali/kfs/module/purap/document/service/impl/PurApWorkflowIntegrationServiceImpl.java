@@ -68,8 +68,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         KualiWorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
         List<ActionRequestDTO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
         for (ActionRequestDTO actionRequestDTO : actionRequests) {
-            LOG.debug("Active Action Request list size to process is " + actionRequests.size());
-            LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getActionRequestId());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Active Action Request list size to process is " + actionRequests.size());
+                LOG.debug("Attempting to super user approve action request with id " + actionRequestDTO.getActionRequestId());
+            }
             workflowDoc.superUserActionRequestApprove(actionRequestDTO.getActionRequestId(), annotation);
             superUserApproveAllActionRequests(superUser, documentNumber, nodeName, user, annotation);
             break;
@@ -88,7 +90,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
 
             // if no action requests are found... no actions required
             if (activeActionRequests.isEmpty()) {
-                LOG.debug("No action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("No action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
+                }
                 return false;
             }
 
@@ -96,7 +100,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             if (StringUtils.isNotBlank(superUserNetworkId)) {
                 // approve each action request as the super user
                 Person superUser = getPersonService().getPersonByPrincipalName(superUserNetworkId);
-                LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Attempting to super user approve all action requests found on document id " + documentNumber + " for given criteria:  principalName - " + networkIdString + "; nodeName - " + nodeName);
+                }
                 superUserApproveAllActionRequests(superUser, documentNumber, nodeName, userToCheck, potentialAnnotation);
                 return true;
             }

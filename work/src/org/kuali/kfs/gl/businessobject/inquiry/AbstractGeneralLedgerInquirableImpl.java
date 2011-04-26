@@ -371,9 +371,10 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
         // TODO: not finished
         Class inquiryBusinessObjectClass = null;
         String entryName = businessObject.getClass().getName();
-        LOG.debug("businessObject: " + entryName);
-        LOG.debug("attributeName: " + attributeName);
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("businessObject: " + entryName);
+            LOG.debug("attributeName: " + attributeName);    
+        }
         DataDictionaryService dataDictionary = SpringContext.getBean(DataDictionaryService.class);
         AttributeDefinition attributeDefinition = null;
 

@@ -69,13 +69,17 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      */
     public void resetPeriodValuesWhenFirstFiscalPeriod(Integer fiscalMonth) throws Exception {
         if (fiscalMonth == 1) {
-            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting resetPeriodValuesWhenFirstFiscalPeriod");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting resetPeriodValuesWhenFirstFiscalPeriod");
+            }
             // update previous year depreciation amount with sum of all periodic values for all asset payments
             getJdbcTemplate().update("UPDATE CM_AST_PAYMENT_T SET AST_PRVYRDEPR1_AMT = (COALESCE(AST_PRD1_DEPR1_AMT, 0) + COALESCE(AST_PRD2_DEPR1_AMT, 0) + COALESCE(AST_PRD3_DEPR1_AMT, 0) + COALESCE(AST_PRD4_DEPR1_AMT, 0) + COALESCE(AST_PRD5_DEPR1_AMT, 0) + COALESCE(AST_PRD6_DEPR1_AMT, 0) + COALESCE(AST_PRD7_DEPR1_AMT, 0) + COALESCE(AST_PRD8_DEPR1_AMT, 0) + COALESCE(AST_PRD9_DEPR1_AMT, 0) + COALESCE(AST_PRD10DEPR1_AMT, 0) + COALESCE(AST_PRD11DEPR1_AMT, 0) + COALESCE(AST_PRD12DEPR1_AMT, 0))");
             // reset periodic columns with zero dollar
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal month = 1. Therefore, initializing each month with zeros.");
             getJdbcTemplate().update("UPDATE CM_AST_PAYMENT_T SET AST_PRD1_DEPR1_AMT =0.0,  AST_PRD2_DEPR1_AMT =0.0,  AST_PRD3_DEPR1_AMT =0.0,  AST_PRD4_DEPR1_AMT =0.0,  AST_PRD5_DEPR1_AMT =0.0,  AST_PRD6_DEPR1_AMT =0.0,  AST_PRD7_DEPR1_AMT =0.0,  AST_PRD8_DEPR1_AMT =0.0,  AST_PRD9_DEPR1_AMT =0.0,  AST_PRD10DEPR1_AMT =0.0,  AST_PRD11DEPR1_AMT =0.0,  AST_PRD12DEPR1_AMT=0.0");
-            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished resetPeriodValuesWhenFirstFiscalPeriod");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished resetPeriodValuesWhenFirstFiscalPeriod");    
+            }
         }
     }
 
@@ -107,7 +111,9 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
     public void updateAssetsCreatedInLastFiscalPeriod(final Integer fiscalMonth, final Integer fiscalYear) {
         // If we are in the last month of the fiscal year
         if (fiscalMonth == 12) {
-            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting updateAssetsCreatedInLastFiscalPeriod()");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting updateAssetsCreatedInLastFiscalPeriod()");
+            }
             // Getting last date of fiscal year
             final UniversityDate lastFiscalYearDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
             if (lastFiscalYearDate == null) {
@@ -131,7 +137,9 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
                     }
                 });
             }
-            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished updateAssetsCreatedInLastFiscalPeriod()");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished updateAssetsCreatedInLastFiscalPeriod()");    
+            }
         }
     }
 
@@ -190,7 +198,9 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
      *      java.lang.Integer, java.util.Calendar)
      */
     public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate) {
-        LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting to get the list of depreciable asset payment list.");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting to get the list of depreciable asset payment list.");
+        }
         final List<AssetPaymentInfo> assetPaymentDetails = new ArrayList<AssetPaymentInfo>();
         List<String> depreciationMethodList = new ArrayList<String>();
         List<String> notAcceptedAssetStatus = new ArrayList<String>();
@@ -245,7 +255,9 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
             }
 
         });
-        LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting list of [" + assetPaymentDetails.size() + "] depreciable asset payment list.");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting list of [" + assetPaymentDetails.size() + "] depreciable asset payment list.");
+        }
         return assetPaymentDetails;
     }
 

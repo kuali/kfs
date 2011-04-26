@@ -118,7 +118,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
-            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+            }
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
         }
 
@@ -142,8 +144,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
     protected void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
-        LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
+        }
+        
         Batch batch = createBatch(campusCode, user, processRunDate);
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;

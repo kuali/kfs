@@ -109,15 +109,18 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
         Person user = GlobalVariables.getUserSession().getPerson();
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
-            LOG.debug("Doing lookup for " + element.getClass());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Doing lookup for " + element.getClass());
+            }
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
             String returnUrl = 
                 getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions).constructCompleteHtmlTag();
 
             if (element instanceof PersistableBusinessObject) {
                 if (element instanceof SegmentedBusinessObject) {
-                    LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
-                    
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("segmented property names " + ((SegmentedBusinessObject) element).getSegmentedPropertyNames());
+                    }
                     Collection<Column> columns = getColumns(element, businessObjectRestrictions);
                     ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames, businessObjectRestrictions));
 

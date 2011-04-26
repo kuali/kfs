@@ -107,8 +107,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
 
         CorrectionForm rForm = (CorrectionForm) form;
-        LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("execute() methodToCall: " + rForm.getMethodToCall());
+        }
+        
         Collection<OriginEntryFull> persistedOriginEntries = null;
 
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new
@@ -199,8 +201,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         document.setCorrectionOutputFileName(null);
 
         SpringContext.getBean(CorrectionDocumentService.class).persistOriginEntryGroupsForDocumentSave(document, correctionForm);
-
-        LOG.debug("save() doc type name: " + correctionForm.getDocTypeName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("save() doc type name: " + correctionForm.getDocTypeName());
+        }
         return super.save(mapping, form, request, response);
     }
 

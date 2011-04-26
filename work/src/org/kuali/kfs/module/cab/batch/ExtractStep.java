@@ -56,7 +56,9 @@ public class ExtractStep extends AbstractStep {
         ExtractProcessLog processLog = new ExtractProcessLog();
         try {
             Timestamp startTs = dateTimeService.getCurrentTimestamp();
-            LOG.debug("CAB extract started at " + startTs);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CAB extract started at " + startTs);
+            }
             processLog.setStartTime(startTs);
             Collection<Entry> elgibleGLEntries = batchExtractService.findElgibleGLEntries(processLog);
 
@@ -80,7 +82,9 @@ public class ExtractStep extends AbstractStep {
                 processLog.setPurApGlCount(purapLines.size());
                 // Update the last extract time stamp
                 batchExtractService.updateLastExtractTime(startTs);
-                LOG.debug("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
+                }
                 processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
                 processLog.setSuccess(true);
             }

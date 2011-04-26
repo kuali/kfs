@@ -125,7 +125,9 @@ public class MaintenancePreRulesBase extends PromptBeforeValidationBase {
         boolean useContinuationAccount = true;
 
         while (ObjectUtils.isNotNull(account) && account.isExpired() && useContinuationAccount) {
-            LOG.debug("Expired account: " + accountNumber);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Expired account: " + accountNumber);    
+            }
             String continuationAccountNumber = account.getContinuationAccountNumber();
 
             useContinuationAccount = askOrAnalyzeYesNoQuestion("ContinuationAccount" + accName + accountNumber, buildContinuationConfirmationQuestion(accName, accountNumber, continuationAccountNumber));

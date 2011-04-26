@@ -102,7 +102,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      * @return GL Postable source detail
      */
     protected AssetGlpeSourceDetail createAssetGlpePostable(AssetTransferDocument document, Account plantAccount, AssetPayment assetPayment, boolean isSource, AmountCategory amountCategory) {
-        LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + ")");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start - createAssetGlpePostable (" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + ")");
+        }
         AssetGlpeSourceDetail postable = new AssetGlpeSourceDetail();
         postable.setSource(isSource);
         postable.setAccount(plantAccount);
@@ -129,7 +131,9 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(organizationOwnerChartOfAccountsCode, objectCode.getFinancialObjectSubTypeCode());
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), organizationOwnerChartOfAccountsCode, CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         amountCategory.setParams(postable, assetPayment, assetObjectCode, isSource, offsetDefinition);
-        LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("End - createAssetGlpePostable(" + document.getDocumentNumber() + "-" + plantAccount.getAccountNumber() + "-" + ")");
+        }
         return postable;
     }
 

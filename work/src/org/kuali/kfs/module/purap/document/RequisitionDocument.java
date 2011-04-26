@@ -476,7 +476,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     }
                 }
                 else {
-                    LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+                    }
                 }
             }
         }

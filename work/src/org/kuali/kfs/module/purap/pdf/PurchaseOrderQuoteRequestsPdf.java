@@ -171,7 +171,9 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @return                       Collection of errors which are made of the messages from DocumentException.
      */
     public Collection generatePOQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, String institutionName) {
-        LOG.debug("generatePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generatePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         Collection errors = new ArrayList();
 
@@ -198,7 +200,9 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @return                 Collection of errors which are made of the messages from DocumentException.    
      */
     public Collection savePOQuoteRequestsListPdf(PurchaseOrderDocument po, String pdfFileLocation, String pdfFilename, String institutionName) {
-        LOG.debug("savePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("savePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         Collection errors = new ArrayList();
 
@@ -225,7 +229,9 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @param pdfFilename      The name for the pdf file.
      */
     public void deletePdf(String pdfFileLocation, String pdfFilename) {
-        LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);
+        }
 
         File f = new File(pdfFileLocation + pdfFilename);
         f.delete();
@@ -241,7 +247,9 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
      * @throws DocumentException
      */
     private void createPOQuoteRequestsListPdf(PurchaseOrderDocument po, Document document, PdfWriter writer, String instName) throws DocumentException {
-        LOG.debug("createPOQuoteRequestsListPdf() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("createPOQuoteRequestsListPdf() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         // These have to be set because they are used by the onOpenDocument() method.
         this.po = po;

@@ -212,8 +212,9 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
                     }
                     segmentedSelection.get(selectedObjId).add(selectedMonthData);
                 }
-
-                LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                }
                 rawValues = getSegmentedLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), LedgerBalance.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
 

@@ -63,7 +63,9 @@ public class FinancialSystemDocumentHeaderDaoOjb extends DocumentHeaderDaoOjb im
     }
     
     public Class getDocumentHeaderBaseClass() {
-        LOG.debug("Method getDocumentHeaderBaseClass() returning class " + FinancialSystemDocumentHeader.class.getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Method getDocumentHeaderBaseClass() returning class " + FinancialSystemDocumentHeader.class.getName());
+        }
         return FinancialSystemDocumentHeader.class;
     }
     

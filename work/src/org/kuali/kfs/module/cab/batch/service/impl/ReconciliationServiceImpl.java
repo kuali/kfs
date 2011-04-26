@@ -90,7 +90,9 @@ public class ReconciliationServiceImpl implements ReconciliationService {
                 // find the account and check expiration date and continuation
                 String continuationAcctNum = null;
                 if (account.isExpired() && (continuationAcctNum = account.getContinuationAccountNumber()) != null) {
-                    LOG.debug("Continutation account found for " + account.getAccountNumber() + " is " + account.getContinuationAccountNumber());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Continutation account found for " + account.getAccountNumber() + " is " + account.getContinuationAccountNumber());
+                    }
                     purapAcctGroupMap.remove(purapAcctLineGroup);
                     purapAcctLineGroup.setAccountNumber(continuationAcctNum);
                     purapAcctGroupMap.put(purapAcctLineGroup, purapAcctLineGroup);
@@ -125,11 +127,15 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             KualiDecimal glAmt = this.glEntryGroupMap.get(glAccountLineGroup).getAmount();
 
             if (purapAccountLineGroup == null || !glAmt.equals(purapAccountLineGroup.getAmount())) {
-                LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("GL account line " + glAccountLineGroup.toString() + " did not find a matching purchasing account line group");
+                }
                 misMatchedGroups.add(glAccountLineGroup);
             }
             else {
-                LOG.debug("GL account line " + glAccountLineGroup.toString() + " found a matching Purchasing account line group ");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("GL account line " + glAccountLineGroup.toString() + " found a matching Purchasing account line group ");
+                }
                 glAccountLineGroup.setMatchedPurApAcctLines(purapAccountLineGroup.getSourceEntries());
                 matchedGroups.add(glAccountLineGroup);
                 misMatchedGroups.remove(glAccountLineGroup);

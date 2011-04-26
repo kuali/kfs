@@ -1640,10 +1640,13 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
         //
         // set up the hashmaps by iterating through the results
-
-        LOG.debug("\nGL Query started: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("\nGL Query started: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        }
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        LOG.debug("\nGL Query finished: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("\nGL Query finished: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        }
         while (Results.hasNext()) {
             Object[] ReturnList = (Object[]) Results.next();
             LOG.debug(String.format("\nfields returned = %d\n", ReturnList.length));

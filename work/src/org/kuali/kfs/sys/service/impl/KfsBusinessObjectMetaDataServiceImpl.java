@@ -216,7 +216,9 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
             relationship = businessObjectMetaDataService.getBusinessObjectRelationship((BusinessObject) componentClass.newInstance(), propertyName);
         }
         catch (Exception e) {
-            LOG.debug("KfsBusinessObjectMetadataServiceImpl unable to instantiate componentClass: " + componentClass, e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("KfsBusinessObjectMetadataServiceImpl unable to instantiate componentClass: " + componentClass, e);
+            }
         }
         if (relationship != null) {
             return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(relationship.getRelatedClass().getName()).getObjectLabel();

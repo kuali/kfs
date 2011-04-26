@@ -215,10 +215,9 @@ public class FaxServiceImpl implements FaxService {
           GlobalVariables.getMessageMap().putError("errors", "error.blank", "Faxing Error.  Unable to save pdf file. Please Contact Purchasing");
         }
 
-        LOG.debug("faxPurchaseOrderQuotePdf() Quote PDF saved successfully for PO " + po.getPurapDocumentIdentifier() + " and Quote ID " + povq.getPurchaseOrderVendorQuoteIdentifier());
-
-       
-     
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("faxPurchaseOrderQuotePdf() Quote PDF saved successfully for PO " + po.getPurapDocumentIdentifier() + " and Quote ID " + povq.getPurchaseOrderVendorQuoteIdentifier());
+        }
         
         PurchaseOrderTransmitParameters transmitParameters =  (PurchaseOrderTransmitParameters)purchaseOrderParameters;
         String pdfFileLocation = transmitParameters.getPdfFileLocation();

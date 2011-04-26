@@ -644,7 +644,9 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             entryObject = getEntryClass().newInstance();
         }
         catch (Exception e) {
-            LOG.debug("Wrong object type" + e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Wrong object type" + e);
+            }
         }
         return entryObject;
     }

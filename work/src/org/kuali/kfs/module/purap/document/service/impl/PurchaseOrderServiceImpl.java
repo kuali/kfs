@@ -1163,7 +1163,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po) {
         if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.FAX.equals(po.getPurchaseOrderTransmissionMethodCode()) || POTransmissionMethods.ELECTRONIC.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             String newStatusCode = PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.get(po.getPurchaseOrderTransmissionMethodCode());
-            LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
+            }
             purapService.updateStatus(po, newStatusCode);
         }
     }
@@ -1175,7 +1177,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param po The purchase order document whose initial open date and status we want to update.
      */
     protected void attemptSetupOfInitialOpenOfDocument(PurchaseOrderDocument po) {
-        LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
+        }
 
         if (!PurchaseOrderStatuses.OPEN.equals(po.getStatusCode())) {
             if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenTimestamp())) {
@@ -1757,13 +1761,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         if (StringUtils.isEmpty(recurringOrderDateString) || recurringOrderDateString.equalsIgnoreCase("mm/dd/yyyy") || (!validDate)) {
             if (recurringOrderDateString.equalsIgnoreCase("mm/dd/yyyy")) {
-                LOG.debug("autoCloseRecurringOrders(): mm/dd/yyyy " + "was found in the Application Settings table. No orders will be closed, method will end.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("autoCloseRecurringOrders(): mm/dd/yyyy " + "was found in the Application Settings table. No orders will be closed, method will end.");
+                }
                 if (shouldSendEmail) {
                     emailBody.append("The AUTO_CLOSE_RECURRING_ORDER_DT found in the Application Settings table " + "was mm/dd/yyyy. No recurring PO's were closed.");
                 }
             }
             else {
-                LOG.debug("autoCloseRecurringOrders(): An invalid autoCloseRecurringOrdersDate " + "was found in the Application Settings table: " + recurringOrderDateString + ". Method will end.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("autoCloseRecurringOrders(): An invalid autoCloseRecurringOrdersDate " + "was found in the Application Settings table: " + recurringOrderDateString + ". Method will end.");
+                }
                 if (shouldSendEmail) {
                     emailBody.append("An invalid AUTO_CLOSE_RECURRING_ORDER_DT was found in the Application Settings table: " + recurringOrderDateString + ". No recurring PO's were closed.");
                 }

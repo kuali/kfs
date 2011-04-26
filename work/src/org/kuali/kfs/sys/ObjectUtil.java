@@ -298,19 +298,29 @@ public class ObjectUtil {
             }
         }
         catch (IllegalAccessException e) {
-            LOG.debug(e.getMessage() + ":" + propertyName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage() + ":" + propertyName);
+            }
         }
         catch (InvocationTargetException e) {
-            LOG.debug(e.getMessage() + ":" + propertyName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage() + ":" + propertyName);
+            }
         }
         catch (NoSuchMethodException e) {
-            LOG.debug(e.getMessage() + ":" + propertyName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage() + ":" + propertyName);
+            }
         }
         catch (IllegalArgumentException e) {
-            LOG.debug(e.getMessage() + ":" + propertyName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage() + ":" + propertyName);
+            }
         }
         catch (Exception e) {
-            LOG.debug(e.getMessage() + ":" + propertyName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(e.getMessage() + ":" + propertyName);
+            }
         }
     }
 

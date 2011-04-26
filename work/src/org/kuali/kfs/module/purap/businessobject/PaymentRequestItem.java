@@ -148,7 +148,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
                 return poi;
             }
             else {
-                LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getPurchaseOrderItem() Returning null because PurchaseOrderItem object for line number" + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
+                }
                 return null;
             }
         }
@@ -290,7 +292,9 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         // if the po item is not active... skip it
         if (!poi.isItemActiveIndicator()) {
-            LOG.debug("poi was not active: " + poi.toString());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("poi was not active: " + poi.toString());
+            }
             return false;
         }
 

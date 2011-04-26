@@ -65,7 +65,9 @@ public class B2BAction extends KualiAction {
             request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
         }
         else {
-            LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful. Error message:" + cart.getStatusText());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("executeLogic() Retrieving shopping cart from cxml was unsuccessful. Error message:" + cart.getStatusText());
+            }
             throw new B2BShoppingException("Retrieving shopping cart from cxml was unsuccessful. Error message:" + cart.getStatusText());
         }
 

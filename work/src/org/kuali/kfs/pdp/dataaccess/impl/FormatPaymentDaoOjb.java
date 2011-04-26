@@ -56,11 +56,12 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         c.set(Calendar.MILLISECOND, 59);
         c.set(Calendar.AM_PM, Calendar.PM);
         Timestamp paydateTs = new Timestamp(c.getTime().getTime());
-
-        LOG.debug("markPaymentsForFormat() last update = " + now);
-        LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
-        LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
-
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("markPaymentsForFormat() last update = " + now);
+            LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
+            LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
+        }
         PaymentStatus format = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.FORMAT);
 
         List customerIds = new ArrayList();

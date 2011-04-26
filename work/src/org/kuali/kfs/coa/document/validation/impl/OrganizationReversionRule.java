@@ -110,7 +110,9 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
             result = false;
             GlobalVariables.getMessageMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: " + detail.getOrganizationReversionObjectCode() });
         } else {
-            LOG.debug("organization reversion finanical object = " + detail.getOrganizationReversionObject().getName());            
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("organization reversion finanical object = " + detail.getOrganizationReversionObject().getName());            
+            }
         }
         return result;
     }

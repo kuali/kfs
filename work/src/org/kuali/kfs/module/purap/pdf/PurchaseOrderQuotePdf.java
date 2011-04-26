@@ -148,7 +148,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
      * @param environment                The current environment used (e.g. DEV if it is a development environment).
      */
     public void generatePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String campusName, String contractManagerCampusCode, String logoImage, ByteArrayOutputStream byteArrayOutputStream, String environment) {
-        LOG.debug("generatePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generatePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         Collection errors = new ArrayList();
 
@@ -177,7 +179,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
      * @param environment                The current environment used (e.g. DEV if it is a development environment).
      */
     public void savePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv,PurchaseOrderParameters transmitParameters , String environment) {
-        LOG.debug("savePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("savePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         try {
             PurchaseOrderTransmitParameters orderTransmitParameters = (PurchaseOrderTransmitParameters)transmitParameters;
@@ -218,7 +222,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
      * @throws DocumentException
      */
     private void createPOQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String campusName, String contractManagerCampusCode, String logoImage, Document document, PdfWriter writer, String environment) throws DocumentException {
-        LOG.debug("createQuotePdf() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("createQuotePdf() started for po number " + po.getPurapDocumentIdentifier());
+        }
         
         // These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
         this.campusName = campusName;

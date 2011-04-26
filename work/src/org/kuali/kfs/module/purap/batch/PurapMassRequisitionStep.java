@@ -778,8 +778,10 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
                 LOG.debug("checking wait loop sentinel");
                 valueChanged = monitor.valueChanged();
             }
-            LOG.debug("finished wait loop (" + valueChanged + ")");
-
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("finished wait loop (" + valueChanged + ")");
+            }
+            
             return valueChanged;
         }
     }

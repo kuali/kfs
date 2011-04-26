@@ -213,7 +213,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             businessObjectService.save(originEntry);
         }
         catch (Exception e) {
-            LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            }
             return false;
         }
         return true;
@@ -233,7 +235,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             businessObjectService.save(originEntry);
         }
         catch (Exception e) {
-            LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fail to copy the pending entry as origin entry" + e);
+            }
             return false;
         }
         return true;
@@ -251,7 +255,9 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             businessObjectService.save(originEntry);
         }
         catch (Exception e) {
-            LOG.debug("Fail to copy the labor GL entry as an origin entry" + e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fail to copy the labor GL entry as an origin entry" + e);
+            }
             return false;
         }
         return true;

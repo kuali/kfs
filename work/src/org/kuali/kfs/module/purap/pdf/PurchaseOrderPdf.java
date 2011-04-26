@@ -75,7 +75,9 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @see com.lowagie.text.pdf.PdfPageEventHelper#onOpenDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onOpenDocument(PdfWriter writer, Document document) {
-        LOG.debug("onOpenDocument() started. isRetransmit is " + isRetransmit);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("onOpenDocument() started. isRetransmit is " + isRetransmit);
+        }
         try {
             float[] headerWidths = { 0.20f, 0.80f };
             headerTable = new PdfPTable(headerWidths);
@@ -186,7 +188,9 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @param retransmitItems        The items selected by the user to be retransmitted.
      */
     public void generatePdf(PurchaseOrderDocument po, PurchaseOrderTransmitParameters pdfParameters, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
-        LOG.debug("generatePdf() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("generatePdf() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         this.isRetransmit = isRetransmit;
         String statusInquiryUrl = pdfParameters.getStatusInquiryUrl();
@@ -227,7 +231,9 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @param environment    The current environment used (e.g. DEV if it is a development environment).
      */
     public void savePdf(PurchaseOrderDocument po, PurchaseOrderParameters pdfParameters, boolean isRetransmit, String environment) {
-        LOG.debug("savePdf() started for po number " + po.getPurapDocumentIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("savePdf() started for po number " + po.getPurapDocumentIdentifier());
+        }
 
         PurchaseOrderTransmitParameters pdfTransmitParameters = (PurchaseOrderTransmitParameters)pdfParameters;        
         
@@ -310,7 +316,9 @@ public class PurchaseOrderPdf extends PurapPdf {
      * @throws IOException
      */
     private void createPdf(PurchaseOrderDocument po, Document document, PdfWriter writer, String statusInquiryUrl, String campusName, String contractLanguage, String logoImage, String directorSignatureImage, String directorName, String directorTitle, String contractManagerSignatureImage, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) throws DocumentException, IOException {
-        LOG.debug("createPdf() started for po number " + po.getPurapDocumentIdentifier().toString());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("createPdf() started for po number " + po.getPurapDocumentIdentifier().toString());
+        }
 
         // These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
         this.campusName = campusName;
@@ -871,7 +879,9 @@ public class PurchaseOrderPdf extends PurapPdf {
 
         // Director name and title; on every pdf.
         p = new Paragraph();
-        LOG.debug("createPdf() directorName parameter: " + directorName);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("createPdf() directorName parameter: " + directorName);
+        }
         if (po.getPurchaseOrderAutomaticIndicator()) { // The signature is on the pdf; use small font.
             p.add(new Chunk(directorName, ver_6_normal));
         }
@@ -947,23 +957,33 @@ public class PurchaseOrderPdf extends PurapPdf {
             // If the unit price is not null and either the unit price > 0 or the item type is full order discount or trade in,
             // we'll display this line item on pdf.
             if ((poi.getItemUnitPrice() != null) && ((poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) == 1) || (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
+                }
                 return true;
             }
-            LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + ". Unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + ". Unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
+            }
             return false;
         }
         else if ((poi.getItemType() != null) && poi.getItemType().isLineItemIndicator()) {
             if (poi.getItemQuantity() == null && poi.getItemUnitPrice() == null) {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity and unit price are both null. Display on pdf.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity and unit price are both null. Display on pdf.");
+                }
                 return true;
             }
             if ((poi.getItemType().isAmountBasedGeneralLedgerIndicator() && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0))) || (((poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) && (poi.getItemQuantity().isGreaterThan(zero))) && (poi.getItemUnitPrice() != null))) {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity is " + poi.getItemQuantity() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity is " + poi.getItemQuantity() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
+                }
                 return true;
             }
             else {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " and item order quantity is " + poi.getItemQuantity() + " and item unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " and item order quantity is " + poi.getItemQuantity() + " and item unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
+                }
             }
         }
         return false;

@@ -169,7 +169,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
         QueryByCriteria qbc = new QueryByCriteria(AutoClosePurchaseOrderView.class, criteria);
-        LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAllOpenPurchaseOrders() Query criteria is " + criteria.toString());
+        }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         LOG.debug("getAllOpenPurchaseOrders() ended.");
         return l;
@@ -187,7 +189,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
         QueryByCriteria qbc = new QueryByCriteria(AutoClosePurchaseOrderView.class, criteria);
-        LOG.debug("getAutoCloseRecurringPurchaseOrders() Query criteria is " + criteria.toString());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getAutoCloseRecurringPurchaseOrders() Query criteria is " + criteria.toString());
+        }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         LOG.debug("getAutoCloseRecurringPurchaseOrders() ended.");
         return l;

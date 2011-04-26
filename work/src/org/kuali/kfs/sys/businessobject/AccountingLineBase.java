@@ -760,7 +760,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
                         }
                     }
 
-                    LOG.debug("inequalities: " + inequalities);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("inequalities: " + inequalities);
+                    }
                 }
             }
         }

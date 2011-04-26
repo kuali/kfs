@@ -415,7 +415,9 @@ public class PurApInfoServiceImpl implements PurApInfoService {
                 return poi;
             }
             else {
-                LOG.debug("getPurchaseOrderItemfromCreditMemoItem() Returning null because PurchaseOrderItem object for line number" + item.getItemLineNumber() + "or itemType " + item.getItemTypeCode() + " is null");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("getPurchaseOrderItemfromCreditMemoItem() Returning null because PurchaseOrderItem object for line number" + item.getItemLineNumber() + "or itemType " + item.getItemTypeCode() + " is null");
+                }
                 return null;
             }
         }

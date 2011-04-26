@@ -64,10 +64,14 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        LOG.debug("Entering ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
+        }
         boolean success = true;
         success &= validateAddSubcontractor(line);
-        LOG.debug("Leaving ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Leaving ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
+        }
         return success;
     }
 

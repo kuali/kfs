@@ -142,9 +142,11 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     // build the query for balance search
     protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
-        LOG.debug("getBalanceQuery(Map, boolean) started");
-        LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
+            LOG.debug("getBalanceQuery(Map, boolean) started");
+        }
+        
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 

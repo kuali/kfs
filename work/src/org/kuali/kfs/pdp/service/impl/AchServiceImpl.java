@@ -49,7 +49,9 @@ public class AchServiceImpl implements AchService {
 
         Collection<PayeeACHAccount> rows = businessObjectService.findMatching(PayeeACHAccount.class, fields);
         if (rows.size() != 1) {
-            LOG.debug("getAchInformation() not found rows = " + rows.size());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("getAchInformation() not found rows = " + rows.size());
+            }
 
             return null;
         }

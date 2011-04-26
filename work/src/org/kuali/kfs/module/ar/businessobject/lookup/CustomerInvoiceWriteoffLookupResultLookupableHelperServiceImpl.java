@@ -84,8 +84,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
         
         // iterate through result list and wrap rows with return url and action urls
         for (BusinessObject element : displayList) {
-            LOG.debug("Doing lookup for " + element.getClass());
-
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Doing lookup for " + element.getClass());
+            }
+            
             CustomerInvoiceWriteoffLookupResult result = ((CustomerInvoiceWriteoffLookupResult) element);
             List<String> customerInvoiceDocumentAttributesForDisplay = result.getCustomerInvoiceDocumentAttributesForDisplay();
             

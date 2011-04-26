@@ -94,12 +94,15 @@ public class ConsolidationUtil {
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
-        LOG.debug("Built Attributes for Query: " + attributeList.toString());
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Built Attributes for Query: " + attributeList.toString());
+        }
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[attributeList.size()]);
         query.addGroupBy(groupBy);
-        LOG.debug("Built GroupBy for Query: " + groupByList.toString());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Built GroupBy for Query: " + groupByList.toString());    
+        }
     }
 
     /**

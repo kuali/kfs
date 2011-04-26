@@ -125,7 +125,9 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
                     segmentedSelection.get(selectedObjId).add(selectedMonthData);
                 }
                 // Retrieving selected data from table.
-                LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                }
                 rawValues = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
 

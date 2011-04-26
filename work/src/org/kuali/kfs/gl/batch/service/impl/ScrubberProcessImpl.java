@@ -985,7 +985,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             }
             catch (InvalidFlexibleOffsetException e) {
                 Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
-                LOG.debug("generateCostShareEntries() Cost Share Transfer Flexible Offset Error: " + e.getMessage());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateCostShareEntries() Cost Share Transfer Flexible Offset Error: " + e.getMessage());
+                }
                 return new TransactionError(costShareEntry, m);
             }
 
@@ -1090,7 +1092,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             }
             catch (InvalidFlexibleOffsetException e) {
                 Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
-                LOG.debug("generateCostShareEntries() Cost Share Transfer Account Flexible Offset Error: " + e.getMessage());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateCostShareEntries() Cost Share Transfer Account Flexible Offset Error: " + e.getMessage());
+                }
                 return new TransactionError(costShareEntry, m);
             }
 
@@ -1222,7 +1226,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     flexibleOffsetAccountService.updateOffset(capitalizationEntry);
                 }
                 catch (InvalidFlexibleOffsetException e) {
-                    LOG.debug("processCapitalization() Capitalization Flexible Offset Error: " + e.getMessage());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("processCapitalization() Capitalization Flexible Offset Error: " + e.getMessage());
+                    }
                     return e.getMessage();
                 }
 
@@ -1301,7 +1307,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 }
                 catch (InvalidFlexibleOffsetException e) {
                     LOG.error("processPlantIndebtedness() Flexible Offset Exception (1)", e);
-                    LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
+                    }
                     return e.getMessage();
                 }
 
@@ -1439,7 +1447,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     flexibleOffsetAccountService.updateOffset(liabilityEntry);
                 }
                 catch (InvalidFlexibleOffsetException e) {
-                    LOG.debug("processLiabilities() Liability Flexible Offset Error: " + e.getMessage());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("processLiabilities() Liability Flexible Offset Error: " + e.getMessage());
+                    }
                     return e.getMessage();
                 }
 
@@ -1641,7 +1651,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             }
             catch (InvalidFlexibleOffsetException e) {
                 Message m = new Message(e.getMessage(), Message.TYPE_FATAL);
-                LOG.debug("generateCostShareEncumbranceEntries() Cost Share Encumbrance Flexible Offset Error: " + e.getMessage());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateCostShareEncumbranceEntries() Cost Share Encumbrance Flexible Offset Error: " + e.getMessage());
+                }
                 return new TransactionError(costShareEncumbranceOffsetEntry, m);
             }
 
@@ -1803,7 +1815,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 flexibleOffsetAccountService.updateOffset(offsetEntry);
             }
             catch (InvalidFlexibleOffsetException e) {
-                LOG.debug("generateOffset() Offset Flexible Offset Error: " + e.getMessage());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("generateOffset() Offset Flexible Offset Error: " + e.getMessage());
+                }
                 putTransactionError(offsetEntry, e.getMessage(), "", Message.TYPE_FATAL);
                 return true;
             }

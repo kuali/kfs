@@ -71,7 +71,9 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(String)
      */
     public VendorDetail getVendorDetail(String vendorNumber) {
-        LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
+        }
         if (StringUtils.isEmpty(vendorNumber)) 
             return null;
         
@@ -96,7 +98,9 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
      */
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {
-        LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
+        }
         Map keys = new HashMap();
         keys.put("vendorHeaderGeneratedIdentifier", headerId);
         keys.put("vendorDetailAssignedIdentifier", detailId);
@@ -107,7 +111,9 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#getApoLimitFromContract(Integer, String, String)
      */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
-        LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
+        }
 
         // check for the special case of a contractOrg for this contract in the contract-orgs table
         if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
@@ -147,7 +153,9 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#getParentVendor(java.lang.Integer)
      */
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier) {
-        LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:" + vendorHeaderGeneratedIdentifier);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:" + vendorHeaderGeneratedIdentifier);
+        }
         Map criterion = new HashMap();
         criterion.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
         List<VendorDetail> vendors = (List<VendorDetail>) businessObjectService.findMatching(VendorDetail.class, criterion);
@@ -180,7 +188,9 @@ public class VendorServiceImpl implements VendorService {
      *  @see org.kuali.kfs.vnd.document.service.VendorService#getVendorByDunsNumber(String)
      */
     public VendorDetail getVendorByDunsNumber(String vendorDunsNumber) {
-        LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
+        }
         Map criteria = new HashMap();
         criteria.put(VendorPropertyConstants.VENDOR_DUNS_NUMBER, vendorDunsNumber);
         List<VendorDetail> vds = (List) businessObjectService.findMatching(VendorDetail.class, criteria);
@@ -197,7 +207,9 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)
      */
     public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus) {
-        LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
+        }
         Map criteria = new HashMap();
         criteria.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderId);
         criteria.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailId);

@@ -145,7 +145,9 @@ public class RequisitionServiceImpl implements RequisitionService {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
             }
 
-            LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("isAutomaticPurchaseOrderAllowed() return false; " + note);
+            }
             return false;
         }
 
@@ -168,7 +170,9 @@ public class RequisitionServiceImpl implements RequisitionService {
         KualiDecimal apoLimit = purapService.getApoLimit(requisition.getVendorContractGeneratedIdentifier(), requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
         requisition.setOrganizationAutomaticPurchaseOrderLimit(apoLimit);
 
-        LOG.debug("isAPO() reqId = " + requisition.getPurapDocumentIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("isAPO() reqId = " + requisition.getPurapDocumentIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
+        }
         if (apoLimit == null) {
             return "APO limit is empty.";
         }
@@ -182,7 +186,9 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requisition total is not greater than zero.";
         }
 
-        LOG.debug("isAPO() vendor #" + requisition.getVendorHeaderGeneratedIdentifier() + "-" + requisition.getVendorDetailAssignedIdentifier());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("isAPO() vendor #" + requisition.getVendorHeaderGeneratedIdentifier() + "-" + requisition.getVendorDetailAssignedIdentifier());
+        }
         if (requisition.getVendorHeaderGeneratedIdentifier() == null || requisition.getVendorDetailAssignedIdentifier() == null) {
             return "Vendor was not selected from the vendor database.";
         }

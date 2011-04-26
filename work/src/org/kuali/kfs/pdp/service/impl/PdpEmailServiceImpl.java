@@ -480,7 +480,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setFromAddress(customer.getAdviceReturnEmailAddr());
         message.setSubject(customer.getAdviceSubjectLine());
 
-        LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
+        }
 
         StringBuffer body = new StringBuffer();
         body.append(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_EMAIL_TOFROM, paymentGroup.getPayeeName(), customer.getAchPaymentDescription()));
@@ -582,7 +584,9 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             message.setFromAddress(mailService.getBatchMailingList());
             message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PDP_ACH_ADVICE_INVALID_EMAIL_ADDRESS));
 
-            LOG.debug("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("bouncing email to " + customer.getAdviceReturnEmailAddr() + " for disb # " + paymentGroup.getDisbursementNbr());
+            }
             // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
             alterMessageWhenNonProductionInstance(message, null);
             

@@ -684,7 +684,9 @@ public class LaborScrubberProcess {
         }
         else {
             cutoffTime = cutoffTime.trim();
-            LOG.debug("Cutoff time value found: " + cutoffTime);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Cutoff time value found: " + cutoffTime);
+            }
             StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
 
             try {

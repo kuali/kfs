@@ -146,7 +146,9 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("startFormatProcess() started");
 
         for (CustomerProfile element : customers) {
-            LOG.debug("startFormatProcess() Customer: " + element);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("startFormatProcess() Customer: " + element);
+            }
         }
         
         // Create the process
@@ -226,7 +228,9 @@ public class FormatServiceImpl implements FormatService {
         Iterator<PaymentGroup> paymentGroupIterator = this.paymentGroupService.getByProcess(paymentProcess);
         while (paymentGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = paymentGroupIterator.next();
-            LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("performFormat() Step 1 Payment Group ID " + paymentGroup.getId());
+            }
 
             // process payment group data
             boolean groupProcessed = processPaymentGroup(paymentGroup, paymentProcess);
@@ -284,8 +288,10 @@ public class FormatServiceImpl implements FormatService {
         List<PaymentDetail> paymentDetailsList = paymentGroup.getPaymentDetails();
         for (PaymentDetail paymentDetail : paymentDetailsList) {
             if (paymentDetail.getNetPaymentAmount().doubleValue() < 0) {
-                LOG.debug("performFormat() Payment Group " + paymentGroup + " has payment detail net payment amount " + paymentDetail.getNetPaymentAmount());
-                LOG.debug("performFormat() Forcing a Check for Group");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("performFormat() Payment Group " + paymentGroup + " has payment detail net payment amount " + paymentDetail.getNetPaymentAmount());
+                    LOG.debug("performFormat() Forcing a Check for Group");
+                }
                 noNegativeDetails = false;
                 break;
             }
@@ -411,7 +417,9 @@ public class FormatServiceImpl implements FormatService {
 
         while (paymentGroupIterator.hasNext()) {
             PaymentGroup paymentGroup = paymentGroupIterator.next();
-            LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("performFormat() Payment Group ID " + paymentGroup.getId());
+            }
 
             //Use the customer's profile's campus code to check for disbursement ranges
             String campus = paymentGroup.getBatch().getCustomerProfile().getDefaultPhysicalCampusProcessingCode();
@@ -546,7 +554,9 @@ public class FormatServiceImpl implements FormatService {
         Map primaryKeys = new HashMap();
         primaryKeys.put(PdpPropertyConstants.PaymentProcess.PAYMENT_PROCESS_ID, processId);
         PaymentProcess paymentProcess = (PaymentProcess) this.businessObjectService.findByPrimaryKey(PaymentProcess.class, primaryKeys);
-        LOG.debug("clearUnfinishedFormat() Process: " + paymentProcess);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("clearUnfinishedFormat() Process: " + paymentProcess);
+        }
 
         formatPaymentDao.unmarkPaymentsForFormat(paymentProcess);
 
@@ -618,7 +628,9 @@ public class FormatServiceImpl implements FormatService {
      * @return found <code>DisbursementNumberRange</code or null if one was not found
      */
     protected DisbursementNumberRange getRange(List<DisbursementNumberRange> ranges, Bank bank, String disbursementTypeCode) {
-        LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " and disbursement type " + disbursementTypeCode);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getRange() Looking for bank = " + bank.getBankCode() + " and disbursement type " + disbursementTypeCode);
+        }
 
         List<DisbursementNumberRange> rangeMatches = new ArrayList<DisbursementNumberRange>();
         for (DisbursementNumberRange range : ranges) {

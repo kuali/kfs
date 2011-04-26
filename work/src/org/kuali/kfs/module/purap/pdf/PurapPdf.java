@@ -208,7 +208,9 @@ public class PurapPdf extends PdfPageEventHelper {
      * @param pdfFilename      The name of the pdf file.
      */
     public void deletePdf(String pdfFileLocation, String pdfFilename) {
-        LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);
+        }
         File f = new File(pdfFileLocation + pdfFilename);
         f.delete();
     }

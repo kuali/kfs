@@ -68,7 +68,9 @@ public class FieldMetaDataImpl implements DatabaseMetaDataCallback, FieldMetaDat
                         businessObject = (BusinessObject)workingBusinessObjectClass.newInstance();
                     }
                     catch (Exception e3) {
-                        LOG.debug("Unable to instantiate BusinessObject class " + workingBusinessObjectClass, e3);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Unable to instantiate BusinessObject class " + workingBusinessObjectClass, e3);
+                        }
                         return populateAndReturnNonPersistableInstance();
                     }
                     try {

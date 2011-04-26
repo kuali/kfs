@@ -96,7 +96,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(checkCancelledFilePrefix, processDate);
-        LOG.debug("extractCanceledChecks() filename = " + filename);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractCanceledChecks() filename = " + filename);
+        }
 
         // Open file
         BufferedWriter os = null;
@@ -174,7 +176,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(achFilePrefix, processDate);
-        LOG.debug("extractAchPayments() filename = " + filename);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractAchPayments() filename = " + filename);
+        }
 
         // Open file
         BufferedWriter os = null;
@@ -197,7 +201,9 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(checkFilePrefix, processDate);
-        LOG.debug("extractChecks() filename: " + filename);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractChecks() filename: " + filename);
+        }
 
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
         for (PaymentProcess extractToRun : extractsToRun) {

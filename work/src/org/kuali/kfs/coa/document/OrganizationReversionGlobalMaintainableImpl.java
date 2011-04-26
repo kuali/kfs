@@ -110,7 +110,9 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
         OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) businessObject;
         List<OrganizationReversionGlobalDetail> details = globalOrgRev.getOrganizationReversionGlobalDetails();
-        LOG.debug("Details size before adding categories = " + details.size());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Details size before adding categories = " + details.size());    
+        }
 
         if (details == null) {
             details = new TypedArrayList(OrganizationReversionGlobalDetail.class);
@@ -129,7 +131,9 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
                     details.add(detail);
                 }
             }
-            LOG.debug("Details size after adding categories = " + details.size());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Details size after adding categories = " + details.size());
+            }
             Collections.sort(details, new CategoryComparator());
         }
         super.setBusinessObject(businessObject);

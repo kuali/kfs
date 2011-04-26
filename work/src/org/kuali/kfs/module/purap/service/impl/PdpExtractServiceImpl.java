@@ -146,7 +146,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param processRunDate
      */
     protected void extractPaymentsForCampus(String campusCode, Person puser, Date processRunDate, boolean immediateOnly) {
-        LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
+        }
 
         Batch batch = createBatch(campusCode, puser, processRunDate);
 
@@ -764,7 +766,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return PaymentGroup
      */
     protected PaymentGroup populatePaymentGroup(PaymentRequestDocument paymentRequestDocument, Batch batch) {
-        LOG.debug("populatePaymentGroup() payment request documentNumber: " + paymentRequestDocument.getDocumentNumber());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populatePaymentGroup() payment request documentNumber: " + paymentRequestDocument.getDocumentNumber());
+        }
 
         PaymentGroup paymentGroup = new PaymentGroup();
 
@@ -825,7 +829,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return PaymentGroup
      */
     protected PaymentGroup populatePaymentGroup(VendorCreditMemoDocument creditMemoDocument, Batch batch) {
-        LOG.debug("populatePaymentGroup() credit memo documentNumber: " + creditMemoDocument.getDocumentNumber());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("populatePaymentGroup() credit memo documentNumber: " + creditMemoDocument.getDocumentNumber());
+        }
 
         PaymentGroup paymentGroup = new PaymentGroup();
         paymentGroup.setBatchId(batch.getId());

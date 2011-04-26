@@ -75,13 +75,17 @@ public class SchemaBuilder {
             if (StringUtils.isBlank(buildDirectoryPath)) {
                 logAndThrowException("Build directory must be passed as first argument");
             }
-            LOG.debug("Build directory set to " + buildDirectoryPath);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Build directory set to " + buildDirectoryPath);
+            }
 
             String staticDirectoryPath = args[1];
             if (StringUtils.isBlank(staticDirectoryPath)) {
                 logAndThrowException("Static directory must be passed as second argument");
             }
-            LOG.debug("Static directory set to " + staticDirectoryPath);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Static directory set to " + staticDirectoryPath);
+            }
 
             String dataDictionaryValidation = args[2];
             if (StringUtils.isBlank(dataDictionaryValidation)) {
@@ -100,7 +104,9 @@ public class SchemaBuilder {
 
             boolean useDataDictionaryValidation = Boolean.parseBoolean(dataDictionaryValidation);
             boolean rebuildDDTypes = Boolean.parseBoolean(rebuildDDTypesFlag);
-            LOG.debug("Use data dictionary validation set to " + useDataDictionaryValidation);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Use data dictionary validation set to " + useDataDictionaryValidation);
+            }
 
             // if using dd validation must start up spring so we can read DD
             if (useDataDictionaryValidation && rebuildDDTypes) {
@@ -164,7 +170,9 @@ public class SchemaBuilder {
 
         for (Iterator iterator = buildSchemaFiles.iterator(); iterator.hasNext();) {
             File buildSchemFile = (File) iterator.next();
-            LOG.debug("Processing schema file: " + buildSchemFile.getName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Processing schema file: " + buildSchemFile.getName());
+            }
 
             String outSchemaFilePathName = staticPathName + getRelativeFilePathName(buildSchemFile, buildDirectoryPath);
             LOG.info("Building schema file: " + outSchemaFilePathName);
@@ -202,7 +210,9 @@ public class SchemaBuilder {
         Collection outSchemaLines = new ArrayList();
         int lineCount = 1;
         for (Iterator iterator = buildSchemaLines.iterator(); iterator.hasNext();) {
-            LOG.debug("Processing line " + lineCount + "of file " + buildSchemFile.getAbsolutePath());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Processing line " + lineCount + "of file " + buildSchemFile.getAbsolutePath());
+            }
             String buildLine = (String) iterator.next();
             String outLine = buildLine;
 
@@ -218,7 +228,9 @@ public class SchemaBuilder {
                     logAndThrowException(String.format("File %s line %s: validation placeholder cannot be blank", buildSchemFile.getAbsolutePath(), lineCount));
                 }
 
-                LOG.debug("Found dd validation placeholder: " + validationPlaceholder);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Found dd validation placeholder: " + validationPlaceholder);
+                }
                 if (!StringUtils.contains(validationPlaceholder, ",")) {
                     logAndThrowException(String.format("File %s, line %s: Invalid format of placehoder value: %s, must contain a ',' seperating parts", buildSchemFile.getAbsolutePath(), lineCount, validationPlaceholder));
                 }
@@ -276,7 +288,9 @@ public class SchemaBuilder {
 
         String outLine = buildLine;
         if (useDataDictionaryValidation) {
-            LOG.debug("Setting validation to use type: " + ddAttributeName);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Setting validation to use type: " + ddAttributeName);
+            }
             outLine = StringUtils.replace(outLine, SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_BEGIN + orignalPlaceholderValue + SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_END, ddAttributeName);
 
             if (rebuildDDTypes) {
@@ -284,7 +298,9 @@ public class SchemaBuilder {
             }
         }
         else {
-            LOG.debug("Setting validation to use type: " + xsdValidation);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Setting validation to use type: " + xsdValidation);
+            }
             outLine = StringUtils.replace(outLine, SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_BEGIN + orignalPlaceholderValue + SCHEMA_FILE_DD_VALIDATION_PLACEHOLDER_END, xsdValidation);
         }
 
@@ -303,7 +319,9 @@ public class SchemaBuilder {
     protected static void buildDataDictionarySchemaValidationType(String ddAttributeName, Collection typesSchemaLines, Set<String> builtTypes) {
         // strip prefix from attribute name so we can find it in dd map
         String attributeEntryName = StringUtils.removeStart(ddAttributeName, DD_VALIDATION_PREFIX);
-        LOG.debug("Retrieving entry from data dictionary for attribute: " + attributeEntryName);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Retrieving entry from data dictionary for attribute: " + attributeEntryName);
+        }
 
         // only build one type for the attribute name
         if (!builtTypes.contains(attributeEntryName)) {
@@ -368,7 +386,9 @@ public class SchemaBuilder {
         String fullFilePathName = file.getAbsolutePath();
 
         String relativeFilePathName = StringUtils.substringAfter(fullFilePathName, fullParentPathName);
-        LOG.debug("sub-directory for schema: " + relativeFilePathName);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("sub-directory for schema: " + relativeFilePathName);
+        }
 
         if (StringUtils.isBlank(relativeFilePathName)) {
             String msg = String.format("Cannot find relative path for file name %s from parent directory %s", fullFilePathName, fullParentPathName);

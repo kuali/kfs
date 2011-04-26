@@ -479,7 +479,7 @@ public class CertificationReportAction extends EffortCertificationAction {
      * rebuild the detail line group map from the detail lines of the current document
      */
     protected Map<String, DetailLineGroup> refreshDetailLineGroupMap(CertificationReportForm certificationReportForm) {
-        LOG.info("refreshDetailLineGroupMap() started");
+        LOG.debug("refreshDetailLineGroupMap() started");
 
         List<EffortCertificationDetail> summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
         if (summarizedDetailLines == null) {

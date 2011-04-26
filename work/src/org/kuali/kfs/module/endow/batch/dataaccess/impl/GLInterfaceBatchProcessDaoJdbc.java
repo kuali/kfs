@@ -46,7 +46,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
      */
     public Collection<String> findDocumentTypes() {
-        LOG.info("findDocumentTypes() started");
+        LOG.debug("findDocumentTypes() started");
         
         Collection<String> documentTypes = new ArrayList<String>();
         
@@ -56,7 +56,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             documentTypes.add(documentTypesRowSet.getString(EndowPropertyConstants.ColumnNames.GlInterfaceBatchProcessLine.TRANSACTION_ARCHIVE_DOC_TYP_NM));
         }
         
-        LOG.info("findDocumentTypes() exited");
+        LOG.debug("findDocumentTypes() exited");
         
         return documentTypes;
     }
@@ -65,7 +65,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemTransactions(java.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactions(java.util.Date postedDate) {
-        LOG.info("getAllKemTransactions() started");
+        LOG.debug("getAllKemTransactions() started");
 
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
@@ -82,7 +82,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
         }
         
-        LOG.info("getAllKemTransactions() exited");
+        LOG.debug("getAllKemTransactions() exited");
 
         return kemArchiveTransactions;
     }
@@ -91,7 +91,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllCombinedKemTransactions(java.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllCombinedKemTransactions(java.util.Date postedDate) {
-        LOG.info("getAllCombinedKemTransactions() started");
+        LOG.debug("getAllCombinedKemTransactions() started");
 
         Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
@@ -111,7 +111,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemArchiveTransactions, false);
         }
         
-        LOG.info("getAllCombinedKemTransactions() exited.");
+        LOG.debug("getAllCombinedKemTransactions() exited.");
         
         return kemCombinedArchiveTransactions;
     }
@@ -120,7 +120,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemTransactionsByDocumentType(Stringjava.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
-        LOG.info("getAllKemTransactionsByDocumentType() started");
+        LOG.debug("getAllKemTransactionsByDocumentType() started");
 
         Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         
@@ -132,7 +132,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
         SqlRowSet nonCashTransactionActivities = getAllKemTransactions(documentType, postedDate, EndowConstants.TransactionSubTypeCode.NON_CASH);
         buildTransactionActivities(kemArchiveTransactions, nonCashTransactionActivities, false);
         
-        LOG.info("getAllKemTransactionsByDocumentType() exited.");
+        LOG.debug("getAllKemTransactionsByDocumentType() exited.");
         
         return kemArchiveTransactions;
     }
@@ -141,7 +141,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#getAllKemCombinedTransactionsByDocumentType(Stringjava.util.Date)
      */
     public Collection<GlInterfaceBatchProcessKemLine> getAllKemCombinedTransactionsByDocumentType(String documentType, java.util.Date postedDate) {
-        LOG.info("getAllKemCombinedTransactionsByDocumentType() started");
+        LOG.debug("getAllKemCombinedTransactionsByDocumentType() started");
 
         Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
         Collection<GlInterfaceBatchProcessKemLine> kemCashArchiveTransactions = new ArrayList<GlInterfaceBatchProcessKemLine>();
@@ -161,7 +161,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             buildCombinedTransactionActivities(kemCombinedArchiveTransactions, kemNonCashArchiveTransactions, false);
         }
         
-        LOG.info("getAllKemCombinedTransactionsByDocumentType() exited.");
+        LOG.debug("getAllKemCombinedTransactionsByDocumentType() exited.");
         
         return kemCombinedArchiveTransactions;
     }
@@ -197,7 +197,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * method to go through the rowset and put into transient bo and add to the collection.
      */
     protected void buildTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, SqlRowSet archiveTransactions, boolean cashType) {
-        LOG.info("buildTransactionActivities() started");
+        LOG.debug("buildTransactionActivities() started");
 
         while (archiveTransactions.next()) {
             GlInterfaceBatchProcessKemLine glKemLine = new GlInterfaceBatchProcessKemLine();
@@ -272,7 +272,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             kemArchiveTransactions.add(glKemLine);
         }
         
-        LOG.info("buildTransactionActivities() exited.");
+        LOG.debug("buildTransactionActivities() exited.");
     }
     
     /**
@@ -280,7 +280,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * into single data records
      */
     protected void buildCombinedTransactionActivities(Collection<GlInterfaceBatchProcessKemLine> kemCombinedArchiveTransactions, Collection<GlInterfaceBatchProcessKemLine> kemArchiveTransactions, boolean cashType) {
-        LOG.info("buildCombinedTransactionActivities() started");
+        LOG.debug("buildCombinedTransactionActivities() started");
 
         GLCombinedTransactionArchive gLCombinedTransactionArchive = new GLCombinedTransactionArchive();
         
@@ -311,7 +311,7 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
             kemCombinedArchiveTransactions.add(glKemLine);
         }
         
-        LOG.info("buildCombinedTransactionActivities() exited.");
+        LOG.debug("buildCombinedTransactionActivities() exited.");
     }
     
     /**

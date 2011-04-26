@@ -108,7 +108,7 @@ public class CertificationReportForm extends EffortCertificationForm {
      * @return Returns the inquiryUrl for the detail lines in the document.
      */
     public List<Map<String, HtmlData>> getSummarizedDetailLineFieldInquiryUrl() {
-        LOG.info("getSummarizedDetailLineFieldInquiryUrl() start");
+        LOG.debug("getSummarizedDetailLineFieldInquiryUrl() start");
 
         return this.getDetailLineFieldInquiryUrl(this.getSummarizedDetailLines());
     }
@@ -119,7 +119,7 @@ public class CertificationReportForm extends EffortCertificationForm {
      * @return Returns the fieldInfo.
      */
     public List<Map<String, String>> getSummarizedDetailLineFieldInfo() {
-        LOG.info("getSummarizedDetailLineFieldInfo() start");
+        LOG.debug("getSummarizedDetailLineFieldInfo() start");
 
         return this.getFieldInfo(this.getSummarizedDetailLines());
     }

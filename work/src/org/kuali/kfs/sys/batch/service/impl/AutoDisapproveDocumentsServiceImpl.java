@@ -105,7 +105,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      * @result return true if the system parameters exist, else false
      */
     protected boolean systemParametersForAutoDisapproveDocumentsJobExist() {
-        LOG.info("systemParametersForAutoDisapproveDocumentsJobExist() started.");
+        LOG.debug("systemParametersForAutoDisapproveDocumentsJobExist() started.");
         
         boolean systemParametersExists = true;
         

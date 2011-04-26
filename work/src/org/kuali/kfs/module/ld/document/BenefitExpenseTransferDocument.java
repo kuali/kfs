@@ -43,7 +43,7 @@ public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocument
      * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerPendingEntries(org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("started processGenerateLaborLedgerPendingEntries()");
+        LOG.debug("started processGenerateLaborLedgerPendingEntries()");
         boolean isSuccessful = true;
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
         

@@ -402,7 +402,7 @@ public class LaborScrubberProcess {
         }
 
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
-        LOG.info("Starting Scrubber Process process group...");
+        LOG.debug("Starting Scrubber Process process group...");
 
         int lineNumber = 0;
         int loadedCount = 0;

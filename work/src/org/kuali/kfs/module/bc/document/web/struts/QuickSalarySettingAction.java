@@ -67,7 +67,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.info("refresh() started");
+        LOG.debug("refresh() started");
 
         super.refresh(mapping, form, request, response);
 

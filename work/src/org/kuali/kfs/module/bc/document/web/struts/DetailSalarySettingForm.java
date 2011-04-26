@@ -136,7 +136,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
     public boolean acquirePositionAndFundingLocks(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
-        LOG.info("acquirePositionAndFundingLocks() started");
+        LOG.debug("acquirePositionAndFundingLocks() started");
 
         try {
             // not to acquire any lock for the display-only and non-budgetable funding line
@@ -221,7 +221,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @return true if the access mode of the given appointment funding are updated successfully, otherwise, false
      */
     public boolean updateAccessMode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
-        LOG.info("updateAccessMode() started");
+        LOG.debug("updateAccessMode() started");
 
         try {
             SalarySettingFieldsHolder fieldsHolder = this.getSalarySettingFieldsHolder();
@@ -248,7 +248,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * @return true if the transaction locks for all savable appointment fundings are acquired successfully, otherwise, false
      */
     public boolean acquireTransactionLocks(MessageMap messageMap) {
-        LOG.info("acquireTransactionLocks() started");
+        LOG.debug("acquireTransactionLocks() started");
 
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
             try {
@@ -280,7 +280,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * release all position and funding locks acquired in current action by the current user
      */
     public void releasePositionAndFundingLocks() {
-        LOG.info("releasePositionAndFundingLocks() started");
+        LOG.debug("releasePositionAndFundingLocks() started");
 
         List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = this.getReleasableAppointmentFundings();
         lockService.unlockFunding(releasableAppointmentFundings, this.getPerson());
@@ -304,7 +304,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * release all the transaction locks acquired in current action by the current user
      */
     public void releaseTransactionLocks() {
-        LOG.info("releaseTransactionLocks() started");
+        LOG.debug("releaseTransactionLocks() started");
 
         List<PendingBudgetConstructionAppointmentFunding> fundingsWithTransactionLocks = this.getReleasableAppointmentFundings();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : fundingsWithTransactionLocks) {
@@ -316,7 +316,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * get the appointment fundings that can be saved
      */
     public List<PendingBudgetConstructionAppointmentFunding> getSavableAppointmentFundings() {
-        LOG.info("getSavableAppointmentFundings() started");
+        LOG.debug("getSavableAppointmentFundings() started");
 
         // get the funding lines that can be saved
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
@@ -335,7 +335,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * get the appointment fundings for which the position or funding locks can be released
      */
     public List<PendingBudgetConstructionAppointmentFunding> getReleasableAppointmentFundings() {
-        LOG.info("getReleasableAppointmentFundings() started");
+        LOG.debug("getReleasableAppointmentFundings() started");
 
         List<PendingBudgetConstructionAppointmentFunding> savableAppointmentFundings = this.getSavableAppointmentFundings();
         List<PendingBudgetConstructionAppointmentFunding> releasableAppointmentFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
@@ -348,7 +348,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * determine whether there is any active funding line in the given savable appointment funding lines
      */
     public List<PendingBudgetConstructionAppointmentFunding> getActiveFundingLines() {
-        LOG.info("getActiveFundingLines() started");
+        LOG.debug("getActiveFundingLines() started");
 
         List<PendingBudgetConstructionAppointmentFunding> activeFundingLines = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getSavableAppointmentFundings()) {
@@ -402,7 +402,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * position/incumbent
      */
     public void pickAppointmentFundingsForSingleAccount() {
-        LOG.info("pickAppointmentFundingsForSingleAccount() started");
+        LOG.debug("pickAppointmentFundingsForSingleAccount() started");
 
         List<PendingBudgetConstructionAppointmentFunding> excludedFundings = new ArrayList<PendingBudgetConstructionAppointmentFunding>();
         for (PendingBudgetConstructionAppointmentFunding appointmentFunding : this.getAppointmentFundings()) {
@@ -418,7 +418,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
      * Funding/transaction locks are not required for the lines associated with a document already open in budget by account mode
      */
     private BudgetConstructionLockStatus getLockStatusForBudgetByAccountMode(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
-        LOG.info("getLockStatusForBudgetByAccountMode() started");
+        LOG.debug("getLockStatusForBudgetByAccountMode() started");
 
         BudgetConstructionLockStatus transactionLockStatus = null;
 

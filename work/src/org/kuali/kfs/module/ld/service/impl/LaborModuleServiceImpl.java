@@ -84,7 +84,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.lang.String, java.lang.String, java.util.List, java.util.List, java.util.List)
      */
     public void createAndBlankApproveSalaryExpenseTransferDocument(String documentDescription, String explanation, String annotation, List<String> adHocRecipients, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
-        LOG.info("createSalaryExpenseTransferDocument() start");
+        LOG.debug("createSalaryExpenseTransferDocument() start");
 
         if (sourceAccountingLines == null || sourceAccountingLines.isEmpty()) {
             LOG.info("Cannot create a salary expense document when the given source accounting line is empty.");

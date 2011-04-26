@@ -95,7 +95,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      */
     public boolean createCashSweepTransactions() {
 
-        LOG.info("Starting \"Create Cash Sweep Transactions\" batch job...");
+        LOG.debug("Starting \"Create Cash Sweep Transactions\" batch job...");
         writeHeaders();
 
         Collection<CashSweepModel> cashSweepModels = getCashSweepModelMatchingCurrentDate();
@@ -107,7 +107,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
         }
 
         writeStatistics();
-        LOG.info("Finished \"Create Cash Sweep Transactions\" batch job!");
+        LOG.debug("Finished \"Create Cash Sweep Transactions\" batch job!");
 
         return true;
     }

@@ -54,7 +54,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-        LOG.info("Started web application context destruction");
+        LOG.debug("Started web application context destruction");
         try {
             SpringContext.close();
         } catch ( Exception ex ) {

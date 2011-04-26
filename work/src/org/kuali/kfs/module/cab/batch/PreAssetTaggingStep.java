@@ -37,12 +37,12 @@ public class PreAssetTaggingStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         try {
             java.sql.Date currentSqlDate = dateTimeService.getCurrentSqlDate();
-            LOG.info("Pre Asset Tagging extract started at " + dateTimeService.getCurrentTimestamp());
+            LOG.debug("Pre Asset Tagging extract started at " + dateTimeService.getCurrentTimestamp());
             Collection<PurchaseOrderAccount> preTaggablePOAccounts = batchExtractService.findPreTaggablePOAccounts();
             if (preTaggablePOAccounts != null && !preTaggablePOAccounts.isEmpty()) {
                 batchExtractService.savePreTagLines(preTaggablePOAccounts);
             }
-            LOG.info("Pre Asset Tagging extract finished at " + dateTimeService.getCurrentTimestamp());
+            LOG.debug("Pre Asset Tagging extract finished at " + dateTimeService.getCurrentTimestamp());
             batchExtractService.updateLastExtractDate(currentSqlDate);
         }
         catch (Throwable e) {

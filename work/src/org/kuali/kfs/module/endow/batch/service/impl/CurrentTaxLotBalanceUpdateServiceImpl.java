@@ -52,7 +52,7 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
      * Current Tax Lot Balances 
      */
     public boolean updateCurrentTaxLotBalances() {
-        LOG.info("updateCurrentTaxLotBalances() - Processed all HoldingTaxLot records started."); 
+        LOG.debug("updateCurrentTaxLotBalances() - Processed all HoldingTaxLot records started."); 
         
         //Step 1: remove all the records from END_CURR_TAX_LOT_BAL_T table
         clearAllCurrentTaxLotRecords();

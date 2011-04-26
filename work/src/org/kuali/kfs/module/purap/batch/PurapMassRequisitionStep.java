@@ -78,7 +78,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
     private final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        LOG.info("Starting execution of PurapMassRequisitionStep");
+        LOG.debug("Starting execution of PurapMassRequisitionStep");
 
         Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildRunParameterSearchKeyMap());
         if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValue())) {
@@ -196,7 +196,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
     }
 
     private RequisitionDocument populateQuantityDocument() {
-        LOG.info("Creating a new requisition.");
+        LOG.debug("Creating a new requisition.");
         RequisitionDocument reqDoc = null;
         try {
             reqDoc = (RequisitionDocument) documentService.getNewDocument(RequisitionDocument.class);

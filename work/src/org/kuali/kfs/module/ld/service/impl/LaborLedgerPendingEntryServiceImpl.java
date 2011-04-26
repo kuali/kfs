@@ -59,7 +59,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(java.util.Map)
      */
     public boolean hasPendingLaborLedgerEntry(Map fieldValues) {
-        LOG.info("hasPendingLaborLedgerEntry(Map fieldValues) started");
+        LOG.debug("hasPendingLaborLedgerEntry(Map fieldValues) started");
 
         Collection<LaborLedgerPendingEntry> pendingEntries = SpringContext.getBean(LookupService.class).findCollectionBySearch(LaborLedgerPendingEntry.class, fieldValues);
 
@@ -80,7 +80,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @return whether the business rules succeeded
      */
     public boolean generateLaborLedgerPendingEntries(LaborLedgerPostingDocument document) {
-        LOG.info("generateLaborLedgerPendingEntries() started");
+        LOG.debug("generateLaborLedgerPendingEntries() started");
         boolean success = true;
 
         // we must clear them first before creating new ones

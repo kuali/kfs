@@ -113,7 +113,7 @@ public class KemidFeeServiceImpl implements KemidFeeService {
      * @see org.kuali.kfs.module.endow.document.service.KemidFeeService#updateWaiverFeeYearToDateTotals()
      */
     public boolean updateWaiverFeeYearToDateTotals() {
-       LOG.info("updateWaiverFeeYearToDateTotals() process started");
+       LOG.debug("updateWaiverFeeYearToDateTotals() process started");
        
        boolean updated = true;
        
@@ -146,7 +146,7 @@ public class KemidFeeServiceImpl implements KemidFeeService {
      * @result return true if the system parameters exist, else false
      */
     protected boolean systemParametersForUpdateWaiverFeeAmounts() {
-        LOG.info("systemParametersForUpdateWaiverFeeAmounts() started.");
+        LOG.debug("systemParametersForUpdateWaiverFeeAmounts() started.");
         
         boolean systemParameterExists = true;
         

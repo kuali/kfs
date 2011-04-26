@@ -45,7 +45,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      * @see org.kuali.kfs.module.ld.service.LaborBaseFundsService#findCSFTracker(java.util.Map, boolean)
      */
     public List<LaborCalculatedSalaryFoundationTracker> findCSFTracker(Map fieldValues, boolean isConsolidated) {
-        LOG.info("start findCSFTracker()");
+        LOG.debug("start findCSFTracker()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackers(fieldValues, isConsolidated);
     }
 
@@ -54,7 +54,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      *      boolean)
      */
     public List<LaborCalculatedSalaryFoundationTracker> findCSFTrackerWithJuly1(Map fieldValues, boolean isConsolidated) {
-        LOG.info("start findCSFTrackerWithJuly1()");
+        LOG.debug("start findCSFTrackerWithJuly1()");
 
         List<LaborCalculatedSalaryFoundationTracker> CSFTrackerCollection = this.findCSFTracker(fieldValues, isConsolidated);
         Collection<July1PositionFunding> july1PositionFundings = lookupService.findCollectionBySearch(July1PositionFunding.class, fieldValues);
@@ -96,7 +96,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      * @see org.kuali.kfs.module.ld.service.LaborBaseFundsService#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
-        LOG.info("start findCSFTrackersAsAccountStatusBaseFunds()");
+        LOG.debug("start findCSFTrackersAsAccountStatusBaseFunds()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsAccountStatusBaseFunds(fieldValues, isConsolidated);
     }
 
@@ -105,7 +105,7 @@ public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborC
      *      boolean)
      */
     public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
-        LOG.info("start findCSFTrackersAsEmployeeFunding()");
+        LOG.debug("start findCSFTrackersAsEmployeeFunding()");
         return laborCalculatedSalaryFoundationTrackerDao.findCSFTrackersAsEmployeeFunding(fieldValues, isConsolidated);
     }
 

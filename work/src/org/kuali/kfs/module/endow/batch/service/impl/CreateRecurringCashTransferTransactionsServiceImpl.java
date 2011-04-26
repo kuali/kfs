@@ -100,7 +100,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
      */
     public boolean createRecurringCashTransferTransactions() {
 
-        LOG.info("Starting \"Create Recurring Cash Transfer Transactions\" batch job...");
+        LOG.debug("Starting \"Create Recurring Cash Transfer Transactions\" batch job...");
 
         Collection<EndowmentRecurringCashTransfer> recurringCashTransfers = getAllRecurringCashTransferTransactionsForCurrentDate();
 
@@ -139,7 +139,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
         writeStatistics();
 
-        LOG.info("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
+        LOG.debug("Finished \"Create Recurring Cash Transfer Transactions\" batch job!");
 
         return true;
     }

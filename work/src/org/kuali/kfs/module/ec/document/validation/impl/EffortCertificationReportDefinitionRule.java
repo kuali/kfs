@@ -43,7 +43,7 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("processCustomRouteDocumentBusinessRules() start");
+        LOG.debug("processCustomRouteDocumentBusinessRules() start");
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return false;

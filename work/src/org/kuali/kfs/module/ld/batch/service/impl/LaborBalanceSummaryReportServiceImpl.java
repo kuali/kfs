@@ -73,7 +73,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports()
      */
     public void generateBalanceSummaryReports() {
-        LOG.info("generateBalanceSummaryReports() started");
+        LOG.debug("generateBalanceSummaryReports() started");
 
         Date runDate = dateTimeService.getCurrentSqlDate();
         this.generatePosterOutputSummaryReport(runDate);
@@ -84,7 +84,7 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
      * @see org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService#generateBalanceSummaryReports(java.sql.Date)
      */
     public void generateBalanceSummaryReports(Date runDate) {
-        LOG.info("generateBalanceSummaryReports(Date) started");
+        LOG.debug("generateBalanceSummaryReports(Date) started");
 
         String yearEndPeriodLowerBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
         String lastDayOfFiscalYear = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);

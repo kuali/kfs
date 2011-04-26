@@ -39,7 +39,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
      */
     public void updateKemIdCorpusPriorYearValues(){
         
-        LOG.info("updateKemIdCorpusPriorYearValues() started");
+        LOG.debug("updateKemIdCorpusPriorYearValues() started");
 
         try {
             String updateCurrentCorpusSql = "UPDATE END_KEMID_CORPUS_VAL_T SET PRIOR_FY_CORPUS_VAL = CRNT_CORPUS_VAL, PRIOR_FY_PRIN_MVAL = CRNT_PRIN_MVAL";
@@ -54,7 +54,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
 
-        LOG.info("updateKemIdCorpusPriorYearValues() completed");
+        LOG.debug("updateKemIdCorpusPriorYearValues() completed");
     }
     
     /**
@@ -63,7 +63,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
      */
     public void updateCorpusAmountsFromTransactionArchive(Date currentDate){
 
-        LOG.info("updateCorpusAmountsFromTransactionArchive() started");
+        LOG.debug("updateCorpusAmountsFromTransactionArchive() started");
         
         Map<String, Object> currentCorpus = null;
         BigDecimal currentCorpusAmount = null;
@@ -139,7 +139,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
         
-        LOG.info("updateCorpusAmountsFromTransactionArchive() completed");
+        LOG.debug("updateCorpusAmountsFromTransactionArchive() completed");
     }
     
     /**
@@ -148,7 +148,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
      */
     public void updateKemIdCorpusPrincipalMarketValue(){
      
-        LOG.info("updateKemIdCorpusPrincipalMarketValue() started");
+        LOG.debug("updateKemIdCorpusPrincipalMarketValue() started");
         
         try{
             String selectCurrentBalanceSql = "select t2.KEMID, t2.PRIN_AT_MARKET from END_KEMID_CORPUS_VAL_T t1, END_KEMID_CRNT_BAL_V t2 where t1.KEMID = t2.KEMID";
@@ -183,7 +183,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
             
-        LOG.info("updateKemIdCorpusPrincipalMarketValue() completed");
+        LOG.debug("updateKemIdCorpusPrincipalMarketValue() completed");
     }
     
     /**
@@ -192,7 +192,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
      */
     public void updateEndowmentCorpusWithCurrentEndowmentCorpus(Date currentDate){
      
-        LOG.info("updateEndowmentCorpusWithCurrentEndowmentCorpus() started");
+        LOG.debug("updateEndowmentCorpusWithCurrentEndowmentCorpus() started");
         
         try {
             String insertEndowCorpusSql = "INSERT INTO END_ENDOW_CORPUS_T (KEMID, CORPUS_VAL_HIST_DT, CORPUS_VAL, VER_NBR, OBJ_ID)";
@@ -208,7 +208,7 @@ public class UpdateCorpusDaoJdbc extends PlatformAwareDaoBaseJdbc implements Upd
             throw new RuntimeException("Unable to execute: " + e.getMessage(), e);
         }        
         
-        LOG.info("updateEndowmentCorpusWithCurrentEndowmentCorpus() completed");
+        LOG.debug("updateEndowmentCorpusWithCurrentEndowmentCorpus() completed");
 
     }
     

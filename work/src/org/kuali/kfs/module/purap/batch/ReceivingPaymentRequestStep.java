@@ -34,7 +34,7 @@ public class ReceivingPaymentRequestStep extends AbstractStep {
     public boolean execute(String jobName, 
                            Date jobRunDate) 
     throws InterruptedException {
-        log.info("Started executing the batch job.....");
+        log.debug("Started executing the batch job.....");
         paymentRequestService.processPaymentRequestInReceivingStatus();
         return true;
     }

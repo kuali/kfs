@@ -98,7 +98,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
      */
     public boolean createAciTransactions() {
 
-        LOG.info("Starting \"Create Automated Cash Investments Transactions\" batch job...");
+        LOG.debug("Starting \"Create Automated Cash Investments Transactions\" batch job...");
         writeHeaders();
 
         for (AutomatedCashInvestmentModel aciModel : getAutomatedCashInvestmentModelMatchingCurrentDate()) {
@@ -116,7 +116,7 @@ public class CreateAutomatedCashInvestmentTransactionsServiceImpl implements Cre
         }
 
         writeStatistics();
-        LOG.info("Finished \"Create Automated Cash Investments Transactions\" batch job!");
+        LOG.debug("Finished \"Create Automated Cash Investments Transactions\" batch job!");
 
         return true;
     }

@@ -59,7 +59,7 @@ public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFe
      * @result return true if the system parameters exist, else false
      */
     protected boolean systemParametersForUpdateWaiverFeeAmounts() {
-        LOG.info("systemParametersForUpdateWaiverFeeAmounts() started.");
+        LOG.debug("systemParametersForUpdateWaiverFeeAmounts() started.");
         
         boolean systemParameterExists = true;
         
@@ -69,7 +69,7 @@ public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFe
           return false;
         }
         
-        LOG.info("systemParametersForUpdateWaiverFeeAmounts() ended.");
+        LOG.debug("systemParametersForUpdateWaiverFeeAmounts() ended.");
         
         return systemParameterExists;
     }

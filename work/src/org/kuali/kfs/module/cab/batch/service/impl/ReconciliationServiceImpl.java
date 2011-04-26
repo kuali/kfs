@@ -59,7 +59,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         /**
          * FORMULA is to equate amount value (GL_ENTRY_T + GL_PEND_ENTRY_T = AP_ACCT_LINE_HIST)
          */
-        LOG.info("Reconcile started");
+        LOG.debug("Reconcile started");
         groupGLEntries(glEntries);
         groupPurapAccountEntries(purapAcctEntries);
         reconcileGroups(glEntryGroupMap.values());
@@ -70,7 +70,7 @@ public class ReconciliationServiceImpl implements ReconciliationService {
             checkGroupByContinuationAccount();
             reconcileGroups(misMatchedGroups);
         }
-        LOG.info("Reconcile finished");
+        LOG.debug("Reconcile finished");
     }
 
     /**

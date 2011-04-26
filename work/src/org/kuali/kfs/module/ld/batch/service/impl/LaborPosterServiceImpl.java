@@ -91,7 +91,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @see org.kuali.kfs.module.ld.batch.service.LaborPosterService#postMainEntries()
      */
     public void postMainEntries() {
-        LOG.info("postMainEntries() started");
+        LOG.debug("postMainEntries() started");
 
         Date runDate = dateTimeService.getCurrentSqlDate();
         this.postLaborLedgerEntries(runDate);
@@ -105,7 +105,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @param runDate the data when the process is running
      */
     protected void postLaborLedgerEntries(Date runDate) {
-        LOG.info("postLaborLedgerEntries() started..........................");
+        LOG.debug("postLaborLedgerEntries() started..........................");
         numberOfErrorOriginEntry = 0;
         // change file name to FIS
 

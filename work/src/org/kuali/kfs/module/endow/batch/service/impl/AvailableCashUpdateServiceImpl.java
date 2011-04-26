@@ -90,7 +90,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
      * @result return true if the system parameters exist, else false
      */
     protected boolean systemParametersForSummarizeAvailableSpendableFundsJobExist() {
-        LOG.info("systemParametersForSummarizeAvailableSpendableFundsJobExist() started.");
+        LOG.debug("systemParametersForSummarizeAvailableSpendableFundsJobExist() started.");
         
         boolean systemParameterExists = true;
         

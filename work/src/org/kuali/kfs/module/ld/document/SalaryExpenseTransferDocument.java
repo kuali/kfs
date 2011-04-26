@@ -69,7 +69,7 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("started generateLaborLedgerPendingEntries()");
+        LOG.debug("started generateLaborLedgerPendingEntries()");
         
         boolean isSuccessful = true;
         ExpenseTransferAccountingLine expenseTransferAccountingLine = (ExpenseTransferAccountingLine) accountingLine;
@@ -91,7 +91,7 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
      * @see org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase#generateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("started generateLaborLedgerBenefitClearingPendingEntries()");
+        LOG.debug("started generateLaborLedgerBenefitClearingPendingEntries()");
 
         String chartOfAccountsCode = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_CHART_PARM_NM);
         String accountNumber = SpringContext.getBean(ParameterService.class).getParameterValue(SalaryExpenseTransferDocument.class, LaborConstants.SalaryExpenseTransfer.BENEFIT_CLEARING_ACCOUNT_PARM_NM);

@@ -1443,7 +1443,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return GeneralLedgerPendingEntry generated wire charge debit
      */
     protected GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
-        LOG.info("processWireChargeDebitEntries started");
+        LOG.debug("processWireChargeDebitEntries started");
         
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
@@ -1491,7 +1491,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @param wireCharge wireCharge object from current fiscal year
      */
     protected void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
-        LOG.info("processWireChargeCreditEntries started");
+        LOG.debug("processWireChargeCreditEntries started");
         
         // copy the charge entry and adjust for credit
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);

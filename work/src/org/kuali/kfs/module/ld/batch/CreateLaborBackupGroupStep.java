@@ -37,7 +37,7 @@ public class CreateLaborBackupGroupStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        LOG.info("createLaborBackupGroup() started");
+        LOG.debug("createLaborBackupGroup() started");
         
         SpringContext.getBean(LaborOriginEntryGroupService.class).createBackupGroup();
         

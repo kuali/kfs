@@ -1641,9 +1641,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         //
         // set up the hashmaps by iterating through the results
 
-        LOG.info("\nGL Query started: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        LOG.debug("\nGL Query started: " + String.format("%tT", dateTimeService.getCurrentDate()));
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        LOG.info("\nGL Query finished: " + String.format("%tT", dateTimeService.getCurrentDate()));
+        LOG.debug("\nGL Query finished: " + String.format("%tT", dateTimeService.getCurrentDate()));
         while (Results.hasNext()) {
             Object[] ReturnList = (Object[]) Results.next();
             LOG.debug(String.format("\nfields returned = %d\n", ReturnList.length));

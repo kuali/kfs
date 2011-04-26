@@ -162,7 +162,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * return boolean true if successful else false
      */
     public boolean processFeeTransactions() {
-        LOG.info("processFeeTransactions() started");
+        LOG.debug("processFeeTransactions() started");
         
         boolean success = true;
         
@@ -187,7 +187,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @return true if updated successfully else return false
      */
     protected boolean updateKemidFeeWaivedYearToDateAmount() {
-        LOG.info("updateKemidFeeWaivedFeeYearToDateToZero() started"); 
+        LOG.debug("updateKemidFeeWaivedFeeYearToDateToZero() started"); 
         
         // 6.2.1 Basic Process - Step 1:
         boolean updated = true;
@@ -197,7 +197,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             return false;
         }
         
-        LOG.info("updateKemidFeeWaivedFeeYearToDateToZero() ended."); 
+        LOG.debug("updateKemidFeeWaivedFeeYearToDateToZero() ended."); 
         return updated;
     }
     
@@ -222,7 +222,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Processes update Fee Transactions
      */
     protected boolean processUpdateFeeTransactions() {
-        LOG.info("processUpdateFeeTransactions() started"); 
+        LOG.debug("processUpdateFeeTransactions() started"); 
         
         boolean success = true;
         
@@ -255,7 +255,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             writeTotalsProcessedGrandTotalsLine();
         }
         
-        LOG.info("processUpdateFeeTransactions() ended."); 
+        LOG.debug("processUpdateFeeTransactions() ended."); 
         
         return success;
     }
@@ -264,7 +264,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * Generates the fee waived and fee accrued report
      */
     protected boolean generateWaivedAndAccruedReport() {
-        LOG.info("generateWaivedAndAccruedReport() started"); 
+        LOG.debug("generateWaivedAndAccruedReport() started"); 
         
         boolean success = true;
         KualiDecimal accruedFeeGrandTotal = KualiDecimal.ZERO;
@@ -307,7 +307,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         feeProcessingWaivedAndAccruedGrandTotalLine.setTotalWaivedFees(waivedFeeGrandTotal);
         processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.writeTableRow(feeProcessingWaivedAndAccruedGrandTotalLine);
         
-        LOG.info("generateWaivedAndAccruedReport() ended."); 
+        LOG.debug("generateWaivedAndAccruedReport() ended."); 
         
         return success;
     }
@@ -409,7 +409,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param feeMethod 
      */
     protected void performCalculationsForKemId(FeeMethod feeMethod) {
-        LOG.info("performCalculationsForKemId() started"); 
+        LOG.debug("performCalculationsForKemId() started"); 
         
         Collection<KemidFee> kemidFeeRecords = new ArrayList();
         
@@ -430,7 +430,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             }
         }
         
-        LOG.info("performCalculationsForKemId() ended."); 
+        LOG.debug("performCalculationsForKemId() ended."); 
     }
     
     /**
@@ -540,7 +540,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @param feeMethod, kemidFee
      */
     protected boolean generateCashDecreaseDocument(FeeMethod feeMethod, int maxNumberOfTransacationLines) {
-        LOG.info("generateCashDecreaseDocument() entered.");  
+        LOG.debug("generateCashDecreaseDocument() entered.");  
         
         String feeMethodCode = feeMethod.getCode();
         int lineNumber = 0;
@@ -619,7 +619,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         
         writeTotalsProcessedSubTotalsLine(feeMethodCode);
-        LOG.info("generateCashDecreaseDocument() ended.");
+        LOG.debug("generateCashDecreaseDocument() ended.");
         
         return true;
     }
@@ -684,7 +684,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * @return true if successful in submitting or routing the document.
      */
     protected boolean submitDocumentForApprovalProcess(CashDecreaseDocument cashDecreaseDocument, FeeMethod feeMethod) {
-        LOG.info("submitDocumentForApprovalProcess() entered.");
+        LOG.debug("submitDocumentForApprovalProcess() entered.");
         
         boolean success = true;
         
@@ -697,7 +697,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
             success = routeCashDecreaseDocument(cashDecreaseDocument, feeMethod.getCode());
         }
         
-        LOG.info("submitDocumentForApprovalProcess() ended.");
+        LOG.debug("submitDocumentForApprovalProcess() ended.");
         
         return success;
     }

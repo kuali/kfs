@@ -49,7 +49,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
      * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackers(java.util.Map, boolean)
      */
     public List<LaborCalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated) {
-        LOG.info("Start findCSFTrackers()");
+        LOG.debug("Start findCSFTrackers()");
 
         List<LaborCalculatedSalaryFoundationTracker> csfTrackerCollection = new ArrayList<LaborCalculatedSalaryFoundationTracker>();
         if (isConsolidated) {
@@ -72,7 +72,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
      * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
-        LOG.info("Start findCSFTrackersAsAccountStatusBaseFunds()");
+        LOG.debug("Start findCSFTrackersAsAccountStatusBaseFunds()");
 
         List<String> groupByList = getGroupByList(isConsolidated);
         List<String> attributeList = getAttributeListForCSFTracker(isConsolidated, false);
@@ -90,7 +90,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
      *      boolean)
      */
     public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
-        LOG.info("Start findCSFTrackersAsEmployeeFunding()");
+        LOG.debug("Start findCSFTrackersAsEmployeeFunding()");
 
         List<LaborCalculatedSalaryFoundationTracker> csfTrackerCollection = findCSFTrackers(fieldValues, isConsolidated);
         List<EmployeeFunding> employeeFundingCollection = new ArrayList<EmployeeFunding>();

@@ -647,7 +647,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
         INPUT_GLE_FILE_br = new BufferedReader(INPUT_GLE_FILE);
         int line = 0;
-        LOG.info("Starting Scrubber Process process group...");
+        LOG.debug("Starting Scrubber Process process group...");
         try {
             while ((GLEN_RECORD = INPUT_GLE_FILE_br.readLine()) != null) {
                 if (!org.apache.commons.lang.StringUtils.isEmpty(GLEN_RECORD) && !org.apache.commons.lang.StringUtils.isBlank(GLEN_RECORD.trim())) {

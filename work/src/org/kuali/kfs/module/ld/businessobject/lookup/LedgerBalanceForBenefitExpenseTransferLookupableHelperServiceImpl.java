@@ -44,7 +44,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        LOG.info("Start getSearchResults()");
+        LOG.debug("Start getSearchResults()");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));

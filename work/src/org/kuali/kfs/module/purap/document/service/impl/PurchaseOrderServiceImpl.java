@@ -1705,7 +1705,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseFullyDisencumberedOrders()
      */
     public boolean autoCloseFullyDisencumberedOrders() {
-        LOG.info("autoCloseFullyDisencumberedOrders() started");
+        LOG.debug("autoCloseFullyDisencumberedOrders() started");
 
         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
 
@@ -1721,7 +1721,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             }
         }
-        LOG.info("autoCloseFullyDisencumberedOrders() ended");
+        LOG.debug("autoCloseFullyDisencumberedOrders() ended");
 
         return true;
     }
@@ -1730,7 +1730,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseRecurringOrders()
      */
     public boolean autoCloseRecurringOrders() {
-        LOG.info("autoCloseRecurringOrders() started");
+        LOG.debug("autoCloseRecurringOrders() started");
         boolean shouldSendEmail = true;
         MailMessage message = new MailMessage();
         String parameterEmail = parameterService.getParameterValue(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES);
@@ -1838,7 +1838,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             sendMessage(message, emailBody.toString());
         }
         resetAutoCloseRecurringOrderDateParameter();
-        LOG.info("autoCloseRecurringOrders() ended");
+        LOG.debug("autoCloseRecurringOrders() ended");
         
         return true;
     }

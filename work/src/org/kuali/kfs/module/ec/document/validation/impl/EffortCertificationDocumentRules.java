@@ -68,7 +68,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
-        LOG.info("processAddDetailLineRules() start");
+        LOG.debug("processAddDetailLineRules() start");
 
         document.refreshNonUpdateableReferences();
         detailLine.refreshNonUpdateableReferences();
@@ -108,7 +108,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
-        LOG.info("processUpdateDetailLineRules() start");
+        LOG.debug("processUpdateDetailLineRules() start");
 
         if (!this.processAddDetailLineRules(document, detailLine)) {
             return false;
@@ -132,7 +132,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        LOG.info("processAddLineBusinessRules() start");
+        LOG.debug("processAddLineBusinessRules() start");
 
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) (approveEvent.getDocument());
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
@@ -154,7 +154,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
-        LOG.info("processAddLineBusinessRules() start");
+        LOG.debug("processAddLineBusinessRules() start");
 
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;
 
@@ -231,7 +231,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
     public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
-        LOG.info("processLoadDetailLineRules() start");
+        LOG.debug("processLoadDetailLineRules() start");
 
         boolean isValid = true;
         String emplid = effortCertificationDocument.getEmplid();

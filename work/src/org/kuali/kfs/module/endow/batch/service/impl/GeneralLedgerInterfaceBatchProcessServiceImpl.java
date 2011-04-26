@@ -135,7 +135,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * return boolean true if successful else false
      */
     public boolean processKEMActivityToCreateGLEntries() {
-        LOG.info("processKEMActivityToCreateGLEntries() started.");
+        LOG.debug("processKEMActivityToCreateGLEntries() started.");
         
         boolean success = true;
         
@@ -144,7 +144,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         //main job to process KEM activity...
         success = processKEMActivity();
         
-        LOG.info("processKEMActivityToCreateGLEntries() exited.");
+        LOG.debug("processKEMActivityToCreateGLEntries() exited.");
         
         return success;
     }
@@ -153,7 +153,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
      * process the KEM Activity transactions to create gl entries in the origin entry file
      */
     public boolean processKEMActivity() {
-        LOG.info("processKEMActivity() started.");
+        LOG.debug("processKEMActivity() started.");
         
         boolean success = true;
         previousDocumentTypeCode = null;
@@ -212,7 +212,7 @@ public class GeneralLedgerInterfaceBatchProcessServiceImpl implements GeneralLed
         //write the statistics report now...
         writeStatisticsReport(statisticsReportRows);
         
-        LOG.info("processKEMActivity() exited.");
+        LOG.debug("processKEMActivity() exited.");
         
         return success;
     }

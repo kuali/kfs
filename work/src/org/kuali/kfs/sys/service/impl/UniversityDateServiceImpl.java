@@ -37,8 +37,8 @@ public class UniversityDateServiceImpl implements UniversityDateService {
 
     private static final Logger LOG = Logger.getLogger(UniversityDateServiceImpl.class);
 
-    private UniversityDateDao universityDateDao;
-    private DateTimeService dateTimeService;
+    protected UniversityDateDao universityDateDao;
+    protected DateTimeService dateTimeService;
     
     /**
      * This method retrieves a UniversityDate object using today's date to create the instance.
@@ -48,9 +48,8 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.kfs.sys.service.UniversityDateService#getCurrentUniversityDate()
      */
     public UniversityDate getCurrentUniversityDate() {
-        LOG.debug("getCurrentUniversityDate() started");
         java.util.Date now = dateTimeService.getCurrentDate();
-        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, DateUtils.clearTimeFields(now));
+        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( DateUtils.clearTimeFields(now).getTime() ) );
     }
 
     /**
@@ -82,7 +81,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, date);
+        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( date.getTime() ));
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 

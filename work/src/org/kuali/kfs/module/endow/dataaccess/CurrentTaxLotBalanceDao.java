@@ -32,17 +32,24 @@ public interface CurrentTaxLotBalanceDao {
     public Collection<CurrentTaxLotBalance> getAllCurrentTaxLotBalanceEntriesForSecurity(String securityId);
 
     /**
-     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = CU
-     * @param feeMethod feeMethod object
-     * @return totalHoldingUnits
+     * Gets the security ids for a given securityClassCode in END_FEE_SEC_T table
+     * 
+     * @feeMethodCode FEE_MTH
+     * @return securityIds
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingUnits(FeeMethod feeMethod);
+    public Collection getSecurityIds(String feeMethodCode);
+
+    /**
+     * Gets the security codes for a given securityClassCode in END_FEE_CLS_CD_T table
+     * 
+     * @feeMethodCode FEE_MTH
+     * @return securityCodes
+     */
+    public Collection getSecurityClassCodes(String feeMethodCode);
     
     /**
-     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = CMV
-     * @param feeMethod feeMethod object
-     * @return totalHoldingMarketValue
+     * Prepares the criteria and selects the records from END_CRNT_TAX_LOT_BAL_T table
      */
-    public BigDecimal getCurrentTaxLotBalanceTotalHoldingMarketValue(FeeMethod feeMethod);
-    
+    public Collection<CurrentTaxLotBalance> getCurrentTaxLotBalances(FeeMethod feeMethod, Collection securityClassCodes, Collection securityIds);
+
 }

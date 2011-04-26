@@ -459,6 +459,9 @@
  		<property name="kEMService">
 			<ref bean="kemService" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
 	    <property name="currentTaxLotBalanceDao">
 			<ref bean="currentTaxLotBalanceDao" />
 		</property>
@@ -1555,7 +1558,10 @@
 		</property>
 		<property name="kemService">
 			<ref bean="kemService" />
-		</property>			    
+		</property>	
+	    <property name="currentTaxLotService">
+			<ref bean="currentTaxLotService" />
+		</property>		    
 		<property name="transactionArchiveDao">
 			<ref bean="transactionArchiveDao" />
 		</property>	
@@ -2030,7 +2036,7 @@
 		</property>				
 	</bean>	
 	
-	<bean id="endowmentTransactionDocumentService"  parent="endowmentTransactionDocumentService-parentBean" abstract="true"/>
+	<bean id="endowmentTransactionDocumentService"  parent="endowmentTransactionDocumentService-parentBean"/>
 	<bean id="endowmentTransactionDocumentService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionDocumentServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

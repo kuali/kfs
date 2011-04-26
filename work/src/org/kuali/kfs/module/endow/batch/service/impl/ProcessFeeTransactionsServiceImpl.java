@@ -43,6 +43,7 @@ import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
+import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.TransactionArchiveService;
@@ -86,7 +87,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected NoteService noteService;
     protected PersonService personService;
     protected KualiConfigurationService configService;
-    
+    protected CurrentTaxLotService currentTaxLotService;
+
     protected ReportWriterService processFeeTransactionsExceptionReportsWriterService;
     protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
     protected ReportWriterService processFeeTransactionsWaivedAndAccruedFeesReportsWriterService;
@@ -379,7 +381,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
-            totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingUnits(feeMethod);
+            totalHoldingUnits = currentTaxLotService.getCurrentTaxLotBalanceTotalHoldingUnits(feeMethod);
         }
         
         totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_MARKET_VALUE);
@@ -398,7 +400,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
-            totalHoldingUnits = currentTaxLotBalanceDao.getCurrentTaxLotBalanceTotalHoldingMarketValue(feeMethod);
+            totalHoldingUnits = currentTaxLotService.getCurrentTaxLotBalanceTotalHoldingMarketValue(feeMethod);
         }
         
         totalAmountCalculated = KEMCalculationRoundingHelper.multiply(feeMethod.getFirstFeeRate(), totalHoldingUnits, EndowConstants.Scale.SECURITY_MARKET_VALUE);
@@ -1354,5 +1356,8 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         this.configService = configService;
     }
     
+    public void setCurrentTaxLotService(CurrentTaxLotService currentTaxLotService) {
+        this.currentTaxLotService = currentTaxLotService;
+    }
 }
 

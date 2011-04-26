@@ -75,12 +75,16 @@
 		<property name="moduleConfiguration" ref="cabModuleConfiguration" />
 	</bean>
 
-    <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl"/>
+    <bean id="capitalAssetBuilderModuleService"  parent="capitalAssetBuilderModuleService-parentBean"/>
+    <bean id="capitalAssetBuilderModuleService-parentBean" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl" abstract="true"/>
 	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
 	<bean id="purchasingAccountsPayableItemAssetDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.PurchasingAccountsPayableItemAssetDaoOjb" />
-	<bean id="batchExtractService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl">
+	
+	
+	<bean id="batchExtractService"  parent="batchExtractService-parentBean"/>
+	<bean id="batchExtractService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractServiceImpl" abstract="true">
 		<property name="extractDao" ref="extractDao" />
 		<property name="purchasingAccountsPayableItemAssetDao" ref="purchasingAccountsPayableItemAssetDao" />
 		<property name="parameterService" ref="parameterService" />
@@ -89,20 +93,26 @@
 		<property name="purApLineService" ref="purApLineService" />
 		<property name="purApInfoService" ref="purApInfoService" />
 	</bean>
-	<bean id="batchExtractReportService" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractReportServiceImpl">
+	
+	<bean id="batchExtractReportService"  parent="batchExtractReportService-parentBean"/>
+	<bean id="batchExtractReportService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.BatchExtractReportServiceImpl" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="cabBatchStatusReportInfo" ref="cabBatchStatusReportInfo" />
 		<property name="cabBatchMismatchReportInfo" ref="cabBatchMismatchReportInfo" />
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
-	<bean id="reconciliationService" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false">
+	
+	<bean id="reconciliationService"  parent="reconciliationService-parentBean"/>
+	<bean id="reconciliationService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
 	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.ExtractStep" parent="step">
 	 	<property name="batchExtractService" ref="batchExtractService" />
 	 	<property name="batchExtractReportService" ref="batchExtractReportService" />
 	 	<property name="dateTimeService" ref="dateTimeService" />	 	
 	</bean>
+	
 	<bean id="cabExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -145,7 +155,8 @@
 		<property name="cronExpression" value="0 0 7 ? * *" />
 	</bean>
 
-	<bean id="cabBatchStatusReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+	<bean id="cabBatchStatusReportInfo"  parent="cabBatchStatusReportInfo-parentBean"/>
+	<bean id="cabBatchStatusReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder"  abstract="true">
 		<property name="reportTitle" value="CAB Batch Status Report" />
 		<property name="reportFileName" value="cab_batch_status_report" />
 		<property name="reportsDirectory" value="${reports.directory}/cab/" />
@@ -160,7 +171,8 @@
 		</property>
 	</bean>
 	
-	<bean id="cabBatchMismatchReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+	<bean id="cabBatchMismatchReportInfo"  parent="cabBatchMismatchReportInfo-parentBean"/>
+	<bean id="cabBatchMismatchReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder"  abstract="true">
 		<property name="reportTitle" value="CAB Batch Mismatch Report" />
 		<property name="reportFileName" value="cab_batch_mismatch_report" />
 		<property name="reportsDirectory" value="${reports.directory}/cab/" />
@@ -193,7 +205,8 @@
 		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
-    <bean id="cabGlEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="cabGlEntryLookupable"  parent="cabGlEntryLookupable-parentBean"/>
+    <bean id="cabGlEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="generalLedgerEntryLookupableHelperService" />
         </property>
@@ -208,9 +221,12 @@
     		<ref bean="purchasingAccountsPayableReportDao" />
     	</property>
     </bean>
-	<bean id="purApInfoService" class="org.kuali.kfs.module.cab.document.service.impl.PurApInfoServiceImpl">
+    
+	<bean id="purApInfoService"  parent="purApInfoService-parentBean"/>
+	<bean id="purApInfoService-parentBean" class="org.kuali.kfs.module.cab.document.service.impl.PurApInfoServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>  
+	
 	<bean id="purApLineDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.dataaccess.impl.PurApLineDaoOjb"></bean>
 	<bean id="purApLineService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -218,7 +234,9 @@
 		<property name="purApInfoService" ref="purApInfoService" />
 		<property name="capitalAssetManagementModuleService" ref="capitalAssetManagementModuleService" />
 	</bean>  
-	<bean id="purApLineDocumentService" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl">
+	
+	<bean id="purApLineDocumentService"  parent="purApLineDocumentService-parentBean"/>
+	<bean id="purApLineDocumentService-parentBean" class="org.kuali.kfs.module.cab.document.service.impl.PurApLineDocumentServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="purApLineService" ref="purApLineService" />
 		<property name="purApInfoService" ref="purApInfoService" />
@@ -228,13 +246,15 @@
 <!-- **** End of PurAp service beans **** -->
 
 <!-- Start Gl Line Processing beans -->
-	<bean id="glLineService" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl">
+	<bean id="glLineService"  parent="glLineService-parentBean"/>
+	<bean id="glLineService-parentBean" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="assetGlobalService" ref="assetGlobalService"/>
 	</bean> 
 <!-- End GL Line Processing beans -->
 
 <!-- Start Gl and PurAp helper beans -->
-	<bean id="glAndPurApHelperService" class="org.kuali.kfs.module.cab.document.service.impl.GlAndPurApHelperServiceImpl" />
+	<bean id="glAndPurApHelperService"  parent="glAndPurApHelperService-parentBean"/>
+	<bean id="glAndPurApHelperService-parentBean" class="org.kuali.kfs.module.cab.document.service.impl.GlAndPurApHelperServiceImpl"  abstract="true"/>
 <!-- End Gl and PurAp helper beans -->	
 </beans>

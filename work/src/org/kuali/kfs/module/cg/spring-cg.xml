@@ -89,7 +89,8 @@
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 
-    <bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" />
+    <bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
+    <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" />
 	
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />
@@ -99,7 +100,8 @@
 	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
 	
 	<!-- Services -->
-	<bean id="closeService" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl">
+	<bean id="closeService"  parent="closeService-parentBean"/>
+	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">
 		<property name="awardDao">
 			<ref bean="awardDao" />
 		</property>
@@ -117,7 +119,8 @@
 	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
 	</bean>
 
-	<bean id="proposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="proposalLookupable"  parent="proposalLookupable-parentBean"/>
+	<bean id="proposalLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="proposalLookupableHelperService" />
 		</property>
@@ -126,25 +129,29 @@
     <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
     </bean>
 
-    <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="awardLookupable"  parent="awardLookupable-parentBean"/>
+    <bean id="awardLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="awardLookupableHelperService" />
         </property>
     </bean>
 
-    <bean id="subcontractorService" class="org.kuali.kfs.module.cg.service.impl.SubcontractorServiceImpl">
+    <bean id="subcontractorService"  parent="subcontractorService-parentBean"/>
+    <bean id="subcontractorService-parentBean" class="org.kuali.kfs.module.cg.service.impl.SubcontractorServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
 
-    <bean id="agencyService" class="org.kuali.kfs.module.cg.service.impl.AgencyServiceImpl">
+    <bean id="agencyService"  parent="agencyService-parentBean"/>
+    <bean id="agencyService-parentBean" class="org.kuali.kfs.module.cg.service.impl.AgencyServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
 
-    <bean id="cfdaService" class="org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl">
+    <bean id="cfdaService"  parent="cfdaService-parentBean"/>
+    <bean id="cfdaService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -190,13 +197,15 @@
 		</property>
 	</bean>
 	
-<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
+<bean id="routingFormResearchRiskService"  parent="routingFormResearchRiskService-parentBean"/>
+<bean id="routingFormResearchRiskService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
    
-    <bean id="researchRiskReviewRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl"/>    
+    <bean id="researchRiskReviewRoleTypeService" parent="researchRiskReviewRoleTypeService-parentBean"/>
+    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>    
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"

@@ -116,7 +116,8 @@
 		</property>
 	</bean>
 	
-	<bean id="availableCashUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImpl">
+	<bean id="availableCashUpdateService"  parent="availableCashUpdateService-parentBean"/>
+	<bean id="availableCashUpdateService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.AvailableCashUpdateServiceImpl" abstract="true">
     	<property name="parameterService">
     	 <ref bean="parameterService" />
 		</property>		
@@ -160,7 +161,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
-	<bean id="createAccrualTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl">
+	<bean id="createAccrualTransactionsService"  parent="createAccrualTransactionsService-parentBean"/>
+	<bean id="createAccrualTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAccrualTransactionsServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -359,7 +361,8 @@
         </property>
     </bean>
     
-    <bean id="endowmenteDocPostingService" class="org.kuali.kfs.module.endow.batch.service.impl.EndowmenteDocPostingServiceImpl">
+    <bean id="endowmenteDocPostingService"  parent="endowmenteDocPostingService-parentBean"/>
+    <bean id="endowmenteDocPostingService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.EndowmenteDocPostingServiceImpl" abstract="true">
         <property name="pendingTransactionDocumentService">
             <ref bean="pendingTransactionDocumentService" />
         </property>
@@ -402,7 +405,8 @@
         <property name="aggregationModeOn" value="false"/>
     </bean>
     
-    <bean id="pendingTransactionDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.PendingTransactionDocumentServiceImpl">
+    <bean id="pendingTransactionDocumentService"  parent="pendingTransactionDocumentService-parentBean"/>
+    <bean id="pendingTransactionDocumentService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.PendingTransactionDocumentServiceImpl" abstract="true">
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
@@ -431,7 +435,8 @@
 		</property>
 	</bean>
 	
-	<bean id="currentTaxLotBalanceUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl">
+	<bean id="currentTaxLotBalanceUpdateService"  parent="currentTaxLotBalanceUpdateService-parentBean"/>
+	<bean id="currentTaxLotBalanceUpdateService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CurrentTaxLotBalanceUpdateServiceImpl" abstract="true">
     	<property name="parameterService">
     	 <ref bean="parameterService" />
 		</property>		
@@ -488,7 +493,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>	
 	</bean>
 	
-	<bean id="createGainLossTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl">
+	<bean id="createGainLossTransactionsService"  parent="createGainLossTransactionsService-parentBean"/>
+	<bean id="createGainLossTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CreateGainLossDistributionTransactionsServiceImpl" abstract="true">
 		<property name="pooledFundValueService">
 			<ref bean="pooledFundValueService" />
 		</property>
@@ -586,7 +592,8 @@
 		</property>
 	</bean>
 	
-	<bean id="rollProcessDateService" class="org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImpl">
+	<bean id="rollProcessDateService"  parent="rollProcessDateService-parentBean"/>
+	<bean id="rollProcessDateService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.RollProcessDateServiceImpl" abstract="true">
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>	
@@ -619,7 +626,8 @@
 		</property>
 	</bean>
 	
-	<bean id="updateHistoryCashService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHistoryCashServiceImpl">
+	<bean id="updateHistoryCashService"  parent="updateHistoryCashService-parentBean"/>
+	<bean id="updateHistoryCashService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHistoryCashServiceImpl" abstract="true">
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>	
@@ -652,7 +660,8 @@
 		</property>
 	</bean>
 	
-	<bean id="updateHoldingHistoryService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHoldingHistoryServiceImpl">
+	<bean id="updateHoldingHistoryService"  parent="updateHoldingHistoryService-parentBean"/>
+	<bean id="updateHoldingHistoryService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateHoldingHistoryServiceImpl" abstract="true">
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>	
@@ -692,7 +701,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
 	</bean>
 	
-	<bean id="rollFrequencyDatesService" class="org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImpl">
+	<bean id="rollFrequencyDatesService"  parent="rollFrequencyDatesService-parentBean"/>
+	<bean id="rollFrequencyDatesService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.RollFrequencyDatesServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
@@ -789,7 +799,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
-	<bean id="accrualProcessingService" class="org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl">
+	<bean id="accrualProcessingService"  parent="accrualProcessingService-parentBean"/>
+	<bean id="accrualProcessingService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.AccrualProcessingServiceImpl" abstract="true">
 		<property name="securityService">
 			<ref bean="securityService" />
 		</property>
@@ -863,7 +874,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>
 	
-	<bean id="pooledFundControlTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImpl">
+	<bean id="pooledFundControlTransactionsService"  parent="pooledFundControlTransactionsService-parentBean"/>
+	<bean id="pooledFundControlTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.PooledFundControlTransactionsServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -941,7 +953,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>	
 	
-	<bean id="incomeDistributionForPooledFundService" class="org.kuali.kfs.module.endow.batch.service.impl.IncomeDistributionForPooledFundServiceImpl">
+	<bean id="incomeDistributionForPooledFundService"  parent="incomeDistributionForPooledFundService-parentBean"/>
+	<bean id="incomeDistributionForPooledFundService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.IncomeDistributionForPooledFundServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
@@ -1021,7 +1034,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>		
 	</bean>
 	
-    <bean id="holdingHistoryMarketValuesUpdateService" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl">
+    <bean id="holdingHistoryMarketValuesUpdateService"  parent="holdingHistoryMarketValuesUpdateService-parentBean"/>
+    <bean id="holdingHistoryMarketValuesUpdateService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.HoldingHistoryMarketValuesUpdateServiceImpl" abstract="true">
         <property name="documentService">
             <ref bean="documentService" />
         </property>
@@ -1073,7 +1087,8 @@
             <ref bean="createCashSweepTransactionsService" />
         </property>
     </bean>
-    <bean id="createCashSweepTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl">
+    <bean id="createCashSweepTransactionsService"  parent="createCashSweepTransactionsService-parentBean"/>
+    <bean id="createCashSweepTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CreateCashSweepTransactionsServiceImpl" abstract="true">
         <property name="updateEaiTaxLotService">
             <ref bean="updateAssetIncreaseDocumentTaxLotsService" />
         </property>
@@ -1164,7 +1179,8 @@
 		</property>
 	</bean>
 	
-	<bean id="createAutomatedCashInvestmentTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl">
+	<bean id="createAutomatedCashInvestmentTransactionsService"  parent="createAutomatedCashInvestmentTransactionsService-parentBean"/>
+	<bean id="createAutomatedCashInvestmentTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CreateAutomatedCashInvestmentTransactionsServiceImpl" abstract="true">
         <property name="updateEaiTaxLotService">
             <ref bean="updateAssetIncreaseDocumentTaxLotsService" />
         </property>
@@ -1259,7 +1275,8 @@
         </property>
         <property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
     </bean>
-    <bean id="createRecurringCashTransferTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.CreateRecurringCashTransferTransactionsServiceImpl">
+    <bean id="createRecurringCashTransferTransactionsService"  parent="createRecurringCashTransferTransactionsService-parentBean"/>
+    <bean id="createRecurringCashTransferTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.CreateRecurringCashTransferTransactionsServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -1395,7 +1412,8 @@
 			<ref bean="generalLedgerInterfaceBatchProcessService" />
 		</property>
 	</bean>	
-	<bean id="generalLedgerInterfaceBatchProcessService" class="org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImpl">
+	<bean id="generalLedgerInterfaceBatchProcessService"  parent="generalLedgerInterfaceBatchProcessService-parentBean"/>
+	<bean id="generalLedgerInterfaceBatchProcessService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.GeneralLedgerInterfaceBatchProcessServiceImpl" abstract="true">
 		<property name="kemService">
 			<ref bean="kemService" />
 		</property>			    
@@ -1481,7 +1499,8 @@
 
 	<bean id="updateCorpusDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.UpdateCorpusDaoJdbc" />
 
-    <bean id="updateCorpusService" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl">
+    <bean id="updateCorpusService"  parent="updateCorpusService-parentBean"/>
+    <bean id="updateCorpusService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.UpdateCorpusServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
@@ -1526,7 +1545,8 @@
 		</property>
 		<property name="batchFileDirectoryName" value="${reports.directory}/endow"/>
 	</bean>	
-	<bean id="processFeeTransactionsService" class="org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImpl">
+	<bean id="processFeeTransactionsService"  parent="processFeeTransactionsService-parentBean"/>
+	<bean id="processFeeTransactionsService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.ProcessFeeTransactionsServiceImpl" abstract="true">
 		<property name="kemidFeeService">
 			<ref bean="kemidFeeService" />
 		</property>
@@ -1631,7 +1651,8 @@
         </property>
     </bean>
 
-    <bean id="ticklerDeliveryService" class="org.kuali.kfs.module.endow.batch.service.impl.TicklerDeliveryServiceImpl">
+    <bean id="ticklerDeliveryService"  parent="ticklerDeliveryService-parentBean"/>
+    <bean id="ticklerDeliveryService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.TicklerDeliveryServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
@@ -1679,25 +1700,29 @@
     
  	<!--  end core batch jobs --> 
     
-    <bean id="endowmentTransactionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl">
+    <bean id="endowmentTransactionCodeService"  parent="endowmentTransactionCodeService-parentBean"/>
+    <bean id="endowmentTransactionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="KEMIDService" class="org.kuali.kfs.module.endow.document.service.impl.KEMIDServiceImpl">
+	<bean id="KEMIDService"  parent="KEMIDService-parentBean"/>
+	<bean id="KEMIDService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.KEMIDServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="pooledFundControlService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundControlServiceImpl">
+	<bean id="pooledFundControlService"  parent="pooledFundControlService-parentBean"/>
+	<bean id="pooledFundControlService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundControlServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="pooledFundValueService" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundValueServiceImpl">
+	<bean id="pooledFundValueService"  parent="pooledFundValueService-parentBean"/>
+	<bean id="pooledFundValueService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.PooledFundValueServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
@@ -1712,13 +1737,15 @@
 		</property>	
 	</bean>
 	
-	<bean id="RegistrationCodeService" class="org.kuali.kfs.module.endow.document.service.impl.RegistrationCodeServiceImpl">
+	<bean id="RegistrationCodeService"  parent="RegistrationCodeService-parentBean"/>
+	<bean id="RegistrationCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.RegistrationCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="frequencyCodeService" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl">
+    <bean id="frequencyCodeService"  parent="frequencyCodeService-parentBean"/>
+    <bean id="frequencyCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -1730,7 +1757,8 @@
 		</property>	
 	</bean>
 
-    <bean id="frequencyDatesService" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyDatesServiceImpl">
+    <bean id="frequencyDatesService"  parent="frequencyDatesService-parentBean"/>
+    <bean id="frequencyDatesService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FrequencyDatesServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -1742,7 +1770,8 @@
 		</property>	
 	</bean>
 		
-    <bean id="feeMethodService" class="org.kuali.kfs.module.endow.document.service.impl.FeeMethodServiceImpl">
+    <bean id="feeMethodService"  parent="feeMethodService-parentBean"/>
+    <bean id="feeMethodService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FeeMethodServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
@@ -1751,37 +1780,43 @@
 		</property>			
 	</bean>
 
-    <bean id="feeTypeService" class="org.kuali.kfs.module.endow.document.service.impl.FeeTypeServiceImpl">
+    <bean id="feeTypeService"  parent="feeTypeService-parentBean"/>
+    <bean id="feeTypeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FeeTypeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-    <bean id="cashSweepModelService" class="org.kuali.kfs.module.endow.document.service.impl.CashSweepModelServiceImpl">
+    <bean id="cashSweepModelService"  parent="cashSweepModelService-parentBean"/>
+    <bean id="cashSweepModelService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.CashSweepModelServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="automatedCashInvestmentModelService" class="org.kuali.kfs.module.endow.document.service.impl.AutomatedCashInvestmentModelServiceImpl">
+    <bean id="automatedCashInvestmentModelService"  parent="automatedCashInvestmentModelService-parentBean"/>
+    <bean id="automatedCashInvestmentModelService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.AutomatedCashInvestmentModelServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-	<bean id="feeRateDefinitionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.FeeRateDefinitionCodeServiceImpl">
+	<bean id="feeRateDefinitionCodeService"  parent="feeRateDefinitionCodeService-parentBean"/>
+	<bean id="feeRateDefinitionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FeeRateDefinitionCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-	<bean id="classCodeService" class="org.kuali.kfs.module.endow.document.service.impl.ClassCodeServiceImpl">
+	<bean id="classCodeService"  parent="classCodeService-parentBean"/>
+	<bean id="classCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.ClassCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-	<bean id="subClassCodeService" class="org.kuali.kfs.module.endow.document.service.impl.SubClassCodeServiceImpl">
+	<bean id="subClassCodeService"  parent="subClassCodeService-parentBean"/>
+	<bean id="subClassCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.SubClassCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
@@ -1790,7 +1825,8 @@
     <bean id="frequencyCodeLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.FrequencyCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
-	<bean id="frequencyCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="frequencyCodeLookupable"  parent="frequencyCodeLookupable-parentBean"/>
+	<bean id="frequencyCodeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="frequencyCodeLookupableHelperService" />
 		</property>
@@ -1799,7 +1835,8 @@
 	<bean id="pooledFundValueLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.PooledFundValueLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 	
-	<bean id="pooledFundValueLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="pooledFundValueLookupable"  parent="pooledFundValueLookupable-parentBean"/>
+	<bean id="pooledFundValueLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="pooledFundValueLookupableHelperService" />
 		</property>
@@ -1807,13 +1844,15 @@
 	
 	<bean id="feeTypeCodeLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.FeeTypeCodeLookupableHelperService"  parent="lookupableHelperService" scope="prototype" />
 	
-	<bean id="feeTypeCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="feeTypeCodeLookupable"  parent="feeTypeCodeLookupable-parentBean"/>
+	<bean id="feeTypeCodeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="feeTypeCodeLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="securityService" class="org.kuali.kfs.module.endow.document.service.impl.SecurityServiceImpl">		
+	<bean id="securityService"  parent="securityService-parentBean"/>
+	<bean id="securityService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.SecurityServiceImpl" abstract="true">		
 	    <property name="kemService">
 			<ref bean="kemService" />
 		</property>	
@@ -1825,7 +1864,8 @@
 		</property>
 	</bean>
 	
-	<bean id="kemService" class="org.kuali.kfs.module.endow.document.service.impl.KEMServiceImpl">
+	<bean id="kemService"  parent="kemService-parentBean"/>
+	<bean id="kemService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.KEMServiceImpl" abstract="true">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>	
@@ -1866,73 +1906,85 @@
     <bean id="kemidCurrentBalanceDetailLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.KEMIDCurrentBalanceDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
 	</bean>
 
-	<bean id="kemidCurrentBalanceDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="kemidCurrentBalanceDetailLookupable"  parent="kemidCurrentBalanceDetailLookupable-parentBean"/>
+	<bean id="kemidCurrentBalanceDetailLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="kemidCurrentBalanceDetailLookupableHelperService" />
 		</property>
 	</bean>
     
-	<bean id="typeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TypeCodeServiceImpl">
+	<bean id="typeCodeService"  parent="typeCodeService-parentBean"/>
+	<bean id="typeCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TypeCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="purposeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.PurposeCodeServiceImpl">
+	<bean id="purposeCodeService"  parent="purposeCodeService-parentBean"/>
+	<bean id="purposeCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.PurposeCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-	<bean id="agreementTypeService" class="org.kuali.kfs.module.endow.document.service.impl.AgreementTypeServiceImpl">
+	<bean id="agreementTypeService"  parent="agreementTypeService-parentBean"/>
+	<bean id="agreementTypeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.AgreementTypeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 
-	<bean id="agreementStatusService" class="org.kuali.kfs.module.endow.document.service.impl.AgreementStatusServiceImpl">
+	<bean id="agreementStatusService"  parent="agreementStatusService-parentBean"/>
+	<bean id="agreementStatusService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.AgreementStatusServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 			
-	<bean id="fundSourceService" class="org.kuali.kfs.module.endow.document.service.impl.FundSourceServiceImpl">
+	<bean id="fundSourceService"  parent="fundSourceService-parentBean"/>
+	<bean id="fundSourceService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.FundSourceServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="transactionRestrictionCodeService" class="org.kuali.kfs.module.endow.document.service.impl.TransactionRestrictionCodeServiceImpl">
+	<bean id="transactionRestrictionCodeService"  parent="transactionRestrictionCodeService-parentBean"/>
+	<bean id="transactionRestrictionCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TransactionRestrictionCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="caeCodeService" class="org.kuali.kfs.module.endow.document.service.impl.CAECodeServiceImpl">
+	<bean id="caeCodeService"  parent="caeCodeService-parentBean"/>
+	<bean id="caeCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.CAECodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="responsibleAdministrationCodeService" class="org.kuali.kfs.module.endow.document.service.impl.ResponsibleAdministrationCodeServiceImpl">
+	<bean id="responsibleAdministrationCodeService"  parent="responsibleAdministrationCodeService-parentBean"/>
+	<bean id="responsibleAdministrationCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.ResponsibleAdministrationCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-	<bean id="kemidCurrentCashService" class="org.kuali.kfs.module.endow.document.service.impl.KemidCurrentCashServiceImpl">
+	<bean id="kemidCurrentCashService"  parent="kemidCurrentCashService-parentBean"/>
+	<bean id="kemidCurrentCashService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.KemidCurrentCashServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="ticklerService" class="org.kuali.kfs.module.endow.document.service.impl.TicklerServiceImpl">
+    <bean id="ticklerService"  parent="ticklerService-parentBean"/>
+    <bean id="ticklerService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.TicklerServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="kemidHoldingTaxLotOpenRecordsService" class="org.kuali.kfs.module.endow.document.service.impl.KemidHoldingTaxLotOpenRecordsServiceImpl">
+    <bean id="kemidHoldingTaxLotOpenRecordsService"  parent="kemidHoldingTaxLotOpenRecordsService-parentBean"/>
+    <bean id="kemidHoldingTaxLotOpenRecordsService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.KemidHoldingTaxLotOpenRecordsServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
@@ -1943,37 +1995,43 @@
 	<bean id="ticklerLookupableHelperService" class="org.kuali.kfs.module.endow.businessobject.lookup.TicklerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
 	</bean>
 
-	<bean id="ticklerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="ticklerLookupable"  parent="ticklerLookupable-parentBean"/>
+	<bean id="ticklerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="ticklerLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="combineGroupCodeService" class="org.kuali.kfs.module.endow.document.service.impl.CombineGroupCodeServiceImpl">
+	<bean id="combineGroupCodeService"  parent="combineGroupCodeService-parentBean"/>
+	<bean id="combineGroupCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.CombineGroupCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="donorStatementCodeService" class="org.kuali.kfs.module.endow.document.service.impl.DonorStatementCodeServiceImpl">
+    <bean id="donorStatementCodeService"  parent="donorStatementCodeService-parentBean"/>
+    <bean id="donorStatementCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.DonorStatementCodeServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>
 	
-    <bean id="donorService" class="org.kuali.kfs.module.endow.document.service.impl.DonorServiceImpl">
+    <bean id="donorService"  parent="donorService-parentBean"/>
+    <bean id="donorService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.DonorServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>	
 	
-	<bean id="donorLabelService" class="org.kuali.kfs.module.endow.document.service.impl.DonorLabelServiceImpl">
+	<bean id="donorLabelService"  parent="donorLabelService-parentBean"/>
+	<bean id="donorLabelService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.DonorLabelServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>				
 	</bean>	
 	
-	<bean id="endowmentTransactionDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionDocumentServiceImpl">
+	<bean id="endowmentTransactionDocumentService"  parent="endowmentTransactionDocumentService-parentBean" abstract="true"/>
+	<bean id="endowmentTransactionDocumentService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.EndowmentTransactionDocumentServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

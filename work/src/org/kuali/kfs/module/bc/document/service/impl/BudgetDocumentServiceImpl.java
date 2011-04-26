@@ -373,6 +373,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getDetailSalarySettingLaborObjects(java.lang.Integer, java.lang.String)
      */
+    @NonTransactional
     public List<String> getDetailSalarySettingLaborObjects(Integer universityFiscalYear, String chartOfAccountsCode) {
         List<String> detailSalarySettingObjects = new ArrayList<String>();
 

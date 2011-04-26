@@ -73,14 +73,17 @@
     <property name="title" value="ACH Transaction Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="code"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ACHTransactionCode-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ACHTransactionCode-inquirySectionDefinition" parent="ACHTransactionCode-inquirySectionDefinition-parentBean"/>
+  <bean id="ACHTransactionCode-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
   </bean>

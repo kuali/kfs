@@ -235,31 +235,34 @@
     <property name="title" value="Process Summary Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="sortGroupId"/>    
-              <bean parent="FieldDefinition" p:attributeName="customer.chartCode"/>  
-              <bean parent="FieldDefinition" p:attributeName="customer.unitCode"/>                                                                                           
-              <bean parent="FieldDefinition" p:attributeName="customer.subUnitCode"/>
-              <bean parent="FieldDefinition" p:attributeName="customer.customerDescription"/>                    
-              <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>
-              <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>   
-              <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="processTotalCount"/>   
-              <bean parent="FieldDefinition" p:attributeName="processTotalAmount"/>            
-              <bean parent="FieldDefinition" p:attributeName="process.id"/>                      
-              <bean parent="FieldDefinition" p:attributeName="process.extractedInd"/>
-              <bean parent="FieldDefinition" p:attributeName="process.formattedIndicator"/>                                                  
-            </list>
-          </property>
-        </bean>
+		<ref bean="ProcessSummary-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ProcessSummary-inquirySectionDefinition" parent="ProcessSummary-inquirySectionDefinition-parentBean"/>
+  <bean id="ProcessSummary-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="sortGroupId"/>    
+        <bean parent="FieldDefinition" p:attributeName="customer.chartCode"/>  
+        <bean parent="FieldDefinition" p:attributeName="customer.unitCode"/>                                                                                           
+        <bean parent="FieldDefinition" p:attributeName="customer.subUnitCode"/>
+        <bean parent="FieldDefinition" p:attributeName="customer.customerDescription"/>                    
+        <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>
+        <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>   
+        <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="processTotalCount"/>   
+        <bean parent="FieldDefinition" p:attributeName="processTotalAmount"/>            
+        <bean parent="FieldDefinition" p:attributeName="process.id"/>                      
+        <bean parent="FieldDefinition" p:attributeName="process.extractedInd"/>
+        <bean parent="FieldDefinition" p:attributeName="process.formattedIndicator"/>                                                  
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

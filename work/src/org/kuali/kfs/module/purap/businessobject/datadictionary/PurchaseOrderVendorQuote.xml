@@ -250,37 +250,40 @@
     <property name="title" value="Purchase Order Vendor Quote Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteAwardTimestamp"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuotePriceExpirationDate"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteRankNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteStatusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTimestamp"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorQuoteIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorEmailAddress"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorName"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorPostalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderVendorQuote-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderVendorQuote-inquirySectionDefinition" parent="PurchaseOrderVendorQuote-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderVendorQuote-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteAwardTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuotePriceExpirationDate"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteRankNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteTransmitTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorQuoteIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorAttentionName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorEmailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorFaxNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorLine2Address"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStateCode"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

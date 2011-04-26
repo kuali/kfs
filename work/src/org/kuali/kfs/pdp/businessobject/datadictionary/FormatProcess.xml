@@ -85,23 +85,26 @@
     <property name="title" value="Format Process Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="physicalCampusProcessCode"/>
-              <bean parent="FieldDefinition" p:attributeName="beginFormat"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentProcIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentProcess.extractedInd"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentProcess.formattedIndicator"/>              		
-            </list>
-          </property>
-        </bean>
+		<ref bean="FormatProcess-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="FormatProcess-inquirySectionDefinition" parent="FormatProcess-inquirySectionDefinition-parentBean"/>
+  <bean id="FormatProcess-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="physicalCampusProcessCode"/>
+        <bean parent="FieldDefinition" p:attributeName="beginFormat"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentProcIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentProcess.extractedInd"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentProcess.formattedIndicator"/>              		
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -110,24 +110,27 @@
     <property name="title" value="Security Model Member Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="modelId"/>
-              <bean parent="FieldDefinition" p:attributeName="memberId"/>
-              <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
-              <bean parent="FieldDefinition" p:attributeName="activeToDate"/>              
-            </list>
-          </property>
-        </bean>
+        <ref bean="SecurityModelMember-inquirySectionDefinition"/>
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.sec.businessobject.inquiry.SecurityModelMemberInquirable"/>
   </bean>
 
+  <bean id="SecurityModelMember-inquirySectionDefinition" parent="SecurityModelMember-inquirySectionDefinition-parentBean"/>  
+  <bean id="SecurityModelMember-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="modelId"/>
+        <bean parent="FieldDefinition" p:attributeName="memberId"/>
+        <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>              
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

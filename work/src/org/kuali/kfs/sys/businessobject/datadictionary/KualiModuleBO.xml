@@ -91,21 +91,24 @@
     <property name="title" value="Universal User Module Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Module"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="moduleName"/>
-              <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
-              <bean parent="FieldDefinition" p:attributeName="moduleId"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="KualiModuleBO-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="KualiModuleBO-inquirySectionDefinition" parent="KualiModuleBO-inquirySectionDefinition-parentBean"/>
+  <bean id="KualiModuleBO-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Module"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="moduleName"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleCode"/>
+        <bean parent="FieldDefinition" p:attributeName="moduleId"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

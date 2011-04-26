@@ -175,28 +175,31 @@
     <property name="title" value="Payment Request Summary Account Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="amount"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
-              <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="AccountsPayableSummaryAccount-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
-
+  <bean id="AccountsPayableSummaryAccount-inquirySectionDefinition" parent="AccountsPayableSummaryAccount-inquirySectionDefinition-parentBean"/>
+  <bean id="AccountsPayableSummaryAccount-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+      </list>
+    </property>
+  </bean>
+        
+        
 <!-- Business Object Lookup Definition -->
 
 

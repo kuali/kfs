@@ -31,10 +31,14 @@
     </property>   
   </bean>  
 
+<!-- Business Object Inquiry Definition -->
+
   <bean id="PurchasingPaymentDetail-inquiryDefinition" parent="PurchasingPaymentDetail-inquiryDefinition-parentBean" />
   <bean id="PurchasingPaymentDetail-inquiryDefinition-parentBean" abstract="true" parent="PaymentDetail-inquiryDefinition-parentBean">  
       <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PurchasingPaymentDetailInquirable" />
   </bean>
+  
+<!-- Business Object Lookup Definition -->
   
   <bean id="PurchasingPaymentDetail-lookupDefinition" parent="PurchasingPaymentDetail-lookupDefinition-parentBean" />
   <bean id="PurchasingPaymentDetail-lookupDefinition-parentBean" abstract="true" parent="PaymentDetail-lookupDefinition-parentBean">

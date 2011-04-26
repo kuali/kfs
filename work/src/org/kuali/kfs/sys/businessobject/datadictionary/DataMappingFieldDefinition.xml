@@ -287,6 +287,7 @@
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
+	
 	<bean id="DataMappingFieldDefinition-inquiryDefinition" parent="DataMappingFieldDefinition-inquiryDefinition-parentBean"/>
 
 	<bean id="DataMappingFieldDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -294,30 +295,34 @@
 		<property name="inquirableClass" value="org.kuali.kfs.sys.businessobject.inquiry.DataMappingFieldDefinitionInquirable"/>
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="2"/>
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
-							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
-							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:noInquiry="true"/>
-							<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.description"/>
-							<bean parent="FieldDefinition" p:attributeName="tableName"/>
-							<bean parent="FieldDefinition" p:attributeName="fieldName"/>
-							<bean parent="FieldDefinition" p:attributeName="databaseDataType"/>
-							<bean parent="FieldDefinition" p:attributeName="applicationDataType"/>
-							<bean parent="FieldDefinition" p:attributeName="databaseDefinedLength"/>
-							<bean parent="FieldDefinition" p:attributeName="applicationDefinedLength"/>
-							<bean parent="FieldDefinition" p:attributeName="decimalPlaces"/>
-							<bean parent="FieldDefinition" p:attributeName="referenceComponent"/>
-							<bean parent="FieldDefinition" p:attributeName="required"/>
-							<bean parent="FieldDefinition" p:attributeName="validationPattern"/>
-							<bean parent="FieldDefinition" p:attributeName="encrypted"/>
-							<bean parent="FieldDefinition" p:attributeName="maskPattern"/>
-						</list>
-					</property>
-				</bean>
+				<ref bean="DataMappingFieldDefinition-inquirySectionDefinition"/>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="DataMappingFieldDefinition-inquirySectionDefinition" parent="DataMappingFieldDefinition-inquirySectionDefinition-parentBean"/>	
+	<bean id="DataMappingFieldDefinition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="numberOfColumns" value="2"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.businessObjectComponent.componentLabel"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.businessObjectProperty.propertyLabel" p:noInquiry="true"/>
+				<bean parent="FieldDefinition" p:attributeName="functionalFieldDescription.description"/>
+				<bean parent="FieldDefinition" p:attributeName="tableName"/>
+				<bean parent="FieldDefinition" p:attributeName="fieldName"/>
+				<bean parent="FieldDefinition" p:attributeName="databaseDataType"/>
+				<bean parent="FieldDefinition" p:attributeName="applicationDataType"/>
+				<bean parent="FieldDefinition" p:attributeName="databaseDefinedLength"/>
+				<bean parent="FieldDefinition" p:attributeName="applicationDefinedLength"/>
+				<bean parent="FieldDefinition" p:attributeName="decimalPlaces"/>
+				<bean parent="FieldDefinition" p:attributeName="referenceComponent"/>
+				<bean parent="FieldDefinition" p:attributeName="required"/>
+				<bean parent="FieldDefinition" p:attributeName="validationPattern"/>
+				<bean parent="FieldDefinition" p:attributeName="encrypted"/>
+				<bean parent="FieldDefinition" p:attributeName="maskPattern"/>
+			</list>
+		</property>
+	</bean>
+
 </beans>

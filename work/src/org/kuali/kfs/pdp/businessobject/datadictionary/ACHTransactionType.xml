@@ -66,21 +66,23 @@
  
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="ACHTransactionType-inquiryDefinition" parent="ACHTransactionType-inquiryDefinition-parentBean"/>
 
   <bean id="ACHTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="ACH Transaction Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="code"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ACHTransactionType-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ACHTransactionType-inquirySectionDefinition" parent="ACHTransactionType-inquirySectionDefinition-parentBean"/>
+  <bean id="ACHTransactionType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
       </list>
     </property>
   </bean>

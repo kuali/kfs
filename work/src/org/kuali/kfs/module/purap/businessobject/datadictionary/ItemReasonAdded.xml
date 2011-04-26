@@ -89,21 +89,24 @@
     <property name="title" value="Item Reason Added Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ItemReasonAdded-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ItemReasonAdded-inquirySectionDefinition" parent="ItemReasonAdded-inquirySectionDefinition-parentBean"/>
+  <bean id="ItemReasonAdded-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -57,19 +57,22 @@
     <property name="title" value="Home Origination Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="finSystemHomeOriginationCode"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="HomeOrigination-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="HomeOrigination-inquirySectionDefinition" parent="HomeOrigination-inquirySectionDefinition-parentBean"/>
+  <bean id="HomeOrigination-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="finSystemHomeOriginationCode"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

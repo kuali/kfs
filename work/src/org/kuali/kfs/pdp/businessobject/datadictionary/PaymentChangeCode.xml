@@ -76,20 +76,23 @@
     <property name="title" value="Payment Change Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="code"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentChangeCode-inquirySectionDefinition"/>		
       </list>
     </property>
   </bean>
 
+  <bean id="PaymentChangeCode-inquirySectionDefinition" parent="PaymentChangeCode-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentChangeCode-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

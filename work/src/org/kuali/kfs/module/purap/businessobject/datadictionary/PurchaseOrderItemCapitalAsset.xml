@@ -59,19 +59,22 @@
   <bean id="PurchaseOrderItemCapitalAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Purchase Order Item Capital Asset Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Purchase Order Item Capital Asset Attributes" p:numberOfColumns="1">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderItemCapitalAsset-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderItemCapitalAsset-inquirySectionDefinition" parent="PurchaseOrderItemCapitalAsset-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderItemCapitalAsset-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Purchase Order Item Capital Asset Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier"/>
+      </list>
+    </property>
+  </bean>
+  
   <bean id="PurchaseOrderItemCapitalAsset-lookupDefinition" parent="PurchaseOrderItemCapitalAsset-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderItemCapitalAsset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Purchase Order Item Capital Asset Lookup">

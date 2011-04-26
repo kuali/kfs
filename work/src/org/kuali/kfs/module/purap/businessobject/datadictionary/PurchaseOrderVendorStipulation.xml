@@ -108,22 +108,25 @@
     <property name="title" value="Purchase Order Vendor Stipulation Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorStipulationIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorStipulationAuthorEmployeeIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorStipulationCreateDate"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderVendorStipulation-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderVendorStipulation-inquirySectionDefinition" parent="PurchaseOrderVendorStipulation-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderVendorStipulation-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorStipulationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationAuthorEmployeeIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

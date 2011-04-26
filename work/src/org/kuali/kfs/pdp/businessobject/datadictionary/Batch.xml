@@ -157,24 +157,27 @@
     <property name="title" value="Batch Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
-              <bean parent="FieldDefinition" p:attributeName="id"/>
-              <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentCount"/>
-              <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentTotalAmount"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="Batch-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="Batch-inquirySectionDefinition" parent="Batch-inquirySectionDefinition-parentBean"/>
+  <bean id="Batch-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.chartCode"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.unitCode"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentCount"/>
+        <bean parent="FieldDefinition" p:attributeName="customerProfile.subUnitCode"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentTotalAmount"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

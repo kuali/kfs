@@ -540,51 +540,54 @@
     <property name="title" value="Electronic Invoice Item Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemCatalogNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceRejectItemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemNetAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemNetCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitOfMeasureCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPrice"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPriceCurrencyCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryName"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerName"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerPartIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSerialNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ElectronicInvoiceRejectItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ElectronicInvoiceRejectItem-inquirySectionDefinition" parent="ElectronicInvoiceRejectItem-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicInvoiceRejectItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemDiscountCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemGrossCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemNetCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemShippingDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSpecialHandlingCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemSubTotalCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTaxDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemUnitPriceCurrencyCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemCountryName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemManufacturerPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSerialNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartAuxiliaryIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceReferenceItemSupplierPartIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

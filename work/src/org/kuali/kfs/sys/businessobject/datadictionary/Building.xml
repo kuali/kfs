@@ -214,28 +214,32 @@
     <property name="title" value="Building Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingName"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingStreetAddress"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingAddressCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingAddressStateCode"/>   
-              <bean parent="FieldDefinition" p:attributeName="buildingAddressZipCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingAddressCountryCode"/>        
-              <bean parent="FieldDefinition" p:attributeName="alternateBuildingCode"/>                                                                                                     
-              <bean parent="FieldDefinition" p:attributeName="active"/>                                                                                                     
-            </list>
-          </property>
-        </bean>
+		<ref bean="Building-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="Building-inquirySectionDefinition" parent="Building-inquirySectionDefinition-parentBean"/>
+  <bean id="Building-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+  <property name="title" value=""/>
+  <property name="numberOfColumns" value="1"/>
+  <property name="inquiryFields">
+    <list>
+      <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingName"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingStreetAddress"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressCityName"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressStateCode"/>   
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressZipCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressCountryCode"/>        
+      <bean parent="FieldDefinition" p:attributeName="alternateBuildingCode"/>                                                                                                     
+      <bean parent="FieldDefinition" p:attributeName="active"/>                                                                                                     
+    </list>
+  </property>
+</bean>
+        
+        
 <!-- Business Object Lookup Definition -->
 
 

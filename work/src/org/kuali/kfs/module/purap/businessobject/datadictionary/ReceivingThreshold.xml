@@ -161,29 +161,32 @@
     <property name="title" value="Receiving Threshold"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="thresholdIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>                    
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>      
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ReceivingThreshold-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ReceivingThreshold-inquirySectionDefinition" parent="ReceivingThreshold-inquirySectionDefinition-parentBean"/>
+  <bean id="ReceivingThreshold-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="thresholdIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subFundGroupCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode"/>                    
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>      
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

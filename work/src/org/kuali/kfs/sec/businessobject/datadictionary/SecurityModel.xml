@@ -87,57 +87,76 @@
     <property name="title" value="Security Model Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Model"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="id"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-              <bean parent="FieldDefinition" p:attributeName="description"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Model Definitions">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="modelDefinitions" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityModelDefinition">
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
-                    <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
-		            <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>
-                    <bean parent="FieldDefinition" p:attributeName="active"/>                  
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Model Members">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="modelMembers" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityModelMember">
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/> 
-                    <bean parent="FieldDefinition" p:attributeName="memberId"/>
-                    <bean parent="FieldDefinition" p:attributeName="memberName"/>
-                    <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="activeToDate"/>                   
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>        
+        <ref bean="SecurityModel-inquirySectionDefinition-model"/>        
+        <ref bean="SecurityModel-inquirySectionDefinition-modelDefinition"/>
+        <ref bean="SecurityModel-inquirySectionDefinition-modelMembers"/>        
       </list>
     </property>
   </bean>
 
+  <bean id="SecurityModel-inquirySectionDefinition-model" parent="SecurityModel-inquirySectionDefinition-model-parentBean"/>
+  <bean id="SecurityModel-inquirySectionDefinition-model-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Model"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-inquirySectionDefinition-modelDefinition" parent="SecurityModel-inquirySectionDefinition-modelDefinition-parentBean"/>
+  <bean id="SecurityModel-inquirySectionDefinition-modelDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Model Definitions"/>
+    <property name="inquiryFields">
+      <list>
+        <ref bean="SecurityModel-inquiryCollectionDefinition-modelDefinition"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-inquiryCollectionDefinition-modelDefinition" parent="SecurityModel-inquiryCollectionDefinition-modelDefinition-parentBean"/>
+  <bean id="SecurityModel-inquiryCollectionDefinition-modelDefinition-parentBean" parent="InquiryCollectionDefinition" p:attributeName="modelMembers" abstract="true">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelDefinition"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
+        <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
+        <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+        <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>                  
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-inquirySectionDefinition-modelMembers" parent="SecurityModel-inquirySectionDefinition-modelMembers-parentBean"/>
+  <bean id="SecurityModel-inquirySectionDefinition-modelMembers-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Model Members"/>
+    <property name="inquiryFields">
+      <list>
+        <ref bean="SecurityModel-inquiryCollectionDefinition-modelMembers"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SecurityModel-inquiryCollectionDefinition-modelMembers" parent="SecurityModel-inquiryCollectionDefinition-modelMembers-parentBean"/>
+  <bean id="SecurityModel-inquiryCollectionDefinition-modelMembers-parentBean" parent="InquiryCollectionDefinition" p:attributeName="modelMembers" abstract="true">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelMember"/> 
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="memberTypeCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="memberId"/>
+        <bean parent="FieldDefinition" p:attributeName="memberName"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>                                   
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

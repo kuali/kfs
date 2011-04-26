@@ -86,22 +86,25 @@
     <property name="title" value="Purchase Order Quote List Vendor Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendors"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderQuoteListVendor-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderQuoteListVendor-inquirySectionDefinition" parent="PurchaseOrderQuoteListVendor-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderQuoteListVendor-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Vendors"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

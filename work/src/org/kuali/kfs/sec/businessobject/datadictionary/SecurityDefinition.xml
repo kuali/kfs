@@ -189,45 +189,45 @@
     <property name="title" value="Security Definition Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Definition"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="id"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-              <bean parent="FieldDefinition" p:attributeName="description"/>
-              <bean parent="FieldDefinition" p:attributeName="securityAttribute.name"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictViewAccountingLine"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictEditAccountingLine"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictViewDocument"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictEditDocument"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictViewNotesAndAttachments"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictLookup"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictGLInquiry"/>
-              <bean parent="FieldDefinition" p:attributeName="restrictLaborInquiry"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Doc Types">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="definitionDocumentTypes" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType">
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
-                    <bean parent="FieldDefinition" p:attributeName="active"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
+		<ref bean="SecurityDefinition-inquirySectionDefinition"/>
+		<ref bean="SecurityDefinition-inquirySectionDefinition-docTypes"/>
       </list>
     </property>
   </bean>
+  
+  <bean id="SecurityDefinition-inquirySectionDefinition" parent="SecurityDefinition-inquirySectionDefinition-parentBean"/>
+  <bean id="SecurityDefinition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true"> 
+	  <property name="title" value="Definition"/>
+	  <property name="numberOfColumns" value="1"/>
+	  <property name="inquiryFields">
+	    <list>
+	      <bean parent="FieldDefinition" p:attributeName="id"/>
+	      <bean parent="FieldDefinition" p:attributeName="name"/>
+	      <bean parent="FieldDefinition" p:attributeName="active"/>
+	    </list>
+	  </property>
+  </bean>
+  
+  <bean id="SecurityDefinition-inquirySectionDefinition-docTypes" parent="SecurityDefinition-inquirySectionDefinition-docTypes-parentBean"/>
+  <bean id="SecurityDefinition-inquirySectionDefinition-docTypes-parentBean" parent="InquirySectionDefinition" abstract="true"> 
+  	  <property name="title" value="Doc Types"/>
+      <property name="inquiryFields">
+        <list>
+			<ref bean="SecurityDefinition-inquiryCollectionDefinition-docTypes"/>
+        </list>
+      </property>
+  </bean>
 
+  <bean id="SecurityDefinition-inquiryCollectionDefinition-docTypes" parent="SecurityDefinition-inquiryCollectionDefinition-docType-parentBean"/>
+  <bean id="SecurityDefinition-inquiryCollectionDefinition-docType-parentBean" parent="InquiryCollectionDefinition" p:attributeName="definitionDocumentTypes" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+          
 <!-- Business Object Lookup Definition -->
 
 

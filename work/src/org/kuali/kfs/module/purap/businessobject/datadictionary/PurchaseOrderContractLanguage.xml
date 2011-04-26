@@ -98,18 +98,21 @@
     <property name="title" value="Purchase Order Contract Language Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderContractLanguageDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="contractLanguageCreateDate"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderContractLanguage-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderContractLanguage-inquirySectionDefinition" parent="PurchaseOrderContractLanguage-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderContractLanguage-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderContractLanguageDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="contractLanguageCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

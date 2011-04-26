@@ -107,24 +107,27 @@
     <property name="title" value="Item Type Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="quantityBasedGeneralLedgerIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="additionalChargeIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="taxableIndicator"/>              
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ItemType-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ItemType-inquirySectionDefinition" parent="ItemType-inquirySectionDefinition-parentBean"/>
+  <bean id="ItemType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="quantityBasedGeneralLedgerIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="additionalChargeIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="taxableIndicator"/>              
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

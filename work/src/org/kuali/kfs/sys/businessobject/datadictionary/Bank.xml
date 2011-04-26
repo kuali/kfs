@@ -249,34 +249,38 @@
     <property name="title" value="Bank Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="bankCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankName"/>
-              <bean parent="FieldDefinition" p:attributeName="bankShortName"/>
-              <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankAccountDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="cashOffsetFinancialChartOfAccountCode"/>
-              <bean parent="FieldDefinition" p:attributeName="cashOffsetAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="cashOffsetObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="cashOffsetSubObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="continuationBankCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankDepositIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="bankDisbursementIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="bankAchIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="bankCheckIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="Bank-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
+  
+  <bean id="Bank-inquirySectionDefinition" parent="Bank-inquirySectionDefinition-parentBean"/>
+  <bean id="Bank-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+	<property name="title" value=""/>
+	<property name="numberOfColumns" value="1"/>
+	<property name="inquiryFields">
+	  <list>
+	   <bean parent="FieldDefinition" p:attributeName="bankCode"/>
+	   <bean parent="FieldDefinition" p:attributeName="bankName"/>
+       <bean parent="FieldDefinition" p:attributeName="bankShortName"/>
+       <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+       <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
+       <bean parent="FieldDefinition" p:attributeName="bankAccountDescription"/>
+       <bean parent="FieldDefinition" p:attributeName="cashOffsetFinancialChartOfAccountCode"/>
+       <bean parent="FieldDefinition" p:attributeName="cashOffsetAccountNumber"/>
+       <bean parent="FieldDefinition" p:attributeName="cashOffsetSubAccountNumber"/>
+       <bean parent="FieldDefinition" p:attributeName="cashOffsetObjectCode"/>
+       <bean parent="FieldDefinition" p:attributeName="cashOffsetSubObjectCode"/>
+       <bean parent="FieldDefinition" p:attributeName="continuationBankCode"/>
+       <bean parent="FieldDefinition" p:attributeName="bankDepositIndicator"/>
+       <bean parent="FieldDefinition" p:attributeName="bankDisbursementIndicator"/>
+       <bean parent="FieldDefinition" p:attributeName="bankAchIndicator"/>
+       <bean parent="FieldDefinition" p:attributeName="bankCheckIndicator"/>
+       <bean parent="FieldDefinition" p:attributeName="active"/>
+     </list>
+   </property>
+ </bean>
+  
   
 <!-- Business Object Lookup Definition -->
 

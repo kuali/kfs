@@ -99,21 +99,24 @@
     <property name="title" value="Sensitive Data Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Sensitive Data"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="sensitiveDataCode"/>
-              <bean parent="FieldDefinition" p:attributeName="sensitiveDataDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="SensitiveData-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="SensitiveData-inquirySectionDefinition" parent="SensitiveData-inquirySectionDefinition-parentBean"/>
+  <bean id="SensitiveData-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Sensitive Data"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="sensitiveDataCode"/>
+        <bean parent="FieldDefinition" p:attributeName="sensitiveDataDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

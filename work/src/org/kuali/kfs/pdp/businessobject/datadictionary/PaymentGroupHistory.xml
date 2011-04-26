@@ -277,6 +277,7 @@
     </property>
     <property name="label" value="Change Note Text"/>
   </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -286,44 +287,47 @@
     <property name="title" value="PaymentGroupHistory Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>                                         
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>  
-              <bean parent="FieldDefinition" p:attributeName="origPmtSpecHandling"/>  
-              <bean parent="FieldDefinition" p:attributeName="origProcessImmediate"/>  
-              <bean parent="FieldDefinition" p:attributeName="origDisburseNbr"/>  
-              <bean parent="FieldDefinition" p:attributeName="processId"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDetails.netPaymentAmount"/> 
-              <bean parent="FieldDefinition" p:attributeName="origPaymentDate"/> 
-              <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.code"/> 
-              <bean parent="FieldDefinition" p:attributeName="disbursementType.code"/>                                                                                                                                                                                                         
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.chartCode"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.unitCode"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.subUnitCode"/> 
-              <bean parent="FieldDefinition" p:attributeName="changeTime"/>   
-              <bean parent="FieldDefinition" p:attributeName="paymentChange.code"/>
-              <bean parent="FieldDefinition" p:attributeName="changeUser.principalName"/>   
-              <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/> 
-              <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.name"/> 
-              <bean parent="FieldDefinition" p:attributeName="origBankCode"/> 
-              <bean parent="FieldDefinition" p:attributeName="origAchBankRouteNbr"/>  
-              <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractStat"/>    
-              <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractDate"/>                    
-              <bean parent="FieldDefinition" p:attributeName="changeNoteText"/>                                                                                                                                                         
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentGroupHistory-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PaymentGroupHistory-inquirySectionDefinition" parent="PaymentGroupHistory-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentGroupHistory-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>                                         
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeCd"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>  
+        <bean parent="FieldDefinition" p:attributeName="origPmtSpecHandling"/>  
+        <bean parent="FieldDefinition" p:attributeName="origProcessImmediate"/>  
+        <bean parent="FieldDefinition" p:attributeName="origDisburseNbr"/>  
+        <bean parent="FieldDefinition" p:attributeName="processId"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDetails.netPaymentAmount"/> 
+        <bean parent="FieldDefinition" p:attributeName="origPaymentDate"/> 
+        <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.code"/> 
+        <bean parent="FieldDefinition" p:attributeName="disbursementType.code"/>                                                                                                                                                                                                         
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.chartCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.unitCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.subUnitCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="changeTime"/>   
+        <bean parent="FieldDefinition" p:attributeName="paymentChange.code"/>
+        <bean parent="FieldDefinition" p:attributeName="changeUser.principalName"/>   
+        <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/> 
+        <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.name"/> 
+        <bean parent="FieldDefinition" p:attributeName="origBankCode"/> 
+        <bean parent="FieldDefinition" p:attributeName="origAchBankRouteNbr"/>  
+        <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractStat"/>    
+        <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractDate"/>                    
+        <bean parent="FieldDefinition" p:attributeName="changeNoteText"/>                                                                                                                                                         
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

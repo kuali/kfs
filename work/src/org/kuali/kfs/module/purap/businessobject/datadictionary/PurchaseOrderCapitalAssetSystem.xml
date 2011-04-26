@@ -163,25 +163,28 @@
     <property name="title" value="Purchase Order Capital Asset System Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderCapitalAssetSystem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderCapitalAssetSystem-inquirySectionDefinition" parent="PurchaseOrderCapitalAssetSystem-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderCapitalAssetSystem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

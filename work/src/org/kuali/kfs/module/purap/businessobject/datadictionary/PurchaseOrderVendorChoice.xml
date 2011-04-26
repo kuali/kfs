@@ -83,21 +83,24 @@
     <property name="title" value="Purchase Order Vendor Choice Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderVendorChoice-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderVendorChoice-inquirySectionDefinition" parent="PurchaseOrderVendorChoice-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderVendorChoice-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderVendorChoiceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

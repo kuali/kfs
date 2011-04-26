@@ -106,24 +106,27 @@
     <property name="title" value="Security Principal Definition Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="principalDefinitionId"/>
-              <bean parent="FieldDefinition" p:attributeName="principalId"/>
-              <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
-              <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
-              <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
-              <bean parent="FieldDefinition" p:attributeName="attributeValue"/>  
-              <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>            
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="SecurityPrincipalDefinition-inquirySectionDefinition"/>
       </list>
     </property>
+  </bean>
+
+  <bean id="SecurityPrincipalDefinition-inquirySectionDefinition" parent="SecurityPrincipalDefinition-inquirySectionDefinition-parentBean"/>
+  <bean id="SecurityPrincipalDefinition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+	 <property name="title" value=""/>
+	 <property name="numberOfColumns" value="1"/>
+	 <property name="inquiryFields">
+	   <list>
+	     <bean parent="FieldDefinition" p:attributeName="principalDefinitionId"/>
+	     <bean parent="FieldDefinition" p:attributeName="principalId"/>
+	     <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
+	     <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
+	     <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
+	     <bean parent="FieldDefinition" p:attributeName="attributeValue"/>  
+	     <bean parent="FieldDefinition" p:attributeName="overrideDeny"/>            
+	     <bean parent="FieldDefinition" p:attributeName="active"/>
+	   </list>
+	 </property>
   </bean>
 
 <!-- Business Object Lookup Definition -->

@@ -77,20 +77,23 @@
     <property name="title" value="Credit Memo Status Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="CreditMemoStatus-inquirySectionDefinition"/>        
       </list>
     </property>
   </bean>
 
+  <bean id="CreditMemoStatus-inquirySectionDefinition" parent="CreditMemoStatus-inquirySectionDefinition-parentBean"/>
+  <bean id="CreditMemoStatus-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

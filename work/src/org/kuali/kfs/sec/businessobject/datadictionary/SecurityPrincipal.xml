@@ -90,52 +90,74 @@
     <property name="title" value="Security Principal Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Principal"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="securityPerson.principalName"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Principal Definitions">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="principalDefinitions" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition">
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
-                    <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
-                    <bean parent="FieldDefinition" p:attributeName="active"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition" p:title="Principal Models">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition" p:attributeName="principalModels" p:businessObjectClass="org.kuali.kfs.sec.businessobject.SecurityModelMember">
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="securityModel.name"/>
-                    <bean parent="FieldDefinition" p:attributeName="modelDefinitionSummary"/>
-                    <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="activeToDate"/>                  
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
+        <ref bean="SecurityPrincipal-inquirySectionDefinition-principal"/>
+        <ref bean="SecurityPrincipal-inquirySectionDefinition-principalDefinition"/>
+		<ref bean="SecurityPrincipal-inquirySectionDefinition-principalModels"/>
       </list>
     </property>
   </bean>
 
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principal" parent="SecurityPrincipal-inquirySectionDefinition-principal-parentBean"/>
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principal-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Principal"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="securityPerson.principalName"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principalDefinition" parent="SecurityPrincipal-inquirySectionDefinition-principalDefinition-parentBean"/>
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principalDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Principal Definitions"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="SecurityPrincipal-InquiryCollectionDefinition-principal"/>
+      </list>
+    </property>
+  </bean>
+ 
+  <bean id="SecurityPrincipal-InquiryCollectionDefinition-principal" parent="SecurityPrincipal-InquiryCollectionDefinition-principal-parentBean"/>
+  <bean id="SecurityPrincipal-InquiryCollectionDefinition-principal-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition"/>
+    <property name="attributeName" value="principalModels"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="securityDefinition.name"/>
+        <bean parent="FieldDefinition" p:attributeName="constraintCode"/>
+        <bean parent="FieldDefinition" p:attributeName="operatorCode"/>
+        <bean parent="FieldDefinition" p:attributeName="attributeValue"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>                
+      </list>
+   </property>
+ </bean>
+        
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principalModels" parent="SecurityPrincipal-inquirySectionDefinition-principalModels-parentBean"/>
+  <bean id="SecurityPrincipal-inquirySectionDefinition-principalModels-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Principal Models"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="SecurityPrincipal-InquiryCollectionDefinition-principalModels"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SecurityPrincipal-InquiryCollectionDefinition-principalModels" parent="SecurityPrincipal-InquiryCollectionDefinition-principalModels-parentBean"/>
+  <bean id="SecurityPrincipal-InquiryCollectionDefinition-principalModels-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+    <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelMember"/>
+    <property name="attributeName" value="principalModels"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="securityModel.name"/>
+        <bean parent="FieldDefinition" p:attributeName="modelDefinitionSummary"/>
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+        <bean parent="FieldDefinition" p:attributeName="activeToDate"/>               
+      </list>
+   </property>
+ </bean>
+ 
+         
 <!-- Business Object Lookup Definition -->
 
 

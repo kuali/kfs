@@ -199,28 +199,31 @@
     <property name="title" value="Payee ACH Account"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="achAccountGeneratedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="payeeIdNumber"/>                    
-              <bean parent="FieldDefinition" p:attributeName="payeeName"/>
-              <bean parent="FieldDefinition" p:attributeName="payeeEmailAddress"/>
-              <bean parent="FieldDefinition" p:attributeName="achTransactionType"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-              <bean parent="FieldDefinition" p:attributeName="bankAccountTypeCode"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PayeeACHAccount-inquirySectionDefinition"/>
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PayeeAchAccountInquirable"/>    
   </bean>
 
+  <bean id="PayeeACHAccount-inquirySectionDefinition" parent="PayeeACHAccount-inquirySectionDefinition-parentBean"/>
+  <bean id="PayeeACHAccount-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="achAccountGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="payeeIdNumber"/>                    
+        <bean parent="FieldDefinition" p:attributeName="payeeName"/>
+        <bean parent="FieldDefinition" p:attributeName="payeeEmailAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="achTransactionType"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="bankAccountTypeCode"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

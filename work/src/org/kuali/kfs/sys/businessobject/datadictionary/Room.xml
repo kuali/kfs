@@ -137,32 +137,34 @@
 
 <!-- Business Object Inquiry Definition -->
 
-
   <bean id="Room-inquiryDefinition" parent="Room-inquiryDefinition-parentBean"/>
 
   <bean id="Room-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Room Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingRoomDepartment"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingRoomType"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingRoomDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="Room-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="Room-inquirySectionDefinition" parent="Room-inquirySectionDefinition-parentBean"/>  
+  <bean id="Room-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+  <property name="title" value=""/>
+  <property name="numberOfColumns" value="1"/>
+  <property name="inquiryFields">
+    <list>
+      <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingRoomDepartment"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingRoomType"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingRoomDescription"/>
+      <bean parent="FieldDefinition" p:attributeName="active"/>
+    </list>
+  </property>
+</bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

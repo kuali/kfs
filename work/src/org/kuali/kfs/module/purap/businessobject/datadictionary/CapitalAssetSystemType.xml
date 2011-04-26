@@ -83,21 +83,24 @@
     <property name="title" value="Capital Asset System Type Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemTypeDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="CapitalAssetSystemType-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="CapitalAssetSystemType-inquirySectionDefinition" parent="CapitalAssetSystemType-inquirySectionDefinition-parentBean"/>
+  <bean id="CapitalAssetSystemType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

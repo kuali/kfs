@@ -77,20 +77,23 @@
     <property name="title" value="Requisition Status Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="statusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="RequisitionStatus-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="RequisitionStatus-inquirySectionDefinition" parent="RequisitionStatus-inquirySectionDefinition-parentBean"/>
+  <bean id="RequisitionStatus-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="statusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="statusDescription"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -157,25 +157,28 @@
     <property name="title" value="Electronic Invoice Load Summary Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="invoiceLoadSummaryIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="fileProcessTimestamp"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceLoadFailAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceLoadFailCount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceLoadSuccessAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceLoadSuccessCount"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorDunsNumber"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ElectronicInvoiceLoadSummary-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ElectronicInvoiceLoadSummary-inquirySectionDefinition" parent="ElectronicInvoiceLoadSummary-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicInvoiceLoadSummary-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="invoiceLoadSummaryIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="fileProcessTimestamp"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceLoadFailAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceLoadFailCount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceLoadSuccessAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceLoadSuccessCount"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDunsNumber"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

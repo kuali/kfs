@@ -45,19 +45,22 @@
   <bean id="CapitalAssetSystemState-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Capital Asset System State Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Capital Asset System State Attributes" p:numberOfColumns="1">
-          <property name="inquiryFields">
-            <list>              
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="CapitalAssetSystemState-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="CapitalAssetSystemState-inquirySectionDefinition" parent="CapitalAssetSystemState-inquirySectionDefinition-parentBean"/>
+  <bean id="CapitalAssetSystemState-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Capital Asset System State Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>              
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
   <!-- Business Object Lookup Definition -->
 
   <bean id="CapitalAssetSystemState-lookupDefinition" parent="CapitalAssetSystemState-lookupDefinition-parentBean"/>

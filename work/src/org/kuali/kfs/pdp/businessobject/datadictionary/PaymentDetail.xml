@@ -549,200 +549,233 @@
     <property name="title" value="Payment Detail Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Summary"/>
-          <property name="numberOfColumns" value="2"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="nbrOfPaymentsInPaymentGroup"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroupId"/>
-              <bean parent="FieldDefinition" p:attributeName="nbrOfPaymentsInDisbursement"/>   
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.customerShortName"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/>                     
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementType.name"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeDesc"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementNbr"/>   
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>                       
-              <bean parent="FieldDefinition" p:attributeName="invoiceDate"/>  
-              <bean parent="FieldDefinition" p:attributeName="custPaymentDocNbr" p:noInquiry="true"/>                 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDate"/>    
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderNbr"/>                    
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementDate"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceNbr"/>                         
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCodeWithHistory"/>   
-              <bean parent="FieldDefinition" p:attributeName="requisitionNbr"/>                                      
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>              
-              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Batch"/>
-          <property name="numberOfColumns" value="2"/>
-          <property name="inquiryFields">
-            <list> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batchId"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.physCampusProcessCd"/>                     
-              <bean parent="FieldDefinition" p:attributeName="id"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.processId"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.paymentFileName" p:noInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.process.processUser.principalName"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerFileCreateTimestamp" p:noInquiry="true"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.process.processTimestamp" p:noInquiry="true"/>                       
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.fileProcessTimestamp" p:noInquiry="true"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.submiterUser.principalName"/>                                                                                                                            
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Payment"/>
-          <property name="numberOfColumns" value="2"/>
-          <property name="inquiryFields">
-            <list>               
-              <bean parent="FieldDefinition" p:attributeName="origInvoiceAmount"/>                       
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.processImmediate"/>                    
-              <bean parent="FieldDefinition" p:attributeName="netPaymentAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtSpecialHandling"/>                     
-              <bean parent="FieldDefinition" p:attributeName="invTotDiscountAmount"/>                    
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>              
-              <bean parent="FieldDefinition" p:attributeName="invTotShipAmount"/>               
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.lastUpdate"/> 
-              <bean parent="FieldDefinition" p:attributeName="invTotOtherDebitAmount"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.combineGroups"/>   
-              <bean parent="FieldDefinition" p:attributeName="invTotOtherCreditAmount"/>                                                                                                                                                    
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Payee"/>
-          <property name="numberOfColumns" value="2"/>
-          <property name="inquiryFields">
-            <list> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.alternatePayeeIdTypeCd"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.street"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.alternatePayeeId"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.city"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeOwnerCd"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.state"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.employeeIndicator"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.country"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.taxablePayment"/>    
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.zipCd"/> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.adviceEmailAddress"/>   
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.campusAddress"/>                                                                                                                                                                                                                                                                                                                               
-            </list>
-          </property>
-        </bean>
-         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Account Detail"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="defaultOpen" value="false"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="accountDetail"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="finChartCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="accountNbr"/>
-                    <bean parent="FieldDefinition" p:attributeName="subAccountNbr"/>                   		    
-                    <bean parent="FieldDefinition" p:attributeName="finObjectCode"/>    
-              		<bean parent="FieldDefinition" p:attributeName="orgReferenceId"/> 
-              		<bean parent="FieldDefinition" p:attributeName="projectCode"/> 
-              		<bean parent="FieldDefinition" p:attributeName="accountNetAmount"/>                                                   
-                  </list>
-                </property>
-                <property name="inquiryCollections">
-                  <list>
-                    <bean parent="InquiryCollectionDefinition">
-                      <property name="attributeName" value="accountHistory"/>
-                      <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountHistory"/>
-                      <property name="numberOfColumns" value="1"/>
-                      <property name="summaryTitle" value="Payment Account History"/>
-                      <property name="inquiryFields">
-                        <list>
-                          <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
-                          <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
-                          <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
-                          <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
-                          <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                                
-                        </list>
-                      </property>
-                    </bean>
-                  </list>
-                </property>
-                <property name="summaryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
-                    <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
-                    <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
-                    <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                          
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Bank Info"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list> 
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.bank.bankName"/>                    
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.achBankRoutingNbr"/>  
-              <bean parent="FieldDefinition" p:attributeName="paymentGroup.achAccountNumber.achBankAccountNbr"/>     
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="History"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="defaultOpen" value="false"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="paymentGroup.paymentGroupHistory"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentGroupHistory"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="changeTime" p:noInquiry="true"/>
-                    <bean parent="FieldDefinition" p:attributeName="paymentChange.name"/> 
-                    <bean parent="FieldDefinition" p:attributeName="changeUser.principalName"/> 
-                    <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>   
-                    <bean parent="FieldDefinition" p:attributeName="origDisburseNbr"/>
-                    <bean parent="FieldDefinition" p:attributeName="origDisburseDate"/>  
-                    <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.name"/>   
-                    <bean parent="FieldDefinition" p:attributeName="origBankCode"/>   
-                    <bean parent="FieldDefinition" p:attributeName="origAchBankRouteNbr"/>   
-                    <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractStat"/>  
-                    <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="changeNoteText"/>                                                                                                                                                                                      
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Notes"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="defaultOpen" value="false"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="notesText"/>  
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentDetail-inquirySectionDefinition-summary"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-batch"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-payment"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-payee"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-accountDetail"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-bankInfo"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-history"/>
+		<ref bean="PaymentDetail-inquirySectionDefinition-notes"/>
       </list>
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.pdp.businessobject.inquiry.PaymentDetailInquirable"/>
   </bean>
 
+  <bean id="PaymentDetail-inquirySectionDefinition-summary" parent="PaymentDetail-inquirySectionDefinition-summary-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-summary-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Summary"/>
+    <property name="numberOfColumns" value="2"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="nbrOfPaymentsInPaymentGroup"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroupId"/>
+        <bean parent="FieldDefinition" p:attributeName="nbrOfPaymentsInDisbursement"/>   
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerProfile.customerShortName"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeName"/>                     
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementType.name"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeIdTypeDesc"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementNbr"/>   
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeId"/>                       
+        <bean parent="FieldDefinition" p:attributeName="invoiceDate"/>  
+        <bean parent="FieldDefinition" p:attributeName="custPaymentDocNbr" p:noInquiry="true"/>                 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentDate"/>    
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderNbr"/>                    
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.disbursementDate"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceNbr"/>                         
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.paymentStatusCodeWithHistory"/>   
+        <bean parent="FieldDefinition" p:attributeName="requisitionNbr"/>                                      
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.customerInstitutionNumber"/>              
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PaymentDetail-inquirySectionDefinition-batch" parent="PaymentDetail-inquirySectionDefinition-batch-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-batch-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Batch"/>
+    <property name="numberOfColumns" value="2"/>
+    <property name="inquiryFields">
+      <list> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batchId"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.physCampusProcessCd"/>                     
+        <bean parent="FieldDefinition" p:attributeName="id"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.processId"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.paymentFileName" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.process.processUser.principalName"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.customerFileCreateTimestamp" p:noInquiry="true"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.process.processTimestamp" p:noInquiry="true"/>                       
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.fileProcessTimestamp" p:noInquiry="true"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.batch.submiterUser.principalName"/>                                                                                                                            
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PaymentDetail-inquirySectionDefinition-payment" parent="PaymentDetail-inquirySectionDefinition-payment-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-payment-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Payment"/>
+    <property name="numberOfColumns" value="2"/>
+    <property name="inquiryFields">
+      <list>               
+        <bean parent="FieldDefinition" p:attributeName="origInvoiceAmount"/>                       
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.processImmediate"/>                    
+        <bean parent="FieldDefinition" p:attributeName="netPaymentAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtSpecialHandling"/>                     
+        <bean parent="FieldDefinition" p:attributeName="invTotDiscountAmount"/>                    
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.pymtAttachment"/>              
+        <bean parent="FieldDefinition" p:attributeName="invTotShipAmount"/>               
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.lastUpdate"/> 
+        <bean parent="FieldDefinition" p:attributeName="invTotOtherDebitAmount"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.combineGroups"/>   
+        <bean parent="FieldDefinition" p:attributeName="invTotOtherCreditAmount"/>                                                                                                                                                    
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PaymentDetail-inquirySectionDefinition-payee" parent="PaymentDetail-inquirySectionDefinition-payee-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-payee-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Payee"/>
+    <property name="numberOfColumns" value="2"/>
+    <property name="inquiryFields">
+      <list> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.alternatePayeeIdTypeCd"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.street"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.alternatePayeeId"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.city"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.payeeOwnerCd"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.state"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.employeeIndicator"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.country"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.taxablePayment"/>    
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.zipCd"/> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.adviceEmailAddress"/>   
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.campusAddress"/>                                                                                                                                                                                                                                                                                                                               
+      </list>
+    </property>
+  </bean>  
+
+  <bean id="PaymentDetail-inquirySectionDefinition-accountDetail" parent="PaymentDetail-inquirySectionDefinition-accountDetail-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-accountDetail-parentBean" parent="InquirySectionDefinition" abstract="true">
+   <property name="title" value="Account Detail"/>
+   <property name="numberOfColumns" value="1"/>
+   <property name="defaultOpen" value="false"/>
+   <property name="inquiryFields">
+     <list>
+		<ref bean="PaymentDetail-inquiryCollectionDefinition-accountDetail"/>
+     </list>
+   </property>
+  </bean>
+ 
+  <bean id="PaymentDetail-inquiryCollectionDefinition-accountDetail" parent="PaymentDetail-inquiryCollectionDefinition-accountDetail-parentBean"/>
+  <bean id="PaymentDetail-inquiryCollectionDefinition-accountDetail-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="accountDetail"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountDetail"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="finChartCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNbr"/>                   		    
+        <bean parent="FieldDefinition" p:attributeName="finObjectCode"/>    
+  		 <bean parent="FieldDefinition" p:attributeName="orgReferenceId"/> 
+  		 <bean parent="FieldDefinition" p:attributeName="projectCode"/> 
+  		 <bean parent="FieldDefinition" p:attributeName="accountNetAmount"/>                                                   
+      </list>
+    </property>
+    <property name="inquiryCollections">
+      <list>
+	  	<ref bean="PaymentDetail-inquiryCollectionDefinition-accountHistory"/>
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
+        <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                          
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PaymentDetail-inquiryCollectionDefinition-accountHistory" parent="PaymentDetail-inquiryCollectionDefinition-accountHistory-parentBean"/>
+  <bean id="PaymentDetail-inquiryCollectionDefinition-accountHistory-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+  <property name="attributeName" value="accountHistory"/>
+  <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentAccountHistory"/>
+  <property name="numberOfColumns" value="1"/>
+  <property name="summaryTitle" value="Payment Account History"/>
+  <property name="inquiryFields">
+    <list>
+      <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
+      <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
+      <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
+      <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
+      <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                                
+    </list>
+  </property>
+</bean>
+              
+  <bean id="PaymentDetail-inquirySectionDefinition-bankInfo" parent="PaymentDetail-inquirySectionDefinition-bankInfo-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-bankInfo-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Bank Info"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list> 
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.bank.bankName"/>                    
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.achBankRoutingNbr"/>  
+        <bean parent="FieldDefinition" p:attributeName="paymentGroup.achAccountNumber.achBankAccountNbr"/>     
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PaymentDetail-inquirySectionDefinition-history" parent="PaymentDetail-inquirySectionDefinition-history-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-history-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="History"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="defaultOpen" value="false"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="PaymentDetail-inquiryCollectionDefinition-history"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PaymentDetail-inquiryCollectionDefinition-history" parent="PaymentDetail-inquiryCollectionDefinition-history-parentBean"/>
+  <bean id="PaymentDetail-inquiryCollectionDefinition-history-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="paymentGroup.paymentGroupHistory"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentGroupHistory"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="changeTime" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentChange.name"/> 
+        <bean parent="FieldDefinition" p:attributeName="changeUser.principalName"/> 
+        <bean parent="FieldDefinition" p:attributeName="disbursementType.name"/>   
+        <bean parent="FieldDefinition" p:attributeName="origDisburseNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="origDisburseDate"/>  
+        <bean parent="FieldDefinition" p:attributeName="origPaymentStatus.name"/>   
+        <bean parent="FieldDefinition" p:attributeName="origBankCode"/>   
+        <bean parent="FieldDefinition" p:attributeName="origAchBankRouteNbr"/>   
+        <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractStat"/>  
+        <bean parent="FieldDefinition" p:attributeName="pmtCancelExtractDate"/>
+        <bean parent="FieldDefinition" p:attributeName="changeNoteText"/>                                                                                                                                                                                      
+      </list>
+    </property>
+  </bean>
+        
+  <bean id="PaymentDetail-inquirySectionDefinition-notes" parent="PaymentDetail-inquirySectionDefinition-notes-parentBean"/>
+  <bean id="PaymentDetail-inquirySectionDefinition-notes-parentBean" parent="InquirySectionDefinition" abstract="true">
+   <property name="title" value="Notes"/>
+   <property name="numberOfColumns" value="1"/>
+   <property name="defaultOpen" value="false"/>
+   <property name="inquiryFields">
+     <list>
+       <bean parent="FieldDefinition" p:attributeName="notesText"/>  
+     </list>
+   </property>
+ </bean>
+          
 <!-- Business Object Lookup Definition -->
 
 

@@ -57,19 +57,21 @@
     <property name="title" value="PaymentNoteText Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="customerNoteLineNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="customerNoteText"/>                                                      
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentNoteText-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PaymentNoteText-inquirySectionDefinition" parent="PaymentNoteText-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentNoteText-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="customerNoteLineNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNoteText"/>                                                      
+      </list>
+    </property>
+  </bean> 
   
 </beans>

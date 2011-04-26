@@ -521,42 +521,45 @@
     <property name="title" value="System Options Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearName"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartYr"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartMo"/>
-              <bean parent="FieldDefinition" p:attributeName="financialBeginBalanceLoadInd"/>
-              <bean parent="FieldDefinition" p:attributeName="budgetCheckingOptionsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFinChartOfAcctCd"/>
-              <bean parent="FieldDefinition" p:attributeName="actualFinancialBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="budgetCheckingBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="extrnlEncumFinBalanceTypCd"/>
-              <bean parent="FieldDefinition" p:attributeName="intrnlEncumFinBalanceTypCd"/>
-              <bean parent="FieldDefinition" p:attributeName="preencumbranceFinBalTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="eliminationsFinBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpenditureexpCd"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpendNotExpCode"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjTypeExpNotExpendCode"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjectTypeIncomecashCode"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjTypeIncomeNotCashCd"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjTypeCshNotIncomeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeAssetsCd"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjectTypeLiabilitiesCode"/>
-              <bean parent="FieldDefinition" p:attributeName="finObjectTypeFundBalanceCd"/>
-              <bean parent="FieldDefinition" p:attributeName="costShareEncumbranceBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="baseBudgetFinancialBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="monthlyBudgetFinancialBalanceTypeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferIncomeCd"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferExpenseCd"/>
-              <bean parent="FieldDefinition" p:attributeName="nominalFinancialBalanceTypeCd"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="SystemOptions-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="SystemOptions-inquirySectionDefinition" parent="SystemOptions-inquirySectionDefinition-parentBean"/>
+  <bean id="SystemOptions-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearName"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartYr"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYearStartMo"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBeginBalanceLoadInd"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetCheckingOptionsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFinChartOfAcctCd"/>
+        <bean parent="FieldDefinition" p:attributeName="actualFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="budgetCheckingBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="extrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="intrnlEncumFinBalanceTypCd"/>
+        <bean parent="FieldDefinition" p:attributeName="preencumbranceFinBalTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="eliminationsFinBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpenditureexpCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpendNotExpCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeExpNotExpendCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeIncomecashCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeIncomeNotCashCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjTypeCshNotIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeAssetsCd"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeLiabilitiesCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finObjectTypeFundBalanceCd"/>
+        <bean parent="FieldDefinition" p:attributeName="costShareEncumbranceBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="baseBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="monthlyBudgetFinancialBalanceTypeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferIncomeCd"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeTransferExpenseCd"/>
+        <bean parent="FieldDefinition" p:attributeName="nominalFinancialBalanceTypeCd"/>
       </list>
     </property>
   </bean>

@@ -152,30 +152,33 @@
     <property name="title" value="Receiving Address Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingName"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingLine1Address"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingLine2Address"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingPostalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingCountryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="useReceivingIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="defaultIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ReceivingAddress-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ReceivingAddress-inquirySectionDefinition" parent="ReceivingAddress-inquirySectionDefinition-parentBean"/>
+  <bean id="ReceivingAddress-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingName"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingLine2Address"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="useReceivingIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="defaultIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

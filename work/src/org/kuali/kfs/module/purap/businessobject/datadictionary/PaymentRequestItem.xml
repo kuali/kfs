@@ -326,33 +326,36 @@
     <property name="title" value="Payment Request Item Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemUnitPrice"/>
-              <bean parent="FieldDefinition" p:attributeName="originalAmountfromPO"/>
-              <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceAmount"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentRequestItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PaymentRequestItem-inquirySectionDefinition" parent="PaymentRequestItem-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentRequestItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="originalAmountfromPO"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingInvoiceAmount"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

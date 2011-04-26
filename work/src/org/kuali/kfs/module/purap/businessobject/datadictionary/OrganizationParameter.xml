@@ -70,22 +70,25 @@
     <property name="title" value="Organization Parameter Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
-              <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="OrganizationParameter-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="OrganizationParameter-inquirySectionDefinition" parent="OrganizationParameter-inquirySectionDefinition-parentBean"/>
+  <bean id="OrganizationParameter-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

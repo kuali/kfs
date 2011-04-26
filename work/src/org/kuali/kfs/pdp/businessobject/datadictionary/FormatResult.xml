@@ -101,21 +101,23 @@
     <property name="title" value="FormatResult Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="sortGroupName"/>
-              <bean parent="FieldDefinition" p:attributeName="procId"/>
-              <bean parent="FieldDefinition" p:attributeName="payments"/>
-              <bean parent="FieldDefinition" p:attributeName="amount"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="FormatResult-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="FormatResult-inquirySectionDefinition" parent="FormatResult-inquirySectionDefinition-parentBean"/>
+  <bean id="FormatResult-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="sortGroupName"/>
+        <bean parent="FieldDefinition" p:attributeName="procId"/>
+        <bean parent="FieldDefinition" p:attributeName="payments"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+      </list>
+    </property>
+  </bean>
   
 </beans>

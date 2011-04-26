@@ -135,28 +135,31 @@
     <property name="title" value="Billing Address Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="billingCampusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="billingName"/>
-              <bean parent="FieldDefinition" p:attributeName="billingLine1Address"/>
-              <bean parent="FieldDefinition" p:attributeName="billingLine2Address"/>
-              <bean parent="FieldDefinition" p:attributeName="billingCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="billingStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="billingPostalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="billingCountryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="billingPhoneNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="BillingAddress-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="BillingAddress-inquirySectionDefinition" parent="BillingAddress-inquirySectionDefinition-parentBean"/>
+  <bean id="BillingAddress-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="billingCampusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="billingName"/>
+        <bean parent="FieldDefinition" p:attributeName="billingLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="billingLine2Address"/>
+        <bean parent="FieldDefinition" p:attributeName="billingCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="billingStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="billingPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="billingCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="billingPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

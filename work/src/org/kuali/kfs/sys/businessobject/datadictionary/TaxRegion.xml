@@ -164,100 +164,130 @@
     </property>
   </bean>
 
+<!-- Business Object Inquiry Definition -->
+
   <bean id="TaxRegion-inquiryDefinition" parent="TaxRegion-inquiryDefinition-parentBean"/>
 
   <bean id="TaxRegion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Tax Region Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Attributes"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="taxRegionCode" p:noInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="taxRegionName"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Rates"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="taxRegionRates"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionRate"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="taxRate"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region States"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="taxRegionStates"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionState"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="stateCode"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Counties"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="taxRegionCounties"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionCounty"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="stateCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="countyCode"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>   
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Postal Codes"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="taxRegionPostalCodes"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="postalCode"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>                      
+		<ref bean="TaxRegion-inquirySectionDefinition-attributes"/>
+		<ref bean="TaxRegion-inquirySectionDefinition-rates"/>
+		<ref bean="TaxRegion-inquirySectionDefinition-states"/>
+		<ref bean="TaxRegion-inquirySectionDefinition-countries"/>
+		<ref bean="TaxRegion-inquirySectionDefinition-postalCodes"/>                     
       </list>
     </property>
   </bean>
+  
+  <bean id="TaxRegion-inquirySectionDefinition-attributes" parent="TaxRegion-inquirySectionDefinition-attributes-parentBean"/>
+  <bean id="TaxRegion-inquirySectionDefinition-attributes-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Tax Region Attributes"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionCode" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionName"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="TaxRegion-inquirySectionDefinition-rates" parent="TaxRegion-inquirySectionDefinition-rates-parentBean"/>
+  <bean id="TaxRegion-inquirySectionDefinition-rates-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Tax Region Rates"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="TaxRegion-inquiryCollectionDefinition-rates"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="TaxRegion-inquiryCollectionDefinition-rates" parent="TaxRegion-inquiryCollectionDefinition-rates-parentBean"/>
+  <bean id="TaxRegion-inquiryCollectionDefinition-rates-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+  <property name="attributeName" value="taxRegionRates"/>
+  <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionRate"/>
+  <property name="numberOfColumns" value="1"/>
+  <property name="inquiryFields">
+    <list>
+      <bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+      <bean parent="FieldDefinition" p:attributeName="taxRate"/>
+    </list>
+  </property>
+</bean>
+        
+  <bean id="TaxRegion-inquirySectionDefinition-states" parent="TaxRegion-inquirySectionDefinition-states-parentBean"/>
+  <bean id="TaxRegion-inquirySectionDefinition-states-parentBean" parent="InquirySectionDefinition" abstract="true">
+	 <property name="title" value="Tax Region States"/>
+	 <property name="numberOfColumns" value="1"/>
+	 <property name="inquiryFields">
+	   <list>
+		 <ref bean="TaxRegion-inquiryCollectionDefinition-states"/>
+	   </list>
+	 </property>
+  </bean>
+
+  <bean id="TaxRegion-inquiryCollectionDefinition-states" parent="TaxRegion-inquiryCollectionDefinition-states-parentBean"/>
+  <bean id="TaxRegion-inquiryCollectionDefinition-states-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="taxRegionStates"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionState"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="stateCode"/>
+      </list>
+    </property>
+  </bean>
+	     
+  <bean id="TaxRegion-inquirySectionDefinition-countries" parent="TaxRegion-inquirySectionDefinition-countries-parentBean"/>
+  <bean id="TaxRegion-inquirySectionDefinition-countries-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Tax Region Counties"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="TaxRegion-inquiryCollectionDefinition-countries"/>
+      </list>
+    </property>
+  </bean> 
+ 
+  <bean id="TaxRegion-inquiryCollectionDefinition-countries" parent="TaxRegion-inquiryCollectionDefinition-countries-parentBean"/>
+  <bean id="TaxRegion-inquiryCollectionDefinition-countries-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+   <property name="attributeName" value="taxRegionCounties"/>
+   <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionCounty"/>
+   <property name="numberOfColumns" value="1"/>
+   <property name="inquiryFields">
+     <list>
+       <bean parent="FieldDefinition" p:attributeName="stateCode"/>
+       <bean parent="FieldDefinition" p:attributeName="countyCode"/>
+     </list>
+   </property>
+ </bean>
+         
+  <bean id="TaxRegion-inquirySectionDefinition-postalCodes" parent="TaxRegion-inquirySectionDefinition-postalCodes-parentBean"/>
+  <bean id="TaxRegion-inquirySectionDefinition-postalCodes-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Tax Region Postal Codes"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+		<ref bean="TaxRegion-inquiryCollectionDefinition-postalCodes"/>
+      </list>
+    </property>
+  </bean> 
+
+  <bean id="TaxRegion-inquiryCollectionDefinition-postalCodes" parent="TaxRegion-inquiryCollectionDefinition-postalCodes-parentBean"/>
+  <bean id="TaxRegion-inquiryCollectionDefinition-postalCodes-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+	  <property name="attributeName" value="taxRegionPostalCodes"/>
+	  <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"/>
+	  <property name="numberOfColumns" value="1"/>
+	  <property name="inquiryFields">
+	    <list>
+	      <bean parent="FieldDefinition" p:attributeName="postalCode"/>
+	    </list>
+	  </property>
+  </bean>
+              
 </beans>

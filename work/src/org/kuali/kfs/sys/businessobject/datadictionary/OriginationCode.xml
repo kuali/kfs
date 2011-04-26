@@ -279,28 +279,31 @@
     <property name="title" value="Origination Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSystemServerName"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseName"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseDesc"/>
-              <bean parent="FieldDefinition" p:attributeName="nextCapitalAssetNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="nextNonCapitalAssetNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="nextCgProposalNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsAgencyNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsSubcontractorNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="nextDisbVchrPayeeIdNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="nextFdocAttachmentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="acctRcvbNextCustomerNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentNextItemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="OriginationCode-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OriginationCode-inquirySectionDefinition" parent="OriginationCode-inquirySectionDefinition-parentBean"/>
+  <bean id="OriginationCode-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemServerName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemDatabaseDesc"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextNonCapitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextCgProposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsAgencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextContractsAndGrantsSubcontractorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="nextDisbVchrPayeeIdNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="nextFdocAttachmentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="acctRcvbNextCustomerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentNextItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

@@ -163,26 +163,30 @@
     <property name="title" value="Electronic Payment Claim"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Electronic Payment Claim"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.financialDocumentLineDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.amount"/>
-              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
-              <bean parent="FieldDefinition" p:attributeName="paymentClaimStatus"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ElectronicPaymentClaim-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ElectronicPaymentClaim-inquirySectionDefinition" parent="ElectronicPaymentClaim-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicPaymentClaim-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Electronic Payment Claim"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.financialDocumentLineDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="generatingAccountingLine.amount"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentClaimStatus"/>
+      </list>
+    </property>
+  </bean>
+        
+        
 <!-- Business Object Lookup Definition -->
 
 

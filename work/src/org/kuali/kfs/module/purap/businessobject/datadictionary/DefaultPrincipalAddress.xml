@@ -56,6 +56,7 @@
 
 	<bean id="DefaultPrincipalAddress-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber"/>
 
+<!-- Business Object Inquiry Definition -->
 
 	<bean id="DefaultPrincipalAddress-inquiryDefinition" parent="DefaultPrincipalAddress-inquiryDefinition-parentBean"/>
 
@@ -63,26 +64,26 @@
 		<property name="title" value="Credit Memo Status Inquiry"/>
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value=""/>
-					<property name="numberOfColumns" value="1"/>
-					<property name="inquiryFields">
-						<list>
-
-							<bean parent="FieldDefinition" p:attributeName="principalId"/>
-
-							<bean parent="FieldDefinition" p:attributeName="campusCode"/>
-
-							<bean parent="FieldDefinition" p:attributeName="buildingCode"/>
-
-							<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
-
-						</list>
-					</property>
-				</bean>
+				<ref bean="DefaultPrincipalAddress-inquirySectionDefinition"/>
 			</list>
 		</property>
 	</bean>
+
+	<bean id="DefaultPrincipalAddress-inquirySectionDefinition" parent="DefaultPrincipalAddress-inquirySectionDefinition-parentBean"/>
+	<bean id="DefaultPrincipalAddress-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value=""/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId"/>
+				<bean parent="FieldDefinition" p:attributeName="campusCode"/>
+				<bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+				<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+			</list>
+		</property>
+	</bean>
+
+<!-- Business Object Lookup Definition -->
 
 	<bean id="DefaultPrincipalAddress-lookupDefinition" parent="DefaultPrincipalAddress-lookupDefinition-parentBean"/>
 

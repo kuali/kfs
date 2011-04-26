@@ -83,21 +83,24 @@
     <property name="title" value="Funding Source Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-              <bean parent="FieldDefinition" p:attributeName="fundingSourceCode"/>
-              <bean parent="FieldDefinition" p:attributeName="fundingSourceDescription"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="FundingSource-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="FundingSource-inquirySectionDefinition" parent="FundingSource-inquirySectionDefinition-parentBean"/>
+  <bean id="FundingSource-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceCode"/>
+        <bean parent="FieldDefinition" p:attributeName="fundingSourceDescription"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

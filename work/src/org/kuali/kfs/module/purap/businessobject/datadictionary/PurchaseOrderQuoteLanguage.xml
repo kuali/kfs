@@ -99,22 +99,25 @@
     <property name="title" value="Purchase Order Quote Language Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageCreateDate"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderQuoteLanguage-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderQuoteLanguage-inquirySectionDefinition" parent="PurchaseOrderQuoteLanguage-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderQuoteLanguage-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageCreateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteLanguageIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

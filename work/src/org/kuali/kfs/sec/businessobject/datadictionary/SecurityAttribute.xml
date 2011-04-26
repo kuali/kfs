@@ -69,19 +69,22 @@
     <property name="title" value="Security Attribute Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="id"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="SecurityAttribute-inquirySectionDefinition"/>
       </list>
     </property>
+  </bean>
+  
+  <bean id="SecurityAttribute-inquirySectionDefinition" parent="SecurityAttribute-inquirySectionDefinition-parentBean"/>
+  <bean id="SecurityAttribute-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true"> 
+	  <property name="title" value=""/>
+	  <property name="numberOfColumns" value="1"/>
+	  <property name="inquiryFields">
+	    <list>
+	      <bean parent="FieldDefinition" p:attributeName="id"/>
+	      <bean parent="FieldDefinition" p:attributeName="name"/>
+	      <bean parent="FieldDefinition" p:attributeName="active"/>
+	    </list>
+	  </property>
   </bean>
 
 <!-- Business Object Lookup Definition -->

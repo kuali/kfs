@@ -82,26 +82,32 @@
       <property name="name" value="active"/>
   </bean>
   
+<!-- Business Object Inquiry Definition -->
   
   <bean id="TaxRegionType-inquiryDefinition" parent="TaxRegionType-inquiryDefinition-parentBean"/>
 
   <bean id="TaxRegionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Tax Region Type Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Tax Region Type Attributes"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:noInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="TaxRegionType-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
+  
+  <bean id="TaxRegionType-inquirySectionDefinition" parent="TaxRegionType-inquirySectionDefinition-parentBean"/>
+  <bean id="TaxRegionType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Tax Region Type Attributes"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+          
+<!-- Business Object Lookup Definition -->
   
   <bean id="TaxRegionType-lookupDefinition" parent="TaxRegionType-lookupDefinition-parentBean"/>
 

@@ -128,22 +128,25 @@
     <property name="title" value="Payment Process Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="id"/>    
-              <bean parent="FieldDefinition" p:attributeName="campusCode"/>  
-              <bean parent="FieldDefinition" p:attributeName="processUser.name"/>                                                                                           
-              <bean parent="FieldDefinition" p:attributeName="processTimestamp"/>          
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentProcess-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PaymentProcess-inquirySectionDefinition" parent="PaymentProcess-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentProcess-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id"/>    
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>  
+        <bean parent="FieldDefinition" p:attributeName="processUser.name"/>                                                                                           
+        <bean parent="FieldDefinition" p:attributeName="processTimestamp"/>          
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

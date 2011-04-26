@@ -355,48 +355,51 @@
     <property name="title" value="General Ledger Pending Entry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionDate"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
-              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
-              <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionEntryOffsetIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="financialDocumentApprovedCode"/>
-              <bean parent="FieldDefinition" p:attributeName="acctSufficientFundsFinObjCd"/>
-              <bean parent="FieldDefinition" p:attributeName="transactionEntryProcessedTs"/>
-              <bean parent="FieldDefinition" p:attributeName="documentHeader.financialDocumentStatusCode"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="GeneralLedgerPendingEntry-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="GeneralLedgerPendingEntry-inquirySectionDefinition" parent="GeneralLedgerPendingEntry-inquirySectionDefinition-parentBean"/>
+  <bean id="GeneralLedgerPendingEntry-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBalanceTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntrySequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionLedgerEntryAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDebitCreditCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionDate"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialSystemOriginationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentReversalDate"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEncumbranceUpdateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEntryOffsetIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentApprovedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="acctSufficientFundsFinObjCd"/>
+        <bean parent="FieldDefinition" p:attributeName="transactionEntryProcessedTs"/>
+        <bean parent="FieldDefinition" p:attributeName="documentHeader.financialDocumentStatusCode"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

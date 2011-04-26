@@ -76,20 +76,23 @@
     <property name="title" value="Accounting Change Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="code"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="AccountingChangeCode-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="AccountingChangeCode-inquirySectionDefinition" parent="AccountingChangeCode-inquirySectionDefinition-parenBean"/>
+  <bean id="AccountingChangeCode-inquirySectionDefinition-parenBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -83,21 +83,24 @@
     <property name="title" value="Recurring Payment Type Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="recurringPaymentTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="recurringPaymentTypeDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="RecurringPaymentType-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="RecurringPaymentType-inquirySectionDefinition" parent="RecurringPaymentType-inquirySectionDefinition-parentBean"/>
+  <bean id="RecurringPaymentType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="recurringPaymentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="recurringPaymentTypeDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

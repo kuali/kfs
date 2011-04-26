@@ -157,24 +157,27 @@
     <property name="title" value="Requisition Capital Asset System Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="RequisitionCapitalAssetSystem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="RequisitionCapitalAssetSystem-inquirySectionDefinition" parent="RequisitionCapitalAssetSystem-inquirySectionDefinition-parentBean"/>
+  <bean id="RequisitionCapitalAssetSystem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetManufacturerName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetModelDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNotReceivedCurrentFiscalYearIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

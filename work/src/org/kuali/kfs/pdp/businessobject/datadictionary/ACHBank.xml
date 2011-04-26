@@ -313,34 +313,37 @@
     <property name="title" value="ACH Bank Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankOfficeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankServiceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankNewRoutingNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankName"/>
-              <bean parent="FieldDefinition" p:attributeName="bankStreetAddress"/>
-              <bean parent="FieldDefinition" p:attributeName="bankCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="bankStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankZipCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankPhoneAreaCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankPhonePrefixNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankPhoneSuffixNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="bankInstitutionStatusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankDataViewCode"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ACHBank-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ACHBank-inquirySectionDefinition" parent="ACHBank-inquirySectionDefinition-parentBean"/>
+  <bean id="ACHBank-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankOfficeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankServiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankNewRoutingNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankStreetAddress"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="bankStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankZipCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankPhoneAreaCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankPhonePrefixNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankPhoneSuffixNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="bankInstitutionStatusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankDataViewCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -249,31 +249,34 @@
     <property name="title" value="Receiving Line Item Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemDamagedTotalQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemOrderedQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemReturnedTotalQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="receivingItemIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="LineItemReceivingItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="LineItemReceivingItem-inquirySectionDefinition" parent="LineItemReceivingItem-inquirySectionDefinition-parentBean"/>
+  <bean id="LineItemReceivingItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDamagedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOrderedQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReasonAddedCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReturnedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="receivingItemIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

@@ -357,36 +357,39 @@
     <property name="title" value="Purchase Order Item Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductReferenceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductTypeName"/>
-              <bean parent="FieldDefinition" p:attributeName="itemActiveIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="itemInvoicedTotalAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="itemInvoicedTotalQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemOutstandingEncumberedQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemOutstandingEncumberedAmount"/>
-              <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
-              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderItem-inquirySectionDefinition" parent="PurchaseOrderItem-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductReferenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="itemActiveIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemInvoicedTotalAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemInvoicedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingEncumberedQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemOutstandingEncumberedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="itemReceivedTotalQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

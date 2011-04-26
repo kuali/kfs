@@ -91,27 +91,33 @@
     </property>
   </bean>
 
+<!-- Business Object Inquiry Definition -->
 
   <bean id="PurchaseOrderCapitalAssetItem-inquiryDefinition" parent="PurchaseOrderCapitalAssetItem-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCapitalAssetItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Purchase Order Capital Asset Item Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Purchase Order Capital Asset Item Attributes" p:numberOfColumns="1">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetItemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetTransactionTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderCapitalAssetItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderCapitalAssetItem-inquirySectionDefinition" parent="PurchaseOrderCapitalAssetItem-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderCapitalAssetItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Purchase Order Capital Asset Item Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetItemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetTransactionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
+<!-- Business Object Lookup Definition -->
+        
   <bean id="PurchaseOrderCapitalAssetItem-lookupDefinition" parent="PurchaseOrderCapitalAssetItem-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCapitalAssetItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Purchase Order Capital Asset Item Lookup">

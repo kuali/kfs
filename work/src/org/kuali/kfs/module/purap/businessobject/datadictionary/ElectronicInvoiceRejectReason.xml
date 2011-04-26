@@ -126,23 +126,26 @@
     <property name="title" value="Electronic Invoice Reject Reason Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceFileName"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ElectronicInvoiceRejectReason-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ElectronicInvoiceRejectReason-inquirySectionDefinition" parent="ElectronicInvoiceRejectReason-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicInvoiceRejectReason-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceFileName"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

@@ -127,24 +127,26 @@
     <property name="title" value="Electronic Invoice Item Mapping Code Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="ElectronicInvoiceItemMapping-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="ElectronicInvoiceItemMapping-inquirySectionDefinition" parent="ElectronicInvoiceItemMapping-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicInvoiceItemMapping-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="invoiceItemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceMapIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
 <!-- Business Object Lookup Definition -->
 
 

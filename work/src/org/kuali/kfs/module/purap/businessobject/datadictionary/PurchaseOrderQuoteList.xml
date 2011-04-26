@@ -103,48 +103,56 @@
     <property name="title" value="Purchase Order Quote List Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Quote List"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListName"/>
-              <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-        
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Vendors"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="quoteListVendors"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="summaryTitle" value="Vendor"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorName"/>   
-                    <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorNumber"/>                                                                                     
-			        <bean parent="FieldDefinition" p:attributeName="active"/>
-                  </list>
-                </property>
-                <property name="summaryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorNumber"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderQuoteList-inquirySectionDefinition-quoteList"/>
+        <ref bean="PurchaseOrderQuoteList-inquirySectionDefinition-vendors"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderQuoteList-inquirySectionDefinition-quoteList" parent="PurchaseOrderQuoteList-inquirySectionDefinition-quoteList-parentBean"/>
+  <bean id="PurchaseOrderQuoteList-inquirySectionDefinition-quoteList-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value="Quote List"/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderQuoteListName"/>
+        <bean parent="FieldDefinition" p:attributeName="contractManagerCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PurchaseOrderQuoteList-inquirySectionDefinition-vendors" parent="PurchaseOrderQuoteList-inquirySectionDefinition-vendors-parentBean"/>
+  <bean id="PurchaseOrderQuoteList-inquirySectionDefinition-vendors-parentBean" parent="InquirySectionDefinition" abstract="true">
+	  <property name="title" value="Vendors"/>
+	  <property name="numberOfColumns" value="1"/>
+	  <property name="inquiryFields">
+	    <list>
+			<ref bean="PurchaseOrderQuoteList-inquiryCollectionDefinition-vendors"/>
+	    </list>
+	  </property>
+  </bean>
+
+    <bean id="PurchaseOrderQuoteList-inquiryCollectionDefinition-vendors" parent="PurchaseOrderQuoteList-inquiryCollectionDefinition-vendors-parentBean"/>
+	<bean id="PurchaseOrderQuoteList-inquiryCollectionDefinition-vendors-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+	  <property name="attributeName" value="quoteListVendors"/>
+	  <property name="businessObjectClass" value="org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor"/>
+	  <property name="numberOfColumns" value="1"/>
+	  <property name="summaryTitle" value="Vendor"/>
+	  <property name="inquiryFields">
+	    <list>
+	      <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorName"/>   
+	      <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorNumber"/>                                                                                     
+	      <bean parent="FieldDefinition" p:attributeName="active"/>
+	    </list>
+	  </property>
+	  <property name="summaryFields">
+	    <list>
+	      <bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorNumber"/>
+	    </list>
+	  </property>
+	</bean>
+      
 <!-- Business Object Lookup Definition -->
 
 

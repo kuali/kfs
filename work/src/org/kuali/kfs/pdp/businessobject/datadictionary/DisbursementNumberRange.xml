@@ -146,26 +146,29 @@
     <property name="title" value="Disbursement Number Range Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="physCampusProcCode"/>
-              <bean parent="FieldDefinition" p:attributeName="bankCode"/>                   
-              <bean parent="FieldDefinition" p:attributeName="disbursementTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="disbNbrRangeStartDt"/>
-              <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="lastAssignedDisbNbr"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="DisbursementNumberRange-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="DisbursementNumberRange-inquirySectionDefinition" parent="DisbursementNumberRange-inquirySectionDefinition-parentBean"/>
+  <bean id="DisbursementNumberRange-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="physCampusProcCode"/>
+        <bean parent="FieldDefinition" p:attributeName="bankCode"/>                   
+        <bean parent="FieldDefinition" p:attributeName="disbursementTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="disbNbrRangeStartDt"/>
+        <bean parent="FieldDefinition" p:attributeName="beginDisbursementNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="endDisbursementNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="lastAssignedDisbNbr"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

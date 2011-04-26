@@ -111,22 +111,24 @@
     <property name="title" value="PaymentAccountHistory Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
-              <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
-              <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
-              <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                                                            
-            </list>
-          </property>
-        </bean>
+		<ref bean="PaymentAccountHistory-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
-  
+  <bean id="PaymentAccountHistory-inquirySectionDefinition" parent="PaymentAccountHistory-inquirySectionDefinition-parenetBean"/>
+  <bean id="PaymentAccountHistory-inquirySectionDefinition-parenetBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountingChangeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeName"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeOrigValue"/>
+        <bean parent="FieldDefinition" p:attributeName="acctAttributeNewValue"/>
+        <bean parent="FieldDefinition" p:attributeName="acctChangeDate"/>                                                            
+      </list>
+    </property>
+  </bean>
+          
 </beans>

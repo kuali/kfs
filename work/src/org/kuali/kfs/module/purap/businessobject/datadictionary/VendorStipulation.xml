@@ -98,21 +98,24 @@
     <property name="title" value="Vendor Stipulation Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="vendorStipulationName"/>
-              <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="VendorStipulation-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="VendorStipulation-inquirySectionDefinition" parent="VendorStipulation-inquirySectionDefinition-parentBean"/>
+  <bean id="VendorStipulation-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationName"/>
+        <bean parent="FieldDefinition" p:attributeName="vendorStipulationDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

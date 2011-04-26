@@ -71,21 +71,24 @@
     <property name="title" value="University Date Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="universityDate"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalAccountingPeriod"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="UniversityDate-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="UniversityDate-inquirySectionDefinition" parent="UniversityDate-inquirySectionDefinition-parentBean"/>
+  <bean id="UniversityDate-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityDate"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalAccountingPeriod"/>
+      </list>
+    </property>
+  </bean>
+  
 <!-- Business Object Lookup Definition -->
 
 

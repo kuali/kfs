@@ -280,32 +280,35 @@
     <property name="title" value="Requisition Item Inquiry"/>
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductReferenceNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductTypeName"/>
-              <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
-              <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="itemRestrictedIndicator"/>
-              <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
-              <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
-              <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="RequisitionItem-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="RequisitionItem-inquirySectionDefinition" parent="RequisitionItem-inquirySectionDefinition-parentBean"/>
+  <bean id="RequisitionItem-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductReferenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="externalOrganizationB2bProductTypeName"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAssignedToTradeInIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemAuxiliaryPartIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCatalogNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="itemLineNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="itemRestrictedIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="itemTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitOfMeasureCode"/>
+        <bean parent="FieldDefinition" p:attributeName="itemUnitPrice"/>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemIdentifier"/>
+      </list>
+    </property>
+  </bean>
+        
 <!-- Business Object Lookup Definition -->
 
 

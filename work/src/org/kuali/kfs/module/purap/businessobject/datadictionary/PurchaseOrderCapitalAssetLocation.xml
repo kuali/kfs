@@ -164,33 +164,40 @@
     <property name="shortLabel" value="Off Campus"/>
   </bean>
 
+<!-- Business Object Inquiry Definition -->
+
   <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition" parent="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCapitalAssetLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Purchase Order Capital Asset Location Inquiry">
     <property name="inquirySections">
       <list>
-        <bean parent="InquirySectionDefinition" p:title="Purchase Order Capital Asset Location Attributes" p:numberOfColumns="1">
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
-              <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="campusCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetCountryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetLine1Address"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetLocationIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
-              <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
-              <bean parent="FieldDefinition" p:attributeName="offCampusIndicator"/>
-            </list>
-          </property>
-        </bean>
+		<ref bean="PurchaseOrderCapitalAssetLocation-inquirySectionDefinition"/>
       </list>
     </property>
   </bean>
 
+  <bean id="PurchaseOrderCapitalAssetLocation-inquirySectionDefinition" parent="PurchaseOrderCapitalAssetLocation-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderCapitalAssetLocation-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Purchase Order Capital Asset Location Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLocationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusIndicator"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+        
   <bean id="PurchaseOrderCapitalAssetLocation-lookupDefinition" parent="PurchaseOrderCapitalAssetLocation-lookupDefinition-parentBean"/>
 
   <bean id="PurchaseOrderCapitalAssetLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Purchase Order Capital Asset Location Lookup">

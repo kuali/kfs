@@ -68,17 +68,6 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
     }
 
     /**
-     * Save specific collector detail
-     * @param detail the CollectorDetail to save
-     * @see org.kuali.kfs.gl.dataaccess.CollectorDetailDao#save(org.kuali.kfs.gl.businessobject.CollectorDetail)
-     */
-    public void save(CollectorDetail detail) {
-        LOG.debug("saveOriginEntry() started");
-
-        getPersistenceBrokerTemplate().store(detail);
-    }
-
-    /**
      * Retrieves the DB table name that's mapped to instances of CollectorDetail by finding the class descriptor name from the
      * class descriptor respository 
      * @return the table name where collector details are saved to

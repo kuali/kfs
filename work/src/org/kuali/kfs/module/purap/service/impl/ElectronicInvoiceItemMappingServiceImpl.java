@@ -21,6 +21,8 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceItemMapping;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.dataaccess.ElectronicInvoiceItemMappingDao;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceItemMappingService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ElectronicInvoiceItemMappingServiceImpl implements ElectronicInvoiceItemMappingService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceItemMappingServiceImpl.class);
@@ -58,7 +60,7 @@ public class ElectronicInvoiceItemMappingServiceImpl implements ElectronicInvoic
              */
         }
         else {
-            electronicInvoiceItemMappingDao.save(ei);
+            SpringContext.getBean(BusinessObjectService.class).save(ei);
         }
         return getAll();
     }

@@ -82,11 +82,6 @@ public interface GeneralLedgerPendingEntryDao {
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
 
     /**
-     * @param generalLedgerPendingEntry
-     */
-    public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry);
-
-    /**
      * Delete all pending entries for a given document
      * 
      * @param documentHeaderId

@@ -47,12 +47,6 @@ public interface ExpenditureTransactionDao {
     public void delete(ExpenditureTransaction et);
 
     /**
-     * Saves an expenditure transaction
-     * @param et the expenditure transaction to save
-     */
-    public void save(ExpenditureTransaction et);
-
-    /**
      * Since expenditure transactions are temporary, this method removes all of the currently existing
      * expenditure transactions from the database
      */

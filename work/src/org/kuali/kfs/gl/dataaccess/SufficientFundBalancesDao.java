@@ -44,13 +44,6 @@ public interface SufficientFundBalancesDao {
     public int deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
     /**
-     * Save a sufficient funds balance
-     * 
-     * @param sfb the sufficient funds balance to save
-     */
-    public void save(SufficientFundBalances sfb);
-
-    /**
      * This method should only be used in unit tests. It loads all the gl_sf_balances_t rows in memory into a collection. This won't
      * sace for production.
      * 

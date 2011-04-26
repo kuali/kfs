@@ -118,17 +118,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * Saves a balance
-     * @param b a balance to save
-     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#save(org.kuali.kfs.gl.businessobject.Balance)
-     */
-    public void save(Balance b) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(b);
-    }
-
-    /**
      * Using values from the transaction as keys, lookup the balance the transaction would affect were it posted
      * 
      * @t a transaction to look up the related balance for

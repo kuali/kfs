@@ -66,14 +66,4 @@ public class CorrectionCriteriaDaoOjb extends PlatformAwareDaoBaseOjb implements
         return returnList;
     }
 
-    /**
-     * Saves a GLCP criterion
-     * 
-     * @param criterion the criterion to save
-     */
-    public void save(CorrectionCriteria criterion) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(criterion);
-    }
 }

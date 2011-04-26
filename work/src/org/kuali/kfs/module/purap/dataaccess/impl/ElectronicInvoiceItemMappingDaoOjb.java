@@ -29,16 +29,6 @@ ElectronicInvoiceItemMappingDao {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceItemMappingDaoOjb.class);
 
   /**
-   * Save an ElectronicInvoiceItemMapping.
-   * 
-   * @param row  ElectronicInvoiceItemMapping to save
-   */
-  public void save(ElectronicInvoiceItemMapping row) {
-    LOG.debug("save() started");
-    getPersistenceBrokerTemplate().store(row);
-  }
-
-  /**
    * Get list of all ElectronicInvoiceItemMappings
    */
   public List getAll() {

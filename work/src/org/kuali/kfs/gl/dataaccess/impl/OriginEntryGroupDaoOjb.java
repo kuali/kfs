@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -185,18 +183,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-    }
-
-    /**
-     * Saves an origin entry group
-     * 
-     * @param group the group to save
-     * @see org.kuali.kfs.gl.dataaccess.OriginEntryGroupDao#save(org.kuali.kfs.gl.businessobject.OriginEntryGroup)
-     */
-    public void save(OriginEntryGroup group) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(group);
     }
 
     /**

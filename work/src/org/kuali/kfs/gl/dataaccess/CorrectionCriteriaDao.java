@@ -23,12 +23,6 @@ import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
  * A DAO interface that 
  */
 public interface CorrectionCriteriaDao {
-    /**
-     * Saves a GLCP criterion
-     * 
-     * @param criterion the criterion to save
-     */
-    void save(CorrectionCriteria criterion);
 
     /**
      * Deletes a correction criterion

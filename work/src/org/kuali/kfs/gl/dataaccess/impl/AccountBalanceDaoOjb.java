@@ -68,18 +68,6 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     }
 
     /**
-     * Saves an account balance to the database
-     * 
-     * @param ab an account balance to save
-     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#save(org.kuali.kfs.gl.businessobject.AccountBalance)
-     */
-    public void save(AccountBalance ab) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(ab);
-    }
-
-    /**
      * This method finds the available account balances according to input fields and values
      * 
      * @param fieldValues the input fields and values

@@ -90,18 +90,6 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
     }
 
     /**
-     * Saves an encumbrance to the database
-     * 
-     * @param e an encumbrance to save
-     * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao#save(org.kuali.kfs.gl.businessobject.Encumbrance)
-     */
-    public void save(Encumbrance e) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(e);
-    }
-
-    /**
      * Purges the database of all those encumbrances with the given chart and year 
      * 
      * @param chartOfAccountsCode the chart of accounts code purged encumbrances will have

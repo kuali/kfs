@@ -22,12 +22,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
-    /**
-     * Saves the Disbursement Voucher Document
-     * 
-     * @param document
-     */
-    public void save(DisbursementVoucherDocument document);
 
     /**
      * Returns a document by its document number

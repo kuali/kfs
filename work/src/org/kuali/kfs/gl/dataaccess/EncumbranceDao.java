@@ -50,13 +50,6 @@ public interface EncumbranceDao {
     public void purgeYearByChart(String chartOfAccountsCode, int year);
 
     /**
-     * Saves an encumbrance to the database
-     * 
-     * @param e an encumbrance to save
-     */
-    public void save(Encumbrance e);
-
-    /**
      * fetch all encumbrance records from GL open encumbrance table
      * 
      * @return an Iterator with all encumbrances currently in the database

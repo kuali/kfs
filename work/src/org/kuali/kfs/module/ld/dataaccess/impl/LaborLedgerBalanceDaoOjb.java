@@ -281,13 +281,6 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         return balanceSummaryCollection;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#save(org.kuali.kfs.module.ld.businessobject.LedgerBalance)
-     */
-    public void save(LedgerBalance ledgerBalance) {
-        getPersistenceBrokerTemplate().store(ledgerBalance);
-    }
-
     // get the current funds according to the given criteria
     protected Iterator<Object[]> findCurrentFundsRawData(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());

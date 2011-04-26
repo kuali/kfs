@@ -33,12 +33,5 @@ public interface CloseDao {
     public ProposalAwardCloseDocument getMaxApprovedClose(Date currentSqlMidnight);
 
     public ProposalAwardCloseDocument getMostRecentClose(Date currentSqlMidnight);
-    
-    /**
-     * Save a {@link Close} instance.
-     * 
-     * @param close the instance to persist.
-     */
-    public void save(ProposalAwardCloseDocument close);
 
 }

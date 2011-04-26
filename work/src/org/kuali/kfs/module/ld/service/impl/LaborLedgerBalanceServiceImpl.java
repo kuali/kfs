@@ -33,7 +33,9 @@ import org.kuali.kfs.module.ld.service.LaborCalculatedSalaryFoundationTrackerSer
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -214,7 +216,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     @Transactional
     public void save(LedgerBalance ledgerBalance) {
-        laborLedgerBalanceDao.save(ledgerBalance);
+        SpringContext.getBean(BusinessObjectService.class).save(ledgerBalance);
     }
 
     /**

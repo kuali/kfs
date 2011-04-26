@@ -42,14 +42,4 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
         return (ProjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
-    /**
-     * @param projectCode - a populated ProjectCode object to be saved
-     * @throws IllegalObjectStateException
-     * @throws ValidationErrorList
-     * @see ProjectCodeDaoOjb#save(ProjectCode)
-     */
-    public void save(ProjectCode projectCode) {
-        getPersistenceBrokerTemplate().store(projectCode);
-    }
-
 }

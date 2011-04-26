@@ -79,13 +79,6 @@ public interface OriginEntryGroupDao {
     public Collection getGroupsToBackup(Date groupDate);
 
     /**
-     * Save a group
-     * 
-     * @param group a group to save
-     */
-    public void save(OriginEntryGroup group);
-
-    /**
      * The the group for the ID passed. The EXACT one, not one that is close, it must be EXACTLY EXACT.
      * 
      * @param id the group id of the group to return

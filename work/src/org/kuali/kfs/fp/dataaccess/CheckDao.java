@@ -23,13 +23,6 @@ import org.kuali.kfs.fp.businessobject.Check;
  * The data access interface for persisting Check objects.
  */
 public interface CheckDao {
-    /**
-     * Saves a Check to the DB.
-     * 
-     * @param check
-     * @return the Check that was just saved
-     */
-    public Check save(Check check);
 
     /**
      * Delete a check from the DB.

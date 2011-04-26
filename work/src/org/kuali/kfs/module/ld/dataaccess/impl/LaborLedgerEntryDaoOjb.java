@@ -91,13 +91,6 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#save(org.kuali.kfs.module.ld.businessobject.LedgerEntry)
-     */
-    public void save(LedgerEntry ledgerEntry) {
-        getPersistenceBrokerTemplate().store(ledgerEntry);
-    }
-
-    /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.List)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {

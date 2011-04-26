@@ -45,15 +45,6 @@ public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
     }
 
     /**
-     * @see org.kuali.rice.kns.dao.CheckDao#save(org.kuali.kfs.fp.businessobject.Check)
-     */
-    public Check save(Check check) throws DataAccessException {
-        getPersistenceBrokerTemplate().store(check);
-
-        return check;
-    }
-
-    /**
      * @param line
      * @throws DataAccessException
      */

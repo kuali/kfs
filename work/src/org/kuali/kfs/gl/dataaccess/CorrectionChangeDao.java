@@ -23,12 +23,6 @@ import org.kuali.kfs.gl.businessobject.CorrectionChange;
  * A DAO interface for CorrectionChange business objects to interact with the databse
  */
 public interface CorrectionChangeDao {
-    /**
-     * This method saves a GLCP correction
-     * 
-     * @param spec the GLCP correction to save in the database
-     */
-    void save(CorrectionChange spec);
 
     /**
      * Surprisingly, this method deletes a GLCP correction

@@ -48,13 +48,6 @@ public interface LaborLedgerEntryDao {
     Iterator<LedgerEntry> find(Map<String, String> fieldValues);
 
     /**
-     * save the given ledger entry into the underlying data store
-     * 
-     * @param ledgerEntry the given ledger entry
-     */
-    void save(LedgerEntry ledgerEntry);
-
-    /**
      * find the employees who were paid based on a set of specified pay type within the given report periods. Here, a pay type can
      * be determined by earn code and pay group.
      * 

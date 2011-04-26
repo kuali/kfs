@@ -25,13 +25,6 @@ import org.kuali.kfs.coa.businessobject.Organization;
 public interface OrganizationDao {
 
     /**
-     * This method saves a specific {@link Org}
-     * 
-     * @param organization
-     */
-    public void save(Organization organization);
-
-    /**
      * This method retrieves a list of active {@link Org}s defined by their chart and organization code
      * 
      * @param chartOfAccountsCode

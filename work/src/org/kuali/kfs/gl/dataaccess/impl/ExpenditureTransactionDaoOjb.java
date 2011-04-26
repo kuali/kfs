@@ -108,18 +108,6 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
-     * Saves an expenditure transaction
-     * 
-     * @param et the expenditure transaction to save
-     * @see org.kuali.kfs.gl.dataaccess.ExpenditureTransactionDao#save(org.kuali.kfs.gl.businessobject.ExpenditureTransaction)
-     */
-    public void save(ExpenditureTransaction et) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(et);
-    }
-
-    /**
      * Since expenditure transactions are temporary, just like flies that live for a mere day, this method removes all of the
      * currently existing expenditure transactions from the database, all expenditure transactions having run through the poster and
      * fulfilled their lifecycle

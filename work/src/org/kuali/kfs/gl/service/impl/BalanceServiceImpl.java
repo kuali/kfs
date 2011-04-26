@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -296,7 +297,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.kfs.gl.service.BalanceService#save(org.kuali.kfs.gl.businessobject.Balance)
      */
     public void save(Balance b) {
-        balanceDao.save(b);
+        SpringContext.getBean(BusinessObjectService.class).save(b);
     }
 
     public void setBalanceDao(BalanceDao balanceDao) {

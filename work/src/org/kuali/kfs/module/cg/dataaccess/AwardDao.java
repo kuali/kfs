@@ -34,13 +34,6 @@ public interface AwardDao {
     public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument c);
 
     /**
-     * Save an {@link Award}.
-     * 
-     * @param award
-     */
-    public void save(Award award);
-
-    /**
      * Delete all Awards.
      */
     public void deleteAll();

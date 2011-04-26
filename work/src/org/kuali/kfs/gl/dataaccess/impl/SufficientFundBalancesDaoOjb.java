@@ -32,17 +32,6 @@ public class SufficientFundBalancesDaoOjb extends PlatformAwareDaoBaseOjb implem
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundBalancesDaoOjb.class);
 
     /**
-     * Saves a sufficient fund balance record
-     * @param sfb the sufficient funds balance record to save
-     * @see org.kuali.kfs.gl.dataaccess.SufficientFundBalancesDao#save(org.kuali.kfs.gl.businessobject.SufficientFundBalances)
-     */
-    public void save(SufficientFundBalances sfb) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(sfb);
-    }
-
-    /**
      * Builds an OJB query based on the parameter values and returns all the sufficient fund balances that match that record
      * 
      * @param universityFiscalYear the university fiscal year of sufficient fund balances to find

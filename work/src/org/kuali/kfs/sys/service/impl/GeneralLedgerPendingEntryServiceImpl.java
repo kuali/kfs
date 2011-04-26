@@ -659,8 +659,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      */
     public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
         LOG.debug("save() started");
-
-        generalLedgerPendingEntryDao.save(generalLedgerPendingEntry);
+        SpringContext.getBean(BusinessObjectService.class).save(generalLedgerPendingEntry);
     }
 
     public void delete(String documentHeaderId) {

@@ -20,6 +20,8 @@ import java.sql.Date;
 import org.kuali.kfs.gl.businessobject.CollectorDetail;
 import org.kuali.kfs.gl.dataaccess.CollectorDetailDao;
 import org.kuali.kfs.gl.service.CollectorDetailService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -56,8 +58,7 @@ public class CollectorDetailServiceImpl implements CollectorDetailService {
      */
     public void save(CollectorDetail detail) {
         LOG.debug("save() started");
-
-        collectorDetailDao.save(detail);
+        SpringContext.getBean(BusinessObjectService.class).save(detail);
     }
 
     public void setCollectorDetailDao(CollectorDetailDao idbd) {

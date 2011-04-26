@@ -48,15 +48,6 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     }
 
     /**
-     * Saves an accounting line to the DB using OJB.
-     * 
-     * @param line
-     */
-    public void save(AccountingLine line) throws DataAccessException {
-        getPersistenceBrokerTemplate().store(line);
-    }
-
-    /**
      * Deletes an accounting line from the DB using OJB.
      */
     public void deleteAccountingLine(AccountingLine line) throws DataAccessException {

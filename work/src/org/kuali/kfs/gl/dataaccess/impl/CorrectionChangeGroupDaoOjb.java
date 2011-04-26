@@ -79,16 +79,4 @@ public class CorrectionChangeGroupDaoOjb extends PlatformAwareDaoBaseOjb impleme
 
         return (CorrectionChangeGroup) getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
-
-    /**
-     * Saves a correction change group
-     * 
-     * @param group the Correction Change Group to save
-     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeGroupDao#save(org.kuali.kfs.gl.businessobject.CorrectionChangeGroup)
-     */
-    public void save(CorrectionChangeGroup group) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(group);
-    }
 }

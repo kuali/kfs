@@ -53,14 +53,4 @@ public class OriginationCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Or
         return (OriginationCode) getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.rice.kns.dao.OriginationCodeDao#save(org.kuali.rice.kns.bo.OriginationCode)
-     */
-    public void save(OriginationCode code) {
-        getPersistenceBrokerTemplate().store(code);
-    }
-
-
 }

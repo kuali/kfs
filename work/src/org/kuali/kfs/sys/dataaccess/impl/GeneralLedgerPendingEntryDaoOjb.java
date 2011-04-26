@@ -193,17 +193,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.dao.GeneralLedgerPendingEntryDao#save(org.kuali.bo.GeneralLedgerPendingEntry)
-     */
-    public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(generalLedgerPendingEntry);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.kuali.dao.GeneralLedgerPendingEntryDao#delete(Long)
      */
     public void delete(String documentHeaderId) {

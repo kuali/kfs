@@ -35,13 +35,6 @@ public interface AccountBalanceDao {
     public AccountBalance getByTransaction(Transaction t);
 
     /**
-     * Saves an account balance to the database
-     * 
-     * @param ab an account balance to save
-     */
-    public void save(AccountBalance ab);
-
-    /**
      * This method finds the available account balances according to input fields and values
      * 
      * @param fieldValues the input fields and values

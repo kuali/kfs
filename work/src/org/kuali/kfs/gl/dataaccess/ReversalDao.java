@@ -25,12 +25,6 @@ import org.kuali.kfs.gl.businessobject.Transaction;
  * An interface that declares the methods needed for reversal services to interact with the database
  */
 public interface ReversalDao {
-    /**
-     * Saves a reversal record
-     * 
-     * @param re a reversal to save
-     */
-    public void save(Reversal re);
 
     /**
      * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make

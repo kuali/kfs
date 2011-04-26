@@ -73,13 +73,6 @@ public interface BalanceDao {
     public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
 
     /**
-     * Saves a balance to the database
-     * 
-     * @param b a balance to save
-     */
-    public void save(Balance b);
-
-    /**
      * This method finds the cash balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values

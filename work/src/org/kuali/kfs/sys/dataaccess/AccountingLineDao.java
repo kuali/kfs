@@ -23,12 +23,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
  * The data access interface for persisting AccountingLineBase objects.
  */
 public interface AccountingLineDao {
-    /**
-     * Saves an accounting line to the DB.
-     * 
-     * @param line
-     */
-    void save(AccountingLine line);
 
     /**
      * Deletes an accounting line from the DB.

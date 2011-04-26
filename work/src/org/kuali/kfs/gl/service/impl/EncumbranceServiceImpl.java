@@ -21,6 +21,8 @@ import java.util.Map;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.gl.service.EncumbranceService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,8 +42,7 @@ public class EncumbranceServiceImpl implements EncumbranceService {
      */
     public void save(Encumbrance enc) {
         LOG.debug("save() started");
-
-        encumbranceDao.save(enc);
+        SpringContext.getBean(BusinessObjectService.class).save(enc);
     }
 
     /**

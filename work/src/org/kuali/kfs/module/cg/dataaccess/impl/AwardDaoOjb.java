@@ -49,11 +49,4 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
         return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#save(org.kuali.kfs.module.cg.businessobject.Award)
-     */
-    public void save(Award award) {
-        getPersistenceBrokerTemplate().store(award);
-    }
-
 }

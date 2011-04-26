@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.dataaccess;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 
 public interface OriginationCodeDao {
-    void save(OriginationCode code);
 
     void delete(OriginationCode code);
 

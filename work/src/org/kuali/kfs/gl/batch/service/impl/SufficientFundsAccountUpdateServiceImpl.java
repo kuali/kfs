@@ -284,7 +284,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
                     currentFinObjectCd = tempFinObjectCd;
 
                     if (currentSfbl != null && amountsAreNonZero(currentSfbl)) {
-                        sufficientFundBalancesDao.save(currentSfbl);
+                        boService.save(currentSfbl);
                         ++sfblInsertedCount;
                     }
 
@@ -313,7 +313,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
 
             // save the last one
             if (currentSfbl != null && amountsAreNonZero(currentSfbl)) {
-                sufficientFundBalancesDao.save(currentSfbl);
+                boService.save(currentSfbl);
                 ++sfblInsertedCount;
             }
          }

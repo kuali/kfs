@@ -33,11 +33,4 @@ public interface ProposalDao {
      */
     public Collection<Proposal> getProposalsToClose(ProposalAwardCloseDocument c);
 
-    /**
-     * Persist a {@link Proposal}.
-     * 
-     * @param proposal the instance to persist.
-     */
-    public void save(Proposal proposal);
-
 }

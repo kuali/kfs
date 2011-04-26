@@ -23,12 +23,6 @@ import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
  * a DAO interface that declares methods needed for CorrectionChangeGroups to deal with the database 
  */
 public interface CorrectionChangeGroupDao {
-    /**
-     * Saves a Correction Group to the database
-     * 
-     * @param group the group to save
-     */
-    void save(CorrectionChangeGroup group);
 
     /**
      * Deletes a CorrectionChangeGroup from the database

@@ -136,18 +136,6 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
     }
 
     /**
-     * Saves a reversal record
-     * 
-     * @param re a reversal record to save
-     * @see org.kuali.kfs.gl.dataaccess.ReversalDao#save(org.kuali.kfs.gl.businessobject.Reversal)
-     */
-    public void save(Reversal re) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(re);
-    }
-
-    /**
      * Fetches all reversals that have been set to reverse on or before the given date - that is to say,
      * returns all the reversal records ready to be reversed!
      * 

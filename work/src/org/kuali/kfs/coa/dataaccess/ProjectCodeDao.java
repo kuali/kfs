@@ -31,10 +31,4 @@ public interface ProjectCodeDao {
      */
     public ProjectCode getByName(String name);
 
-    /**
-     * This method saves a given {@link ProjectCode}
-     * 
-     * @param projectCode - a populated ProjectCode object to be saved
-     */
-    public void save(ProjectCode projectCode);
 }

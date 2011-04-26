@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -80,27 +81,27 @@ public class CloseServiceImpl implements CloseService {
         if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
 
             KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-
+            BusinessObjectService bo = SpringContext.getBean(BusinessObjectService.class);
             try {
 
                 Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
                 Long proposalCloseCount = new Long(proposals.size());
                 for (Proposal p : proposals) {
                     p.setProposalClosingDate(today);
-                    proposalDao.save(p);
+                    bo.save(p);
                 }
 
                 Collection<Award> awards = awardDao.getAwardsToClose(max);
                 Long awardCloseCount = new Long(awards.size());
                 for (Award a : awards) {
                     a.setAwardClosingDate(today);
-                    awardDao.save(a);
+                    bo.save(a);
                 }
 
                 max.setAwardClosedCount(awardCloseCount);
                 max.setProposalClosedCount(proposalCloseCount);
 
-                closeDao.save(max);
+                bo.save(max);
                 noteText = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
 
             }

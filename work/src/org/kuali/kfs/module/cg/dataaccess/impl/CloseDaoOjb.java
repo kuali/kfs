@@ -134,12 +134,4 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         }
     }
 
-
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
-     */
-    public void save(ProposalAwardCloseDocument close) {
-        getPersistenceBrokerTemplate().store(close);
-    }
-
 }

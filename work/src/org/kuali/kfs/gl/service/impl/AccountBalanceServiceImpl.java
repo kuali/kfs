@@ -29,6 +29,7 @@ import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -348,7 +349,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @see org.kuali.kfs.gl.service.AccountBalanceService#save(org.kuali.kfs.gl.businessobject.AccountBalance)
      */
     public void save(AccountBalance ab) {
-        accountBalanceDao.save(ab);
+        SpringContext.getBean(BusinessObjectService.class).save(ab);
     }
 
     /**

@@ -64,15 +64,4 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
-    /**
-     * Save a CorrectionChange to the database
-     * 
-     * @param spec a CorrectionChange to save to the database
-     * @see org.kuali.kfs.gl.dataaccess.CorrectionChangeDao#save(org.kuali.kfs.gl.businessobject.CorrectionChange)
-     */
-    public void save(CorrectionChange spec) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(spec);
-    }
 }

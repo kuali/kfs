@@ -26,7 +26,9 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.ReversalDao;
 import org.kuali.kfs.gl.service.ReversalService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -126,7 +128,7 @@ public class ReversalServiceImpl implements ReversalService {
     public void save(Reversal re) {
         LOG.debug("save() started");
 
-        reversalDao.save(re);
+        SpringContext.getBean(BusinessObjectService.class).save(re);
     }
 
     /**

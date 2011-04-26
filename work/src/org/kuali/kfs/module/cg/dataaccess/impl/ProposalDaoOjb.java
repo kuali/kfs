@@ -41,11 +41,4 @@ public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalD
         return (Collection<Proposal>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Proposal.class, criteria));
     }
 
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.ProposalDao#save(org.kuali.kfs.module.cg.businessobject.Proposal)
-     */
-    public void save(Proposal proposal) {
-        getPersistenceBrokerTemplate().store(proposal);
-    }
-
 }

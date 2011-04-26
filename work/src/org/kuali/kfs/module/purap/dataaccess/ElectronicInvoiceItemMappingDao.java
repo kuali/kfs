@@ -27,13 +27,6 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 public interface ElectronicInvoiceItemMappingDao {
 
     /**
-     * Save a ElectronicInvoiceItemMapping.
-     * 
-     * @param row ElectronicInvoiceItemMapping to save
-     */
-    public void save(ElectronicInvoiceItemMapping row);
-
-    /**
      * Get list of all ElectronicInvoiceItemMappings
      */
     public List getAll();

@@ -278,12 +278,12 @@ public class SpringContext {
     }
 
     private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
-        LOG.info( "Starting Spring context initialization" );
+        LOG.debug( "Starting Spring context initialization" );
         // use the base config file to bootstrap the real application context started by Rice
         new ClassPathXmlApplicationContext(riceInitializationSpringFile);
         // pull the Rice application context into here for further use and efficiency
         applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
-        LOG.info( "Completed Spring context initialization" );
+        LOG.debug( "Completed Spring context initialization" );
         
         SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
         

@@ -163,7 +163,7 @@
     <bean id="wrappedBatchExecutorService" parent="wrappedBatchExecutorService-parentBean"/>
 
 	<bean id="wrappedBatchExecutorService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" />
-    <bean id="wrappedStep" parent="wrappedStep-parentBean"/>
+    <bean id="wrappedStep" parent="wrappedStep-parentBean" abstract="true" />
 	
 	<bean id="wrappedStep-parentBean" parent="step" abstract="true">
 		<property name="wrappedBatchExecutorService" ref="wrappedBatchExecutorService" />

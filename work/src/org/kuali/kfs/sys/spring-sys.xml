@@ -424,21 +424,14 @@
 			<bean parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.AccountingLineDaoOjb" />
 		</property>
 	</bean>
-    <bean id="homeOriginationDao" parent="homeOriginationDao-parentBean"/>
-
-	<bean id="homeOriginationDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.HomeOriginationDaoOjb" />
-    <bean id="originationCodeDao" parent="originationCodeDao-parentBean"/>
-
-	<bean id="originationCodeDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" />
-    <bean id="optionsDao" parent="optionsDao-parentBean"/>
-
-<<<<<<< .mine
-	<bean id="optionsDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OptionsDaoOjb" />
-	<bean id="generalLedgerPendingEntryDao" parent="generalLedgerPendingEntryDao-parentBean"/>
 	
-=======
-		
->>>>>>> .r31100
+    <bean id="homeOriginationDao" parent="homeOriginationDao-parentBean"/>
+	<bean id="homeOriginationDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.HomeOriginationDaoOjb" />
+	
+    <bean id="originationCodeDao" parent="originationCodeDao-parentBean"/>
+	<bean id="originationCodeDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" />
+
+	<bean id="generalLedgerPendingEntryDao" parent="generalLedgerPendingEntryDao-parentBean"/>
 	<bean id="generalLedgerPendingEntryDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb">
 		<property name="parameterService">
 			<ref bean="parameterService" />
@@ -716,7 +709,7 @@
     </bean>
 	<bean id="reportAggregatorService" parent="reportAggregatorService-parentBean"/>
     
-    <bean id=""reportAggregatorService-parentBean"" class="org.kuali.kfs.sys.service.impl.ReportAggregatorServiceTextImpl">
+    <bean id="reportAggregatorService-parentBean" class="org.kuali.kfs.sys.service.impl.ReportAggregatorServiceTextImpl">
     	<property name="newLineCharacter" value="${report.writer.service.new.line.characters}"/>
 	</bean>
 	
@@ -908,7 +901,6 @@
 	</bean>
 	<bean id="financialSystemDocumentService" parent="financialSystemDocumentService-parentBean"/>
 	
-	<bean id="financialSystemDocumentService-parentBean" parent="financialSystemDocumentService-parentBean" />
 	<bean id="financialSystemDocumentService-parentBean" abstract="true" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
 		<property name="documentService" ref="documentService" />
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />

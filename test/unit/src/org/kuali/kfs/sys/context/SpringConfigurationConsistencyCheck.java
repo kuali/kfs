@@ -30,10 +30,10 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
         List<String> failingBeans = new ArrayList<String>();
         
         Map<String,KualiLookupableImpl> beans = SpringContext.getBeansOfType(KualiLookupableImpl.class);
-        Map<String,KualiLookupableImpl> beans2 = SpringContext.getBeansOfType(KualiLookupableImpl.class);
+//        Map<String,KualiLookupableImpl> beans2 = SpringContext.getBeansOfType(KualiLookupableImpl.class);
         
         for ( String beanName : beans.keySet() ) {
-            if ( beans.get(beanName) == beans2.get(beanName) ) {
+            if ( beans.get(beanName) == SpringContext.getBean(beanName) ) {
                 failingBeans.add( "\n *** " + beanName + "is not a singleton and should be." );
             }
         }

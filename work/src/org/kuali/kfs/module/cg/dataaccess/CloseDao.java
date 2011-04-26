@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cg.dataaccess;
 
+import java.sql.Date;
+
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
@@ -25,11 +27,12 @@ public interface CloseDao {
     /**
      * Gets the persisted instance with the latest close date.
      * 
+     * @param currentSqlMidnight
      * @return the persisted instance with the latest close date.
      */
-    public ProposalAwardCloseDocument getMaxApprovedClose();
+    public ProposalAwardCloseDocument getMaxApprovedClose(Date currentSqlMidnight);
 
-    public ProposalAwardCloseDocument getMostRecentClose();
+    public ProposalAwardCloseDocument getMostRecentClose(Date currentSqlMidnight);
     
     /**
      * Save a {@link Close} instance.

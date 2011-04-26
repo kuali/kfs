@@ -55,8 +55,8 @@ public class CloseServiceImpl implements CloseService {
      * max_proposal_close number.</li>
      * <li>Save the number of proposals that come back.</li>
      * <li>Update each of these proposals setting the close_date to todays date.</li>
-     * <li>Get all awards with a null closing_date, an entry_date <= the last_closed_date of the Close with the max_close number
-     * and a status_code not equal to 'U'.</li>
+     * <li>Get all awards with a null closing_date, an entry_date <= the last_closed_date of the Close with the max_close number and
+     * a status_code not equal to 'U'.</li>
      * <li>Save the number of awards that come back.</li>
      * <li>Update each of these awards setting the close_date to todays date.</li>
      * <li>Update the Close with that max_close_number setting the proposal_closed_count to the number of proposals brought back
@@ -68,8 +68,8 @@ public class CloseServiceImpl implements CloseService {
      */
     public boolean close() {
 
-        ProposalAwardCloseDocument max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
+        ProposalAwardCloseDocument max = closeDao.getMaxApprovedClose(today);
 
         if (null == max) { // no closes at all. Gotta wait until we get an approved one.
             return true;
@@ -77,8 +77,7 @@ public class CloseServiceImpl implements CloseService {
 
         boolean result = true;
         String noteText = null;
-        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), 
-                CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)){
+        if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
 
             KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
 
@@ -104,18 +103,21 @@ public class CloseServiceImpl implements CloseService {
                 closeDao.save(max);
                 noteText = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 String messageProperty = kualiConfigurationService.getPropertyString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
                 noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
-            } finally {
-               result = this.addDocumentNoteAfterClosing(max, noteText);
+            }
+            finally {
+                result = this.addDocumentNoteAfterClosing(max, noteText);
             }
         }
         return result;
     }
-    
+
     public ProposalAwardCloseDocument getMostRecentClose() {
-        ProposalAwardCloseDocument mostRecentClose = closeDao.getMostRecentClose();
+        Date today = dateTimeService.getCurrentSqlDateMidnight();
+        ProposalAwardCloseDocument mostRecentClose = closeDao.getMostRecentClose(today);
         return mostRecentClose;
     }
 
@@ -131,7 +133,8 @@ public class CloseServiceImpl implements CloseService {
         try {
             service.addNoteToDocument(close, note);
             service.approveDocument(close, note.getNoteText(), null);
-        } catch (WorkflowException we) {
+        }
+        catch (WorkflowException we) {
             we.printStackTrace();
             return false;
         }

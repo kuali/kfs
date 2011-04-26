@@ -29,7 +29,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
@@ -40,11 +39,8 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
-    public ProposalAwardCloseDocument getMaxApprovedClose() {
+    public ProposalAwardCloseDocument getMaxApprovedClose(Date today) {
 
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        Date today = dateTimeService.getCurrentSqlDateMidnight();
-        
         Criteria criteria = new Criteria();
         criteria.addEqualTo("userInitiatedCloseDate", today);
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
@@ -59,42 +55,44 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         }
 
         List<ProposalAwardCloseDocument> docs = null;
-        
-        if (documentHeaderIds.size() > 0) { 
-            
+
+        if (documentHeaderIds.size() > 0) {
+
             try {
-            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
-            } catch (WorkflowException we) {
+                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
-            
+
             if (docs.size() > 1) {
                 ProposalAwardCloseDocument close = docs.remove(0);
                 Date closeDate = close.getCloseOnOrBeforeDate();
-                for (ProposalAwardCloseDocument cfdaClose: docs) {
+                for (ProposalAwardCloseDocument cfdaClose : docs) {
                     if (cfdaClose.getCloseOnOrBeforeDate().equals(closeDate)) {
-                        //disapprove docs with same close date??
+                        // disapprove docs with same close date??
                     }
-                        
+
                 }
                 return close;
-                
-            } else if (docs.size() == 1) {
+
+            }
+            else if (docs.size() == 1) {
                 return docs.get(0);
-            } else
+            }
+            else
                 return null;
-            
-        } else {
+
+        }
+        else {
             return null;
         }
-        
-      
+
+
     }
 
-    public ProposalAwardCloseDocument getMostRecentClose() {
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        Date today = dateTimeService.getCurrentSqlDateMidnight();
-        
+    public ProposalAwardCloseDocument getMostRecentClose(Date today) {
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("userInitiatedCloseDate", today);
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
@@ -109,30 +107,34 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         }
 
         List<ProposalAwardCloseDocument> docs = null;
-        
-        if (documentHeaderIds.size() > 0) { 
-            
+
+        if (documentHeaderIds.size() > 0) {
+
             try {
-            docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
-            } catch (WorkflowException we) {
+                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException we) {
                 throw new RuntimeException(we);
             }
-            
+
             if (docs.size() > 1) {
                 ProposalAwardCloseDocument close = docs.remove(0);
                 return close;
-                
-            } else if (docs.size() == 1) {
+
+            }
+            else if (docs.size() == 1) {
                 return docs.get(0);
-            } else
+            }
+            else
                 return null;
-            
-        } else {
+
+        }
+        else {
             return null;
         }
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#save(org.kuali.kfs.module.cg.businessobject.Close)
      */

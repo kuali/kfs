@@ -1,139 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="budgetCategoryDTO" parent="budgetCategoryDTO-parentBean"/>
+	<bean id="budgetCategoryDTO" parent="budgetCategoryDTO-parentBean" />
 
-  <bean id="budgetCategoryDTO-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="inquiryDefinition" ref="budgetCategoryDTO-inquiryDefinition"/>
-    <property name="lookupDefinition" ref="budgetCategoryDTO-lookupDefinition"/>
-    <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO"/>
-    <property name="objectLabel" value="Budget Category Reference"/>
-    <property name="attributes">
-      <list>        
-        <ref bean="budgetCategoryDTO-authorPersonName"/>
-        <ref bean="budgetCategoryDTO-budgetCategoryCode"/>
-        <ref bean="budgetCategoryDTO-budgetCategoryTypeCode"/>
-        <ref bean="budgetCategoryDTO-budgetCategoryTypeDescription"/>        
-        <ref bean="budgetCategoryDTO-description"/>        
-      </list>
-    </property>
-    <property name="primaryKeys">
-    	<list>
-    		<value>budgetCategoryCode</value>
-    	</list>
-    </property>    
-  </bean>
+	<bean id="budgetCategoryDTO-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="inquiryDefinition" ref="budgetCategoryDTO-inquiryDefinition" />
+		<property name="lookupDefinition" ref="budgetCategoryDTO-lookupDefinition" />
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
+		<property name="objectLabel" value="Budget Category Reference" />
+		<property name="attributes">
+			<list>
+				<ref bean="budgetCategoryDTO-authorPersonName" />
+				<ref bean="budgetCategoryDTO-budgetCategoryCode" />
+				<ref bean="budgetCategoryDTO-budgetCategoryTypeCode" />
+				<ref bean="budgetCategoryDTO-budgetCategoryTypeDescription" />
+				<ref bean="budgetCategoryDTO-description" />
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>budgetCategoryCode</value>
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="budgetCategoryDTO-authorPersonName" parent="budgetCategoryDTO-authorPersonName-parentBean"/>
-  <bean id="budgetCategoryDTO-authorPersonName-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="authorPersonName"/>
-    <property name="label" value="Author Person Name"/>
-    <property name="required" value="false"/>
-  </bean>
+	<bean id="budgetCategoryDTO-authorPersonName" parent="budgetCategoryDTO-authorPersonName-parentBean" />
+	<bean id="budgetCategoryDTO-authorPersonName-parentBean" abstract="true"
+		parent="PersonImpl-name">
+		<property name="name" value="authorPersonName" />
+		<property name="label" value="Author Person Name" />
+		<property name="required" value="false" />
+	</bean>
 
-  <bean id="budgetCategoryDTO-budgetCategoryCode" parent="budgetCategoryDTO-budgetCategoryCode-parentBean"/>
-  <bean id="budgetCategoryDTO-budgetCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetCategoryCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Budget Category Code"/>
-    <property name="shortLabel" value="BudgetCategoryCode"/>
-    <property name="maxLength" value="3"/>
-    <property name="validationPattern">
-      	<ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-     	<bean parent="TextControlDefinition" p:size="5"/>
-    </property>
-  </bean>
-  
-  <bean id="budgetCategoryDTO-budgetCategoryTypeCode" parent="budgetCategoryDTO-budgetCategoryTypeCode-parentBean"/>
-  <bean id="budgetCategoryDTO-budgetCategoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetCategoryTypeCode"/>
-    <property name="label" value="Budget Category Type Code"/>
-    <property name="shortLabel" value="budgetCategoryTypeCode"/>
-    <property name="maxLength" value="5"/>
-    <property name="validationPattern">
-      	<ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:size="5"/>
-    </property>
-  </bean>
+	<bean id="budgetCategoryDTO-budgetCategoryCode" parent="budgetCategoryDTO-budgetCategoryCode-parentBean" />
+	<bean id="budgetCategoryDTO-budgetCategoryCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="budgetCategoryCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Budget Category Code" />
+		<property name="shortLabel" value="BudgetCategoryCode" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
 
-  <bean id="budgetCategoryDTO-budgetCategoryTypeDescription" parent="budgetCategoryDTO-budgetCategoryTypeDescription-parentBean"/>
-  <bean id="budgetCategoryDTO-budgetCategoryTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="budgetCategoryTypeDescription"/>
-    <property name="label" value="Budget Category Type Description"/>
-    <property name="shortLabel" value="budgetCategoryTypeDescription"/>
-    <property name="maxLength" value="200"/>
-    <property name="validationPattern">
-      	<ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
-    </property>
-  </bean>
-  
-  <bean id="budgetCategoryDTO-description" parent="budgetCategoryDTO-description-parentBean"/>
-  <bean id="budgetCategoryDTO-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="description"/>
-    <property name="label" value="Budget Category Description"/>
-    <property name="shortLabel" value="description"/>
-    <property name="maxLength" value="200"/>
-    <property name="validationPattern">
-      	<ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
-    </property>
-  </bean>
-       
- <!-- Business Object Inquiry Definition -->
+	<bean id="budgetCategoryDTO-budgetCategoryTypeCode" parent="budgetCategoryDTO-budgetCategoryTypeCode-parentBean" />
+	<bean id="budgetCategoryDTO-budgetCategoryTypeCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="budgetCategoryTypeCode" />
+		<property name="label" value="Budget Category Type Code" />
+		<property name="shortLabel" value="budgetCategoryTypeCode" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:size="5" />
+		</property>
+	</bean>
 
-  <bean id="budgetCategoryDTO-inquiryDefinition" parent="budgetCategoryDTO-inquiryDefinition-parentBean"/>
+	<bean id="budgetCategoryDTO-budgetCategoryTypeDescription"
+		parent="budgetCategoryDTO-budgetCategoryTypeDescription-parentBean" />
+	<bean id="budgetCategoryDTO-budgetCategoryTypeDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="budgetCategoryTypeDescription" />
+		<property name="label" value="Budget Category Type Description" />
+		<property name="shortLabel" value="budgetCategoryTypeDescription" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
 
-  <bean id="budgetCategoryDTO-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Budget Category Code"/>
-    <property name="inquirySections">
-      <list>
-      	 <ref bean="budgetCategoryDTO-inquirySectionDefinition"/>
-      </list>
-    </property>
-  </bean>
- <bean id="budgetCategoryDTO-inquirySectionDefinition" parent="budgetCategoryDTO-inquirySectionDefinition-parentBean"/>
- <bean id="budgetCategoryDTO-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true" p:title="Budget Category Code Details">    	
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
-              <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="description"/>
-            </list>
-          </property>
- </bean>
+	<bean id="budgetCategoryDTO-description" parent="budgetCategoryDTO-description-parentBean" />
+	<bean id="budgetCategoryDTO-description-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="description" />
+		<property name="label" value="Budget Category Description" />
+		<property name="shortLabel" value="description" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+		</property>
+	</bean>
 
-<!-- Business Object Lookup Definition -->
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="budgetCategoryDTO-inquiryDefinition" parent="budgetCategoryDTO-inquiryDefinition-parentBean" />
+
+	<bean id="budgetCategoryDTO-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Budget Category Code" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="budgetCategoryDTO-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="budgetCategoryDTO-inquirySectionDefinition" parent="budgetCategoryDTO-inquirySectionDefinition-parentBean" />
+	<bean id="budgetCategoryDTO-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true"
+		p:title="Budget Category Code Details">
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
 
 
-  <bean id="budgetCategoryDTO-lookupDefinition" parent="budgetCategoryDTO-lookupDefinition-parentBean"/>
+	<bean id="budgetCategoryDTO-lookupDefinition" parent="budgetCategoryDTO-lookupDefinition-parentBean" />
 
-  <bean id="budgetCategoryDTO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Category Code Lookup"/>
-	<property name="lookupableID" value="kualiLookupable"/>
+	<bean id="budgetCategoryDTO-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Budget Category Code Lookup" />
+		<property name="lookupableID" value="kualiLookupable" />
 
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryCode"/>
-        <bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-      </list>
-    </property>
-  </bean>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="budgetCategoryTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+			</list>
+		</property>
+	</bean>
 </beans>

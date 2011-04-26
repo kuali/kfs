@@ -1,221 +1,244 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Award" parent="Award-parentBean"/>
+	<bean id="Award" parent="Award-parentBean" />
 
-  <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
-    <property name="inquiryDefinition">
-      <ref bean="Award-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="Award-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="awardInquiryTitle"/>
-    <property name="objectLabel" value="Award"/>
-    <property name="attributes">
-      <list>
-        <ref bean="Award-proposal.proposalNumber"/>
-        <ref bean="Award-proposalNumber"/>
-        <ref bean="Award-awardNumber"/>        
-        <ref bean="Award-awardTitle"/>
-        <ref bean="Award-grantNumber"/>
-        <ref bean="Award-cfdaNumber"/>
-      </list>
-    </property>
-    <property name="primaryKeys">
-    	<list>
-    		<value>proposalNumber</value>
-    	</list>
-    </property>    
-    <property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="awardAccounts" p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account"/>
-      </list>
-    </property>    
-    <property name="relationships">
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="proposal"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="agency"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="primeAgency"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="primeAgencyNumber" p:targetName="agencyNumber"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+	<bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.external.kc.businessobject.Award" />
+		<property name="inquiryDefinition">
+			<ref bean="Award-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Award-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="awardInquiryTitle" />
+		<property name="objectLabel" value="Award" />
+		<property name="attributes">
+			<list>
+				<ref bean="Award-proposal.proposalNumber" />
+				<ref bean="Award-proposalNumber" />
+				<ref bean="Award-awardNumber" />
+				<ref bean="Award-awardTitle" />
+				<ref bean="Award-grantNumber" />
+				<ref bean="Award-cfdaNumber" />
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>proposalNumber</value>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="awardAccounts"
+					p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="proposal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
+								p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="agency" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber"
+								p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="primeAgency" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="primeAgencyNumber"
+								p:targetName="agencyNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean"/>
+	<bean id="Award-proposal.proposalNumber" parent="Award-proposal.proposalNumber-parentBean" />
 
-  <bean id="Award-proposal.proposalNumber-parentBean" abstract="true" parent="Proposal-proposalNumber">
-    <property name="name" value="proposal.proposalNumber"/>
-    <property name="label" value="Link to Proposal"/>
-    <property name="shortLabel" value="PrpslLink"/>
-  </bean>
-  <bean id="Award-proposalNumber" parent="Award-proposalNumber-parentBean"/>
+	<bean id="Award-proposal.proposalNumber-parentBean" abstract="true"
+		parent="Proposal-proposalNumber">
+		<property name="name" value="proposal.proposalNumber" />
+		<property name="label" value="Link to Proposal" />
+		<property name="shortLabel" value="PrpslLink" />
+	</bean>
+	<bean id="Award-proposalNumber" parent="Award-proposalNumber-parentBean" />
 
-  <bean id="Award-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Proposal Number"/>
-    <property name="shortLabel" value="Prop Num"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="14"/>
-    </property>
-  </bean>
-  <bean id="Award-awardNumber" parent="Award-awardNumber-parentBean"/>
+	<bean id="Award-proposalNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="proposalNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Prop Num" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+	<bean id="Award-awardNumber" parent="Award-awardNumber-parentBean" />
 
-  <bean id="Award-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardNumber"/>
-    <property name="label" value="Award Number"/>
-    <property name="shortLabel" value="Award Num"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-  </bean>  
-  <bean id="Award-awardTitle" parent="Award-awardTitle-parentBean"/>
+	<bean id="Award-awardNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="awardNumber" />
+		<property name="label" value="Award Number" />
+		<property name="shortLabel" value="Award Num" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	<bean id="Award-awardTitle" parent="Award-awardTitle-parentBean" />
 
-  <bean id="Award-awardTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardTitle"/>    
-    <property name="label" value="Award Title"/>
-    <property name="shortLabel" value="Award Title"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="NumericValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-  </bean>
+	<bean id="Award-awardTitle-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="awardTitle" />
+		<property name="label" value="Award Title" />
+		<property name="shortLabel" value="Award Title" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
 
-  <bean id="Award-grantNumber" parent="Award-grantNumber-parentBean"/>
+	<bean id="Award-grantNumber" parent="Award-grantNumber-parentBean" />
 
-  <bean id="Award-grantNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="grantNumber"/>
-    <property name="label" value="Grant Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="27"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="29"/>
-    </property>
-  </bean>
+	<bean id="Award-grantNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="grantNumber" />
+		<property name="label" value="Grant Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="27" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="29" />
+		</property>
+	</bean>
 
-  <bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean"/>
+	<bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean" />
 
-  <bean id="Award-cfdaNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" p:sourceAttributeName="cfdaNumber" > 
-	<property name="name" value="cfdaNumber"/>
-    <property name="required" value="false"/>
-  </bean>
-  
-<!-- Business Object Inquiry Definition -->
+	<bean id="Award-cfdaNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+		p:sourceAttributeName="cfdaNumber">
+		<property name="name" value="cfdaNumber" />
+		<property name="required" value="false" />
+	</bean>
 
-  <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
+	<!-- Business Object Inquiry Definition -->
 
-  <bean id="Award-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award Inquiry"/>
-    <property name="inquirySections">
-      <list>
-         <ref bean="Award-inquirySectionDefinition-awardDetails"/>
-         <ref bean="Award-inquirySectionDefinition-accounts"/>
-      </list>
-    </property>
-  </bean>
-  
- <bean id="Award-inquirySectionDefinition-awardDetails" parent="Award-inquirySectionDefinition-awardDetails-parentBean"/>
- <bean id="Award-inquirySectionDefinition-awardDetails-parentBean" parent="InquirySectionDefinition" abstract="true">
-          <property name="title" value="Award Details"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber"/>
-            </list>
-          </property>
- </bean>
+	<bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
 
- <bean id="Award-inquirySectionDefinition-accounts" parent="Award-inquirySectionDefinition-accounts-parentBean"/>
- <bean id="Award-inquirySectionDefinition-accounts-parentBean" parent="InquirySectionDefinition" abstract="true">
-          <property name="title" value="Accounts"/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <ref bean="Award-inquiryCollectionDefinition-awardAccounts"/> 
-            </list>
-          </property>
- </bean>        
- <bean id="Award-inquiryCollectionDefinition-awardAccounts" parent="Award-inquiryCollectionDefinition-awardAccounts-parentBean"/>
- <bean id="Award-inquiryCollectionDefinition-awardAccounts-parentBean" parent="InquiryCollectionDefinition" abstract="true">     
-                <property name="attributeName" value="awardAccounts"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AwardAccount"/>
-                <property name="numberOfColumns" value="1"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="projectDirector.principalName"/>
-                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
-                  </list>
-                </property>
-                <property name="summaryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-                  </list>
-                </property>
-  </bean>
-              
-  <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean"/>
+	<bean id="Award-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Award Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="Award-inquirySectionDefinition-awardDetails" />
+				<ref bean="Award-inquirySectionDefinition-accounts" />
+			</list>
+		</property>
+	</bean>
 
-  <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Award Lookup"/>
-    <property name="lookupableID" value="awardLookupable"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="Award-inquirySectionDefinition-awardDetails" parent="Award-inquirySectionDefinition-awardDetails-parentBean" />
+	<bean id="Award-inquirySectionDefinition-awardDetails-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Award Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="proposal.proposalNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Award-inquirySectionDefinition-accounts" parent="Award-inquirySectionDefinition-accounts-parentBean" />
+	<bean id="Award-inquirySectionDefinition-accounts-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Accounts" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<ref bean="Award-inquiryCollectionDefinition-awardAccounts" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Award-inquiryCollectionDefinition-awardAccounts"
+		parent="Award-inquiryCollectionDefinition-awardAccounts-parentBean" />
+	<bean id="Award-inquiryCollectionDefinition-awardAccounts-parentBean"
+		parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="awardAccounts" />
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="projectDirector.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="projectDirector.name" />
+			</list>
+		</property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
+
+	<bean id="Award-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Award Lookup" />
+		<property name="lookupableID" value="awardLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

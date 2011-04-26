@@ -1,166 +1,184 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2006-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="BenefitsCalculation" parent="BenefitsCalculation-parentBean" />
 
-  <bean id="BenefitsCalculation" parent="BenefitsCalculation-parentBean"/>
+	<bean id="BenefitsCalculation-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
+		<property name="objectLabel" value="Labor Benefits Calculation" />
 
-  <bean id="BenefitsCalculation-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation"/>
-    <property name="objectLabel" value="Labor Benefits Calculation"/>
-    
-    <property name="inquiryDefinition">
-      <ref bean="BenefitsCalculation-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="BenefitsCalculation-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="laborBenefitsCalculationViewer"/>
-    <property name="attributes">
-      <list>
-        <ref bean="BenefitsCalculation-laborBenefitsCalculationViewer"/>      
-        <ref bean="BenefitsCalculation-universityFiscalYear"/>
-        <ref bean="BenefitsCalculation-chartOfAccountsCode"/>
-        <ref bean="BenefitsCalculation-positionFringeBenefitObjectCode"/>
-        <ref bean="BenefitsCalculation-positionBenefitTypeCode"/>
-        <ref bean="BenefitsCalculation-positionFringeBenefitPercent"/>
-        <ref bean="BenefitsCalculation-active"/>
-      </list>
-    </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="positionBenefitType"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="positionFringeBenefitObject"/>
-      </list>      
-    </property>    
-  </bean>
+		<property name="inquiryDefinition">
+			<ref bean="BenefitsCalculation-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="BenefitsCalculation-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="laborBenefitsCalculationViewer" />
+		<property name="attributes">
+			<list>
+				<ref bean="BenefitsCalculation-laborBenefitsCalculationViewer" />
+				<ref bean="BenefitsCalculation-universityFiscalYear" />
+				<ref bean="BenefitsCalculation-chartOfAccountsCode" />
+				<ref bean="BenefitsCalculation-positionFringeBenefitObjectCode" />
+				<ref bean="BenefitsCalculation-positionBenefitTypeCode" />
+				<ref bean="BenefitsCalculation-positionFringeBenefitPercent" />
+				<ref bean="BenefitsCalculation-active" />
+			</list>
+		</property>
+		<property name="inactivationBlockingDefinitions">
+			<list>
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="positionBenefitType" />
+				<bean parent="InactivationBlockingDefinition"
+					p:blockedReferencePropertyName="positionFringeBenefitObject" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
-  <bean id="BenefitsCalculation-laborBenefitsCalculationViewer" parent="BenefitsCalculation-laborBenefitsCalculationViewer-parentBean"/>
+	<bean id="BenefitsCalculation-laborBenefitsCalculationViewer"
+		parent="BenefitsCalculation-laborBenefitsCalculationViewer-parentBean" />
 
-  <bean id="BenefitsCalculation-laborBenefitsCalculationViewer-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="laborBenefitsCalculationViewer"/>
-    <property name="label" value="View"/>
-    <property name="shortLabel" value="View"/>
-    <property name="maxLength" value="100"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-  </bean>
+	<bean id="BenefitsCalculation-laborBenefitsCalculationViewer-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="laborBenefitsCalculationViewer" />
+		<property name="label" value="View" />
+		<property name="shortLabel" value="View" />
+		<property name="maxLength" value="100" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
 
-  <bean id="BenefitsCalculation-universityFiscalYear" parent="BenefitsCalculation-universityFiscalYear-parentBean"/>
+	<bean id="BenefitsCalculation-universityFiscalYear" parent="BenefitsCalculation-universityFiscalYear-parentBean" />
 
-  <bean id="BenefitsCalculation-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="universityFiscalYear"/>
-    <property name="required" value="true"/>
-  </bean>
-  <bean id="BenefitsCalculation-chartOfAccountsCode" parent="BenefitsCalculation-chartOfAccountsCode-parentBean"/>
+	<bean id="BenefitsCalculation-universityFiscalYear-parentBean"
+		abstract="true" parent="GenericAttributes-genericFiscalYear">
+		<property name="name" value="universityFiscalYear" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="BenefitsCalculation-chartOfAccountsCode" parent="BenefitsCalculation-chartOfAccountsCode-parentBean" />
 
-  <bean id="BenefitsCalculation-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-  </bean>
-  <bean id="BenefitsCalculation-positionFringeBenefitObjectCode" parent="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean"/>
+	<bean id="BenefitsCalculation-chartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+	</bean>
+	<bean id="BenefitsCalculation-positionFringeBenefitObjectCode"
+		parent="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean" />
 
-  <bean id="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="positionFringeBenefitObjectCode"/>
-  </bean>
-  <bean id="BenefitsCalculation-positionBenefitTypeCode" parent="BenefitsCalculation-positionBenefitTypeCode-parentBean"/>
+	<bean id="BenefitsCalculation-positionFringeBenefitObjectCode-parentBean"
+		abstract="true" parent="ObjectCode-financialObjectCode">
+		<property name="name" value="positionFringeBenefitObjectCode" />
+	</bean>
+	<bean id="BenefitsCalculation-positionBenefitTypeCode" parent="BenefitsCalculation-positionBenefitTypeCode-parentBean" />
 
-  <bean id="BenefitsCalculation-positionBenefitTypeCode-parentBean" abstract="true" parent="BenefitsType-positionBenefitTypeCode">
-  </bean>
-  <bean id="BenefitsCalculation-positionFringeBenefitPercent" parent="BenefitsCalculation-positionFringeBenefitPercent-parentBean"/>
+	<bean id="BenefitsCalculation-positionBenefitTypeCode-parentBean"
+		abstract="true" parent="BenefitsType-positionBenefitTypeCode">
+	</bean>
+	<bean id="BenefitsCalculation-positionFringeBenefitPercent"
+		parent="BenefitsCalculation-positionFringeBenefitPercent-parentBean" />
 
-  <bean id="BenefitsCalculation-positionFringeBenefitPercent-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="positionFringeBenefitPercent"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Position Fringe Benefit Percent"/>
-    <property name="shortLabel" value="Percent"/>
-    <property name="maxLength" value="22"/>
-    <property name="validationPattern">
-      <ref bean="FloatingPointValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="24"/>
-    </property>
-  </bean>
-  
-  <bean id="BenefitsCalculation-active" parent="BenefitsCalculation-active-parentBean"/>
-  <bean id="BenefitsCalculation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
+	<bean id="BenefitsCalculation-positionFringeBenefitPercent-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="positionFringeBenefitPercent" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Position Fringe Benefit Percent" />
+		<property name="shortLabel" value="Percent" />
+		<property name="maxLength" value="22" />
+		<property name="validationPattern">
+			<ref bean="FloatingPointValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="24" />
+		</property>
+	</bean>
 
-<!-- Business Object Inquiry Definition -->
+	<bean id="BenefitsCalculation-active" parent="BenefitsCalculation-active-parentBean" />
+	<bean id="BenefitsCalculation-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
 
-
-  <bean id="BenefitsCalculation-inquiryDefinition" parent="BenefitsCalculation-inquiryDefinition-parentBean"/>
-
-  <bean id="BenefitsCalculation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Labor Benefits Calculation Inquiry"/>
-    <property name="inquirySections">
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-              <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-              <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent"/>
-              <bean parent="FieldDefinition" p:attributeName="active"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-<!-- Business Object Lookup Definition -->
+	<!-- Business Object Inquiry Definition -->
 
 
-  <bean id="BenefitsCalculation-lookupDefinition" parent="BenefitsCalculation-lookupDefinition-parentBean"/>
+	<bean id="BenefitsCalculation-inquiryDefinition" parent="BenefitsCalculation-inquiryDefinition-parentBean" />
 
-  <bean id="BenefitsCalculation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Labor Benefits Calculation Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="laborBenefitsCalculationViewer"/>
-        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode"/>
-        <bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+	<bean id="BenefitsCalculation-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Labor Benefits Calculation Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="BenefitsCalculation-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="BenefitsCalculation-inquirySectionDefinition" parent="BenefitsCalculation-inquirySectionDefinition-parentBean" />
+	<bean id="BenefitsCalculation-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="BenefitsCalculation-lookupDefinition" parent="BenefitsCalculation-lookupDefinition-parentBean" />
+
+	<bean id="BenefitsCalculation-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Labor Benefits Calculation Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="laborBenefitsCalculationViewer" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionBenefitTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitObjectCode" />
+				<bean parent="FieldDefinition" p:attributeName="positionFringeBenefitPercent" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

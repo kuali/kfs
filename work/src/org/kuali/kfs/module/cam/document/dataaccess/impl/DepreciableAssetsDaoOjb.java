@@ -29,7 +29,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
@@ -42,12 +41,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements DepreciableAssetsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepreciableAssetsDaoOjb.class);
-    private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private DepreciationBatchDao depreciationBatchDao;
 
@@ -354,7 +351,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         LOG.debug("generateStatistics() -  ended");
 
         if (processAlreadyRan && beforeDepreciationReport) {
-            throw new IllegalStateException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.DEPRECIATION_ALREADY_RAN_MSG));
+            throw new IllegalStateException(CamsConstants.Depreciation.DEPRECIATION_ALREADY_RAN_MSG);
         }
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
         return reportLine;
@@ -432,10 +429,11 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         }
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        kualiConfigurationService = kcs;
-    }
-
+    /**
+     * Sets the universityDateDao.
+     * 
+     * @param universityDateDao
+     */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }

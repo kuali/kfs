@@ -108,7 +108,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
         public static final String ASSET_FP_INQUIRY = "AFPINQ";
         public static final String ASSET_PREQ_INQUIRY = "APREQINQ";
-        // Below used for view related document links 
+        // Below used for view related document links
         public static final String COMPLEX_MAINTENANCE_DOC_BASE = "CAMM";
     }
 
@@ -160,6 +160,7 @@ public class CamsConstants extends JSTLConstants {
         public static final String REPORT_FILE_NAME = "DEPRECIATION_REPORT";
         public static final String DEPRECIATION_REPORT_TITLE = "Asset Depreciation Report - Statistics";
         public static final String DEPRECIATION_BATCH = "DEPRECIATION BATCH - ";
+        public static final String DEPRECIATION_ALREADY_RAN_MSG = "Batch process already ran for the current depreciation date.";
     }
 
     public static class BarCodeInventory {

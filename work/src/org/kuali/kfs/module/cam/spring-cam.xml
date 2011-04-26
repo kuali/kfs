@@ -134,9 +134,6 @@
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
 		</property>

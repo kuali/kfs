@@ -102,8 +102,8 @@
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
 	
-	<bean id="reconciliationService"  parent="reconciliationService-parentBean"/>
-	<bean id="reconciliationService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" singleton="false" abstract="true">
+	<bean id="reconciliationService"  parent="reconciliationService-parentBean" singleton="false" />
+	<bean id="reconciliationService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	

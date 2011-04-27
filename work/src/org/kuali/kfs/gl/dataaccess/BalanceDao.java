@@ -186,6 +186,7 @@ public interface BalanceDao {
      * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule
      * 
      * @param year the fiscal year to find balances for
+     * @param generalForwardBalanceObjectTypes a List of general Forward Balance Object Types
      * @return an Iterator full of Balances
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes);

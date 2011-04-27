@@ -683,11 +683,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * Returns all of the balances that should be procesed by the BalanceForward year end job under the general rule
-     * 
-     * @param the university fiscal year to find balances for
-     * @return an Iterator of Balances to process
-     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List)
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes) {
 

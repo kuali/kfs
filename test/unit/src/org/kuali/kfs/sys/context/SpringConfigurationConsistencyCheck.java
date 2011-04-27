@@ -29,6 +29,9 @@ import org.kuali.kfs.sys.batch.TriggerDescriptor;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
+import org.kuali.rice.kns.dao.PlatformAwareDao;
+import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.ModuleService;
@@ -46,7 +49,7 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
         
         for ( String beanName : beans.keySet() ) {
             if ( ProxyUtils.getTargetIfProxied( beans.get(beanName) ).equals(ProxyUtils.getTargetIfProxied( beans2.get(beanName) )) ) {
-                failingBeans.add( "\n *** " + beanName + "is a singleton and should not be." );
+                failingBeans.add( "\n *** " + beanName + " is a singleton and should not be." );
             }
         }
         assertEquals( "Beans Failing Non-Singleton check: " + failingBeans, 0, failingBeans.size() );
@@ -60,7 +63,7 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
         
         for ( String beanName : beans.keySet() ) {
             if ( ProxyUtils.getTargetIfProxied( beans.get(beanName) ).equals(ProxyUtils.getTargetIfProxied( beans2.get(beanName) )) ) {
-                failingBeans.add( "\n *** " + beanName + "is a singleton and should not be." );
+                failingBeans.add( "\n *** " + beanName + " is a singleton and should not be." );
             }
         }
         assertEquals( "Beans Failing Non-Singleton check: " + failingBeans, 0, failingBeans.size() );
@@ -138,7 +141,6 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
         assertEquals( "All of the FiscalYearMaker definitions must be referenced in the module definitions.", Collections.emptySet(), beansNotReferencedInModules );
         assertEquals( "All of the FiscalYearMakers in the module definitions must be defined in the Spring context.", Collections.emptySet(), moduleFiscalYearMakersWithNoBeans );
     }
-    // TODO: DAOs should extend from the xxxx class
     
     public void testParentBeansShouldBeAbstract() {
         List<String> failingBeanNames = new ArrayList<String>();
@@ -149,5 +151,32 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
             }
         }
         assertEquals( "The following parent beans are not defined as abstract:\n" + failingBeanNames, 0, failingBeanNames.size() );
+    }
+
+    // DAOs should extend from the xxxx class
+    public void testDAOsShouldBeDAOs() throws Exception {
+        List<String> failingBeanNames = new ArrayList<String>();
+        for ( String beanName : SpringContext.applicationContext.getBeanDefinitionNames() ) {
+            BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            if ( !beanDef.isAbstract() ) {
+                Object service = TestUtils.getUnproxiedService(beanName);
+                if ( beanName.endsWith("Dao") && !service.getClass().getName().endsWith( "Proxy" ) ) {
+                    if ( !(service instanceof PlatformAwareDao) ) {
+                        failingBeanNames.add( " *** FAIL: " + beanName + " does not implement PlatformAwareDao (is " + service.getClass().getName() +  ")\n" );
+                    }
+                    if ( !(service instanceof PlatformAwareDaoBaseOjb)
+                            && !(service instanceof PlatformAwareDaoBaseJdbc)) {
+                        failingBeanNames.add( " *** FAIL: " + beanName + " does not extend PlatformAwareDaoBaseOjb/Jdbc (is " + service.getClass().getName() +  ")\n" );
+                    }
+                }
+            }
+        }
+        for ( Map.Entry<String,PlatformAwareDao> dao : SpringContext.getBeansOfType(PlatformAwareDao.class).entrySet() ) {
+            if ( !dao.getKey().endsWith("Dao" ) ) {
+                failingBeanNames.add( " *** FAIL: Bean " + dao.getKey() + " implements PlatformAwareDao (" + dao.getValue().getClass().getName() + ") but its name does not end in 'Dao'\n");
+            }
+        }
+        
+        assertEquals( "The following problems were detected in the DAO definitions:\n" + failingBeanNames, 0, failingBeanNames.size() );
     }
 }

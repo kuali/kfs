@@ -375,11 +375,23 @@ public class TestUtils {
      * @throws Exception
      */
     public static Object getUnproxiedService(String serviceName) throws Exception {
-        InvocationHandler invocationHandler = Proxy.getInvocationHandler(SpringContext.getService(serviceName));
-        Field privateAdvisedField = invocationHandler.getClass().getDeclaredField("advised");
-        privateAdvisedField.setAccessible(true);
-        ProxyFactory proxyFactory = (ProxyFactory) privateAdvisedField.get(invocationHandler);
-        return proxyFactory.getTargetSource().getTarget();
+        Object service = SpringContext.getService(serviceName);
+        if ( service == null ) {
+            return null;
+        }
+        try {
+            InvocationHandler invocationHandler = Proxy.getInvocationHandler(service);
+            Field privateAdvisedField = invocationHandler.getClass().getDeclaredField("advised");
+            privateAdvisedField.setAccessible(true);
+            ProxyFactory proxyFactory = (ProxyFactory) privateAdvisedField.get(invocationHandler);
+            return proxyFactory.getTargetSource().getTarget();
+        } catch ( IllegalArgumentException ex ) {
+            return service;
+        } catch ( NoSuchFieldException ex ) {
+            LOG.error( "Problem obtaining advised object: " + ex.getMessage() );
+            LOG.error( "Invocation Handler: " + Proxy.getInvocationHandler(service) );
+            return service;
+        }
     }
     
     /**

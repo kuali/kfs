@@ -95,7 +95,7 @@
    
     <bean id="vendorService" parent="vendorService-parentBean"/>
    
-    <bean id="vendorService-parentBean" class="org.kuali.kfs.vnd.document.service.impl.VendorServiceImpl">
+    <bean id="vendorService-parentBean" class="org.kuali.kfs.vnd.document.service.impl.VendorServiceImpl" abstract="true">
         <property name="vendorDao" ref="vendorDao"/>
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
@@ -103,21 +103,21 @@
     </bean>
     <bean id="phoneNumberService" parent="phoneNumberService-parentBean"/>
 
-    <bean id="phoneNumberService-parentBean" class="org.kuali.kfs.vnd.service.impl.PhoneNumberServiceImpl">
+    <bean id="phoneNumberService-parentBean" class="org.kuali.kfs.vnd.service.impl.PhoneNumberServiceImpl" abstract="true">
         <property name="parameterService">
             <ref bean="parameterService"/>
         </property>
     </bean>
     <bean id="taxNumberService" parent="taxNumberService-parentBean"/>
     
-    <bean id="taxNumberService-parentBean" class="org.kuali.kfs.vnd.service.impl.TaxNumberServiceImpl">
+    <bean id="taxNumberService-parentBean" class="org.kuali.kfs.vnd.service.impl.TaxNumberServiceImpl" abstract="true">
         <property name="parameterService">
             <ref bean="parameterService"/>
         </property>
     </bean>
     <bean id="vendorLookupableHelperService" parent="vendorLookupableHelperService-parentBean"/>
     
-    <bean id="vendorLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -145,7 +145,7 @@
     </bean>
     <bean id="vendorContactLookupableHelperService" parent="vendorContactLookupableHelperService-parentBean"/>
 
-    <bean id="vendorContactLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorContactLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContactLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -164,7 +164,7 @@
     </bean>
     <bean id="vendorPhoneLookupableHelperService" parent="vendorPhoneLookupableHelperService-parentBean"/>
     
-    <bean id="vendorPhoneLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorPhoneLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorPhoneLookupableHelperServiceImpl"  abstract="true" scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -183,7 +183,7 @@
     </bean>
 	<bean id="vendorContractLookupableHelperService" parent="vendorContractLookupableHelperService-parentBean"/>
 	   
-    <bean id="vendorContractLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorContractLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorContractLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -208,7 +208,7 @@
     </bean>
     <bean id="vendorAddressLookupableHelperService" parent="vendorAddressLookupableHelperService-parentBean"/>
     
-    <bean id="vendorAddressLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorAddressLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorAddressLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -227,7 +227,7 @@
     </bean>
     <bean id="vendorCustomerNumberLookupableHelperService" parent="vendorCustomerNumberLookupableHelperService-parentBean"/>
   
-    <bean id="vendorCustomerNumberLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" scope="prototype">
+    <bean id="vendorCustomerNumberLookupableHelperService-parentBean" class="org.kuali.kfs.vnd.businessobject.lookup.VendorCustomerNumberLookupableHelperServiceImpl" scope="prototype" abstract="true">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -246,42 +246,42 @@
     </bean>
     <bean id="vendorLookupable" parent="vendorLookupable-parentBean"/>
     
-    <bean id="vendorLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorLookupableHelperService" />
         </property>
     </bean>
     <bean id="vendorContactLookupable" parent="vendorContactLookupable-parentBean"/>
     
-    <bean id="vendorContactLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorContactLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorContactLookupableHelperService" />
         </property>
     </bean>
     <bean id="vendorPhoneLookupable" parent="vendorPhoneLookupable-parentBean"/>
     
-    <bean id="vendorPhoneLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorPhoneLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorPhoneLookupableHelperService" />
         </property>
     </bean>
     <bean id="vendorContractLookupable" parent="vendorContractLookupable-parentBean"/>
     
-    <bean id="vendorContractLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorContractLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorContractLookupableHelperService" />
         </property>
     </bean>
     <bean id="vendorAddressLookupable" parent="vendorAddressLookupable-parentBean"/>
     
-    <bean id="vendorAddressLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorAddressLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorAddressLookupableHelperService" />
         </property>
     </bean>
     <bean id="vendorCustomerNumberLookupable" parent="vendorCustomerNumberLookupable-parentBean"/>
   
-    <bean id="vendorCustomerNumberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="vendorCustomerNumberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="vendorCustomerNumberLookupableHelperService" />
         </property>
@@ -291,7 +291,7 @@
 
     <bean id="commodityCodeService" parent="commodityCodeService-parentBean"/>
 
-    <bean id="commodityCodeService-parentBean" class="org.kuali.kfs.vnd.service.impl.CommodityCodeServiceImpl">
+    <bean id="commodityCodeService-parentBean" class="org.kuali.kfs.vnd.service.impl.CommodityCodeServiceImpl" abstract="true">
          <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property> 
@@ -301,7 +301,7 @@
     </bean>
     <bean id="commodityReviewRoleTypeService" parent="commodityReviewRoleTypeService-parentBean"/>
     
-    <bean id="commodityReviewRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl"/>
+    <bean id="commodityReviewRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl" abstract="true" />
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
@@ -311,7 +311,7 @@
 	</bean>
     <bean id="contractManagerRoleTypeService" parent="contractManagerRoleTypeService-parentBean"/>
 
-    <bean id="contractManagerRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl"/>
+    <bean id="contractManagerRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl" abstract="true" />
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"
@@ -321,7 +321,7 @@
 	</bean>
     <bean id="vendorTypeRoleTypeService" parent="vendorTypeRoleTypeService-parentBean"/>
 
-    <bean id="vendorTypeRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl"/>
+    <bean id="vendorTypeRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl" abstract="true" />
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"

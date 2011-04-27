@@ -25,6 +25,7 @@ import java.util.Set;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,8 +46,8 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
         return impl.getFullyDepreciatedAssetCount();
     }
 
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
-        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate);
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
+        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
     }
 
     public void resetPeriodValuesWhenFirstFiscalPeriod(Integer fiscalPeriod) throws Exception {
@@ -58,8 +59,8 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
 
     }
 
-    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
-        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear, final UniversityDate lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes) {
+        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear, lastFiscalYearDate, movableEquipmentObjectSubTypes);
 
     }
 
@@ -103,12 +104,12 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
         this.impl = impl;
     }
 
-    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending) {
-        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending);
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
+        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
     }
 
-    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
-        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
+    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
+        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
     }
 
     public Integer getRetireDocLockedAssetCount() {

@@ -60,7 +60,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao#generateStatistics(boolean, java.lang.String,
      *      java.lang.Integer, java.lang.Integer, java.util.Calendar)
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, String depreciationDateAsString, int fiscalStartMonth, List<String> depreExpObjCodes, List<String> accumulatedDepreciationObjCodes) {
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, String depreciationDateAsString, int fiscalStartMonth, List<String> depreExpObjCodes, List<String> accumulatedDepreciationObjCodes, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
         LOG.debug("generateStatistics() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "generating statistics for report - " + (beforeDepreciationReport ? "Before part." : "After part"));
 
@@ -203,7 +203,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         reportLine.add(columns.clone());
 
         if (beforeDepreciationReport) {
-            int federallyOwnedAssetPaymentCount = Integer.valueOf(depreciationBatchDao.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate)[1].toString());
+            int federallyOwnedAssetPaymentCount = Integer.valueOf(depreciationBatchDao.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes)[1].toString());
             int retiredAndTransferredAssetCount = depreciationBatchDao.getTransferDocLockedAssetCount() + depreciationBatchDao.getRetireDocLockedAssetCount();
 
             columns[0] = "Object code table - record count";
@@ -215,7 +215,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             reportLine.add(columns.clone());
 
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset payment row count , depreciation base amount, accumulated depreciation amount, and every months depreciation amount.");
-            data = depreciationBatchDao.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, true);
+            data = depreciationBatchDao.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, true, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
             int eligibleAssetPaymentCount = new Integer(data[1].toString());
 
             int totalAssetPayments = (eligibleAssetPaymentCount + federallyOwnedAssetPaymentCount);
@@ -228,7 +228,7 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
             columns[1] = retiredAndTransferredAssetCount + "";
             reportLine.add(columns.clone());
 
-            data = depreciationBatchDao.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, false);
+            data = depreciationBatchDao.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, false, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
             eligibleAssetPaymentCount = new Integer(data[1].toString());
             columns[0] = "Asset payments eligible for depreciation - After excluding AR and AT";
             columns[1] = "" + (eligibleAssetPaymentCount + federallyOwnedAssetPaymentCount);

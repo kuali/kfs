@@ -40,6 +40,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.batch.service.AssetDepreciationService;
 import org.kuali.kfs.module.cam.batch.service.ReportService;
+import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetDepreciationTransaction;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
@@ -151,12 +152,26 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
             // Generating a list of accumulated depreciation object codes.
             List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(fiscalYear);
-            reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes));
+            List<String> notAcceptedAssetStatus = new ArrayList<String>();
+            if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
+                notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
+            }
+            List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
+            reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes, notAcceptedAssetStatus, federallyOwnedObjectSubTypes));
             // update if fiscal period is 12
-            depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
+            // Getting last date of fiscal year
+            final UniversityDate lastFiscalYearDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
+            if (lastFiscalYearDate == null) {
+                throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            }
+            List<String> movableEquipmentObjectSubTypes = new ArrayList<String>();
+            if (parameterService.parameterExists(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES)) {
+                movableEquipmentObjectSubTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES);
+            }
+            depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear, lastFiscalYearDate, movableEquipmentObjectSubTypes);
             // Retrieving eligible asset payment details
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting list of asset payments eligible for depreciation.");
-            Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfo(this.fiscalYear, this.fiscalMonth, depreciationDate);
+            Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfo(this.fiscalYear, this.fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
             // if we have assets eligible for depreciation then, calculate depreciation and create glpe's transactions
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
                 SortedMap<String, AssetDepreciationTransaction> depreciationTransactions = this.calculateDepreciation(depreciableAssetsCollection, depreciationDate);
@@ -183,7 +198,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 // Generating a list of accumulated depreciation object codes.
                 List<String> accumulatedDepreciationObjCodes = this.getAccumulatedDepreciationObjectCodes(fiscalYear);
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, this.documentNos, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes));
+                List<String> notAcceptedAssetStatus = new ArrayList<String>();
+                if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES)) {
+                    notAcceptedAssetStatus = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES);
+                }
+                List<String> federallyOwnedObjectSubTypes = getFederallyOwnedObjectSubTypes();
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, this.documentNos, fiscalYear, fiscalMonth, depreciationDate, depreciationDateAsString, fiscalStartMonth, depreExpObjCodes, accumulatedDepreciationObjCodes, notAcceptedAssetStatus, federallyOwnedObjectSubTypes));
             }
             // the report will be generated only when there is an error or when the log has something.
             if (!reportLog.isEmpty() || !errorMsg.trim().equals(""))
@@ -604,6 +624,22 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting accum depreciation object codes which are:" + accumulatedDepreciationObjCodes.toString());
         LOG.debug("DepreciableAssetsDAoOjb.getAccumulatedDepreciationObjectCodes() -  ended");
         return accumulatedDepreciationObjCodes;
+    }
+
+    /**
+     * This method the value of the system parameter NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES
+     * 
+     * @return
+     */
+    protected List<String> getFederallyOwnedObjectSubTypes() {
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "getting the federally owned object subtype codes.");
+
+        List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
+        if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
+            federallyOwnedObjectSubTypes = parameterService.getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+        }
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting the federally owned object subtype codes which are:" + federallyOwnedObjectSubTypes.toString());
+        return federallyOwnedObjectSubTypes;
     }
 
     public void setParameterService(ParameterService parameterService) {

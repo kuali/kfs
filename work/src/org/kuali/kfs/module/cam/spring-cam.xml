@@ -144,21 +144,6 @@
 		</property>		                				                		
 	</bean>
 	<bean id="depreciationBatchDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciationBatchDaoJdbc">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-        <property name="optionsService">
-            <ref bean="optionsService" />
-        </property>
-     	<property name="businessObjectService">
-            <ref bean="businessObjectService" />
-      	</property>
 		<property name="universityDateDao">
 			<ref bean="universityDateDao" />
 		</property>		

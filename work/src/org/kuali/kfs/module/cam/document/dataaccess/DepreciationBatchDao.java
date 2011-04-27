@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -53,7 +54,7 @@ public interface DepreciationBatchDao {
      * @param fiscalMonth fiscal month
      * @param fiscalYear fiscal year
      */
-    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear);
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear, final UniversityDate lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes);
 
     /**
      * Saves a batch of GL Pending entries
@@ -70,7 +71,7 @@ public interface DepreciationBatchDao {
      * @param depreciationDate Depreciation Date
      * @return List found matching depreciation criteria
      */
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes);
 
     /**
      * Counts the number of assets which has (SUM(Primary Depreciation Amount - Accumulated Depreciation) - Salvage Amount) is zero
@@ -95,7 +96,7 @@ public interface DepreciationBatchDao {
      * @param inincludePending
      * @return
      */
-    Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, boolean includePending);
+    Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, boolean includePending, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes);
 
     /**
      * This method...
@@ -105,7 +106,7 @@ public interface DepreciationBatchDao {
      * @param depreciationDate
      * @return
      */
-    Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
+    Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes);
 
     /**
      * Transfer document locked count

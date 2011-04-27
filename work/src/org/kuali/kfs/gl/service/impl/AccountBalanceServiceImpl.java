@@ -28,7 +28,9 @@ import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
     AccountBalanceDao accountBalanceDao;
     KualiConfigurationService kualiConfigurationService;
+    protected UniversityDateService universityDateService;
 
     /**
      * Defers to the DAO to find the consolidated account balances, based on the keys given in the Map parameter
@@ -169,8 +172,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
                 String transferExpenseCode = bbc.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObject().getFinConsolidationObjectCode();
                 if (transferExpenseCode.equals(GeneralLedgerConstants.INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE)) {
                     incomeTransfers.add(bbc);
-                    incomeTotal.add(bbc);                    
-                    }
+                    incomeTotal.add(bbc);
+                }
                 else {
                     income.add(bbc);
                     incomeTotal.add(bbc);
@@ -208,7 +211,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
                 String transferExpenseCode = bbc.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObject().getFinConsolidationObjectCode();
                 if (transferExpenseCode.equals(GeneralLedgerConstants.INCOME_OR_EXPENSE_TRANSFER_CONSOLIDATION_CODE)) {
                     expenseTransfers.add(bbc);
-                    expenseTotal.add(bbc);                    
+                    expenseTotal.add(bbc);
                 }
                 else {
                     expense.add(bbc);
@@ -274,7 +277,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         }
 
         // Get the data
-        List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        UniversityDate today = universityDateService.getCurrentUniversityDate();
+        List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
@@ -386,11 +390,24 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         return recordCount;
     }
 
+    /**
+     * @param kcs
+     */
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;
     }
 
+    /**
+     * @param accountBalanceDao
+     */
     public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
         this.accountBalanceDao = accountBalanceDao;
+    }
+
+    /**
+     * @param universityDateService
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

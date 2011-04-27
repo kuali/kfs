@@ -51,7 +51,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @return a List of Maps with appropriate report data
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
 
         // Set the default sort so that income entries are first, then expense below.
         String financialReportingSortCode = "A";
@@ -82,7 +82,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
 
             // Summarize pending entries into fp_interim1_level_mt if necessary
             if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
-                if (getMatchingPendingEntriesByLevel(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, pendingEntriesCode, sessionId)) {
+                if (getMatchingPendingEntriesByLevel(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, pendingEntriesCode, sessionId, today)) {
                     summarizePendingEntriesByLevel(options, sessionId);
                 }
             }
@@ -268,7 +268,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temporary tables
      * @return true if summarization process found pending entries to process, false otherwise
      */
-    protected boolean getMatchingPendingEntriesByLevel(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    protected boolean getMatchingPendingEntriesByLevel(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId, UniversityDate today) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null
@@ -277,7 +277,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         // without the nulls (because we will post eDocs
         // with blank years tonight most probably.
 
-        UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
+        
 
         clearTempTable("GL_PENDING_ENTRY_MT", "SESID", sessionId);
 

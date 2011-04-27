@@ -931,6 +931,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>
 
 	<bean id="glEncumbranceService" class="org.kuali.kfs.gl.service.impl.EncumbranceServiceImpl">

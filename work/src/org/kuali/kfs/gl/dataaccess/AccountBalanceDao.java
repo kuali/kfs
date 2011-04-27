@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
  * An interface that declares methods needed for AccountBalances to interact with the database
@@ -75,7 +76,7 @@ public interface AccountBalanceDao {
      * @param isConsolidated whether the results of this should be consolidated or not
      * @return a List of Mapswith the appropriate query results
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode);
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today);
 
     /**
      * Get available balances by object

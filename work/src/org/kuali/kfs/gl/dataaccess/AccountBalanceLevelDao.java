@@ -18,6 +18,8 @@ package org.kuali.kfs.gl.dataaccess;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.UniversityDate;
+
 /**
  * A DAO inteface that declares methods necessary to query the database for the account balance by level inquiry
  */
@@ -32,8 +34,10 @@ public interface AccountBalanceLevelDao {
      * @param financialConsolidationObjectCode the consolidation code of reported on account balances
      * @param isCostShareExcluded whether cost share account balances should be excluded from the query or not
      * @param isConsolidated whether the results of the query should be consolidated
-     * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending entries
+     * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending
+     *        entries
+     * @param today the current university date
      * @return a List of Maps with appropriate report data
      */
-    public List<Map<String, Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode);
+    public List<Map<String, Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today);
 }

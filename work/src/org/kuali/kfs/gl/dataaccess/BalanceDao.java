@@ -177,9 +177,10 @@ public interface BalanceDao {
      * This method returns all of the balances specifically for the nominal activity closing job
      * 
      * @param year year to find balances for
+     * @param nominalActivityObjectTypeCodes a List of nominal activity object type codes
      * @return an Iterator of nominal activity balances
      */
-    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year);
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> nominalActivityObjectTypeCodes);
 
     /**
      * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule

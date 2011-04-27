@@ -921,7 +921,9 @@
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-
+	    <property name="objectTypeService">
+			<ref bean="objectTypeService" />
+		</property>
 	</bean>
 
 	<bean id="glAccountBalanceService" class="org.kuali.kfs.gl.service.impl.AccountBalanceServiceImpl">

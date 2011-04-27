@@ -38,7 +38,7 @@ import org.kuali.rice.kns.util.spring.Cached;
 public class SubAccountServiceImpl implements SubAccountService {
     private static final Logger LOG = Logger.getLogger(SubAccountServiceImpl.class);
 
-    private SubAccountDao subAccountDao;
+    protected SubAccountDao subAccountDao;
 
     /**
      * @see org.kuali.kfs.coa.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
@@ -47,7 +47,7 @@ public class SubAccountServiceImpl implements SubAccountService {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
         return (SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, keys);
     }
 
@@ -61,7 +61,7 @@ public class SubAccountServiceImpl implements SubAccountService {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
         return (SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, keys);
     }
 

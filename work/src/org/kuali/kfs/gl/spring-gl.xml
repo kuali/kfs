@@ -924,6 +924,9 @@
 	    <property name="objectTypeService">
 			<ref bean="objectTypeService" />
 		</property>
+	    <property name="subFundGroupService">
+			<ref bean="subFundGroupService" />
+		</property>
 	</bean>
 
 	<bean id="glAccountBalanceService" class="org.kuali.kfs.gl.service.impl.AccountBalanceServiceImpl">

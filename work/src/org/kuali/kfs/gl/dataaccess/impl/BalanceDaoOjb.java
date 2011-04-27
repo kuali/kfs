@@ -717,15 +717,9 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * Returns all of the balances that should be procesed by the BalanceForward year end job under the active rule
-     * 
-     * @param the university fiscal year to find balances for
-     * @return an Iterator of Balances to process
-     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer)
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer, java.util.List, java.util.List)
      */
-    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
-        SubFundGroupService subFundGroupService = SpringContext.getBean(SubFundGroupService.class);
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues) {
 
         final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
         List<String> subFundGroupsForCumulativeBalanceForwarding = new ArrayList<String>();
@@ -742,16 +736,16 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, cumulativeBalanceForwardBalanceTypes);
-        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeService.getCumulativeForwardBalanceObjectTypes(year));
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, cumulativeForwardBalanceObjectTypes);
 
         Criteria forCGCrit = new Criteria();
         if (parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
-            for (String value : subFundGroupService.getContractsAndGrantsDenotingValues()) {
+            for (String value : contractsAndGrantsDenotingValues) {
                 forCGCrit.addEqualTo("priorYearAccount.subFundGroup.fundGroupCode", value);
             }
         }
         else {
-            for (String value : subFundGroupService.getContractsAndGrantsDenotingValues()) {
+            for (String value : contractsAndGrantsDenotingValues) {
                 forCGCrit.addEqualTo("priorYearAccount.subFundGroupCode", value);
             }
         }

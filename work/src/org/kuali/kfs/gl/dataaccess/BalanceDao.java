@@ -195,9 +195,11 @@ public interface BalanceDao {
      * Returns the C&G balances specifically to be forwarded to the next fiscal year, based on the "cumulative" rule
      * 
      * @param year the fiscal year to find balances for
+     * @param cumulativeForwardBalanceObjectTypes a List of cumulative Forward Balance Object Types
+     * @param contractsAndGrantsDenotingValues a List of contracts And Grants Denoting Values
      * @return and Iterator chuck full of Balances
      */
-    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues);
 
     /**
      * Returns the balances that would specifically be picked up by the Organization Reversion year end process

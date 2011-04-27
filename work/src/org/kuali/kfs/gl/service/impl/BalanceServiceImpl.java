@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.GlSummary;
@@ -49,6 +50,7 @@ public class BalanceServiceImpl implements BalanceService {
     protected BalanceDao balanceDao;
     protected OptionsService optionsService;
     protected ObjectTypeService objectTypeService;
+    protected SubFundGroupService subFundGroupService;
 
     // must have no asset, liability or fund balance balances other than object code 9899
 
@@ -524,7 +526,9 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.kfs.gl.service.BalanceService#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
-        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year);
+        List<String> cumulativeForwardBalanceObjectTypes = objectTypeService.getCumulativeForwardBalanceObjectTypes(year);
+        List<String> contractsAndGrantsDenotingValues = subFundGroupService.getContractsAndGrantsDenotingValues();
+        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues);
     }
 
     /**
@@ -559,6 +563,15 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public void setObjectTypeService(ObjectTypeService objectTypeService) {
         this.objectTypeService = objectTypeService;
+    }
+
+    /**
+     * Sets the subFundGroupService.
+     * 
+     * @param subFundGroupService
+     */
+    public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
+        this.subFundGroupService = subFundGroupService;
     }
 
 }

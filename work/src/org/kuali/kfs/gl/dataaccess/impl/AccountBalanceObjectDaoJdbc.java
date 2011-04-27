@@ -53,7 +53,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
         LOG.debug("findAccountBalanceByObject() started");
 
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
@@ -77,7 +77,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
             // Summarize pending entries into fp_interim1_level_mt if necessary
             if ((pendingEntriesCode == AccountBalanceService.PENDING_ALL) || (pendingEntriesCode == AccountBalanceService.PENDING_APPROVED)) {
-                if (getMatchingPendingEntriesByObject(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded, pendingEntriesCode, sessionId)) {
+                if (getMatchingPendingEntriesByObject(options, universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, isCostShareExcluded, pendingEntriesCode, sessionId, today)) {
                     summarizePendingEntriesByObject(options, sessionId);
                 }
             }
@@ -249,7 +249,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @param pendingEntriesCode whether to summarize all, approved, or no pending entries
      * @return true if any matching pending entries were found, false otherwise
      */
-    protected boolean getMatchingPendingEntriesByObject(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
+    protected boolean getMatchingPendingEntriesByObject(SystemOptions options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId, UniversityDate today) {
         LOG.debug("getMatchingPendingEntriesByObject() started");
 
         // If they have specified this year, we will get all the pending entries where the year is equal or the year is null
@@ -257,8 +257,6 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         // If they have specified a previous year, we will get all the pending entries where the year is equal to their selection
         // without the nulls (because we will post eDocs
         // with blank years tonight most probably.
-
-        UniversityDate today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
 
         clearTempTable("GL_PENDING_ENTRY_MT", "SESID", sessionId);
 

@@ -137,19 +137,10 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     }
 
     /**
-     * Get available balances by level
-     * 
-     * @param universityFiscalYear the university fiscal year of account balances to find
-     * @param chartOfAccountsCode the chart of accounts of account balances to find
-     * @param accountNumber the account number of account balances to find
-     * @param financialConsolidationObjectCode the consolidation code of account balances to find
-     * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
-     * @param isConsolidated whether the results of this should be consolidated or not
-     * @return a List of Mapswith the appropriate query results
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, boolean, boolean, int)
+     *      java.lang.String, java.lang.String, boolean, boolean, int, org.kuali.kfs.sys.businessobject.UniversityDate)
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode,UniversityDate today) {
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
         LOG.debug("findAccountBalanceByLevel() started");
 
         // This is in a new object just to make each class smaller and easier to read
@@ -163,25 +154,16 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     }
 
     /**
-     * Get available balances by object
-     * 
-     * @param universityFiscalYear the university fiscal year of account balances to find
-     * @param chartOfAccountsCode the chart of accounts of account balances to find
-     * @param accountNumber the account number of account balances to find
-     * @param financialObjectLevelCode the object level code of account balances to find
-     * @param financialReportingSortCode
-     * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
-     * @param isConsolidated whether the results of this should be consolidated or not
-     * @return a List of Maps with the appropriate query results
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int,
+     *      org.kuali.kfs.sys.businessobject.UniversityDate)
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
         LOG.debug("findAccountBalanceByObject() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
-            return accountBalanceObjectDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode);
+            return accountBalanceObjectDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode, today);
         }
         catch (Exception ex) {
             LOG.error("findAccountBalanceByObject() " + ex.getMessage(), ex);
@@ -217,12 +199,12 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
     public Integer findCountGreaterOrEqualThan(Integer year) {
         Criteria criteria = new Criteria();
         criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
-        
+
         return getPersistenceBrokerTemplate().getCount(query);
     }
-    
+
     public AccountBalanceConsolidationDao getAccountBalanceConsolidationDao() {
         return accountBalanceConsolidationDao;
     }

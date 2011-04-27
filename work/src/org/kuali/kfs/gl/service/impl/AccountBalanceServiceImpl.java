@@ -326,7 +326,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         }
 
         // Get the data
-        List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        UniversityDate today = universityDateService.getCurrentUniversityDate();
+        List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {

@@ -17,6 +17,8 @@ package org.kuali.kfs.gl.dataaccess;
 
 import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.UniversityDate;
+
 /**
  * A DAO interface that declares the methods necessary to query the database for the the account balance by object inquiry
  */
@@ -35,5 +37,5 @@ public interface AccountBalanceObjectDao {
      * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending entries
      * @return a List of Maps with the results of the query
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode);
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today);
 }

@@ -74,6 +74,8 @@ public interface AccountBalanceDao {
      * @param financialConsolidationObjectCode the consolidation code of account balances to find
      * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
      * @param isConsolidated whether the results of this should be consolidated or not
+     * @param pendingEntryCode
+     * @param today the current university date
      * @return a List of Mapswith the appropriate query results
      */
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today);
@@ -88,9 +90,11 @@ public interface AccountBalanceDao {
      * @param financialReportingSortCode
      * @param isCostShareExcluded whether cost share entries should be excluded from this inquiry
      * @param isConsolidated whether the results of this should be consolidated or not
+     * @param pendingEntryCode
+     * @param today the current university date
      * @return a List of Maps with the appropriate query results
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode);
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today);
 
     /**
      * Purge an entire fiscal year for a single chart.

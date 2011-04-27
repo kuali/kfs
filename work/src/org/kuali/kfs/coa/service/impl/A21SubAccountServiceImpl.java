@@ -48,7 +48,7 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
         return (A21SubAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(A21SubAccount.class, keys);
     }
 

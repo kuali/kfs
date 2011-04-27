@@ -160,7 +160,9 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
             if ( !beanDef.isAbstract() ) {
                 Object service = TestUtils.getUnproxiedService(beanName);
-                if ( beanName.endsWith("Dao") && !service.getClass().getName().endsWith( "Proxy" ) ) {
+                if ( beanName.endsWith("Dao") 
+                        && !service.getClass().getName().endsWith( "Proxy" )
+                        && !service.getClass().getName().startsWith( "org.kuali.rice" ) ) {
                     if ( !(service instanceof PlatformAwareDao) ) {
                         failingBeanNames.add( " *** FAIL: " + beanName + " does not implement PlatformAwareDao (is " + service.getClass().getName() +  ")\n" );
                     }
@@ -172,8 +174,10 @@ public class SpringConfigurationConsistencyCheck extends KualiTestBase {
             }
         }
         for ( Map.Entry<String,PlatformAwareDao> dao : SpringContext.getBeansOfType(PlatformAwareDao.class).entrySet() ) {
-            if ( !dao.getKey().endsWith("Dao" ) ) {
-                failingBeanNames.add( " *** FAIL: Bean " + dao.getKey() + " implements PlatformAwareDao (" + dao.getValue().getClass().getName() + ") but its name does not end in 'Dao'\n");
+            Object service = ProxyUtils.getTargetIfProxied(dao.getValue());
+            if ( !dao.getKey().endsWith("Dao" )
+                    && !service.getClass().getName().startsWith( "org.kuali.rice" ) ) {
+                failingBeanNames.add( " *** FAIL: Bean " + dao.getKey() + " implements PlatformAwareDao (" + service.getClass().getName() + ") but its name does not end in 'Dao'\n");
             }
         }
         

@@ -689,8 +689,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return an Iterator of Balances to process
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
      */
-    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
-        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes) {
 
         String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
         List<String> generalBalanceForwardBalanceTypes = new ArrayList<String>();
@@ -701,7 +700,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         Criteria c = new Criteria();
         c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         c.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, generalBalanceForwardBalanceTypes);
-        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, objectTypeService.getGeneralForwardBalanceObjectTypes(year));
+        c.addIn(KFSPropertyConstants.OBJECT_TYPE_CODE, generalForwardBalanceObjectTypes);
 
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

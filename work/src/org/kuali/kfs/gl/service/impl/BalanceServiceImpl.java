@@ -535,7 +535,8 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.kfs.gl.service.BalanceService#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
-        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year);
+        List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
+        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes);
     }
 
     /**

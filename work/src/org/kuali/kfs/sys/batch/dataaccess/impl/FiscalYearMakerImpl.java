@@ -32,14 +32,26 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.Guid;
+import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * Default implementation of fiscal year maker process for an entity. This implementation can be used for a table in the fiscal year
  * maker process by defining a spring bean and setting the businessObjectClass property.
  */
-public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements FiscalYearMaker {
+public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements FiscalYearMaker, BeanNameAware {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(FiscalYearMakerImpl.class);
 
+    protected String beanName;
+
+    public void setBeanName(String arg0) {
+        beanName = arg0;        
+    }
+    
+    @Override
+    public String toString() {
+        return beanName;
+    }
+    
     private PersistenceStructureService persistenceStructureService;
 
     private Class<? extends PersistableBusinessObject> businessObjectClass;

@@ -78,14 +78,12 @@
     </bean>
 
     <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
-
     <bean id="financialSystemModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
     	<property name="moduleConfiguration" ref="financialSystemModuleConfiguration" />
     </bean>
 
     <!-- begin batch framework -->
-	<bean id="scheduler" parent="scheduler-parentBean"/>
-	    
+	<bean id="scheduler" parent="scheduler-parentBean"/>	    
 	<bean id="scheduler-parentBean" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
@@ -104,14 +102,14 @@
 			</props>
 		</property>
 	</bean>
-    <bean id="kfsService" parent="kfsService-parentBean"/>
 	
+    <bean id="kfsService" parent="kfsService-parentBean"/>
 	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
       <property name="serviceNameSpaceURI" value="" />
       <property name="retryAttempts" value="0" />
     </bean>
-    <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
     
+    <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
     <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="jaxWsService" value="true"/>
@@ -120,16 +118,16 @@
        <!-- TODO: make config property for bus security -->
        <property name="busSecurity" value="false"/>
     </bean>
+    
     <bean id="kfsJaxWsRestService" parent="kfsJaxWsRestService-parentBean"/>
-
     <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.messaging.RESTServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="priority" value="3" />
        <property name="retryAttempts" value="0" />
        <property name="busSecurity" value="false"/>
     </bean>
-    <bean id="schedulerService" parent="schedulerService-parentBean"/>
     
+    <bean id="schedulerService" parent="schedulerService-parentBean"/>
 	<bean id="schedulerService-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
@@ -138,20 +136,20 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="mailService" ref="mailService" />		
 	</bean>
+	
     <bean id="jobListener" parent="jobListener-parentBean"/>
-
-	<bean id="jobListener-parentBean" class="org.kuali.kfs.sys.batch.JobListener">
+	<bean id="jobListener-parentBean" class="org.kuali.kfs.sys.batch.JobListener" abstract="true">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="mailService" ref="mailService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-    <bean id="scheduledJobDescriptor" parent="scheduledJobDescriptor-parentBean"/>
-
+	
+    <bean id="scheduledJobDescriptor" parent="scheduledJobDescriptor-parentBean" abstract="true"/>
 	<bean id="scheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="scheduled" />
 	</bean>
-    <bean id="unscheduledJobDescriptor" parent="unscheduledJobDescriptor-parentBean"/>
-
+	
+    <bean id="unscheduledJobDescriptor" parent="unscheduledJobDescriptor-parentBean" abstract="true"/>
 	<bean id="unscheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="unscheduled" />
 	</bean>
@@ -160,25 +158,25 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-    <bean id="wrappedBatchExecutorService" parent="wrappedBatchExecutorService-parentBean"/>
-
-	<bean id="wrappedBatchExecutorService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" />
-    <bean id="wrappedStep" parent="wrappedStep-parentBean" abstract="true" />
 	
+    <bean id="wrappedBatchExecutorService" parent="wrappedBatchExecutorService-parentBean"/>
+	<bean id="wrappedBatchExecutorService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" />
+	
+    <bean id="wrappedStep" parent="wrappedStep-parentBean" abstract="true" />	
 	<bean id="wrappedStep-parentBean" parent="step" abstract="true">
 		<property name="wrappedBatchExecutorService" ref="wrappedBatchExecutorService" />
 	</bean>
+	
     <bean id="scheduleJob" parent="scheduleJob-parentBean"/>
-
-	<bean id="scheduleJob-parentBean" parent="scheduledJobDescriptor">
+	<bean id="scheduleJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="scheduleStep" />
 			</list>
 		</property>
 	</bean>
-    <bean id="scheduleStep" parent="scheduleStep-parentBean"/>
 	
+    <bean id="scheduleStep" parent="scheduleStep-parentBean"/>	
 	<bean id="scheduleStep-parentBean" parent="step" class="org.kuali.kfs.sys.batch.ScheduleStep">
 		<property name="schedulerService" ref="schedulerService" />
 	</bean>
@@ -187,54 +185,54 @@
 		<property name="group" value="scheduled" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
-    <bean id="simpleTrigger" parent="simpleTrigger-parentBean"/>
-
+	
+    <bean id="simpleTrigger" parent="simpleTrigger-parentBean" abstract="true" />
 	<bean id="simpleTrigger-parentBean" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.SimpleTriggerDescriptor" />
-    <bean id="cronTrigger" parent="cronTrigger-parentBean"/>
-
+	
+    <bean id="cronTrigger" parent="cronTrigger-parentBean" abstract="true"/>
 	<bean id="cronTrigger-parentBean" abstract="true" parent="trigger" class="org.kuali.kfs.sys.batch.CronTriggerDescriptor" />
-    <bean id="scheduleJobTrigger" parent="scheduleJobTrigger-parentBean"/>
-
-  	<bean id="scheduleJobTrigger-parentBean" parent="cronTrigger">
+	
+    <bean id="scheduleJobTrigger" parent="scheduleJobTrigger-parentBean" />
+  	<bean id="scheduleJobTrigger-parentBean" parent="cronTrigger" abstract="true">
 		<property name="jobName" value="scheduleJob" />
 		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
 	</bean>
-    <bean id="batchJobStatusLookupableHelperService" parent="batchJobStatusLookupableHelperService-parentBean"/>
-	 
- 	<bean id="batchJobStatusLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	
+    <bean id="batchJobStatusLookupableHelperService" parent="batchJobStatusLookupableHelperService-parentBean" scope="prototype" />	 
+ 	<bean id="batchJobStatusLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
     	<property name="schedulerService" ref="schedulerService" />
     	<property name="parameterService" ref="parameterService" />
     	<property name="configurationService" ref="kualiConfigurationService" />
     </bean>
-    <bean id="batchJobStatusLookupable" parent="batchJobStatusLookupable-parentBean"/>
-	
-	<bean id="batchJobStatusLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+
+    <bean id="batchJobStatusLookupable" parent="batchJobStatusLookupable-parentBean" scope="prototype" />	
+	<bean id="batchJobStatusLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 	    <property name="lookupableHelperService">
 	        <ref bean="batchJobStatusLookupableHelperService" />
 	    </property>
 	</bean>
-    <bean id="batchFileLookupableHelperService" parent="batchFileLookupableHelperService-parentBean"/>
-	
-	<bean id="batchFileLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.BatchFileLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+
+    <bean id="batchFileLookupableHelperService" parent="batchFileLookupableHelperService-parentBean" scope="prototype" />	
+	<bean id="batchFileLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.BatchFileLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="batchFileAdminAuthorizationService" ref="batchFileAdminAuthorizationService"/>
 	</bean>
-	<bean id="batchFileAdminAuthorizationService" parent="batchFileAdminAuthorizationService-parentBean" />
 	
-	<bean id="batchFileAdminAuthorizationService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl" />
-    <bean id="batchFileLookupable" parent="batchFileLookupable-parentBean"/>
-	
+	<bean id="batchFileAdminAuthorizationService" parent="batchFileAdminAuthorizationService-parentBean" />	
+	<bean id="batchFileAdminAuthorizationService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl" abstract="true" />
+
+    <bean id="batchFileLookupable" parent="batchFileLookupable-parentBean" scope="prototype" />	
 	<bean id="batchFileLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 	    <property name="lookupableHelperService">
 	        <ref bean="batchFileLookupableHelperService" />
 	    </property>
 	</bean>
-    <bean id="batchInputFileService" parent="batchInputFileService-parentBean"/>
 	
-	<bean id="batchInputFileService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileServiceImpl" />
-    <bean id="batchInputFileSetService" parent="batchInputFileSetService-parentBean"/>
-	
-	<bean id="batchInputFileSetService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl">
+    <bean id="batchInputFileService" parent="batchInputFileService-parentBean"/>	
+	<bean id="batchInputFileService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileServiceImpl" abstract="true"/>
+
+    <bean id="batchInputFileSetService" parent="batchInputFileSetService-parentBean"/>	
+	<bean id="batchInputFileSetService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl" abstract="true">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -242,22 +240,21 @@
 	<!-- end batch framework -->
 	
 	<!--  begin core batch jobs -->
-    <bean id="postDataLoadEncryptionStep" parent="postDataLoadEncryptionStep-parentBean"/>
-	
-	<bean id="postDataLoadEncryptionStep-parentBean" parent="step" class="org.kuali.kfs.sys.batch.PostDataLoadEncryptionStep">
+    <bean id="postDataLoadEncryptionStep" parent="postDataLoadEncryptionStep-parentBean"/>	
+	<bean id="postDataLoadEncryptionStep-parentBean" parent="step" class="org.kuali.kfs.sys.batch.PostDataLoadEncryptionStep" abstract="true">
 		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
-    <bean id="purgeOldLookupResultsStep" parent="purgeOldLookupResultsStep-parentBean"/>
 
-	<bean id="purgeOldLookupResultsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep" parent="step">
+    <bean id="purgeOldLookupResultsStep" parent="purgeOldLookupResultsStep-parentBean"/>
+	<bean id="purgeOldLookupResultsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep" parent="step" abstract="true">
 		<property name="lookupResultsService">
 			<ref bean="lookupResultsService" />
 		</property>
 	</bean>
-    <bean id="purgeJob" parent="purgeJob-parentBean"/>
 
-	<bean id="purgeJob-parentBean" parent="scheduledJobDescriptor">
+    <bean id="purgeJob" parent="purgeJob-parentBean"/>
+	<bean id="purgeJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="purgePendingAttachmentsStep" />
@@ -267,55 +264,55 @@
 			</list>
 		</property>
 	</bean>
+	
     <bean id="purgePendingAttachmentsStep" parent="purgePendingAttachmentsStep-parentBean"/>
-
-	<bean id="purgePendingAttachmentsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgePendingAttachmentsStep" parent="step">
+	<bean id="purgePendingAttachmentsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgePendingAttachmentsStep" parent="step" abstract="true">
 		<property name="attachmentService">
 			<ref bean="attachmentService" />
 		</property>
 	</bean>
-    <bean id="purgeTempFilesStep" parent="purgeTempFilesStep-parentBean"/>
 
-	<bean id="purgeTempFilesStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step">
+    <bean id="purgeTempFilesStep" parent="purgeTempFilesStep-parentBean"/>
+	<bean id="purgeTempFilesStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step" abstract="true">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
-    <bean id="purgeSessionDocumentsStep" parent="purgeSessionDocumentsStep-parentBean"/>
-	
-	<bean id="purgeSessionDocumentsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeSessionDocumentsStep" parent="step">
+
+    <bean id="purgeSessionDocumentsStep" parent="purgeSessionDocumentsStep-parentBean"/>	
+	<bean id="purgeSessionDocumentsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeSessionDocumentsStep" parent="step" abstract="true">
 		<property name="sessionDocumentService">
 			<ref bean="sessionDocumentService" />
 		</property>
 	</bean>
-    <bean id="fiscalYearMakerJob" parent="fiscalYearMakerJob-parentBean"/>
 	
-	<bean id="fiscalYearMakerJob-parentBean" parent="unscheduledJobDescriptor">
+    <bean id="fiscalYearMakerJob" parent="fiscalYearMakerJob-parentBean"/>	
+	<bean id="fiscalYearMakerJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="fiscalYearMakerStep" />
 			</list>
 		</property>
 	</bean>
-    <bean id="fiscalYearMakerStep" parent="fiscalYearMakerStep-parentBean"/>
-	
-	<bean id="fiscalYearMakerStep-parentBean" class="org.kuali.kfs.sys.batch.FiscalYearMakerStep" parent="step">
+
+    <bean id="fiscalYearMakerStep" parent="fiscalYearMakerStep-parentBean"/>	
+	<bean id="fiscalYearMakerStep-parentBean" class="org.kuali.kfs.sys.batch.FiscalYearMakerStep" parent="step" abstract="true">
 		<property name="fiscalYearMakerService">
 			<ref bean="fiscalYearMakerService" />
 		</property>
 	</bean>
-    <bean id="purgeReportsAndStagingJob" parent="purgeReportsAndStagingJob-parentBean"/>
-	
-	<bean id="purgeReportsAndStagingJob-parentBean" parent="scheduledJobDescriptor">
+
+    <bean id="purgeReportsAndStagingJob" parent="purgeReportsAndStagingJob-parentBean"/>	
+	<bean id="purgeReportsAndStagingJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="filePurgeStep" />
 			</list>
 		</property>
 	</bean>
-    <bean id="filePurgeStep" parent="filePurgeStep-parentBean"/>
-	
-	<bean id="filePurgeStep-parentBean" class="org.kuali.kfs.sys.batch.FilePurgeStep" parent="step">
+
+    <bean id="filePurgeStep" parent="filePurgeStep-parentBean"/>	
+	<bean id="filePurgeStep-parentBean" class="org.kuali.kfs.sys.batch.FilePurgeStep" parent="step" abstract="true">
 		<property name="directories">
 			<list>
 				<value>${reports.directory}</value>
@@ -333,18 +330,18 @@
 		</property>
 		<property name="filePurgeService" ref="filePurgeService" />
 	</bean>
-    <bean id="autoDisapproveJob" parent="autoDisapproveJob-parentBean"/>
-	
-	<bean id="autoDisapproveJob-parentBean" parent="scheduledJobDescriptor">
+
+    <bean id="autoDisapproveJob" parent="autoDisapproveJob-parentBean"/>	
+	<bean id="autoDisapproveJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
 				<ref bean="autoDisapproveDocumentsStep" />
 			</list>
 		</property>
 	</bean>
-    <bean id="autoDisapproveDocumentsStep" parent="autoDisapproveDocumentsStep-parentBean"/>
-	
-	<bean id="autoDisapproveDocumentsStep-parentBean" class="org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep" parent="wrappedStep">
+
+    <bean id="autoDisapproveDocumentsStep" parent="autoDisapproveDocumentsStep-parentBean"/>	
+	<bean id="autoDisapproveDocumentsStep-parentBean" class="org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep" parent="wrappedStep" abstract="true">
 		<property name="wrappingBatchServices">
 			<list>
 				<ref bean="autoDisapproveErrorReportWriterService" />
@@ -466,29 +463,29 @@
 			<ref bean="kualiModuleService" />
 		</property>		
 	</bean>
-	<bean id="FiscalYearMaker" parent="FiscalYearMaker-parentBean"/>
 	
+	<bean id="FiscalYearMaker" parent="FiscalYearMaker-parentBean" abstract="true"/>
 	<bean id="FiscalYearMaker-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl" abstract="true" >
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
+	
 	<bean id="homeOriginationService" parent="homeOriginationService-parentBean"/>
-
 	<bean id="homeOriginationService-parentBean" class="org.kuali.kfs.sys.service.impl.HomeOriginationServiceImpl">
 		<property name="homeOriginationDao">
 			<ref bean="homeOriginationDao" />
 		</property>
 	</bean>
+	
 	<bean id="originationCodeService" parent="originationCodeService-parentBean"/>
-
 	<bean id="originationCodeService-parentBean" class="org.kuali.kfs.sys.service.impl.OriginationCodeServiceImpl">
 		<property name="originationCodeDao">
 			<ref bean="originationCodeDao" />
 		</property>
 	</bean>
-	<bean id="optionsService" parent="optionsService-parentBean"/>
 	
+	<bean id="optionsService" parent="optionsService-parentBean"/>
 	<bean id="optionsService-parentBean" class="org.kuali.kfs.sys.service.impl.OptionsServiceImpl">
 		<property name="universityDateService" ref="universityDateService" />
 	</bean>

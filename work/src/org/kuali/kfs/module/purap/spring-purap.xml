@@ -646,6 +646,7 @@
 	
 	<bean id="electronicInvoiceExtractStep" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceStep" parent="step">
 		<property name="electronicInvoiceHelperService" ref="electronicInvoiceHelperService" />
+    <property name="batchInputFileType" ref="electronicInvoiceInputFileType" />
 	</bean>
 	
 	<bean id="electronicInvoiceInputFileType" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">

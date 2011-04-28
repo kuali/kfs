@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.service.FilePurgeService;
 
 /**
@@ -31,6 +33,14 @@ public class FilePurgeStep extends AbstractStep {
     private List<FilePurgeCustomAge> customAges;
     private FilePurgeService filePurgeService;
     
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return directories;
+    }
+
     /**
      * Deletes all files in the temporary directory that are over 1 day old
      * 
@@ -48,7 +58,7 @@ public class FilePurgeStep extends AbstractStep {
      * Gets the directories attribute. 
      * @return Returns the directories.
      */
-    public List getDirectories() {
+    public List<String> getDirectories() {
         return directories;
     }
 
@@ -56,7 +66,7 @@ public class FilePurgeStep extends AbstractStep {
      * Sets the directories attribute value.
      * @param directories The directories to set.
      */
-    public void setDirectories(List directories) {
+    public void setDirectories(List<String> directories) {
         this.directories = directories;
     }
 
@@ -64,7 +74,7 @@ public class FilePurgeStep extends AbstractStep {
      * Gets the customAges attribute. 
      * @return Returns the customAges.
      */
-    public List getCustomAges() {
+    public List<FilePurgeCustomAge> getCustomAges() {
         return customAges;
     }
 
@@ -72,7 +82,7 @@ public class FilePurgeStep extends AbstractStep {
      * Sets the customAges attribute value.
      * @param customAges The customAges to set.
      */
-    public void setCustomAges(List customAge) {
+    public void setCustomAges(List<FilePurgeCustomAge> customAge) {
         this.customAges = customAge;
     }
 

@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
@@ -36,6 +38,13 @@ public class CollectorStep extends AbstractWrappedBatchStep {
     private CollectorService collectorService;
     private CollectorReportService collectorReportService;
 
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return collectorService.getRequiredDirectoryNames();
+    }
     
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {

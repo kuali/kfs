@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.pdp.batch;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.service.AchBankService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 
@@ -28,6 +31,14 @@ public class LoadFederalReserveBankDataStep extends AbstractStep {
     private AchBankService achBankService;
     private String directoryName;
 
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(directoryName); }};
+    }
+    
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */

@@ -17,42 +17,36 @@ package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileSetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Base implementation to manipulate batch input file sets from the batch upload screen
  */
-public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
+public class BatchInputFileSetServiceImpl extends InitiateDirectoryBase implements BatchInputFileSetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchInputFileSetServiceImpl.class);
 
     private KualiConfigurationService kualiConfigurationService;
@@ -127,6 +121,9 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
      *      org.kuali.kfs.sys.batch.BatchInputFileSetType, java.lang.String, java.util.Map)
      */
     public Map<String, String> save(Person user, BatchInputFileSetType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap) throws AuthorizationException, FileStorageException {
+        //add a step for file directory checking
+        prepareDirectories(getRequiredDirectoryNames());
+        
         Date creationDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         // check user is authorized to upload a file for the batch type
         Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap, creationDate);
@@ -264,6 +261,14 @@ public class BatchInputFileSetServiceImpl implements BatchInputFileSetService {
                 }
             }
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>(){{add(getTempDirectoryName());}};
     }
 }
 

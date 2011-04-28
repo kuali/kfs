@@ -16,11 +16,13 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.AndFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.OrFileFilter;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.FilePurgeCustomAge;
 import org.kuali.kfs.sys.batch.FilePurgeDirectoryWalker;
 import org.kuali.kfs.sys.batch.FilePurgeStep;
@@ -44,6 +46,9 @@ public class FilePurgeServiceImpl implements FilePurgeService {
      * @see org.kuali.kfs.gl.batch.service.FilePurgeService#purgeFiles(java.lang.String, java.util.List)
      */
     public void purgeFiles(String directory, List<FilePurgeCustomAge> customAges) {
+        //add a step to check for directory existence
+        FileUtil.createDirectory(directory);
+        
         purgeCustomAgeFiles(directory, customAges);
         purgeDefaultFiles(directory, customAges);
     }

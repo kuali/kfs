@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import org.kuali.kfs.sys.FileUtil;
 
 public abstract class BatchInputFileTypeBase implements BatchInputFileType {
 
@@ -31,6 +32,8 @@ public abstract class BatchInputFileTypeBase implements BatchInputFileType {
 
     public void setDirectoryPath(String directoryPath) {
         this.directoryPath = directoryPath;
+        //check directory when setting the path
+        FileUtil.createDirectory(directoryPath);
     }
 
     public String getFileExtension() {

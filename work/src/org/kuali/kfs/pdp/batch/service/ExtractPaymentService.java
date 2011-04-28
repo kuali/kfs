@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.pdp.batch.service;
 
-public interface ExtractPaymentService {
+import org.kuali.kfs.sys.batch.InitiateDirectory;
+
+public interface ExtractPaymentService extends InitiateDirectory {
     /**
      * Extract checks to be cut into a file to be processed by the check printing service
      */

@@ -33,6 +33,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -64,6 +65,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      */
     public void setDirectoryPath(String directoryPath) {
         this.directoryPath = directoryPath;
+        FileUtil.createDirectory(directoryPath);
     }
 
     /**

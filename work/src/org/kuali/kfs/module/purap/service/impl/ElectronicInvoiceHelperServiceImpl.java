@@ -79,6 +79,7 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMatchingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -122,7 +123,7 @@ import org.w3c.dom.Node;
  */
 
 @Transactional
-public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelperService {
+public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase implements ElectronicInvoiceHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
     protected final String UNKNOWN_DUNS_IDENTIFIER = "Unknown";
@@ -144,6 +145,9 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
     
     public ElectronicInvoiceLoad loadElectronicInvoices() {
 
+        //add a step to check for directory paths
+        prepareDirectories(getRequiredDirectoryNames());
+        
         String baseDirName = getBaseDirName();
         String rejectDirName = getRejectDirName();
         String acceptDirName = getAcceptDirName();
@@ -1893,11 +1897,11 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
         return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
     }
     
-    protected String getRejectDirName(){
+    public String getRejectDirName(){
         return getBaseDirName() + "reject" + File.separator;
     }
     
-    protected String getAcceptDirName(){
+    public String getAcceptDirName(){
         return getBaseDirName() + "accept" + File.separator;
     }
     
@@ -1951,6 +1955,14 @@ public class ElectronicInvoiceHelperServiceImpl implements ElectronicInvoiceHelp
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(getBaseDirName()); add(getAcceptDirName()); add(getRejectDirName()); }};
     }
     
 }

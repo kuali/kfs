@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.batch.InitiateDirectory;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 /**
  * This interface defines the methods needed to save/download/delete file sets in the batch upload system
  */
-public interface BatchInputFileSetService {
+public interface BatchInputFileSetService extends InitiateDirectory{
 
     /**
      * Stores the input streams (the values in the Map parameter) as files on the server, identified by the given user file name and

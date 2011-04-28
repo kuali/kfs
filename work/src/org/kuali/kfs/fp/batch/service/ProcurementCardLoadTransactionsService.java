@@ -15,13 +15,15 @@
  */
 package org.kuali.kfs.fp.batch.service;
 
+import org.kuali.kfs.sys.batch.InitiateDirectory;
+
 /**
  * 
  * This service interface defines the methods that a ProcurementCardLoadTransactionsService implementation must provide.
  * 
  * Provides methods to load batch files for the procurement card batch job.
  */
-public interface ProcurementCardLoadTransactionsService {
+public interface ProcurementCardLoadTransactionsService extends InitiateDirectory{
 
     /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.

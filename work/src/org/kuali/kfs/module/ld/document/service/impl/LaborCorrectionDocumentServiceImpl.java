@@ -49,6 +49,7 @@ import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.rice.kns.dao.DocumentDao;
@@ -679,6 +680,8 @@ public class LaborCorrectionDocumentServiceImpl extends CorrectionDocumentServic
      */
     public void setLlcpDirectoryName(String llcpDirectoryName) {
         this.llcpDirectoryName = llcpDirectoryName;
+        //check directory directly when path is set 
+        FileUtil.createDirectory(llcpDirectoryName);
     }
 
     /**

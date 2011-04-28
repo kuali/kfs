@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,6 +43,8 @@ import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
+import org.kuali.kfs.sys.FileUtil;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -54,7 +57,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class ExtractPaymentServiceImpl implements ExtractPaymentService {
+public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements ExtractPaymentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPaymentServiceImpl.class);
 
     protected String directoryName;
@@ -74,7 +77,18 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
     // should stay false for production.
     public static boolean testMode = false;
 
+    /**
+     * Generate the output file with prefix and date subfix
+     * 
+     * @param fileprefix
+     * @param runDate
+     * @return
+     */
     protected String getOutputFile(String fileprefix, Date runDate) {
+        
+        //add a step to check for directory paths
+        prepareDirectories(getRequiredDirectoryNames());
+        
         String filename = directoryName + "/" + fileprefix + "_";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         filename = filename + sdf.format(runDate);
@@ -641,5 +655,12 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
         this.countryService = countryService;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(directoryName); }};
+    }
 
 }

@@ -40,6 +40,18 @@ public class ProcurementCardLoadStep extends AbstractStep {
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType procurementCardInputFileType;
 
+
+    /**
+     * custom get requiredDirectoryNames step- assign the passed in procurementInputFileType to the batchInputFileType
+     * 
+     * @see org.kuali.kfs.sys.batch.AbstractStep#prepareStepDirectory()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        setBatchInputFileType(procurementCardInputFileType);
+        return super.getRequiredDirectoryNames();
+    }
+    
     /**
      * Controls the procurement card process.
      */

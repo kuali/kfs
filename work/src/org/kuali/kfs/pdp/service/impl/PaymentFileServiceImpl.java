@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,11 +38,14 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
+import org.kuali.rice.kew.quicklinks.InitiatedDocumentType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -57,7 +61,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @see org.kuali.kfs.pdp.service.PaymentFileService
  */
 @Transactional
-public class PaymentFileServiceImpl implements PaymentFileService {
+public class PaymentFileServiceImpl extends InitiateDirectoryBase implements PaymentFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileServiceImpl.class);
 
     private String outgoingDirectoryName;
@@ -225,6 +229,10 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      *      java.lang.String)
      */
     public boolean createOutputFile(LoadPaymentStatus status, String inputFileName) {
+        
+        //add a step to check for directory paths
+        prepareDirectories(getRequiredDirectoryNames());
+        
         // construct the outgoing file name
         String filename = outgoingDirectoryName + "/" + getBaseFileName(inputFileName);
 
@@ -430,6 +438,14 @@ public class PaymentFileServiceImpl implements PaymentFileService {
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(outgoingDirectoryName); }};
     }
 
 }

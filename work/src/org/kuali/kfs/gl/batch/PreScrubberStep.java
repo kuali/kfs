@@ -15,25 +15,17 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.BatchSortService;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.report.PreScrubberReport;
 import org.kuali.kfs.gl.report.PreScrubberReportData;
 import org.kuali.kfs.gl.service.PreScrubberService;
-import org.kuali.kfs.gl.service.ScrubberService;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -48,6 +40,14 @@ public class PreScrubberStep extends AbstractWrappedBatchStep {
     private PreScrubberService preScrubberService;
     private ReportWriterService preScrubberReportWriterService;
     
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>(){{add(batchFileDirectoryName);}};
+    }
+
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {
         return new CustomBatchExecutor() {

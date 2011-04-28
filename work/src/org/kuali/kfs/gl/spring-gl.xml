@@ -1578,7 +1578,7 @@
 		</property>
 	</bean>
 	
-	<bean id="aggregateGlScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	<bean id="aggregateGlScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
 	    <property name="outputFilePath" value="${reports.directory}/gl"/>
 	    <property name="outputFilePrefix" value="scrubberJob_"/>
 	    <property name="outputFileSuffix" value=".txt"/>
@@ -1588,7 +1588,7 @@
 	    <property name="reportAggregatorService" ref="reportAggregatorService"/>
 	</bean>
 	
-	<bean id="aggregateGlPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+	<bean id="aggregateGlPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
 	    <property name="outputFilePath" value="${reports.directory}/gl"/>
 	    <property name="outputFilePrefix" value="posterJob_"/>
 	    <property name="outputFileSuffix" value=".txt"/>

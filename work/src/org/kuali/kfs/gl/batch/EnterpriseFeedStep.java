@@ -16,6 +16,7 @@
 package org.kuali.kfs.gl.batch;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -28,6 +29,14 @@ import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchEx
 public class EnterpriseFeedStep extends AbstractWrappedBatchStep {
 
     private EnterpriseFeederService enterpriseFeederService;
+
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return enterpriseFeederService.getRequiredDirectoryNames();
+    }
 
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {

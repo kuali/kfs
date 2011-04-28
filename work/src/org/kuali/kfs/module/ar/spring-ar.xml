@@ -505,6 +505,7 @@
 		<property name="batchService">
 			<ref bean="customerLoadService" />
 		</property>					
+    	<property name="batchInputFileType" ref="customerLoadInputFileType"/>
 	</bean>
 	
 	<bean id="customerLoadService"  parent="customerLoadService-parentBean"/>
@@ -577,7 +578,8 @@
 	<bean id="customerInvoiceWriteoffBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchStep" parent="step">
 		<property name="batchService">
 			<ref bean="customerInvoiceWriteoffBatchService" />
-		</property>					
+		</property>
+    <property name="batchInputFileType" ref="customerInvoiceWriteoffBatchInputFileType"/>					
 	</bean>
 	
 	<bean id="customerInvoiceWriteoffBatchService"  parent="customerInvoiceWriteoffBatchService-parentBean"/>

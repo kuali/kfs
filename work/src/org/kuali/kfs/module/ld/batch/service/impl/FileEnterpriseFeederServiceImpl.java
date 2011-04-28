@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.EnterpriseFeederService;
 import org.kuali.kfs.module.ld.batch.service.FileEnterpriseFeederHelperService;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
 
@@ -43,7 +44,7 @@ import org.kuali.rice.kns.service.DateTimeService;
  * is NOT annotated as transactional. This allows the helper service, which is defined as transactional, to do a per-file
  * transaction.
  */
-public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService {
+public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase implements EnterpriseFeederService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
 
     private String directoryName;
@@ -70,6 +71,11 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
             if (StringUtils.isBlank(directoryName)) {
                 throw new IllegalArgumentException("directoryName not set for FileEnterpriseFeederServiceImpl.");
             }
+            
+            //add a step to check for directory paths
+            prepareDirectories(getRequiredDirectoryNames());
+
+            
             FileFilter doneFileFilter = new SuffixFileFilter(DONE_FILE_SUFFIX);
 
             File enterpriseFeedFile = null;
@@ -385,5 +391,13 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
      */
     public void setReportWriterService(ReportWriterService reportWriterService) {
         this.reportWriterService = reportWriterService;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(getDirectoryName()); }};
     }
 }

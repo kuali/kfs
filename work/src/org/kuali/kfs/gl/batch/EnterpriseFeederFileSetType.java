@@ -31,6 +31,7 @@ import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.service.EnterpriseFeederService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
@@ -55,7 +56,9 @@ public class EnterpriseFeederFileSetType implements BatchInputFileSetType {
      */
     public String getDirectoryPath(String fileType) {
         // all files in the file set go into the same directory
-        return SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
+        String directoryPath = SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
+        FileUtil.createDirectory(directoryPath);
+        return directoryPath;
     }
 
     /**

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.batch;
 
 import org.kuali.kfs.gl.batch.EnterpriseFeederFileSetType;
 import org.kuali.kfs.module.ld.batch.service.EnterpriseFeederService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 
@@ -37,10 +38,10 @@ public class LaborEnterpriseFeederFileSetType extends EnterpriseFeederFileSetTyp
 
     public String getDirectoryPath(String fileType) {
         // all files in the file set go into the same directory
-        return SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
+        String directoryPath = SpringContext.getBean(EnterpriseFeederService.class).getDirectoryName();
+        FileUtil.createDirectory(directoryPath);
+        return directoryPath;
     }
-
-    
     
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()

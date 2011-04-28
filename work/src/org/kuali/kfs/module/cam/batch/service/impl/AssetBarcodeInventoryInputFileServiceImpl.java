@@ -20,16 +20,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.fop.fo.DirectPropertyListBuilder;
 import org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryInputFileService;
 import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
+import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
@@ -37,11 +41,19 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSetServiceImpl implements  AssetBarcodeInventoryInputFileService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetBarcodeInventoryInputFileServiceImpl.class);
 
     public Map<String, String> save(Person user, AssetBarcodeInventoryInputFileType inputType, String fileUserIdentifier, Map<String, InputStream> typeToStreamMap, AssetBarCodeInventoryInputFileForm form) throws AuthorizationException, FileStorageException {
+
+        //add a step to check for file directory - add the AssetBarcodeInventoryInputFile to check for file location
+        List<String> directoryPathList = new ArrayList<String>(super.getRequiredDirectoryNames());
+        //fileType was not supposed to be used in the getDirectoryPath
+        directoryPathList.add(inputType.getDirectoryPath(AssetBarcodeInventoryInputFileType.class.getSimpleName()));
+        prepareDirectories(directoryPathList);
+        
         Date creationDate = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         Map<String, File> typeToTempFiles = copyStreamsToTemporaryDirectory(user, inputType, fileUserIdentifier, typeToStreamMap, creationDate);
         
@@ -97,5 +109,6 @@ public class AssetBarcodeInventoryInputFileServiceImpl extends BatchInputFileSet
         
         return typeToFileNames;
     }
+
 }
 

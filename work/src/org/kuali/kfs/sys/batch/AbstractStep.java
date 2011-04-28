@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,54 @@
  */
 package org.kuali.kfs.sys.batch;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.InitializingBean;
 
-public abstract class AbstractStep implements Step, BeanNameAware {
+public abstract class AbstractStep extends InitiateDirectoryBase implements Step, BeanNameAware, InitializingBean, InitiateDirectory{
+  
+    private static final Logger LOG = Logger.getLogger(AbstractStep.class);
+    
     private String name;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
+    private BatchInputFileType batchInputFileType = null;
+    
     private boolean interrupted = false;
+
+    /**
+     * Initialization  after bean properties are instantiate, 
+     * 
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //prepare the directories by using the required directory list
+        prepareDirectories(getRequiredDirectoryNames());
+    }
+
+    /**
+     * By default it should use batchInpeutFile (single file) directory path as the required directory name. 
+     * 
+     * Subclasses should override this function to provide any custom required directory list.
+     * 
+     * @see org.kuali.kfs.sys.batch.service.InitiateDirectoryInterface#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        List<String> requiredDirectoryList = new ArrayList<String>();
+        if (batchInputFileType != null){
+            LOG.info(batchInputFileType);
+            requiredDirectoryList.add(batchInputFileType.getDirectoryPath());
+        }
+        return requiredDirectoryList;
+    }
 
     /**
      * Sets the bean name
@@ -69,7 +108,7 @@ public abstract class AbstractStep implements Step, BeanNameAware {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
+    
     /**
      * Returns the boolean value of the interrupted flag
      * 
@@ -80,6 +119,15 @@ public abstract class AbstractStep implements Step, BeanNameAware {
         return interrupted;
     }
 
+    public BatchInputFileType getBatchInputFileType() {
+        return batchInputFileType;
+    }
+
+    public void setBatchInputFileType(BatchInputFileType batchInputFileType) {
+        this.batchInputFileType = batchInputFileType;
+    }
+    
+    
     /**
      * Sets the interruped flag
      * 

@@ -87,6 +87,7 @@
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/endow</value>
+              <value>${staging.directory}/endow</value>
          	</list>
         </property>
     </bean>

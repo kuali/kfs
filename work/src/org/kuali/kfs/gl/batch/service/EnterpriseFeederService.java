@@ -15,11 +15,13 @@
  */
 package org.kuali.kfs.gl.batch.service;
 
+import org.kuali.kfs.sys.batch.InitiateDirectory;
+
 
 /**
  * The enterprise feeder is a component that feeds in origin entries from an external data source
  */
-public interface EnterpriseFeederService {
+public interface EnterpriseFeederService extends InitiateDirectory{
     public static final String DONE_FILE_SUFFIX = ".done";
     public static final String DATA_FILE_SUFFIX = ".data";
     public static final String RECON_FILE_SUFFIX = ".recon";

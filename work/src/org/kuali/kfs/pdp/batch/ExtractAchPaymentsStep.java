@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.batch;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -25,6 +26,14 @@ public class ExtractAchPaymentsStep extends AbstractStep {
 
     private ExtractPaymentService extractPaymentService;
 
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#prepareStepDirectory()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return extractPaymentService.getRequiredDirectoryNames();
+    }
+    
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */

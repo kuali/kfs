@@ -16,11 +16,12 @@
 package org.kuali.kfs.gl.batch.service;
 
 import org.kuali.kfs.gl.report.CollectorReportData;
+import org.kuali.kfs.sys.batch.InitiateDirectory;
 
 /**
  * An interface that declares the service needed to run the Collector
  */
-public interface CollectorService {
+public interface CollectorService extends InitiateDirectory{
     /**
      * performs collection
      * 

@@ -885,7 +885,7 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
     </bean>
 
-    <bean id="aggregateLaborScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+    <bean id="aggregateLaborScrubberReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
         <property name="outputFilePath" value="${reports.directory}/ld" />
         <property name="outputFilePrefix" value="laborScrubberJob_" />
         <property name="outputFileSuffix" value=".txt" />
@@ -912,7 +912,7 @@
         </property>
     </bean>
 
-    <bean id="aggregateLaborPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep">
+    <bean id="aggregateLaborPosterReportsStep" class="org.kuali.kfs.sys.batch.ReportAggregationStep" parent="step">
         <property name="outputFilePath" value="${reports.directory}/ld" />
         <property name="outputFilePrefix" value="laborPosterJob_" />
         <property name="outputFileSuffix" value=".txt" />

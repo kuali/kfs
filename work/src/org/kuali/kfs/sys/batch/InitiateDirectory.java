@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.service;
+package org.kuali.kfs.sys.batch;
 
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
-import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
-import org.kuali.kfs.sys.batch.InitiateDirectory;
+import java.io.File;
+import java.util.List;
 
-public interface ElectronicInvoiceHelperService extends InitiateDirectory{
-
-    public ElectronicInvoiceLoad loadElectronicInvoices();
+/**
+ * Interface to initiate required directories for batch jobs or service impl 
+ * 
+ */
+public interface InitiateDirectory {
     
-    public boolean doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument);
+    /**
+     * Prepare the directories needed base on the input directory paths
+     *  
+     * @param directoryPaths
+     */
+    public void prepareDirectories(List<String>directoryPaths);
     
-    public boolean createPaymentRequest(ElectronicInvoiceRejectDocument rejectDocument);
-    
+    /**
+     * Get the required list of directories name (full path)
+     * 
+     * @return
+     */
+    public List<String> getRequiredDirectoryNames();
 }

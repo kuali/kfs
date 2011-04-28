@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.service.PaymentFileService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -35,6 +36,21 @@ public class LoadPaymentsStep extends AbstractStep {
     private PaymentFileService paymentFileService;
     private BatchInputFileType paymentInputFileType;
 
+    /**
+     * Picks up the required path from the batchInputFIleType as well as from the payment
+     * file service
+     * 
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        List<String> requiredDirectoryList = new ArrayList<String>();
+        requiredDirectoryList.add(paymentInputFileType.getDirectoryPath());
+        requiredDirectoryList.addAll(paymentFileService.getRequiredDirectoryNames());
+        
+        return requiredDirectoryList;
+    }
+    
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */

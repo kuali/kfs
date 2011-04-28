@@ -27,13 +27,14 @@ import org.kuali.kfs.gl.document.GeneralLedgerCorrectionProcessDocument;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.document.LaborCorrectionDocument;
+import org.kuali.kfs.sys.batch.InitiateDirectory;
 import org.kuali.rice.kns.web.ui.Column;
 
 
 /**
  * Defines methods that must be implemented by classes providing a LaborCorrectionDocumentServiceImpl.
  */
-public interface LaborCorrectionDocumentService {
+public interface LaborCorrectionDocumentService extends InitiateDirectory{
     public final static String CORRECTION_TYPE_MANUAL = "M";
     public final static String CORRECTION_TYPE_CRITERIA = "C";
     public final static String CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING = "R";

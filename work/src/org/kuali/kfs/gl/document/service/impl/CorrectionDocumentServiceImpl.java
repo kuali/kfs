@@ -29,14 +29,12 @@ import java.io.OutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -57,10 +55,11 @@ import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.gl.report.CorrectionDocumentReport;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
+import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.ReportAggregatorService;
-import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -75,7 +74,7 @@ import org.springframework.transaction.annotation.Transactional;
  * The base implementaiton of CorrectionDocumentService
  */
 @Transactional
-public class CorrectionDocumentServiceImpl implements CorrectionDocumentService {
+public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase implements CorrectionDocumentService {
     protected static Logger LOG = Logger.getLogger(CorrectionDocumentServiceImpl.class);
 
     protected CorrectionChangeGroupDao correctionChangeGroupDao;
@@ -972,6 +971,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      */
     public void setGlcpDirectoryName(String glcpDirectoryName) {
         this.glcpDirectoryName = glcpDirectoryName;
+        
+        FileUtil.createDirectory(glcpDirectoryName);
     }
 
     /**
@@ -1148,5 +1149,13 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public String[] findExistingCorrectionOutputFilesForDocument( String documentNumber ) {
         return new File(batchFileDirectoryName).list( new GlcpFilenameFilter(documentNumber));
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(getOriginEntryStagingDirectoryPath()); }};
     }
 }

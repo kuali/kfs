@@ -41,6 +41,7 @@ import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -50,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
  * The base implementation of the Collector service
  */
 @Transactional
-public class CollectorServiceImpl implements CollectorService {
+public class CollectorServiceImpl extends InitiateDirectoryBase implements CollectorService {
     private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
 
     private CollectorHelperService collectorHelperService;
@@ -70,6 +71,10 @@ public class CollectorServiceImpl implements CollectorService {
      * @return status information related to the collection execution
      */
     public CollectorReportData performCollection() {
+        
+        //add a step to check for directory paths
+        prepareDirectories(getRequiredDirectoryNames());
+        
         List<String> processedFiles = new ArrayList<String>();
         Date executionDate = dateTimeService.getCurrentSqlDate();
 
@@ -255,5 +260,17 @@ public class CollectorServiceImpl implements CollectorService {
      */
     public void setCollectorReportWriterService(ReportWriterService collectorReportWriterService) {
         this.collectorReportWriterService = collectorReportWriterService;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        List<String> requiredDirectoryList = new ArrayList<String>();
+        for (BatchInputFileType batchInputFile : collectorInputFileTypes){
+            requiredDirectoryList.add(batchInputFile.getDirectoryPath());
+        }
+        return requiredDirectoryList;
     }
 }

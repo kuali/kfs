@@ -18,12 +18,13 @@ package org.kuali.kfs.pdp.service;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectory;
 import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Handles processing (validation, loading, and reporting) of incoming payment files.
  */
-public interface PaymentFileService {
+public interface PaymentFileService extends InitiateDirectory{
 
     /**
      * Process all incoming payment files

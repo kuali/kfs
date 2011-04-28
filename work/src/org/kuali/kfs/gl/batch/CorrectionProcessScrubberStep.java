@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.gl.batch;
 
+import java.util.List;
+
 import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.service.ScrubberService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
@@ -28,6 +30,14 @@ public class CorrectionProcessScrubberStep extends AbstractWrappedBatchStep {
     private String documentId;
     private CorrectionDocumentService correctionDocumentService;
     private ScrubberService scrubberService;
+
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return correctionDocumentService.getRequiredDirectoryNames();
+    }
 
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {

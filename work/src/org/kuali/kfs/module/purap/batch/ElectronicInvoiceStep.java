@@ -15,22 +15,17 @@
  */
 package org.kuali.kfs.module.purap.batch;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.service.ElectronicInvoiceHelperService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.kfs.sys.batch.BatchInputFileType;
-import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 
 public class ElectronicInvoiceStep extends AbstractStep {
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceStep.class);
+    private static Logger LOG = Logger.getLogger(ElectronicInvoiceStep.class);
 
     private ElectronicInvoiceHelperService electronicInvoiceHelperService;
 
@@ -43,4 +38,13 @@ public class ElectronicInvoiceStep extends AbstractStep {
         this.electronicInvoiceHelperService = electronicInvoiceHelperService;
     }
 
+    /**
+     * Override the default implementation to pull the directory path list from the service
+     * 
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return electronicInvoiceHelperService.getRequiredDirectoryNames();
+    }
 }

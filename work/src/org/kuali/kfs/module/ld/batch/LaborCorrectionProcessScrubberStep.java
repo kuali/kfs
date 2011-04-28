@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ld.batch;
 
+import java.util.List;
+
 import org.kuali.kfs.module.ld.batch.service.LaborScrubberService;
 import org.kuali.kfs.module.ld.document.service.LaborCorrectionDocumentService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
@@ -28,6 +30,14 @@ public class LaborCorrectionProcessScrubberStep extends AbstractWrappedBatchStep
     private String documentId;
     private LaborCorrectionDocumentService laborCorrectionDocumentService;
     private LaborScrubberService laborScrubberService;
+
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return laborCorrectionDocumentService.getRequiredDirectoryNames();
+    }
 
     @Override
     protected CustomBatchExecutor getCustomBatchExecutor() {

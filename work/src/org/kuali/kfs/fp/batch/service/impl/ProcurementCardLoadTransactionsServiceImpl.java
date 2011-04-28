@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.batch.service.impl;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -36,7 +38,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * 
  * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
  */
-public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
+public class ProcurementCardLoadTransactionsServiceImpl extends InitiateDirectoryBase implements ProcurementCardLoadTransactionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
@@ -52,6 +54,10 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#loadProcurementCardFile()
      */
     public boolean loadProcurementCardFile(String fileName) {
+        
+        //add a step to check for directory paths
+        prepareDirectories(getRequiredDirectoryNames());
+        
         FileInputStream fileContents;
         try {
             fileContents = new FileInputStream(fileName);
@@ -123,6 +129,14 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      */
     public void setProcurementCardInputFileType(BatchInputFileType procurementCardInputFileType) {
         this.procurementCardInputFileType = procurementCardInputFileType;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return new ArrayList<String>() {{add(procurementCardInputFileType.getDirectoryPath()); }};
     }
 
 }

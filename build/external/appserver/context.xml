@@ -14,6 +14,6 @@
  limitations under the License.
 -->
 <!DOCTYPE doc>
-<Context path="/${ant.project.name}-${build.environment}" reloadable="true" ${context.docbase}>
+<Context path="/kfs-${build.environment}" reloadable="true" ${context.docbase}>
 	${custom.context.content}
 </Context>

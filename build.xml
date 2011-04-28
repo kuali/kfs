@@ -130,7 +130,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	
 	
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
-		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
+		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
 		<if>
 			<isset property="institution.lib.directory" />
 			<then>
@@ -172,10 +172,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 
 	<target name="init-property-files">
 		<if>
-			<available file="${user.home}/${ant.project.name}-build.properties" />
+			<available file="${user.home}/kfs-build.properties" />
 			<then>
-				<echo message="Reading Properties: ${user.home}/${ant.project.name}-build.properties" />
-				<property file="${user.home}/${ant.project.name}-build.properties" />
+				<echo message="Reading Properties: ${user.home}/kfs-build.properties" />
+				<property file="${user.home}/kfs-build.properties" />
 			</then>
 		</if>
 		<if>
@@ -547,18 +547,18 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 
 	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-properties">
 		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${appserver.work.dir}" includes="${ant.project.name}-*/**" />
+			<fileset dir="${appserver.work.dir}" includes="kfs-*/**" />
 			<fileset dir="${appserver.work.dir}" includes="${cas.context.name}/**" />
 		</delete>
 	</target>
 
 	<target name="clean-local" if="is.local.build" depends="clean-local-work">
 		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${base.security.directory}" includes="**/${ant.project.name}/"/>
-			<fileset dir="${base.settings.directory}" includes="**/${ant.project.name}/"/>
-			<fileset dir="${base.logs.directory}" includes="**/${ant.project.name}/"/>
-			<fileset dir="${base.work.directory}" includes="**/${ant.project.name}/"/>
-			<fileset dir="${base.deploy.directory}" includes="**/${ant.project.name}/"/>
+			<fileset dir="${base.security.directory}" includes="**/kfs/"/>
+			<fileset dir="${base.settings.directory}" includes="**/kfs/"/>
+			<fileset dir="${base.logs.directory}" includes="**/kfs/"/>
+			<fileset dir="${base.work.directory}" includes="**/kfs/"/>
+			<fileset dir="${base.deploy.directory}" includes="**/kfs/"/>
 		</delete>
 		<delete failonerror="false" verbose="true">
 			<fileset dir="${appserver.lib.dir}">
@@ -578,7 +578,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	    <delete dir="${appserver.deploy.dir}/${rice.application}-${build.environment}" failonerror="false"/>
 	    <delete file="${rice.config.property.file}" failonerror="false" verbose="true" />
 		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml,${cas.context.name}.xml" />
+			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml,${cas.context.name}.xml" />
 		</delete>
 	</target>
 
@@ -989,7 +989,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 				</copy>
 			</then>
 		</if>
-		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
+		<jar jarfile="kfs-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
     <target name="overlay-additional-web-content" depends="init-properties" if="institution.web.content.directory">
@@ -1143,15 +1143,15 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			- build.xml
 			- build.properties
 			- build/*
-			- ${ant.project.name}-build.properties in ${user.home}
+			- kfs-build.properties in ${user.home}
 
 	you should start using this build script as follows
 
-			1. copy the ${ant.project.name}-build.properties from ${build.user.directory} in
+			1. copy the kfs-build.properties from ${build.user.directory} in
 			${basedir} to ${user.home}
 			    - fill in the missing values in the sections related to tempoarily and permanently customizing the
 			      build for your machine (you do not need to worry about the rice development section)
-			    - override other property values in ${user.home}/${ant.project.name}-build.properties as needed
+			    - override other property values in ${user.home}/kfs-build.properties as needed
 			    - save your changes
 
 			2. run the echo-properties target and review the results
@@ -1173,12 +1173,12 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-			- this target should be run each time you update the project or change property values in ${user.home}/${ant.project.name}-build.properties
+			- this target should be run each time you update the project or change property values in ${user.home}/kfs-build.properties
 			- tomcat should not be running when you are executing this target
 
 			test-local: runs all project tests and generates results
              - criteria for running dist-local must be met before running this target
-			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/${ant.project.name}-build.propertie
+			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/kfs-build.propertie
 			- tomcat should not be running when you execute this target
 
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set

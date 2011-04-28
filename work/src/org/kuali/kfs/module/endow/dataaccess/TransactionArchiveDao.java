@@ -27,19 +27,21 @@ import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 public interface TransactionArchiveDao {
 
     /**
-     * Gets a collection of records from END_TRAN_ARCHV_T table.  The data is sorted by
-     * DOC_TYP_NM, TRAN_SUB_TYP_CD, TRAN_IP_IND_CD, TRAN_KEMID, TRAN_ETRAN_CD
+     * Gets a collection of records from END_TRAN_ARCHV_T table. The data is sorted by DOC_TYP_NM, TRAN_SUB_TYP_CD, TRAN_IP_IND_CD,
+     * TRAN_KEMID, TRAN_ETRAN_CD
+     * 
      * @param postedDate
      * @return transactionArchives
      */
     public Collection<TransactionArchive> getAllTransactionArchives(java.util.Date postedDate);
-    
+
     /**
      * Gets a collection of records from END_TRAN_ARCHV_T table
+     * 
      * @return transactionArchives
      */
     public Collection<TransactionArchive> getAllTransactionArchives();
-    
+
     /**
      * Gets a transactionArchive by primary keys.
      * 
@@ -50,13 +52,19 @@ public interface TransactionArchiveDao {
 
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * 
      * @param feeMethod feeMethod object
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
      * @return count of transactionArhives matching the criteria
      */
-    public long getTransactionArchivesCountForTransactions(FeeMethod feeMethod);
-    
+    public long getTransactionArchivesCountForTransactions(FeeMethod feeMethod, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
+
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * 
      * @param feeMethodCode, transactionPostedDate
      * @return count of transactionArhives matching the passed in parameters
      */
@@ -64,20 +72,29 @@ public interface TransactionArchiveDao {
 
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM
+     * 
      * @param feeMethodCode, transactionPostedDate
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
      * @return count of transactionArhives matching the passed in parameters
      */
-    public long getTransactionArchivesCountByETranCode(String feeMethodCode, Date transactionPostedDate);
-    
+    public long getTransactionArchivesCountByETranCode(String feeMethodCode, Date transactionPostedDate, String feeMethodCodeForEtranCodes);
+
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given DOC_TYP_NM and TRAN_ETRAN_CD
+     * 
      * @param feeMethodCode, transactionPostedDate
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
      * @return count of transactionArhives matching the passed in parameters
      */
-    public long getTransactionArchivesCountByDocumentTypeNameAndETranCode(String feeMethodCode, Date transactionPostedDate);
-    
+    public long getTransactionArchivesCountByDocumentTypeNameAndETranCode(String feeMethodCode, Date transactionPostedDate, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
+
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table for a given TRAN_IP_IND_CD
+     * 
      * @param IncomeOrPrincipalIndicator
      * @return count of transactionArhives matching the passed in parameter
      */
@@ -85,39 +102,61 @@ public interface TransactionArchiveDao {
 
     /**
      * Gets a count of total number of records from END_TRAN_ARCHV_T table
+     * 
      * @param feeMethod
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
      * @return count of transactionArhives based on the conditions in feeMethod object
      */
-    public long getTransactionArchivesCountByBothIncomeAndPrincipal(FeeMethod feeMethod);
-    
-    /**
-     * Gets principal income amount from the selected records from END_TRAN_ARCHV_T table
-     * @param feeMethod feeMethod object
-     * @return incomeCashAmount of transactionArhives matching the criteria
-     */
-    public BigDecimal getTransactionArchivesIncomeCashAmountForTransactions(FeeMethod feeMethod);
-    
-    /**
-     * Gets principal cash amount from the selected records from END_TRAN_ARCHV_T table
-     * @param feeMethod feeMethod object
-     * @return incomeCashAmount of transactionArhives matching the criteria
-     */
-    public BigDecimal getTransactionArchivesPrincipalCashAmountForTransactions(FeeMethod feeMethod);
-    
-    /**
-     * Gets Income and principal cash amount from the selected records from END_TRAN_ARCHV_T table
-     * @param feeMethod feeMethod object
-     * @return Map with both income and principal cash amount of records matching the criteria
-     */
-    public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod);
+    public long getTransactionArchivesCountByBothIncomeAndPrincipal(FeeMethod feeMethod, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
 
     /**
-     * Gets total cash activity by adding income cash and principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * Gets principal income amount from the selected records from END_TRAN_ARCHV_T table
+     * 
+     * @param feeMethod feeMethod object
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
+     * @return incomeCashAmount of transactionArhives matching the criteria
+     */
+    public BigDecimal getTransactionArchivesIncomeCashAmountForTransactions(FeeMethod feeMethod, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
+
+    /**
+     * Gets principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * 
+     * @param feeMethod feeMethod object
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
+     * @return incomeCashAmount of transactionArhives matching the criteria
+     */
+    public BigDecimal getTransactionArchivesPrincipalCashAmountForTransactions(FeeMethod feeMethod, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
+
+    /**
+     * Gets Income and principal cash amount from the selected records from END_TRAN_ARCHV_T table
+     * 
+     * @param feeMethod feeMethod object
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
+     * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeEndowmentTransactionCode DD definition for fee method code
+     * @return Map with both income and principal cash amount of records matching the criteria
+     */
+    public HashMap<String, BigDecimal> getTransactionArchivesIncomeAndPrincipalCashAmountForTransactions(FeeMethod feeMethod, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes);
+
+    /**
+     * Gets total cash activity by adding income cash and principal cash amount from the selected records from END_TRAN_ARCHV_T
+     * table
+     * 
      * @param kemid, securityId
      * @return totalCashActivity
      */
     public BigDecimal getTransactionArchivesTotalCashActivity(String kemid, String securityId);
-    
+
     /**
      * Gets a collection of TransactionArchive by kemids and posted dates
      * 

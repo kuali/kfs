@@ -1586,6 +1586,9 @@
 		<property name="configService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
 		
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />

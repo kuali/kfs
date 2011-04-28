@@ -64,7 +64,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
 //        success &= checkWireAccountIsActive();
@@ -88,7 +88,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
 //        success &= checkWireAccountIsActive();
@@ -112,7 +112,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         success &= checkClearingAccountIsActive();
 //        success &= checkWireAccountIsActive();
@@ -130,7 +130,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkClearingAccountIsActive() {
 
-        LOG.info("Entering checkClearingAccountIsActive()");
+        LOG.debug("Entering checkClearingAccountIsActive()");
         boolean success = true;
 
        AccountService accountService = SpringContext.getBean(AccountService.class);
@@ -147,32 +147,6 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-
-//    /**
-//     * This checks to see if the account is active
-//     *
-//     * @return true if the account is active or false otherwise
-//     */
-//    protected boolean checkWireAccountIsActive() {
-//
-//        LOG.info("Entering checkWireAccountIsActive()");
-//        boolean success = true;
-//
-//        AccountService accountService = SpringContext.getBean(AccountService.class);
-//        Account wireAccount = accountService.getByPrimaryId(newSystemInformation.getWireChartOfAccountsCode(), newSystemInformation.getWireAccountNumber());
-//
-//        // check wire account is not in-active
-//        if (ObjectUtils.isNull(wireAccount)) {
-//            return false;
-//        }
-//        
-//        if (!wireAccount.isActive()) {
-//            success &= false;
-//            putGlobalError(ArKeyConstants.SystemInformation.ERROR_WIRE_ACCOUNT_INACTIVE);
-//        }
-//
-//        return success;
-//    }
     
     /**
     *
@@ -181,7 +155,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
     */
    protected boolean checkLockboxNumberIsUnique() {
 
-       LOG.info("Entering checkLockboxNumberIsUnique()");
+       LOG.debug("Entering checkLockboxNumberIsUnique()");
        boolean success = true;
 
       SystemInformationService systemInformationService = SpringContext.getBean(SystemInformationService.class);
@@ -196,56 +170,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
       return success;
    }
-
-/*
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-
-        boolean success;
-        success = checkSalesTaxObjectValidCode(newSystemInformation);
-
-        return success;
-    }
-*/
-
- /*
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        // always return true even if there are business rule failures.
-        //processCustomRouteDocumentBusinessRules(document);
-        return true;
-    }
-*/
     
-    /**
-     * 
-     * This method checks that the Sales Tax Objcet Code is of type Income
-     * Using the ParameterService to find this valid value?
-     * <ul>
-     * <li>IC</li>
-     * <li>IH</li>
-     * <li>CN</li>
-     * </ul>
-     * @return true if it is an income object
-     */
-/*
-    protected boolean checkSalesTaxObjectValidCode(SystemInformation document) {
-        boolean success = true;
-        Integer universityFiscalYear = document.getUniversityFiscalYear();
-        ObjectCode salesTaxFinancialObject = document.getSalesTaxFinancialObject();
-        
-        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(salesTaxFinancialObject)) {
-            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(salesTaxFinancialObject.getFinancialObjectTypeCode());
-
-            if (!success) {
-                putFieldError("salesTaxFinancialObjectCode",ArKeyConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObject.getCode());
-            }
-        }
-        return success;
-    }
-*/
-
-
     public ObjectTypeService getObjectTypeService() {
         return objectTypeService;
     }

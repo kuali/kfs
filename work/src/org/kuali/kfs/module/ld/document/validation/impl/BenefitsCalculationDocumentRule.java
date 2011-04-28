@@ -48,7 +48,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         // process rules
         checkRules(document);
@@ -68,7 +68,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
 
         boolean success = true;
 
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         // process rules
         success &= checkRules(document);
@@ -88,7 +88,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
 
         boolean success = true;
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         // process rules
         success &= checkRules(document);

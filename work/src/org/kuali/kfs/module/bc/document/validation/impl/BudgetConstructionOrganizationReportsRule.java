@@ -64,7 +64,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         boolean success = true;
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         // check reporting hierarchy is valid
         success &= checkSimpleRules(document);
@@ -79,7 +79,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         boolean success = true;
 
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         // check reporting hierarchy is valid
         success &= checkSimpleRules(document);
@@ -92,7 +92,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         // check reporting hierarchy is valid
         checkSimpleRules(document);

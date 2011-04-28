@@ -141,7 +141,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      */
     private void processSecurityRecords(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documentType) {
-        LOG.info("Entering \"processSecurityRecords\"");
+        LOG.debug("Entering \"processSecurityRecords\"");
         EndowmentTransactionSecurity tranSecurity = findSecurityTransactionRecord(tranLine, documentType);
         if (tranSecurity != null) {
             Security security = findSecurityRecord(tranSecurity.getSecurityID());
@@ -163,7 +163,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 businessObjectService.save(security);
             }
         }
-        LOG.info("Exit \"processSecurityRecords\"");
+        LOG.debug("Exit \"processSecurityRecords\"");
     }
 
     /**
@@ -173,7 +173,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      */
     private void processCashSubTypes(EndowmentTransactionalDocumentBase tranDoc, EndowmentTransactionLine tranLine, String documentType) {
-        LOG.info("Entering \"processCashSubTypes\"");
+        LOG.debug("Entering \"processCashSubTypes\"");
         if (tranDoc.getTransactionSubTypeCode().equals(EndowConstants.TransactionSubTypeCode.CASH)) {
             String kemid = tranLine.getKemid();
             String piCode = tranLine.getIncomePrincipalIndicator().getCode();
@@ -187,7 +187,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 businessObjectService.save(kemidCurrentCash);
             }
         }
-        LOG.info("Exit \"processCashSubTypes\"");
+        LOG.debug("Exit \"processCashSubTypes\"");
     }
     
     // this method was part of processCashSubTypes, but was separated for unit test. 
@@ -226,7 +226,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranLine
      */
     private void processTransactionArchives(EndowmentTransactionLinesDocumentBase lineDoc, EndowmentTransactionLine tranLine, PendingTransactionDocumentEntry pendingEntry, String documentType) {
-        LOG.info("Entering \"processTransactionArchives\"");
+        LOG.debug("Entering \"processTransactionArchives\"");
         // END_TRAN_ARCHV_T
         TransactionArchive tranArchive = createTranArchive(tranLine, pendingEntry.getDocumentType(), lineDoc.getTransactionSubTypeCode());
         
@@ -246,7 +246,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
             // END_HLDG_TAX_LOT_T
             updateOrCreateHoldingTaxLots(tranLine, tranSecurity, documentType);
         }
-        LOG.info("Exiting \"processTransactionArchives\"");
+        LOG.debug("Exiting \"processTransactionArchives\"");
     }
 
     /**
@@ -256,6 +256,8 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
      * @param tranSecurity
      */
     private void updateOrCreateHoldingTaxLots(EndowmentTransactionLine tranLine, EndowmentTransactionSecurity tranSecurity, String documentType) {
+        LOG.debug("Entering \"updateOrCreateHoldingTaxLots\"");
+        
         if (!tranLine.getTaxLotLines().isEmpty()) {
 
             // Get the primary key values.
@@ -329,7 +331,6 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
                 businessObjectService.save(holdingTaxLot);
             }
         }
-        LOG.info("Entering \"processTransactionArchives\"");
     }
 
     /**

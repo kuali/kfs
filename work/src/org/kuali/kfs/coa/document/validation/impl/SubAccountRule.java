@@ -56,7 +56,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         boolean success = checkForPartiallyEnteredReportingFields();
@@ -79,7 +79,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         boolean success = true;
 
@@ -107,7 +107,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkForPartiallyEnteredReportingFields();
@@ -141,7 +141,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkForPartiallyEnteredReportingFields() {
 
-        LOG.info("Entering checkExistenceAndActive()");
+        LOG.debug("Entering checkExistenceAndActive()");
 
         boolean success = true;
         boolean allReportingFieldsEntered = false;

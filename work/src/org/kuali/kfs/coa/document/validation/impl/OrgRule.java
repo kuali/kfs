@@ -88,7 +88,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -123,7 +123,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -157,7 +157,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -184,7 +184,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkExistenceAndActive() {
 
-        LOG.info("Entering checkExistenceAndActive()");
+        LOG.debug("Entering checkExistenceAndActive()");
         boolean success = true;
 
         // shortcut out with no enforcement if this org is closed

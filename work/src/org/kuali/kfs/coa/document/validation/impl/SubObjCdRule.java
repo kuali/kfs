@@ -43,7 +43,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
@@ -63,7 +63,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
@@ -83,7 +83,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
 
         // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
@@ -114,7 +114,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkExistenceAndActive() {
 
-        LOG.info("Entering checkExistenceAndActive()");
+        LOG.debug("Entering checkExistenceAndActive()");
         boolean success = true;
 
         // disallow closed accounts unless in certain orgs

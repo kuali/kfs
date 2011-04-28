@@ -148,8 +148,9 @@ public class CurrentTaxLotBalanceUpdateServiceImplTest extends KualiTestBase {
           currentTaxLotRecords = businessObjectService.findAll(CurrentTaxLotBalance.class);
           
           assertTrue("Records in END_CRNT_TAX_LOT_BAL_T table should be just 1", currentTaxLotRecords.size() == 1);
-
-          LOG.info("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());
+          if(LOG.isDebugEnabled()) {
+              LOG.debug("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());    
+          }
       }
       
       LOG.info("testUpdateCurrentTaxLotBalances() method finished.");

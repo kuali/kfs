@@ -125,7 +125,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      */
     protected void processAccrualForAutomatedCashManagement(Security security) {
 
-        LOG.info("Calculate accruals for securities that have accrual method Automated Cash Management.");
+        LOG.debug("Calculate accruals for securities that have accrual method Automated Cash Management.");
 
         BigDecimal securityRate = security.getIncomeRate();
         String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
@@ -155,7 +155,9 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
             // write total report line
             accrualProcessingReportWriterService.writeTableRow(totalReportLine);
 
-            LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Automated Cash Management is " + holdingTaxLots.size());
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Automated Cash Management is " + holdingTaxLots.size());
+            }
         }
 
 
@@ -171,7 +173,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      */
     protected void processAccrualForTimeDeposits(Security security) {
 
-        LOG.info("Calculate accruals for securities that have accrual method Time Deposits.");
+        LOG.debug("Calculate accruals for securities that have accrual method Time Deposits.");
 
         BigDecimal securityRate = security.getIncomeRate();
         String accrualMethodName = security.getClassCode().getAccrualMethod().getName();
@@ -200,7 +202,9 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
             // write total report line
             accrualProcessingReportWriterService.writeTableRow(totalReportLine);
 
-            LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Time Deposits is " + holdingTaxLots.size());
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Time Deposits is " + holdingTaxLots.size());
+            }
         }
 
     }
@@ -217,7 +221,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      */
     protected void processAccrualForTreasuryNotesAndBonds(Security security) {
 
-        LOG.info("Calculate accruals for securities that have accrual method Treasury Notes and Bonds.");
+        LOG.debug("Calculate accruals for securities that have accrual method Treasury Notes and Bonds.");
 
         BigDecimal securityRate = security.getIncomeRate();
         Date nextIncomePayDate = security.getIncomeNextPayDate();
@@ -260,7 +264,9 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
                 // write total reporting line
                 accrualProcessingReportWriterService.writeTableRow(totalReportLine);
 
-                LOG.info("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Treasury Notes and Bonds is " + holdingTaxLots.size());
+                if(LOG.isDebugEnabled()) {
+                    LOG.debug("Number of tax lots that have accrual amount updated for secirity id = " + security.getId() + " with accrual method = Treasury Notes and Bonds is " + holdingTaxLots.size());
+                }
             }
 
         }
@@ -315,7 +321,7 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
      */
     protected void processAccrualForDividends(Security security) {
 
-        LOG.info("Calculate accruals for securities that have accrual method Dividends.");
+        LOG.debug("Calculate accruals for securities that have accrual method Dividends.");
 
         // get security ex divident date
         Date securityExDividendDate = security.getExDividendDate();
@@ -350,7 +356,9 @@ public class AccrualProcessingServiceImpl implements AccrualProcessingService {
                 // write total reporting line
                 accrualProcessingReportWriterService.writeTableRow(totalReportLine);
 
-                LOG.info("Number of tax lots that have accrual amount updated for security id = " + security.getId() + " with accrual method = Dividends is " + holdingTaxLots.size());
+                if(LOG.isDebugEnabled()) {
+                    LOG.debug("Number of tax lots that have accrual amount updated for security id = " + security.getId() + " with accrual method = Dividends is " + holdingTaxLots.size());
+                }
             }
         }
     }

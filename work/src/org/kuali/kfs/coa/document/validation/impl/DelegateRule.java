@@ -68,7 +68,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
-        LOG.info("Entering processCustomSaveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
         setupConvenienceObjects(document);
 
         // check simple rules
@@ -95,7 +95,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * @return fails if sub-rules fail
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        LOG.info("Entering processCustomRouteDocumentBusinessRules()");
+        LOG.debug("Entering processCustomRouteDocumentBusinessRules()");
 
         setupConvenienceObjects(document);
 
@@ -125,7 +125,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        LOG.info("Entering processCustomApproveDocumentBusinessRules()");
+        LOG.debug("Entering processCustomApproveDocumentBusinessRules()");
         setupConvenienceObjects(document);
 
         // check simple rules

@@ -73,10 +73,12 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
             currentTaxLotBalance.setNextFYEstimatedIncome(currentTaxLotService.getNextFiscalYearInvestmentIncome(holdingTaxLot, securityId));
                 
             saveCurrentTaxLotRecord(currentTaxLotBalance);
-            LOG.info("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());
+            if(LOG.isDebugEnabled()) {
+                LOG.debug("Updated current tax lot balance for Security Id: " + securityId + " and kemid: " + holdingTaxLot.getKemid());    
+            }
         }
         
-        LOG.info("updateCurrentTaxLotBalances() - Updated  Current Tax Lot Balances."); 
+        LOG.debug("updateCurrentTaxLotBalances() - Updated  Current Tax Lot Balances."); 
         
         return true;
     }

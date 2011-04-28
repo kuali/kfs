@@ -37,7 +37,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument documentCopy) {
-        LOG.info("Entering ProposalRule.processCustomSaveDocumentBusinessRules");
+        LOG.debug("Entering ProposalRule.processCustomSaveDocumentBusinessRules");
         processCustomRouteDocumentBusinessRules(documentCopy); // chain call but ignore success
         LOG.info("Leaving ProposalRule.processCustomSaveDocumentBusinessRules");
         return true; // save despite error messages
@@ -45,7 +45,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
-        LOG.info("Entering ProposalRule.processCustomRouteDocumentBusinessRules");
+        LOG.debug("Entering ProposalRule.processCustomRouteDocumentBusinessRules");
         boolean success = true;
         success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(), newProposalCopy.getProposalEndingDate(), KFSPropertyConstants.PROPOSAL_ENDING_DATE);
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, KFSPropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);

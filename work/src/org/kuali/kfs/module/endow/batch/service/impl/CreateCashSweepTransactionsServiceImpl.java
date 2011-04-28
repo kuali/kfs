@@ -118,7 +118,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param cashSweepModel
      */
     protected boolean processPrincipalSweepSale(CashSweepModel cashSweepModel) {
-        LOG.info("Entering \"processPrincipalSweepSale\".");
+        LOG.debug("Entering \"processPrincipalSweepSale\".");
 
         boolean success = false;
         
@@ -140,7 +140,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param cashSweepModel
      */
     protected boolean processPrincipalSweepPurchases(CashSweepModel cashSweepModel) {
-        LOG.info("Entering \"processPrincipalSweepPurchases\".");
+        LOG.debug("Entering \"processPrincipalSweepPurchases\".");
 
         boolean success = false;
         
@@ -162,7 +162,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param cashSweepModel
      */
     protected boolean processIncomeSweepSales(CashSweepModel cashSweepModel) {
-        LOG.info("Entering \"processIncomeSweepSales\".");
+        LOG.debug("Entering \"processIncomeSweepSales\".");
 
         boolean success = false;
         
@@ -184,7 +184,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @param cashSweepModel
      */
     protected boolean processIncomeSweepPurchases(CashSweepModel cashSweepModel) {
-        LOG.info("Entering \"processIncomeSweepPurchases\".");
+        LOG.debug("Entering \"processIncomeSweepPurchases\".");
 
         boolean success = false;
         

@@ -26,18 +26,28 @@ public interface HoldingHistoryDao {
 
     /**
      * Calculates the total Holding Units based on FEE_BAL_TYP_CD = AU OR MU
+     * 
      * @param feeMethod feeMethod object
+     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeClassCode DD definition for fee method code
+     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
+     *        definition for fee method code
      * @return totalHoldingUnits
      */
-    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod);
-    
+    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
+
     /**
      * Calculates the total Holding market value based on FEE_BAL_TYP_CD = AMV OR MMV
+     * 
      * @param feeMethod feeMethod object
+     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeClassCode DD definition for fee method code
+     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
+     *        definition for fee method code
      * @return totalHoldingMarketValue
      */
-    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod);
-    
+    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
+
     /**
      * Gets HoldingHistory
      * 
@@ -46,7 +56,7 @@ public interface HoldingHistoryDao {
      * @return
      */
     public List<HoldingHistory> getHoldingHistory(String kemid, KualiInteger medId);
-    
+
     /**
      * Gets HoldingHistory records
      * 
@@ -65,8 +75,8 @@ public interface HoldingHistoryDao {
      * @param attributeName
      * @return
      */
-    public BigDecimal getSumOfHoldginHistoryAttribute(String attributeName, String kemid, KualiInteger medId, String securityId, String ipInd); 
-    
+    public BigDecimal getSumOfHoldginHistoryAttribute(String attributeName, String kemid, KualiInteger medId, String securityId, String ipInd);
+
     /**
      * Gets a list of HoldingHistory by kemid, medId, ipInd and with units > 0
      * 

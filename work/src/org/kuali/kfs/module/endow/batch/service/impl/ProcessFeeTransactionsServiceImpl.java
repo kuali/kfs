@@ -28,6 +28,7 @@ import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
 import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentExceptionReportHeader;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
+import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
 import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingTotalsProcessedDetailTotalLine;
@@ -38,6 +39,7 @@ import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedDe
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedGrandTotalLine;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedReportHeader;
 import org.kuali.kfs.module.endow.businessobject.FeeProcessingWaivedAndAccruedSubTotalLine;
+import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
@@ -334,6 +336,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         if (dataDictionaryService.getAttributeForceUppercase(FeeEndowmentTransactionCode.class, EndowPropertyConstants.FEE_METHOD_CODE)) {
             feeMethodCodeForEtranCodes = feeMethodCodeForEtranCodes.toUpperCase();
         }
+
         // case: FEE_RT_DEF_CD = C for count
         if (feeMethod.getFeeRateDefinitionCode().equalsIgnoreCase(EndowConstants.FeeMethod.FEE_RATE_DEFINITION_CODE_FOR_COUNT)) {
 
@@ -379,9 +382,17 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected void performFeeRateDefintionForCountCalculations(FeeMethod feeMethod) {
         String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
 
+        String feeMethodCodeForSecurityClassCodes = feeMethod.getCode();
+        if (dataDictionaryService.getAttributeForceUppercase(FeeClassCode.class, EndowPropertyConstants.FEE_METHOD_CODE)) {
+            feeMethodCodeForSecurityClassCodes = feeMethodCodeForSecurityClassCodes.toUpperCase();
+        }
+        String feeMethodCodeForSecurityIds = feeMethod.getCode();
+        if (dataDictionaryService.getAttributeForceUppercase(FeeSecurity.class, EndowPropertyConstants.FEE_METHOD_CODE)) {
+            feeMethodCodeForSecurityIds = feeMethodCodeForSecurityIds.toUpperCase();
+        }
         // when FEE_BAL_TYP_CD = AU OR MU then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) {
-            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod);
+            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
         }
 
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
@@ -397,9 +408,18 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected void performFeeRateDefintionForValueCalculations(FeeMethod feeMethod) {
         String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
 
+        String feeMethodCodeForSecurityClassCodes = feeMethod.getCode();
+        if (dataDictionaryService.getAttributeForceUppercase(FeeClassCode.class, EndowPropertyConstants.FEE_METHOD_CODE)) {
+            feeMethodCodeForSecurityClassCodes = feeMethodCodeForSecurityClassCodes.toUpperCase();
+        }
+        String feeMethodCodeForSecurityIds = feeMethod.getCode();
+        if (dataDictionaryService.getAttributeForceUppercase(FeeSecurity.class, EndowPropertyConstants.FEE_METHOD_CODE)) {
+            feeMethodCodeForSecurityIds = feeMethodCodeForSecurityIds.toUpperCase();
+        }
+
         // when FEE_BAL_TYP_CD = AMV OR MMV then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) {
-            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod);
+            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
         }
 
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {

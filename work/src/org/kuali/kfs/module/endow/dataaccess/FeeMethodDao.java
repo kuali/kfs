@@ -15,16 +15,18 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 
 public interface FeeMethodDao {
-    
+
     /**
-     * Gets FeeMethod whose next income pay date is equal to the current date and whose frequency code is valid 
+     * Gets FeeMethod whose next income pay date is equal to the current date and whose frequency code is valid
      * 
+     * @param currentDate current date
      * @return List<FeeMethod>
      */
-    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate();
+    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate(Date currentDate);
 }

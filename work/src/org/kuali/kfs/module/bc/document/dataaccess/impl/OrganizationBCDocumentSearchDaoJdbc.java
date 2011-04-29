@@ -16,10 +16,8 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationBCDocumentSearchDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 /**
  * This class...
@@ -185,7 +183,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    WHERE asel.univ_fiscal_yr = h1.univ_fiscal_yr \n");
         sqlText.append("      AND asel.fin_coa_cd = h1.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = h1.account_nbr \n");
-        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd) \n");       
+        sqlText.append("      AND asel.org_level_cd = h1.org_level_cd) \n");
         sqlText.append("WHERE asel.person_unvl_id = ? \n");
         sqlText.append("AND EXISTS (SELECT * \n");
         sqlText.append("    FROM LD_BCN_ACCT_ORG_HIER_T h2 \n");
@@ -193,7 +191,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("      AND asel.fin_coa_cd = h2.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = h2.account_nbr \n");
         sqlText.append("      AND asel.org_level_cd = h2.org_level_cd) \n");
-  
+
         buildAccountManagerDelegateListTemplates[1] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
@@ -215,7 +213,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("    FROM LD_BCN_ACCT_RPTS_T r2 \n");
         sqlText.append("    WHERE asel.fin_coa_cd = r2.fin_coa_cd \n");
         sqlText.append("      AND asel.account_nbr = r2.account_nbr)  \n");
-        
+
         buildAccountManagerDelegateListTemplates[2] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
     }
@@ -248,7 +246,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      */
     public int buildAccountManagerDelegateList(String principalName, Integer universityFiscalYear) {
         int rowsAffected = getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[0], principalName, universityFiscalYear, principalName, KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION, BCConstants.DOCUMENT_TYPE_CODE_ALL, principalName, universityFiscalYear, principalName);
-      
+
         // update level chart and org
         getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[1], principalName);
         getSimpleJdbcTemplate().update(buildAccountManagerDelegateListTemplates[2], principalName);
@@ -264,4 +262,3 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     }
 
 }
-

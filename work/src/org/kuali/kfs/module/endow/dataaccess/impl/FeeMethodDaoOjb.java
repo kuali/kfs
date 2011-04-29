@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -22,30 +23,19 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.dataaccess.FeeMethodDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class FeeMethodDaoOjb extends PlatformAwareDaoBaseOjb implements FeeMethodDao {
 
-    protected KEMService kemService;
-    
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.FeeMethodDao#getSecuritiesWithNextPayDateEqualToCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.FeeMethodDao#getFeeMethodWithNextPayDateEqualToCurrentDate(java.util.Date)
      */
-    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate() {
+    public List<FeeMethod> getFeeMethodWithNextPayDateEqualToCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.FEE_METHOD_NEXT_PROCESS_DATE, currentDate);
         criteria.addNotNull(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);
         criteria.addEqualTo(EndowPropertyConstants.KUALICODEBASE_ACTIVE_INDICATOR, "Y");
         return (List<FeeMethod>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(FeeMethod.class, criteria));
     }
 
-    /**
-     * Sets the kemService attribute value.
-     * @param kemService The kemService to set.
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
-    }
-    
 }

@@ -34,9 +34,7 @@ import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements TransactionArchiveDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveDaoOjb.class);
@@ -100,8 +98,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
      * Prepares the criteria to select the records from END_TRAN_ARCHV_T table
      * 
      * @param feeMethod
-     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction DD
-     *        definition for fee method code
+     * @param feeMethodCodeForTypeCodes the feeMethod code that should be passed in as uppercase or not depending on FeeTransaction
+     *        DD definition for fee method code
      * @param feeMethodCodeForEtranCodes the feeMethod code that should be passed in as uppercase or not depending on
      *        FeeEndowmentTransactionCode DD definition for fee method code
      * @return
@@ -301,7 +299,8 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
 
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesCountByDocumentTypeNameAndETranCode(java.lang.String, java.sql.Date, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getTransactionArchivesCountByDocumentTypeNameAndETranCode(java.lang.String,
+     *      java.sql.Date, java.lang.String, java.lang.String)
      */
     public long getTransactionArchivesCountByDocumentTypeNameAndETranCode(String feeMethodCode, Date transactionPostedDate, String feeMethodCodeForTypeCodes, String feeMethodCodeForEtranCodes) {
         long totalTransactionArchives = 0;

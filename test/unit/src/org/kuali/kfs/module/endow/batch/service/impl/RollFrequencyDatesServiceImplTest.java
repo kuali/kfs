@@ -137,7 +137,7 @@ public class RollFrequencyDatesServiceImplTest extends KualiTestBase {
         Calendar targetCalendar = rollFrequencyCodeFixture.getCalendar();
         String frequencyCode = rollFrequencyCodeFixture.getFrequencyCode();
         Calendar expectedCalendar = RollFrequencyCodeFixture.QUARTERLY_EXPECTED_DATE.getCalendar();
-        assertTrue("The calculation of the next quarterly date is incorrect.", compareDates(expectedCalendar, frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis()))));        
+        assertTrue("The calculation of the next quarterly date is incorrect.  Should have been " + expectedCalendar + " should have been: " + frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis())), compareDates(expectedCalendar, frequencyDatesService.calculateNextDueDate(frequencyCode, new java.sql.Date(targetCalendar.getTimeInMillis()))));        
     }
     
     /**

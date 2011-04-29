@@ -98,12 +98,12 @@
     </bean>
     <bean id="laborModuleService" parent="laborModuleService-parentBean" />
 
-    <bean id="laborModuleService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborModuleServiceImpl" />
+    <bean id="laborModuleService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborModuleServiceImpl" abstract="true" />
 
     <!-- Section 1: Spring Beans for Business Objects -->
     <bean id="laborLedgerPendingEntryService" parent="laborLedgerPendingEntryService-parentBean" />
 
-    <bean id="laborLedgerPendingEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerPendingEntryServiceImpl">
+    <bean id="laborLedgerPendingEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerPendingEntryServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -113,7 +113,7 @@
     </bean>
     <bean id="laborGeneralLedgerEntryService" parent="laborGeneralLedgerEntryService-parentBean" />
 
-    <bean id="laborGeneralLedgerEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborGeneralLedgerEntryServiceImpl">
+    <bean id="laborGeneralLedgerEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborGeneralLedgerEntryServiceImpl" abstract="true">
         <property name="laborGeneralLedgerEntryDao">
             <ref bean="laborGeneralLedgerEntryDao" />
         </property>
@@ -123,7 +123,7 @@
     </bean>
     <bean id="laborLedgerEntryService" parent="laborLedgerEntryService-parentBean" />
 
-    <bean id="laborLedgerEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerEntryServiceImpl">
+    <bean id="laborLedgerEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerEntryServiceImpl" abstract="true">
         <property name="laborLedgerEntryDao">
             <ref bean="laborLedgerEntryDao" />
         </property>
@@ -133,7 +133,7 @@
     </bean>
     <bean id="laborOriginEntryService" parent="laborOriginEntryService-parentBean" />
 
-    <bean id="laborOriginEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryServiceImpl">
+    <bean id="laborOriginEntryService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryServiceImpl" abstract="true">
         <!-- <property name="laborOriginEntryDao"> <ref bean="laborOriginEntryDao" /> </property> -->
         <property name="originEntryGroupService">
             <ref bean="laborOriginEntryGroupService" />
@@ -147,21 +147,21 @@
     </bean>
     <bean id="laborPositionObjectBenefitService" parent="laborPositionObjectBenefitService-parentBean" />
 
-    <bean id="laborPositionObjectBenefitService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborPositionObjectBenefitServiceImpl">
+    <bean id="laborPositionObjectBenefitService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborPositionObjectBenefitServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
     <bean id="laborBenefitsTypeService" parent="laborBenefitsTypeService-parentBean" />
 
-    <bean id="laborBenefitsTypeService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsTypeServiceImpl">
+    <bean id="laborBenefitsTypeService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsTypeServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
     <bean id="laborBenefitsCalculationService" parent="laborBenefitsCalculationService-parentBean" />
 
-    <bean id="laborBenefitsCalculationService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsCalculationServiceImpl">
+    <bean id="laborBenefitsCalculationService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBenefitsCalculationServiceImpl" abstract="true">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
@@ -171,7 +171,7 @@
     </bean>
     <bean id="laborBaseFundsService" parent="laborBaseFundsService-parentBean" />
 
-    <bean id="laborBaseFundsService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBaseFundsServiceImpl">
+    <bean id="laborBaseFundsService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborBaseFundsServiceImpl" abstract="true">
         <property name="laborBaseFundsDao">
             <ref bean="laborBaseFundsDao" />
         </property>
@@ -181,7 +181,7 @@
     </bean>
     <bean id="laborLedgerBalanceService" parent="laborLedgerBalanceService-parentBean" />
 
-    <bean id="laborLedgerBalanceService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerBalanceServiceImpl">
+    <bean id="laborLedgerBalanceService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborLedgerBalanceServiceImpl" abstract="true">
         <property name="laborLedgerBalanceDao">
             <ref bean="laborLedgerBalanceDao" />
         </property>
@@ -191,7 +191,7 @@
     </bean>
     <bean id="laborObjectService" parent="laborObjectService-parentBean" />
 
-    <bean id="laborObjectService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborObjectServiceImpl">
+    <bean id="laborObjectService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborObjectServiceImpl" abstract="true">
         <property name="laborObjectDao">
             <ref bean="laborObjectDao" />
         </property>
@@ -238,7 +238,7 @@
     <!-- Section 3: Spring Bean for Batch processes -->
     <bean id="laborNightlyOutService" parent="laborNightlyOutService-parentBean" />
 
-    <bean id="laborNightlyOutService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborNightlyOutServiceImpl">
+    <bean id="laborNightlyOutService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborNightlyOutServiceImpl" abstract="true">
         <property name="laborLedgerPendingEntryService">
             <ref bean="laborLedgerPendingEntryService" />
         </property>
@@ -261,7 +261,7 @@
     </bean>
     <bean id="laborGLEntryReportWriterService" parent="laborGLEntryReportWriterService-parentBean" />
 
-    <bean id="laborGLEntryReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborGLEntryReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld" />
         <property name="fileNamePrefix" value="labor_gl_summary_ledger_" />
         <property name="title" value="Labor General Ledger Summary" />
@@ -275,7 +275,7 @@
     </bean>
     <bean id="laborPendingEntryLedgerReportWriterService" parent="laborPendingEntryLedgerReportWriterService-parentBean" />
 
-    <bean id="laborPendingEntryLedgerReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborPendingEntryLedgerReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld" />
         <property name="fileNamePrefix" value="llpe_ledger_" />
         <property name="title" value="Labor Pending Ledger Entry Summary" />
@@ -289,7 +289,7 @@
     </bean>
     <bean id="laborScrubberService" parent="laborScrubberService-parentBean" />
 
-    <bean id="laborScrubberService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl">
+    <bean id="laborScrubberService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborScrubberServiceImpl" abstract="true">
         <property name="flexibleOffsetAccountService">
             <ref bean="flexibleOffsetAccountService" />
         </property>
@@ -399,7 +399,7 @@
     </bean>
     <bean id="laborPosterService" parent="laborPosterService-parentBean" />
 
-    <bean id="laborPosterService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl">
+    <bean id="laborPosterService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl" abstract="true">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>
@@ -448,7 +448,7 @@
     </bean>
     <bean id="laborTransactionDescriptionService" parent="laborTransactionDescriptionService-parentBean" />
 
-    <bean id="laborTransactionDescriptionService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborTransactionDescriptionServiceImpl">
+    <bean id="laborTransactionDescriptionService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborTransactionDescriptionServiceImpl" abstract="true">
         <property name="transactionDescriptionMap">
             <map>
                 <entry key="PAY" value="NORMAL PAYROLL ACTIVITY" />
@@ -466,7 +466,7 @@
     </bean>
     <bean id="laborBalancingService" parent="laborBalancingService-parentBean" />
 
-    <bean id="laborBalancingService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl">
+    <bean id="laborBalancingService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalancingServiceImpl" abstract="true">
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
@@ -511,7 +511,7 @@
     </bean>
     <bean id="laborBalanceSummaryReportService" parent="laborBalanceSummaryReportService-parentBean" />
 
-    <bean id="laborBalanceSummaryReportService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl">
+    <bean id="laborBalanceSummaryReportService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborBalanceSummaryReportServiceImpl" abstract="true">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -540,7 +540,7 @@
     </bean>
     <bean id="laborPosterOutputSummaryReportWriterService" parent="laborPosterOutputSummaryReportWriterService-parentBean" />
 
-    <bean id="laborPosterOutputSummaryReportWriterService-parentBean" parent="laborOutputSummaryReportWriterService">
+    <bean id="laborPosterOutputSummaryReportWriterService-parentBean" parent="laborOutputSummaryReportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborPosterJob-05-labor_poster_output_summary" />
         <property name="title" value="Labor Poster Output Summary" />
@@ -548,19 +548,19 @@
     </bean>
     <bean id="laborActualBalanceSummaryReportWriterService" parent="laborActualBalanceSummaryReportWriterService-parentBean" />
 
-    <bean id="laborActualBalanceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService">
+    <bean id="laborActualBalanceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="laborPosterJob-07-labor_summary_act" />
         <property name="title" value="Labor Actual Balance Summary" />
     </bean>
     <bean id="laborBudgetBalanceSummaryReportWriterService" parent="laborBudgetBalanceSummaryReportWriterService-parentBean" />
 
-    <bean id="laborBudgetBalanceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService">
+    <bean id="laborBudgetBalanceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="laborPosterJob-06-labor_summary_bud" />
         <property name="title" value="Labor Budget Balance Summary" />
     </bean>
     <bean id="laborEncumbranceSummaryReportWriterService" parent="laborEncumbranceSummaryReportWriterService-parentBean" />
 
-    <bean id="laborEncumbranceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService">
+    <bean id="laborEncumbranceSummaryReportWriterService-parentBean" parent="laborSummaryReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="laborPosterJob-08-labor_summary_enc" />
         <property name="title" value="Labor Encumbrance Summary" />
         <property name="classToBusinessObjectReportHelperBeanNames">
@@ -571,7 +571,7 @@
     </bean>
     <bean id="laborSummaryReportWriterService" parent="laborSummaryReportWriterService-parentBean" />
 
-    <bean id="laborSummaryReportWriterService-parentBean" parent="reportWriterService"
+    <bean id="laborSummaryReportWriterService-parentBean"  abstract="true" parent="reportWriterService"
         class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl"
     >
         <property name="filePath" value="${temp.directory}" />
@@ -604,7 +604,7 @@
     <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator" />
     <bean id="laborYearEndBalanceForwardService" parent="laborYearEndBalanceForwardService-parentBean" />
 
-    <bean id="laborYearEndBalanceForwardService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborYearEndBalanceForwardServiceImpl">
+    <bean id="laborYearEndBalanceForwardService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborYearEndBalanceForwardServiceImpl" abstract="true">
         <property name="laborLedgerBalanceService">
             <ref bean="laborLedgerBalanceService" />
         </property>
@@ -667,7 +667,7 @@
     </bean>
     <bean id="laborPosterReportWriterService" parent="laborPosterReportWriterService-parentBean" />
 
-    <bean id="laborPosterReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborPosterReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborPosterJob-01-labor_poster_main" />
         <property name="title" value="Labor Poster Report" />
@@ -680,7 +680,7 @@
     </bean>
     <bean id="laborPosterErrorListingReportWriterService" parent="laborPosterErrorListingReportWriterService-parentBean" />
 
-    <bean id="laborPosterErrorListingReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborPosterErrorListingReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborPosterJob-02-labor_poster_main_error_list" />
         <property name="title" value="Main Labor Poster Error Transaction Listing" />
@@ -693,7 +693,7 @@
     </bean>
     <bean id="laborGlEntryStatisticsReportWriterService" parent="laborGlEntryStatisticsReportWriterService-parentBean" />
 
-    <bean id="laborGlEntryStatisticsReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborGlEntryStatisticsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborPosterJob-04-labor_poster_gl_summary" />
         <property name="title" value="Labor Poster General Ledger Summary" />
@@ -706,7 +706,7 @@
     </bean>
     <bean id="laborPosterLedgerSummaryReportWriterService" parent="laborPosterLedgerSummaryReportWriterService-parentBean" />
 
-    <bean id="laborPosterLedgerSummaryReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborPosterLedgerSummaryReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborPosterJob-03-labor_poster_main_ledger" />
         <property name="title" value="Main Labor Poster Input Transactions" />
@@ -760,7 +760,7 @@
     </bean>
     <bean id="laborBalanceForwardReportWriterService" parent="laborBalanceForwardReportWriterService-parentBean" />
 
-    <bean id="laborBalanceForwardReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborBalanceForwardReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld" />
         <property name="fileNamePrefix" value="labor_year_end_balance_forward_" />
         <property name="title" value="Balance Forward Report" />
@@ -923,7 +923,7 @@
     </bean>
     <bean id="laborBalancingReportWriterService" parent="laborBalancingReportWriterService-parentBean" />
 
-    <bean id="laborBalancingReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborBalancingReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld" />
         <property name="fileNamePrefix" value="laborBalancing_" />
         <property name="title" value="Labor Balancing Report" />
@@ -1282,7 +1282,7 @@
     </bean>
     <bean id="laborCalculatedSalaryFoundationTrackerService" parent="laborCalculatedSalaryFoundationTrackerService-parentBean" />
 
-    <bean id="laborCalculatedSalaryFoundationTrackerService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborCalculatedSalaryFoundationTrackerServiceImpl">
+    <bean id="laborCalculatedSalaryFoundationTrackerService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborCalculatedSalaryFoundationTrackerServiceImpl" abstract="true">
         <property name="laborCalculatedSalaryFoundationTrackerDao">
             <ref bean="laborCalculatedSalaryFoundationTrackerDao" />
         </property>
@@ -1402,7 +1402,7 @@
     <bean id="laborDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborDaoOjb" />
     <bean id="laborCorrectionDocumentService" parent="laborCorrectionDocumentService-parentBean" />
 
-    <bean id="laborCorrectionDocumentService-parentBean" class="org.kuali.kfs.module.ld.document.service.impl.LaborCorrectionDocumentServiceImpl">
+    <bean id="laborCorrectionDocumentService-parentBean" class="org.kuali.kfs.module.ld.document.service.impl.LaborCorrectionDocumentServiceImpl" abstract="true">
         <property name="correctionChangeGroupDao">
             <ref bean="glCorrectionChangeGroupDao" />
         </property>
@@ -1437,7 +1437,7 @@
     </bean>
     <bean id="laborInquiryOptionsService" parent="laborInquiryOptionsService-parentBean" />
 
-    <bean id="laborInquiryOptionsService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborInquiryOptionsServiceImpl">
+    <bean id="laborInquiryOptionsService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborInquiryOptionsServiceImpl" abstract="true">
         <property name="laborLedgerPendingEntryService">
             <ref bean="laborLedgerPendingEntryService" />
         </property>
@@ -1477,7 +1477,7 @@
     </bean>
     <bean id="salaryTransferPeriodValidationService" parent="salaryTransferPeriodValidationService-parentBean" />
 
-    <bean id="salaryTransferPeriodValidationService-parentBean" class="org.kuali.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl">
+    <bean id="salaryTransferPeriodValidationService-parentBean" class="org.kuali.kfs.module.ld.document.service.impl.SalaryTransferPeriodValidationServiceImpl" abstract="true">
         <property name="effortCertificationService">
             <ref bean="effortCertificationModuleService" />
         </property>
@@ -1493,7 +1493,7 @@
     </bean>
     <bean id="expenseTransferAccountingLineService" parent="expenseTransferAccountingLineService-parentBean" />
 
-    <bean id="expenseTransferAccountingLineService-parentBean" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl">
+    <bean id="expenseTransferAccountingLineService-parentBean" class="org.kuali.kfs.sys.service.impl.AccountingLineServiceImpl" abstract="true">
         <property name="accountingLineDao">
             <bean parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.ExpenseTransferAccountingLineDaoOjb" />
         </property>
@@ -1620,7 +1620,7 @@
     </bean>
     <bean id="laborMainReportWriterService" parent="laborMainReportWriterService-parentBean" />
 
-    <bean id="laborMainReportWriterService-parentBean" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl"
+    <bean id="laborMainReportWriterService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl"
         parent="reportWriterService"
     >
         <property name="filePath" value="${temp.directory}" />
@@ -1635,12 +1635,12 @@
     </bean>
     <bean id="llcpMainReportWriterService" parent="llcpMainReportWriterService-parentBean" />
 
-    <bean id="llcpMainReportWriterService-parentBean" parent="laborMainReportWriterService">
+    <bean id="llcpMainReportWriterService-parentBean" parent="laborMainReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="llcpScrubberReports-03-labor_scrubber_report" />
     </bean>
     <bean id="laborBadBalanceTypeReportWriterService" parent="laborBadBalanceTypeReportWriterService-parentBean" />
 
-    <bean id="laborBadBalanceTypeReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborBadBalanceTypeReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborScrubberJob-03-labor_scrubber_badbal" />
         <property name="title" value="Labor Scrubber Input Transactions with Bad Balance Types" />
@@ -1653,7 +1653,7 @@
     </bean>
     <bean id="laborErrorListingReportWriterService" parent="laborErrorListingReportWriterService-parentBean" />
 
-    <bean id="laborErrorListingReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborErrorListingReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborScrubberJob-04-labor_scrubber_error_listing" />
         <property name="title" value="Labor Error Listing - Transactions Removed From the Scrubber" />
@@ -1667,7 +1667,7 @@
     <bean id="laborGeneratedTransactionsReportWriterService" parent="laborGeneratedTransactionsReportWriterService-parentBean" />
 
     <bean id="laborGeneratedTransactionsReportWriterService-parentBean" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl"
-        parent="reportWriterService"
+         abstract="true" parent="reportWriterService"
     >
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="llcpScrubberReports-04-labor_scrubber_listing" />
@@ -1682,7 +1682,7 @@
     <bean id="laborLedgerReportWriterService" parent="laborLedgerReportWriterService-parentBean" />
 
     <bean id="laborLedgerReportWriterService-parentBean" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl"
-        parent="reportWriterService"
+         abstract="true" parent="reportWriterService"
     >
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborScrubberJob-05-labor_scrubber_ledger" />
@@ -1698,12 +1698,12 @@
     </bean>
     <bean id="llcpLedgerReportWriterService" parent="llcpLedgerReportWriterService-parentBean" />
 
-    <bean id="llcpLedgerReportWriterService-parentBean" parent="laborLedgerReportWriterService">
+    <bean id="llcpLedgerReportWriterService-parentBean" parent="laborLedgerReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="llcpScrubberReports-05-labor_scrubber_ledger" />
     </bean>
     <bean id="laborDemergerReportWriterService" parent="laborDemergerReportWriterService-parentBean" />
 
-    <bean id="laborDemergerReportWriterService-parentBean" parent="reportWriterService">
+    <bean id="laborDemergerReportWriterService-parentBean" parent="reportWriterService" abstract="true">
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborScrubberJob-02-labor_demerger_report" />
         <property name="title" value="LABOR DEMERGER REPORT" />
@@ -1712,7 +1712,7 @@
     <bean id="laborCorrectionReportWriterService" parent="laborCorrectionReportWriterService-parentBean" />
 
     <bean id="laborCorrectionReportWriterService-parentBean" class="org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl"
-        parent="reportWriterService"
+         abstract="true" parent="reportWriterService"
     >
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="llcpScrubberReports-01-llcp" />
@@ -1721,7 +1721,7 @@
     </bean>
     <bean id="laborPreScrubberService" parent="laborPreScrubberService-parentBean" />
 
-    <bean id="laborPreScrubberService-parentBean" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl">
+    <bean id="laborPreScrubberService-parentBean" class="org.kuali.kfs.gl.service.impl.PreScrubberServiceImpl" abstract="true">
         <property name="parameterService" ref="parameterService" />
     </bean>
 
@@ -1738,7 +1738,7 @@
     <bean id="laborPreScrubberReportWriterService" parent="laborPreScrubberReportWriterService-parentBean" />
 
     <bean id="laborPreScrubberReportWriterService-parentBean" class="org.kuali.kfs.gl.service.impl.PreScrubberReportWriterTextServiceImpl"
-        parent="reportWriterService"
+         abstract="true" parent="reportWriterService"
     >
         <property name="filePath" value="${temp.directory}" />
         <property name="fileNamePrefix" value="laborScrubberJob-00-preScrubber" />
@@ -1749,12 +1749,12 @@
     </bean>
     <bean id="llcpPreScrubberReportWriterService" parent="llcpPreScrubberReportWriterService-parentBean" />
 
-    <bean id="llcpPreScrubberReportWriterService-parentBean" parent="laborPreScrubberReportWriterService">
+    <bean id="llcpPreScrubberReportWriterService-parentBean" parent="laborPreScrubberReportWriterService" abstract="true">
         <property name="fileNamePrefix" value="llcpScrubberReports-02-preScrubber" />
     </bean>
     <bean id="laborReconciliationService" parent="laborReconciliationService-parentBean" />
 
-    <bean id="laborReconciliationService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.ReconciliationServiceImpl">
+    <bean id="laborReconciliationService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.ReconciliationServiceImpl" abstract="true">
         <property name="reconciliationDao">
             <ref bean="glReconciliationDao" />
         </property>
@@ -1762,7 +1762,7 @@
     </bean>
     <bean id="laborOriginEntryEnterpriseFeederService" parent="laborOriginEntryEnterpriseFeederService-parentBean" />
 
-    <bean id="laborOriginEntryEnterpriseFeederService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederServiceImpl">
+    <bean id="laborOriginEntryEnterpriseFeederService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederServiceImpl" abstract="true">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -1793,7 +1793,7 @@
     </bean>
     <bean id="laborOriginEntryEnterpriseFeederNotificationService" parent="laborOriginEntryEnterpriseFeederNotificationService-parentBean" />
 
-    <bean id="laborOriginEntryEnterpriseFeederNotificationService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederNotificationServiceImpl">
+    <bean id="laborOriginEntryEnterpriseFeederNotificationService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederNotificationServiceImpl" abstract="true">
         <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
@@ -1807,7 +1807,7 @@
     <bean id="laborEnterpriseFeedReportWriterService" parent="laborEnterpriseFeedReportWriterService-parentBean" />
 
     <bean id="laborEnterpriseFeedReportWriterService-parentBean" class="org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl"
-        parent="reportWriterService">
+         abstract="true" parent="reportWriterService">
         <property name="filePath" value="${reports.directory}/ld" />
         <property name="fileNamePrefix" value="labor_enterprise_feed_" />
         <property name="title" value="Labor Enterprise Feed Report" />
@@ -1821,7 +1821,7 @@
     </bean>
     <bean id="laborOriginEntryEnterpriseFeederHelperService" parent="laborOriginEntryEnterpriseFeederHelperService-parentBean" />
 
-    <bean id="laborOriginEntryEnterpriseFeederHelperService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederHelperServiceImpl">
+    <bean id="laborOriginEntryEnterpriseFeederHelperService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.FileEnterpriseFeederHelperServiceImpl" abstract="true">
         <property name="originEntryService">
             <ref bean="originEntryService" />
         </property>
@@ -1849,7 +1849,7 @@
     </bean>
     <bean id="laborOriginEntryGroupService" parent="laborOriginEntryGroupService-parentBean" />
 
-    <bean id="laborOriginEntryGroupService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryGroupServiceImpl">
+    <bean id="laborOriginEntryGroupService-parentBean" class="org.kuali.kfs.module.ld.service.impl.LaborOriginEntryGroupServiceImpl" abstract="true">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>

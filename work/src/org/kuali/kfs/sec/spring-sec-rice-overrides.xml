@@ -35,7 +35,7 @@
 	</bean>	             
 	<bean id="transactionalDocumentDictionaryService" parent="transactionalDocumentDictionaryService-parentBean"/>
 	
-	<bean id="transactionalDocumentDictionaryService-parentBean" class="org.kuali.kfs.sec.service.impl.SecTransactionalDocumentDictionaryServiceImpl">
+	<bean id="transactionalDocumentDictionaryService-parentBean" class="org.kuali.kfs.sec.service.impl.SecTransactionalDocumentDictionaryServiceImpl" abstract="true">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>

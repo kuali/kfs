@@ -277,7 +277,7 @@
 	</bean>
 	<bean id="pdpDailyReportService" parent="pdpDailyReportService-parentBean"/>
 
-	<bean id="pdpDailyReportService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl">
+	<bean id="pdpDailyReportService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl" abstract="true">
 		<property name="directoryName" value="${reports.directory}/pdp/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
@@ -302,7 +302,7 @@
 	</bean>
     <bean id="pdpExtractGlTransactionService" parent="pdpExtractGlTransactionService-parentBean"/>
 
-	<bean id="pdpExtractGlTransactionService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.ExtractTransactionsServiceImpl">
+	<bean id="pdpExtractGlTransactionService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.ExtractTransactionsServiceImpl" abstract="true">
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService" />
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
@@ -313,30 +313,30 @@
 	</bean>
     <bean id="pdpAchBankService" parent="pdpAchBankService-parentBean"/>
 
-	<bean id="pdpAchBankService-parentBean" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl">
+	<bean id="pdpAchBankService-parentBean" class="org.kuali.kfs.pdp.service.impl.AchBankServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		
 	</bean>
     <bean id="pdpAchService" parent="pdpAchService-parentBean"/>
 
-	<bean id="pdpAchService-parentBean" class="org.kuali.kfs.pdp.service.impl.AchServiceImpl">
+	<bean id="pdpAchService-parentBean" class="org.kuali.kfs.pdp.service.impl.AchServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
     <bean id="pdpBatchMaintenanceService" parent="pdpBatchMaintenanceService-parentBean"/>
 
-	<bean id="pdpBatchMaintenanceService-parentBean" class="org.kuali.kfs.pdp.service.impl.BatchMaintenanceServiceImpl">
+	<bean id="pdpBatchMaintenanceService-parentBean" class="org.kuali.kfs.pdp.service.impl.BatchMaintenanceServiceImpl" abstract="true">
 		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 	</bean>
     <bean id="pdpCustomerProfileService" parent="pdpCustomerProfileService-parentBean"/>
 
-	<bean id="pdpCustomerProfileService-parentBean" class="org.kuali.kfs.pdp.service.impl.CustomerProfileServiceImpl">
+	<bean id="pdpCustomerProfileService-parentBean" class="org.kuali.kfs.pdp.service.impl.CustomerProfileServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
     <bean id="pdpFormatService" parent="pdpFormatService-parentBean"/>
 
-	<bean id="pdpFormatService-parentBean" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl">
+	<bean id="pdpFormatService-parentBean" class="org.kuali.kfs.pdp.service.impl.FormatServiceImpl" abstract="true">
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="processDao" ref="pdpProcessDao"/>
@@ -352,7 +352,7 @@
 	</bean>
     <bean id="pdpGlPendingTransactionService" parent="pdpGlPendingTransactionService-parentBean"/>
 	
-	<bean id="pdpGlPendingTransactionService-parentBean" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl">
+	<bean id="pdpGlPendingTransactionService-parentBean" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl" abstract="true">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
 		<property name="accountingPeriodService" ref="accountingPeriodService"/>
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
@@ -362,13 +362,13 @@
 	</bean>
     <bean id="pdpPaymentDetailService" parent="pdpPaymentDetailService-parentBean"/>
 
-	<bean id="pdpPaymentDetailService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentDetailServiceImpl">
+	<bean id="pdpPaymentDetailService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentDetailServiceImpl" abstract="true">
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
     <bean id="paymentFileService" parent="paymentFileService-parentBean"/>
 
-	<bean id="paymentFileService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentFileServiceImpl">
+	<bean id="paymentFileService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentFileServiceImpl" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="batchInputFileService" ref="batchInputFileService"/>
@@ -381,7 +381,7 @@
 	</bean>
     <bean id="pdpEmailService" parent="pdpEmailService-parentBean"/>
 	
-	<bean id="pdpEmailService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpEmailServiceImpl">
+	<bean id="pdpEmailService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpEmailServiceImpl" abstract="true">
 		<property name="parameterService" ref="parameterService" />
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="mailService" ref="mailService" />
@@ -391,7 +391,7 @@
 	</bean>
     <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
 	
-    <bean id="paymentFileValidationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentFileValidationServiceImpl">
+    <bean id="paymentFileValidationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentFileValidationServiceImpl" abstract="true">
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao" />
 		<property name="parameterService" ref="parameterService" />
@@ -430,7 +430,7 @@
 	</bean>
     <bean id="pdpPaymentGroupService" parent="pdpPaymentGroupService-parentBean"/>
 
-	<bean id="pdpPaymentGroupService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentGroupServiceImpl">
+	<bean id="pdpPaymentGroupService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentGroupServiceImpl" abstract="true">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="parameterService" ref="parameterService"/>
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
@@ -438,7 +438,7 @@
 	</bean>
     <bean id="pdpPaymentMaintenanceService" parent="pdpPaymentMaintenanceService-parentBean"/>
 
-	<bean id="pdpPaymentMaintenanceService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentMaintenanceServiceImpl">
+	<bean id="pdpPaymentMaintenanceService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentMaintenanceServiceImpl" abstract="true">
 		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
@@ -452,7 +452,7 @@
 	</bean>
     <bean id="pdpAchAdviceNotificationService" parent="pdpAchAdviceNotificationService-parentBean"/>
 	
-	<bean id="pdpAchAdviceNotificationService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.AchAdviceNotificationServiceImpl">
+	<bean id="pdpAchAdviceNotificationService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.AchAdviceNotificationServiceImpl" abstract="true">
 		<property name="pdpEmailService" ref="pdpEmailService"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
@@ -460,7 +460,7 @@
 	</bean>
     <bean id="processPdpCancelPaidService" parent="processPdpCancelPaidService-parentBean"/>
 	
-	<bean id="processPdpCancelPaidService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.ProcessPdpCancelPaidServiceImpl">
+	<bean id="processPdpCancelPaidService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.ProcessPdpCancelPaidServiceImpl" abstract="true">
 		<property name="paymentGroupService">
 			<ref bean="pdpPaymentGroupService"/>
 		</property>
@@ -482,7 +482,7 @@
 	</bean>
     <bean id="batchLookupableHelperService" parent="batchLookupableHelperService-parentBean"/>
 
-	<bean id="batchLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	<bean id="batchLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="batchMaintenanceService">
             <ref bean="pdpBatchMaintenanceService"/>
@@ -496,14 +496,14 @@
 	</bean>
     <bean id="batchLookupable" parent="batchLookupable-parentBean"/>
 
-	<bean id="batchLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="batchLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="batchLookupableHelperService" />
 		</property>
 	</bean>	
     <bean id="paymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService-parentBean"/>
 	
-	<bean id="paymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype">
+	<bean id="paymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
@@ -513,14 +513,14 @@
 	</bean>
     <bean id="paymentDetailLookupable" parent="paymentDetailLookupable-parentBean"/>
 
-	<bean id="paymentDetailLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="paymentDetailLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="paymentDetailLookupableHelperService" />
 		</property>
 	</bean>	
     <bean id="purchasingPaymentDetailLookupableHelperService" parent="purchasingPaymentDetailLookupableHelperService-parentBean"/>
 	
-	<bean id="purchasingPaymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService" />
+	<bean id="purchasingPaymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService" abstract="true" />
 	
 	<bean id="purchasingPaymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -529,20 +529,20 @@
 	</bean>	
     <bean id="formatProcessLookupableHelperService" parent="formatProcessLookupableHelperService-parentBean"/>
 	
-	<bean id="formatProcessLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
+	<bean id="formatProcessLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true">
         <property name="configurationService" ref="kualiConfigurationService" />
         <property name="pdpAuthorizationService" ref="pdpAuthorizationService" />
 	</bean>
     <bean id="formatProcessLookupable" parent="formatProcessLookupable-parentBean"/>
 
-	<bean id="formatProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="formatProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="formatProcessLookupableHelperService" />
 		</property>
 	</bean>		
     <bean id="paymentProcessLookupableHelperService" parent="paymentProcessLookupableHelperService-parentBean"/>
 	
-	<bean id="paymentProcessLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype">
+	<bean id="paymentProcessLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true">
 	    <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -561,14 +561,14 @@
 	</bean>
     <bean id="paymentProcessLookupable" parent="paymentProcessLookupable-parentBean"/>
 
-	<bean id="paymentProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="paymentProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="paymentProcessLookupableHelperService" />
 		</property>
 	</bean>			
     <bean id="bankChangeHistoryLookupableHelperService" parent="bankChangeHistoryLookupableHelperService-parentBean"/>
 	
-	<bean id="bankChangeHistoryLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+	<bean id="bankChangeHistoryLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype" abstract="true">
 	</bean>
     <bean id="bankChangeHistoryLookupable" parent="bankChangeHistoryLookupable-parentBean"/>
 	
@@ -579,14 +579,14 @@
 	</bean>	
     <bean id="achPayeeLookupable" parent="achPayeeLookupable-parentBean"/>
 	
-	<bean id="achPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="achPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="achPayeeLookupableHelperService" />
 		</property>
 	</bean>
      <bean id="achPayeeLookupableHelperService" parent="achPayeeLookupableHelperService-parentBean"/>
  
-	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="disbursementPayeeLookupableHelperService">
+	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="disbursementPayeeLookupableHelperService" abstract="true">
 	</bean>	
     <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
 
@@ -600,11 +600,11 @@
 	</bean>
     <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean"/>
 	
-    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl">
+    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true">
 	</bean>
     <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
 
-	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService">
+	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>
 		<property name="fileNamePrefix" value="pdp_ledger_"/>
         <property name="title" value="PDP Transactions"/>

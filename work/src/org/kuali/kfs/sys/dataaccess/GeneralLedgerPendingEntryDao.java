@@ -22,7 +22,6 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -77,9 +76,11 @@ public interface GeneralLedgerPendingEntryDao {
      * 
      * @param fieldValues
      * @param isApproved
+     * @param currentFiscalPeriodCode
+     * @param currentFiscalYear
      * @return
      */
-    public Collection findPendingEntries(Map fieldValues, boolean isApproved);
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear);
 
     /**
      * Delete all pending entries for a given document

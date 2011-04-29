@@ -25,10 +25,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb;
-import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * OJB Implementation of LaborLedgerPendingEntryDao.
@@ -46,14 +43,16 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map,
+     *      boolean)
      */
-    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
-        return this.findPendingEntries(fieldValues, isApproved).iterator();
+    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriodCode, int currentFY) {
+        return this.findPendingEntries(fieldValues, isApproved, currentFYPeriodCode, currentFY).iterator();
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#hasPendingLaborLedgerEntry(java.util.Map, java.lang.Object)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#hasPendingLaborLedgerEntry(java.util.Map,
+     *      java.lang.Object)
      */
     public Collection<LaborLedgerPendingEntry> hasPendingLaborLedgerEntry(Map fieldValues, Object businessObject) {
         LOG.debug("hasPendingLaborLedgerEntry() started");
@@ -89,17 +88,16 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
         getPersistenceBrokerTemplate().clearCache();
     }
 
+
     /**
-     * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#findPendingEntries(java.util.Map, boolean)
+     * @see org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb#findPendingEntries(java.util.Map, boolean,
+     *      java.lang.String, int)
      */
     @Override
-    public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingEntries(Map, boolean) started");
-        
-        Collection<LaborLedgerPendingEntry> pendingEntries = super.findPendingEntries(fieldValues, isApproved);
-        UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
-        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        Collection<LaborLedgerPendingEntry> pendingEntries = super.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
 
         for (LaborLedgerPendingEntry pendingEntry : pendingEntries) {
 
@@ -113,7 +111,7 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
                 pendingEntry.setUniversityFiscalYear(currentFiscalYear);
             }
         }
-        
+
         return pendingEntries;
     }
 }

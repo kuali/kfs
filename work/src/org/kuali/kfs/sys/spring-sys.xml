@@ -516,6 +516,9 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
 	</bean>
 	<bean id="taxService" parent="taxService-parentBean"/>

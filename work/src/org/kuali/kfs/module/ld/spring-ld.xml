@@ -110,6 +110,9 @@
         <property name="laborLedgerPendingEntryDao">
             <ref bean="laborLedgerPendingEntryDao" />
         </property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>        
     </bean>
     <bean id="laborGeneralLedgerEntryService" parent="laborGeneralLedgerEntryService-parentBean" />
 

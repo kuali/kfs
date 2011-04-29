@@ -28,9 +28,10 @@ import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.LookupService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +44,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
     private BusinessObjectService businessObjectService;
+    protected UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.kfs.coa.businessobject.Account)
@@ -118,7 +120,11 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries() started");
 
-        return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -127,7 +133,12 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      */
     public Iterator findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
-        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved);
+
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -146,6 +157,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     /**
      * Sets the laborLedgerPendingEntryDao attribute value.
+     * 
      * @param laborLedgerPendingEntryDao The laborLedgerPendingEntryDao to set.
      */
     public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {
@@ -154,9 +166,19 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the universityDateService.
+     * 
+     * @param universityDateService
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

@@ -192,7 +192,6 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.kuali.dao.GeneralLedgerPendingEntryDao#delete(Long)
      */
     public void delete(String documentHeaderId) {
@@ -296,8 +295,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Balance, boolean,
-     *      boolean)
+     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Balance,
+     *      boolean, boolean)
      */
     public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated) {
         LOG.debug("findPendingLedgerEntries(Balance, boolean, boolean) started");
@@ -386,16 +385,17 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
-       
-        // add criteria to exclude fund balance object type code 
+
+        // add criteria to exclude fund balance object type code
         criteria.addAndCriteria(buildCriteriaToExcludeFundBalance());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
+
     /**
      * This method creates Criteria that exclude the fund balance object type from the result.
+     * 
      * @return Criteria
      */
     protected Criteria buildCriteriaToExcludeFundBalance() {
@@ -568,7 +568,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         // handle encumbrance balance type
         Map<String, Object> localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
-        
+
         // we've already taken care of these fields...
         if (includeNullFiscalPeriodCodeInLookup) {
             localFieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
@@ -610,7 +610,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         return criteria;
     }
 
-    public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingEntries(Map, boolean) started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());

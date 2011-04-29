@@ -32,9 +32,11 @@ public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao
      * 
      * @param fieldValues the input fields and values
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
+     * @param currentFYPeriod current FY period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries that may belong to encumbrance table
      */
-    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved);
+    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriod, int currentFY);
 
     /**
      * This method retrieves all pending ledger entries with the given search criteria

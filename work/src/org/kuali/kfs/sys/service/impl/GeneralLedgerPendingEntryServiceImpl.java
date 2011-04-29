@@ -93,6 +93,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     private DateTimeService dateTimeService;
     private DataDictionaryService dataDictionaryService;
     private PersistenceStructureService persistenceStructureService;
+    protected UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
@@ -197,7 +198,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
         keys.put("transactionLedgerEntrySequenceNumber", transactionEntrySequenceId);
-        return (GeneralLedgerPendingEntry)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
+        return (GeneralLedgerPendingEntry) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
     }
 
     public void fillInFiscalPeriodYear(GeneralLedgerPendingEntry glpe) {
@@ -225,15 +226,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         // we must clear them first before creating new ones
         glpeSource.clearAnyGeneralLedgerPendingEntries();
 
-        if ( LOG.isDebugEnabled() ) {
+        if (LOG.isDebugEnabled()) {
             LOG.debug("deleting existing gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
         }
         delete(glpeSource.getDocumentHeader().getDocumentNumber());
 
-        if ( LOG.isDebugEnabled() ) {
+        if (LOG.isDebugEnabled()) {
             LOG.debug("generating gl pending ledger entries for document " + glpeSource.getDocumentHeader().getDocumentNumber());
         }
-        
+
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         for (GeneralLedgerPendingEntrySourceDetail glpeSourceDetail : glpeSource.getGeneralLedgerPendingEntrySourceDetails()) {
             success &= glpeSource.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
@@ -265,32 +266,32 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
-        
+
         if (ObjectUtils.isNull(glpeSourceDetail.getAccount()) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.ACCOUNT)) {
             glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         }
-        
-        if ((ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE) ) {
+
+        if ((ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE)) {
             glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
         }
-        
+
         if (ObjectUtils.isNotNull(glpeSourceDetail.getAccount())) {
-            if(StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
+            if (StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
                 glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
             }
-            
+
             String sufficientFundsCode = glpeSourceDetail.getAccount().getAccountSufficientFundsCode();
             ObjectCode objectCode = glpeSourceDetail.getObjectCode();
-            if(ObjectUtils.isNotNull(objectCode)) {
+            if (ObjectUtils.isNotNull(objectCode)) {
                 String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, sufficientFundsCode);
                 explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
             }
         }
-        
+
         if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
             explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
         }
-        
+
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
@@ -299,7 +300,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(glpeSourceDetail.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
-        
+
         explicitEntry.setOrganizationDocumentNumber(glpeSource.getDocumentHeader().getOrganizationDocumentNumber());
         explicitEntry.setOrganizationReferenceId(glpeSourceDetail.getOrganizationReferenceId());
         explicitEntry.setProjectCode(getEntryValue(glpeSourceDetail.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
@@ -322,9 +323,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
         }
     }
-    
+
     /**
      * Convenience method to build a GLPE without a generalLedgerPendingEntrySourceDetail
+     * 
      * @param document a GeneralLedgerPostingDocument
      * @param account the account for use in the GLPE
      * @param objectCode the object code for use in the GLPE
@@ -385,7 +387,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         if (LOG.isDebugEnabled()) {
             LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
         }
-        
+
         return explicitEntry;
     }
 
@@ -564,22 +566,22 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         bankOffsetEntry.setTransactionEntryProcessedTs(new java.sql.Timestamp(transactionTimestamp.getTime()));
         Account cashOffsetAccount = bank.getCashOffsetAccount();
-    
+
         if (ObjectUtils.isNull(cashOffsetAccount)) {
             GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_ACCOUNT, new String[] { bank.getBankCode() });
             return false;
         }
-     
+
         if (!cashOffsetAccount.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] {bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_CLOSED, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }
-    
+
         if (cashOffsetAccount.isExpired()) {
             GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_ACCOUNT_EXPIRED, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber() });
             return false;
         }
-    
+
         bankOffsetEntry.setChartOfAccountsCode(bank.getCashOffsetFinancialChartOfAccountCode());
         bankOffsetEntry.setAccountNumber(bank.getCashOffsetAccountNumber());
         bankOffsetEntry.setFinancialDocumentApprovedCode(AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
@@ -588,18 +590,18 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setTransactionDebitCreditCode(depositAmount.isPositive() ? GL_DEBIT_CODE : GL_CREDIT_CODE);
         bankOffsetEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
         bankOffsetEntry.setDocumentNumber(financialDocument.getDocumentNumber());
-        
+
         ObjectCode cashOffsetObject = bank.getCashOffsetObject();
         if (ObjectUtils.isNull(cashOffsetObject)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_OBJECT_CODE, new String[] { bank.getBankCode()});
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NO_OBJECT_CODE, new String[] { bank.getBankCode() });
             return false;
         }
-      
+
         if (!cashOffsetObject.isFinancialObjectActiveCode()) {
             GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_OBJECT_CODE, new String[] { bank.getBankCode(), cashOffsetObject.getFinancialObjectCode() });
             return false;
         }
-     
+
         bankOffsetEntry.setFinancialObjectCode(bank.getCashOffsetObjectCode());
         bankOffsetEntry.setFinancialObjectTypeCode(bank.getCashOffsetObject().getFinancialObjectTypeCode());
         bankOffsetEntry.setOrganizationDocumentNumber(financialDocument.getDocumentHeader().getOrganizationDocumentNumber());
@@ -608,7 +610,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         bankOffsetEntry.setReferenceFinancialDocumentNumber(null);
         bankOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
         bankOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
-       
+
         if (StringUtils.isBlank(bank.getCashOffsetSubAccountNumber())) {
             bankOffsetEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
@@ -618,15 +620,15 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_ACCOUNT, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bank.getCashOffsetSubAccountNumber() });
                 return false;
             }
-        
+
             if (!cashOffsetSubAccount.isActive()) {
                 GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_ACCOUNT, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), bank.getCashOffsetSubAccountNumber() });
                 return false;
             }
-          
+
             bankOffsetEntry.setSubAccountNumber(bank.getCashOffsetSubAccountNumber());
         }
-      
+
         if (StringUtils.isBlank(bank.getCashOffsetSubObjectCode())) {
             bankOffsetEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
@@ -636,21 +638,21 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_NONEXISTENT_SUB_OBJ, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bank.getCashOffsetSubObjectCode() });
                 return false;
             }
-         
+
             if (!cashOffsetSubObject.isActive()) {
                 GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_BANK_OFFSET_INACTIVE_SUB_OBJ, new String[] { bank.getBankCode(), cashOffsetAccount.getChartOfAccountsCode(), cashOffsetAccount.getAccountNumber(), cashOffsetObject.getFinancialObjectCode(), bank.getCashOffsetSubObjectCode() });
                 return false;
             }
-          
+
             bankOffsetEntry.setFinancialSubObjectCode(bank.getCashOffsetSubObjectCode());
         }
-     
+
         bankOffsetEntry.setTransactionEntryOffsetIndicator(true);
         bankOffsetEntry.setTransactionLedgerEntryAmount(depositAmount.abs());
         bankOffsetEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
         bankOffsetEntry.setUniversityFiscalYear(universityFiscalYear);
         bankOffsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(cashOffsetObject, cashOffsetAccount.getAccountSufficientFundsCode()));
-  
+
         return true;
     }
 
@@ -770,8 +772,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries() started");
-
-        return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -794,9 +798,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             return backupValue;
         }
     }
-    
+
     /**
      * Determines if the given GeneralLedgerPendingEntry represents offsets to cash
+     * 
      * @param generalLedgerPendingEntry the GeneralLedgerPendingEntry to check
      * @return true if the GeneralLedgerPendingEntry represents an offset to cash; false otherwise
      */
@@ -809,9 +814,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         }
         return false;
     }
-    
+
     /**
      * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
+     * 
      * @param glPostingDocument the accounting document total the offset to cash amount for
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
@@ -821,7 +827,8 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             if (isOffsetToCash(glpe)) {
                 if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
                     total = total.subtract(glpe.getTransactionLedgerEntryAmount());
-                } else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+                }
+                else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
                     total = total.add(glpe.getTransactionLedgerEntryAmount());
                 }
             }
@@ -864,6 +871,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the dataDictionaryService attribute value.
+     * 
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -871,7 +879,8 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     }
 
     /**
-     * Gets the persistenceStructureService attribute. 
+     * Gets the persistenceStructureService attribute.
+     * 
      * @return Returns the persistenceStructureService.
      */
     public PersistenceStructureService getPersistenceStructureService() {
@@ -880,10 +889,19 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the persistenceStructureService attribute value.
+     * 
      * @param persistenceStructureService The persistenceStructureService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
     }
 
+    /**
+     * Sets the universityDateService.
+     * 
+     * @param universityDateService
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
 }

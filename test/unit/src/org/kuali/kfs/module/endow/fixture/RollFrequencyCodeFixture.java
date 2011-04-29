@@ -47,7 +47,8 @@ public enum RollFrequencyCodeFixture {
     private String frequencyCcode;
     
     private RollFrequencyCodeFixture(int year, int month, int day, String frequencyCode) {
-        cal = Calendar.getInstance();  
+        cal = Calendar.getInstance(); 
+        cal.clear();
         cal.set(year,month,day);
         this.frequencyCcode = frequencyCode;
     }

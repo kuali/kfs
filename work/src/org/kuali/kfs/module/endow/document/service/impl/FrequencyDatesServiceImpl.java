@@ -40,10 +40,7 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
     public FrequencyCode getByPrimaryKey(String code) {
         FrequencyCode frequencyCode = null;
         if (StringUtils.isNotBlank(code)) {
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("code", code);
-
-            frequencyCode = (FrequencyCode) businessObjectService.findByPrimaryKey(FrequencyCode.class, criteria);
+            frequencyCode = (FrequencyCode) businessObjectService.findBySinglePrimaryKey(FrequencyCode.class, code);
         }
         
         return frequencyCode;
@@ -200,9 +197,7 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
      * @return next processing date
      */ 
     protected Calendar calculateNextQuarterlyOrSemiAnnuallyOrAnnuallyProcessDate(String month, String dayOfMonth, String frequencyType, Date currentDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        calendar = setCaledarWithMonth(month, currentDate);        
+        Calendar calendar = setCalendarWithMonth(month, currentDate);        
         setCalendarWithDays(calendar, dayOfMonth);
         
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
@@ -210,14 +205,12 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
                 calendar.add(Calendar.MONTH, 3);  
                 setCalendarWithDays(calendar, dayOfMonth);
             }
-        }
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) { 
+        } else if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) { 
             while (new java.sql.Date(calendar.getTimeInMillis()).compareTo(currentDate) < 1) {
                 calendar.add(Calendar.MONTH, 6);  
                 setCalendarWithDays(calendar, dayOfMonth);
             }
-        }
-        if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) { 
+        } else if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) { 
             while (new java.sql.Date(calendar.getTimeInMillis()).compareTo(currentDate) < 1) {
                 calendar.add(Calendar.MONTH, 12); 
                 setCalendarWithDays(calendar, dayOfMonth);
@@ -232,10 +225,10 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
      * @param month month to set the calendar
      * @return calendar calendar is set to the month selected
      */
-    protected Calendar setCaledarWithMonth(String month, Date currentDate) {
+    protected Calendar setCalendarWithMonth(String month, Date currentDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        int calendarMonth = 1;
+        int calendarMonth = Calendar.JANUARY;
         
         if (EndowConstants.FrequencyMonths.JANUARY.equalsIgnoreCase(month)) {
             calendarMonth = Calendar.JANUARY;
@@ -278,50 +271,17 @@ public class FrequencyDatesServiceImpl implements FrequencyDatesService {
         int calendarMonth = calendar.get(Calendar.MONTH);
         
         if (StringUtils.equalsIgnoreCase(dayOfMonth, EndowConstants.FrequencyMonthly.MONTH_END)) { // month end for the month so need to get max days...
-            dayInMonthToSet = checkMaximumDaysInMonth(calendar.get(Calendar.MONTH));
+            dayInMonthToSet = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         } else {
             dayInMonthToSet = Integer.parseInt(dayOfMonth);
-            
-            if (dayInMonthToSet > 29 && calendarMonth == Calendar.FEBRUARY) {
-                dayInMonthToSet = checkMaximumDaysInFebruary();
-            } else if (dayInMonthToSet > 30 && (calendarMonth == Calendar.APRIL || calendarMonth == Calendar.JUNE ||
-                       calendarMonth == Calendar.SEPTEMBER || calendarMonth == Calendar.NOVEMBER)) {
-                       dayInMonthToSet = 30;
-                       dayInMonthToSet = checkMaximumDaysInMonth(calendarMonth);                       
-              }
-          }
+            if ( dayInMonthToSet > calendar.getActualMaximum(Calendar.DAY_OF_MONTH) ) {
+                dayInMonthToSet = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            }
+        }
             
         calendar.set(Calendar.DAY_OF_MONTH, dayInMonthToSet);
     }
     
-    /**
-     * This method will check and return either maximum days in the month as 28 or 29 for leap year.
-     * It first sets the month to February and then checks the maximum days..
-     * @return maxDays Maximum number of days in the month of February for calendar.
-     */
-    protected int checkMaximumDaysInFebruary() {
-        int maxDays;      
-        Calendar februaryMonthlyDateCalendar = Calendar.getInstance();
-        februaryMonthlyDateCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-        maxDays = februaryMonthlyDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
-        return maxDays;
-    }
-    
-    /**
-     * This method will check and return maximum days in a month.
-     * @param monthNumber The number of the month to test for maximum days..
-     * @return maxDays Maximum number of days in the month of February for calendar.
-     */
-    protected int checkMaximumDaysInMonth(int monthNumber) {
-        int maxDays;   
-        
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, monthNumber);
-        maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
-        return maxDays;
-    }
     
     /**
      * This method gets the businessObjectService.

@@ -325,7 +325,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         try {
             rollFrequencyDatesExceptionReportWriterService.writeFormattedMessageLine(tableName + ": %s", errorMessage);            
         } catch (Exception e) {
-            LOG.error("Failed to generate the exception report: " + e.getMessage());
+            LOG.error("Failed to generate the exception report.",e);
         }
     }
     
@@ -348,7 +348,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         try {
             businessObjectService.save(businessObject);
         } catch (Exception e) { // such as IllegalArgumentException
-            LOG.error(e.getMessage());
+            LOG.error("Unable to save " + businessObject, e);
             result = false;
         }
         

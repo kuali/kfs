@@ -30,20 +30,15 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
-import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
@@ -52,28 +47,6 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
     private static Logger LOG = Logger.getLogger(PaymentRequestDaoOjb.class);
-
-    private NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao;
-    private PurapAccountingService purapAccountingService;
-    private KualiConfigurationService kualiConfigurationService;
-    private PurapRunDateService purapRunDateService;
-
-    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
-        this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
-    }
-
-    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
-        this.purapAccountingService = purapAccountingService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
-        this.purapRunDateService = purapRunDateService;
-    }
-
 
     /**
      * The special payments query should be this: select * from pur.ap_pmt_rqst_t where pmt_rqst_stat_cd in ('AUTO', 'DPTA') and

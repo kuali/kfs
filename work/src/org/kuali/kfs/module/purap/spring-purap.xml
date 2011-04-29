@@ -240,11 +240,8 @@
         <property name="accountService" ref="accountService" />
     </bean>
 
-    <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb">
-        <property name="purapAccountingService" ref="purapAccountingService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
-        <property name="purapRunDateService" ref="purapRunDateService" />
-    </bean>
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
+
     <bean id="paymentRequestService" parent="paymentRequestService-parentBean"/>
     
     <bean id="paymentRequestService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PaymentRequestServiceImpl" abstract="true">

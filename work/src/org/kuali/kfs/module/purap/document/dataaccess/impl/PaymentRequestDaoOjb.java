@@ -54,17 +54,12 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     private static Logger LOG = Logger.getLogger(PaymentRequestDaoOjb.class);
 
     private NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao;
-    private DateTimeService dateTimeService;
     private PurapAccountingService purapAccountingService;
     private KualiConfigurationService kualiConfigurationService;
     private PurapRunDateService purapRunDateService;
 
     public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao negativePaymentRequestApprovalLimitDao) {
         this.negativePaymentRequestApprovalLimitDao = negativePaymentRequestApprovalLimitDao;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
@@ -78,7 +73,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public void setPurapRunDateService(PurapRunDateService purapRunDateService) {
         this.purapRunDateService = purapRunDateService;
     }
-    
+
 
     /**
      * The special payments query should be this: select * from pur.ap_pmt_rqst_t where pmt_rqst_stat_cd in ('AUTO', 'DPTA') and
@@ -88,8 +83,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * 
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode,
-            Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -158,10 +152,10 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String, java.lang.Integer,
-     *      java.lang.Integer, java.lang.Integer, java.lang.Integer)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(java.lang.String,
+     *      java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         List statuses = new ArrayList();
@@ -175,7 +169,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
         Criteria c1 = new Criteria();
-        c1.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+        c1.addLessOrEqualThan("paymentRequestPayDate", currentSqlDateMidnight);
 
         Criteria c2 = new Criteria();
         c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
@@ -196,8 +190,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String, org.kuali.kfs.module.purap.util.VendorGroupingHelper)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String,
+     *      org.kuali.kfs.module.purap.util.VendorGroupingHelper)
      */
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
@@ -221,19 +215,19 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         c1.addOrCriteria(c2);
         criteria.addAndCriteria(c1);
 
-        criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
-        criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );
-        criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
-        criteria.addLike( "vendorPostalCode", vendor.getVendorPostalCode() + "%" );
+        criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier());
+        criteria.addEqualTo("vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier());
+        criteria.addEqualTo("vendorCountryCode", vendor.getVendorCountry());
+        criteria.addLike("vendorPostalCode", vendor.getVendorPostalCode() + "%");
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getEligibleForAutoApproval()
      */
-    public List<PaymentRequestDocument> getEligibleForAutoApproval() {
-        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
+    public List<PaymentRequestDocument> getEligibleForAutoApproval(Date todayAtMidnight) {
+
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
@@ -377,8 +371,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.kns.util.KualiDecimal, java.sql.Date)
@@ -393,16 +387,16 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
-    public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId){
+    public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
-                
+
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
-        
+
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
         criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-        
+
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
@@ -410,7 +404,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
         return returnList;
     }
-    
+
     public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");

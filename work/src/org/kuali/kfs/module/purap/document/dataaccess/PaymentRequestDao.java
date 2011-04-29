@@ -37,16 +37,18 @@ public interface PaymentRequestDao {
      * @param purchaseOrderIdentifier - PO Identifier (can be null)
      * @param vendorHeaderGeneratedIdentifier - Vendor Header ID
      * @param vendorDetailAssignedIdentifier - Vendor Detail ID
+     * @param currentSqlDateMidnight current SQL date midnight
      * @return - list of payment requests that need to be extracted
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight);
 
     /**
      * Get all the payment requests that need to be extracted that match a credit memo.
      * 
      * @param campusCode - limit results to a single chart
      * @param vendor - Vendor Header ID, Vendor Detail ID, Country, Zip Code
-     * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this value will be returned in the iterator
+     * @param onOrBeforePaymentRequestPayDate only payment requests with a pay date on or before this value will be returned in the
+     *        iterator
      * @return - list of payment requests that need to be extracted
      */
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate);
@@ -75,9 +77,10 @@ public interface PaymentRequestDao {
      * be determined from chart associations a default minimum specified as a system parameter is used to determine the minimum
      * amount threshold.
      * 
+     * @param todayAtMidnight
      * @return - an Iterator over all payment request documents eligible for automatic approval
      */
-    public List<PaymentRequestDocument> getEligibleForAutoApproval();
+    public List<PaymentRequestDocument> getEligibleForAutoApproval(Date todayAtMidnight);
 
     /**
      * Get a payment request document number by id.
@@ -113,7 +116,7 @@ public interface PaymentRequestDao {
      * @return - List of Payment Requests.
      */
     public List getActivePaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId);
-    
+
     /**
      * Retrieves a list of Payment Requests with the given PO Id, invoice amount, and invoice date.
      * 
@@ -125,21 +128,20 @@ public interface PaymentRequestDao {
     public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
 
     /**
-     * Retrieves a list of potentially active payment requests for a purchase order by
-     * status code. Active being defined as being enroute and before final. The issue
-     * is that a status of vendor_tax_review may not mean that it's in review, but could be
-     * in final (as there isn't a final status code for payment request). Workflow status
-     * must be checked further after retrieval.
+     * Retrieves a list of potentially active payment requests for a purchase order by status code. Active being defined as being
+     * enroute and before final. The issue is that a status of vendor_tax_review may not mean that it's in review, but could be in
+     * final (as there isn't a final status code for payment request). Workflow status must be checked further after retrieval.
      * 
      * @param purchaseOrderId
      * @return
      */
     public List<String> getActivePaymentRequestDocumentNumbersForPurchaseOrder(Integer purchaseOrderId);
-    
+
     /**
      * Get all payment request which are waiting in receiving status queue
+     * 
      * @return
      */
     public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus();
-    
+
 }

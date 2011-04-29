@@ -135,53 +135,65 @@ public interface GeneralLedgerPendingEntryDao {
      * 
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
      * @param fieldValues the input fields and values
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries matching the given balance criteria
      */
-    public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY);
 
     /**
      * This method retrieves all pending ledger entries matching the given balance criteria
      * 
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
      * @param fieldValues the input fields and values
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries matching the given balance criteria
      */
-    public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY);
 
     /**
      * This method retrieves all pending ledger entries matching the given cash balance criteria
      * 
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
      * @param fieldValues the input fields and values
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries matching the given cash balance criteria
      */
-    public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY);
 
     /**
      * This method retrieves all pending ledger entries that may belong to encumbrance table in the future
      * 
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
      * @param fieldValues the input fields and values
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries that may belong to encumbrance table
      */
-    public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear);
 
     /**
      * This method retrieves all pending ledger entries that may belong to the given account balance record in the future
      * 
      * @param fieldValues the input fields and values
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries that may belong to encumbrance table
      */
-    public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear);
 
     /**
      * This method retrieves all pending ledger entries that may belong to the given account balance record in the future
      * 
      * @param fieldValues the input fields and values
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
+     * @param currentFiscalPeriodCode current fiscal year period code
+     * @param currentFY current fiscal year
      * @return all pending ledger entries that may belong to encumbrance table
      */
-    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved);
+    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear);
 
 }

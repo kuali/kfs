@@ -719,7 +719,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEntry() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -728,7 +732,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -738,7 +746,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForCashBalance() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -747,7 +759,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForBalance() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -757,7 +773,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     /**
@@ -767,14 +787,20 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance() started");
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved);
+        UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
+        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
+        return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries() started");
+
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+
         return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
     }
 

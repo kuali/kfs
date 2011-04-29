@@ -38,11 +38,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.ParameterService;
@@ -321,12 +318,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForEntry(java.util.Map, boolean)
+     * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForEntry(java.util.Map, boolean,
+     *      java.lang.String, int)
      */
-    public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY) {
         LOG.debug("findPendingLedgerEntriesForEntry started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry(), currentFiscalPeriodCode, currentFY);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -338,12 +336,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForBalance(java.util.Map, boolean,
+     *      java.lang.String, int)
      */
-    public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY) {
         LOG.debug("findPendingLedgerEntriesForBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFY);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -353,12 +352,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
-     * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForCashBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForCashBalance(java.util.Map, boolean,
+     *      java.lang.String, int)
      */
-    public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingLedgerEntriesForCashBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear);
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
         criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, CHART_FINANCIAL_CASH_OBJECT_CODE);
 
@@ -372,10 +372,10 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForEncumbrance(Map, boolean)
      */
-    public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear);
         criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
 
         List encumbranceUpdateCodeList = new ArrayList();
@@ -412,10 +412,10 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForAccountBalance(java.util.Map, boolean,
      *      boolean)
      */
-    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -428,10 +428,10 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntrySummaryForAccountBalance(java.util.Map,
      *      boolean, boolean)
      */
-    public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved) {
+    public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -521,12 +521,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @param businessObject the given business object
      * @return an OJB query criteria
      */
-    public Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
+    public Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject, String currentFiscalPeriodCode, Integer currentFiscalYear) {
         Criteria criteria = new Criteria();
-
-        UniversityDate currentUniversityDate = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
-        String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
-        Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 
         // deal with null fiscal year and fiscal period code as current fiscal year and period code respectively
         String fiscalPeriodFromForm = null;
@@ -613,7 +609,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
         LOG.debug("findPendingEntries(Map, boolean) started");
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);

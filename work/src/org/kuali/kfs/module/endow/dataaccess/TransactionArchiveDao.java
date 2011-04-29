@@ -152,7 +152,9 @@ public interface TransactionArchiveDao {
      * Gets total cash activity by adding income cash and principal cash amount from the selected records from END_TRAN_ARCHV_T
      * table
      * 
-     * @param kemid, securityId
+     * @param kemid kemid should be passed in as upper case if TransactionArchive kemid property is specified as forceUpperCase true
+     *        in DD file
+     * @param securityId
      * @return totalCashActivity
      */
     public BigDecimal getTransactionArchivesTotalCashActivity(String kemid, String securityId);

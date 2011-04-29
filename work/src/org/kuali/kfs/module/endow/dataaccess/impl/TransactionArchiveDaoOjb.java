@@ -380,10 +380,6 @@ public class TransactionArchiveDaoOjb extends PlatformAwareDaoBaseOjb implements
         Collection<TransactionArchive> transactionArchives = new ArrayList();
 
         Criteria criteria = new Criteria();
-
-        if (SpringContext.getBean(DataDictionaryService.class).getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID)) {
-            kemid = kemid.toUpperCase();
-        }
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID, kemid);
 
         QueryByCriteria query = QueryFactory.newQuery(TransactionArchive.class, criteria);

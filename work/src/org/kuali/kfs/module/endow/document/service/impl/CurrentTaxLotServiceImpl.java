@@ -34,6 +34,7 @@ import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.module.endow.dataaccess.CurrentTaxLotBalanceDao;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
@@ -1092,7 +1093,11 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         String classCodeType = security.getClassCode().getClassCodeType();
 
         if (EndowConstants.ClassCodeTypes.ALTERNATIVE_INVESTMENT.equalsIgnoreCase(classCodeType)) {
-            BigDecimal totalCashActivity = transactionArchiveDao.getTransactionArchivesTotalCashActivity(holdingTaxLot.getKemid(), securityId);
+            String kemid = holdingTaxLot.getKemid();
+            if (dataDictionaryService.getAttributeForceUppercase(TransactionArchive.class, EndowPropertyConstants.TRANSACTION_ARCHIVE_KEM_ID)) {
+                kemid = kemid.toUpperCase();
+            }
+            BigDecimal totalCashActivity = transactionArchiveDao.getTransactionArchivesTotalCashActivity(kemid, securityId);
             return (security.getSecurityValueByMarket().subtract(totalCashActivity));
         }
         // calculations for BONDS

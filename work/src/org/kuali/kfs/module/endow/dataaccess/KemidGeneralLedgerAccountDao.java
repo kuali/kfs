@@ -22,8 +22,10 @@ public interface KemidGeneralLedgerAccountDao {
     /**
      * Gets a Map containing CHRT_CD and ACCT_NBR from END_KEMID_GL_LNK_T table
      * 
-     * @param kemid, incomePrincipalIndicator
+     * @param kemid
+     * @param incomePrincipalIndicator should be passed in upper case if this filed has a forceUpperCase specified in
+     *        KemidGeneralLedgerAccount DD file
      * @return a map containing chart and account number
      */
-    public  Map<String, String> getChartAndAccountNumber(String kemid, String incomePrincipalIndicator);
+    public Map<String, String> getChartAndAccountNumber(String kemid, String incomePrincipalIndicator);
 }

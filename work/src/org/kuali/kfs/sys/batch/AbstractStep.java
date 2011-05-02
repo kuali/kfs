@@ -41,7 +41,6 @@ public abstract class AbstractStep extends InitiateDirectoryBase implements Step
      * 
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
-    @Override
     public void afterPropertiesSet() throws Exception {
         //prepare the directories by using the required directory list
         prepareDirectories(getRequiredDirectoryNames());

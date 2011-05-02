@@ -73,8 +73,8 @@ public class AccountServiceImpl implements AccountService {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        Account account = (Account)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
- 
+        Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieved account by primaryId (" + chartOfAccountsCode + "," + accountNumber + ")");
         }
@@ -91,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        return (Account)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
+        return (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, keys);
     }
 
     /**
@@ -103,7 +103,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // gets the list of accounts that the user is the Fiscal Officer of
-        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(person);
+        List accountList = accountDao.getAccountsThatUserIsResponsibleFor(person, dateTimeService.getCurrentDate());
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieved accountsResponsible list for user " + person.getName());
         }
@@ -115,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
      *      org.kuali.kfs.coa.businessobject.Account)
      */
     public boolean hasResponsibilityOnAccount(Person kualiUser, Account account) {
-        return accountDao.determineUserResponsibilityOnAccount(kualiUser, account);
+        return accountDao.determineUserResponsibilityOnAccount(kualiUser, account, dateTimeService.getCurrentSqlDate());
     }
 
     /**
@@ -229,28 +229,28 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#getActiveAccountsForAccountSupervisor(java.lang.String)
      */
     public Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId) {
-        return accountDao.getActiveAccountsForAccountSupervisor(principalId);
+        return accountDao.getActiveAccountsForAccountSupervisor(principalId, dateTimeService.getCurrentSqlDate());
     }
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getActiveAccountsForFiscalOfficer(java.lang.String)
      */
     public Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId) {
-        return accountDao.getActiveAccountsForFiscalOfficer(principalId);
+        return accountDao.getActiveAccountsForFiscalOfficer(principalId, dateTimeService.getCurrentSqlDate());
     }
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getExpiredAccountsForAccountSupervisor(java.lang.String)
      */
     public Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId) {
-        return accountDao.getExpiredAccountsForAccountSupervisor(principalId);
+        return accountDao.getExpiredAccountsForAccountSupervisor(principalId, dateTimeService.getCurrentSqlDate());
     }
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getExpiredAccountsForFiscalOfficer(java.lang.String)
      */
     public Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId) {
-        return accountDao.getExpiredAccountsForFiscalOfficer(principalId);
+        return accountDao.getExpiredAccountsForFiscalOfficer(principalId, dateTimeService.getCurrentSqlDate());
     }
 
     /**

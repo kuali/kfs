@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -41,8 +40,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDaoOjb.class);
-
-    private DateTimeService dateTimeService;
 
     /**
      * Retrieves account business object by primary key
@@ -68,26 +65,23 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
-    public List getAccountsThatUserIsResponsibleFor(Person person) {
+    public List getAccountsThatUserIsResponsibleFor(Person person, java.util.Date currentDate) {
         LOG.debug("getAccountsThatUserIsResponsibleFor() started");
 
         List accountResponsibilities = new ArrayList();
         accountResponsibilities.addAll(getFiscalOfficerResponsibilities(person));
-        accountResponsibilities.addAll(getDelegatedResponsibilities(person));
+        accountResponsibilities.addAll(getDelegatedResponsibilities(person, currentDate));
         return accountResponsibilities;
     }
 
     /**
-     * This method determines if the given user has any responsibilities on the given account
-     * 
-     * @param person the user to check responsibilities for
-     * @param account the account to check responsibilities on
-     * @return true if user is somehow responsible for account, false if otherwise
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#determineUserResponsibilityOnAccount(org.kuali.rice.kim.bo.Person,
+     *      org.kuali.kfs.coa.businessobject.Account, java.sql.Date)
      */
-    public boolean determineUserResponsibilityOnAccount(Person person, Account account) {
+    public boolean determineUserResponsibilityOnAccount(Person person, Account account, Date currentSqlDate) {
         boolean result = hasFiscalOfficerResponsibility(person, account);
         if (!result) {
-            result = hasDelegatedResponsibility(person, account);
+            result = hasDelegatedResponsibility(person, account, currentSqlDate);
         }
         return result;
     }
@@ -230,7 +224,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param person - user to check against
      * @return a list of {@link AccountResponsibility} objects for a delegate
      */
-    protected List getDelegatedResponsibilities(Person person) {
+    protected List getDelegatedResponsibilities(Person person, java.util.Date currentDate) {
         List delegatedResponsibilities = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
@@ -242,7 +236,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
                 // there is some test data that
                 // contains null startDates, therefore this check.
                 if (ObjectUtils.isNotNull(accountDelegate.getAccountDelegateStartDate())) {
-                    if (!accountDelegate.getAccountDelegateStartDate().after(dateTimeService.getCurrentDate())) {
+                    if (!accountDelegate.getAccountDelegateStartDate().after(currentDate)) {
                         Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
                         AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account);
                         delegatedResponsibilities.add(accountResponsibility);
@@ -260,7 +254,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * @param account the account to check responsibilities on
      * @return true if user has delegated responsibilities
      */
-    protected boolean hasDelegatedResponsibility(Person person, Account account) {
+    protected boolean hasDelegatedResponsibility(Person person, Account account, java.util.Date currentDate) {
         boolean hasResponsibility = false;
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", person.getPrincipalId());
@@ -274,7 +268,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
                 // there is some test data that
                 // contains null startDates, therefore this check.
                 if (ObjectUtils.isNotNull(accountDelegate.getAccountDelegateStartDate())) {
-                    if (!accountDelegate.getAccountDelegateStartDate().after(dateTimeService.getCurrentDate())) {
+                    if (!accountDelegate.getAccountDelegateStartDate().after(currentDate)) {
                         hasResponsibility = true;
                     }
                 }
@@ -295,46 +289,46 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getActiveAccountsForAccountSupervisor(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#getActiveAccountsForAccountSupervisor(java.lang.String, java.sql.Date)
      */
-    public Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId) {
+    public Iterator<Account> getActiveAccountsForAccountSupervisor(String principalId, Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
         criteria.addEqualTo("active", true);
-        criteria.addAndCriteria(getAccountNotExpiredCriteria());
+        criteria.addAndCriteria(getAccountNotExpiredCriteria(currentSqlDate));
         return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getActiveAccountsForFiscalOfficer(java.lang.String)
      */
-    public Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId) {
+    public Iterator<Account> getActiveAccountsForFiscalOfficer(String principalId, Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
         criteria.addEqualTo("active", true);
-        criteria.addAndCriteria(getAccountNotExpiredCriteria());
+        criteria.addAndCriteria(getAccountNotExpiredCriteria(currentSqlDate));
         return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getExpiredAccountsForAccountSupervisor(java.lang.String)
      */
-    public Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId) {
+    public Iterator<Account> getExpiredAccountsForAccountSupervisor(String principalId, Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountsSupervisorySystemsIdentifier", principalId);
         criteria.addEqualTo("active", true);
-        criteria.addAndCriteria(getAccountExpiredCriteria());
+        criteria.addAndCriteria(getAccountExpiredCriteria(currentSqlDate));
         return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.AccountDao#getExpiredAccountsForFiscalOfficer(java.lang.String)
      */
-    public Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId) {
+    public Iterator<Account> getExpiredAccountsForFiscalOfficer(String principalId, Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", principalId);
         criteria.addEqualTo("active", true);
-        criteria.addAndCriteria(getAccountExpiredCriteria());
+        criteria.addAndCriteria(getAccountExpiredCriteria(currentSqlDate));
         return (Iterator<Account>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
@@ -343,10 +337,10 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * 
      * @return a Criteria for expired accounts
      */
-    protected Criteria getAccountExpiredCriteria() {
+    protected Criteria getAccountExpiredCriteria(Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addNotNull("accountExpirationDate");
-        criteria.addLessOrEqualThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
+        criteria.addLessOrEqualThan("accountExpirationDate", currentSqlDate);
         return criteria;
     }
 
@@ -355,12 +349,12 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      * 
      * @return a Criteria for non-expired accounts
      */
-    protected Criteria getAccountNotExpiredCriteria() {
+    protected Criteria getAccountNotExpiredCriteria(Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addIsNull("accountExpirationDate");
 
         Criteria notYetExpiredCriteria = new Criteria();
-        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", dateTimeService.getCurrentSqlDate());
+        notYetExpiredCriteria.addGreaterThan("accountExpirationDate", currentSqlDate);
 
         criteria.addOrCriteria(notYetExpiredCriteria);
         return criteria;
@@ -410,10 +404,6 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
      */
     public boolean isPrincipalInAnyWayShapeOrFormFiscalOfficer(String principalId) {
         return queryPrincipalHasAccountRole(principalId, "accountFiscalOfficerSystemIdentifier");
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     /**

@@ -237,11 +237,7 @@
 	</bean>
 
 	<bean id="accountDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.AccountDaoOjb">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService"/>
-		</property>
-	</bean>
+		class="org.kuali.kfs.coa.dataaccess.impl.AccountDaoOjb"/>
 	
 	<bean id="accountDelegateDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateDaoOjb">

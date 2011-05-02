@@ -35,6 +35,7 @@ import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,17 +48,18 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     private AccountDelegateGlobalDao accountDelegateGlobalDao;
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
+    protected DateTimeService dateTimeService;
 
     /**
-     * 
-     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl, java.lang.String)
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl,
+     *      java.lang.String)
      */
     @NonTransactional
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber) {
         String lockingDocId = null;
         List<MaintenanceLock> maintenanceLocks = global.generateMaintenanceLocks();
         for (MaintenanceLock maintenanceLock : maintenanceLocks) {
-            lockingDocId = accountDelegateGlobalDao.getLockingDocumentNumber(maintenanceLock.getLockingRepresentation(),docNumber);
+            lockingDocId = accountDelegateGlobalDao.getLockingDocumentNumber(maintenanceLock.getLockingRepresentation(), docNumber);
             if (StringUtils.isNotBlank(lockingDocId)) {
                 break;
             }
@@ -66,25 +68,25 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl, java.lang.String)
+     * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl,
+     *      java.lang.String)
      */
     @NonTransactional
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber) {
         String lockingDocId = null;
         List<MaintenanceLock> maintenanceLocks = delegate.generateMaintenanceLocks();
         maintenanceLocks.add(delegate.createGlobalAccountLock());
-        
+
         for (MaintenanceLock maintenanceLock : maintenanceLocks) {
-            lockingDocId = accountDelegateDao.getLockingDocumentNumber(maintenanceLock.getLockingRepresentation(),docNumber);
+            lockingDocId = accountDelegateDao.getLockingDocumentNumber(maintenanceLock.getLockingRepresentation(), docNumber);
             if (StringUtils.isNotBlank(lockingDocId)) {
                 break;
             }
         }
         return lockingDocId;
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.coa.service.AccountDelegateService#buildMaintainableForAccountDelegate(org.kuali.kfs.coa.businessobject.AccountDelegate)
      */
@@ -95,14 +97,14 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         maintainable.setBusinessObject(delegate);
         return maintainable;
     }
-    
+
     /**
      * @return the proper class for the Maintainable associated with AccountDelegate maintenance documents
      */
     protected Class<? extends Maintainable> getAccountDelegateMaintainableClass() {
         return getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(AccountDelegate.class).getMaintainableClass();
     }
-    
+
     /**
      * @return a new instance of the proper maintainable for AccountDelegate maintenance documents
      */
@@ -110,7 +112,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         final Class<? extends Maintainable> maintainableClazz = getAccountDelegateMaintainableClass();
         final FinancialSystemMaintainable maintainable;
         try {
-            maintainable = (FinancialSystemMaintainable)maintainableClazz.newInstance();
+            maintainable = (FinancialSystemMaintainable) maintainableClazz.newInstance();
         }
         catch (InstantiationException ie) {
             throw new RuntimeException("Could not instantiate maintainable for AccountDelegate maintenance document", ie);
@@ -126,7 +128,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @NonTransactional
     public Iterator<AccountDelegate> retrieveAllActiveDelegationsForPerson(String principalId, boolean primary) {
-        return (Iterator<AccountDelegate>)getAccountDelegateDao().getAccountDelegationsForPerson(principalId, primary);
+        return (Iterator<AccountDelegate>) getAccountDelegateDao().getAccountDelegationsForPerson(principalId, primary);
     }
 
     /**
@@ -134,7 +136,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @NonTransactional
     public boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId) {
-        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId);
+        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId, dateTimeService.getCurrentSqlDate());
     }
 
     /**
@@ -142,20 +144,22 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @NonTransactional
     public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId) {
-        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId);
+        return accountDelegateDao.isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId, dateTimeService.getCurrentSqlDate());
     }
-    
+
     /**
      * Saves the given account delegate to the persistence store
+     * 
      * @param accountDelegate the account delegate to save
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveForMaintenanceDocument(AccountDelegate accountDelegate) {
         getBusinessObjectService().linkAndSave(accountDelegate);
     }
-    
+
     /**
      * Persists the given account delegate global maintenance document inactivations
+     * 
      * @param delegatesToInactivate the List of delegates to inactivate
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -164,9 +168,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
             getBusinessObjectService().save(delegatesToInactivate);
         }
     }
-    
+
     /**
      * Persists the given account delegate global maintenance document changes
+     * 
      * @param delegatesToChange the List of delegates to change
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -175,7 +180,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
             getBusinessObjectService().save(delegatesToChange);
         }
     }
-    
+
     /**
      * Updates the role that this delegate is part of, to account for the changes in this delegate
      */
@@ -187,9 +192,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
             roleManagementService.applicationRoleMembershipChanged(roleId);
         }
     }
-    
+
     /**
-     * Gets the accountDelegateDao attribute. 
+     * Gets the accountDelegateDao attribute.
+     * 
      * @return Returns the accountDelegateDao.
      */
     @NonTransactional
@@ -199,6 +205,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Sets the accountDelegateDao attribute value.
+     * 
      * @param accountDelegateDao The accountDelegateDao to set.
      */
     @NonTransactional
@@ -207,7 +214,8 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     }
 
     /**
-     * Gets the accountDelegateGlobalDao attribute. 
+     * Gets the accountDelegateGlobalDao attribute.
+     * 
      * @return Returns the accountDelegateGlobalDao.
      */
     @NonTransactional
@@ -217,6 +225,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Sets the accountDelegateGlobalDao attribute value.
+     * 
      * @param accountDelegateGlobalDao The accountDelegateGlobalDao to set.
      */
     @NonTransactional
@@ -225,7 +234,8 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     }
 
     /**
-     * Gets the dataDictionaryService attribute. 
+     * Gets the dataDictionaryService attribute.
+     * 
      * @return Returns the dataDictionaryService.
      */
     @NonTransactional
@@ -235,6 +245,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Sets the dataDictionaryService attribute value.
+     * 
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     @NonTransactional
@@ -243,7 +254,8 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     * 
      * @return Returns the businessObjectService.
      */
     @NonTransactional
@@ -253,11 +265,21 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
+    /**
+     * Sets the dateTimeService.
+     * 
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
 }

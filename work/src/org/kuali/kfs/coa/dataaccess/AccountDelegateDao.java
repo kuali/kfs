@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.dataaccess;
 
+import java.sql.Date;
 import java.util.Iterator;
 
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
-import org.kuali.rice.kim.bo.Person;
 
 
 public interface AccountDelegateDao {
@@ -28,32 +28,35 @@ public interface AccountDelegateDao {
      * 
      * @param lockingRepresentation String representation of the MaintanceLock to check against.
      * @param documentNumber the document number being checked against.
-     * 
      * @return the document number of the Document locking this record.
      */
-    
+
     public String getLockingDocumentNumber(String lockingRepresentation, String documentNumber);
-    
+
     /**
      * Retrieves all active account delegates which reference the given user
+     * 
      * @param principalId a principal ID of the person to find account delegations for
      * @param primary whether the account delegates returned should be primary or not
      * @return a Collection, presumably of AccountDelegates
      */
     public abstract Iterator<AccountDelegate> getAccountDelegationsForPerson(String principalId, boolean primary);
-    
+
     /**
      * Determines if the given principal is an active delegate for any non-closed account
+     * 
      * @param principalId the principal ID to check primary account delegations for
+     * @param currentSqlDate
      * @return true if the principal is a primary account delegate, false otherwise
      */
-    public abstract boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId);
-    
+    public abstract boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId, Date currentSqlDate);
+
     /**
-     * 
      * Determines if the given principal is an active delegate for any non-closed account
+     * 
      * @param principalId the principal ID to check secondary account delegations for
+     * @param currentSqlDate current Sql date
      * @return true if the principal is a secondary account delegate, false otherwise
      */
-    public abstract boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId);
+    public abstract boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId, Date currentSqlDate);
 }

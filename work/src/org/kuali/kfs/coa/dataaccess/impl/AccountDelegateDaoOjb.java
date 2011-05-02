@@ -15,31 +15,28 @@
  */
 package org.kuali.kfs.coa.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDelegateDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 /**
  * This class is the OJB implementation of the AccountDelegateDao.
  */
 public class AccountDelegateDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDelegateDao {
-    private DateTimeService dateTimeService;
 
     /**
-     * 
      * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#getLockingDocumentNumber(java.lang.String, java.lang.String)
      */
-    
+
     public String getLockingDocumentNumber(String lockingRepresentation, String documentNumber) {
         String lockingDocNumber = "";
 
@@ -72,64 +69,50 @@ public class AccountDelegateDaoOjb extends PlatformAwareDaoBaseOjb implements Ac
         criteria.addEqualTo("accountDelegateSystemId", principalId);
         criteria.addEqualTo("active", "Y");
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", primary);
-        
-        return (Iterator<AccountDelegate>)getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
+
+        return (Iterator<AccountDelegate>) getPersistenceBrokerTemplate().getIteratorByQuery(QueryFactory.newQuery(AccountDelegate.class, criteria));
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(java.lang.String, java.sql.Date)
      */
-    public boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId) {
-        return queryPrincipalIsAccountDelegate(principalId, true);
+    public boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId, Date currentSqlDate) {
+        return queryPrincipalIsAccountDelegate(principalId, true, currentSqlDate);
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(java.lang.String)
+     * @see org.kuali.kfs.coa.dataaccess.AccountDelegateDao#isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(java.lang.String, java.sql.Date)
      */
-    public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId) {
-        return queryPrincipalIsAccountDelegate(principalId, false);
+    public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId, Date currentSqlDate) {
+        return queryPrincipalIsAccountDelegate(principalId, false, currentSqlDate);
     }
-    
+
     /**
      * Determines if any non-closed accounts exist where the principal id is an account delegate
+     * 
      * @param principalId the principal id to check
      * @param primary whether to check primary delegations (if true) or secondary delegations (if false)
+     * @param currentSqlDate current sql date
      * @return true if the principal has an account delegation
      */
-    protected boolean queryPrincipalIsAccountDelegate(String principalId, boolean primary) {
+    protected boolean queryPrincipalIsAccountDelegate(String principalId, boolean primary, Date currentSqlDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountDelegateSystemId", principalId);
         criteria.addEqualTo("accountsDelegatePrmrtIndicator", (primary ? "Y" : "N"));
         criteria.addEqualTo("active", "Y");
         criteria.addEqualTo("account.active", "Y");
-        criteria.addLessOrEqualThan("accountDelegateStartDate", getDateTimeService().getCurrentSqlDate());
-        
+        criteria.addLessOrEqualThan("accountDelegateStartDate", currentSqlDate);
+
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(AccountDelegate.class, criteria);
         reportQuery.setAttributes(new String[] { "count(*)" });
-        
+
         int resultCount = 0;
-        //TODO: getReportQueryIteratorByQuery can be changed to getCount...
+        // TODO: getReportQueryIteratorByQuery can be changed to getCount...
         Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
         while (iter.hasNext()) {
-            final Object[] results = (Object[])iter.next();
-            resultCount = (results[0] instanceof Number) ? ((Number)results[0]).intValue() : new Integer(results[0].toString()).intValue();
+            final Object[] results = (Object[]) iter.next();
+            resultCount = (results[0] instanceof Number) ? ((Number) results[0]).intValue() : new Integer(results[0].toString()).intValue();
         }
         return resultCount > 0;
-    }
-
-    /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 }

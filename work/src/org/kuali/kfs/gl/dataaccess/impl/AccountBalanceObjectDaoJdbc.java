@@ -52,10 +52,9 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
         LOG.debug("findAccountBalanceByObject() started");
 
-        SystemOptions options = optionsService.getOptions(universityFiscalYear);
         List<Map<String, Object>> data = null;
         String sessionId = new Guid().toString();
         try {

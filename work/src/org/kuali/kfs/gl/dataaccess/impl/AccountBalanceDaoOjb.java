@@ -31,6 +31,7 @@ import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceObjectDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
@@ -123,12 +124,12 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByConsolidationByObjectTypes(java.lang.String[],
      *      java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
-    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode) {
+    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode, SystemOptions options, UniversityDate today) {
         LOG.debug("findAccountBalanceByConsolidationByObjectTypes() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
-            return accountBalanceConsolidationDao.findAccountBalanceByConsolidationObjectTypes(objectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isExcludeCostShare, isConsolidated, pendingEntriesCode);
+            return accountBalanceConsolidationDao.findAccountBalanceByConsolidationObjectTypes(objectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isExcludeCostShare, isConsolidated, pendingEntriesCode, options, today);
         }
         catch (Exception e) {
             LOG.error("findAccountBalanceByConsolidation() " + e.getMessage(), e);
@@ -140,12 +141,12 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, boolean, boolean, int, org.kuali.kfs.sys.businessobject.UniversityDate)
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
         LOG.debug("findAccountBalanceByLevel() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
-            return accountBalanceLevelDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntriesCode, today);
+            return accountBalanceLevelDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntriesCode, today, options);
         }
         catch (Exception ex) {
             LOG.error("findAccountBalanceByLevel() " + ex.getMessage(), ex);
@@ -158,12 +159,12 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int,
      *      org.kuali.kfs.sys.businessobject.UniversityDate)
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
         LOG.debug("findAccountBalanceByObject() started");
 
         // This is in a new object just to make each class smaller and easier to read
         try {
-            return accountBalanceObjectDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode, today);
+            return accountBalanceObjectDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode, today, options);
         }
         catch (Exception ex) {
             LOG.error("findAccountBalanceByObject() " + ex.getMessage(), ex);

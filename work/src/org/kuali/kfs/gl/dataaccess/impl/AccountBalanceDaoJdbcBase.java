@@ -23,24 +23,6 @@ import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
  * A base class to support the JDBC operations done for AccountBalance inquiries
  */
 public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
-    protected OptionsService optionsService;
-    protected UniversityDateService universityDateService;
-
-    public OptionsService getOptionsService() {
-        return optionsService;
-    }
-
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
-    }
-
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
 
 
     /**

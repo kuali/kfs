@@ -18,6 +18,9 @@ package org.kuali.kfs.gl.dataaccess;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
+
 /**
  * An interface to methods needed to calculate Balance By Consolidation Balance inquiries to query the database
  */
@@ -32,8 +35,11 @@ public interface AccountBalanceConsolidationDao {
      * @param accountNumber the account number of account balances to include in the inquiry
      * @param isExcludeCostShare whether to exclude cost share entries from this inquiry or not
      * @param isConsolidated whether the results of the inquiry should be consolidated
-     * @param pendingEntriesCode whether the inquiry should also report results based on no pending entries, approved pending entries, or all pending entries
+     * @param pendingEntriesCode whether the inquiry should also report results based on no pending entries, approved pending
+     *        entries, or all pending entries
+     * @param options system options
+     * @param today current university date
      * @return a List of Maps with the report information from this inquiry
      */
-    public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode);
+    public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode, SystemOptions options, UniversityDate today);
 }

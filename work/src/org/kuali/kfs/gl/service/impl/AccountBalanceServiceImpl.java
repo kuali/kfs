@@ -28,8 +28,10 @@ import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -45,6 +47,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     AccountBalanceDao accountBalanceDao;
     KualiConfigurationService kualiConfigurationService;
     protected UniversityDateService universityDateService;
+    protected OptionsService optionsService;
 
     /**
      * Defers to the DAO to find the consolidated account balances, based on the keys given in the Map parameter
@@ -137,8 +140,10 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             isConsolidated = false;
         }
 
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
+        UniversityDate today = universityDateService.getCurrentUniversityDate();
         // Get the data
-        List balances = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(allObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        List balances = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(allObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
@@ -158,7 +163,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Calculate totals
 
         // Get balances for these parameters, then based on the object type code, put balances into the correct summary line
-        List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -181,7 +186,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -197,7 +202,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -220,7 +225,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -278,7 +283,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         // Get the data
         UniversityDate today = universityDateService.getCurrentUniversityDate();
-        List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
+        List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today, options);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
@@ -327,7 +333,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
         // Get the data
         UniversityDate today = universityDateService.getCurrentUniversityDate();
-        List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today);
+        SystemOptions options = optionsService.getOptions(universityFiscalYear);
+        List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntryCode, today, options);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
@@ -410,5 +417,14 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    /**
+     * Sets the optionsService.
+     * 
+     * @param optionsService
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 }

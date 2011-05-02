@@ -47,16 +47,17 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      * @param isConsolidated whether the results of the query should be consolidated
      * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending
      *        entries
+     * @param today the current university date
+     * @param options system options
      * @return a List of Maps with appropriate report data
-     * @see org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
-     *      java.lang.String, java.lang.String, boolean, boolean, int)
+     * @see @see org.kuali.kfs.gl.dataaccess.AccountBalanceLevelDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, boolean, boolean, int, org.kuali.kfs.sys.businessobject.UniversityDate,
+     *      org.kuali.kfs.sys.businessobject.SystemOptions)
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today) {
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
 
         // Set the default sort so that income entries are first, then expense below.
         String financialReportingSortCode = "A";
-
-        SystemOptions options = optionsService.getOptions(universityFiscalYear);
         String sessionId = new Guid().toString();
         List<Map<String, Object>> data = null;
 

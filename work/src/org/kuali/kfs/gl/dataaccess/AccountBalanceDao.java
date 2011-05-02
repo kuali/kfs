@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
@@ -61,9 +62,11 @@ public interface AccountBalanceDao {
      * @param isExcludeCostShare whether cost share entries should be excluded from this inquiry
      * @param isConsolidated whether the results of this should be consolidated or not
      * @param pendingEntriesCode whether to include no pending entries, approved pending entries, or all pending entries
+     * @param options system options
+     * @param today current university date
      * @return a List of Maps with the appropriate query results
      */
-    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode);
+    public List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode, SystemOptions options, UniversityDate today);
 
     /**
      * Get available balances by level
@@ -78,7 +81,7 @@ public interface AccountBalanceDao {
      * @param today the current university date
      * @return a List of Mapswith the appropriate query results
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today);
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today, SystemOptions options);
 
     /**
      * Get available balances by object
@@ -94,7 +97,7 @@ public interface AccountBalanceDao {
      * @param today the current university date
      * @return a List of Maps with the appropriate query results
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today);
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, UniversityDate today, SystemOptions options);
 
     /**
      * Purge an entire fiscal year for a single chart.
@@ -103,7 +106,7 @@ public interface AccountBalanceDao {
      * @param year the fiscal year of account balances to purge
      */
     public void purgeYearByChart(String chartOfAccountscode, int year);
-    
+
     /**
      * @param year the given university fiscal year
      * @return count of rows for the given fiscal year

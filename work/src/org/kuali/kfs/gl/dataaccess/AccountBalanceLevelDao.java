@@ -18,6 +18,7 @@ package org.kuali.kfs.gl.dataaccess;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 
 /**
@@ -37,7 +38,8 @@ public interface AccountBalanceLevelDao {
      * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending
      *        entries
      * @param today the current university date
+     * @param options system options
      * @return a List of Maps with appropriate report data
      */
-    public List<Map<String, Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today);
+    public List<Map<String, Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options);
 }

@@ -939,6 +939,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
 	</bean>
 
 	<bean id="glEncumbranceService" class="org.kuali.kfs.gl.service.impl.EncumbranceServiceImpl">
@@ -1110,14 +1113,7 @@
 		<property name="accountBalanceObjectDao" ref="glAccountBalanceObjectDao" />
 	</bean>
 
-	<bean id="glAccountBalanceDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceDaoJdbcBase">
-		<property name="optionsService">
-			<ref bean="optionsService" />
-		</property>
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>
-	</bean>
+	<bean id="glAccountBalanceDaoBase" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceDaoJdbcBase"/>
 
 	<bean id="glAccountBalanceConsolidationDao" parent="glAccountBalanceDaoBase" class="org.kuali.kfs.gl.dataaccess.impl.AccountBalanceConsolidationDaoJdbc">
 	</bean>

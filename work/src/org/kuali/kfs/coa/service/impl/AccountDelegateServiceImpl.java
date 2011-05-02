@@ -278,6 +278,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * 
      * @param dateTimeService
      */
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

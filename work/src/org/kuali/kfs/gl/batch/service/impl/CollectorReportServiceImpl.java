@@ -40,9 +40,9 @@ import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.kns.mail.InvalidAddressException;
 import org.kuali.rice.kns.mail.MailMessage;
@@ -475,16 +475,16 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Builds actual error message from error key and parameters.
-     * @param errorMap a map of errors
+     * @param messageMap a map of messages
      * @return List<String> of error message text
      */
-    protected List<String> translateErrorsFromErrorMap(MessageMap errorMap) {
+    protected List<String> translateErrorsFromErrorMap(MessageMap messageMap) {
         List<String> collectorErrors = new ArrayList<String>();
 
-        for (Iterator<String> iter = errorMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
+        for (Iterator<String> iter = messageMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
             String errorKey = iter.next();
 
-            for (Iterator<ErrorMessage> iter2 = errorMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
+            for (Iterator<ErrorMessage> iter2 = messageMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
                 ErrorMessage errorMessage = (ErrorMessage) iter2.next();
                 String messageText = configurationService.getPropertyString(errorMessage.getErrorKey());
                 collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
@@ -504,8 +504,8 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             LOG.error("Email not sent because email is blank, batch name " + batch.getBatchName());
             return;
         }
-        MessageMap errorMap = batch.getMessageMap();
-        List<String> errorMessages = translateErrorsFromErrorMap(errorMap);
+        MessageMap messageMap = batch.getMessageMap();
+        List<String> errorMessages = translateErrorsFromErrorMap(messageMap);
 
         LOG.debug("sendValidationEmail() starting");
         MailMessage message = new MailMessage();
@@ -639,10 +639,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     protected String createValidationMessageBody(List<String> errorMessages, CollectorBatch batch, CollectorReportData collectorReportData) {
         StringBuilder body = new StringBuilder();
 
-        MessageMap fileErrorMap = batch.getMessageMap();
+        MessageMap fileMessageMap = batch.getMessageMap();
 
         body.append("Header Information:\n\n");
-        if (!fileErrorMap.containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
+        if (!fileMessageMap.containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
             appendHeaderInformation(body, batch);
             appendTotalsInformation(body, batch);
             appendValidationStatus(body, errorMessages, true, 0);

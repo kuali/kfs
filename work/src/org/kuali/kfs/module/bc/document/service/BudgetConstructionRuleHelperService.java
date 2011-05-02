@@ -24,7 +24,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.MessageMap;
 
 /**
@@ -33,84 +32,84 @@ import org.kuali.rice.kns.util.MessageMap;
 public interface BudgetConstructionRuleHelperService {
 
     /**
-     * test if the given appointment funding is associted with a labor detail allowed object
+     * test if the given appointment funding is associated with a labor detail allowed object
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a labor detail allowed object; otherwise, false
+     * @return true if the given appointment funding is associated with a labor detail allowed object; otherwise, false
      */
     public boolean hasDetailPositionRequiredObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid account
+     * test if the given appointment funding is associated with a valid account
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid account; otherwise, false
+     * @return true if the given appointment funding is associated with a valid account; otherwise, false
      */
     public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid chart of accounts
+     * test if the given appointment funding is associated with a valid chart of accounts
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid chart of accounts; otherwise, false
+     * @return true if the given appointment funding is associated with a valid chart of accounts; otherwise, false
      */
     public boolean hasValidChart(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid incumbent
+     * test if the given appointment funding is associated with a valid incumbent
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid incumbent; otherwise, false
+     * @return true if the given appointment funding is associated with a valid incumbent; otherwise, false
      */
     public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid financial object
+     * test if the given appointment funding is associated with a valid financial object
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid financial object; otherwise, false
+     * @return true if the given appointment funding is associated with a valid financial object; otherwise, false
      */
     public boolean hasValidObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid budget position
+     * test if the given appointment funding is associated with a valid budget position
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid budget position; otherwise, false
+     * @return true if the given appointment funding is associated with a valid budget position; otherwise, false
      */
     public boolean hasValidPosition(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid sub account
+     * test if the given appointment funding is associated with a valid sub account
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid sub account; otherwise, false
+     * @return true if the given appointment funding is associated with a valid sub account; otherwise, false
      */
     public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * test if the given appointment funding is associted with a valid sub object
+     * test if the given appointment funding is associated with a valid sub object
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
-     * @return true if the given appointment funding is associted with a valid sub object; otherwise, false
+     * @return true if the given appointment funding is associated with a valid sub object; otherwise, false
      */
     public boolean hasValidSubObjectCode(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
-     * determine whether the given appoinment funding can be associated with a valid budget contruction document
+     * determine whether the given appointment funding can be associated with a valid budget construction document
      * 
      * @param appointmentFunding the given appointment funding
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
-     * @return true if the given appoinment funding can be associated with a valid budget contruction document; otherwise, false
+     * @return true if the given appointment funding can be associated with a valid budget construction document; otherwise, false
      */
     public boolean isAssociatedWithValidDocument(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap, String errorPropertyName);
 
@@ -168,18 +167,18 @@ public interface BudgetConstructionRuleHelperService {
     public boolean isValidChart(Chart chart, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
-     * determine whether the given budget contruction intended incumbent is valid
+     * determine whether the given budget construction intended incumbent is valid
      * 
-     * @param intendedIncumbent the given budget contruction intended incumbent
+     * @param intendedIncumbent the given budget construction intended incumbent
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
-     * @return true if the given budget contruction intended incumbent is valid; otherwise, false
+     * @return true if the given budget construction intended incumbent is valid; otherwise, false
      */
     public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
-     * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
+     * Runs existence and active tests on the ObjectCode reference This method is different than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
      * 
@@ -192,13 +191,13 @@ public interface BudgetConstructionRuleHelperService {
     public boolean isValidObjectCode(ObjectCode objectCode, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
-     * determine whether the given budget contruction position is valid
+     * determine whether the given budget construction position is valid
      * 
-     * @param position the given budget contruction position
+     * @param position the given budget construction position
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
-     * @return true if the given budget contruction position is valid; otherwise, false
+     * @return true if the given budget construction position is valid; otherwise, false
      */
     public boolean isValidPosition(BudgetConstructionPosition position, String currentValue, MessageMap errorMap, String errorPropertyName);
 
@@ -214,7 +213,7 @@ public interface BudgetConstructionRuleHelperService {
     public boolean isValidSubAccount(SubAccount subAccount, String currentValue, MessageMap errorMap, String errorPropertyName);
 
     /**
-     * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
+     * Runs existence and active tests on the SubObjectCode reference This method is different than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
      * 

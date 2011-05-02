@@ -44,9 +44,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.fp.batch.ProcurementCardInputFileType;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.CorrectionChange;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
 import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
@@ -66,6 +64,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -79,7 +78,6 @@ import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.action.KualiTableRenderAction;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
@@ -768,13 +766,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             if (loadedCount > 0) {
                 //now we can load all data from file
                 List<OriginEntryFull> originEntryList = new ArrayList();
-                Map loadErrorMap = originEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
+                Map loadMessageMap = originEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
                 //put errors on GlobalVariables
-                if (loadErrorMap.size() > 0){
-                    Iterator iter = loadErrorMap.keySet().iterator();
+                if (loadMessageMap.size() > 0){
+                    Iterator iter = loadMessageMap.keySet().iterator();
                     while(iter.hasNext()){
                         Integer lineNumber = (Integer) iter.next();
-                        List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                        List<Message> messageList = (List<Message>) loadMessageMap.get(lineNumber);
                         if (messageList.size() > 0){
                             for (Message errorMmessage : messageList){
                                 GlobalVariables.getMessageMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
@@ -1275,14 +1273,14 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         if (!correctionForm.isRestrictedFunctionalityMode()) {
             List<OriginEntryFull> searchResults = new ArrayList(); 
-            Map loadErrorMap = originEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, searchResults);
+            Map loadMessageMap = originEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, searchResults);
 
             //put errors on GlobalVariables
-            if (loadErrorMap.size() > 0){
-                Iterator iter = loadErrorMap.keySet().iterator();
+            if (loadMessageMap.size() > 0){
+                Iterator iter = loadMessageMap.keySet().iterator();
                 while(iter.hasNext()){
                     Integer lineNumber = (Integer) iter.next();
-                    List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                    List<Message> messageList = (List<Message>) loadMessageMap.get(lineNumber);
                     for (Message errorMmessage : messageList){
                         GlobalVariables.getMessageMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
                     }

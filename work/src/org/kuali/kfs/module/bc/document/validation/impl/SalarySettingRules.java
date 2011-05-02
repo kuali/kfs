@@ -24,7 +24,6 @@ import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 

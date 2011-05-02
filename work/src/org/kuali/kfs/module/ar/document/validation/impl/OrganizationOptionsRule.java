@@ -34,8 +34,8 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -77,7 +77,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
 //    protected boolean checkAuthorizationRestrictions(MaintenanceDocument document) {
 //        boolean success = super.checkAuthorizationRestrictions(document);
 //
-//        ErrorMap map = GlobalVariables.getMessageMap();
+//        MessageMap map = GlobalVariables.getMessageMap();
 //        
 //        if(map.containsMessageKey(KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED)) {
 //            removeRestrictedFieldChangedErrors(map, KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
@@ -97,7 +97,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
      * This method...
      * @param map
      */
-    protected void removeRestrictedFieldChangedErrors(ErrorMap map, String propertyKey) {
+    protected void removeRestrictedFieldChangedErrors(MessageMap map, String propertyKey) {
         TypedArrayList errorMessages = (TypedArrayList)map.get(propertyKey);
         if(errorMessages!=null) {
             for(int i=0; i<errorMessages.size(); i++) {

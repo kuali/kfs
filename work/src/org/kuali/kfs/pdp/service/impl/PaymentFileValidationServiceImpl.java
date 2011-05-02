@@ -52,7 +52,6 @@ import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -89,7 +88,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
-     *      org.kuali.rice.kns.util.ErrorMap)
+     *      org.kuali.rice.kns.util.MessageMap)
      */
     public void doHardEdits(PaymentFileLoad paymentFile, MessageMap errorMap) {
         processHeaderValidation(paymentFile, errorMap);

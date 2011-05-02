@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;

@@ -801,16 +801,16 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     protected boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
         
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap messageMap = GlobalVariables.getMessageMap();
 
-        Set<String> errorKeys = errorMap.keySet();
+        Set<String> errorKeys = messageMap.keySet();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
         String errorKeyString;
         String errorString;
         
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            errorMessages = (List<ErrorMessage>) messageMap.get(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
                 errorKeyString = configService.getPropertyString(errorMessage.getErrorKey()); 
                 messageParams = errorMessage.getMessageParameters();

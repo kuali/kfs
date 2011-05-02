@@ -99,7 +99,7 @@ public interface BatchInputFileSetType extends BatchInputType {
      * directory returned by {@link #getDirectoryPath(String)}
      * 
      * If validation fails, the implementation is responsible for adding error messages to the {@link KFSConstants#GLOBAL_ERRORS} property
-     * string in the ErrorMap
+     * string in the MessageMap
      * 
      * If validation requires opening up input streams/readers/etc. on the files, implementations of this method must
      * close all input streams/readers on files contained within the map.  Failure to do so may cause the files to be undeletable.

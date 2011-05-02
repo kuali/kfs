@@ -38,19 +38,16 @@ import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentFileValidationService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
-import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kew.quicklinks.InitiatedDocumentType;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiInteger;
@@ -93,10 +90,10 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
                 // collect various information for status of load
                 LoadPaymentStatus status = new LoadPaymentStatus();
-                status.setErrorMap(new ErrorMap());
+                status.setMessageMap(new MessageMap());
 
                 // process payment file
-                PaymentFileLoad paymentFile = processPaymentFile(paymentInputFileType, incomingFileName, status.getErrorMap());
+                PaymentFileLoad paymentFile = processPaymentFile(paymentInputFileType, incomingFileName, status.getMessageMap());
                 if (paymentFile != null || paymentFile.isPassedValidation()) {
                     // load payment data
                     loadPayments(paymentFile, status, incomingFileName);
@@ -133,7 +130,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileService#doPaymentFileValidation(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
-     *      org.kuali.rice.kns.util.ErrorMap)
+     *      org.kuali.rice.kns.util.MessageMap)
      */
     public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
@@ -246,7 +243,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
         else {
             code = "FAIL";
             message = "Load Failed: ";
-            List<ErrorMessage> errorMessages = status.getErrorMap().getMessages(KFSConstants.GLOBAL_ERRORS);
+            List<ErrorMessage> errorMessages = status.getMessageMap().getMessages(KFSConstants.GLOBAL_ERRORS);
             for (ErrorMessage errorMessage : errorMessages) {
                 String resourceMessage = kualiConfigurationService.getPropertyString(errorMessage.getErrorKey());
                 resourceMessage = MessageFormat.format(resourceMessage, (Object[]) errorMessage.getMessageParameters());

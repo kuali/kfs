@@ -37,7 +37,7 @@ public interface PdpEmailService {
      * Sends email for a payment load has failed. Errors encountered will be printed out in message
      * 
      * @param paymentFile parsed payment file object (might not be populated completely due to errors)
-     * @param errors <code>ErrorMap</code> containing <code>ErrorMessage</code> entries
+     * @param errors <code>MessageMap</code> containing <code>ErrorMessage</code> entries
      */
     public void sendErrorEmail(PaymentFileLoad paymentFile, MessageMap errors);
 

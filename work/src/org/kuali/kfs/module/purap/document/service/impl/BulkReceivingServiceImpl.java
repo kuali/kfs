@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Date;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,6 +23,19 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
+import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
+import org.kuali.kfs.module.purap.document.service.PrintService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -33,26 +45,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
-import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
-import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
-import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
-import org.kuali.kfs.module.purap.document.service.BulkReceivingService;
-import org.kuali.kfs.module.purap.document.service.PrintService;
-import org.kuali.kfs.module.purap.document.service.PurapService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 @Transactional
 public class BulkReceivingServiceImpl implements BulkReceivingService {

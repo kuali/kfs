@@ -34,7 +34,7 @@ public class PurchasingAccountsPayableErrorPathUtil {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableErrorPathUtil.class);
 
     /**
-     * Fix the GlobalVariables.getErrorMap errorPath for how payment request documents needs them in order to properly display
+     * Fix the GlobalVariables.getMessageMap errorPath for how payment request documents needs them in order to properly display
      * errors on the interface. This is different from other financial document accounting lines because instead payment request
      * documents have accounting lines insides of items. Hence the error path is slightly different.
      * 

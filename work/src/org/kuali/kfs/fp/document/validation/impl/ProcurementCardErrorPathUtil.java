@@ -34,7 +34,7 @@ public class ProcurementCardErrorPathUtil {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardErrorPathUtil.class);
     
     /**
-     * Fix the GlobalVariables.getErrorMap errorPath for how procurement card documents needs them in order 
+     * Fix the GlobalVariables.getMessageMap errorPath for how procurement card documents needs them in order 
      * to properly display errors on the interface.  This is different from other financial document accounting 
      * lines because instead procurement card documents have accounting lines insides of transactions. 
      * Hence the error path is slightly different.
@@ -76,9 +76,9 @@ public class ProcurementCardErrorPathUtil {
             // Clearing the error path is not a universal solution but should work for PCDO. In this case it's the only choice
             // because KualiRuleService.applyRules will miss to remove the previous transaction added error path (only this
             // method knows how it is called).
-            MessageMap errorMap = GlobalVariables.getMessageMap();
-            errorMap.clearErrorPath();
-            errorMap.addToErrorPath(errorPath);
+            MessageMap messageMap = GlobalVariables.getMessageMap();
+            messageMap.clearErrorPath();
+            messageMap.addToErrorPath(errorPath);
         }
     }
 }

@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -39,7 +39,7 @@ public class BudgetExpansionForm extends KualiForm {
     private MessageList messages;
 
     private MessageList callBackMessages = new MessageList();
-    private ErrorMap callBackErrors = new ErrorMap();
+    private MessageMap callBackErrors = new MessageMap();
 
     private Map<String, String> editingMode;
     private Map<String, String> documentActions;
@@ -174,7 +174,7 @@ public class BudgetExpansionForm extends KualiForm {
      * 
      * @return Returns the callBackErrors.
      */
-    public ErrorMap getCallBackErrors() {
+    public MessageMap getCallBackErrors() {
         return callBackErrors;
     }
 

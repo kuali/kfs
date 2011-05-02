@@ -19,16 +19,15 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.MessageMap;
 
 
 /**
@@ -49,7 +48,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
 
     private LoadStatus loadStatus;
     private List<String> warnings;
-    private ErrorMap errorMap;
+    private MessageMap errorMap;
 
     public LoadPaymentStatus() {
         super();
@@ -156,7 +155,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @return Returns the errorMap.
      */
-    public ErrorMap getErrorMap() {
+    public MessageMap getMessageMap() {
         return errorMap;
     }
 
@@ -165,7 +164,7 @@ public class LoadPaymentStatus extends TransientBusinessObjectBase {
      * 
      * @param errorMap The errorMap to set.
      */
-    public void setErrorMap(ErrorMap errorMap) {
+    public void setMessageMap(MessageMap errorMap) {
         this.errorMap = errorMap;
     }
 

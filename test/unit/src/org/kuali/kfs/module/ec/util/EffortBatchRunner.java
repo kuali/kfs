@@ -36,8 +36,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.spring.Logged;
 
 /**
@@ -118,7 +118,7 @@ public class EffortBatchRunner {
     @Logged
     public static void main(String[] args) {
         EffortBatchRunner batchRunner = new EffortBatchRunner();
-        GlobalVariables.setErrorMap(new ErrorMap());
+        GlobalVariables.setMessageMap(new MessageMap());
         GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
         
         Integer fiscalYear = 2007;

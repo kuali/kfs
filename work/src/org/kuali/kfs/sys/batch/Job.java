@@ -18,9 +18,6 @@ package org.kuali.kfs.sys.batch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -28,29 +25,24 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.MessageMap;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.util.StopWatch;
 
 public class Job implements StatefulJob, InterruptableJob {
@@ -162,7 +154,7 @@ public class Job implements StatefulJob, InterruptableJob {
             Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
             Class stepClass = unProxiedStep.getClass();
             
-            GlobalVariables.setErrorMap(new ErrorMap());
+            GlobalVariables.setMessageMap(new MessageMap());
             GlobalVariables.setMessageList(new MessageList());
             
             String stepUserName = KFSConstants.SYSTEM_USER;

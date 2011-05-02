@@ -17,7 +17,6 @@ package org.kuali.kfs.pdp.batch;
 
 import java.io.File;
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -35,8 +34,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
 
 /**
  * Batch input type for the PDP payment file.
@@ -137,7 +136,7 @@ public class PaymentInputFileType extends XmlBatchInputFileTypeBase {
         if (paymentFile.isPassedValidation()) {
             // collect various information for status of load
             LoadPaymentStatus status = new LoadPaymentStatus();
-            status.setErrorMap(new ErrorMap());
+            status.setMessageMap(new MessageMap());
 
             paymentFileService.loadPayments(paymentFile, status, fileName);
             paymentFileService.createOutputFile(status, fileName);

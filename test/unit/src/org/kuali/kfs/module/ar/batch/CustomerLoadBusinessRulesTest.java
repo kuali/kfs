@@ -53,7 +53,7 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
         boolean result = false;
         List<MaintenanceDocument> customerMaintDocs = new ArrayList<MaintenanceDocument>();
         
-        assertTrue("GlobalVariables ErrorMap should be empty.", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("GlobalVariables MessageMap should be empty.", GlobalVariables.getMessageMap().isEmpty());
         
         result = customerLoadService.validateAndPrepare(customerVOs, customerMaintDocs, true);
         showErrorMap();

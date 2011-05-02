@@ -29,9 +29,9 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.ErrorMap;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
@@ -161,9 +161,9 @@ public class BudgetExpansionAction extends KualiAction {
             GlobalVariables.getMessageList().addAll(messagesList);
         }
 
-        ErrorMap errorMap = (ErrorMap) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_ERRORS);
-        if (errorMap != null) {
-            GlobalVariables.setErrorMap(errorMap);
+        MessageMap messageMap = (MessageMap) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_ERRORS);
+        if (messageMap != null) {
+            GlobalVariables.setMessageMap(messageMap);
         }
     }
 

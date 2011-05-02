@@ -98,7 +98,7 @@ public class JournalVoucherAccountingLineAmountValidation extends GenericValidat
     }
     
     /**
-     * This method looks at the current full key path that exists in the ErrorMap structure to determine how to build 
+     * This method looks at the current full key path that exists in the MessageMap structure to determine how to build 
      * the error map for the special journal voucher credit and debit fields since they don't conform to the standard 
      * pattern of accounting lines.
      * 

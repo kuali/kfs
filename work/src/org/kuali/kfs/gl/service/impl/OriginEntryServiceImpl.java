@@ -17,14 +17,11 @@ package org.kuali.kfs.gl.service.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,15 +34,10 @@ import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.LedgerEntryForReporting;
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.gl.dataaccess.OriginEntryDao;
 import org.kuali.kfs.gl.service.OriginEntryGroupService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -190,7 +182,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         
         boolean loadError = false;
         //returnErrorList is list of List<Message>
-        Map returnErrorMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
+        Map returnMessageMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
 
         try{
             INPUT_GLE_FILE_br.close();
@@ -199,13 +191,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             throw new RuntimeException(e);
         }
         
-        return returnErrorMap;
+        return returnMessageMap;
     }
     
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<OriginEntryFull> originEntryList) {
         String line;
         int lineNumber = 0;
-        Map returnErrorMap = new HashMap();
+        Map returnMessageMap = new HashMap();
         try {
             List<Message> tmperrors = new ArrayList();    
             while ((line = inputBufferedReader.readLine()) != null) {
@@ -214,7 +206,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
                 tmperrors = originEntry.setFromTextFileForBatch(line, lineNumber);
                 originEntry.setEntryId(lineNumber);
                 if (tmperrors.size() > 0){
-                    returnErrorMap.put(new Integer(lineNumber), tmperrors);
+                    returnMessageMap.put(new Integer(lineNumber), tmperrors);
                 } else {
                     originEntryList.add(originEntry);
                 }
@@ -223,7 +215,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             throw new RuntimeException(e);
         }
             
-        return returnErrorMap;
+        return returnMessageMap;
 
         
     }

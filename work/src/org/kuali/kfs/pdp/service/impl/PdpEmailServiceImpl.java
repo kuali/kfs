@@ -70,7 +70,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpEmailService#sendErrorEmail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
-     *      org.kuali.rice.kns.util.ErrorMap)
+     *      org.kuali.rice.kns.util.MessageMap)
      */
     public void sendErrorEmail(PaymentFileLoad paymentFile, MessageMap errors) {
         LOG.debug("sendErrorEmail() starting");

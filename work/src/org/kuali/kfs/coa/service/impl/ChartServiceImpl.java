@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,6 +36,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.spring.Cached;
 
 /**
@@ -47,20 +49,22 @@ public class ChartServiceImpl implements ChartService {
     private ChartDao chartDao;
     private RoleManagementService roleManagementService;
     private PersonService<Person> personService;
+    protected ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {
-        return (Chart)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
+        return (Chart) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.ChartService#getUniversityChart()
      */
     public Chart getUniversityChart() {
-        return chartDao.getUniversityChart();
+        // 1. find the organization with the type which reports to itself
+        final String organizationReportsToSelfParameterValue = parameterService.getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        return chartDao.getUniversityChart(organizationReportsToSelfParameterValue);
     }
 
     /**
@@ -69,8 +73,8 @@ public class ChartServiceImpl implements ChartService {
     public List<String> getAllChartCodes() {
         Collection<Chart> charts = chartDao.getAll();
         List<String> chartCodes = new ArrayList<String>();
-        for ( Chart chart : charts ) {
-            chartCodes.add( chart.getChartOfAccountsCode() );
+        for (Chart chart : charts) {
+            chartCodes.add(chart.getChartOfAccountsCode());
         }
 
         return chartCodes;
@@ -114,7 +118,7 @@ public class ChartServiceImpl implements ChartService {
         }
         return chartList;
     }
-    
+
     public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
         if ((potentialChildChartCode == null) || (potentialParentChartCode == null)) {
             throw new IllegalArgumentException("The isParentChartCode method requires a non-null potentialChildChartCode and potentialParentChartCode");
@@ -146,7 +150,7 @@ public class ChartServiceImpl implements ChartService {
 
         Collection<String> chartManagerList = roleManagementService.getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
 
-        if ( !chartManagerList.isEmpty() ) {
+        if (!chartManagerList.isEmpty()) {
             chartManagerId = chartManagerList.iterator().next();
         }
 
@@ -193,10 +197,18 @@ public class ChartServiceImpl implements ChartService {
      * @return Returns the personService.
      */
     protected PersonService<Person> getPersonService() {
-        if(personService==null)
+        if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
     }
 
-}
+    /**
+     * Sets the parameterService.
+     * 
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
+}

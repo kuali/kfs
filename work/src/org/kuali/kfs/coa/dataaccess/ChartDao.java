@@ -35,9 +35,10 @@ public interface ChartDao {
     /**
      * This method retrieves the University's Chart object
      * 
+     * @param organizationReportsToSelfParameterValue organization Reports To Self Parameter Value
      * @return University's chart object
      */
-    public Chart getUniversityChart();
+    public Chart getUniversityChart(String organizationReportsToSelfParameterValue);
 
 
     /**
@@ -48,4 +49,3 @@ public interface ChartDao {
      */
     public List getChartsThatUserIsResponsibleFor(Person kualiUser);
 }
-

@@ -144,6 +144,7 @@
 		<property name="roleManagementService">
 			<ref bean="kimRoleManagementService" />
 		</property>
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="organizationService"  parent="organizationService-parentBean"/>
@@ -246,9 +247,7 @@
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
 
 	<bean id="chartDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb">
-		<property name="parameterService" ref="parameterService" />
-	</bean>
+		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb"/>
 
 	<bean id="organizationDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationDaoOjb" />

@@ -29,7 +29,6 @@ import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.ParameterService;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
@@ -37,7 +36,6 @@ import org.kuali.rice.kns.service.ParameterService;
 
 public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
-    private ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.ChartDao#getAll()
@@ -51,19 +49,17 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getUniversityChart()
+     * @see org.kuali.kfs.coa.dataaccess.ChartDao#getUniversityChart(java.lang.String)
      */
-    public Chart getUniversityChart() {
-        // 1. find the organization with the type which reports to itself
-        final String organizationReportsToSelfParameterValue = getParameterService().getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+    public Chart getUniversityChart(String organizationReportsToSelfParameterValue) {
         Criteria orgCriteria = new Criteria();
         orgCriteria.addEqualTo("organizationTypeCode", organizationReportsToSelfParameterValue);
         orgCriteria.addEqualTo("active", KFSConstants.ACTIVE_INDICATOR);
-        
+
         Iterator organizations = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Organization.class, orgCriteria)).iterator();
         Organization topDogOrg = null;
         while (organizations.hasNext()) {
-            topDogOrg = (Organization)organizations.next();
+            topDogOrg = (Organization) organizations.next();
         }
 
         return getByPrimaryId(topDogOrg.getChartOfAccountsCode());
@@ -96,21 +92,4 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
         }
         return chartResponsibilities;
     }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
 }
-

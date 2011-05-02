@@ -163,6 +163,7 @@
 		<property name="priorYearAccountDaoJdbc">
 			<ref bean="priorYearAccountDaoJdbc" />
 		</property>
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
 	</bean>
 
 	<bean id="priorYearOrganizationService"  parent="priorYearOrganizationService-parentBean"/>
@@ -268,9 +269,7 @@
 		class="org.kuali.kfs.coa.dataaccess.impl.BalanceTypeDaoOjb" />
 
 	<bean id="priorYearAccountDaoJdbc" parent="platformAwareDaoJdbc"
-		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl">
-		<property name="persistenceStructureService" ref="persistenceStructureService" />
-	</bean>
+		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl"/>
 
 	<bean id="priorYearOrganizationDao" parent="platformAwareDaoJdbc"
 		class="org.kuali.kfs.coa.dataaccess.impl.PriorYearOrganizationDaoJdbc" />

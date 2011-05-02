@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
 import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
@@ -27,6 +28,7 @@ import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,33 +39,34 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     private static final Logger LOG = Logger.getLogger(PriorYearAccountServiceImpl.class);
 
     private PriorYearAccountDaoJdbc priorYearAccountDaoJdbc;
+    protected PersistenceStructureService persistenceStructureService;
 
     public PriorYearAccountServiceImpl() {
         super();
     }
 
     /**
-     * 
      * @see org.kuali.kfs.coa.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
      */
     public PriorYearAccount getByPrimaryKey(String chartCode, String accountNumber) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        return (PriorYearAccount)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PriorYearAccount.class, keys);
+        return (PriorYearAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PriorYearAccount.class, keys);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.PriorYearAccountService#populatePriorYearAccountsFromCurrent()
      */
     public void populatePriorYearAccountsFromCurrent() {
-
-        int purgedCount = priorYearAccountDaoJdbc.purgePriorYearAccounts();
+        final String priorYrAcctTableName = persistenceStructureService.getTableName(PriorYearAccount.class);
+        int purgedCount = priorYearAccountDaoJdbc.purgePriorYearAccounts(priorYrAcctTableName);
         if (LOG.isInfoEnabled()) {
             LOG.info("number of prior year accounts purged : " + purgedCount);
         }
 
-        int copiedCount = priorYearAccountDaoJdbc.copyCurrentAccountsToPriorYearTable();
+        final String acctTableName = persistenceStructureService.getTableName(Account.class);
+        int copiedCount = priorYearAccountDaoJdbc.copyCurrentAccountsToPriorYearTable(priorYrAcctTableName, acctTableName);
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year accounts copied to prior year : " + copiedCount);
         }
@@ -76,5 +79,14 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
      */
     public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbcImpl priorYearAccountDaoJdbc) {
         this.priorYearAccountDaoJdbc = priorYearAccountDaoJdbc;
+    }
+
+    /**
+     * Sets the persistenceStructureService.
+     * 
+     * @param persistenceStructureService
+     */
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
 }

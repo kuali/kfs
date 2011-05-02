@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.coa.dataaccess.impl;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.kns.service.PersistenceStructureService;
 
 /**
  * This class performs actions against the database through direct SQL command calls.
@@ -29,15 +26,11 @@ public class PriorYearAccountDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implem
     /** Constant used to retrieve row counts for tables. Obj_Id value exists in all tables in DB. */
     private static final String OBJ_ID = "OBJ_ID";
 
-    private PersistenceStructureService persistenceStructureService;
 
     /**
-     * This method purges all records in the Prior Year Account table in the DB.
-     * 
-     * @return Number of records that were purged.
+     * @see org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc#purgePriorYearAccounts(java.lang.String)
      */
-    public int purgePriorYearAccounts() {
-        final String priorYrAcctTableName = getPersistenceStructureService().getTableName(PriorYearAccount.class);
+    public int purgePriorYearAccounts(String priorYrAcctTableName) {
 
         // 1. Count how many rows are currently in the prior year acct table
         int count = getSimpleJdbcTemplate().queryForInt("SELECT COUNT(1) FROM " + priorYrAcctTableName);
@@ -49,13 +42,10 @@ public class PriorYearAccountDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implem
     }
 
     /**
-     * This method copies all organization records from the current Account table to the Prior Year Account table.
-     * 
-     * @return Number of records that were copied.
+     * @see org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc#copyCurrentAccountsToPriorYearTable(java.lang.String,
+     *      java.lang.String)
      */
-    public int copyCurrentAccountsToPriorYearTable() {
-        final String priorYrAcctTableName = getPersistenceStructureService().getTableName(PriorYearAccount.class);
-        final String acctTableName = getPersistenceStructureService().getTableName(Account.class);
+    public int copyCurrentAccountsToPriorYearTable(String priorYrAcctTableName, String acctTableName) {
 
         // 1. Copy all the rows from the current org table to the prior year acct table
         getSimpleJdbcTemplate().update(
@@ -64,24 +54,6 @@ public class PriorYearAccountDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implem
 
         // 2. Count how many rows are currently in the prior year acct table
         return getSimpleJdbcTemplate().queryForInt("SELECT COUNT(1) FROM " + priorYrAcctTableName);
-    }
-
-    /**
-     * Gets the persistenceStructureService attribute.
-     * 
-     * @return Returns the persistenceStructureService.
-     */
-    public PersistenceStructureService getPersistenceStructureService() {
-        return persistenceStructureService;
-    }
-
-    /**
-     * Sets the persistenceStructureService attribute value.
-     * 
-     * @param persistenceStructureService The persistenceStructureService to set.
-     */
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        this.persistenceStructureService = persistenceStructureService;
     }
 
 }

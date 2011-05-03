@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.document.authorization;
 
+import java.util.Calendar;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -28,12 +29,14 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.NumberUtils;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -73,7 +76,16 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
 
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-           
+        
+        final Calendar approvalDate = workflowDocument.getRouteHeader().getDateApproved();
+        if (ObjectUtils.isNotNull(approvalDate)) {
+         // compare approval fiscal year with current fiscal year
+            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);       
+            final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.getTime());
+            final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
+            if (!NumberUtils.equals(currentFiscalYear, approvalYear)) return false;
+        }
+          
         return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
     }
 

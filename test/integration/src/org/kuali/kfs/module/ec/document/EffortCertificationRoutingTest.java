@@ -35,14 +35,15 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.XmlObjectSerializerService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.DocumentInitiator;
 import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
@@ -144,8 +145,8 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);
 
         document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
-        KNSServiceLocator.getDocumentService().saveDocument(document);
-        return (EffortCertificationDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        SpringContext.getBean(DocumentService.class).saveDocument(document);
+        return (EffortCertificationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
     }
 
     public String serializeDocumentToXml(Document document) {
@@ -155,7 +156,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         
         try {
             String initiatorPrincipalId = documentHeader.getWorkflowDocument().getInitiatorPrincipalId();
-            Person initiatorUser = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPersonByPrincipalName(initiatorPrincipalId);
+            Person initiatorUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(initiatorPrincipalId);
             initiatior.setPerson(initiatorUser);
         }
         catch (Exception e) {
@@ -166,7 +167,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(document);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        String xml = KNSServiceLocator.getXmlObjectSerializerService().toXml(xmlWrapper);
+        String xml = SpringContext.getBean(XmlObjectSerializerService.class).toXml(xmlWrapper);
         return xml;
     }
 
@@ -178,7 +179,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         testDoc.blanketApprove("Approved by unit test");
         assertTrue("Document didn't route!", testDoc.stateIsProcessed() || testDoc.stateIsFinal());
 
-        List<ActionRequestValue> tempValues = KEWServiceLocator.getActionRequestService().findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        List<ActionRequestValue> tempValues = SpringContext.getBean(ActionRequestService.class).findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         Set<String> serviceNodes = new HashSet<String>();
         for (ActionRequestValue tempValue : tempValues) {
             serviceNodes.add(tempValue.getNodeInstance().getName());

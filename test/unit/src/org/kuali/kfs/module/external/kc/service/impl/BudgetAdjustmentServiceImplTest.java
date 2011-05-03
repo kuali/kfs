@@ -18,23 +18,16 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.fixture.BudgetAdjustmentParameterDTOFixture;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceTest;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest {
@@ -81,7 +74,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
 //    public void testBudgetAdjustmentServiceLocally() 
 //    {  
 //        BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = getBudgetAdjustmentParameters();
-//        GlobalVariables.setUserSession(new UserSession( KIMServiceLocator.getIdentityManagementService().getPrincipal( budgetAdjustmentParametersDTO.getPrincipalId() ).getPrincipalName() ));
+//        GlobalVariables.setUserSession(new UserSession( SpringContext.getBean(IdentityManagementService.class).getPrincipal( budgetAdjustmentParametersDTO.getPrincipalId() ).getPrincipalName() ));
 //        org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser( new org.kuali.rice.kew.web.session.UserSession(budgetAdjustmentParametersDTO.getPrincipalId()));
 //        //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
 //        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class,  KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);

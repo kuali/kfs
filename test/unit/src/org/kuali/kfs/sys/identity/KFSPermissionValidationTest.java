@@ -17,12 +17,13 @@ package org.kuali.kfs.sys.identity;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext
@@ -38,7 +39,7 @@ public class KFSPermissionValidationTest extends KualiTestBase {
                 GlobalVariables.getUserSession().getPrincipalName() + " should be able to initiate " + documentTypeName, 
                 auth.canInitiate( documentTypeName, user)
                 );
-        Document doc = KNSServiceLocator.getDocumentService().getNewDocument(documentTypeName);
+        Document doc = SpringContext.getBean(DocumentService.class).getNewDocument(documentTypeName);
         assertTrue( 
                 "Initiator should be able to open the document",
                 auth.canOpen(doc, user)

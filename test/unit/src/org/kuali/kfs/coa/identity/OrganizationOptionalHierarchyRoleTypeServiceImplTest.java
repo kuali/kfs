@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleService;
 
 @ConfigureContext//(session=UserNameFixture.hfore)
 public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiTestBase {
@@ -52,7 +53,7 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
 
     // assumes data which may not be present in KULDBA - commenting out for now
 //    public void testPrincipalHasRole() {
-//        RoleService rs = KIMServiceLocator.getRoleService();
+//        RoleService rs = SpringContext.getBean(RoleService.class);
 //        ArrayList<String> roleIds = new ArrayList<String>( 1 );
 //        roleIds.add( "28" );
 //

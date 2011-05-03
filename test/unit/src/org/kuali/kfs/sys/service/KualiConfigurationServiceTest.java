@@ -17,17 +17,17 @@ package org.kuali.kfs.sys.service;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import junit.framework.TestCase;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 
 @ConfigureContext
 public class KualiConfigurationServiceTest extends KualiTestBase {
 
     public void testGetSecureProperties() throws Exception {
-        String pw = KNSServiceLocator.getKualiConfigurationService().getPropertyString( "datasource.password" );
+        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        String pw = kualiConfigurationService.getPropertyString( "datasource.password" );
         if ( pw != null ) {
-            KNSServiceLocator.getKualiConfigurationService().getAllProperties().store( System.out , "" );
+            kualiConfigurationService.getAllProperties().store( System.out , "" );
             assertNull( "Datasource information should not be available through the kuali configuration service.", pw );
         }
     }

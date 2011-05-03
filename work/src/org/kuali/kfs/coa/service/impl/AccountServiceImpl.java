@@ -167,7 +167,7 @@ public class AccountServiceImpl implements AccountService {
         List<AccountDelegate> filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, documentTypeName);
         if (filteredAccountDelegates.size() == 0) {
             Set<String> potentialParentDocumentTypeNames = getPotentialParentDocumentTypeNames(accountDelegatesToFilterFrom);
-            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(documentTypeService.findByName(documentTypeName), potentialParentDocumentTypeNames);
+            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
             filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, closestParentDocumentTypeName);
         }
         return filteredAccountDelegates;

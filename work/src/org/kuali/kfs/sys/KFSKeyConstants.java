@@ -131,6 +131,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE = "error.document.accountMaintenance.professionalTypeRequiredForEmployee";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE = "error.document.accountMaintenance.activeStatusRequiredForEmployee";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER = "error.document.accountMaintenance.accountSupervisorCannotBeFiscalOfficer";
+    public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_CONT_ACCOUNT_CANNOT_BE_SAME = "error.document.accountMaintenance.accountContinuationAccountCannotBeSame";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR = "error.document.accountMaintenance.accountSupervisorCannotBeAcctManager";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_EQUAL_EXISTING_FISCAL_OFFICER = "error.document.accountMaintenance.accountSupervisorCannotEqualExistingFiscalOfficer";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_EQUAL_EXISTING_ACCT_MGR = "error.document.accountMaintenance.accountSupervisorCannotEqualExistingAcctManager";

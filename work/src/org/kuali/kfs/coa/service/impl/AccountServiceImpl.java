@@ -338,4 +338,15 @@ public class AccountServiceImpl implements AccountService {
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
+
+    /**
+     * Gets documentTypeService
+     */
+    public DocumentTypeService getDocumentTypeService() {
+        if (documentTypeService == null) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        }
+        return documentTypeService;
+    }
+    
 }

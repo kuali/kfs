@@ -25,18 +25,26 @@ import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.OrganizationReversion;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.batch.BalanceForwardStep;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,11 +55,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class BalanceServiceImpl implements BalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
 
+    protected static final String PARAMETER_PREFIX = "SELECTION_";
+
     protected BalanceDao balanceDao;
     protected OptionsService optionsService;
     protected ObjectTypeService objectTypeService;
     protected SubFundGroupService subFundGroupService;
-
+    protected ParameterService parameterService;
+    protected BalanceTypeService balanceTypService;
     // must have no asset, liability or fund balance balances other than object code 9899
 
     String[] assetLiabilityFundBalanceObjectTypeCodes = null;
@@ -325,7 +336,7 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
 
-        return balanceDao.findCashBalance(fieldValues, isConsolidated);
+        return balanceDao.findCashBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
     }
 
     /**
@@ -341,10 +352,10 @@ public class BalanceServiceImpl implements BalanceService {
 
         Integer recordCount = new Integer(0);
         if (!isConsolidated) {
-            recordCount = balanceDao.getDetailedCashBalanceRecordCount(fieldValues);
+            recordCount = balanceDao.getDetailedCashBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
         }
         else {
-            Iterator recordCountIterator = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues);
+            Iterator recordCountIterator = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
             // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
@@ -362,7 +373,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
-        return balanceDao.findBalance(fieldValues, isConsolidated);
+        return balanceDao.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
     }
 
     /**
@@ -381,7 +392,7 @@ public class BalanceServiceImpl implements BalanceService {
             recordCount = OJBUtility.getResultSizeFromMap(fieldValues, new Balance()).intValue();
         }
         else {
-            Iterator recordCountIterator = balanceDao.getConsolidatedBalanceRecordCount(fieldValues);
+            Iterator recordCountIterator = balanceDao.getConsolidatedBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
             // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
@@ -515,7 +526,8 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
         // generate List of nominal activity object type codes
         List<String> nominalActivityObjectTypeCodes = objectTypeService.getNominalActivityClosingAllowedObjectTypes(year);
-        return balanceDao.findNominalActivityBalancesForFiscalYear(year, nominalActivityObjectTypeCodes);
+        SystemOptions currentYearOptions = optionsService.getCurrentYearOptions();
+        return balanceDao.findNominalActivityBalancesForFiscalYear(year, nominalActivityObjectTypeCodes, currentYearOptions);
     }
 
     /**
@@ -528,7 +540,10 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
         List<String> cumulativeForwardBalanceObjectTypes = objectTypeService.getCumulativeForwardBalanceObjectTypes(year);
         List<String> contractsAndGrantsDenotingValues = subFundGroupService.getContractsAndGrantsDenotingValues();
-        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues);
+        final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
+        String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
+        boolean fundGroupDenotesCGInd = parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd);
     }
 
     /**
@@ -540,7 +555,8 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
-        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes);
+        String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
+        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray);
     }
 
     /**
@@ -553,7 +569,38 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.kfs.gl.service.BalanceService#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
      */
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
-        return balanceDao.findOrganizationReversionBalancesForFiscalYear(year, endOfYear);
+        SystemOptions options = SpringContext.getBean(OptionsService.class).getOptions(year);
+        List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
+
+        int i = 1;
+        boolean moreParams = true;
+        while (moreParams) {
+            if (parameterService.parameterExists(OrganizationReversion.class, PARAMETER_PREFIX + i)) {
+                ParameterEvaluator parameterEvaluator = parameterService.getParameterEvaluator(OrganizationReversion.class, PARAMETER_PREFIX + i);
+                parameterEvaluators.add(parameterEvaluator);
+            }
+            else {
+                moreParams = false;
+            }
+            i++;
+        }
+        return balanceDao.findOrganizationReversionBalancesForFiscalYear(year, endOfYear, options, parameterEvaluators);
+    }
+
+    /**
+     * Gets the encumbrance balance types.
+     * 
+     * @param fieldValues
+     * @return a list with the encumbrance balance types
+     */
+    protected List<String> getEncumbranceBalanceTypes(Map fieldValues) {
+        Map localFieldValues = new HashMap();
+        localFieldValues.putAll(fieldValues);
+        // the year should be part of the results for both the cash balance and regular balance lookupables
+        String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+        List<String> encumbranceBalanceTypes = balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear);
+        return encumbranceBalanceTypes;
     }
 
     /**
@@ -572,6 +619,24 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
         this.subFundGroupService = subFundGroupService;
+    }
+
+    /**
+     * Sets the parameterService.
+     * 
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Sets the balanceTypService.
+     * 
+     * @param balanceTypService
+     */
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 
 }

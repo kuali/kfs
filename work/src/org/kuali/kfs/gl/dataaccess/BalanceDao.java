@@ -23,6 +23,8 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Transaction;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.rice.kns.service.ParameterEvaluator;
 
 /**
  * The DAO interface that declares methods needed to query the database about balances
@@ -47,10 +49,8 @@ public interface BalanceDao {
     public Balance getBalanceByTransaction(Transaction t);
 
     /**
-     * Given the primary keys of a balance, finds the balance in the database. Although not all of the
-     * primary keys are sent into this method...
-     * 
-     * Programmers are seriously advised not to use this method; the default implementation does not work
+     * Given the primary keys of a balance, finds the balance in the database. Although not all of the primary keys are sent into
+     * this method... Programmers are seriously advised not to use this method; the default implementation does not work
      * 
      * @param universityFiscalYear the university fiscal year of the balance to find
      * @param chartOfAccountsCode the chart of accounts code of the balance to find
@@ -77,45 +77,50 @@ public interface BalanceDao {
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance Balance Types
      * @return the records of cash balance entries
      */
-    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of cash balance entries or entry groups according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of cash balance entry groups
      */
-    public Integer getDetailedCashBalanceRecordCount(Map fieldValues);
+    public Integer getDetailedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of cash balance entry groups according to input fields and values if the entries are
      * required to be consolidated
      * 
      * @param fieldValues the input fields and values
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of cash balance entry groups
      */
-    public Iterator getConsolidatedCashBalanceRecordCount(Map fieldValues);
+    public Iterator getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * This method finds the records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
      * to be consolidated
      * 
      * @param fieldValues the input fields and values
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of balance entry groups
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues);
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * Returns the balance entries for the given year, chart, and account.
@@ -178,18 +183,20 @@ public interface BalanceDao {
      * 
      * @param year year to find balances for
      * @param nominalActivityObjectTypeCodes a List of nominal activity object type codes
+     * @param currentYearOptions current year options
      * @return an Iterator of nominal activity balances
      */
-    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> nominalActivityObjectTypeCodes);
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions);
 
     /**
      * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule
      * 
      * @param year the fiscal year to find balances for
      * @param generalForwardBalanceObjectTypes a List of general Forward Balance Object Types
+     * @param generalBalanceForwardBalanceTypesArray an array of general Balance Forward Balance Types
      * @return an Iterator full of Balances
      */
-    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes);
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes, String[] generalBalanceForwardBalanceTypesArray);
 
     /**
      * Returns the C&G balances specifically to be forwarded to the next fiscal year, based on the "cumulative" rule
@@ -197,15 +204,20 @@ public interface BalanceDao {
      * @param year the fiscal year to find balances for
      * @param cumulativeForwardBalanceObjectTypes a List of cumulative Forward Balance Object Types
      * @param contractsAndGrantsDenotingValues a List of contracts And Grants Denoting Values
+     * @param subFundGroupsForCumulativeBalanceForwardingArray an array of sub Fund Groups For Cumulative Balance Forwarding
+     * @param cumulativeBalanceForwardBalanceTypesArray an array of cumulative Balance Forward Balance Types
      * @return and Iterator chuck full of Balances
      */
-    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues);
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues, final String[] subFundGroupsForCumulativeBalanceForwardingArray, String[] cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd);
 
     /**
      * Returns the balances that would specifically be picked up by the Organization Reversion year end process
      * 
      * @param year the year to find balances for
+     * @param endOfYear
+     * @param options
+     * @param parameterEvaluators a list of parameter evaluators
      * @return an iterator of the balances to process
      */
-    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear);
+    public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear, SystemOptions options, List<ParameterEvaluator> parameterEvaluators);
 }

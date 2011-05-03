@@ -927,6 +927,12 @@
 	    <property name="subFundGroupService">
 			<ref bean="subFundGroupService" />
 		</property>
+	    <property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="balanceTypService">
+			<ref bean="balanceTypService" />
+		</property>	
 	</bean>
 
 	<bean id="glAccountBalanceService" class="org.kuali.kfs.gl.service.impl.AccountBalanceServiceImpl">
@@ -1147,17 +1153,7 @@
 <!--	
 	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryGroupDaoOjb" />
 -->
-	<bean id="glBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceDaoOjb">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="optionsService">
-			<ref bean="optionsService" />
-		</property>
-		<property name="balanceTypService">
-			<ref bean="balanceTypService" />
-		</property>
-	</bean>
+	<bean id="glBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.BalanceDaoOjb"/>
 
 	<bean id="glExpenditureTransactionDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.ExpenditureTransactionDaoOjb" />
 	

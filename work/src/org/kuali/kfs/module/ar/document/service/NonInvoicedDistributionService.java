@@ -26,7 +26,7 @@ public interface NonInvoicedDistributionService {
      * @return
      */
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber);
-    
+
     /**
      * @param invoice
      * @return

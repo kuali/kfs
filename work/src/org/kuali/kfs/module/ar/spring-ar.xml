@@ -356,13 +356,6 @@
 	
 	<bean id="nonInvoicedDistributionService"  parent="nonInvoicedDistributionService-parentBean"/>
 	<bean id="nonInvoicedDistributionService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl" abstract="true">
-		<property name="nonInvoicedDistributionDao">
-			<ref bean="nonInvoicedDistributionDao"/>
-		</property>
-	</bean>
-	
-	<bean id="nonInvoicedDistributionDao"  parent="nonInvoicedDistributionDao-parentBean"/>
-	<bean id="nonInvoicedDistributionDao-parentBean" class="org.kuali.kfs.module.ar.dataaccess.impl.NonInvoicedDistributionDaoOjb" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>

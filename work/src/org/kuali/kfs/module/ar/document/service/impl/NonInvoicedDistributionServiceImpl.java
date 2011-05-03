@@ -16,22 +16,26 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
-import org.kuali.kfs.module.ar.dataaccess.NonInvoicedDistributionDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributionService {
-    private NonInvoicedDistributionDao nonInvoicedDistributionDao;
-    
+    protected BusinessObjectService businessObjectService;
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService#getNonInvoicedDistributionsForInvoice(java.lang.String)
      */
     @NonTransactional
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(String documentNumber) {
-        return nonInvoicedDistributionDao.getNonInvoicedDistributionsForInvoice(documentNumber);
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("documentNumber", documentNumber);
+        return businessObjectService.findMatching(NonInvoicedDistribution.class, criteria);
     }
 
     /**
@@ -41,13 +45,15 @@ public class NonInvoicedDistributionServiceImpl implements NonInvoicedDistributi
     public Collection<NonInvoicedDistribution> getNonInvoicedDistributionsForInvoice(CustomerInvoiceDocument invoice) {
         return getNonInvoicedDistributionsForInvoice(invoice.getDocumentNumber());
     }
-    
+
     /**
-     * @param nonInvoicedDistributionDao
+     * Sets the businessObjectService.
+     * 
+     * @param businessObjectService
      */
     @NonTransactional
-    public void setNonInvoicedDistributionDao(NonInvoicedDistributionDao nonInvoicedDistributionDao) {
-        this.nonInvoicedDistributionDao = nonInvoicedDistributionDao;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

@@ -594,12 +594,14 @@ public class BalanceServiceImpl implements BalanceService {
      * @return a list with the encumbrance balance types
      */
     protected List<String> getEncumbranceBalanceTypes(Map fieldValues) {
-        Map localFieldValues = new HashMap();
-        localFieldValues.putAll(fieldValues);
-        // the year should be part of the results for both the cash balance and regular balance lookupables
-        String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        Integer universityFiscalYear = new Integer(universityFiscalYearStr);
-        List<String> encumbranceBalanceTypes = balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear);
+
+        List<String> encumbranceBalanceTypes = null;
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+            // the year should be part of the results for both the cash balance and regular balance lookupables
+            String universityFiscalYearStr = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+            encumbranceBalanceTypes = balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear);
+        }
         return encumbranceBalanceTypes;
     }
 

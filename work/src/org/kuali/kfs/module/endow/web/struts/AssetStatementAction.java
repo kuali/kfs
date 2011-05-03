@@ -16,14 +16,10 @@
 package org.kuali.kfs.module.endow.web.struts;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +35,7 @@ import org.kuali.kfs.module.endow.report.util.AssetStatementReportPrint;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsWebUtils;
 import org.kuali.rice.kns.util.WebUtils;
 
 public class AssetStatementAction extends EndowmentReportBaseAction {
@@ -352,7 +349,7 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
                 
                 // zip and send them 
                 if (!pdfStreamMap.isEmpty()) {
-                    saveMimeZipOutputStreamAsFile(response, RESPONSE_CONTENT_TYPE, pdfStreamMap, ZIP_FILENAME);
+                    KfsWebUtils.saveMimeZipOutputStreamAsFile(response, RESPONSE_CONTENT_TYPE, pdfStreamMap, ZIP_FILENAME);
                 }
             }
             
@@ -368,41 +365,7 @@ public class AssetStatementAction extends EndowmentReportBaseAction {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
-    
-    /**
-     * Zip and output files that are not of type text/plain or text/html.
-     * 
-     * @param response
-     * @param contentType
-     * @param byteArrayOutputStreams
-     * @param fileNames
-     * @param zipFileName
-     * @throws IOException
-     */
-    public static void saveMimeZipOutputStreamAsFile(HttpServletResponse response, String contentType, Map<String, ByteArrayOutputStream> outputStreamMap, String zipFileName) throws IOException {
-    
-        response.setContentType(contentType);
-        response.setHeader("Content-disposition", "attachment; filename=" + zipFileName);
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
-    
-        ZipOutputStream zout = new ZipOutputStream(response.getOutputStream());
-        int totalSize = 0;
-        Iterator<String> fileNames = outputStreamMap.keySet().iterator();
-        while (fileNames.hasNext()) {
-            String fileName = fileNames.next();
-            ByteArrayOutputStream pdfStream = outputStreamMap.get(fileName);
-            totalSize += pdfStream.size();
-            zout.putNextEntry(new ZipEntry(fileName));
-            zout.write(pdfStream.toByteArray());
-            zout.closeEntry();
-        }
-        response.setContentLength(totalSize);
-        zout.flush();
-        zout.close();        
-    }
-    
+       
     /**
      * Retrieves all the kemids used for the report 
      * 

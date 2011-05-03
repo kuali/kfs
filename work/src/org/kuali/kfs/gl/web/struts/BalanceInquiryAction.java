@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -60,11 +60,13 @@ public class BalanceInquiryAction extends KualiAction {
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
     private KualiConfigurationService kualiConfigurationService;
+    protected DataDictionaryService dataDictionaryService;
     private String[] totalTitles;
 
     public BalanceInquiryAction() {
         super();
         kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     }
 
     /**
@@ -338,7 +340,7 @@ public class BalanceInquiryAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute(KNSConstants.PARAM_MAINTENANCE_VIEW_MODE, KNSConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
-        BusinessObjectEntry boe = KNSServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
+        BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
         int numCols = boe.getLookupDefinition().getNumOfColumns();
         if (numCols <= 0)
             numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.

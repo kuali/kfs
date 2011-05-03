@@ -17,8 +17,8 @@ package org.kuali.kfs.pdp.businessobject.defaultvalue;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
@@ -39,7 +39,7 @@ public class NextCustomerProfileIdFinder implements ValueFinder {
      * @return Long
      */
     public static Long getLongValue() {
-        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
         return sas.getNextAvailableSequenceNumber(
                 PdpConstants.PDP_CUST_ID_SEQUENCE_NAME, CustomerProfile.class);
     }

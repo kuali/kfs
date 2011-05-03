@@ -21,7 +21,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
 import org.kuali.rice.ksb.messaging.MessageFetcher;
-import org.kuali.rice.ksb.service.KSBServiceLocator;
+import org.kuali.rice.ksb.messaging.threadpool.KSBThreadPool;
 
 public class WebApplicationInitListener extends JstlConstantsInitListener implements ServletContextListener {
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
@@ -35,7 +35,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         LOG = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
         MessageFetcher messageFetcher = new MessageFetcher((Integer)null); 
-        KSBServiceLocator.getThreadPool().execute(messageFetcher); 
+        SpringContext.getBean(KSBThreadPool.class).execute(messageFetcher); 
         for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
                 Class jstlConstantsClass = Class.forName(jstlConstantsClassname);

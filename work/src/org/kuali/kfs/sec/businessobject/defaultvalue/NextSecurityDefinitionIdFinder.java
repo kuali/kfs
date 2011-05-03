@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.sec.businessobject.defaultvalue;
 
-import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.sec.SecConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
 
@@ -41,7 +39,7 @@ public class NextSecurityDefinitionIdFinder implements ValueFinder {
      * @return Long
      */
     public static Long getLongValue() {
-        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
+        SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
         return sas.getNextAvailableSequenceNumber(SecConstants.SECURITY_DEFINITION_ID_SEQUENCE_NAME);
     }
 }

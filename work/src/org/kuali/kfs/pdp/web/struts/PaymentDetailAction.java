@@ -39,7 +39,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -366,7 +365,7 @@ public class PaymentDetailAction extends KualiAction {
             paymentDetailId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
         }
 
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
         confirmationText = kualiConfiguration.getPropertyString(confirmationText);
         confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
 

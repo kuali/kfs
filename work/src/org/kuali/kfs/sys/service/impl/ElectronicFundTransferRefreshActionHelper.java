@@ -29,8 +29,8 @@ import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
@@ -39,6 +39,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class ElectronicFundTransferRefreshActionHelper implements ElectronicFundTransferActionHelper {
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private DataDictionaryService ddService;
+    protected LookupResultsService lookupResultsService;
     
     protected static final String BASIC_FORWARD = "basic";
     protected static final String ACTION_NAME = "claim";
@@ -80,7 +81,7 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     protected List<ElectronicPaymentClaim> getClaimedPayments(Person currentUser, String lookupResultsSequenceNumber) {
         List<ElectronicPaymentClaim> claims = new ArrayList<ElectronicPaymentClaim>();
         try {
-            Collection selectedClaims = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPrincipalId());
+            Collection selectedClaims = lookupResultsService.retrieveSelectedResultBOs(lookupResultsSequenceNumber, ElectronicPaymentClaim.class, currentUser.getPrincipalId());
             for (Object claimAsObj : selectedClaims) {
                 ElectronicPaymentClaim claim = (ElectronicPaymentClaim) claimAsObj;
                 if (!claim.getPaymentClaimStatusCode().equals(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED) && StringUtils.isBlank(claim.getReferenceFinancialDocumentNumber())) {
@@ -109,5 +110,15 @@ public class ElectronicFundTransferRefreshActionHelper implements ElectronicFund
     public void setDataDictonaryService(DataDictionaryService ddService) {
         this.ddService = ddService;
     }
+
+    /**
+     * Sets the lookupResultsService attribute value.
+     * @param lookupResultsService The lookupResultsService to set.
+     */
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        this.lookupResultsService = lookupResultsService;
+    }
+    
+    
 }
 

@@ -33,9 +33,10 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.AttributeSecurity;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -46,14 +47,13 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.AttributeSecurity;
 
 public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
 
     private Lookupable vendorLookupable;
     private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
+    protected PersonService personService;
     
     private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
@@ -292,7 +292,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
         
         Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);                
-        List<? extends Person> persons = KIMServiceLocator.getPersonService().findPeople(fieldsForLookup);   
+        List<? extends Person> persons = personService.findPeople(fieldsForLookup);   
         
         for (Person personDetail : persons) {            
             DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
@@ -375,4 +375,15 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
         this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
     }
+
+    /**
+     * Sets the personService attribute value.
+     * 
+     * @param personService The personService to set.
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+    
+    
 }

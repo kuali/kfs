@@ -680,6 +680,7 @@
     <bean id="electronicFundTransferRefreshAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferRefreshActionHelper">
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    	<property name="lookupResultsService"><ref bean="lookupResultsService" /></property>
     </bean>
     
     <bean id="electronicFundTransferClaimAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper">

@@ -61,7 +61,6 @@ import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
@@ -1295,7 +1294,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      */
     protected synchronized NoteService getNoteService() {
         if (this.noteService == null) {
-            this.noteService = KNSServiceLocator.getNoteService();
+            this.noteService = SpringContext.getBean(NoteService.class);
         }
         return this.noteService;
     }

@@ -28,14 +28,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.service.EncryptionService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -130,8 +127,8 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         lockRepresentation.append(AccountDelegate.class.getName());
         lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
 
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
-        EncryptionService encryptionService = KNSServiceLocator.getEncryptionService();
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class); 
+        EncryptionService encryptionService = SpringContext.getBean(EncryptionService.class); 
 
         int count = 0;
         for (String fieldName : fieldNames) {
@@ -191,9 +188,9 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         lockRepresentation.append(AccountDelegateGlobal.class.getName());
         lockRepresentation.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
 
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
-        EncryptionService encryptionService = KNSServiceLocator.getEncryptionService();
-
+        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class); 
+        EncryptionService encryptionService = SpringContext.getBean(EncryptionService.class); 
+        
         int count = 0;
         for (String fieldName : fields) {
             lockRepresentation.append(fieldName);

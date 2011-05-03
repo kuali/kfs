@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,7 +36,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
@@ -51,6 +49,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private CashControlDocumentService cashControlDocumentService;
     private KualiConfigurationService kualiConfigurationService;
+    protected KualiWorkflowInfo workflowInfoService;
 
     protected final static String CC_WORKFLOW_DOCUMENT_TYPE = "CTRL";
     protected final static String URL_PREFIX = "ar";
@@ -166,7 +165,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     public String getDocumentLabel() {
         try {
-            KualiWorkflowInfo workflowInfo = KNSServiceLocator.getWorkflowInfoService();;
+            KualiWorkflowInfo workflowInfo = workflowInfoService;
             
             return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
         }
@@ -246,5 +245,27 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    /**
+     * Sets the setWorkflowInfoService attribute value.
+     * 
+     * @param setWorkflowInfoService 
+     */
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
+        this.workflowInfoService = workflowInfoService;
+    }
+
+    /**
+     * Gets the setWorkflowInfoService attribute value.
+     * 
+     * @return WorkflowInfoService
+     */
+    public KualiWorkflowInfo getWorkflowInfoService() {
+        if (workflowInfoService == null) {
+            workflowInfoService = SpringContext.getBean(KualiWorkflowInfo.class);
+        }
+        return workflowInfoService;
+    }   
+    
 }
 

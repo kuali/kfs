@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.util.KimCommonUtils;
@@ -54,7 +54,7 @@ public class OrganizationHierarchyReviewRoleTypeServiceImpl extends Organization
 
     protected DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
-            documentTypeService = KEWServiceLocator.getDocumentTypeService();
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class); 
         }
         return this.documentTypeService;
     }

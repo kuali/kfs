@@ -31,7 +31,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
@@ -46,7 +45,6 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.KimTypeInfoService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.support.KimTypeService;
@@ -744,28 +742,28 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     
     protected RoleManagementService getRoleManagementService(){
         if(roleManagementService==null){
-            roleManagementService = KIMServiceLocator.getRoleManagementService();
+            roleManagementService = SpringContext.getBean( RoleManagementService.class ); 
         }
         return roleManagementService;
     }
 
     protected GroupService getGroupService(){
         if(groupService==null){
-            groupService = KIMServiceLocator.getGroupService();
+            groupService = SpringContext.getBean( GroupService.class );
         }
         return groupService;
     }
 
     protected IdentityManagementService getIdentityManagementService(){
         if(identityManagementService==null){
-            identityManagementService = KIMServiceLocator.getIdentityManagementService();
+            identityManagementService = SpringContext.getBean( IdentityManagementService.class ); 
         }
         return identityManagementService;
     }
 
     protected KimTypeInfoService getTypeInfoService(){
         if(typeInfoService==null){
-            typeInfoService = KIMServiceLocator.getTypeInfoService();
+            typeInfoService = SpringContext.getBean( KimTypeInfoService.class ); 
         }
         return typeInfoService;
     }

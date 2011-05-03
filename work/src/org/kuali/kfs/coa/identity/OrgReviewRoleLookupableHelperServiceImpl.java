@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,7 +35,6 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.kim.bo.Person;
@@ -49,7 +47,6 @@ import org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.KimTypeInfoService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
@@ -57,11 +54,10 @@ import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -620,7 +616,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         Map<String, String> criteria = new HashMap<String, String>();
         KimDelegationImpl delegation;
         criteria.put(KimConstants.PrimaryKeyConstants.DELEGATION_ID, delegationMember.getDelegationId());
-        return (KimDelegationImpl)KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(KimDelegationImpl.class, criteria);
+        return (KimDelegationImpl)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KimDelegationImpl.class, criteria);
     }
 
     protected String getQueryString(String parameter){
@@ -856,7 +852,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
      */
     public RoleManagementService getRoleManagementService() {
         if(roleManagementService == null){
-            roleManagementService = KIMServiceLocator.getRoleManagementService();
+            roleManagementService = SpringContext.getBean(RoleManagementService.class);
         }
         return this.roleManagementService;
     }
@@ -870,7 +866,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
     public DocumentTypeService getDocumentTypeService() {
         if ( documentTypeService == null ) {
-            documentTypeService = KEWServiceLocator.getDocumentTypeService();
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         }
         return this.documentTypeService;
     }
@@ -899,7 +895,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
      */
     public GroupService getGroupService() {
         if(groupService==null){
-            groupService = KIMServiceLocator.getGroupService();
+            groupService = SpringContext.getBean(GroupService.class);
         }
         return groupService;
     }
@@ -918,7 +914,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
      */
     public IdentityManagementService getIdentityManagementService() {
         if(identityManagementService==null){
-            identityManagementService = KIMServiceLocator.getIdentityManagementService();
+            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         }
         return identityManagementService;
     }
@@ -933,13 +929,13 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
     protected KimTypeInfoService getTypeInfoService(){
         if(typeInfoService==null){
-            typeInfoService = KIMServiceLocator.getTypeInfoService();
+            typeInfoService = SpringContext.getBean(KimTypeInfoService.class);
         }
         return typeInfoService;
     }
     protected RiceCacheAdministrator getCacheAdministrator(){
         if(cacheAdministrator==null){
-            cacheAdministrator = KEWServiceLocator.getCacheAdministrator();
+            cacheAdministrator = SpringContext.getBean(RiceCacheAdministrator.class);   
         }
         return cacheAdministrator;
     }

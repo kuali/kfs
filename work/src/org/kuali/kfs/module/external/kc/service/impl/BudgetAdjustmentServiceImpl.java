@@ -28,9 +28,7 @@ import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
@@ -45,7 +43,6 @@ import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
-import org.springframework.transaction.annotation.Transactional;
 
 public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
@@ -240,7 +237,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      */
     /*
      protected boolean isValidUser(String principalId) {
-         PersonService<Person> personService = KIMServiceLocator.getPersonService();
+         PersonService<Person> personService = SpringContext.getBean(PersonService.class)
          try {
              Person user = personService.getPerson(principalId);
              DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
@@ -259,7 +256,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      */
         protected boolean isValidUser(String principalId) {
             
-            PersonService<Person> personService = KIMServiceLocator.getPersonService();
+            PersonService<Person> personService = SpringContext.getBean(PersonService.class);
            
             try {
                 Person user = personService.getPerson(principalId);

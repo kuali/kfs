@@ -17,9 +17,8 @@ package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.mail.service.ActionListEmailService;
 
 /**
  * Batch step implementation for the Daily Email
@@ -30,7 +29,7 @@ public class DailyEmailStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        KEWServiceLocator.getActionListEmailService().sendDailyReminder();
+        SpringContext.getBean(ActionListEmailService.class).sendDailyReminder();
         return true;
     }
 

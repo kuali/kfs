@@ -18,9 +18,9 @@ package org.kuali.kfs.module.cg.identity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
@@ -42,7 +42,7 @@ public class ResearchRiskReviewRoleTypeServiceImpl extends KimRoleTypeServiceBas
     
     protected DocumentTypeService getDocumentTypeService() {
         if (documentTypeService == null) {
-            documentTypeService = KEWServiceLocator.getDocumentTypeService();
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         }
         return this.documentTypeService;
     }

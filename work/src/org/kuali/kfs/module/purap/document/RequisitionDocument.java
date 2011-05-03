@@ -63,7 +63,7 @@ import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -145,7 +145,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             
             // The initiator cannot be the approver
             String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            Person initiator = KIMServiceLocator.getPersonService().getPerson(initiatorPrincipalId);
+            Person initiator = SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalId);
             // If there is only one approver, and that approver is also the initiator, then Separation of Duties is required.
             boolean priorApproverIsInitiator = priorApprovers.contains(initiator);
             boolean onlyOneApprover = (priorApprovers.size() == 1);

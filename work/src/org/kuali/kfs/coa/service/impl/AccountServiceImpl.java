@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -57,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
     protected DateTimeService dateTimeService;
+    protected DocumentTypeService documentTypeService;
 
     /**
      * Retrieves an Account object based on primary key.
@@ -166,7 +167,7 @@ public class AccountServiceImpl implements AccountService {
         List<AccountDelegate> filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, documentTypeName);
         if (filteredAccountDelegates.size() == 0) {
             Set<String> potentialParentDocumentTypeNames = getPotentialParentDocumentTypeNames(accountDelegatesToFilterFrom);
-            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(KEWServiceLocator.getDocumentTypeService().findByName(documentTypeName), potentialParentDocumentTypeNames);
+            String closestParentDocumentTypeName = KimCommonUtils.getClosestParentDocumentTypeName(documentTypeService.findByName(documentTypeName), potentialParentDocumentTypeNames);
             filteredAccountDelegates = filterAccountDelegates(accountDelegatesToFilterFrom, closestParentDocumentTypeName);
         }
         return filteredAccountDelegates;
@@ -329,4 +330,12 @@ public class AccountServiceImpl implements AccountService {
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * Sets the documentTypeService.
+     * 
+     * @param documentTypeService
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
 }

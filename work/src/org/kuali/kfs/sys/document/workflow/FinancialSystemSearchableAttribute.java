@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.workflow;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +37,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
 import org.kuali.rice.kew.docsearch.SearchableAttribute;
 import org.kuali.rice.kew.docsearch.SearchableAttributeFloatValue;
@@ -52,11 +52,9 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute;
 
@@ -243,7 +241,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         // this list is irrelevant. the validation errors are put on the stack in the validationService.
         List<WorkflowAttributeValidationError> errors =  super.validateUserSearchInputs(paramMap, searchContext);
         
-        DictionaryValidationService validationService = KNSServiceLocator.getDictionaryValidationService();
+        DictionaryValidationService validationService = SpringContext.getBean(DictionaryValidationService.class);
         
         for (Object key : paramMap.keySet()) {
             String value = (String)paramMap.get(key);

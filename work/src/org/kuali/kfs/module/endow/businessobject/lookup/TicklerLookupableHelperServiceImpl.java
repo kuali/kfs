@@ -23,11 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
 import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.ResponsibilityService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 
@@ -82,6 +79,6 @@ public class TicklerLookupableHelperServiceImpl extends KualiLookupableHelperSer
 
     private GroupService getGroupService()
     {
-        return KIMServiceLocator.getGroupService();
+        return SpringContext.getBean(GroupService.class);
     }
 }

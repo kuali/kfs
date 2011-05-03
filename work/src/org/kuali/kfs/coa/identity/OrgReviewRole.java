@@ -41,7 +41,7 @@ import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -1414,7 +1414,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     private Person getPersonFromService(String principalId){
-        return KIMServiceLocator.getPersonService().getPerson(principalId);
+        return SpringContext.getBean(PersonService.class).getPerson(principalId);
     }
     /**
      * Gets the kimTypeId attribute. 

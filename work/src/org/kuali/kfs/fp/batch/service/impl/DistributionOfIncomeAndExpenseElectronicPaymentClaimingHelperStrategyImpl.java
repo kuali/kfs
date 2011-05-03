@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.batch.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -42,6 +41,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     private DocumentService documentService;
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
     private ParameterService parameterService;
+    protected KualiWorkflowInfo workflowInfoService;
 
     /**
      * The name of the parameter to get the description for this document; without a description, we can't save the document, and if
@@ -198,7 +198,7 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public String getDocumentLabel() {
         try {
-            KualiWorkflowInfo workflowInfo = KNSServiceLocator.getWorkflowInfoService();
+            KualiWorkflowInfo workflowInfo = workflowInfoService;
             
             return workflowInfo.getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
         }
@@ -280,4 +280,27 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
+    /**
+     * Sets the setWorkflowInfoService attribute value.
+     * 
+     * @param setWorkflowInfoService 
+     */
+    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
+        this.workflowInfoService = workflowInfoService;
+    }
+
+    /**
+     * Gets the setWorkflowInfoService attribute value.
+     * 
+     * @return WorkflowInfoService
+     */
+    public KualiWorkflowInfo getWorkflowInfoService() {
+        if (workflowInfoService == null) {
+            workflowInfoService = SpringContext.getBean(KualiWorkflowInfo.class);
+        }
+        return workflowInfoService;
+    }
+    
+    
 }

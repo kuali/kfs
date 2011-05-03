@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.group.dto.GroupInfo;
@@ -37,8 +38,8 @@ import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.KimTypeInfoService;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
@@ -129,7 +130,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         String roleId;
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KIMServiceLocator.getRoleService().getRoleIdByName(
+                roleId = SpringContext.getBean(RoleService.class).getRoleIdByName(
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
@@ -213,7 +214,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         valid = validateAmounts(orr);
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KIMServiceLocator.getRoleService().getRoleIdByName(
+                roleId = SpringContext.getBean(RoleService.class).getRoleIdByName(
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 //validate if the newly entered role members are already assigned to the role
                 Map<String, Object> criteria = new HashMap<String, Object>();
@@ -272,7 +273,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
      */
     public UiDocumentService getUiDocumentService() {
         if(this.uiDocumentService==null){
-            this.uiDocumentService = KIMServiceLocator.getUiDocumentService();
+            this.uiDocumentService = SpringContext.getBean(UiDocumentService.class);
         }
         return this.uiDocumentService;
     }
@@ -287,14 +288,14 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
 
     protected KimTypeInfoService getTypeInfoService(){
         if(typeInfoService==null){
-            typeInfoService = KIMServiceLocator.getTypeInfoService();
+            typeInfoService = SpringContext.getBean(KimTypeInfoService.class);
         }
         return typeInfoService;
     }
 
     protected GroupService getGroupService(){
         if(groupService==null){
-            groupService = KIMServiceLocator.getGroupService();
+            groupService = SpringContext.getBean(GroupService.class);
         }
         return groupService;
     }

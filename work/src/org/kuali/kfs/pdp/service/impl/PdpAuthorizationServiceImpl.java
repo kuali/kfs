@@ -18,38 +18,38 @@ package org.kuali.kfs.pdp.service.impl;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.IdentityManagementService;
 
 public class PdpAuthorizationServiceImpl implements PdpAuthorizationService {
 
+    protected IdentityManagementService identityManagementService;
+    
     /**
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasCancelPayment(java.lang.String)
      */
     public boolean hasCancelPaymentPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.CANCEL_PAYMENT, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.CANCEL_PAYMENT, null, null);
     }
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasFormat(java.lang.String, java.lang.String)
      */
     public boolean hasFormatPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.FORMAT, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.FORMAT, null, null);
     }
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasHoldPayment(java.lang.String)
      */
     public boolean hasHoldPaymentPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.HOLD_PAYMENT_REMOVE_NON_TAX_PAYMENT_HOLD, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.HOLD_PAYMENT_REMOVE_NON_TAX_PAYMENT_HOLD, null, null);
     }
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasRemoveFormatLock(java.lang.String, java.lang.String)
      */
     public boolean hasRemoveFormatLockPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.REMOVE_FORMAT_LOCK, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.REMOVE_FORMAT_LOCK, null, null);
     }
 
 
@@ -57,14 +57,21 @@ public class PdpAuthorizationServiceImpl implements PdpAuthorizationService {
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasRemovePaymentTaxHold(java.lang.String)
      */
     public boolean hasRemovePaymentTaxHoldPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.REMOVE_PAYMENT_TAX_HOLD, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.REMOVE_PAYMENT_TAX_HOLD, null, null);
     }
 
     /**
      * @see org.kuali.kfs.pdp.service.PdpAuthorizationService#hasSetAsImmediatePay(java.lang.String, java.lang.String)
      */
     public boolean hasSetAsImmediatePayPermission(String principalId) {
-        return KIMServiceLocator.getIdentityManagementService().isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.SET_AS_IMMEDIATE_PAY, null, null);
+        return identityManagementService.isAuthorized(principalId, KFSConstants.ParameterNamespaces.PDP, PdpConstants.PermissionNames.SET_AS_IMMEDIATE_PAY, null, null);
+    }
+
+    /**
+     * 
+     */
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
 
 }

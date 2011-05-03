@@ -598,7 +598,11 @@
 	      p:localServiceName="customerRoleTypeService" />
 	  </property>
 	</bean>
-    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean"/>
+    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean">
+       	<property name="identityManagementService">
+			<ref bean="kimIdentityManagementService" />
+		</property>
+	</bean>
 	
     <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true">
 	</bean>

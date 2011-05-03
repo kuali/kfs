@@ -43,7 +43,6 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.service.ParameterService;
@@ -501,7 +500,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      */
     protected synchronized NoteService getNoteService() {
         if (this.noteService == null) {
-            this.noteService = KNSServiceLocator.getNoteService();
+            this.noteService = SpringContext.getBean(NoteService.class);
         }
         return this.noteService;
     }

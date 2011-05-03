@@ -34,7 +34,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.Document;
@@ -49,7 +48,6 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 
@@ -345,7 +343,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected boolean isValidUser(String principalId) {
         
-        PersonService<Person> personService = KIMServiceLocator.getPersonService();
+        PersonService<Person> personService = SpringContext.getBean(PersonService.class);
         Person user = personService.getPerson(principalId);
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
         if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {

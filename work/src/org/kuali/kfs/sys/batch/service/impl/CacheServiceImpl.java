@@ -18,12 +18,13 @@ package org.kuali.kfs.sys.batch.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.sys.batch.service.CacheService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
@@ -70,7 +71,7 @@ public class CacheServiceImpl implements CacheService {
 
         roleManagementService.flushRoleCaches();
         identityManagementService.flushAllCaches();
-        KEWServiceLocator.getCacheAdministrator().flushGroup("ResponsibilityImpl");
+        SpringContext.getBean(RiceCacheAdministrator.class).flushGroup("ResponsibilityImpl");
     }
 
     /**

@@ -398,6 +398,7 @@
 		<property name="documentService"><ref bean="documentService" /></property>
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="parameterService"><ref bean="parameterService" /></property>
+		<property name="workflowInfoService"><ref bean="workflowInfoService" /></property>
 	</bean>
 	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.fp.batch.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" />
 	
@@ -420,6 +421,9 @@
 		</property>			
 		<property name="disbursementVoucherPaymentReasonService">
 			<ref bean="disbursementVoucherPaymentReasonService" />
+		</property>	
+	    <property name="personService">
+			<ref bean="personService" />
 		</property>		
 	</bean>
 	

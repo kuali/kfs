@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,15 +41,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.ModuleConfiguration;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class BatchFileUploadServlet extends HttpServlet {
@@ -59,21 +56,21 @@ public class BatchFileUploadServlet extends HttpServlet {
     protected void checkAuthorization( HttpServletRequest request ) {
         boolean authorized = false;
 //        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        String principalName = KIMServiceLocator.getIdentityManagementService().getAuthenticatedPrincipalName(request);
+        String principalName = SpringContext.getBean(IdentityManagementService.class).getAuthenticatedPrincipalName(request);
         LOG.info("Logged In User: " + principalName);
         if ( StringUtils.isNotBlank(principalName) ) {
-            KimPrincipal principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName( principalName );
+            KimPrincipal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );
             if ( principal != null ) {
 //        if ( StringUtils.isNotBlank(principalName) ) {
-//            KimPrincipalInfo principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(principalName);
+//            KimPrincipalInfo principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(principalName);
 //            if ( principal != null ) {
                 String principalId = principal.getPrincipalId();
                 AttributeSet permissionDetails = new AttributeSet();
                 permissionDetails.put( KimAttributes.DOCUMENT_TYPE_NAME, "GLCP");
-                authorized = KIMServiceLocator.getIdentityManagementService().isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
                 if ( !authorized ) {
                     permissionDetails.put( KimAttributes.DOCUMENT_TYPE_NAME, "LLCP");
-                    authorized = KIMServiceLocator.getIdentityManagementService().isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                    authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
                 }
             }
         }

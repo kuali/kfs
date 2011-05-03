@@ -490,6 +490,7 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="workflowInfoService" ref="workflowInfoService" />
 	</bean>
 	
 	<bean id="customerLoadJob" parent="scheduledJobDescriptor">

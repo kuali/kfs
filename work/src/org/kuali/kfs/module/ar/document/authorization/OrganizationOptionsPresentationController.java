@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.ParameterService;
@@ -81,7 +80,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
         
         if (document.isEdit()) {
             
-            RoleManagementService rms = KIMServiceLocator.getRoleManagementService();
+            RoleManagementService rms = SpringContext.getBean(RoleManagementService.class);
             
             Person user = GlobalVariables.getUserSession().getPerson();
             String principalId = user.getPrincipalId();

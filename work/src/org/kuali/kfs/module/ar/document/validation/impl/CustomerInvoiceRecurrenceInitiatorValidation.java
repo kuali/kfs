@@ -23,11 +23,12 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kim.bo.Person;
 
 public class CustomerInvoiceRecurrenceInitiatorValidation extends GenericValidation {
     
@@ -50,7 +51,7 @@ public class CustomerInvoiceRecurrenceInitiatorValidation extends GenericValidat
         }
 
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("INVR");
-        Person person = org.kuali.rice.kim.service.KIMServiceLocator.getPersonService().getPerson(initiatorUserIdentifier);
+        Person person = SpringContext.getBean(PersonService.class).getPerson(initiatorUserIdentifier);
         if (person == null) {
             GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DOCUMENT_RECURRENCE_INITIATOR, ArKeyConstants.ERROR_INVOICE_RECURRENCE_INITIATOR_DOES_NOT_EXIST);
             return false;

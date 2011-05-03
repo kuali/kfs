@@ -46,7 +46,6 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.InactivationBlockingDetectionService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -147,11 +146,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         Set<InactivationBlockingMetadata> inactivationBlockingMetadatas = ddService.getAllInactivationBlockingDefinitions(ObjectCode.class);
         for (InactivationBlockingMetadata inactivationBlockingMetadata : inactivationBlockingMetadatas) {
             String inactivationBlockingDetectionServiceBeanName = inactivationBlockingMetadata.getInactivationBlockingDetectionServiceBeanName();
+            InactivationBlockingDetectionService inactivationBlockingDetectionService;
             if (StringUtils.isBlank(inactivationBlockingDetectionServiceBeanName)) {
-                inactivationBlockingDetectionServiceBeanName = KNSServiceLocator.DEFAULT_INACTIVATION_BLOCKING_DETECTION_SERVICE;
+                inactivationBlockingDetectionService = SpringContext.getBean(InactivationBlockingDetectionService.class);
+            } else {
+                inactivationBlockingDetectionService = SpringContext.getBean(InactivationBlockingDetectionService.class, inactivationBlockingDetectionServiceBeanName);
             }
-            InactivationBlockingDetectionService inactivationBlockingDetectionService = KNSServiceLocator.getInactivationBlockingDetectionService(inactivationBlockingDetectionServiceBeanName);
-
+            
             Collection<BusinessObject> blockingBusinessObjects = inactivationBlockingDetectionService.listAllBlockerRecords(objectCode, inactivationBlockingMetadata);
             blockingBusinessObjects = addAdditionalBlockingBusinessObjects(blockingBusinessObjects, objectCode);
             

@@ -22,7 +22,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -184,7 +184,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
      * @return role
      */
     public Role getRole() {
-        role = KIMServiceLocator.getRoleManagementService().getRole(roleId);
+        role = SpringContext.getBean(RoleManagementService.class).getRole(roleId);
         return role;
     }
 

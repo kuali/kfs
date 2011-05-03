@@ -25,7 +25,7 @@ import javax.xml.ws.Service;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.ksb.messaging.ServiceInfo;
 import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
 
@@ -39,7 +39,7 @@ public abstract class KfsService extends Service {
  
     protected static URL getWsdl(QName qname) throws MalformedURLException {
         URL url = null;
-        String webServiceServer =  KNSServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+        String webServiceServer =  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
 
         //FIXME KC needs to get the services exposed and working on the KSB for this to work
         if (webServiceServer == null) {

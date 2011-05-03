@@ -18,8 +18,6 @@ package org.kuali.kfs.sys.document.web.renderers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -33,8 +31,6 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewActionDefinition;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.taglib.html.KNSFileTag;
 import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
@@ -64,10 +60,10 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
         scriptFileTag.setSize("30");
         noscriptFileTag.setSize("30");
         noscriptFileTag.setStyle("font:10px;height:16px;");
-        uploadButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url") + "tinybutton-add1.gif");
+        uploadButtonTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-add1.gif");
         uploadButtonTag.setStyleClass("tinybutton");
         cancelButtonTag.setProperty("methodToCall.cancel");
-        cancelButtonTag.setSrc(KNSServiceLocator.getKualiConfigurationService().getPropertyString("externalizable.images.url") + "tinybutton-cancelimport.gif");
+        cancelButtonTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url") + "tinybutton-cancelimport.gif");
         cancelButtonTag.setStyleClass("tinybutton");
     }
 

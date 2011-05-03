@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -89,7 +89,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      * @see org.kuali.rice.kns.service.impl.ModuleServiceBase#getInquiryUrl(java.lang.Class)
      */
     protected String getInquiryUrl(Class inquiryBusinessObjectClass){
-        String baseUrl = KNSServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+        String baseUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
         String inquiryUrl = baseUrl;
         if (!inquiryUrl.endsWith("/")) {
             inquiryUrl = inquiryUrl + "/";

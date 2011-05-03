@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.gl.dataaccess.impl;
 
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 
 /**
@@ -26,8 +24,8 @@ public class AccountBalanceDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 
 
     /**
-     * Creates a String bounded with parantheses with count number of question marks, like this:
-     * (?, ?, ?) if count is 3.  Right, for creating the SQL queries
+     * Creates a String bounded with parantheses with count number of question marks, like this: (?, ?, ?) if count is 3. Right, for
+     * creating the SQL queries
      * 
      * @param count the count of question marks
      * @return the resulting String

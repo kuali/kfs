@@ -254,11 +254,7 @@
 	    <property name="columnCount" value="8" />
 	</bean>
 	
-	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="securityDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.SecurityDaoOjb"/>
 	
  	<bean id="typeRestrictionCodeService" parent="typeRestrictionCodeService-parentBean"/>
 
@@ -766,11 +762,8 @@
 	
 	<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb" />
 		
-	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb"/>
+	
 	<!-- end rollFrequencyDatesJob configuration-->
 	
 	<!-- accrualProcessingJob configuration -->

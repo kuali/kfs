@@ -429,7 +429,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     protected List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate() {
         List<Security> result = new ArrayList<Security>();
 
-        result = securityDao.getAllSecuritiesWithNextPayDateEqualCurrentDate();
+        result = securityDao.getAllSecuritiesWithNextPayDateEqualCurrentDate(kemService.getCurrentDate());
 
         return result;
     }

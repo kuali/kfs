@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,27 +24,25 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityDao {
-    private KEMService kemService;
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEqualCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEqualCurrentDate(java.sql.Date)
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate() {
+    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, currentDate);
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getAllSecuritiesWithNextPayDateEquaTolCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.SecurityDao#getSecuritiesWithNextPayDateEqualToCurrentDate(java.sql.Date)
      */
-    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate() {
+    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.SECURITY_INCOME_NEXT_PAY_DATE, currentDate);
         criteria.addEqualTo(EndowPropertyConstants.SECURITY_ACTIVE_INDICATOR, true);
         return (List<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
     }
@@ -65,16 +64,7 @@ public class SecurityDaoOjb extends PlatformAwareDaoBaseOjb implements SecurityD
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.SECURITY_CLASS_CODE, securityClassCode);
         return (Collection<Security>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Security.class, criteria));
-        
-    }
-    
-    /**
-     * Sets the kemService.
-     * 
-     * @param kemService
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
+
     }
 
 }

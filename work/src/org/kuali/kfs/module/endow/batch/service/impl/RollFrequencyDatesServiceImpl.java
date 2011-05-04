@@ -101,7 +101,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
 
         int counter = 0;
         // get all the active security records whose next income pay date is equal to the current date
-        List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate();
+        List<Security> securityRecords = securityDao.getSecuritiesWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
         if (securityRecords != null) {
             for (Security security : securityRecords) {
 

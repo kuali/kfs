@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,16 +26,18 @@ public interface SecurityDao {
     /**
      * Gets all the securities for which the next income pay date is current date.
      * 
+     * @param currentDate the current date
      * @return
      */
-    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate();
+    public List<Security> getAllSecuritiesWithNextPayDateEqualCurrentDate(Date currentDate);
 
     /**
      * Gets securities whose next income pay date is equal to the current date and whose frequency code is valid
      * 
+     * @param currentDate the currentDate
      * @return List<Security>
      */
-    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate();
+    public List<Security> getSecuritiesWithNextPayDateEqualToCurrentDate(Date currentDate);
 
     /**
      * Gets all securities with a class code in the list given as input and with the number of units greater than zero.
@@ -46,9 +49,10 @@ public interface SecurityDao {
 
     /**
      * Gets a collection of securities for a given securityclasscode (SEC_CLS_CD)
+     * 
      * @param securityClassCode
      * @return Collection<Security>
      */
     public Collection<Security> getSecuritiesBySecurityClassCode(String securityClassCode);
-    
+
 }

@@ -763,7 +763,6 @@
 	<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb" />
 		
 	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb"/>
-	
 	<!-- end rollFrequencyDatesJob configuration-->
 	
 	<!-- accrualProcessingJob configuration -->

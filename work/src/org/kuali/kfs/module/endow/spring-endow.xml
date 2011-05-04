@@ -1585,7 +1585,10 @@
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>		
+		</property>	
+		<property name="holdingHistoryService">
+			<ref bean="holdingHistoryService" />
+		</property>	
 		
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
@@ -2152,6 +2155,12 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>	
+		<property name="monthEndDateService">
+			<ref bean="monthEndDateService" />
+		</property>	
+		<property name="holdingHistoryDao">
+			<ref bean="holdingHistoryDao" />
+		</property>	
 	</bean>
 	
 	<bean id="updateUnitShareAdjustmentDocumentService" class="org.kuali.kfs.module.endow.document.service.impl.UpdateUnitShareAdjustmentDocumentTaxLotsServiceImpl">
@@ -2465,9 +2474,6 @@
 	</bean>
 	
 	<bean id="holdingHistoryDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.HoldingHistoryDaoOjb">
-		<property name="monthEndDateService">
-			<ref bean="monthEndDateService" />
-		</property>	
 		<property name="securityDao">
 			<ref bean="securityDao" />
 		</property>		

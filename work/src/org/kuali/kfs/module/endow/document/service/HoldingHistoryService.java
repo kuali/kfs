@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
+import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.rice.kns.util.KualiInteger;
 
@@ -87,5 +89,29 @@ public interface HoldingHistoryService {
      * @return List<HoldingHistory> List of HoldingHistory records
      */
     public Collection<HoldingHistory> getAllHoldingHistory();
+    
+    /**
+     * Calculates the total Holding Units based on FEE_BAL_TYP_CD = AU OR MU
+     * 
+     * @param feeMethod feeMethod object
+     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeClassCode DD definition for fee method code
+     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
+     *        definition for fee method code
+     * @return totalHoldingUnits
+     */
+    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
+
+    /**
+     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = AMV OR MMV
+     * 
+     * @param feeMethod feeMethod object
+     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
+     *        FeeClassCode DD definition for fee method code
+     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
+     *        definition for fee method code
+     * @return totalHoldingMarketValue
+     */
+    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
 
 }

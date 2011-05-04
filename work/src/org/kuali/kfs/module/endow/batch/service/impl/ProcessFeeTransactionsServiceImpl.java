@@ -49,6 +49,7 @@ import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao;
 import org.kuali.kfs.module.endow.document.CashDecreaseDocument;
 import org.kuali.kfs.module.endow.document.service.CurrentTaxLotService;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
+import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
@@ -90,6 +91,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected KualiConfigurationService configService;
     protected CurrentTaxLotService currentTaxLotService;
     protected DataDictionaryService dataDictionaryService;
+    protected HoldingHistoryService holdingHistoryService;
 
     protected ReportWriterService processFeeTransactionsExceptionReportsWriterService;
     protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
@@ -391,7 +393,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         }
         // when FEE_BAL_TYP_CD = AU OR MU then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) || feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS)) {
-            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingUnits(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
+            totalHoldingUnits = holdingHistoryService.getHoldingHistoryTotalHoldingUnits(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
         }
 
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_UNITS)) {
@@ -418,7 +420,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
         // when FEE_BAL_TYP_CD = AMV OR MMV then total END_HLDG_HIST_T:HLDG_UNITS column
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) || feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE)) {
-            totalHoldingUnits = holdingHistoryDao.getHoldingHistoryTotalHoldingMarketValue(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
+            totalHoldingUnits = holdingHistoryService.getHoldingHistoryTotalHoldingMarketValue(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
         }
 
         if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_CURRENT_MARKET_VALUE)) {
@@ -1449,5 +1451,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Sets the holdingHistoryService.
+     * 
+     * @param holdingHistoryService
+     */
+    public void setHoldingHistoryService(HoldingHistoryService holdingHistoryService) {
+        this.holdingHistoryService = holdingHistoryService;
     }
 }

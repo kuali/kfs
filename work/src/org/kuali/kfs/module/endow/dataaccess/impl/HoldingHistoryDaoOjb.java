@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,21 +38,17 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao;
 import org.kuali.kfs.module.endow.dataaccess.SecurityDao;
-import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
-import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements HoldingHistoryDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HoldingHistoryDaoOjb.class);
-
-    protected MonthEndDateService monthEndDateService;
     protected SecurityDao securityDao;
 
     /**
-     * Prepares the criteria and selects the records from END_HLDG_HIST_T table
+     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryForBlance(org.kuali.kfs.module.endow.businessobject.FeeMethod, java.lang.String, java.lang.String)
      */
-    protected Collection<HoldingHistory> getHoldingHistoryForBlance(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds) {
+    public Collection<HoldingHistory> getHoldingHistoryForBlance(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds) {
         Collection<HoldingHistory> holdingHistory = new ArrayList();
 
         Collection incomePrincipalValues = new ArrayList();
@@ -169,65 +164,7 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         return securityIds;
     }
 
-    /**
-     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingUnits(FeeMethod)
-     */
-    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds) {
-        BigDecimal totalHoldingUnits = BigDecimal.ZERO;
-
-        Date lastProcessDate = feeMethod.getFeeLastProcessDate();
-        Date mostRecentDate = monthEndDateService.getMostRecentDate();
-
-        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
-
-        Collection<HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
-        for (HoldingHistory holdingHistory : holdingHistoryRecords) {
-            Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
-
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingUnits = totalHoldingUnits.add(holdingHistory.getUnits());
-            }
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_UNITS) && (mostRecentDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingUnits = totalHoldingUnits.add(holdingHistory.getUnits());
-            }
-        }
-
-        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_UNITS)) {
-            totalHoldingUnits = KEMCalculationRoundingHelper.divide(totalHoldingUnits, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
-        }
-
-        return totalHoldingUnits;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistoryTotalHoldingMarketValue(FeeMethod)
-     */
-    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds) {
-        BigDecimal totalHoldingMarkteValue = BigDecimal.ZERO;
-
-        Date lastProcessDate = feeMethod.getFeeLastProcessDate();
-        Date mostRecentDate = monthEndDateService.getMostRecentDate();
-
-        String feeBalanceTypeCode = feeMethod.getFeeBalanceTypeCode();
-
-        Collection<HoldingHistory> holdingHistoryRecords = getHoldingHistoryForBlance(feeMethod, feeMethodCodeForSecurityClassCodes, feeMethodCodeForSecurityIds);
-        for (HoldingHistory holdingHistory : holdingHistoryRecords) {
-            Date monthEndDate = monthEndDateService.getByPrimaryKey(holdingHistory.getMonthEndDateId());
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE) && (monthEndDate.compareTo(lastProcessDate) > 0)) {
-                totalHoldingMarkteValue = totalHoldingMarkteValue.add(holdingHistory.getMarketValue());
-            }
-            if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_MONTH_END_MARKET_VALUE) && (monthEndDate.compareTo(mostRecentDate) > 0)) {
-                totalHoldingMarkteValue = totalHoldingMarkteValue.add(holdingHistory.getMarketValue());
-            }
-        }
-
-        if (feeBalanceTypeCode.equals(EndowConstants.FeeBalanceTypes.FEE_BALANCE_TYPE_VALUE_FOR_AVERAGE_MARKET_VALUE)) {
-            totalHoldingMarkteValue = KEMCalculationRoundingHelper.divide(totalHoldingMarkteValue, BigDecimal.valueOf(holdingHistoryRecords.size()), EndowConstants.Scale.SECURITY_UNIT_VALUE);
-        }
-
-        return totalHoldingMarkteValue;
-    }
-
+    
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.HoldingHistoryDao#getHoldingHistory(java.lang.String, java.lang.String)
      */
@@ -306,24 +243,6 @@ public class HoldingHistoryDaoOjb extends PlatformAwareDaoBaseOjb implements Hol
         }
 
         return total;
-    }
-
-    /**
-     * Gets the monthEndDateService attribute.
-     * 
-     * @return Returns the monthEndDateService.
-     */
-    protected MonthEndDateService getMonthEndDateService() {
-        return monthEndDateService;
-    }
-
-    /**
-     * Sets the monthEndDateService attribute value.
-     * 
-     * @param monthEndDateService The monthEndDateService to set.
-     */
-    public void setMonthEndDateService(MonthEndDateService monthEndDateService) {
-        this.monthEndDateService = monthEndDateService;
     }
 
     /**

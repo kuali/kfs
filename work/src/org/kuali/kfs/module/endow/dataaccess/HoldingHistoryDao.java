@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
@@ -23,30 +24,6 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public interface HoldingHistoryDao {
-
-    /**
-     * Calculates the total Holding Units based on FEE_BAL_TYP_CD = AU OR MU
-     * 
-     * @param feeMethod feeMethod object
-     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
-     *        FeeClassCode DD definition for fee method code
-     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
-     *        definition for fee method code
-     * @return totalHoldingUnits
-     */
-    public BigDecimal getHoldingHistoryTotalHoldingUnits(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
-
-    /**
-     * Calculates the total Holding market value based on FEE_BAL_TYP_CD = AMV OR MMV
-     * 
-     * @param feeMethod feeMethod object
-     * @param feeMethodCodeForSecurityClassCodes the feeMethod code that should be passed in as uppercase or not depending on
-     *        FeeClassCode DD definition for fee method code
-     * @param feeMethodCodeForSecurityIdsthe feeMethod code that should be passed in as uppercase or not depending on FeeSecurity DD
-     *        definition for fee method code
-     * @return totalHoldingMarketValue
-     */
-    public BigDecimal getHoldingHistoryTotalHoldingMarketValue(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
 
     /**
      * Gets HoldingHistory
@@ -86,4 +63,14 @@ public interface HoldingHistoryDao {
      * @return
      */
     public List<HoldingHistory> getHoldingHistoryByKemidIdAndMonthEndIdAndIpInd(String kemid, KualiInteger monthEndId, String ipInd);
+
+    /**
+     * Prepares the criteria and selects the records from END_HLDG_HIST_T table.
+     * 
+     * @param feeMethod
+     * @param feeMethodCodeForSecurityClassCodes
+     * @param feeMethodCodeForSecurityIds
+     * @return
+     */
+    public Collection<HoldingHistory> getHoldingHistoryForBlance(FeeMethod feeMethod, String feeMethodCodeForSecurityClassCodes, String feeMethodCodeForSecurityIds);
 }

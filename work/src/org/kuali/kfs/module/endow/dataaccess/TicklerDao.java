@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.Tickler;
@@ -22,9 +23,10 @@ import org.kuali.kfs.module.endow.businessobject.Tickler;
 public interface TicklerDao {
 
     /**
-     * Gets Tickler whose next income pay date is equal to the current date and whose frequency code is valid 
+     * Gets Tickler whose next income pay date is equal to the current date and whose frequency code is valid
      * 
+     * @param currentDate the current date
      * @return List<Tickler>
      */
-    public List<Tickler> getTicklerWithNextPayDateEqualToCurrentDate();
+    public List<Tickler> getTicklerWithNextPayDateEqualToCurrentDate(Date currentDate);
 }

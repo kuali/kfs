@@ -752,17 +752,14 @@
 			
 	<bean id="feeMethodDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.FeeMethodDaoOjb"/>
 	
-	<bean id="ticklerDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TicklerDaoOjb">
-		<property name="kemService">
-			<ref bean="kemService"/>
-		</property>	
-	</bean>
+	<bean id="ticklerDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.TicklerDaoOjb"/>
 	
 	<bean id="automatedCashInvestmentModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.AutomatedCashInvestmentModelDaoOjb" />
 	
 	<bean id="cashSweepModelDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.CashSweepModelDaoOjb" />
 		
 	<bean id="recurringCashTransferDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.RecurringCashTransferDaoOjb"/>
+	
 	<!-- end rollFrequencyDatesJob configuration-->
 	
 	<!-- accrualProcessingJob configuration -->

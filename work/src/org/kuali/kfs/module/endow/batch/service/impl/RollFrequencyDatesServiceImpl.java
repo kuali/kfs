@@ -154,7 +154,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         boolean success = true;
 
         int counter = 0;
-        List<Tickler> ticklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate();
+        List<Tickler> ticklerRecords = ticklerDao.getTicklerWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
         if (ticklerRecords != null) {
             for (Tickler tickler : ticklerRecords) {
                 String frequencyCode = tickler.getFrequencyCode();

@@ -74,31 +74,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * This saves a BudgetConstructionHeader object to the database
-     * 
-     * @param bcHeader
-     */
-    public void saveBudgetConstructionHeader(BudgetConstructionHeader bcHeader) {
-        getPersistenceBrokerTemplate().store(bcHeader);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#saveBudgetConstructionDocument(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
-     */
-    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument) {
-        getPersistenceBrokerTemplate().store(bcDocument);
-    }
-
-    /**
-     * This saves a BudgetConstructionFundingLock to the database
-     * 
-     * @param budgetConstructionFundingLock
-     */
-    public void saveBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
-        getPersistenceBrokerTemplate().store(budgetConstructionFundingLock);
-    }
-
-    /**
      * This deletes a BudgetConstructionFundingLock from the database
      * 
      * @param budgetConstructionFundingLock
@@ -165,15 +140,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
             }
         }
         return positionNumber;
-    }
-
-    /**
-     * Saves a BudgetConstructionPosition to the database
-     * 
-     * @param bcPosition
-     */
-    public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition) {
-        getPersistenceBrokerTemplate().store(bcPosition);
     }
 
     /**

@@ -17,28 +17,22 @@ package org.kuali.kfs.module.cam.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetDepreciationUtilDao;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,13 +119,5 @@ public class AssetDepreciationUtilDaoOjb extends PlatformAwareDaoBaseOjb impleme
     public void deleteGLPEs() {
         QueryByCriteria q = QueryFactory.newQuery(GeneralLedgerPendingEntry.class, new Criteria());
         getPersistenceBrokerTemplate().deleteByQuery(q);
-    }
-
-    public void save(List businessObjects) {
-        for (Iterator i = businessObjects.iterator(); i.hasNext();) {
-            PersistableBusinessObject bo = (PersistableBusinessObject) i.next();
-            bo.refresh();
-            getPersistenceBrokerTemplate().store(bo);
-        }
     }
 }

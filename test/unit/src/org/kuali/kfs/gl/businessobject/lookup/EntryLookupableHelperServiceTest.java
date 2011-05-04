@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.
@@ -117,7 +118,8 @@ public class EntryLookupableHelperServiceTest extends AbstractGeneralLedgerLooku
      */
     private void insertNewRecord(Transaction transaction, Date date) {
         try {
-            entryDao.addEntry(transaction, date);
+            Entry e = new Entry(transaction, date);
+            SpringContext.getBean(BusinessObjectService.class).save(e);
         }
         catch (Exception e) {
         }

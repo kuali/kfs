@@ -100,7 +100,10 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
     }
 
     public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
-        pooledFundValueDao.setIncomeDistributionCompleted(pooledFundValueList, completed);
+        for (PooledFundValue pooledFundValue : pooledFundValueList) {
+            pooledFundValue.setIncomeDistributionComplete(completed);
+        }
+        businessObjectService.save(pooledFundValueList);
     }
 
     /**

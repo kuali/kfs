@@ -48,27 +48,6 @@ public interface BudgetConstructionDao {
     public BudgetConstructionHeader getByCandidateKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear);
 
     /**
-     * This saves a BudgetConstructionHeader object to the database
-     * 
-     * @param bcHeader
-     */
-    public void saveBudgetConstructionHeader(BudgetConstructionHeader bcHeader);
-    
-    /**
-     * Save a BudgetConstructionDocument object to the database
-     * 
-     * @param bcDocument
-     */
-    public void saveBudgetConstructionDocument(BudgetConstructionDocument bcDocument);
-
-    /**
-     * This saves a BudgetConstructionFundingLock to the database
-     * 
-     * @param budgetConstructionFundingLock
-     */
-    public void saveBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
-
-    /**
      * This deletes a BudgetConstructionFundingLock from the database
      * 
      * @param budgetConstructionFundingLock
@@ -95,13 +74,6 @@ public interface BudgetConstructionDao {
      * @return position number associated with lock
      */
     public String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock);
-
-    /**
-     * Saves a BudgetConstructionPosition to the database
-     * 
-     * @param bcPosition
-     */
-    public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition);
 
     /**
      * This method deletes all BudgetConstructionPullup rows associated with a user.

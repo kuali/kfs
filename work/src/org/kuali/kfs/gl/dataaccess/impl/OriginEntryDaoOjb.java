@@ -375,20 +375,6 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     }
 
     /**
-     * Saves an origin entry to the database
-     * 
-     * @param entry the entry to save.
-     */
-    public void saveOriginEntry(OriginEntryInformation entry) {
-        LOG.debug("saveOriginEntry() started");
-
-        if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {
-            entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
-        }
-        getPersistenceBrokerTemplate().store(entry);
-    }
-
-    /**
      * Delete entries matching searchCriteria search criteria.
      * 
      * @param searchCriteria a map of criteria to use as keys for building a query

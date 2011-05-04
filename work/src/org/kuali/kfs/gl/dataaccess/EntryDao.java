@@ -15,21 +15,12 @@
  */
 package org.kuali.kfs.gl.dataaccess;
 
-import java.util.Date;
-
 import org.kuali.kfs.gl.businessobject.Transaction;
 
 /**
  * A surprisingly small DAO interface that declares methods to help Entries interact with the database
  */
 public interface EntryDao {
-    /**
-     * Add a new transaction to the database
-     * 
-     * @param t the transaction to save
-     * @param postDate the officially reported posting date
-     */
-    public void addEntry(Transaction t, Date postDate);
 
     /**
      * Get the max sequence number currently used for a transaction

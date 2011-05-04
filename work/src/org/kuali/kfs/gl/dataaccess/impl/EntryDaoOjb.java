@@ -61,21 +61,6 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao, Le
     }
 
     /**
-     * Turns the given transaction into an entry and then saves that entry in the database
-     * 
-     * @param t the transaction to save
-     * @param postDate the officially reported posting date
-     * @see org.kuali.kfs.gl.dataaccess.EntryDao#addEntry(org.kuali.kfs.gl.businessobject.Transaction, java.util.Date)
-     */
-    public void addEntry(Transaction t, Date postDate) {
-        LOG.debug("addEntry() started");
-
-        Entry e = new Entry(t, postDate);
-
-        getPersistenceBrokerTemplate().store(e);
-    }
-
-    /**
      * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make
      * sure that rows added have a unique primary key.
      * 

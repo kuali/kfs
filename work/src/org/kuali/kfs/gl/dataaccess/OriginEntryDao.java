@@ -130,14 +130,6 @@ public interface OriginEntryDao {
     public void deleteGroups(Collection<OriginEntryGroup> groups);
 
     /**
-     * Save origin entry
-     * 
-     * @param entry entry to save
-     */
-    public void saveOriginEntry(OriginEntryInformation entry);
-
-
-    /**
      * Finds an entry for the given entryId, or returns a newly created on
      * 
      * @param entryId an entry id to find an entry for

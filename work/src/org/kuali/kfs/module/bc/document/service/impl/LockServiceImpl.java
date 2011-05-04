@@ -76,7 +76,7 @@ public class LockServiceImpl implements LockService {
             if (bcHeader.getBudgetLockUserIdentifier() == null) {
                 bcHeader.setBudgetLockUserIdentifier(principalId);
                 try {
-                    budgetConstructionDao.saveBudgetConstructionHeader(bcHeader);
+                    SpringContext.getBean(BusinessObjectService.class).save(bcHeader);
                     bcLockStatus.setLockStatus(LockStatus.SUCCESS);
                 }
                 catch (DataAccessException ex) {
@@ -166,7 +166,7 @@ public class LockServiceImpl implements LockService {
             if (bcHeader.getBudgetLockUserIdentifier() != null) {
                 bcHeader.setBudgetLockUserIdentifier(null);
                 try {
-                    budgetConstructionDao.saveBudgetConstructionHeader(bcHeader);
+                    SpringContext.getBean(BusinessObjectService.class).save(bcHeader);
                     lockStatus = LockStatus.SUCCESS;
                 }
                 catch (DataAccessException ex) {
@@ -235,7 +235,7 @@ public class LockServiceImpl implements LockService {
                 budgetConstructionFundingLock.setFill3("L");
                 budgetConstructionFundingLock.setFill4("L");
                 budgetConstructionFundingLock.setFill5("L");
-                budgetConstructionDao.saveBudgetConstructionFundingLock(budgetConstructionFundingLock);
+                SpringContext.getBean(BusinessObjectService.class).save(budgetConstructionFundingLock);
                 if (isAccountLocked(bcHeader)) { // unlikely, but need to check this
                     bcLockStatus.setLockStatus(LockStatus.BY_OTHER);
                     unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), principalId);
@@ -350,7 +350,7 @@ public class LockServiceImpl implements LockService {
             if (bcPosition.getPositionLockUserIdentifier() == null) {
                 bcPosition.setPositionLockUserIdentifier(principalId);
                 try {
-                    budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
+                    SpringContext.getBean(BusinessObjectService.class).save(bcPosition);
                     bcLockStatus.setLockStatus(LockStatus.SUCCESS);
                 }
                 catch (DataAccessException ex) {
@@ -454,7 +454,7 @@ public class LockServiceImpl implements LockService {
             if (bcPosition.getPositionLockUserIdentifier() != null) {
                 bcPosition.setPositionLockUserIdentifier(null);
                 try {
-                    budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
+                    SpringContext.getBean(BusinessObjectService.class).save(bcPosition);
                     lockStatus = LockStatus.SUCCESS;
                 }
                 catch (DataAccessException ex) {
@@ -488,7 +488,7 @@ public class LockServiceImpl implements LockService {
 
         try {
             bcPosition.setPositionLockUserIdentifier(null);
-            budgetConstructionDao.saveBudgetConstructionPosition(bcPosition);
+            SpringContext.getBean(BusinessObjectService.class).save(bcPosition);
 
             return LockStatus.SUCCESS;
         }
@@ -546,7 +546,7 @@ public class LockServiceImpl implements LockService {
                 if (bcHeader.getBudgetTransactionLockUserIdentifier() == null) {
                     bcHeader.setBudgetTransactionLockUserIdentifier(principalId);
                     try {
-                        budgetConstructionDao.saveBudgetConstructionHeader(bcHeader);
+                        SpringContext.getBean(BusinessObjectService.class).save(bcHeader);
                         bcLockStatus.setLockStatus(LockStatus.SUCCESS);
                     }
                     catch (DataAccessException ex) {
@@ -634,7 +634,7 @@ public class LockServiceImpl implements LockService {
             if (bcHeader.getBudgetTransactionLockUserIdentifier() != null) {
                 bcHeader.setBudgetTransactionLockUserIdentifier(null);
                 try {
-                    budgetConstructionDao.saveBudgetConstructionHeader(bcHeader);
+                    SpringContext.getBean(BusinessObjectService.class).save(bcHeader);
                     lockStatus = LockStatus.SUCCESS;
                 }
                 catch (DataAccessException ex) {

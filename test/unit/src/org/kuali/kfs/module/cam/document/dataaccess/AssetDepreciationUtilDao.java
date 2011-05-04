@@ -40,6 +40,5 @@ public interface AssetDepreciationUtilDao {
      * @param assetPayments
      */
     public void deleteAssets(List<Asset> assets);
-    
-    public void save(List businessObjects);
+
 }

@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -109,10 +110,10 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
             assetDepreciationUtilDao.deleteGLPEs();
 
             // Storing assets
-            assetDepreciationUtilDao.save(assets);
+            businessObjectService.save(assets);
 
             // Inserting the asset payments to be depreciated
-            assetDepreciationUtilDao.save(assetPaymentsToInsert);
+            businessObjectService.save(assetPaymentsToInsert);
 
             // Getting the initial depreciation date from fixture
             String initialDepreciationDate = AssetDepreciationServiceFixture.DATA.getDepreciationDate();
@@ -250,5 +251,13 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
             LOG.info(re.getMessage());
         }
         return result;
+    }
+    
+    public void save(List businessObjects) {
+        for (Iterator i = businessObjects.iterator(); i.hasNext();) {
+            PersistableBusinessObject bo = (PersistableBusinessObject) i.next();
+            bo.refresh();
+            businessObjectService.save(bo);
+        }
     }
 }

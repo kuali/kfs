@@ -1070,8 +1070,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         kualiDocumentHeader.setDocumentDescription(String.format("%s %d %s %s", BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION, budgetConstructionDocument.getUniversityFiscalYear(), budgetConstructionDocument.getChartOfAccountsCode(), budgetConstructionDocument.getAccountNumber()));
         kualiDocumentHeader.setExplanation(BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
-
-        budgetConstructionDao.saveBudgetConstructionDocument(budgetConstructionDocument);
+        businessObjectService.save(budgetConstructionDocument);
         List<String> emptyAdHocList = new ArrayList<String>();
 
         // call route with document type configured for no route paths or post processor

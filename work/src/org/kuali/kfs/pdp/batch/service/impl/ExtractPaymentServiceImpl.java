@@ -222,7 +222,8 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         List<PaymentProcess> extractsToRun = this.processDao.getAllExtractsToRun();
         for (PaymentProcess extractToRun : extractsToRun) {
             writeExtractCheckFile(extractedStatus, extractToRun, filename, extractToRun.getId().intValue());
-            this.processDao.setExtractProcessAsComplete(extractToRun);
+            extractToRun.setExtractedInd(true);
+            businessObjectService.save(extractToRun);
         }
     }
 

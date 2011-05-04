@@ -20,9 +20,7 @@
 package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -30,9 +28,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.KualiInteger;
 
 
@@ -73,11 +69,6 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.EXTRACTED_IND, false);
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.FORMATTED_IND, true);
         return (List<PaymentProcess>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentProcess.class, c));
-    }
-    
-    public void setExtractProcessAsComplete(PaymentProcess paymentProcess) {
-        paymentProcess.setExtractedInd(true);
-        getPersistenceBrokerTemplate().store(paymentProcess);
     }
     
     public PaymentProcess get(Integer procId) {

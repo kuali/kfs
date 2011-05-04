@@ -17,18 +17,15 @@ package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 import org.kuali.kfs.module.purap.dataaccess.SensitiveDataDao;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements SensitiveDataDao {
@@ -84,18 +81,6 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
     }
     
     /**
-     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>)
-     */
-    public void savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData> posds) {
-        LOG.debug("savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>) started");
-        if (posds == null)
-            return;
-        for (PurchaseOrderSensitiveData posd : posds) {
-            getPersistenceBrokerTemplate().store(posd);
-        }
-    }
-    
-    /**
      * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#getLastSensitiveDataAssignment(java.lang.Integer)
      */
     public SensitiveDataAssignment getLastSensitiveDataAssignment(Integer poId) {
@@ -133,25 +118,5 @@ public class SensitiveDataDaoOjb extends PlatformAwareDaoBaseOjb implements Sens
         }
     }
     */
-
-    /**
-     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#saveSensitiveDataAssignment(SensitiveDataAssignment)
-     */
-    public void saveSensitiveDataAssignment(SensitiveDataAssignment sda) {
-        LOG.debug("saveSensitiveDataAssignment(SensitiveDataAssignment) started");
-        getPersistenceBrokerTemplate().store(sda);        
-    }
-   
-    /**
-     * @see org.kuali.kfs.integration.service.SensitiveDataDaoe#saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>)
-     */
-    public void saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sdads) {
-        LOG.debug("saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>) started");
-        if (sdads == null)
-            return;
-        for (SensitiveDataAssignmentDetail sda : sdads) {
-            getPersistenceBrokerTemplate().store(sda);
-        }
-    }
 
 }

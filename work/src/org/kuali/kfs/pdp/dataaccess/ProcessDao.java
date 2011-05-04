@@ -22,7 +22,6 @@ package org.kuali.kfs.pdp.dataaccess;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
-import org.kuali.rice.kim.bo.Person;
 
 
 /**
@@ -33,8 +32,6 @@ public interface ProcessDao {
     public PaymentProcess createProcessToRun(Integer procId);
     
     public List<PaymentProcess> getAllExtractsToRun();
-    
-    public void setExtractProcessAsComplete(PaymentProcess paymentProcess);
     
 }
 

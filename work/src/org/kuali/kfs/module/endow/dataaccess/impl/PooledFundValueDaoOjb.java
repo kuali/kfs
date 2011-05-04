@@ -73,16 +73,6 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#setIncomeDistributionCompleted(java.util.List, boolean)
-     */
-    public void setIncomeDistributionCompleted(List<PooledFundValue> pooledFundValueList, boolean completed) {
-        for (PooledFundValue pooledFundValue : pooledFundValueList) {
-            pooledFundValue.setIncomeDistributionComplete(completed);
-            getPersistenceBrokerTemplate().store(pooledFundValue);
-        }
-    }
-
-    /**
      * Sets the kemService.
      * 
      * @param kemService

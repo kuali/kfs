@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
@@ -109,7 +108,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
      */
     public void savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData> posds) {
         LOG.debug("savePurchaseOrderSensitiveDatas(List<PurchaseOrderSensitiveData>) started");
-        sensitiveDataDao.savePurchaseOrderSensitiveDatas(posds);
+        SpringContext.getBean(BusinessObjectService.class).save(posds);
     }
 
     /**
@@ -133,7 +132,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
      */
     public void saveSensitiveDataAssignment(SensitiveDataAssignment sda) {
         LOG.debug("saveSensitiveDataAssignment(SensitiveDataAssignment) started");
-        sensitiveDataDao.saveSensitiveDataAssignment(sda);
+        SpringContext.getBean(BusinessObjectService.class).save(sda);
     }
 
     /**
@@ -152,7 +151,7 @@ public class SensitiveDataServiceImpl implements SensitiveDataService {
      */
     public void saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail> sdads) {
         LOG.debug("saveSensitiveDataAssignmentDetails(List<SensitiveDataAssignmentDetail>) started");
-        sensitiveDataDao.saveSensitiveDataAssignmentDetails(sdads);
+        SpringContext.getBean(BusinessObjectService.class).save(sdads);
     }
 
     

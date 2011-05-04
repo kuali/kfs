@@ -15,17 +15,19 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
+
 public interface KemidFeeDao {
 
     /**
-     * Updates WAIVED_FEE_YTD column to zero (0).
-     * If the current date is the first day of the institution's fiscal year 
-     * (FISCAL_YEAR_END_DAY_AND_MONTH parameter) then all values in 
-     * END_KEMID_FEE_T: WAIVED_FEE_YTD are set to zero (0).     * 
+     * Updates WAIVED_FEE_YTD column to zero (0). If the current date is the first day of the institution's fiscal year
+     * (FISCAL_YEAR_END_DAY_AND_MONTH parameter) then all values in END_KEMID_FEE_T: WAIVED_FEE_YTD are set to zero (0).
+     * 
+     * @param firstDayAfterFiscalYear the first Day After Fiscal Year
+     * @param currentDate the current date
+     * @param fiscalYearMonthAndDayParamExists a boolean that tells whether the FISCAL_YEAR_END_MONTH_AND_DAY parameter exists
      * @return true if column value updated to zero else false
      */
-    public boolean updateKemidFeeWaivedFeeYearToDateToZero();
+    public boolean updateKemidFeeWaivedFeeYearToDateToZero(Date firstDayAfterFiscalYear, Date currentDate, boolean fiscalYearMonthAndDayParamExists);
 
 }
-
-

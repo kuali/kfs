@@ -15,33 +15,26 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
-import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
+import java.sql.Date;
+
 import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.kns.service.ParameterService;
 import org.springframework.dao.DataAccessException;
 
 public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFeeDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KemidFeeDaoJdbc.class);
-    
-    protected KEMService kemService;
-    protected ParameterService parameterService;
-    
-    /** 
-     * @see org.kuali.kfs.module.endow.dataaccess.KemidFeeDao#updateKemidFeeWaivedFeeYearToDateToZero()
+
+    /**
+     * @see org.kuali.kfs.module.endow.dataaccess.KemidFeeDao#updateKemidFeeWaivedFeeYearToDateToZero(Date, Date, boolean)
      */
-    public boolean updateKemidFeeWaivedFeeYearToDateToZero() {
+    public boolean updateKemidFeeWaivedFeeYearToDateToZero(Date firstDayAfterFiscalYear, Date currentDate, boolean fiscalYearMonthAndDayParamExists) {
         boolean updated = true;
-        
-        if (!systemParametersForUpdateWaiverFeeAmounts()) {
+
+        if (!systemParametersForUpdateWaiverFeeAmounts(fiscalYearMonthAndDayParamExists)) {
             return false;
         }
-        
-        java.sql.Date firstDayAfterFiscalYear = kemService.getFirstDayAfterFiscalYearEndDayAndMonth();
-        
-        if (firstDayAfterFiscalYear.equals(kemService.getCurrentDate())) {
+
+        if (firstDayAfterFiscalYear.equals(currentDate)) {
             try {
                 getSimpleJdbcTemplate().update("UPDATE END_KEMID_FEE_T SET WAIVED_FEE_YTD = 0");
                 return true;
@@ -50,59 +43,28 @@ public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFe
                 return false;
             }
         }
-        
-        return updated;        
+
+        return updated;
     }
 
     /**
      * This method checks if the System parameters have been set up for this batch job.
+     * 
      * @result return true if the system parameters exist, else false
      */
-    protected boolean systemParametersForUpdateWaiverFeeAmounts() {
+    protected boolean systemParametersForUpdateWaiverFeeAmounts(boolean fiscalYearMonthAndDayParamExists) {
         LOG.debug("systemParametersForUpdateWaiverFeeAmounts() started.");
-        
+
         boolean systemParameterExists = true;
-        
+
         // check to make sure the system parameter has been setup...
-        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_MONTH_AND_DAY)) {
-          LOG.warn("FISCAL_YEAR_END_MONTH_AND_DAY System parameter does not exist in the parameters list.  The job can not continue without this parameter");
-          return false;
+        if (!fiscalYearMonthAndDayParamExists) {
+            LOG.warn("FISCAL_YEAR_END_MONTH_AND_DAY System parameter does not exist in the parameters list.  The job can not continue without this parameter");
+            return false;
         }
-        
+
         LOG.debug("systemParametersForUpdateWaiverFeeAmounts() ended.");
-        
+
         return systemParameterExists;
-    }
-    
-    /**
-     * Gets the kemService.
-     * @return kemService
-     */
-    protected KEMService getKemService() {
-        return kemService;
-    }
-
-    /**
-     * Sets the kemService.
-     * @param kemService
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
-    }
-
-    /**
-     * Gets the parameterService attribute.
-     * @return Returns the parameterService.
-     */    
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */    
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 }

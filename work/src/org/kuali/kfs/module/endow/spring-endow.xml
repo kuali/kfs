@@ -1589,6 +1589,9 @@
 		<property name="holdingHistoryService">
 			<ref bean="holdingHistoryService" />
 		</property>	
+	    <property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 		
 		<property name="processFeeTransactionsExceptionReportsWriterService">
 			<ref bean="processFeeTransactionsExceptionReportsWriterService" />
@@ -2478,14 +2481,8 @@
 			<ref bean="securityDao" />
 		</property>		
 	</bean>
-	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoJdbc">
-		<property name="kemService">
-			<ref bean="kemService" />
-		</property>
-    	<property name="parameterService">
-    	 	<ref bean="parameterService" />
-		</property>
-	</bean>
+	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoJdbc"/>
+
 	<bean id="kEMIDCurrentAvailableBalanceService" class="org.kuali.kfs.module.endow.batch.service.impl.KEMIDCurrentAvailableBalanceServiceImpl">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

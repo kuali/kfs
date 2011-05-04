@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.KemidFeeService;
 import org.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService;
@@ -56,6 +57,7 @@ import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -65,6 +67,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -92,6 +95,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected CurrentTaxLotService currentTaxLotService;
     protected DataDictionaryService dataDictionaryService;
     protected HoldingHistoryService holdingHistoryService;
+    protected ParameterService parameterService;
 
     protected ReportWriterService processFeeTransactionsExceptionReportsWriterService;
     protected ReportWriterService processFeeTransactionsTotalProcessedReportsWriterService;
@@ -200,7 +204,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
         // 6.2.1 Basic Process - Step 1:
         boolean updated = true;
 
-        if (!kemidFeeDao.updateKemidFeeWaivedFeeYearToDateToZero()) {
+        Date firstDayAfterFiscalYear = kemService.getFirstDayAfterFiscalYearEndDayAndMonth();
+        Date currentDate = kemService.getCurrentDate();
+        boolean fiscalYearMonthAndDayParamExists = parameterService.parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_MONTH_AND_DAY);
+
+        if (!kemidFeeDao.updateKemidFeeWaivedFeeYearToDateToZero(firstDayAfterFiscalYear, currentDate, fiscalYearMonthAndDayParamExists)) {
             writeTableRowAndTableReason("Batch Process Fee Transactions job is aborted.  Unable to update KEMID Year-To-Date Waiver Fee amounts");
             return false;
         }
@@ -1460,5 +1468,14 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      */
     public void setHoldingHistoryService(HoldingHistoryService holdingHistoryService) {
         this.holdingHistoryService = holdingHistoryService;
+    }
+
+    /**
+     * Sets the parameterService.
+     * 
+     * @param parameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

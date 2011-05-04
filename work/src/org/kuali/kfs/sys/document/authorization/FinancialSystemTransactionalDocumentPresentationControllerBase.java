@@ -44,7 +44,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase implements FinancialSystemTransactionalDocumentPresentationController {
     private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentPresentationControllerBase.class);
-            
+
     /**
      * Makes sure that the given document implements error correction, that error correction is turned on for the document in the
      * data dictionary, and that the document is in a workflow state that allows error correction.
@@ -55,7 +55,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (!(document instanceof Correctable)) {
             return false;
         }
-        
+
         if (!this.canCopy(document)) {
             return false;
         }
@@ -76,17 +76,22 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         }
 
         final KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
+        if (!isApprovalDateWithinFiscalYear(workflowDocument))
+            return false;
+
+        return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
+    }
+
+    protected boolean isApprovalDateWithinFiscalYear(KualiWorkflowDocument workflowDocument) {
         final Calendar approvalDate = workflowDocument.getRouteHeader().getDateApproved();
         if (ObjectUtils.isNotNull(approvalDate)) {
-         // compare approval fiscal year with current fiscal year
-            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);       
+            // compare approval fiscal year with current fiscal year
+            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
             final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.getTime());
             final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-            if (!NumberUtils.equals(currentFiscalYear, approvalYear)) return false;
+            return NumberUtils.equals(currentFiscalYear, approvalYear);
         }
-          
-        return (workflowDocument.stateIsApproved() || workflowDocument.stateIsProcessed() || workflowDocument.stateIsFinal());
+        return true;
     }
 
     /**
@@ -95,17 +100,17 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     @Override
     public Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = super.getDocumentActions(document);
-        
+
         if (document instanceof FinancialSystemTransactionalDocument) {
             if (canErrorCorrect((FinancialSystemTransactionalDocument) document)) {
                 documentActions.add(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
             }
-            
+
             if (canHaveBankEntry(document)) {
                 documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
             }
         }
-        
+
         return documentActions;
     }
 
@@ -119,7 +124,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (document instanceof AmountTotaling) {
             editModes.add(KFSConstants.AMOUNT_TOTALING_EDITING_MODE);
         }
-        
+
         if (this.canHaveBankEntry(document)) {
             editModes.add(KFSConstants.BANK_ENTRY_VIEWABLE_EDITING_MODE);
         }
@@ -128,10 +133,10 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
     }
 
     // check if bank entry should be viewable for the given document
-    protected boolean canHaveBankEntry(Document document) {        
+    protected boolean canHaveBankEntry(Document document) {
         boolean bankSpecificationEnabled = getBankService().isBankSpecificationEnabled();
-        
-        if (bankSpecificationEnabled) {            
+
+        if (bankSpecificationEnabled) {
             String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
 
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
@@ -140,10 +145,11 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
 
         return false;
     }
-    
+
     private static BankService bankService;
+
     protected BankService getBankService() {
-        if ( bankService == null ) {
+        if (bankService == null) {
             bankService = SpringContext.getBean(BankService.class);
         }
         return bankService;

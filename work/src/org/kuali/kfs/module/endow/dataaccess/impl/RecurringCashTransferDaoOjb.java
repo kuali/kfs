@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -22,29 +23,18 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class RecurringCashTransferDaoOjb extends PlatformAwareDaoBaseOjb implements RecurringCashTransferDao {
 
-    protected KEMService kemService;
-    
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.TicklerDao#getAllSecuritiesWithNextPayDateEqualToCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.RecurringCashTransferDao#getRecurringCashTransferWithNextPayDateEqualToCurrentDate(Date)
      */
-    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate() {
+    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_NEXT_PROC_DATE, currentDate);
         criteria.addNotNull(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_FREQUENCY_CODE);
         criteria.addEqualTo(EndowPropertyConstants.ENDOWMENT_RECURRING_CASH_TRANSF_ACTIVE_INDICATOR, "Y");
         return (List<EndowmentRecurringCashTransfer>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EndowmentRecurringCashTransfer.class, criteria));
-    }
-
-    /**
-     * Sets the kemService attribute value.
-     * @param kemService The kemService to set.
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
     }
 }

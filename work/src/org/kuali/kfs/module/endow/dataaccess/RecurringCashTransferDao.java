@@ -15,15 +15,18 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 
 public interface RecurringCashTransferDao {
     /**
-     * Gets active EndowmentRecurringCashTransfer whose next income pay date is equal to the current date and whose frequency code is valid 
+     * Gets active EndowmentRecurringCashTransfer whose next income pay date is equal to the current date and whose frequency code
+     * is valid
      * 
+     * @param currentDate the currentDate
      * @return List<EndowmentRecurringCashTransfer>
      */
-    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
+    public List<EndowmentRecurringCashTransfer> getRecurringCashTransferWithNextPayDateEqualToCurrentDate(Date currentDate);
 }

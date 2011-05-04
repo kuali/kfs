@@ -221,7 +221,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         boolean success = true;
 
         int counter = 0;
-        List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate();
+        List<EndowmentRecurringCashTransfer> recurringCashTransferRecords = recurringCashTransferDao.getRecurringCashTransferWithNextPayDateEqualToCurrentDate(kemService.getCurrentDate());
         if (recurringCashTransferRecords != null) {
             for (EndowmentRecurringCashTransfer recurringCashTransfer : recurringCashTransferRecords) {
                 String frequencyCode = recurringCashTransfer.getFrequencyCode();

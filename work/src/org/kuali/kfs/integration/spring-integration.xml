@@ -16,21 +16,29 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="contractsAndGrantsModuleService" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleServiceNoOp" />
+	<bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
+	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleServiceNoOp"  abstract="true"/>
 				
-	<bean id="laborModuleService" class="org.kuali.kfs.integration.ld.LaborModuleServiceNoOp" />
+	<bean id="laborModuleService"  parent="laborModuleService-parentBean"/>
+	<bean id="laborModuleService-parentBean" class="org.kuali.kfs.integration.ld.LaborModuleServiceNoOp"  abstract="true"/>
 	
-	<bean id="purchasingAccountsPayableModuleService" class="org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleServiceNoOp" />
+	<bean id="purchasingAccountsPayableModuleService"  parent="purchasingAccountsPayableModuleService-parentBean"/>
+	<bean id="purchasingAccountsPayableModuleService-parentBean" class="org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleServiceNoOp"  abstract="true"/>
 	
-	<bean id="accountsReceivableModuleService" class="org.kuali.kfs.integration.ar.AccountsReceivableModuleServiceNoOp" />
+	<bean id="accountsReceivableModuleService"  parent="accountsReceivableModuleService-parentBean"/>
+	<bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.integration.ar.AccountsReceivableModuleServiceNoOp"  abstract="true"/>
 	
-	<bean id="effortCertificationModuleService" class="org.kuali.kfs.integration.ec.EffortCertificationModuleServiceNoOp" />
+	<bean id="effortCertificationModuleService"  parent="effortCertificationModuleService-parentBean"/>
+	<bean id="effortCertificationModuleService-parentBean" class="org.kuali.kfs.integration.ec.EffortCertificationModuleServiceNoOp"  abstract="true"/>
 
-    <bean id="capitalAssetBuilderModuleService" class="org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleServiceNoOp"/>
+    <bean id="capitalAssetBuilderModuleService"  parent="capitalAssetBuilderModuleService-parentBean"/>
+    <bean id="capitalAssetBuilderModuleService-parentBean" class="org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleServiceNoOp" abstract="true"/>
     
-    <bean id="capitalAssetManagementModuleService" class="org.kuali.kfs.integration.cam.CapitalAssetManagementModuleServiceNoOp"/>
+    <bean id="capitalAssetManagementModuleService"  parent="capitalAssetManagementModuleService-parentBean"/>
+    <bean id="capitalAssetManagementModuleService-parentBean" class="org.kuali.kfs.integration.cam.CapitalAssetManagementModuleServiceNoOp" abstract="true"/>
     
-    <bean id="cgModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+    <bean id="cgModuleConfiguration"  parent="cgModuleConfiguration-parentBean"/>
+    <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-CG" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -56,11 +64,13 @@
         </property>
     </bean>
 
-    <bean id="cgModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+    <bean id="cgModuleService"  parent="cgModuleService-parentBean"/>
+    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
         <property name="moduleConfiguration" ref="cgModuleConfiguration" />
     </bean>
 
-    <bean id="camModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+    <bean id="camModuleConfiguration"  parent="camModuleConfiguration-parentBean"/>
+    <bean id="camModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-CAM" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -81,12 +91,14 @@
         </property>
     </bean>
 
-    <bean id="camModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+    <bean id="camModuleService"  parent="camModuleService-parentBean"/>
+    <bean id="camModuleService-parentBean" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
         <property name="moduleConfiguration" ref="camModuleConfiguration" />
     </bean>
 
 
-    <bean id="cabModuleConfiguration" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration">
+    <bean id="cabModuleConfiguration"  parent="cabModuleConfiguration-parentBean"/>
+    <bean id="cabModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-CAB" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -107,11 +119,13 @@
         </property> 
     </bean>
 
-    <bean id="cabModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+    <bean id="cabModuleService"  parent="cabModuleService-parentBean"/>
+    <bean id="cabModuleService-parentBean" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
         <property name="moduleConfiguration" ref="cabModuleConfiguration" />
     </bean>
 
-    <bean id="purapModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+    <bean id="purapModuleConfiguration"  parent="purapModuleConfiguration-parentBean"/>
+    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-PURAP" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">
@@ -131,7 +145,8 @@
         </property> 
     </bean>
     
-    <bean id="purapModuleService" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl">
+    <bean id="purapModuleService"  parent="purapModuleService-parentBean"/>
+    <bean id="purapModuleService-parentBean" class="org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
         <property name="moduleConfiguration" ref="purapModuleConfiguration" />
     </bean>
 

@@ -78,7 +78,8 @@
 		<property name="moduleConfiguration" ref="glModuleConfiguration" />
 	</bean>
 
-	<bean id="glBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glBalanceLookupableHelperService"  parent="glBalanceLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -108,13 +109,15 @@
 		</property>
 	</bean>
 
-	<bean id="glBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glBalanceLookupable"  parent="glBalanceLookupable-parentBean" scope="prototype"/>
+	<bean id="glBalanceLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glEncumbranceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EncumbranceLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glEncumbranceLookupableHelperService"  parent="glEncumbranceLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glEncumbranceLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.EncumbranceLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -144,13 +147,15 @@
 		</property>
 	</bean>
 
-	<bean id="glEncumbranceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glEncumbranceLookupable"  parent="glEncumbranceLookupable-parentBean" scope="prototype"/>
+	<bean id="glEncumbranceLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glEncumbranceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glCashBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.CashBalanceLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glCashBalanceLookupableHelperService"  parent="glCashBalanceLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glCashBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.CashBalanceLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -180,13 +185,15 @@
 		</property>
 	</bean>
 
-	<bean id="glCashBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glCashBalanceLookupable"  parent="glCashBalanceLookupable-parentBean" scope="prototype"/>
+	<bean id="glCashBalanceLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glCashBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupableHelperServiceImpl" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glPendingEntryLookupableHelperServiceImpl"  parent="glPendingEntryLookupableHelperServiceImpl-parentBean" scope="prototype"/>
+	<bean id="glPendingEntryLookupableHelperServiceImpl-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -210,13 +217,15 @@
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glPendingEntryLookupable"  parent="glPendingEntryLookupable-parentBean" scope="prototype"/>
+	<bean id="glPendingEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glPendingEntryLookupableHelperServiceImpl" />
 		</property>
 	</bean>
 
-	<bean id="glEntryLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glEntryLookupableHelperService"  parent="glEntryLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glEntryLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -243,13 +252,15 @@
 		</property>
 	</bean>
 
-	<bean id="glEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glEntryLookupable"  parent="glEntryLookupable-parentBean" scope="prototype"/>
+	<bean id="glEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glEntryLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glAccountBalanceLookupableHelperService"  parent="glAccountBalanceLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -282,13 +293,15 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glAccountBalanceLookupable"  parent="glAccountBalanceLookupable-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByConsolidationLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glAccountBalanceByConsolidationLookupableHelperService"  parent="glAccountBalanceByConsolidationLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByConsolidationLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -312,13 +325,15 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByConsolidationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glAccountBalanceByConsolidationLookupable"  parent="glAccountBalanceByConsolidationLookupable-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByConsolidationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByConsolidationLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByLevelLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByLevelLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glAccountBalanceByLevelLookupableHelperService"  parent="glAccountBalanceByLevelLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByLevelLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByLevelLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -342,13 +357,15 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByLevelLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glAccountBalanceByLevelLookupable"  parent="glAccountBalanceByLevelLookupable-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByLevelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByLevelLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByObjectLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByObjectLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glAccountBalanceByObjectLookupableHelperService"  parent="glAccountBalanceByObjectLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByObjectLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByObjectLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -372,13 +389,15 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceByObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glAccountBalanceByObjectLookupable"  parent="glAccountBalanceByObjectLookupable-parentBean" scope="prototype"/>
+	<bean id="glAccountBalanceByObjectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glAccountBalanceByObjectLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="glOrganizationReversionCurrentYearAccountProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
+	<bean id="glOrganizationReversionCurrentYearAccountProcess"  parent="glOrganizationReversionCurrentYearAccountProcess-parentBean" scope="prototype"/>
+	<bean id="glOrganizationReversionCurrentYearAccountProcess-parentBean" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" abstract="true">
 		<property name="organizationReversionService" ref="organizationReversionService" />
 		<property name="balanceService" ref="glBalanceService" />
 		<property name="originEntryService" ref="originEntryService" />
@@ -396,7 +415,8 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-	<bean id="glOrganizationReversionPriorYearAccountProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" scope="prototype">
+	<bean id="glOrganizationReversionPriorYearAccountProcess"  parent="glOrganizationReversionPriorYearAccountProcess-parentBean" scope="prototype"/>
+	<bean id="glOrganizationReversionPriorYearAccountProcess-parentBean" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessImpl" abstract="true">
 		<property name="organizationReversionService" ref="organizationReversionService" />
 		<property name="balanceService" ref="glBalanceService" />
 		<property name="originEntryService" ref="originEntryService" />
@@ -414,7 +434,8 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-	<bean id="glOrganizationReversionProcessService" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessServiceImpl">
+	<bean id="glOrganizationReversionProcessService"  parent="glOrganizationReversionProcessService-parentBean"/>
+	<bean id="glOrganizationReversionProcessService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionProcessServiceImpl" abstract="true">
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
@@ -422,7 +443,8 @@
 		<property name="organizationReversionReportWriterService" ref="organizationReversionReportWriterService" />
 	</bean>
 	
-	<bean id="glCollectorService" class="org.kuali.kfs.gl.batch.service.impl.CollectorServiceImpl">
+	<bean id="glCollectorService"  parent="glCollectorService-parentBean"/>
+	<bean id="glCollectorService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.CollectorServiceImpl" abstract="true">
 		<property name="collectorHelperService">
 			<ref bean="glCollectorHelperService" />
 		</property>
@@ -482,7 +504,8 @@
 
     <bean id="glCollectorHelperService" parent="glCollectorHelperService-parentBean" />
 
-	<bean id="glCollectorScrubberService" class="org.kuali.kfs.gl.batch.service.impl.CollectorScrubberServiceImpl">
+	<bean id="glCollectorScrubberService"  parent="glCollectorScrubberService-parentBean"/>
+	<bean id="glCollectorScrubberService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.CollectorScrubberServiceImpl" abstract="true">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -498,7 +521,8 @@
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 	</bean>
 	
-	<bean id="glCollectorReportService" class="org.kuali.kfs.gl.batch.service.impl.CollectorReportServiceImpl">
+	<bean id="glCollectorReportService"  parent="glCollectorReportService-parentBean"/>
+	<bean id="glCollectorReportService-parentBean" class="org.kuali.kfs.gl.batch.service.impl.CollectorReportServiceImpl" abstract="true">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

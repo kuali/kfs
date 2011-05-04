@@ -226,9 +226,9 @@
 		</property>
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupableHelperService"  parent="intendedIncumbentSelectLookupableHelperService-parentBean"/>
+	<bean id="intendedIncumbentSelectLookupableHelperService"  parent="intendedIncumbentSelectLookupableHelperService-parentBean" scope="prototype"/>
 	<bean id="intendedIncumbentSelectLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentSelectLookupableHelperServiceImpl" 
-				scope="prototype" abstract="true">
+				 abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -246,8 +246,8 @@
 		</property>		
 	</bean>
 	
-	<bean id="intendedIncumbentSelectLookupable"  parent="intendedIncumbentSelectLookupable-parentBean"/>
-	<bean id="intendedIncumbentSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="intendedIncumbentSelectLookupable"  parent="intendedIncumbentSelectLookupable-parentBean" scope="prototype"/>
+	<bean id="intendedIncumbentSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="intendedIncumbentSelectLookupableHelperService" />
 		</property>
@@ -273,8 +273,8 @@
 		</property>		
 	</bean>
 
-	<bean id="positionSelectLookupable"  parent="positionSelectLookupable-parentBean"/>
-	<bean id="positionSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="positionSelectLookupable"  parent="positionSelectLookupable-parentBean" scope="prototype"/>
+	<bean id="positionSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="positionSelectLookupableHelperService" />
 		</property>
@@ -286,8 +286,8 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetPositionLookupable"  parent="budgetPositionLookupable-parentBean"/>
-	<bean id="budgetPositionLookupable-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" scope="prototype" abstract="true">
+	<bean id="budgetPositionLookupable"  parent="budgetPositionLookupable-parentBean" scope="prototype"/>
+	<bean id="budgetPositionLookupable-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="budgetPositionLookupableHelperService" />
 		</property>
@@ -299,15 +299,15 @@
 		</property>
 	</bean>
 
-	<bean id="budgetIntendedIncumbentLookupable"  parent="budgetIntendedIncumbentLookupable-parentBean"/>
-	<bean id="budgetIntendedIncumbentLookupable-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl" scope="prototype"  abstract="true">
+	<bean id="budgetIntendedIncumbentLookupable"  parent="budgetIntendedIncumbentLookupable-parentBean" scope="prototype"/>
+	<bean id="budgetIntendedIncumbentLookupable-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.TempListLookupableImpl"  abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="budgetIntendedIncumbentLookupableHelperService" />
 		</property>
 	</bean>	
 
-	<bean id="accountSelectLookupableHelperService"  parent="accountSelectLookupableHelperService-parentBean"/>
-	<bean id="accountSelectLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" scope="prototype" abstract="true">
+	<bean id="accountSelectLookupableHelperService"  parent="accountSelectLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="accountSelectLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.AccountSelectLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -325,15 +325,15 @@
 		</property>		
 	</bean>
 
-	<bean id="accountSelectLookupable"  parent="accountSelectLookupable-parentBean"/>
-	<bean id="accountSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="accountSelectLookupable"  parent="accountSelectLookupable-parentBean" scope="prototype"/>
+	<bean id="accountSelectLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="accountSelectLookupableHelperService" />
 		</property>
 	</bean>	
 	
-	<bean id="lockMonitorLookupableHelperService"  parent="lockMonitorLookupableHelperService-parentBean"/>
-	<bean id="lockMonitorLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.LockMonitorLookupableHelperServiceImpl" scope="prototype" abstract="true">
+	<bean id="lockMonitorLookupableHelperService"  parent="lockMonitorLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="lockMonitorLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.LockMonitorLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -354,8 +354,8 @@
 		</property>		
 	</bean>
 
-	<bean id="lockMonitorLookupable"  parent="lockMonitorLookupable-parentBean"/>
-	<bean id="lockMonitorLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="lockMonitorLookupable"  parent="lockMonitorLookupable-parentBean" scope="prototype"/>
+	<bean id="lockMonitorLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="lockMonitorLookupableHelperService" />
 		</property>
@@ -384,8 +384,8 @@
 		</property>
 	</bean>
 
-	<bean id="requestBenefitsLookupable"  parent="requestBenefitsLookupable-parentBean"/>
-	<bean id="requestBenefitsLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="requestBenefitsLookupable"  parent="requestBenefitsLookupable-parentBean" scope="prototype"/>
+	<bean id="requestBenefitsLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="requestBenefitsLookupableHelperService" />
 		</property>
@@ -1041,8 +1041,8 @@
 		</property> 
 	</bean> 
 	
-	<bean id="csfTrackerLookupableHelperServiceImpl"  parent="csfTrackerLookupableHelperServiceImpl-parentBean"/>
-	<bean id="csfTrackerLookupableHelperServiceImpl-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" scope="prototype" abstract="true">
+	<bean id="csfTrackerLookupableHelperServiceImpl"  parent="csfTrackerLookupableHelperServiceImpl-parentBean" scope="prototype"/>
+	<bean id="csfTrackerLookupableHelperServiceImpl-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.CSFTrackerLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -1060,8 +1060,8 @@
 		</property>
 	</bean>
 	
-	<bean id="csfTrackerLookupable"  parent="csfTrackerLookupable-parentBean"/>
-	<bean id="csfTrackerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="csfTrackerLookupable"  parent="csfTrackerLookupable-parentBean" scope="prototype"/>
+	<bean id="csfTrackerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="csfTrackerLookupableHelperServiceImpl" />
 		</property>

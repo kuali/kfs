@@ -102,7 +102,7 @@
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
 	
-	<bean id="reconciliationService"  parent="reconciliationService-parentBean" singleton="false" />
+	<bean id="reconciliationService"  parent="reconciliationService-parentBean" singleton="false"/>
 	<bean id="reconciliationService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
@@ -205,8 +205,8 @@
 		<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
-    <bean id="cabGlEntryLookupable"  parent="cabGlEntryLookupable-parentBean"/>
-    <bean id="cabGlEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
+    <bean id="cabGlEntryLookupable"  parent="cabGlEntryLookupable-parentBean" singleton="false"/>
+    <bean id="cabGlEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="generalLedgerEntryLookupableHelperService" />
         </property>

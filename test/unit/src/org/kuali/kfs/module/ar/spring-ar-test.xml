@@ -20,6 +20,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="arTaxServiceMock" class="org.kuali.kfs.module.ar.service.mock.TaxServiceMockImpl" />
+    <bean id="arTaxServiceMock"  parent="arTaxServiceMock-parentBean"/>
+    <bean id="arTaxServiceMock-parentBean" class="org.kuali.kfs.module.ar.service.mock.TaxServiceMockImpl"  abstract="true"/>
 
 </beans>

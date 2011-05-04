@@ -206,8 +206,8 @@
       	</property>
     </bean>
 
-    <bean id="assetPaymentLookupable"  parent="assetPaymentLookupable-parentBean"/>
-    <bean id="assetPaymentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+    <bean id="assetPaymentLookupable"  parent="assetPaymentLookupable-parentBean" scope="prototype"/>
+    <bean id="assetPaymentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="assetPaymentLookupableHelperService" />
         </property>

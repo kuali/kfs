@@ -119,8 +119,8 @@
 	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
 	</bean>
 
-	<bean id="proposalLookupable"  parent="proposalLookupable-parentBean"/>
-	<bean id="proposalLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="proposalLookupable"  parent="proposalLookupable-parentBean" scope="prototype"/>
+	<bean id="proposalLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="proposalLookupableHelperService" />
 		</property>
@@ -129,8 +129,8 @@
     <bean id="awardLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
     </bean>
 
-    <bean id="awardLookupable"  parent="awardLookupable-parentBean"/>
-    <bean id="awardLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+    <bean id="awardLookupable"  parent="awardLookupable-parentBean" scope="prototype"/>
+    <bean id="awardLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="awardLookupableHelperService" />
         </property>

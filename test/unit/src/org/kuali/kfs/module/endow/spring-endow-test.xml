@@ -19,7 +19,8 @@
 
     <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
     
-	<bean id="trigger" abstract="true">
+<!-- 	<bean id="trigger"  parent="trigger-parentBean"/>   -->
+	<bean id="trigger-parentBean" abstract="true">
 		<property name="group" value="scheduled" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="testMode" value="true" />
@@ -31,7 +32,8 @@
 	<bean id="mockCurrentTaxLotBalanceUpdateService" parent="currentTaxLotBalanceUpdateService">
 	</bean>
     
-    <bean id="mockReportWriterService" class="org.kuali.kfs.gl.service.impl.MockReportWriterService" />
+    <bean id="mockReportWriterService"  parent="mockReportWriterService-parentBean"/>
+    <bean id="mockReportWriterService-parentBean" class="org.kuali.kfs.gl.service.impl.MockReportWriterService"  abstract="true"/>
     
     <bean id="mockHoldingHistoryMarketValuesUpdateService" parent="holdingHistoryMarketValuesUpdateService">
     	<property name="holdingHistoryMarketValuesExceptionReportWriterService">

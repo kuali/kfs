@@ -296,9 +296,9 @@
 		class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="accountLookupable"  parent="accountLookupable-parentBean"/>
+	<bean id="accountLookupable"  parent="accountLookupable-parentBean" scope="prototype"/>
 	<bean id="accountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype" abstract="true">
+		 abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="accountLookupableHelperService" />
 		</property>
@@ -308,9 +308,9 @@
 		class="org.kuali.kfs.coa.businessobject.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="organizationRoutingModelLookupable"  parent="organizationRoutingModelLookupable-parentBean"/>
+	<bean id="organizationRoutingModelLookupable"  parent="organizationRoutingModelLookupable-parentBean" scope="prototype"/>
 	<bean id="organizationRoutingModelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype" abstract="true">
+		 abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="organizationRoutingModelLookupableHelperService" />
 		</property>
@@ -320,9 +320,9 @@
 		class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
-	<bean id="indirectCostRecoveryExclusionByTypeLookupable"  parent="indirectCostRecoveryExclusionByTypeLookupable-parentBean"/>
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable"  parent="indirectCostRecoveryExclusionByTypeLookupable-parentBean" scope="prototype"/>
 	<bean id="indirectCostRecoveryExclusionByTypeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype" abstract="true">
+		 abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
 		</property>

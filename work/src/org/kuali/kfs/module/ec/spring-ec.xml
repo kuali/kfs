@@ -233,29 +233,29 @@
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.kfs.module.ec.dataaccess.impl.EffortCertificationReportDefinitionDaoOjb" />
 	
 	<!-- lookup declarations -->
-	<bean id="outstandingReportsByOrganizationLookupable"  parent="outstandingReportsByOrganizationLookupable-parentBean"/>
-	<bean id="outstandingReportsByOrganizationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
+	<bean id="outstandingReportsByOrganizationLookupable"  parent="outstandingReportsByOrganizationLookupable-parentBean" singleton="false"/>
+	<bean id="outstandingReportsByOrganizationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="outstandingReportsByOrganizationLookupableHelperService" />
 		</property>
 	</bean>
 
-	<bean id="outstandingCertificationsByReportLookupable"  parent="outstandingCertificationsByReportLookupable-parentBean"/>
-	<bean id="outstandingCertificationsByReportLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
+	<bean id="outstandingCertificationsByReportLookupable"  parent="outstandingCertificationsByReportLookupable-parentBean" singleton="false"/>
+	<bean id="outstandingCertificationsByReportLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="outstandingCertificationsByReportLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="duplicateCertificationsReportLookupable"  parent="duplicateCertificationsReportLookupable-parentBean"/>
-	<bean id="duplicateCertificationsReportLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
+	<bean id="duplicateCertificationsReportLookupable"  parent="duplicateCertificationsReportLookupable-parentBean" singleton="false"/>
+	<bean id="duplicateCertificationsReportLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="duplicateCertificationsReportLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="outstandingReportsByOrganizationLookupableHelperService"  parent="outstandingReportsByOrganizationLookupableHelperService-parentBean"/>
-	<bean id="outstandingReportsByOrganizationLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByOrganizationLookupableHelperServiceImpl" singleton="false" abstract="true">
+	<bean id="outstandingReportsByOrganizationLookupableHelperService"  parent="outstandingReportsByOrganizationLookupableHelperService-parentBean" singleton="false"/>
+	<bean id="outstandingReportsByOrganizationLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByOrganizationLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -273,8 +273,8 @@
 		</property>
 	</bean> 
 
-	<bean id="outstandingCertificationsByReportLookupableHelperService"  parent="outstandingCertificationsByReportLookupableHelperService-parentBean"/>
-	<bean id="outstandingCertificationsByReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl" singleton="false" abstract="true">
+	<bean id="outstandingCertificationsByReportLookupableHelperService"  parent="outstandingCertificationsByReportLookupableHelperService-parentBean" singleton="false"/>
+	<bean id="outstandingCertificationsByReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.OutstandingCertificationsByReportLookupableHelperServiceImpl"  abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -292,8 +292,8 @@
 		</property>
 	</bean> 
 
-	<bean id="duplicateCertificationsReportLookupableHelperService"  parent="duplicateCertificationsReportLookupableHelperService-parentBean"/>
-	<bean id="duplicateCertificationsReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.DuplicateCertificationsLookupableHelperServiceImpl" singleton="false" abstract="true">
+	<bean id="duplicateCertificationsReportLookupableHelperService"  parent="duplicateCertificationsReportLookupableHelperService-parentBean" singleton="false"/>
+	<bean id="duplicateCertificationsReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.DuplicateCertificationsLookupableHelperServiceImpl"  abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -311,8 +311,8 @@
 		</property>
 	</bean> 
 
-	<bean id="effortLedgerBalanceLookupableHelperService"  parent="effortLedgerBalanceLookupableHelperService-parentBean"/>
-	<bean id="effortLedgerBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortLedgerBalanceLookupableHelperServiceImpl" singleton="false" abstract="true">
+	<bean id="effortLedgerBalanceLookupableHelperService"  parent="effortLedgerBalanceLookupableHelperService-parentBean" singleton="false"/>
+	<bean id="effortLedgerBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortLedgerBalanceLookupableHelperServiceImpl"  abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -343,15 +343,15 @@
 		</property>
 	</bean> 
 	
-	<bean id="effortCertificationDetailBuildLookupable"  parent="effortCertificationDetailBuildLookupable-parentBean"/>
-	<bean id="effortCertificationDetailBuildLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false" abstract="true">
+	<bean id="effortCertificationDetailBuildLookupable"  parent="effortCertificationDetailBuildLookupable-parentBean" singleton="false"/>
+	<bean id="effortCertificationDetailBuildLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"  abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="effortCertificationDetailBuildLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="effortCertificationDetailBuildLookupableHelperService"  parent="effortCertificationDetailBuildLookupableHelperService-parentBean"/>
-	<bean id="effortCertificationDetailBuildLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortCertificationDetailBuildLookupableHelperServiceImpl" singleton="false" abstract="true">				
+	<bean id="effortCertificationDetailBuildLookupableHelperService"  parent="effortCertificationDetailBuildLookupableHelperService-parentBean" singleton="false"/>
+	<bean id="effortCertificationDetailBuildLookupableHelperService-parentBean" class="org.kuali.kfs.module.ec.businessobject.lookup.EffortCertificationDetailBuildLookupableHelperServiceImpl"  abstract="true">				
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

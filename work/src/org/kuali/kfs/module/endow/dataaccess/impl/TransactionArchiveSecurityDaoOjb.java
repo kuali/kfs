@@ -22,26 +22,25 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchiveSecurity;
 import org.kuali.kfs.module.endow.dataaccess.TransactionArchiveSecurityDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class TransactionArchiveSecurityDaoOjb extends PlatformAwareDaoBaseOjb implements TransactionArchiveSecurityDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionArchiveSecurityDaoOjb.class);
-    
+
     /**
      * @see org.kuali.kfs.module.endow.dataaccess.TransactionArchiveDao#getByPrimaryKey(String, int, String)
      */
     public TransactionArchiveSecurity getByPrimaryKey(String documentNumber, int lineNumber, String lineTypeCode) {
         TransactionArchiveSecurity transactionArchive = null;
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, documentNumber);
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, lineNumber);
 
         criteria.addEqualTo(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, lineTypeCode);
-        
+
         QueryByCriteria query = QueryFactory.newQuery(TransactionArchiveSecurity.class, criteria);
         transactionArchive = (TransactionArchiveSecurity) getPersistenceBrokerTemplate().getObjectByQuery(query);
-        
+
         return transactionArchive;
     }
 }

@@ -1740,14 +1740,13 @@
 		</property>		
 		<property name="pooledFundValueDao">
 			<ref bean="pooledFundValueDao" />
-		</property>		
-	</bean>
-	
-    <bean id="pooledFundValueDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundValueDaoOjb">
+		</property>	
 		<property name="kemService">
 			<ref bean="kemService"/>
 		</property>	
 	</bean>
+	
+    <bean id="pooledFundValueDao" parent="platformAwareDao" class="org.kuali.kfs.module.endow.dataaccess.impl.PooledFundValueDaoOjb"/>
 	
 	<bean id="RegistrationCodeService"  parent="RegistrationCodeService-parentBean"/>
 	<bean id="RegistrationCodeService-parentBean" class="org.kuali.kfs.module.endow.document.service.impl.RegistrationCodeServiceImpl" abstract="true">

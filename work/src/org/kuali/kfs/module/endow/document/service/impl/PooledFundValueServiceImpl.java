@@ -29,6 +29,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao;
+import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -40,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PooledFundValueServiceImpl implements PooledFundValueService {
     private BusinessObjectService businessObjectService;
     private PooledFundValueDao pooledFundValueDao;
+    protected KEMService kemService;
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.PooledFundControlService#getByPrimaryKey(java.lang.String)
@@ -186,7 +188,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      */
     public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate() {
         // this is a list of pooled fund values sorted by security ID and descending by value effective date
-        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
+        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereSTProcessOnDateIsCurrentDate(kemService.getCurrentDate());
         List<PooledFundValue> resultList = new ArrayList<PooledFundValue>();
 
         String currentSecurity = null;
@@ -218,7 +220,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
     public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate() {
 
         // this is a list of pooled fund values sorted by security ID and descending by value effective date
-        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
+        List<PooledFundValue> fundValues = pooledFundValueDao.getPooledFundValueWhereLTProcessOnDateIsCurrentDate(kemService.getCurrentDate());
         List<PooledFundValue> resultList = new ArrayList<PooledFundValue>();
 
         String currentSecurity = null;
@@ -250,7 +252,7 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      */
     public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
 
-        return pooledFundValueDao.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+        return pooledFundValueDao.getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate(kemService.getCurrentDate());
     }
 
     /**
@@ -260,5 +262,14 @@ public class PooledFundValueServiceImpl implements PooledFundValueService {
      */
     public void setPooledFundValueDao(PooledFundValueDao pooledFundValueDao) {
         this.pooledFundValueDao = pooledFundValueDao;
+    }
+
+    /**
+     * Sets the kemService.
+     * 
+     * @param kemService
+     */
+    public void setKemService(KEMService kemService) {
+        this.kemService = kemService;
     }
 }

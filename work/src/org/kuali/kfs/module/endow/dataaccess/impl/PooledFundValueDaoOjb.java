@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -23,20 +24,17 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 
 public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements PooledFundValueDao {
 
-    private KEMService kemService;
-
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereSTProcessOnDateIsCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereSTProcessOnDateIsCurrentDate(Date)
      */
-    public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate() {
+    public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_SHORT_TERM_GAIN_LOSS_ON_DATE, currentDate);
         criteria.addEqualTo(EndowPropertyConstants.ST_GAIN_LOSS_DISTR_COMPL, false);
 
         QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
@@ -48,11 +46,11 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
 
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereLTProcessOnDateIsCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereLTProcessOnDateIsCurrentDate(Date)
      */
-    public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate() {
+    public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_LONG_TERM_GAIN_LOSS_ON_DATE, currentDate);
         criteria.addEqualTo(EndowPropertyConstants.LT_GAIN_LOSS_DISTR_COMPL, false);
 
         QueryByCriteria qbc = QueryFactory.newQuery(PooledFundValue.class, criteria);
@@ -63,22 +61,13 @@ public class PooledFundValueDaoOjb extends PlatformAwareDaoBaseOjb implements Po
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereLTProcessOnDateIsCurrentDate()
+     * @see org.kuali.kfs.module.endow.dataaccess.PooledFundValueDao#getPooledFundValueWhereLTProcessOnDateIsCurrentDate(Date)
      */
-    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate() {
+    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate(Date currentDate) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, kemService.getCurrentDate());
+        criteria.addEqualTo(EndowPropertyConstants.DISTRIBUTE_INCOME_ON_DATE, currentDate);
         criteria.addEqualTo(EndowPropertyConstants.INCOME_DISTRIBUTION_COMPLETE, false);
         return (List<PooledFundValue>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(PooledFundValue.class, criteria));
-    }
-
-    /**
-     * Sets the kemService.
-     * 
-     * @param kemService
-     */
-    public void setKemService(KEMService kemService) {
-        this.kemService = kemService;
     }
 
 }

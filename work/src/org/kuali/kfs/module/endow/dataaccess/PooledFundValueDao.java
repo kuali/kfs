@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
@@ -25,23 +26,26 @@ public interface PooledFundValueDao {
      * Gets PooledFundValue entries where the ST_PROC_ON_DT is equal to current date and ST_PROC_COMPLT = No. Order the result list
      * by security ID and value effective date.
      * 
+     * @param currentDate the current date
      * @return a list of PooledFundValue entries that meet the criteria
      */
-    public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate();
+    public List<PooledFundValue> getPooledFundValueWhereSTProcessOnDateIsCurrentDate(Date currentDate);
 
     /**
      * Gets PooledFundValue entries where the LT_PROC_ON_DT is equal to current date and LT_PROC_COMPLT = No. Order the result list
      * by security ID and value effective date.
      * 
+     * @param currentDate the current date
      * @return a list of PooledFundValue entries that meet the criteria
      */
-    public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate();
+    public List<PooledFundValue> getPooledFundValueWhereLTProcessOnDateIsCurrentDate(Date currentDate);
 
     /**
      * Gets PooledFundValue entries where the Distribution Income date is equal to current date and LT_PROC_COMPLT = No.
      * 
+     * @param currentDate the current date
      * @return a list of PooledFundValue entries that meet the criteria
      */
-    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate();
+    public List<PooledFundValue> getPooledFundValueWhereDistributionIncomeOnDateIsCurrentDate(Date currentDate);
 
 }

@@ -46,7 +46,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.module.ld.LaborConstants;
@@ -60,7 +59,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 
 /**
  * This is the data access object for ledger balance.
@@ -69,9 +67,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  */
 public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao, LedgerBalanceBalancingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
-    private KualiConfigurationService kualiConfigurationService;
-
-    private BalanceTypeService balanceTypService;
 
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer)
@@ -95,11 +90,11 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalancesForFiscalYear(Integer, Map, List, List)
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues) {
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes) {
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes);
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
@@ -118,10 +113,10 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalance(java.util.Map, boolean)
      */
-    public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated) {
+    public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
         LOG.debug("findBalance() started");
 
-        Query query = this.getBalanceQuery(fieldValues, isConsolidated);
+        Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes);
         OJBUtility.limitResultSize(query);
 
         if (isConsolidated) {
@@ -133,21 +128,21 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#getConsolidatedBalanceRecordCount(java.util.Map)
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues) {
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
         LOG.debug("getBalanceRecordCount() started");
 
-        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues);
+        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
     // build the query for balance search
-    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated) {
+    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated, List<String> encumbarnceBalanceTypes) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
             LOG.debug("getBalanceQuery(Map, boolean) started");
         }
-        
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbarnceBalanceTypes);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         // if consolidated, then ignore subaccount number and balance type code
@@ -159,8 +154,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // build the query for balance search
-    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
+    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues, List<String> encumbranceBalanceTypes) {
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         // set the selection attributes
@@ -184,7 +179,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @param balance
      * @return a query criteria
      */
-    protected Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance) {
+    protected Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance, List<String> encumbranceBalanceTypes) {
         Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
 
@@ -197,11 +192,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
 
-                // parse the university fiscal year since it's a required field from the lookups
-                String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-                Integer universityFiscalYear = new Integer(universityFiscalYearStr);
-
-                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear));
+                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, encumbranceBalanceTypes);
             }
         }
 
@@ -413,19 +404,6 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setBalanceTypService(BalanceTypeService balanceTypService) {
-        this.balanceTypService = balanceTypService;
-    }
-
-    /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalancesForFiscalYear(java.lang.Integer, java.util.Map,
      *      java.util.List, java.util.List)
      */
@@ -435,23 +413,23 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         String chartAccountsCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-        
+
         // add subfund criteria if the account is not provided
-        if(StringUtils.isEmpty(chartAccountsCode) || StringUtils.isEmpty(accountNumber)) {
+        if (StringUtils.isEmpty(chartAccountsCode) || StringUtils.isEmpty(accountNumber)) {
             if (subFundGroupCodes != null && !subFundGroupCodes.isEmpty()) {
                 Criteria criteriaForSubFundGroup = new Criteria();
                 String subFundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP_CODE;
                 criteriaForSubFundGroup.addIn(subFundGroupFieldName, subFundGroupCodes);
-    
+
                 if (fundGroupCodes != null && !fundGroupCodes.isEmpty()) {
-    
+
                     Criteria criteriaForFundGroup = new Criteria();
                     String fundGroupFieldName = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
                     criteriaForFundGroup.addIn(fundGroupFieldName, fundGroupCodes);
-    
+
                     criteriaForSubFundGroup.addOrCriteria(criteriaForFundGroup);
                 }
-                
+
                 criteria.addAndCriteria(criteriaForSubFundGroup);
             }
         }
@@ -515,8 +493,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             Criteria criteriaForIncludedFields = new Criteria();
             criteria.addIn(fieldName, fieldValues.get(fieldName));
             criteria.addAndCriteria(criteriaForIncludedFields);
-        }        
-        
+        }
+
         for (String fieldName : excludedFieldValues.keySet()) {
             Criteria criteriaForExcludedFields = new Criteria();
             criteria.addNotIn(fieldName, excludedFieldValues.get(fieldName));
@@ -546,7 +524,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#deleteLedgerBalancesPriorToYear(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#deleteLedgerBalancesPriorToYear(java.lang.Integer,
+     *      java.lang.String)
      */
     public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
         LOG.debug("deleteLedgerBalancesPriorToYear() started");
@@ -556,18 +535,18 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
 
         QueryByCriteria query = new QueryByCriteria(LedgerBalance.class, criteria);
-        getPersistenceBrokerTemplate().deleteByQuery(query);       
+        getPersistenceBrokerTemplate().deleteByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.kfs.gl.dataaccess.BalancingDao#findCountGreaterOrEqualThan(java.lang.Integer)
      */
     public Integer findCountGreaterOrEqualThan(Integer year) {
         Criteria criteria = new Criteria();
         criteria.addGreaterOrEqualThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
-        
+
         return getPersistenceBrokerTemplate().getCount(query);
     }
 }

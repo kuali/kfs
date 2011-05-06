@@ -40,16 +40,17 @@ public interface LaborLedgerBalanceDao {
      * @param isConsolidated consolidation option is applied or not
      * @return the records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
      * to be consolidated
      * 
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @param fieldValues the input fields and values
      * @return the size collection of balance entry groups
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues);
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * @param fiscalYear the given fiscal year
@@ -101,9 +102,10 @@ public interface LaborLedgerBalanceDao {
     /**
      * @param fiscalYear the given fiscal year
      * @param fieldValues the given field values
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return an iterator over all balances for a given fiscal year
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * @param fiscalYear the given fiscal year
@@ -137,7 +139,7 @@ public interface LaborLedgerBalanceDao {
      * @return all ledger balances matching the given criteria within the given fiscal years
      */
     public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes);
-    
+
     /**
      * delete the ledger balance records that were posted prior to the given fiscal year
      * 

@@ -221,11 +221,7 @@
     <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao"
         class="org.kuali.kfs.module.ld.dataaccess.impl.LaborGeneralLedgerEntryDaoOjb" />
 
-    <bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-    </bean>
+    <bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborLedgerBalanceDaoOjb"/>
 
     <bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.LaborBaseFundsDaoOjb" />
     <bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao"
@@ -1084,6 +1080,9 @@
         <property name="laborInquiryOptionsService">
             <ref bean="laborInquiryOptionsService" />
         </property>
+        <property name="balanceTypService">
+            <ref bean="balanceTypService" />
+        </property>
     </bean>
 
     <bean id="laborLedgerBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
@@ -1118,6 +1117,9 @@
         <property name="optionsService">
             <ref bean="optionsService" />
         </property>
+        <property name="balanceTypService">
+            <ref bean="balanceTypService" />
+        </property>        
     </bean>
     <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" parent="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService-parentBean" />
 
@@ -1145,6 +1147,9 @@
         </property>
         <property name="optionsService">
             <ref bean="optionsService" />
+        </property>
+        <property name="balanceTypService">
+            <ref bean="balanceTypService" />
         </property>
     </bean>
     <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" parent="laborLedgerEntryForExpenseTransferLookupableHelperService-parentBean" />

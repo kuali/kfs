@@ -38,9 +38,10 @@ public interface LaborLedgerBalanceService {
     /**
      * @param fiscalYear the given fiscal year
      * @param fieldValues the input fields and values
+     * @param encumbranceBalanceTypes a list of encumbrance types
      * @return an Iterator over all balances for a given year and search criteria
      */
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues);
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * @param fiscalYear the given fiscal year
@@ -57,18 +58,20 @@ public interface LaborLedgerBalanceService {
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * This method finds the summary records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbranceBalanceTypes
      * @return the summary records of balance entries
      */
-    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated);
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * find a ledger balance from the given ledger balance collection with the given transaction information

@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborConstants.BenefitExpenseTransfer;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
@@ -38,6 +37,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
 
     private OptionsService optionsService;
+
 
     /**
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
@@ -57,17 +57,17 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
 
         // get the ledger balances with actual balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, options.getActualFinancialBalanceTypeCd());
-        Collection actualBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
+        Collection actualBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false, getEncumbranceBalanceTypes(fieldValues)), Constant.NO_PENDING_ENTRY);
 
         // get the ledger balances with effort balance type code
         fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false), Constant.NO_PENDING_ENTRY);
-        
-        List<String> consolidationKeyList = getConsolidationKeyList();       
+        Collection effortBalances = buildDetailedBalanceCollection(getBalanceService().findBalance(fieldValues, false, getEncumbranceBalanceTypes(fieldValues)), Constant.NO_PENDING_ENTRY);
+
+        List<String> consolidationKeyList = getConsolidationKeyList();
         Collection<LedgerBalance> consolidatedBalances = ConsolidationUtil.consolidateA2Balances(actualBalances, effortBalances, options.getActualFinancialBalanceTypeCd(), consolidationKeyList);
         this.resetFieldValues(consolidatedBalances);
 
-        Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true);
+        Integer recordCount = getBalanceService().getBalanceRecordCount(fieldValues, true, getEncumbranceBalanceTypes(fieldValues));
         Long actualSize = OJBUtility.getResultActualSize(consolidatedBalances, recordCount, fieldValues, new LedgerBalance());
 
         return buildSearchResultList(consolidatedBalances, actualSize);
@@ -75,7 +75,7 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
 
     // reset the values for the specified fields
     private void resetFieldValues(Collection<LedgerBalance> consolidatedBalances) {
-        for(LedgerBalance ledgerBalance : consolidatedBalances) {
+        for (LedgerBalance ledgerBalance : consolidatedBalances) {
             ledgerBalance.setEmplid(null);
             ledgerBalance.setPositionNumber(null);
         }

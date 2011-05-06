@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
@@ -58,6 +59,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
 
     private LaborLedgerBalanceService balanceService;
     private LaborInquiryOptionsService laborInquiryOptionsService;
+    protected BalanceTypeService balanceTypService;
 
     /**
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
@@ -114,8 +116,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         }
-        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
-        Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
+        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
+        Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
         Collection searchResultsCollection = buildBalanceCollection(actualBalanceIterator, isConsolidated, pendingEntryOption);
         laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
@@ -123,12 +125,12 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         Integer recordCountForEffortBalance = 0;
         if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-            recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated);
+            recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
 
-            Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
+            Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
             Collection effortBalances = buildBalanceCollection(effortBalanceIterator, isConsolidated, pendingEntryOption);
             laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(effortBalances, fieldValues, pendingEntryOption, isConsolidated);
-            
+
             List<String> consolidationKeyList = LedgerBalance.getPrimaryKeyList();
             searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21, consolidationKeyList);
         }
@@ -316,6 +318,25 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     }
 
     /**
+     * Gets a list of encumbrance balance types.
+     * 
+     * @param fieldValues
+     * @return a list of encumbrance balance types.
+     */
+    protected List<String> getEncumbranceBalanceTypes(Map<String, String> fieldValues) {
+        List<String> encumbranceBalanceTypes = new ArrayList<String>();
+
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+            // parse the university fiscal year since it's a required field from the lookups
+            String universityFiscalYearStr = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+            encumbranceBalanceTypes = balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear);
+        }
+
+        return encumbranceBalanceTypes;
+    }
+
+    /**
      * Sets the laborInquiryOptionsService attribute value.
      * 
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
@@ -340,5 +361,14 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     public LaborLedgerBalanceService getBalanceService() {
         return balanceService;
+    }
+
+    /**
+     * Sets the balanceTypService.
+     * 
+     * @param balanceTypService
+     */
+    public void setBalanceTypService(BalanceTypeService balanceTypService) {
+        this.balanceTypService = balanceTypService;
     }
 }

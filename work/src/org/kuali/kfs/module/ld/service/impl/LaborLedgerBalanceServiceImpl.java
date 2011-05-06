@@ -54,27 +54,27 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findBalancesForFiscalYear(java.lang.Integer, java.util.Map)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findBalancesForFiscalYear(Integer, Map, List)
      */
     @NonTransactional
-    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues) {
-        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues);
+    public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes) {
+        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, encumbranceBalanceTypes);
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findBalance(Map, boolean, List)
      */
     @NonTransactional
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
         LOG.debug("findBalance() started");
-        return laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated);
+        return laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated, encumbranceBalanceTypes);
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#getBalanceRecordCount(java.util.Map, boolean)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#getBalanceRecordCount(Map, boolean, List)
      */
     @NonTransactional
-    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
         LOG.debug("getBalanceRecordCount() started");
 
         Integer recordCount = null;
@@ -82,7 +82,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             recordCount = OJBUtility.getResultSizeFromMap(fieldValues, new LedgerBalance()).intValue();
         }
         else {
-            Iterator recordCountIterator = laborLedgerBalanceDao.getConsolidatedBalanceRecordCount(fieldValues);
+            Iterator recordCountIterator = laborLedgerBalanceDao.getConsolidatedBalanceRecordCount(fieldValues, encumbranceBalanceTypes);
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
         }
@@ -167,7 +167,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
                 int index = currentFundsCollection.indexOf(encumbranceFunding);
                 currentFundsCollection.get(index).setOutstandingEncumbrance(encumbrance);
             }
-            else if(encumbrance != null && encumbrance.isNonZero()){
+            else if (encumbrance != null && encumbrance.isNonZero()) {
                 currentFundsCollection.add(encumbranceFunding);
             }
         }
@@ -238,16 +238,17 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
-     *      java.util.List, java.util.List)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findLedgerBalances(java.util.Map, java.util.Map,
+     *      java.util.Set, java.util.List, java.util.List)
      */
     @NonTransactional
     public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
         return laborLedgerBalanceDao.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypeList, positionObjectGroupCodes);
     }
-    
+
     /**
-     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#deleteLedgerBalancesPriorToYear(java.lang.Integer, java.lang.String)
+     * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#deleteLedgerBalancesPriorToYear(java.lang.Integer,
+     *      java.lang.String)
      */
     @Transactional
     public void deleteLedgerBalancesPriorToYear(Integer fiscalYear, String chartOfAccountsCode) {
@@ -274,4 +275,3 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
         this.laborCalculatedSalaryFoundationTrackerService = laborCalculatedSalaryFoundationTrackerService;
     }
 }
-

@@ -17,9 +17,7 @@ package org.kuali.kfs.module.purap.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -30,7 +28,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**
  * OJB Implementation of PurApAccountingDao.
@@ -44,7 +41,7 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
         Class clazz = item.getAccountingLineClass();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("itemIdentifier", item.getItemIdentifier());
-        
+
         // if it's a purchaseOrderItem, we need to make sure we're getting for the right doc number
         if (item instanceof PurchaseOrderItem) {
             criteria.addEqualTo("documentNumber", ((PurchaseOrderItem) item).getDocumentNumber());
@@ -69,7 +66,7 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
             getPersistenceBrokerTemplate().clearCache();
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#deleteSummaryAccountsbyCreditMemoIdentifier(java.lang.Integer)
      */
@@ -82,5 +79,5 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
             getPersistenceBrokerTemplate().clearCache();
         }
     }
-    
+
 }

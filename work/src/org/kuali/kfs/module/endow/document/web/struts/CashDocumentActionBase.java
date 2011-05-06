@@ -21,9 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 
 public class CashDocumentActionBase extends EndowmentTransactionLinesDocumentActionBase {
 

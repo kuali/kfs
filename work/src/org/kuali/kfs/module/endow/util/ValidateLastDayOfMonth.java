@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.endow.util;
 
-import java.util.Calendar; 
+import java.util.Calendar;
 
 
 public class ValidateLastDayOfMonth {

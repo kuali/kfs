@@ -20,8 +20,8 @@ import static org.kuali.kfs.module.endow.EndowPropertyConstants.KEMID;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_DESCRIPTION;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_ENDOWMENT_TRANSACTION_CODE;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_IP_INDICATOR_CODE;
-import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_AMOUNT;
+import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNITS;
 import static org.kuali.kfs.module.endow.EndowPropertyConstants.TRANSACTION_LINE_TRANSACTION_UNIT_ADJUSTMENT_AMOUNT;
 
 import java.io.BufferedReader;
@@ -40,7 +40,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants.EndowmentTransactionDocumentConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
 import org.kuali.kfs.module.endow.exception.LineParserException;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;

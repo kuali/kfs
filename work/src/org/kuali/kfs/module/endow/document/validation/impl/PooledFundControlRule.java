@@ -20,7 +20,6 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
-
 public class PooledFundControlRule extends MaintenanceDocumentRuleBase {
 
     /**
@@ -34,9 +33,5 @@ public class PooledFundControlRule extends MaintenanceDocumentRuleBase {
         isValid &= errorMap.hasNoErrors();
 
         return isValid;
-
-
     }
-
-
 }

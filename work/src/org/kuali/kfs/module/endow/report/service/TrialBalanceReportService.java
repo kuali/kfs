@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.report.service;
 
 import java.util.List;
 
-import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
 import org.kuali.kfs.module.endow.report.util.TrialBalanceReportDataHolder;
 
 public interface TrialBalanceReportService extends EndowmentReportService {

@@ -60,7 +60,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
         isValid &= this.validateSecurityClassCodeTypeNotLiability(holdingHistoryValueAdjustmentDocument);
         // check the valuation method for Unit value and make sure market value is not entered.
         isValid &= this.checkValuationMethodForUnitOrSecurityValue(holdingHistoryValueAdjustmentDocument);
-        // check if the unit value is a positve value
+        // check if the unit value is a positive value
         isValid &= this.isUnitValuePositive(holdingHistoryValueAdjustmentDocument);
         // check if the market value is a positive value
         isValid &= this.isMarketValuePositive(holdingHistoryValueAdjustmentDocument);

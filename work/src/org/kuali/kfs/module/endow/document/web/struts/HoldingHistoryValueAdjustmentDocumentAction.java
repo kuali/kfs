@@ -22,20 +22,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
-import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 import org.kuali.kfs.module.endow.document.service.ClassCodeService;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.document.service.SecurityValuationMethodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
 
 public class HoldingHistoryValueAdjustmentDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 

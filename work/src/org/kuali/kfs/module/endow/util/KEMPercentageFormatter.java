@@ -17,14 +17,13 @@ package org.kuali.kfs.module.endow.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiPercent;
 import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.kns.web.format.Formatter;
 
 /**
  * in DB, the data of the percent is stored in the format x.xxxx

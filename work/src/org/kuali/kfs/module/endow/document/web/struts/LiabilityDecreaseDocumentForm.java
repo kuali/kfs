@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.document.web.struts;
 
 import org.kuali.kfs.module.endow.document.LiabilityDecreaseDocument;
-import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 
 public class LiabilityDecreaseDocumentForm extends EndowmentTransactionLinesDocumentFormBase {
 
@@ -39,6 +38,4 @@ public class LiabilityDecreaseDocumentForm extends EndowmentTransactionLinesDocu
     public LiabilityDecreaseDocument getLiabilityDecreaseDocument() {
         return (LiabilityDecreaseDocument) getDocument();
     }
-
-
 }

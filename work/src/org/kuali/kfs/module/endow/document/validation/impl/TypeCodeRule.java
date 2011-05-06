@@ -17,25 +17,23 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.kfs.module.endow.EndowKeyConstants;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
+import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
+import org.kuali.kfs.module.endow.businessobject.FeeMethod;
+import org.kuali.kfs.module.endow.businessobject.TypeCode;
+import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
+import org.kuali.kfs.module.endow.document.service.FeeMethodService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
-import org.kuali.kfs.module.endow.businessobject.TypeCode;
-import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
-import org.kuali.kfs.module.endow.document.service.FeeMethodService;
-import org.kuali.kfs.module.endow.businessobject.FeeMethod;
-import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
-import org.kuali.kfs.sys.context.SpringContext;
 
 public class TypeCodeRule extends MaintenanceDocumentRuleBase {
     

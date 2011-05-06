@@ -46,11 +46,9 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#updateTransactionLineTaxLots(boolean, boolean, org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument, org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
@@ -70,7 +68,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         }
 
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#deleteSourceTransactionLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -94,7 +91,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
         return actionForward;
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#deleteSourceTaxLotLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -129,7 +125,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
         return actionForward;
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#insertSourceTransactionLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -172,7 +167,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTransactionLinesDocumentActionBase#insertTargetTransactionLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -212,7 +206,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
 
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#refreshSourceTaxLots(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -265,7 +258,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
     /**
      * @see org.kuali.kfs.module.endow.document.web.struts.EndowmentTaxLotLinesDocumentActionBase#refreshTargetTaxLots(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -299,7 +291,6 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
       }
-
 
     private void fillInTargetTransactionLine(EndowmentTargetTransactionLine targetTransLine, EndowmentSourceTransactionLine sourceTransLine) {
         // Copy relevant source fields over to the target fields.
@@ -343,5 +334,4 @@ public class CorporateReorganizationDocumentAction extends EndowmentTaxLotLinesD
     protected boolean getRefreshTaxLotsOnSaveOrSubmit() {
         return false;
     }
-
 }

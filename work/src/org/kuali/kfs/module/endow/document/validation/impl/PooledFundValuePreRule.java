@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-
 public class PooledFundValuePreRule extends MaintenancePreRulesBase {
 
     private PooledFundValue newPooledFundValue;

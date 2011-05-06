@@ -226,6 +226,7 @@
 		<property name="parameterService" ref="parameterService"/>
 		<property name="purApAccountingDao" ref="purApAccountingDao"/>
 		<property name="purapService" ref="purapService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
     <bean id="accountsPayableService" parent="accountsPayableService-parentBean"/>
 
@@ -435,9 +436,7 @@
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.PurchaseOrderDaoOjb" />
 
-	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurApAccountingDaoOjb" >
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
+	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurApAccountingDaoOjb" />
 
 	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.ImageDaoNet">
 		<property name="parameterService" ref="parameterService" />

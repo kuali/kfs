@@ -270,4 +270,20 @@ public interface PurapAccountingService {
      */
     public List<SourceAccountingLine> mergeAccountingLineLists(List<SourceAccountingLine> accountingLines1, List<SourceAccountingLine> accountingLines2);
     
+    /**
+     * Retrieves the summary accounts by payment request document id.
+     * 
+     * @param paymentRequestIdentifier - payment request document id
+     * @return List of SummaryAccounts
+     */
+    public List getSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier);
+    
+    /**
+     * Retrieves the summary accounts by credit memo document id.
+     * 
+     * @param creditMemoIdentifier - credit memo document id
+     * @return List of SummaryAccounts
+     */
+    public List getSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier);
+    
 }

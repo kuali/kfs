@@ -37,12 +37,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  */
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
 
-    private BusinessObjectService businessObjectService;
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     /**
      * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getAccountingLinesForItem(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
@@ -87,30 +81,6 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
             getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(AccountsPayableSummaryAccount.class, criteria));
             getPersistenceBrokerTemplate().clearCache();
         }
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getSummaryAccountsbyPaymentRequestIdentifier(java.lang.Integer)
-     */
-    public List getSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
-        if (paymentRequestIdentifier != null) {
-            Map fieldValues = new HashMap();
-            fieldValues.put(PurapPropertyConstants.PAYMENT_REQUEST_ID, paymentRequestIdentifier);
-            return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao#getSummaryAccountsbyCreditMemoIdentifier(java.lang.Integer)
-     */
-    public List getSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier) {
-        if (creditMemoIdentifier != null) {
-            Map fieldValues = new HashMap();
-            fieldValues.put(PurapPropertyConstants.CREDIT_MEMO_ID, creditMemoIdentifier);
-            return new ArrayList(businessObjectService.findMatching(AccountsPayableSummaryAccount.class, fieldValues));
-        }
-        return null;
     }
     
 }

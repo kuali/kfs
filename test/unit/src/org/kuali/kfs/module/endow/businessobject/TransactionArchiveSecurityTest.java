@@ -17,10 +17,6 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 public enum RollFrequencyCodeFixture {

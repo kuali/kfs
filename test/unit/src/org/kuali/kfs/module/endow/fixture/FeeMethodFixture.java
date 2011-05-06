@@ -18,12 +18,10 @@ package org.kuali.kfs.module.endow.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 
 public enum FeeMethodFixture {
     // Fee Methode Fixture

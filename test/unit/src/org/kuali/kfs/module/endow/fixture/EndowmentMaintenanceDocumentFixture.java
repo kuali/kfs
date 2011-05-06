@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.endow.fixture;
 
-import org.kuali.kfs.module.endow.businessobject.Security;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;

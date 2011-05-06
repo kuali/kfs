@@ -25,7 +25,6 @@ import org.kuali.kfs.module.endow.businessobject.HoldingHistory;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument;
-import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
 import org.kuali.kfs.module.endow.fixture.EndowmentHoldingValueAdjustmentDocumentFixture;
 import org.kuali.kfs.module.endow.fixture.HoldingHistoryFixture;
 import org.kuali.kfs.module.endow.fixture.KemIdFixture;

@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 

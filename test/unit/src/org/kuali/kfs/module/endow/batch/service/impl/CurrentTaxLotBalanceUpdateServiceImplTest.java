@@ -75,7 +75,7 @@ public class CurrentTaxLotBalanceUpdateServiceImplTest extends KualiTestBase {
       //remove all the records from END_CRNT_TAX_LOT_BAL_T table        
         currentTaxLotBalanceUpdateService.currentTaxLotService.clearAllCurrentTaxLotRecords();
 
-        Collection currentTaxLotRecords = businessObjectService.findAll(CurrentTaxLotBalance.class);
+        Collection<CurrentTaxLotBalance> currentTaxLotRecords = businessObjectService.findAll(CurrentTaxLotBalance.class);
         
         assertTrue("Records in END_CRNT_TAX_LOT_BAL_T table were not deleted by clearAllCurrentTaxLotRecords() method.", currentTaxLotRecords.size() == 0);
 
@@ -114,7 +114,7 @@ public class CurrentTaxLotBalanceUpdateServiceImplTest extends KualiTestBase {
       //remove all the records from END_CRNT_TAX_LOT_BAL_T table        
         currentTaxLotBalanceUpdateService.currentTaxLotService.clearAllCurrentTaxLotRecords();
 
-        Collection currentTaxLotRecords = businessObjectService.findAll(CurrentTaxLotBalance.class);
+        Collection<CurrentTaxLotBalance> currentTaxLotRecords = businessObjectService.findAll(CurrentTaxLotBalance.class);
         assertTrue("Records in END_CRNT_TAX_LOT_BAL_T table were not deleted by clearAllCurrentTaxLotRecords() method.", currentTaxLotRecords.size() == 0);
         
         List<HoldingTaxLot> holdingTaxLots = currentTaxLotBalanceUpdateService.holdingTaxLotService.getAllTaxLots();

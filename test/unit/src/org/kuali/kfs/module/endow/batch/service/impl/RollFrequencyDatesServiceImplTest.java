@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import org.kuali.kfs.module.endow.document.service.FrequencyDatesService;

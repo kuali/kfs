@@ -18,11 +18,9 @@ package org.kuali.kfs.module.endow.fixture;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.kuali.kfs.module.endow.EndowTestConstants;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public enum PooledFundValueFixture {
 

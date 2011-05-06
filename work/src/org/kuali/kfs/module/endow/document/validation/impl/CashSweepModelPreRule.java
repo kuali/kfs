@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.module.endow.document.validation.impl;
 
-import java.math.BigDecimal;
-import org.apache.commons.lang.StringUtils;
-
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DateTimeService;
 
 
 public class CashSweepModelPreRule extends MaintenancePreRulesBase{
@@ -57,6 +53,4 @@ public class CashSweepModelPreRule extends MaintenancePreRulesBase{
 
         return true;
     }
-
-
 }

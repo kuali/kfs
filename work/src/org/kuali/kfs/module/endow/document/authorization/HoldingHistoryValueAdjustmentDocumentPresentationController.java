@@ -15,13 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
 
 public class HoldingHistoryValueAdjustmentDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 

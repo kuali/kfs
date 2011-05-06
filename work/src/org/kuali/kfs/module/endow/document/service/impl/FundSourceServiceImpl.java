@@ -19,14 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.endow.businessobject.AgreementStatus;
-import org.kuali.kfs.module.endow.businessobject.AgreementType;
 import org.kuali.kfs.module.endow.businessobject.FundSourceCode;
-import org.kuali.kfs.module.endow.businessobject.PurposeCode;
-import org.kuali.kfs.module.endow.document.service.AgreementStatusService;
-import org.kuali.kfs.module.endow.document.service.AgreementTypeService;
 import org.kuali.kfs.module.endow.document.service.FundSourceService;
-import org.kuali.kfs.module.endow.document.service.PurposeCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FundSourceServiceImpl implements FundSourceService {

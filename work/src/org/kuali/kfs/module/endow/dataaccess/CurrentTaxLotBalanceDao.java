@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;

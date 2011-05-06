@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 
 public class GLInterfaceBatchTotalsProcessedTableRowValues extends TransientBusinessObjectBase {
     private String documentType;

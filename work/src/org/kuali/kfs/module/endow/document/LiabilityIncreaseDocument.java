@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.document;
 
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LiabilityIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Copyable, Correctable {
 

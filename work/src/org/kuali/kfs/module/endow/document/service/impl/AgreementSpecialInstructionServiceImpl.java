@@ -21,7 +21,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.AgreementSpecialInstruction;
-import org.kuali.kfs.module.endow.businessobject.UseCriteriaCode;
 import org.kuali.kfs.module.endow.document.service.AgreementSpecialInstructionService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 

@@ -19,8 +19,6 @@ import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.ClassCode;
-import org.kuali.kfs.module.endow.businessobject.FeeMethodCodeBase;
 
 /**
  * Business Object for Fee Class Code.

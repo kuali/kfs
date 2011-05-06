@@ -21,8 +21,6 @@ import java.util.Properties;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
-import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
-import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalanceDetail;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentReportingGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;

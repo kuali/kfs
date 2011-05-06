@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.Collection;
-
-import org.kuali.kfs.module.endow.businessobject.KEMID;
-import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
-
 /**
  * This interface defines the batch job that would to summarize the available spendable
  * funds for every KEMID that is not closed 

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.sql.Date;
 
 import org.apache.cxf.common.util.StringUtils;
@@ -24,7 +22,6 @@ import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSourceType;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSubType;
 import org.kuali.kfs.module.endow.businessobject.PendingTransactionDocumentEntry;
-import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;

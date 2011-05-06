@@ -17,8 +17,6 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-
 public class GLInterfaceBatchExceptionReportHeader extends EndowmentExceptionReportHeader {
     private String columnHeading8;
     

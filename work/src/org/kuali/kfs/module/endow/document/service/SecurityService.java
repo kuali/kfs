@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.Security;

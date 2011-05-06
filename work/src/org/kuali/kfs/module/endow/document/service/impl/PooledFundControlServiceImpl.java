@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.PooledFundControl;
-import org.kuali.kfs.module.endow.document.service.PooledFundControlService ;
+import org.kuali.kfs.module.endow.document.service.PooledFundControlService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class PooledFundControlServiceImpl implements PooledFundControlService {

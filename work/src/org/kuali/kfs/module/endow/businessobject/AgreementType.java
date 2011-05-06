@@ -44,5 +44,4 @@ public class AgreementType extends KualiCodeBase {
         }
         return super.getCodeAndDescription();
     }
-
 }

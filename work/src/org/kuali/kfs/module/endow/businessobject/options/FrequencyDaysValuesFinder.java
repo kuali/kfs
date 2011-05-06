@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 /**
  * This class defined a value finder for the days part in the frequency code.

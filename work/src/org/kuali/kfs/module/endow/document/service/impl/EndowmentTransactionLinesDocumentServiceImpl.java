@@ -15,18 +15,12 @@
  */
 package org.kuali.kfs.module.endow.document.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
+import org.kuali.kfs.module.endow.businessobject.KEMID;
+import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class EndowmentTransactionLinesDocumentServiceImpl extends EndowmentTransactionDocumentServiceImpl implements EndowmentTransactionLinesDocumentService {
 

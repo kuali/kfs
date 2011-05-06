@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
-import org.kuali.kfs.module.endow.batch.CurrentTaxLotBalanceUpdateStep;
 import org.kuali.kfs.module.endow.batch.service.CurrentTaxLotBalanceUpdateService;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;

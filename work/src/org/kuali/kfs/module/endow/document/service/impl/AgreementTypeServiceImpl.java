@@ -20,9 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.AgreementType;
-import org.kuali.kfs.module.endow.businessobject.PurposeCode;
 import org.kuali.kfs.module.endow.document.service.AgreementTypeService;
-import org.kuali.kfs.module.endow.document.service.PurposeCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AgreementTypeServiceImpl implements AgreementTypeService {

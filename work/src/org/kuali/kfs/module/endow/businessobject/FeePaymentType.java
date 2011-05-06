@@ -16,10 +16,9 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.PaymentTypeCode;
-import org.kuali.kfs.module.endow.businessobject.FeeMethodCodeBase;
 
 /**
  * Business Object for Fee Payment Type.

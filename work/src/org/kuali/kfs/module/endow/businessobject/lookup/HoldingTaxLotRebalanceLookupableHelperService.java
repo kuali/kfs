@@ -15,22 +15,13 @@
  */
 package org.kuali.kfs.module.endow.businessobject.lookup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
-import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class HoldingTaxLotRebalanceLookupableHelperService extends KualiLookupableHelperServiceImpl {
 

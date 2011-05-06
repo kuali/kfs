@@ -17,14 +17,12 @@ package org.kuali.kfs.module.endow.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.TicklerDeliveryService;
-import org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchStatisticsReportDetailTableRow;
 import org.kuali.kfs.module.endow.businessobject.Tickler;
 import org.kuali.kfs.module.endow.businessobject.TicklerDeliveryStatisticsReportDetailTableRow;
 import org.kuali.kfs.module.endow.businessobject.TicklerRecipientGroup;

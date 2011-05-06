@@ -17,18 +17,13 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
-import org.kuali.kfs.module.endow.businessobject.TypeFeeMethod;
-import org.kuali.kfs.module.endow.businessobject.CashSweepModel;
-import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Business Object for Type Code.

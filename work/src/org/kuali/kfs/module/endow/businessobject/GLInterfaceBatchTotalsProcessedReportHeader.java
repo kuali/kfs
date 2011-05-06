@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 
 public class GLInterfaceBatchTotalsProcessedReportHeader extends FeeProcessingTotalsProcessedReportHeader {

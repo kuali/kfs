@@ -21,11 +21,8 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-
 
 public class ACIModelRule extends MaintenanceDocumentRuleBase{
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(SecurityRule.class);

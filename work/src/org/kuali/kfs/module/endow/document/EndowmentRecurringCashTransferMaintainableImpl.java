@@ -17,19 +17,9 @@ package org.kuali.kfs.module.endow.document;
 
 import java.util.Map;
 
-import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
-import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferGLTarget;
-import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransferKEMIDTarget;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
-import org.kuali.kfs.module.endow.document.validation.impl.EndowmentRecurringCashTransferTransactionRule;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class EndowmentRecurringCashTransferMaintainableImpl extends FinancialSystemMaintainable {
     

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.List;
-
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 
 public interface EndowmentSecurityDetailsDocument extends EndowmentTransactionLinesDocument {

@@ -28,6 +28,4 @@ public class GLToEndowmentTransferOfFundsDocument extends EndowmentAccountingLin
         setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
         initializeSubType();
     }
-
-
 }

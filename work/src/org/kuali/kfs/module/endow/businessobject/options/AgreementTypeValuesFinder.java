@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.AgreementType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.service.KeyValuesService;
 
 public class AgreementTypeValuesFinder {
     

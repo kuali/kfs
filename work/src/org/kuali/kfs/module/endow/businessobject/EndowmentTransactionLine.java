@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
 
 public interface EndowmentTransactionLine extends PersistableBusinessObject {
 

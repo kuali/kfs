@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.batch;
 import org.kuali.kfs.module.endow.batch.service.HoldingHistoryMarketValuesUpdateService;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
-import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
  * This process appends current tax lot balance records to the holding history table as of each month.

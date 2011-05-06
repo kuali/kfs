@@ -15,14 +15,10 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class TicklerSecurity extends PersistableBusinessObjectBase implements Inactivateable

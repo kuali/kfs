@@ -15,13 +15,9 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase;
-import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 
 public interface EndowmentAccountingLineBaseDao {
 

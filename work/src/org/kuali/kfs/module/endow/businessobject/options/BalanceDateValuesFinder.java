@@ -19,14 +19,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 public class BalanceDateValuesFinder extends KeyValuesBase {
 

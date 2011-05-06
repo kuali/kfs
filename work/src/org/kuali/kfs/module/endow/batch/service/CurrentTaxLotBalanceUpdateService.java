@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.endow.batch.service;
 
-import java.util.Collection;
-
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
-import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
 
 /**
  * This interface defines the batch job that would to update current tax lot balance records
@@ -45,5 +41,4 @@ public interface CurrentTaxLotBalanceUpdateService {
      * Saves the CurrentTaxLot record to the table (END_CURR_TAX_LOT_BAL_T).
      */
     public abstract void saveCurrentTaxLotRecord(CurrentTaxLotBalance currentTaxLotBalance);
-    
 }

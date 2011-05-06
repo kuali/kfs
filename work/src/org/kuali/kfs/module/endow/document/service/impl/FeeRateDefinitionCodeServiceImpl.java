@@ -17,10 +17,9 @@ package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.rice.kns.util.spring.Cached;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeRateDefinitionCode;
 import org.kuali.kfs.module.endow.document.service.FeeRateDefinitionCodeService;
 import org.kuali.rice.kns.service.BusinessObjectService;

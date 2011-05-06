@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 

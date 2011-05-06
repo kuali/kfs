@@ -15,31 +15,19 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.math.BigDecimal;
 import java.util.List;
-import org.kuali.rice.kns.util.KualiDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.kfs.module.endow.businessobject.FrequencyCode;
-import org.kuali.kfs.module.endow.businessobject.FeeRateDefinitionCode;
-import org.kuali.kfs.module.endow.businessobject.FeeTypeCode;
-import org.kuali.kfs.module.endow.businessobject.FeeBaseCode;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
-import org.kuali.kfs.module.endow.businessobject.FeeBalanceTypeCode;
-import org.kuali.kfs.module.endow.businessobject.FeeClassCode;
-import org.kuali.kfs.module.endow.businessobject.FeeSecurity;
-import org.kuali.kfs.module.endow.businessobject.FeePaymentType;
-import org.kuali.kfs.module.endow.businessobject.FeeTransaction;
-import org.kuali.kfs.module.endow.businessobject.FeeEndowmentTransactionCode;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Business Object for Fee Method.

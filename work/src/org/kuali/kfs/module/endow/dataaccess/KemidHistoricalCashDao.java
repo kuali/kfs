@@ -15,17 +15,9 @@
  */
 package org.kuali.kfs.module.endow.dataaccess;
 
-import java.sql.Date;
 import java.util.List;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KemidHistoricalCash;
-import org.kuali.kfs.module.endow.businessobject.TypeRestrictionCode;
 import org.kuali.rice.kns.util.KualiInteger;
 
 public interface KemidHistoricalCashDao {

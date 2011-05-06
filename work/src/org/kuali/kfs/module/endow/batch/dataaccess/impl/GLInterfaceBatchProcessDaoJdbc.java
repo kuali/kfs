@@ -172,16 +172,6 @@ public class GLInterfaceBatchProcessDaoJdbc extends PlatformAwareDaoBaseJdbc imp
      * joins records from END_TRAN_ARCHV_T, END_KEMID_GL_LNK_T, and END_ETRAN_GL_LNK_T tables in the given sort order
      */
     protected SqlRowSet getAllKemTransactions(String documentType, java.util.Date postedDate, String TransactionSubTypeCode) {
-    //    String transactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
-    //                                    + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
-    //                                    + "c.CHRT_CD, c.ACCT_NBR, "
-    //                                    + "d.TRAN_SEC_COST, d.TRAN_SEC_LT_GAIN_LOSS, d.TRAN_SEC_ST_GAIN_LOSS, d.TRAN_SEC_ETRAN_CD "
-    //                                    + "FROM END_TRAN_ARCHV_T a, END_KEMID_GL_LNK_T c, END_TRAN_ARCHV_SEC_T d " 
-    //                                    + "WHERE a.TRAN_PSTD_DT = ? AND a.DOC_TYP_NM = ? AND a.TRAN_SUB_TYP_CD = ? AND "
-    //                                    + "a.TRAN_KEMID = c.KEMID AND a.TRAN_IP_IND_CD = c.IP_IND_CD AND c.ROW_ACTV_IND = 'Y' AND "
-    //                                    + "a.FDOC_NBR = d.FDOC_NBR AND a.FDOC_LN_NBR = d.FDOC_LN_NBR AND a.FDOC_LN_TYP_CD = d.FDOC_LN_TYP_CD "
-   //                                     + "ORDER BY a.DOC_TYP_NM, c.CHRT_CD, c.ACCT_NBR, d.TRAN_SEC_ETRAN_CD, a.TRAN_ETRAN_CD, a.TRAN_KEMID");
-
         String transactionArchiveSql = ("SELECT a.FDOC_NBR, a.FDOC_LN_NBR, a.FDOC_LN_TYP_CD, a.DOC_TYP_NM, a.TRAN_SUB_TYP_CD, "
                                         + "a.TRAN_KEMID, a.TRAN_ETRAN_CD, a.TRAN_IP_IND_CD, a.TRAN_INC_CSH_AMT, a.TRAN_PRIN_CSH_AMT, "
                                         + "c.CHRT_CD, c.ACCT_NBR "

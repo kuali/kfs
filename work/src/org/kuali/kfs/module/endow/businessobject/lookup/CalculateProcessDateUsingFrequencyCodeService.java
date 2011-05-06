@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.module.endow.businessobject.lookup;
 
-import java.util.List;
 import java.sql.Date;
 import java.util.Calendar;
-import org.kuali.rice.kns.service.DateTimeService;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.rice.kns.service.DateTimeService;
 
 public class CalculateProcessDateUsingFrequencyCodeService {
 

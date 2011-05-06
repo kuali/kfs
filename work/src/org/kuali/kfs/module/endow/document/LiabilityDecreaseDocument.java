@@ -15,21 +15,9 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineBase;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLineParser;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionTaxLotLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class LiabilityDecreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Copyable, Correctable, UnitsTotaling, AmountTotaling {
 

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.endow.document.authorization;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;

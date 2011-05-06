@@ -19,12 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.kfs.module.endow.businessobject.FeeMethod;
-import org.kuali.kfs.module.endow.businessobject.TypeCode;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
 /**
  * Business Object for Type Fee Method table.

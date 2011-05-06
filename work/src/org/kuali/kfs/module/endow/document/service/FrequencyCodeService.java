@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import java.sql.Date;
+
 import org.kuali.kfs.module.endow.businessobject.FrequencyCode;
 
 public interface FrequencyCodeService {

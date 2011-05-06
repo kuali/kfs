@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.document.service;
 
 import java.util.Collection;
 
-import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.module.endow.businessobject.KEMID;
 
 public interface KEMIDService {

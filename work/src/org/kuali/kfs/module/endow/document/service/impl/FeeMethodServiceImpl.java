@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.endow.document.service.impl;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,12 +26,9 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.module.endow.businessobject.KemidFee;
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
-import org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import java.text.ParseException;
 
 /**
  * This class is the service implementation for the Fee Method. This is the default, Kuali provided implementation.

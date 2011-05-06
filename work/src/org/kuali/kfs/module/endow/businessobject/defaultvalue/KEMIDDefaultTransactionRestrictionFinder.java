@@ -39,7 +39,5 @@ public class KEMIDDefaultTransactionRestrictionFinder implements ValueFinder {
         else {
             return KFSConstants.EMPTY_STRING;
         }
-
     }
-
 }

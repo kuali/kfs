@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.businessobject.defaultvalue.NextTransferNumberFinder;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;

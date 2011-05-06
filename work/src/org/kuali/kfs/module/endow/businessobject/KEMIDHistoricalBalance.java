@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;

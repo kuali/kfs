@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document.service;
 
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
 
 /**

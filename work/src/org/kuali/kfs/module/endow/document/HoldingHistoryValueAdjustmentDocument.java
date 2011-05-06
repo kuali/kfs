@@ -17,15 +17,13 @@ package org.kuali.kfs.module.endow.document;
 
 import java.math.BigDecimal;
 
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.util.KualiInteger;
-
-import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.document.Copyable;
+import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
-import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * This is the transactional document that is used to record a modification to the 

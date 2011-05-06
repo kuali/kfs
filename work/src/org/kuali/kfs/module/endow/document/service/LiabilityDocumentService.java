@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.endow.document.service;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
-import org.kuali.kfs.module.endow.document.AssetIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTaxLotLinesDocumentBase;
-import org.kuali.kfs.module.endow.document.LiabilityIncreaseDocument;
 
 public interface LiabilityDocumentService extends EndowmentTransactionLinesDocumentService
 {

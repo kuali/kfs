@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.endow.businessobject.options;
 
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 import org.kuali.kfs.module.endow.EndowConstants;
+import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 
 /**
  * This class defines a values finder for Type Fee Method.

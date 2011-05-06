@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.endow.dataaccess;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;

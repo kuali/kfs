@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 
 /**
  * Base class that is used by Fee Method related objects

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.KualiCodeBase;
 

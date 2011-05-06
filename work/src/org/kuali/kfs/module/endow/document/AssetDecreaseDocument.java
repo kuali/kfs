@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.endow.document;
 
-import java.util.List;
-
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.rice.kns.document.Copyable;

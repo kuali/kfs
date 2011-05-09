@@ -23,26 +23,33 @@ import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.DocumentAdHocService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class is a Financial System specific Document Service class to allow for the {@link #findByDocumentHeaderStatusCode(Class, String)} method.
+ * This class is a Financial System specific Document Service class to allow for the
+ * {@link #findByDocumentHeaderStatusCode(Class, String)} method.
  */
 @Transactional
 public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocumentService {
     private FinancialSystemDocumentDao financialSystemDocumentDao;
     private DocumentService documentService;
-    
+    protected DocumentAdHocService documentAdHocService;
+
     /**
-     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class, java.lang.String)
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class,
+     *      java.lang.String)
      */
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException {
         Collection<T> foundDocuments = getFinancialSystemDocumentDao().findByDocumentHeaderStatusCode(clazz, statusCode);
+        for (Document doc : foundDocuments)
+            documentAdHocService.addAdHocs(doc);
+
         Collection<T> returnDocuments = new ArrayList<T>();
         for (Iterator<T> iter = foundDocuments.iterator(); iter.hasNext();) {
             Document doc = (Document) iter.next();
-            returnDocuments.add((T)getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber()));
+            returnDocuments.add((T) getDocumentService().getByDocumentHeaderId(doc.getDocumentNumber()));
         }
         return returnDocuments;
     }
@@ -63,5 +70,9 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
         this.documentService = documentService;
     }
 
-    
+    public void setDocumentAdHocService(DocumentAdHocService documentAdHocService) {
+        this.documentAdHocService = documentAdHocService;
+    }
+
+
 }

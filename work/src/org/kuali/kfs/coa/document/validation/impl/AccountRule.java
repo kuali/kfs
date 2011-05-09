@@ -369,14 +369,16 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         }
         
         //KFSMI-5961
-        if (isAccountAndContinuationAccountAreSame(newAccount)){
-            success &= false;
-            putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CONT_ACCOUNT_CANNOT_BE_SAME);
-        } else {
-            // disallow continuation account being expired
-            if (isContinuationAccountExpired(newAccount)) {
+        if (ObjectUtils.isNotNull(newAccount.getContinuationFinChrtOfAcctCd())){
+            if (isAccountAndContinuationAccountAreSame(newAccount)){
                 success &= false;
-                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
+                putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CONT_ACCOUNT_CANNOT_BE_SAME);
+            } else {
+                // disallow continuation account being expired
+                if (isContinuationAccountExpired(newAccount)) {
+                    success &= false;
+                    putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
+                }
             }
         }
         return success;

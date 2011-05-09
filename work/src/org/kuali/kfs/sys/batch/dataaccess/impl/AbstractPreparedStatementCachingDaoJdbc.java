@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
 import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.rice.kns.service.DateTimeService;
 
 public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements PreparedStatementCachingDao {
     protected static final String RETRIEVE_PREFIX = "retrieve-";

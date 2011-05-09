@@ -157,6 +157,10 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Override the getSections method on this maintainable so that the document type name field
      * can be set to read-only for 
+     * 
+     * KRAD Conversion: Inquirable performs conditionally preparing the fields for different role modes
+     * or to display/hide fields on the inquiry.
+     * The field definitions are NOT declared in data dictionary.
      */
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {

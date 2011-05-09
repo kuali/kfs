@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
@@ -184,6 +183,9 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     * 
+     * KRAD Conversion: Inquirable performs conditional display/hiding of the fields/sections on the inquiry
+     * But all field/section definitions are in data dictionary for bo Organization.
      */
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
@@ -209,6 +211,9 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
      * Determines if the given field should be included in the updated row, once we take out inactive categories
      * @param field the field to check
      * @return true if the field should be included (ie, it doesn't describe an organization reversion with an inactive category); false otherwise
+     * 
+     * KRAD Conversion: Determines if fields should be included in the section.
+     * But all field/section definitions are in data dictionary.
      */
     protected boolean shouldIncludeField(Field field) {
         boolean includeField = true;
@@ -224,5 +229,4 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         }
         return includeField;
     }
-    
 }

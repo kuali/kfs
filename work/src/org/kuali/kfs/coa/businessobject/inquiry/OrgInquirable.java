@@ -38,6 +38,10 @@ import org.kuali.rice.kns.web.ui.Section;
  */
 public class OrgInquirable extends KfsInquirableImpl {
 
+    /**
+     * KRAD Conversion: Inquirable adds new fields to sections and then adds new sections.
+     * But all field/section definitions are built here for the new section.
+     */
     public void addAdditionalSections(List sections, BusinessObject bo) {
         if (bo instanceof Organization) {
             Organization org = (Organization) bo;

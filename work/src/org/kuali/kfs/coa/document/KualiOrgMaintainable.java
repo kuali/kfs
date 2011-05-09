@@ -41,6 +41,10 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
      * Provides special field conversions for the Org.organizationZipCode
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
+     * 
+     * KRAD Conversion: Inquirable performs the logic to adds new fields to sections if
+     * organization zip code field exists in the core sections.
+     * The fields definitions are built here for the new section.  They are not in data dictionary.
      */
     @Override
     public List getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {
@@ -82,7 +86,6 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
                             fieldConversions.put(KFSPropertyConstants.POSTAL_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME);
-
 
                             // add the fieldConversions, lookupParameters and the lookup class
                             field.setFieldConversions(fieldConversions);

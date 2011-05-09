@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.dataaccess;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,7 +24,14 @@ import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailDao {
-    public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
+    /**
+     * @param custPaymentDocNbr
+     * @param fdocTypeCode
+     * @param orgCode the value of the system parameter PURAP_PDP_ORG_CODE
+     * @param subUnitCode the value of the system parameter PURAP_PDP_SUB_UNIT_CODE
+     * @return
+     */
+    public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode, String orgCode, String subUnitCode);
 
     /**
      * Retrieves list of <code>DisbursementNumberRange</code> records for the given processing campus which are active and have
@@ -37,9 +45,10 @@ public interface PaymentDetailDao {
     /**
      * This returns the data required for the daily report
      * 
+     * @param currentSqlDate the current Sql date
      * @return
      */
-    public List<DailyReport> getDailyReportData();
+    public List<DailyReport> getDailyReportData(Date currentSqlDate);
 
     /**
      * This will return an iterator of all the cancelled payment details that haven't already been processed

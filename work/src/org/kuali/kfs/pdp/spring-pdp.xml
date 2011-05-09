@@ -89,9 +89,7 @@
 		<property name="moduleConfiguration" ref="pdpModuleConfiguration" />
 	</bean>
 	
-	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchMaintenanceDaoOjb">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
+	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.BatchMaintenanceDaoOjb"/>
 
 	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.kfs.pdp.dataaccess.impl.FormatPaymentDaoOjb">
 		<property name="businessObjectService" ref="businessObjectService"/>

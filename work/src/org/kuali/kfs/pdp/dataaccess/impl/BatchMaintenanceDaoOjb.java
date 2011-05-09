@@ -20,10 +20,8 @@
 package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -34,7 +32,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
@@ -44,14 +41,9 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements BatchMaintenanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchMaintenanceDaoOjb.class);
-    private BusinessObjectService businessObjectService;
 
     public BatchMaintenanceDaoOjb() {
         super();
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -62,22 +54,17 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
      * 
      * @param batchId Integer value of batch id of payments to search.
      * @return boolean true = all payments are 'OPEN'; false = all payments are not 'OPEN'
+     * @see org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao#doBatchPaymentsHaveOpenStatus(java.lang.Integer, java.util.List,
+     *      java.util.List)
      */
-    public boolean doBatchPaymentsHaveOpenStatus(Integer batchId) {
+    public boolean doBatchPaymentsHaveOpenStatus(Integer batchId, List batchPayments, List statusList) {
         LOG.debug("doBatchPaymentsHaveOpenStatus() enter method.");
-        
-        // check if batch has any payments
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
-        List batchPayments = (List)businessObjectService.findMatching(PaymentGroup.class, fieldValues);
-        
-        if(ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty())
-        {
+        List codeList = new ArrayList();
+
+        if (ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty()) {
             return false;
         }
-        
-        List codeList = new ArrayList();
-        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
+
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
             if (!(element.getCode().equals(PaymentStatusCodes.OPEN))) {
@@ -113,22 +100,18 @@ public class BatchMaintenanceDaoOjb extends PlatformAwareDaoBaseOjb implements B
      * 
      * @param batchId Integer value of batch id of payments to search.
      * @return boolean true = all payments are 'HELD'; false = all payments are not 'HELD'
+     * @see org.kuali.kfs.pdp.dataaccess.BatchMaintenanceDao#doBatchPaymentsHaveHeldStatus(java.lang.Integer, java.util.List,
+     *      java.util.List)
      */
-    public boolean doBatchPaymentsHaveHeldStatus(Integer batchId) {
+    public boolean doBatchPaymentsHaveHeldStatus(Integer batchId, List batchPayments, List statusList) {
         LOG.debug("doBatchPaymentsHaveHeldStatus() enter method.");
-        
-        // check if batch has any payments
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
-        List batchPayments = (List)businessObjectService.findMatching(PaymentGroup.class, fieldValues);
-        
-        if(ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty())
-        {
+
+        if (ObjectUtils.isNull(batchPayments) || batchPayments.isEmpty()) {
             return false;
         }
-        
+
         List codeList = new ArrayList();
-        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
+
         for (Iterator i = statusList.iterator(); i.hasNext();) {
             PaymentStatus element = (PaymentStatus) i.next();
             if (!(element.getCode().equals(PaymentStatusCodes.HELD_CD))) {

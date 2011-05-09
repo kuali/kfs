@@ -20,10 +20,13 @@ package org.kuali.kfs.pdp.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentChangeCode;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
@@ -47,7 +50,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     private BatchMaintenanceDao batchMaintenanceDao;
     private BusinessObjectService businessObjectService;
     private PaymentGroupService paymentGroupService;
-    
+
     /**
      * This method changes the status for PaymentGroup and PaymentGroupHistory.
      * 
@@ -63,14 +66,14 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         PaymentChangeCode paymentChange = (PaymentChangeCode) businessObjectService.findBySinglePrimaryKey(PaymentChangeCode.class, changeStatus);
-        
+
         paymentGroupHistory.setPaymentChange(paymentChange);
         paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
         paymentGroupHistory.setChangeUser(user);
         paymentGroupHistory.setChangeNoteText(note);
         paymentGroupHistory.setPaymentGroup(paymentGroup);
         paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
-        
+
         this.businessObjectService.save(paymentGroupHistory);
 
         PaymentStatus paymentStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, newPaymentStatus);
@@ -83,8 +86,8 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     }
 
     /**
-     * cancelPendingBatch() This method cancels a pending batch by canceling each payment in the batch if the following rules apply. -
-     * All payments must have a status of 'OPEN'.
+     * cancelPendingBatch() This method cancels a pending batch by canceling each payment in the batch if the following rules apply.
+     * - All payments must have a status of 'OPEN'.
      * 
      * @param paymentBatchId (Integer) Primary key of the Pending Batch to be canceled.
      * @param note (String) Change note text entered by user.
@@ -100,9 +103,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("cancelPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                
+
                 GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
-                
+
                 return false;
             }
 
@@ -118,7 +121,7 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
             LOG.debug("cancelPendingBatch() Not all payment groups are open; cannot cancel batch.");
 
             GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_CANCEL);
-            
+
             return false;
         }
         return true;
@@ -142,9 +145,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("holdPendingBatch() Pending payment groups not found for batchId; throw exception.");
-                
+
                 GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
-                
+
                 return false;
             }
 
@@ -158,9 +161,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("holdPendingBatch() Not all payment groups are open; cannot hold batch.");
-            
+
             GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_HOLD);
-            
+
             return false;
         }
         return true;
@@ -184,9 +187,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
 
             if (paymentGroupList == null || paymentGroupList.isEmpty()) {
                 LOG.debug("removeBatchHold() Pending payment groups not found for batchId; throw exception.");
-                
+
                 GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_PENDING_PAYMNET_GROUP_NOT_FOUND);
-                
+
                 return false;
             }
 
@@ -200,9 +203,9 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
         }
         else {
             LOG.debug("removeBatchHold() Not all payment groups are open; cannot remove hold on batch.");
-            
+
             GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOT_ALL_PAYMENT_GROUPS_OPEN_CANNOT_REMOVE_HOLD);
-            
+
             return false;
         }
         return true;
@@ -213,14 +216,27 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
      * @see org.kuali.kfs.pdp.document.service.BatchMaintenanceService#doBatchPaymentsHaveOpenStatus(java.lang.Integer)
      */
     public boolean doBatchPaymentsHaveOpenStatus(Integer batchId) {
-        return batchMaintenanceDao.doBatchPaymentsHaveOpenStatus(batchId);
+        // check if batch has any payments
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
+        List batchPayments = (List) businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+
+        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
+
+        return batchMaintenanceDao.doBatchPaymentsHaveOpenStatus(batchId, batchPayments, statusList);
     }
 
     /**
      * @see org.kuali.kfs.pdp.document.service.BatchMaintenanceService#doBatchPaymentsHaveHeldStatus(java.lang.Integer)
      */
     public boolean doBatchPaymentsHaveHeldStatus(Integer batchId) {
-        return batchMaintenanceDao.doBatchPaymentsHaveHeldStatus(batchId);
+        // check if batch has any payments
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH_ID, String.valueOf(batchId));
+        List batchPayments = (List) businessObjectService.findMatching(PaymentGroup.class, fieldValues);
+        List statusList = (List) this.businessObjectService.findAll(PaymentStatus.class);
+
+        return batchMaintenanceDao.doBatchPaymentsHaveHeldStatus(batchId, batchPayments, statusList);
     }
 
     /**
@@ -264,4 +280,3 @@ public class BatchMaintenanceServiceImpl implements BatchMaintenanceService {
     }
 
 }
-

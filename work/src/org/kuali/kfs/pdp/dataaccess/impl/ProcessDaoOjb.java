@@ -38,12 +38,6 @@ import org.kuali.rice.kns.util.KualiInteger;
 public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessDaoOjb.class);
 
-    private org.kuali.rice.kim.service.PersonService userService;
-
-    public void setPersonService(org.kuali.rice.kim.service.PersonService u) {
-        userService = u;
-    }
-
     public ProcessDaoOjb() {
         super();
     }
@@ -58,19 +52,19 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
         p.setProcessTimestamp(now);
         p.setId(new KualiInteger(procId));
         p.setExtractedInd(false);
-        
+
         getPersistenceBrokerTemplate().store(p);
-        
+
         return p;
     }
-    
+
     public List<PaymentProcess> getAllExtractsToRun() {
         Criteria c = new Criteria();
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.EXTRACTED_IND, false);
         c.addEqualTo(PdpPropertyConstants.PaymentProcess.FORMATTED_IND, true);
         return (List<PaymentProcess>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentProcess.class, c));
     }
-    
+
     public PaymentProcess get(Integer procId) {
         LOG.debug("get() started");
 
@@ -79,7 +73,7 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
 
         PaymentProcess p = (PaymentProcess) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentProcess.class, c));
         if (p != null) {
-            
+
             return p;
         }
         else {
@@ -88,4 +82,3 @@ public class ProcessDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessDao
     }
 
 }
-

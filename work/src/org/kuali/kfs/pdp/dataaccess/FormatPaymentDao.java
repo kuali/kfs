@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
+import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 
 
 /**
@@ -31,16 +32,20 @@ import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 public interface FormatPaymentDao {
     /**
      * This method mark payments for format
+     * 
      * @param proc
      * @param customers
      * @param paydate
      * @param paymentTypes
+     * @param format payment status FORMAT
      */
-    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes);
+    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes, PaymentStatus format);
 
     /**
      * This method unmark payments that were marked for format.
+     * 
      * @param proc
+     * @param openStatus open payment status
      */
-    public void unmarkPaymentsForFormat(PaymentProcess proc);
+    public void unmarkPaymentsForFormat(PaymentProcess proc, PaymentStatus openStatus);
 }

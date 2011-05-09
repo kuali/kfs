@@ -32,18 +32,14 @@ import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements FormatPaymentDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatPaymentDaoOjb.class);
 
-    private BusinessObjectService businessObjectService;
-
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess,
-     *      java.util.List, java.util.Date, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(PaymentProcess, List, Date, String, PaymentStatus)
      */
-    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes) {
+    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes, PaymentStatus format) {
         LOG.debug("markPaymentsForFormat() started");
 
         Timestamp now = new Timestamp((new Date()).getTime());
@@ -56,13 +52,12 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         c.set(Calendar.MILLISECOND, 59);
         c.set(Calendar.AM_PM, Calendar.PM);
         Timestamp paydateTs = new Timestamp(c.getTime().getTime());
-        
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("markPaymentsForFormat() last update = " + now);
             LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
             LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
         }
-        PaymentStatus format = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.FORMAT);
 
         List customerIds = new ArrayList();
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
@@ -125,14 +120,12 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#unmarkPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess)
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#unmarkPaymentsForFormat(PaymentProcess, PaymentStatus)
      */
-    public void unmarkPaymentsForFormat(PaymentProcess proc) {
+    public void unmarkPaymentsForFormat(PaymentProcess proc, PaymentStatus openStatus) {
         LOG.debug("unmarkPaymentsForFormat() started");
 
         Timestamp now = new Timestamp((new Date()).getTime());
-
-        PaymentStatus openStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, proc.getId());
@@ -145,24 +138,6 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
             paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);
         }
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
 }

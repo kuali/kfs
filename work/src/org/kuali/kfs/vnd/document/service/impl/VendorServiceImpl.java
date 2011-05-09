@@ -38,6 +38,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.PersistenceService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -51,6 +52,7 @@ public class VendorServiceImpl implements VendorService {
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private PersistenceService persistenceService;
+    protected DateTimeService dateTimeService;
     private VendorDao vendorDao;
 
     /**
@@ -59,7 +61,7 @@ public class VendorServiceImpl implements VendorService {
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.document.service.getByVendorNumber(String)
      */
@@ -74,9 +76,9 @@ public class VendorServiceImpl implements VendorService {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
         }
-        if (StringUtils.isEmpty(vendorNumber)) 
+        if (StringUtils.isEmpty(vendorNumber))
             return null;
-        
+
         int dashInd = vendorNumber.indexOf('-');
         // make sure there's at least one char before and after '-'
         if (dashInd > 0 && dashInd < vendorNumber.length() - 1) {
@@ -90,7 +92,7 @@ public class VendorServiceImpl implements VendorService {
                 return null;
             }
         }
-        
+
         return null;
     }
 
@@ -123,18 +125,20 @@ public class VendorServiceImpl implements VendorService {
             exampleContractOrg.setOrganizationCode(org);
             Map orgKeys = persistenceService.getPrimaryKeyFieldValues(exampleContractOrg);
             VendorContractOrganization contractOrg = (VendorContractOrganization) businessObjectService.findByPrimaryKey(VendorContractOrganization.class, orgKeys);
-            // if the contractOrg is found 
+            // if the contractOrg is found
             if (ObjectUtils.isNotNull(contractOrg)) {
-                // if the contractOrg is excluded, return the special value of the APO limit from the table                     
+                // if the contractOrg is excluded, return the special value of the APO limit from the table
                 if (!contractOrg.isVendorContractExcludeIndicator()) {
                     return contractOrg.getVendorContractPurchaseOrderLimitAmount();
                 }
                 // otherwise return null, as if there's no contract
-                else return null;
+                else
+                    return null;
             }
         }
 
-        // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in contract
+        // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in
+        // contract
         if (ObjectUtils.isNotNull(contractId)) {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);
@@ -183,9 +187,9 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Exiting getParentVendor normally.");
         return result;
     }
-    
+
     /**
-     *  @see org.kuali.kfs.vnd.document.service.VendorService#getVendorByDunsNumber(String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorByDunsNumber(String)
      */
     public VendorDetail getVendorByDunsNumber(String vendorDunsNumber) {
         if (LOG.isDebugEnabled()) {
@@ -338,7 +342,8 @@ public class VendorServiceImpl implements VendorService {
                 List<Person> personList = SpringContext.getBean(PersonService.class).getPersonByExternalIdentifier(org.kuali.rice.kim.util.KimConstants.PersonExternalIdentifierTypes.TAX, ssnTaxId);
                 if (personList != null && !personList.isEmpty()) {
                     return ObjectUtils.isNotNull(personList.get(0));
-                } else {
+                }
+                else {
                     // user is not in the system... assume non-person
                     return false;
                 }
@@ -359,9 +364,8 @@ public class VendorServiceImpl implements VendorService {
         }
         return vendorToUse.getVendorHeader().getVendorForeignIndicator();
     }
-    
+
     /**
-     * 
      * @see org.kuali.kfs.vnd.document.service.VendorService#isSubjectPaymentVendor(java.lang.Integer)
      */
     public boolean isSubjectPaymentVendor(Integer vendorHeaderGeneratedIdentifier) {
@@ -375,7 +379,6 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * 
      * @see org.kuali.kfs.vnd.document.service.VendorService#isRevolvingFundCodeVendor(java.lang.Integer)
      */
     public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier) {
@@ -389,10 +392,11 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorB2BContract(org.kuali.kfs.vnd.businessobject.VendorDetail, java.lang.String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorB2BContract(org.kuali.kfs.vnd.businessobject.VendorDetail,
+     *      java.lang.String)
      */
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
-        return vendorDao.getVendorB2BContract(vendorDetail, campus);
+        return vendorDao.getVendorB2BContract(vendorDetail, campus, dateTimeService.getCurrentSqlDate());
     }
 
     public void setBusinessObjectService(BusinessObjectService boService) {
@@ -410,5 +414,13 @@ public class VendorServiceImpl implements VendorService {
     public void setVendorDao(VendorDao vendorDao) {
         this.vendorDao = vendorDao;
     }
-}
 
+    /**
+     * Sets the dateTimeService.
+     * 
+     * @param dateTimeService
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+}

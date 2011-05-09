@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.vnd.dataaccess.impl;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -23,7 +23,6 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.dataaccess.VendorDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DateTimeService;
 
 /**
  * OJB implementation of VendorDao.
@@ -31,10 +30,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorDaoOjb.class);
 
-    private DateTimeService dateTimeService;
-
-    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
-        Date now = dateTimeService.getCurrentSqlDate();
+    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus, Date currentSqlDate) {
 
         Criteria header = new Criteria();
         Criteria detail = new Criteria();
@@ -46,8 +42,8 @@ public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
         header.addEqualTo("VNDR_HDR_GNRTD_ID", vendorDetail.getVendorHeaderGeneratedIdentifier());
         detail.addEqualTo("VNDR_DTL_ASND_ID", vendorDetail.getVendorDetailAssignedIdentifier());
         campusCode.addEqualTo("VNDR_CMP_CD", campus);
-        beginDate.addLessOrEqualThan("VNDR_CONTR_BEG_DT", now);
-        endDate.addGreaterOrEqualThan("VNDR_CONTR_END_DT", now);
+        beginDate.addLessOrEqualThan("VNDR_CONTR_BEG_DT", currentSqlDate);
+        endDate.addGreaterOrEqualThan("VNDR_CONTR_END_DT", currentSqlDate);
         b2b.addEqualTo("VNDR_B2B_IND", "Y");
 
         header.addAndCriteria(detail);
@@ -58,10 +54,6 @@ public class VendorDaoOjb extends PlatformAwareDaoBaseOjb implements VendorDao {
 
         VendorContract contract = (VendorContract) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(VendorContract.class, header));
         return contract;
-    }        
-    
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
 }

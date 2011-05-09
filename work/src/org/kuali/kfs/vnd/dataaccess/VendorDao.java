@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.vnd.dataaccess;
 
+import java.sql.Date;
+
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
@@ -23,5 +25,5 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
  */
 public interface VendorDao {
     
-    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
+    public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus, Date currentSqlDate);
 }

@@ -89,9 +89,7 @@
     </bean>
     -->
     
-    <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.VendorDaoOjb" >
-        <property name="dateTimeService" ref="dateTimeService"/>
-    </bean>
+    <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.VendorDaoOjb" />
    
     <bean id="vendorService" parent="vendorService-parentBean"/>
    
@@ -99,6 +97,7 @@
         <property name="vendorDao" ref="vendorDao"/>
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
         <property name="persistenceService" ref="persistenceService" />
     </bean>
     <bean id="phoneNumberService" parent="phoneNumberService-parentBean"/>

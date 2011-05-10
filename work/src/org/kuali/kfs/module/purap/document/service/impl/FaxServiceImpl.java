@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.exception.FaxServerUnavailableError;
@@ -37,6 +36,7 @@ import org.kuali.kfs.module.purap.pdf.PurchaseOrderParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
+import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,9 +63,7 @@ public class FaxServiceImpl implements FaxService {
     protected VendorService vendorService;
     protected BusinessObjectService businessObjectService;
     protected CountryService countryService;
-    protected ImageDao imageDao;
 
-    
 
     /**
      * Create the Purchase Order Pdf document and send it via fax to the recipient in the PO
@@ -313,16 +311,5 @@ public class FaxServiceImpl implements FaxService {
     public void setCountryService(CountryService countryService) {
         this.countryService = countryService;
     }
-
-    public ImageDao getImageDao() {
-        return imageDao;
-    }
-
-    public void setImageDao(ImageDao imageDao) {
-        this.imageDao = imageDao;
-    }
-    
-
-
 
 }

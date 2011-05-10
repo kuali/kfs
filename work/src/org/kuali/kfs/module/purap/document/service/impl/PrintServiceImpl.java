@@ -29,7 +29,6 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PrintService;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.kfs.module.purap.pdf.PurchaseOrderQuoteRequestsPdf;
+import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -60,7 +60,7 @@ public class PrintServiceImpl implements PrintService {
     protected static final boolean TRANSMISSION_IS_RETRANSMIT = true;
     protected static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
 
-    private ImageDao imageDao;
+    private ImageService imageService;
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
@@ -133,7 +133,7 @@ public class PrintServiceImpl implements PrintService {
                 throw new PurapConfigurationException("Application Setting IMAGE_TEMP_PATH is missing");
             }
             // Get logo image.
-            logoImage = imageDao.getLogo(key, campusCode, imageTempLocation);
+            logoImage = imageService.getLogo(key, campusCode, imageTempLocation);
         }
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
@@ -192,7 +192,7 @@ public class PrintServiceImpl implements PrintService {
                 throw new PurapConfigurationException("Application Setting IMAGE_TEMP_PATH is missing");
             }
             // Get logo image.
-            logoImage = imageDao.getLogo(key, campusCode, imageTempLocation);
+            logoImage = imageService.getLogo(key, campusCode, imageTempLocation);
         }
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
@@ -318,13 +318,13 @@ public class PrintServiceImpl implements PrintService {
             }
 
             // Get images
-            if ((logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null) {
+            if ((logoImage = imageService.getLogo(key, campusCode, imageTempLocation)) == null) {
                 throw new PurapConfigurationException("logoImage is null.");
             }
-            if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
+            if ((directorSignatureImage = imageService.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
                 throw new PurapConfigurationException("directorSignatureImage is null.");
             }
-            if ((contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
+            if ((contractManagerSignatureImage = imageService.getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
                 throw new PurapConfigurationException("contractManagerSignatureImage is null.");
             }
         }
@@ -517,7 +517,7 @@ public class PrintServiceImpl implements PrintService {
             }
 
             // Get images
-            logoImage = imageDao.getLogo(key, campusCode, imageTempLocation);
+            logoImage = imageService.getLogo(key, campusCode, imageTempLocation);
             
             if (StringUtils.isEmpty(logoImage)) {
                 throw new PurapConfigurationException("logoImage is null.");
@@ -539,8 +539,8 @@ public class PrintServiceImpl implements PrintService {
         this.parameterService = parameterService;
     }
 
-    public void setImageDao(ImageDao imageDao) {
-        this.imageDao = imageDao;
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

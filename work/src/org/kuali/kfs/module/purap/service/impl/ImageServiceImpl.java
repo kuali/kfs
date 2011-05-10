@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.dataaccess.impl;
+package org.kuali.kfs.module.purap.service.impl;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -22,9 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
+import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
@@ -32,10 +32,10 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /**
- * OJB Implementation of ImageDao.
+ * Implementation of ImageService.
  */
-public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
-    private static Log LOG = LogFactory.getLog(ImageDaoNet.class);
+public class ImageServiceImpl implements ImageService {
+    private static Log LOG = LogFactory.getLog(ImageServiceImpl.class);
 
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;

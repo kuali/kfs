@@ -286,7 +286,7 @@
 	<bean id="printService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PrintServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
-        <property name="imageDao" ref="imageDao" />
+        <property name="imageService" ref="imageService" />
         <property name="kualiConfigurationService" ref="kualiConfigurationService" />
         <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
 	</bean>
@@ -298,7 +298,6 @@
         <property name="vendorService" ref="vendorService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="countryService" ref="countryService" />
-        <property name="imageDao" ref="imageDao" />
 	</bean>
 			
 	<bean id="purchaseOrderService" parent="PurchaseOrderService-parentBean" />		
@@ -427,6 +426,12 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
 	</bean>
+	<bean id="imageService" parent="imageService-parentBean"/>
+    
+    <bean id="imageService-parentBean" class="org.kuali.kfs.module.purap.service.impl.ImageServiceImpl">
+		<property name="parameterService" ref="parameterService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
 
 	<bean id="receivingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.ReceivingDaoOjb" />
 	
@@ -437,11 +442,6 @@
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.PurchaseOrderDaoOjb" />
 
 	<bean id="purApAccountingDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurApAccountingDaoOjb" />
-
-	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.ImageDaoNet">
-		<property name="parameterService" ref="parameterService" />
-		<property name="configurationService" ref="kualiConfigurationService" />
-	</bean>
 	
 	<bean id="negativePaymentRequestApprovalLimitDao" parent="platformAwareDao" 
 		class="org.kuali.kfs.module.purap.document.dataaccess.impl.NegativePaymentRequestApprovalLimitDaoOjb" />

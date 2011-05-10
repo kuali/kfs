@@ -23,9 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderContractLanguage;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.dataaccess.ImageDao;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
+import org.kuali.kfs.module.purap.service.ImageService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -89,13 +89,13 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
              }
 
              // Get images
-             if ((this.logoImage = SpringContext.getBean(ImageDao.class).getLogo(key, campusCode, imageTempLocation)) == null) {
+             if ((this.logoImage = SpringContext.getBean(ImageService.class).getLogo(key, campusCode, imageTempLocation)) == null) {
                  throw new PurapConfigurationException("logoImage is null.");
              }
-             if ((this.directorSignatureImage = SpringContext.getBean(ImageDao.class).getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
+             if ((this.directorSignatureImage = SpringContext.getBean(ImageService.class).getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
                  throw new PurapConfigurationException("directorSignatureImage is null.");
              }
-             if ((this.contractManagerSignatureImage = SpringContext.getBean(ImageDao.class).getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
+             if ((this.contractManagerSignatureImage = SpringContext.getBean(ImageService.class).getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
                  throw new PurapConfigurationException("contractManagerSignatureImage is null.");
              }
          }
@@ -204,13 +204,13 @@ public class PurchaseOrderTransmitParameters implements PurchaseOrderParameters 
              }
 
              // Get images
-             if ((this.logoImage = SpringContext.getBean(ImageDao.class).getLogo(key, campusCode, imageTempLocation)) == null) {
+             if ((this.logoImage = SpringContext.getBean(ImageService.class).getLogo(key, campusCode, imageTempLocation)) == null) {
                  throw new PurapConfigurationException("logoImage is null.");
              }
-             if ((this.directorSignatureImage = SpringContext.getBean(ImageDao.class).getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
+             if ((this.directorSignatureImage = SpringContext.getBean(ImageService.class).getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null) {
                  throw new PurapConfigurationException("directorSignatureImage is null.");
              }
-             if ((this.contractManagerSignatureImage = SpringContext.getBean(ImageDao.class).getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
+             if ((this.contractManagerSignatureImage = SpringContext.getBean(ImageService.class).getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null) {
                  throw new PurapConfigurationException("contractManagerSignatureImage is null.");
              }
          }

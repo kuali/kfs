@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.purap.dataaccess;
+package org.kuali.kfs.module.purap.service;
 
 /**
- * Image DAO Interface.
+ * Image Service Interface.
  */
-public interface ImageDao {
+public interface ImageService {
 
     /**
      * Get the purchasing director signature image. This will get the image from webdav and copy it to a temp directory.

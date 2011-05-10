@@ -1910,7 +1910,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     }
     
     protected ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary eils) {
-        return electronicInvoicingDao.saveElectronicInvoiceLoadSummary(eils);
+        SpringContext.getBean(BusinessObjectService.class).save(eils);
+        eils.refreshNonUpdateableReferences();
+        return eils;
     }
     
     public void setElectronicInvoiceInputFileType(ElectronicInvoiceInputFileType electronicInvoiceInputFileType) {

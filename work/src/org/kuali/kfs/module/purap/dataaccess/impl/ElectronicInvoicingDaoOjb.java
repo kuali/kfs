@@ -37,20 +37,6 @@ public class ElectronicInvoicingDaoOjb extends PlatformAwareDaoBaseOjb implement
         return (ElectronicInvoiceLoadSummary) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(ElectronicInvoiceLoadSummary.class, criteria));
     }
 
-    public ElectronicInvoiceLoadSummary saveElectronicInvoiceLoadSummary(ElectronicInvoiceLoadSummary loadSummary) {
-        LOG.debug("saveElectronicInvoiceLoadSummary() started");
-        getPersistenceBrokerTemplate().store(loadSummary);
-        getPersistenceBroker(true).retrieveAllReferences(loadSummary);
-        return loadSummary;
-    }
-
-    public ElectronicInvoiceRejectDocument saveElectronicInvoiceReject(ElectronicInvoiceRejectDocument reject) {
-        LOG.debug("saveElectronicInvoiceReject() started");
-        getPersistenceBrokerTemplate().store(reject);
-        getPersistenceBroker(true).retrieveAllReferences(reject);
-        return reject;
-    }
-
     public List getPendingElectronicInvoices() {
         LOG.debug("getPendingElectronicInvoices() started");
 

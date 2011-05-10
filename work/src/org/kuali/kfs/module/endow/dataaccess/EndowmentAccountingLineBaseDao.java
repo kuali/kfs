@@ -23,6 +23,7 @@ public interface EndowmentAccountingLineBaseDao {
 
     /**
      * Gets a collection of records from END_ENDOW_ACCT_LINES_T table.
+     * 
      * @param documentNumber
      * @return transactionArchives
      */

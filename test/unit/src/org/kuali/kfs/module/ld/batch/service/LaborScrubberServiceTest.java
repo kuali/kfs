@@ -353,9 +353,13 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);       
     }
         
-    // TODO: the tested account can accept sub fund group wage, so the subfund wage exclusion logic cannot be applied
+
+    /**
+     * Test non-fringe, non-alt, non-closed 
+     * @throws Exception
+     */
     public void testNonFringeNonAltNonClosed() throws Exception {
-        /*TestUtils tu = new TestUtils();
+        TestUtils tu = new TestUtils();
         TestUtils.setSystemParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUBFUND_WAGE_EXCLUSION_PARAMETER, "Y");
         TestUtils.setSystemParameter(LaborScrubberStep.class, LaborConstants.Scrubber.ACCOUNT_FRINGE_EXCLUSION_PARAMETER, "Y");
         TestUtils.setSystemParameter(LaborScrubberStep.class, LaborConstants.Scrubber.CONTINUATION_ACCOUNT_LOGIC_PARAMETER, "Y");
@@ -366,18 +370,26 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         // Chart code: BL, Object code: 5760, Fiscal Year: 2008
         // It doesn't have alternative fringe account, so it uses suspense account. 
         // This entry will be changed   2008UA6812756-----5760---ACEX08ST  99PRENC-07      00002MTFRING ----------KUALI TEST DESCRIPTION                             28988.60C2008-12-14                                                 2008-12-14          0        200906-----------0               M037113006                             
+        //      "2008BL2631476-----5760---ACEX08ST  99PRENC-07      00002MTFRING ----------KUALI TEST DESCRIPTION                  +0000000000028988.60C2008-12-14                                                D2008-12-14          000000.00200906-----------000             M037113006                             "
 
+        // Test entries provided by Damon Dorsey on 5/10/11
         String[] inputTransactions = { 
-                "2008BL2631476-----5760---ACEX08ST  99PRENC-07      00002MTFRING ----------KUALI TEST DESCRIPTION                  +0000000000028988.60C2008-12-14                                                D2008-12-14          000000.00200906-----------000             M037113006                             " 
+            "2011UA6812757-----2000---ACEX  ST  LDNOWAGE1            00000001----------NO WAGE ACCOUNT                         +00000000000001000.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12",                                              
+            "2011UA6812757-----5625---ACEX  ST  LDNOWAGE2            00000001----------NO WAGE ACCOUNT                         +00000000000000125.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12",                                              
+            "2011EA0366595-----5625---ACEX  ST  LDNOFRINGE2          00000001----------NO FRINGE ACCOUNT                       +00000000000003500.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12"                                                                    
         };
 
         EntryHolder[] outputTransactions = { 
-                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), 
-                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[0])
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]),
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), 
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[2]), 
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[0]),
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[1]),
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[2])                
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(4, outputTransactions);*/
+        assertOriginEntries(4, outputTransactions);
     }
     
     // TODO: the tested account has an continuation account, so the suspense account logic cannot be reached

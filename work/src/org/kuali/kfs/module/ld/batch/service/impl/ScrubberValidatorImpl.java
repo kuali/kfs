@@ -28,8 +28,8 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.service.ScrubberValidator;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
@@ -399,8 +399,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 laborWorkingEntry.setAccount(altAccount);
                 laborWorkingEntry.setAccountNumber(altAccount.getAccountNumber());
                 laborWorkingEntry.setChartOfAccountsCode(altAccount.getChartOfAccountsCode());
-
-                return handleExpiredClosedAccount(altAccount, laborOriginEntry, laborWorkingEntry, universityRunDate);
+                Message err = handleExpiredClosedAccount(altAccount, laborOriginEntry, laborWorkingEntry, universityRunDate);
+                if (err == null) {
+                    err = MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_FRINGES_MOVED_TO, Message.TYPE_WARNING, altAccount.getAccountNumber());
+                }
+                return err;
             }
 
             // no alt acct, use suspense acct if active

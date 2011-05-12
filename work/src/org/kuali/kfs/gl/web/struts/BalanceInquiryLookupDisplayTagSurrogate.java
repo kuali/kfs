@@ -51,6 +51,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#performMultipleValueLookup(LookupResultsSelectable,LookupForm,List,boolean)
+     *
+     * KRAD Conversion: Lookupable performs customization of the results setting the sort order. 
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public Collection performMultipleValueLookup(LookupResultsSelectable selectable, LookupForm form, List<ResultRow> resultTable, boolean bounded) {
         Lookupable lookupable = form.getLookupable();
@@ -101,6 +105,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#switchToPage(LookupResultsSelectable,int)
+     * 
+     * KRAD Conversion: Lookupable performs retrieving the data.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public List<ResultRow> switchToPage(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
@@ -123,6 +131,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#sort(LookupResultsSelectable,int)
+     * 
+     * KRAD Conversion: Lookupable performs retrieving the data and reverses the data if need to be sorted.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public List<ResultRow> sort(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
@@ -213,6 +225,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#prepareToExport(LookupResultsSelectable)
+     * 
+     * KRAD Conversion: Lookupable performs retrieving the data.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public List<ResultRow> prepareToExport(LookupResultsSelectable selectable) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
@@ -232,6 +248,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#getMaxRowsPerPage(LookupResultsSelectable)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public List<ResultRow> selectAll(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
@@ -261,6 +281,10 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
 
     /**
      * @see LookupDisplayTagSurrogate#getMaxRowsPerPage(LookupResultsSelectable)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public List<ResultRow> unselectAll(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
@@ -297,4 +321,3 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         return appMaxRowsPerPage;
     }
 }
-

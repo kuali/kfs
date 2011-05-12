@@ -67,6 +67,9 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      * @param fieldValues a map of keys for the search
      * @return a List of AccountBalance records that match the search criteria
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable modifies the search results based on the fields consolidated.
+     * But all field definitions are in data dictionary.
      */
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
@@ -108,7 +111,6 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
-
 
     /**
      * This method builds the available account balance collection based on the input iterator

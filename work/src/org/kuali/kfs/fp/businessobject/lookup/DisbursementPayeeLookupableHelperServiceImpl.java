@@ -60,6 +60,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm,
      *      java.util.Collection, boolean)
+     * 
+     * KRAD Conversion: Lookupable performs conditional setting of return urls.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {

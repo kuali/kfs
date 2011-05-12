@@ -39,6 +39,9 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
      * 
      * @return the String to display as the first row in the table
      * @see org.displaytag.decorator.TableDecorator#startRow()
+     *
+     * KRAD Conversion: Inquirable customizes the first row with columns.
+     * No use of data dictionary here.
      */
     @Override
     public String startRow() {
@@ -74,6 +77,9 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
      * Generates the last row of the displayed table...which displays some kind of footer...
      * @return a String representing the last row of the table
      * @see org.displaytag.decorator.TableDecorator#finishRow()
+     * 
+     * KRAD Conversion: Inquirable customizes the last row with columns.
+     * No use of data dictionary here.
      */
     @Override
     public String finishRow() {

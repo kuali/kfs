@@ -90,6 +90,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
 
+    /**
+     * KRAD Conversion: Uses the metadata of different columns created and selects the  
+     * column name and column comparator and uses these properties to srt the list. 
+     * There is no use of data dictionary.
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("execute() started");
@@ -1660,6 +1665,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiTableAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * KRAD Conversion: Uses the metadata of different columns created and selects the  
+     * column name and column comparator and uses these properties to srt the list. 
+     * There is no use of data dictionary.
      */
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CorrectionForm correctionForm = (CorrectionForm) form;
@@ -1714,6 +1723,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
 
+    /**
+     * KRAD Conversion: Uses the metadata of different columns created and selects the  
+     * column name and column comparator and uses these properties to srt the list. 
+     * There is no use of data dictionary.
+     */
     protected void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {

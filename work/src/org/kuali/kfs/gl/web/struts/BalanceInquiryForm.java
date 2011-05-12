@@ -60,6 +60,10 @@ public class BalanceInquiryForm extends LookupForm {
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
      * 
      * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
+     *      
+     * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
+     *  
+     * Fields are in data dictionary for bo Balance.
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);

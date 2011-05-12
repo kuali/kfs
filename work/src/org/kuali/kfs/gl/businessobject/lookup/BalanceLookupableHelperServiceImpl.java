@@ -59,6 +59,9 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLoo
      * @param fieldValues the field values of the query to carry out
      * @return List the search results returned by the lookup
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable modifies the search results based on the fields consolidated.
+     * But all field definitions are in data dictionary.
      */
     @Override
     public List getSearchResults(Map fieldValues) {

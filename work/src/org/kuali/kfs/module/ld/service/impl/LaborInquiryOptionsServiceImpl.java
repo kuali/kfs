@@ -87,6 +87,10 @@ public class LaborInquiryOptionsServiceImpl implements LaborInquiryOptionsServic
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborInquiryOptionsService#isConsolidationSelected(java.util.Map, java.util.Collection)
+     * 
+     * KRAD Conversion: Lookupable performs checking for a particular attribute and return true or false.
+     * This method is called from BaseFundsLookupableHelperServiceImpl.java, CurrentFundsLookupableHelperServiceImpl.java,
+     * LedgerBalanceLookupableHelperServiceImpl.java in ld module
      */
     public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows) {
         boolean isConsolidationSelected = isConsolidationSelected(fieldValues);

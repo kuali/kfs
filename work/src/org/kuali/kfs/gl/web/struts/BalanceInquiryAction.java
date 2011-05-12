@@ -111,6 +111,12 @@ public class BalanceInquiryAction extends KualiAction {
      * @param response
      * @return
      * @throws Exception
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results if 
+     * account balance by consolidation. The result rows are added to a collection 
+     * based on field's actual size if truncated is > 7.
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
@@ -139,7 +145,6 @@ public class BalanceInquiryAction extends KualiAction {
 
             // TODO: use inheritance instead of this if statement
             if (lookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
-
 
                 Collection totalsTable = new ArrayList();
 
@@ -205,6 +210,10 @@ public class BalanceInquiryAction extends KualiAction {
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *      
+     * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
+     *  
+     * Fields are in data dictionary for bo Balance.
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -287,6 +296,10 @@ public class BalanceInquiryAction extends KualiAction {
      * @return
      * @throws IOException
      * @throws ServletException
+     * 
+     * KRAD Conversion: Lookupable performs setting/clearing of the field values. 
+     * 
+     * Fields are in data dictionary for bo Balance.
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LookupForm lookupForm = (LookupForm) form;

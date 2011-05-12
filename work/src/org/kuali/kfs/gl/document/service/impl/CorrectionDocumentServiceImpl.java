@@ -182,6 +182,9 @@ public class CorrectionDocumentServiceImpl extends InitiateDirectoryBase impleme
      * @param docId the document id of a GLCP document
      * @return a List of Columns to render
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
+     *
+     * KRAD Conversion: Service method creates metadata of different columns.
+     * No use of data dictionary.
      */
     public List<Column> getTableRenderColumnMetadata(String docId) {
         synchronized (this) {

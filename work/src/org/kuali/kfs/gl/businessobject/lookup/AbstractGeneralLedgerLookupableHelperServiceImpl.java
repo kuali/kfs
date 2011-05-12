@@ -99,6 +99,10 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
      *
      * @param fieldValues the map containing the search fields and values
      * @return true if consolidation is selected and subaccount is not specified
+     * 
+     * KRAD Conversion: Lookupable performs checking for a particular attribute and return true or false.
+     * This method is called from AccountBalanceLookupableHelperServiceImpl.java, BalanceLookupableHelperServiceImpl.java,
+     * CashBalanceLookupableHelperServiceImpl.java in gl module.  
      */
     protected boolean isConsolidationSelected(Map fieldValues) {
         // truncate the non-property filed

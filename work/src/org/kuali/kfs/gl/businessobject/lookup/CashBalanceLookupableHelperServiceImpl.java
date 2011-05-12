@@ -56,6 +56,9 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
      * @param propertyName the name of the property that an inquiry url is being asked of
      * @return the String of the url
      * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * 
+     * KRAD Conversion: Lookupable modifies the search results based on the fields consolidated.
+     * But all field definitions are in data dictionary.
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -245,5 +248,4 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         
         return rows;
     }
-
 }

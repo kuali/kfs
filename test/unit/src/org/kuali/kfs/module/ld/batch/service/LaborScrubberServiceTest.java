@@ -379,13 +379,27 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
             "2011EA0366595-----5625---ACEX  ST  LDNOFRINGE2          00000001----------NO FRINGE ACCOUNT                       +00000000000003500.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12"                                                                    
         };
 
+        String[] expectedOutput = {
+                "2011UA6812756-----2000---ACEX11ST  LDNOWAGE1       0000000000001----------NO WAGE ACCOUNT                         +00000000000001000.00D2011-09-01                                                 2011-10-232011-08-09       102011010001537923   1RGNS12",                                              
+                "2011UA6812756-----5625---ACEX11ST  LDNOWAGE2       0000000000001----------NO WAGE ACCOUNT                         +00000000000000125.00D2011-09-01                                                 2011-10-232011-08-09       102011010001537923   1RGNS12",                                              
+                "2011UA6612160-----5625---ACEX11ST  LDNOFRINGE2     0000000000001----------NO FRINGE ACCOUNT                       +00000000000003500.00D2011-09-01                                                 2011-10-232011-08-09       102011010001537923   1RGNS12"                                              
+
+                
+                
+//                "2011UA6812757-----2000---ACEX  ST  LDNOWAGE1            00000001----------NO WAGE ACCOUNT                         +00000000000001000.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12",                                              
+//                "2011UA6812757-----5625---ACEX  ST  LDNOWAGE2            00000001----------NO WAGE ACCOUNT                         +00000000000000125.00D2011-09-01                                                 2011-10-232011-08-090000000102011010001537923 01 RGNS12",                                              
+//                "2011UA6612160-----5625---ACEX11ST  LDNOFRINGE2     0000000000001----------NO FRINGE ACCOUNT                       +00000000000003500.00D2011-09-01                                                 2011-10-232011-08-09       102011010001537923   1RGNS12"                                                                    
+        };
+        
+        
+        
         EntryHolder[] outputTransactions = { 
                 new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]),
                 new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), 
                 new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[2]), 
-                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[0]),
-                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[1]),
-                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, inputTransactions[2])                
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, expectedOutput[0]),
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, expectedOutput[1]),
+                new EntryHolder(LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, expectedOutput[2])                
         };
 
         scrub(inputTransactions);

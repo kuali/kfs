@@ -16,8 +16,6 @@
 package org.kuali.kfs.pdp.dataaccess.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -26,53 +24,29 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.FormatPaymentDao;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements FormatPaymentDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatPaymentDaoOjb.class);
 
+    private BusinessObjectService businessObjectService;
+
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(PaymentProcess, List, Date, String, PaymentStatus)
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#markPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess,
+     *      java.util.List, java.util.Date, java.lang.String)
      */
-    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, String paymentTypes, PaymentStatus format) {
+    public Iterator markPaymentsForFormat(List customerIds, Timestamp paydateTs, String paymentTypes) {
         LOG.debug("markPaymentsForFormat() started");
-
-        Timestamp now = new Timestamp((new Date()).getTime());
-        java.sql.Date sqlDate = new java.sql.Date(paydate.getTime());
-        Calendar c = Calendar.getInstance();
-        c.setTime(sqlDate);
-        c.set(Calendar.HOUR, 11);
-        c.set(Calendar.MINUTE, 59);
-        c.set(Calendar.SECOND, 59);
-        c.set(Calendar.MILLISECOND, 59);
-        c.set(Calendar.AM_PM, Calendar.PM);
-        Timestamp paydateTs = new Timestamp(c.getTime().getTime());
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("markPaymentsForFormat() last update = " + now);
-            LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
-            LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
-        }
-
-        List customerIds = new ArrayList();
-        for (Iterator iter = customers.iterator(); iter.hasNext();) {
-            CustomerProfile element = (CustomerProfile) iter.next();
-            customerIds.add(element.getId());
-        }
 
         Criteria criteria = new Criteria();
 
         if (customerIds.size() > 0) {
             criteria.addIn(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_BATCH + "." + PdpPropertyConstants.BatchConstants.CUSTOMER_ID, customerIds);
-        }
-        else {
-            // no payments to mark as no customer was selected
-            return;
         }
 
         criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN);
@@ -110,34 +84,39 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         }
 
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
-        while (groupIterator.hasNext()) {
-            PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
-            paymentGroup.setLastUpdate(paydateTs);// delete this one
-            paymentGroup.setPaymentStatus(format);
-            paymentGroup.setProcess(proc);
-            getPersistenceBrokerTemplate().store(paymentGroup);
-        }
+        return groupIterator;
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#unmarkPaymentsForFormat(PaymentProcess, PaymentStatus)
+     * @see org.kuali.kfs.pdp.dataaccess.FormatPaymentDao#unmarkPaymentsForFormat(org.kuali.kfs.pdp.businessobject.PaymentProcess)
      */
-    public void unmarkPaymentsForFormat(PaymentProcess proc, PaymentStatus openStatus) {
+    public Iterator unmarkPaymentsForFormat(PaymentProcess proc) {
         LOG.debug("unmarkPaymentsForFormat() started");
-
-        Timestamp now = new Timestamp((new Date()).getTime());
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, proc.getId());
         criteria.addEqualTo(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.FORMAT);
 
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
-        while (groupIterator.hasNext()) {
-            PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
-            paymentGroup.setLastUpdate(now);
-            paymentGroup.setPaymentStatus(openStatus);
-            getPersistenceBrokerTemplate().store(paymentGroup);
-        }
+        return groupIterator;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

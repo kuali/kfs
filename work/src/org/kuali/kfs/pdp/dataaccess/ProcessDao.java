@@ -29,8 +29,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentProcess;
  */
 public interface ProcessDao {
     
-    public PaymentProcess createProcessToRun(Integer procId);
-    
     public List<PaymentProcess> getAllExtractsToRun();
     
 }

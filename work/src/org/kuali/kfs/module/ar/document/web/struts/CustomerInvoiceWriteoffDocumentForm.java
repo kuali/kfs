@@ -64,6 +64,9 @@ public class CustomerInvoiceWriteoffDocumentForm extends FinancialSystemTransact
      * Build additional customer credit memo specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user
+     * 
+     * KRAD Conversion: Performs the creation of extra buttons. 
+     * No data dictionary is involved here. 
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

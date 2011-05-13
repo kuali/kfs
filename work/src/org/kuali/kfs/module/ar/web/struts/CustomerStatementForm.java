@@ -141,6 +141,11 @@ public class CustomerStatementForm extends KualiForm {
         this.message = null;
     }
 
+    /**
+    * KRAD Conversion: creates extra buttons.
+    * 
+    * No use of data dictionary.
+    */
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();

@@ -33,11 +33,9 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.web.ui.CustomerInvoiceWriteoffLookupResultRow;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -66,6 +64,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @param resultTable
      * @param bounded
      * @return
+     * 
+     * KRAD Conversion: Lookupable performs customization of the display results.
+     * 
+     * No use of data dictionary.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -155,6 +157,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * @param element
      * @param attributeName
      * @return Column
+     * 
+     * KRAD Conversion: setup up the results column in the display results set.
+     * 
+     * No use of data dictionary.
      */
     protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
         Column col = new Column();
@@ -235,6 +241,10 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
      * 
      * @param bo
      * @return Collection<Column>
+     * 
+     * KRAD Conversion: Gets column names.
+     * 
+     * Data dictionary is using the bo to look up the attribute names for the columns.
      */
     protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {
         Collection<Column> columns = new ArrayList<Column>();
@@ -278,7 +288,5 @@ public class CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl exte
     public void setCustomerInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
         this.customerInvoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
     }
-    
-
 }
 

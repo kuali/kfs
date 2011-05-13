@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,6 +74,10 @@ public class CustomerAgingReportAction extends KualiAction {
      * @param response
      * @return
      * @throws Exception
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results.
+     * 
+     * Fields are in data dictionary.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
@@ -125,6 +127,10 @@ public class CustomerAgingReportAction extends KualiAction {
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *      
+     * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
+     *  
+     * Data dictionary is used to retrieve the field properties.
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -208,6 +214,10 @@ public class CustomerAgingReportAction extends KualiAction {
      * @return
      * @throws IOException
      * @throws ServletException
+     * 
+     * KRAD Conversion: Lookupable performs customization of the fields.
+     *  
+     * Data dictionary is used to retrieve the field properties.
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LookupForm lookupForm = (LookupForm) form;

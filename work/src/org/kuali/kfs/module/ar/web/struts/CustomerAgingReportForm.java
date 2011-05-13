@@ -65,6 +65,10 @@ public class CustomerAgingReportForm extends LookupForm {
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
      * 
      * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
+     *  
+     * Data dictionary is used to retrieve the field properties.
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);
@@ -437,6 +441,4 @@ public class CustomerAgingReportForm extends LookupForm {
     public void setTotalSYSPRplus1orMore(String totalSYSPRplus1orMore) {
         this.totalSYSPRplus1orMore = totalSYSPRplus1orMore;
     }
-
-
 }

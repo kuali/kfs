@@ -108,6 +108,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * 
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results by adding to
+     * search results from list of CustomerAgingReportDetail records.
+     * 
+     * Fields are in data dictionary for bo CustomerAgingReportDetail.
      */
     @Override
     public List getSearchResults(Map fieldValues) {
@@ -281,6 +286,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * @param resultTable
      * @param bounded
      * @return
+     * 
+     * KRAD Conversion: Lookupable performs customization of the display results.
+     * 
+     * No use of data dictionary.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {

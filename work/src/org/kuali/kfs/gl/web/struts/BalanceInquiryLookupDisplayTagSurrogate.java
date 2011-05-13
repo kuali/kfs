@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;

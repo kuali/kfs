@@ -142,6 +142,11 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
      * @param resultTable
      * @param bounded
      * @return
+     * 
+     * KRAD Conversion: Performs the conditional formatting of the columns in the 
+     * display results set.  Also sets customized property urls for the columns. 
+     * 
+     * Data dictionary is used to retrieve properties of the fields.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {

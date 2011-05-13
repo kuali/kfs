@@ -53,6 +53,10 @@ public class CustomerOpenItemReportAction extends KualiAction {
      * @param response
      * @return
      * @throws Exception
+     * 
+     * KRAD Conversion: Lookupable performs customization of the results.
+     * 
+     * Fields are in data dictionary.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerOpenItemReportForm lookupForm = (CustomerOpenItemReportForm) form;

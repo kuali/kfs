@@ -35,6 +35,10 @@ public class CustomerOpenItemReportInquirableImpl extends KfsInquirableImpl {
      * Show the Customer Open Item Report tab. This is Customer History Report.
      * 
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#addAdditionalSections(java.util.List, org.kuali.rice.kns.bo.BusinessObject)
+     * 
+     * KRAD Conversion: Inquirable performs adding a new field and adding a new section to the sections.
+     * 
+     * Fields are in data dictionary for Customer.
      */
     @Override
     public void addAdditionalSections(List sections, BusinessObject bo) {

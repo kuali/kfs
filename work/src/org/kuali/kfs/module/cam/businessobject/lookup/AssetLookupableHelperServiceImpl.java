@@ -224,6 +224,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
      * Overridden to fix a field conversion
      * 
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * 
+     * KRAD Conversion: Performs customization of the  Row objects to be used to generate the search query screen.
      */
     @Override
     public List<Row> getRows() {
@@ -244,6 +246,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Goes through all the rows, making sure that problematic field conversions are fixed
+     * 
+     * KRAD Conversion: Performs customization of the fields.
      */
     protected void convertOrganizationOwnerAccountField() {
         boolean foundField = false;

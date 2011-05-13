@@ -45,6 +45,11 @@ public class EndowmentReportBaseForm extends KualiForm {
         super.populate(request);
     }
     
+    /**
+    * KRAD Conversion: Performs customization of the extra buttons.
+    * 
+    * No uses data dictionary.
+    */
     @Override
     public List<ExtraButton> getExtraButtons() {
         List<ExtraButton> buttons = new ArrayList<ExtraButton>();

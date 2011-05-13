@@ -145,6 +145,10 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
+     * 
+     * KRAD Conversion: Performs customization of the core sections.
+     * 
+     * Uses data dictionary for bo Asset to get the core section ids to set section titles.
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {

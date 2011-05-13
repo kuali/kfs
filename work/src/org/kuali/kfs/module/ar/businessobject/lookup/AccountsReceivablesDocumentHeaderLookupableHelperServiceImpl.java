@@ -37,11 +37,6 @@ public class AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl extend
     
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * 
-     * KRAD Conversion: Lookupable performs customization of the results by removing from
-     * search results if document type name does not equal to that of CustomerInvoiceDocument class.
-     * 
-     * Fields are in data dictionary for bo CustomerInvoiceDocument.
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

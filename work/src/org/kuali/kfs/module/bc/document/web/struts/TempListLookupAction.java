@@ -217,6 +217,10 @@ public class TempListLookupAction extends KualiLookupAction {
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the fields of the search results.
+     * 
+     * Data dictionary is not used.
      */
     @Override
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

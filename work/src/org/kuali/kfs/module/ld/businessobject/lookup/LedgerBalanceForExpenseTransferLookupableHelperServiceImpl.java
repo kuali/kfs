@@ -92,6 +92,10 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @param resultTable
      * @param bounded
      * @return
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results.
+     * 
+     * Uses data dictionary for meta data.
      */
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection<BusinessObject> displayList;
@@ -148,6 +152,10 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @param element
      * @param attributeName
      * @return Column
+     * 
+     * KRAD Conversion: Performs customization of the results columns.
+     * 
+     * Uses data dictionary to get column properties.
      */
     protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
         Column col = new Column();
@@ -229,6 +237,10 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * 
      * @param bo
      * @return Collection<Column>
+     * 
+     * KRAD Conversion: Performs customization of the columns.
+     * 
+     * No uses data dictionary.
      */
     protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {
         Collection<Column> columns = new ArrayList<Column>();

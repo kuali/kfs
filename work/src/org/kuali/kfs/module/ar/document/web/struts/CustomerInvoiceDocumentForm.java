@@ -104,6 +104,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      * By overriding this method, we can add the invoice total and open amount to the document header.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getDocInfo()
+     * 
+     * KRAD Conversion: Performs the customization of the header fields.
+     * No data dictionary is involved here. 
      */
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
@@ -181,6 +184,9 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
      * @param property - property for button
      * @param source - location of image
      * @param altText - alternate text for button if images don't appear
+     * 
+     * KRAD Conversion: Performs extra button customization. 
+     * No data dictionary is involved here. 
      */
     protected void addExtraButton(String property, String source, String altText) {
 

@@ -82,6 +82,9 @@ public class AssetInquirableImpl extends KfsInquirableImpl {
      * Hide payments if there are more then the allowable number.
      * 
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
+     * 
+     * KRAD Conversion: Inquirable performs conditional display/hiding of the sections on the inquiry
+     * But all field/section definitions are in data dictionary for bo Asset.
      */
     @Override
     public List<Section> getSections(BusinessObject businessObject) {

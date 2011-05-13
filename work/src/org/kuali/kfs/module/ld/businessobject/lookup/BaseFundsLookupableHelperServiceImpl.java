@@ -50,6 +50,10 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
     /**
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results.
+     * 
+     * No uses data dictionary.
      */
     @Override
     public List getSearchResults(Map fieldValues) {

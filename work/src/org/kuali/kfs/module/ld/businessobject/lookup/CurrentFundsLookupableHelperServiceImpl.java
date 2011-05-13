@@ -88,6 +88,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * 
      * @param fieldValues list of fields that are used as a key to filter out data
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results.
+     * 
+     * No uses data dictionary.
      */
     @Override
     public List getSearchResults(Map fieldValues) {

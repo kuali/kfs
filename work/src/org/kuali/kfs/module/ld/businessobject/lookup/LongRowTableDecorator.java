@@ -34,6 +34,10 @@ public class LongRowTableDecorator extends TableDecorator {
 
     /**
      * @see org.displaytag.decorator.TableDecorator#finishRow()
+     * 
+     * KRAD Conversion: Performs customization of the row.
+     * 
+     * No uses data dictionary.
      */
     @Override
     public String finishRow() {

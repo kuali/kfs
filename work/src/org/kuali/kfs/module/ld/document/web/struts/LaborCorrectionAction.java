@@ -90,6 +90,10 @@ public class LaborCorrectionAction extends CorrectionAction {
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#excute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * KRAD Conversion: Lookupable performs customized sort on search results.
+     * 
+     * Uses data dictionary to get the metadata to render the columns.
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1056,6 +1060,10 @@ public class LaborCorrectionAction extends CorrectionAction {
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiTableRenderAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *      
+     * KRAD Conversion: Performs sorting of the results based on column to sort.
+     * 
+     * Uses data dictionary for originEntrySearchResultTableMetadata
      */
     public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LaborCorrectionForm correctionForm = (LaborCorrectionForm) form;
@@ -1093,6 +1101,10 @@ public class LaborCorrectionAction extends CorrectionAction {
      * Apply paging and sorting from previous page view
      * 
      * @see org.kuali.kfs.gl.document.web.struts.CorrectionAction#applyPagingAndSortingFromPreviousPageView(org.kuali.kfs.gl.document.web.struts.CorrectionForm)
+     *      
+     * KRAD Conversion: Performs sorting of the results based on column to sort.
+     * 
+     * Uses data dictionary for originEntrySearchResultTableMetadata
      */
     protected void applyPagingAndSortingFromPreviousPageView(LaborCorrectionForm laborCorrectionForm) {
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = laborCorrectionForm.getOriginEntrySearchResultTableMetadata();

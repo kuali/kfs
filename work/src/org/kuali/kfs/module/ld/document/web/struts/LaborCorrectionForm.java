@@ -243,6 +243,8 @@ public class LaborCorrectionForm extends CorrectionForm {
      * Gets the TableRenderColumnMetadata attribute.
      * 
      * @return Returns the TableRenderColumnMetadata.
+     *      
+     * KRAD Conversion: gets the column metadata.
      */
     public List<Column> getTableRenderColumnMetadata() {
         return SpringContext.getBean(LaborCorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());

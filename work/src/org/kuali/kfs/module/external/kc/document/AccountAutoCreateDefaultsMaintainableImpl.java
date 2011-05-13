@@ -33,6 +33,10 @@ public class AccountAutoCreateDefaultsMaintainableImpl extends FinancialSystemMa
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     * 
+     * KRAD Conversion: Performs customization of the adding fields to the section.
+     * 
+     * No use of data dictionary for field definitions.
      */
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {

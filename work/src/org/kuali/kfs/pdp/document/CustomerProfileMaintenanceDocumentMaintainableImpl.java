@@ -50,7 +50,14 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
         customerProfile.setSubUnitCode(null);
     }
     
-    
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.rice.kns.document.MaintenanceDocument)
+     * 
+     * KRAD Conversion: Performs customization of the sections making fields read only.
+     * 
+     * No use of data dictionary.
+     */
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
         //If oldMaintainable is null, it means we are trying to get sections for the old part

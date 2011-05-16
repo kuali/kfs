@@ -61,7 +61,12 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
      * Build additional electronic invoice specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user
+     * 
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
+     * No data dictionary is involved.
      */
+    
     @Override
     public List<ExtraButton> getExtraButtons() {
         // clear out the extra buttons array
@@ -89,6 +94,9 @@ public class ElectronicInvoiceRejectForm extends FinancialSystemTransactionalDoc
      * @param property - property for button
      * @param source - location of image
      * @param altText - alternate text for button if images don't appear
+     * 
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
      */
     protected void addExtraButton(String property, String source, String altText) {
 

@@ -671,6 +671,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
      * 
      * @return the button map created.
+     * 
+     * KRAD Conversion: Performs customization of extra buttons.
+     * 
+     * No data dictionary is involved.
      */
     protected Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
@@ -810,6 +814,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * PurchaseOrderDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     * 
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
+     * No data dictionary is involved.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

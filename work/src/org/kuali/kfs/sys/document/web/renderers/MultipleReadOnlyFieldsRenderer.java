@@ -43,6 +43,7 @@ public class MultipleReadOnlyFieldsRenderer implements Renderer {
     /**
      * 
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
+     * KRAD Conversion: Customization of render with fieldsand inquiry urls.
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         try {
@@ -98,7 +99,10 @@ public class MultipleReadOnlyFieldsRenderer implements Renderer {
     protected String endReadOnlyValue() {
         return "</td></tr>";
     }
-    
+
+    /**
+     * KRAD Conversion: getting field label
+     */
     protected String renderLabel(Field field) {
         return field.getFieldLabel();
     }
@@ -109,6 +113,8 @@ public class MultipleReadOnlyFieldsRenderer implements Renderer {
 
     /**
      * @return the current list of fields to render through this render pass
+     *
+     * KRAD Conversion: getting fields
      */
     public List<Field> getFields() {
         return fields;
@@ -117,6 +123,8 @@ public class MultipleReadOnlyFieldsRenderer implements Renderer {
     /**
      * Associate fields with this render pass of the renderer
      * @param fields the fields to render through this render pass
+     *
+     * KRAD Conversion: setting fields
      */
     public void setFields(List<Field> fields) {
         this.fields = fields;

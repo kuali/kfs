@@ -174,6 +174,8 @@ public class ReadOnlyRenderer extends FieldRendererBase {
      * An algorithm to discover the actual read only value to render.  If this is a drop down, it finds the renderable value for the drop down;
      * if the value is unavailable, it searches for the property in unconverted values
      * @return the value to display
+     * 
+     * KRAD Conversion: Discovering fields values
      */
     protected String discoverRenderValue() {
         String value = getField().getPropertyValue();

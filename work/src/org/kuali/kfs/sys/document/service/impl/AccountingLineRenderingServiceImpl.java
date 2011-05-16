@@ -191,6 +191,8 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRenderingService#getFieldRendererForField(org.kuali.rice.kns.web.ui.Field, org.kuali.kfs.sys.businessobject.AccountingLine)
+     * 
+     * KRAD Conversion: Performs customization of the renderer based on the properties of the fields.
      */
     public FieldRenderer getFieldRendererForField(Field field, AccountingLine accountingLineToRender) {
         FieldRenderer renderer = null;

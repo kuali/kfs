@@ -178,6 +178,9 @@ public class ModelMemberLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * 
+     * KRAD Conversion: Performs retrieving the rows.
+     * No use data dictionary.
      */
     @Override
     public List<Row> getRows() {

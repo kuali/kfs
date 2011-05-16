@@ -97,6 +97,8 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
      * Checks if the given field is named as a readOnlyBlock; if so, makes it read only
      * @param field the field to check
      * @param readOnlyBlocks the names of all read only blocks
+     * 
+     * KRAD Conversion: Customization of the fields by setting them to read only - No use of data dictionary
      */
     protected void readOnlyizeField(Field field, Set<String> readOnlyBlocks) {
         if (field != null && readOnlyBlocks.contains(field.getPropertyName())) {
@@ -184,6 +186,8 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
      * Creates a table cell with a renderable field inside
      * @param field the field to create a cell for
      * @return a cell that wraps the given field 
+     * 
+     * KRAD Conversion: Performs setting up the field for the cell
      */
     protected AccountingLineTableCell createCellForField(Field field, AccountingLineViewFieldDefinition definition) {
         AccountingLineTableCell cell = new AccountingLineTableCell();
@@ -198,6 +202,9 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
      * Creates a header cell for the given field
      * @param field the field to create a header cell for
      * @return a header cell
+     * 
+     * KRAD Conversion: Customization of the header cell with label from fields - No use of data dictionary
+     * 
      */
     protected AccountingLineTableCell createHeaderCellForField(Field field) {
         AccountingLineTableCell headerCell = new AccountingLineTableCell();
@@ -235,6 +242,8 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
     /**
      * Gets the baseAmountField attribute. 
      * @return Returns the baseAmountField.
+     * 
+     * KRAD Conversion: Retrieving the field
      */
     public Field getBaseAmountField() {
         return baseAmountField;
@@ -243,6 +252,8 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
     /**
      * Sets the baseAmountField attribute value.
      * @param baseAmountField The baseAmountField to set.
+     * 
+     * KRAD Conversion: Setting up field's amount
      */
     public void setBaseAmountField(Field baseAmountField) {
         this.baseAmountField = baseAmountField;
@@ -350,6 +361,8 @@ public class AccountingLineViewCurrentBaseAmount implements TableJoiningWithHead
      * Checks if the given field is named as an editableBlocks; if so, makes it editable
      * @param field the field to check
      * @param editableBlocks the names of all editable blocks
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected void setEditableField(Field field, Set<String> editableBlocks) {
         if (field != null && editableBlocks.contains(field.getPropertyName())) {

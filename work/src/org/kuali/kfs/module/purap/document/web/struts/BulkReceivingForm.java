@@ -67,6 +67,10 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
      * BulkReceivingDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     * 
+     * KRAD Conversion: Performs customization of extra buttons.
+     * 
+     * No data dictionary is involved.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -86,6 +90,11 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return extraButtons;
     }        
 
+    /**
+    * KRAD Conversion: Performs customization of an extra button.
+    * 
+    * No data dictionary is involved.
+    */
     protected ExtraButton createBulkReceivingContinueButton(){
         ExtraButton continueButton = new ExtraButton();
         continueButton.setExtraButtonProperty("methodToCall.continueBulkReceiving");
@@ -94,6 +103,11 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return continueButton;
     }
     
+    /**
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
+     * No data dictionary is involved.
+     */
     protected ExtraButton createClearInitFieldsButton(){
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clearInitFields");
@@ -102,6 +116,11 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
         return clearButton;
     }
     
+    /**
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
+     * No data dictionary is involved.
+     */
     protected ExtraButton createPrintReceivingTicketButton(){
         ExtraButton printButton = new ExtraButton();
         printButton.setExtraButtonProperty("methodToCall.printReceivingTicketPDF");

@@ -132,6 +132,8 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
      * Creates a table cell with a renderable field inside
      * @param field the field to create a cell for
      * @return a cell that wraps the given field 
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected AccountingLineTableCell createCellForField(Field field, AccountingLineViewFieldDefinition definition, boolean isDebit) {
         AccountingLineTableCell cell = new AccountingLineTableCell();
@@ -215,6 +217,9 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
     /**
      * Gets the creditAmountField attribute. 
      * @return Returns the creditAmountField.
+     * 
+     * KRAD Conversion: getting the field value - No use of data dictionary
+     * 
      */
     public Field getCreditAmountField() {
         return creditAmountField;
@@ -222,6 +227,8 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
     /**
      * Sets the creditAmountField attribute value.
      * @param creditAmountField The creditAmountField to set.
+     * 
+     * KRAD Conversion: setting up the value of the fields - No use of data dictionary
      */
     public void setCreditAmountField(Field creditAmountField) {
         this.creditAmountField = creditAmountField;

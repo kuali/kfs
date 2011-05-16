@@ -115,6 +115,11 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         this.summaryAccounts = summaryAccounts;
     }
 
+    /**
+    * KRAD Conversion: Performs customization of an extra button.
+    * 
+    * No data dictionary is involved.
+    */
     protected void addExtraButton(String property, String source, String altText) {
     
         ExtraButton newButton = new ExtraButton();

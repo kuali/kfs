@@ -147,7 +147,11 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         }
         return directories;
     }
-    
+    /**
+     * KRAD Conversion: gets rows after customizing the field values
+     * 
+     * No use of data dictionary
+     */
     protected String[] getSelectedPaths() {
         List<Row> rows = getRows();
         if (rows == null) {

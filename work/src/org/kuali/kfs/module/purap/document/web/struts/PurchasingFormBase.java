@@ -368,6 +368,12 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
         return availability;
     }
+    
+    /**
+    * KRAD Conversion: Performs customization of an extra buttons.
+    * 
+    * No data dictionary is involved.
+    */
 
     @Override
     public List<ExtraButton> getExtraButtons() {

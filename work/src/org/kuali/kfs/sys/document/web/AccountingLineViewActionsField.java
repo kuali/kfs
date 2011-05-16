@@ -114,8 +114,10 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
     }
 
     /**
-     * This doesn't hold a field, so this imlementation does nothing
+     * This doesn't hold a field, so this implementation does nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) { }
 

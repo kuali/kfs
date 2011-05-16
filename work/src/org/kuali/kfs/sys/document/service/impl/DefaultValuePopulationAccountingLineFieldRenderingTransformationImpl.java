@@ -42,6 +42,8 @@ public class DefaultValuePopulationAccountingLineFieldRenderingTransformationImp
      * Populates a maintenance field with its default value
      * @param field the field to populate with a default value
      * @param fieldDefinition the data dictionary definition of the field to transform
+     * 
+     * KRAD Conversion: Performs the customization of the field properties
      */
     protected void populateFieldWithDefault(Field field, MaintainableFieldDefinition fieldDefinition) {
         try {

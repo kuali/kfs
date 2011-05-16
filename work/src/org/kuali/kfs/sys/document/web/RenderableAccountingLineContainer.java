@@ -209,6 +209,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     /**
      * Returns all of the field names within the accounting line to render
      * @return a List of field names with the accounting line property prefixed
+     * 
+     * KRAD Conversion: Customization of getting the fields - No use of data dictionary
      */
     public List<Field> getFieldsForAccountingLine() {
         if (fields == null) {
@@ -220,6 +222,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     
     /**
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getFieldNamesForAccountingLine()
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public List<String> getFieldNamesForAccountingLine() {
         if (fieldNames == null) {
@@ -250,6 +254,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     
     /**
      * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#populateValuesForFields()
+     * 
+     * KRAD Conversion: Customization of populating the field values - Use of data dictionary
      */
     public void populateValuesForFields() {
         FieldUtils.populateFieldsFromBusinessObject(getFieldsForAccountingLine(), accountingLine);
@@ -266,6 +272,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * Sees if the given field has an unconverted value living in the unconverted value map and if so,
      * changes the value to that
      * @param field the field to possibly set an unconverted value on
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected void setUnconvertedValueIfNecessary(Field field) {
         String propertyName = accountingLineProperty+"."+field.getPropertyName();
@@ -278,6 +286,8 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * Sets the masked value equal to the value if the current user can see the unmasked value for a secure field
      * @param field the field to possible change the value for
      * @param boDDEntry the data dictionary entry for the accounting line
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
         // TODO: FIX

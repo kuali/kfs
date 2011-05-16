@@ -109,6 +109,8 @@ public class AccountingLineTable implements RenderableElement {
 
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         for (AccountingLineTableRow row : rows) {

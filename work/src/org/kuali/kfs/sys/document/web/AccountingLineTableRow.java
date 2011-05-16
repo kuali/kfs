@@ -132,6 +132,8 @@ public class AccountingLineTableRow implements RenderableElement {
     /**
      * Dutifully appends the names of any fields it knows about to the given List of field names
      * @param fieldNames a List of field names to append other names to
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         for (AccountingLineTableCell cell : cells) {

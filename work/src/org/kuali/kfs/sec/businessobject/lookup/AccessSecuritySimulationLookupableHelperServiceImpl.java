@@ -58,6 +58,9 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results.
+     * by retrieving the default sort columns using data dictionary service.
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -86,6 +89,10 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
      * @param templateId
      * @param additionalPermissionDetails
      * @return
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results.
+     * by retrieving the columns using data dictionary service.
+     * 
      */
     protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, AttributeSet additionalPermissionDetails) {
         List<BusinessObject> resultRecords = new ArrayList<BusinessObject>();
@@ -185,6 +192,9 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getColumns()
+     * 
+     * KRAD Conversion: Lookupable performs the customization of columns
+     * by  using data dictionary service for attribute properties.
      */
     @Override
     public List<Column> getColumns() {

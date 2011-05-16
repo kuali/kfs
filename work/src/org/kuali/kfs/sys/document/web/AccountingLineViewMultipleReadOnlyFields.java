@@ -50,6 +50,8 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
      * Constructs a AccountingLineViewMultipleReadOnlyFields
      * @param definition data dictionary definition which created this
      * @param fields the fields to render as read only 
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public AccountingLineViewMultipleReadOnlyFields(AccountingLineViewMultipleReadOnlyFieldsDefinition definition, List<Field> fields) {
         this.definition = definition;
@@ -86,6 +88,8 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
 
     /**
      * @return the fields associated with this Multiple read only fields
+     * 
+     * KRAD Conversion: Gets the fields - No use of data dictionary
      */
     public List<Field> getFields() {
         return fields;
@@ -94,6 +98,8 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
     /**
      * 
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.kfs.sys.document.web.AccountingLineRenderingContext)
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         final BusinessObjectEntry boEntry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(renderingContext.getAccountingLine().getClass().getName());
@@ -114,6 +120,9 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
     /**
      * For each field, set the short label, or, failing that, set the label
      * @param boEntry the business object entry for the accounting line
+     * 
+     * KRAD Conversion: Customization of the fields - Uses data dictionary
+     * 
      */
     protected void setShortLabelsForFields(Field field, BusinessObjectEntry boEntry) {
         final AttributeDefinition propertyDefinition = boEntry.getAttributeDefinition(field.getPropertyName());
@@ -125,6 +134,8 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
      * Sets the value for the field before rendering
      * @param field the field to set the value of
      * @param accountingLine the accounting line the field is associated with, which holds the value
+     * 
+     * KRAD Conversion: Setting the property value of the field - No use of data dictionary
      */
     protected void setValueForField(Field field, AccountingLine accountingLine) {
         field.setPropertyValue(ObjectUtils.getPropertyValue(accountingLine, field.getPropertyName()));
@@ -134,6 +145,8 @@ public class AccountingLineViewMultipleReadOnlyFields extends FieldTableJoiningW
      * Populates the inquiry url on the field if possible
      * @param field the field to set the inquiry url on
      * @param accountingLine the accounting line holding values for the field
+     * 
+     * KRAD Conversion: Setting inquiry url for the fields - No use of data dictionary
      */
     protected void setInquiryUrlForField(Field field, AccountingLine accountingLine) {
         if (!StringUtils.isBlank(field.getPropertyValue())) {

@@ -46,6 +46,11 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
 
     /**
      * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * 
+     * KRAD Conversion: Lookupable performs customization of the search results and performs a sort
+     * by retrieving the default sort columns using data dictionary service..
+     * 
+     * Uses data dictionary.
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -191,6 +196,10 @@ public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookup
      * 
      * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#filterReturnUrl(java.util.List,
      *      java.util.List, java.lang.String)
+     *      
+     * KRAD Conversion: Performs customization of the result list of rows.
+     *      
+     * No use of data dictionary
      */
     @Override
     protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {

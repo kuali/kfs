@@ -40,6 +40,8 @@ public class HideShowBlock implements RenderableElement {
     /**
      * Has child table rows add any fields they know about to the List
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFields(java.util.List)
+     * 
+     * KRAD Conversion: Customization of adding the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
        for (AccountingLineTableRow row : contentRows) {

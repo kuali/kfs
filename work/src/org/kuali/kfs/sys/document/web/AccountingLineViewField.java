@@ -88,6 +88,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * Gets the field attribute.
      * 
      * @return Returns the field.
+     * 
+     * KRAD Conversion: Gets the fields - No use of data dictionary
      */
     public Field getField() {
         return field;
@@ -97,6 +99,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * Sets the field attribute value.
      * 
      * @param field The field to set.
+     * 
+     * KRAD Conversion: sets the fields - No use of data dictionary
      */
     public void setField(Field field) {
         this.field = field;
@@ -301,6 +305,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @param accountingLine the accounting line being rendered
      * @param accountingLineProperty the property to get the accounting line from the form
      * @param fieldNames the names of all the fields that will be rendered as part of this accounting line
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingDocument document, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
         fieldRenderer.setField(field);
@@ -498,6 +504,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * Adds the wrapped field to the list; adds any override fields this field encapsulates as well
      * 
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
+     * 
+     * KRAD Conversion: Customization of adding the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         fields.add(getField());
@@ -520,6 +528,8 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * 
      * @param errors the errors on the form
      * @return true if this field is in error, false otherwise
+     * 
+     * KRAD Conversion: Checks if fields have errors - No use of data dictionary
      */
     protected boolean fieldInError(List errors) {
         if (errors != null) {

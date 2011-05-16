@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.CreditMemoEditMode;
@@ -25,7 +23,6 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -49,7 +46,12 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
     protected String getDefaultDocumentTypeName() {
         return "CM";
     }
-    
+
+    /**
+     * KRAD Conversion: Performs customization of an header fields.
+     * 
+     * Use of data dictionary for bo RequisitionDocument.
+     */
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
@@ -71,6 +73,9 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
      * Build additional credit memo specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user
+     * KRAD Conversion: Performs customization of extra buttons.
+     * 
+     * No data dictionary is involved.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -118,7 +123,5 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
 
         return extraButtons;
     }
-
-    
 }
 

@@ -17,16 +17,12 @@ package org.kuali.kfs.sys.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -46,6 +42,8 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
+
+     * KRAD Conversion: Customizing the header fields - Uses data dictionary
      */
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
@@ -100,6 +98,8 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
+     * 
+     * KRAD Conversion: Customizing the addition of extra buttons
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
@@ -116,6 +116,8 @@ public class FinancialSystemTransactionalDocumentFormBase extends KualiTransacti
      * Generates an ExtraButton which represents the error correction button
      * 
      * @return an ExtraButton representing an ErrorCorrection button
+     * 
+     *  KRAD Conversion: Customizing the error correction button
      */
     protected ExtraButton generateErrorCorrectionButton() {
         if ( errorCorrectionButton == null ) {

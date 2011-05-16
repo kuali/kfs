@@ -59,6 +59,8 @@ public class AccountingLineViewDebitCreditAmountField implements RenderableEleme
 
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFields(java.util.List)
+     * 
+     * KRAD Conversion: Customization of the fields - Adding fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         fields.add(debitOrCreditField);
@@ -116,6 +118,8 @@ public class AccountingLineViewDebitCreditAmountField implements RenderableEleme
      * @param field the field to prepare
      * @param accountingLine the accounting line being rendered
      * @param count the count of the current line in the source lines, or null if it's a new line
+     * 
+     * KRAD Conversion: Customization of preparing the fields for rendering - No use of data dictionary
      */
     protected void prepareFieldForRendering(Field field, VoucherForm form, Integer count) {
         getDebitOrCreditField().setPropertyPrefix(null);

@@ -94,6 +94,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
     /**
      * Also sets the overrideNeededProperty name
      * @see org.kuali.kfs.sys.document.web.renderers.FieldRendererBase#setField(org.kuali.rice.kns.web.ui.Field)
+     * KRAD Conversion: setting fields
      */
     @Override
     public void setField(Field overrideField) {

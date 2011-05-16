@@ -42,6 +42,8 @@ public abstract class FieldRendererBase implements FieldRenderer {
     /**
      * Sets the field to render
      * @see org.kuali.kfs.sys.document.web.renderers.FieldRenderer#setField(org.kuali.rice.kns.web.ui.Field)
+     * 
+     * KRAD Conversion - Setting the field - No Use of data dictionary
      */
     public void setField(Field field) {
         this.field = field;
@@ -50,6 +52,8 @@ public abstract class FieldRendererBase implements FieldRenderer {
     /**
      * Returns the field to render
      * @return the field to render
+     * 
+     * KRAD Conversion - Getting the field - No Use of data dictionary
      */
     public Field getField() {
         return this.field;

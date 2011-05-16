@@ -108,6 +108,10 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      * Build additional payment request specific buttons and set extraButtons list.
      * 
      * @return - list of extra buttons to be displayed to the user
+     * 
+     * KRAD Conversion: Performs customization of an extra button.
+     * 
+     * No data dictionary is involved.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {        

@@ -54,6 +54,8 @@ public class AccountingLineViewOverrideField implements RenderableElement {
     /**
      * Adds our override field (though not our override needed field - we'll let Struts handle the value population on that
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFields(java.util.List)
+     * 
+     * KRAD Conversion: performs adding override field to the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         fields.add(overrideField);

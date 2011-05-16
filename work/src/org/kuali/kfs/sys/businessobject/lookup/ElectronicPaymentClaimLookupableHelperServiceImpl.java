@@ -178,6 +178,8 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
      * @param resultTable
      * @param bounded
      * @return
+     * 
+     * KRAD Conversion: Lookupable performing customization of columns of the display list.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {

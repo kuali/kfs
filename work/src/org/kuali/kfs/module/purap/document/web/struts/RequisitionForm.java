@@ -61,6 +61,11 @@ public class RequisitionForm extends PurchasingFormBase {
         setDocument(requisitionDocument);
     }
     
+    /**
+    * KRAD Conversion: Performs customization of an header fields.
+    * 
+    * Use of data dictionary for bo RequisitionDocument.
+    */
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
@@ -137,7 +142,14 @@ public class RequisitionForm extends PurchasingFormBase {
     public void setShopUrl(String shopUrl) {
         this.shopUrl = shopUrl;
     }
-
+    
+    /**
+    * @see org.kuali.kfs.module.purap.document.web.struts.PurchasingFormBase#getExtraButtons()
+    * 
+    * KRAD Conversion: Performs customization of extra buttons.
+    * 
+    * No data dictionary is involved.
+    */
     @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();

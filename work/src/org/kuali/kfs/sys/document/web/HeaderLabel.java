@@ -69,6 +69,8 @@ public abstract class HeaderLabel implements RenderableElement {
     /**
      * Header labels aren't really fields, so they append nothing
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
+     * 
+     * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     public void appendFields(List<Field> fields) {
         // zzzz! zzzz!

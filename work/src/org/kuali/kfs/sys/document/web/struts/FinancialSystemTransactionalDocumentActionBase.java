@@ -44,6 +44,7 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
      * @param response
      * @return ActionForward
      * @throws Exception
+     * KRAD Conversion: Customizing the extra buttons on the form 
      */
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;

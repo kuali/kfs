@@ -33,8 +33,11 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.AccountsReceivableDocumentHeaderDao;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDetailDao;
@@ -78,6 +81,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param customerNumber
      */
     public List getPopulatedReportDetails(String customerNumber) {
+        
         List results = new ArrayList();
 
         Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
@@ -617,7 +621,241 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             
         }
     }
+    
+    public Collection<String> getDocumentNumbersOfReferenceReports(String customerNumber) {
 
+        Collection<String> documentNumbers = new ArrayList();
+
+        Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Person user = GlobalVariables.getUserSession().getPerson();
+
+        //List invoiceIds = new ArrayList();
+        List paymentApplicationIds = new ArrayList();
+        List creditMemoIds = new ArrayList();
+        List writeOffIds = new ArrayList();
+        
+        KualiWorkflowDocument workflowDocument;
+
+        for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
+            AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
+
+            // populate workflow document
+            try {
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
+            }
+
+            // do not display not approved documents
+            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            if (ObjectUtils.isNull(approvedDate)) {
+                continue;
+            }
+
+            // Document Type
+            String documentType = workflowDocument.getDocumentType();
+
+            // Document Number
+            String documentNumber = documentHeader.getDocumentNumber();
+
+            if (documentType.equals("APP")){
+                paymentApplicationIds.add(documentNumber);
+            }
+            else if (documentType.equals("CRM")) {
+                creditMemoIds.add(documentNumber);
+            }
+            else if (documentType.equals("INVW")) {
+                writeOffIds.add(documentNumber);
+            }
+        }
+        
+        if (paymentApplicationIds.size() > 0){
+            Collection<PaymentApplicationDocument> paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
+            for (PaymentApplicationDocument paymentApplicationDocument: paymentApplications ) {
+                for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()){
+                    documentNumbers.add(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
+                }
+            }
+        }
+        
+        if (creditMemoIds.size() > 0){
+            Collection<CustomerCreditMemoDocument> creditMemoDetailDocs = getDocuments(CustomerCreditMemoDocument.class, creditMemoIds);
+            for (CustomerCreditMemoDocument creditMemo: creditMemoDetailDocs){
+                documentNumbers.add(creditMemo.getFinancialDocumentReferenceInvoiceNumber());
+            }
+        }
+        
+        if (writeOffIds.size() > 0){
+            Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocs = getDocuments(CustomerInvoiceWriteoffDocument.class, writeOffIds);
+            for (CustomerInvoiceWriteoffDocument invoiceWriteoffDocument : customerInvoiceWriteoffDocs) {
+                documentNumbers.add(invoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
+            }
+        }
+        
+        return documentNumbers;
+    }
+    
+    public List getPopulatedUnpaidUnappliedAmountReportDetails(String customerNumber, String refDocumentNumber) {
+        
+        List results = new ArrayList();
+        
+        Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersByCustomerNumber(customerNumber);
+        Person user = GlobalVariables.getUserSession().getPerson();
+        
+        Hashtable details = new Hashtable();
+        //List invoiceIds = new ArrayList();
+        List paymentApplicationIds = new ArrayList();
+        List creditMemoIds = new ArrayList();
+        List writeOffIds = new ArrayList();
+        
+        KualiWorkflowDocument workflowDocument;
+
+        for (AccountsReceivableDocumentHeader documentHeader : arDocumentHeaders) {
+            CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+            // populate workflow document
+            try {
+                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
+            }
+            catch (WorkflowException e) {
+                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
+            }
+
+            // do not display not approved documents
+            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            if (ObjectUtils.isNull(approvedDate)) {
+                continue;
+            }
+
+            // Document Type
+            String documentType = workflowDocument.getDocumentType();
+            detail.setDocumentType(documentType);
+            
+            // Document Number
+            String documentNumber = documentHeader.getDocumentNumber();
+            detail.setDocumentNumber(documentNumber);
+            
+            // Approved Date -> for invoices Due Date, for all other documents Approved Date
+            detail.setDueApprovedDate(approvedDate);
+
+            if (documentType.equals("APP")) {
+                paymentApplicationIds.add(documentNumber);
+            }
+            else if (documentType.equals("CRM")) {
+                creditMemoIds.add(documentNumber);
+            }
+            else if (documentType.equals("INVW")) {
+                writeOffIds.add(documentNumber);
+            }
+            
+            details.put(documentNumber, detail);
+        }
+        
+        if (paymentApplicationIds.size() > 0){
+            try {
+                populateReportDetailsForUnpaidUnappliedPaymentApplications(paymentApplicationIds, results, details, refDocumentNumber);
+            } catch(WorkflowException w) {
+                LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
+            }
+        }
+        
+        if (creditMemoIds.size() > 0){
+            populateReportDetailsForCreditMemo(creditMemoIds, results, details, refDocumentNumber);
+            
+        }
+        
+        if (writeOffIds.size() > 0){
+            populateReportDetailsForWriteOff(writeOffIds, results, details, refDocumentNumber);
+        }
+
+        
+        return results;
+    }
+    
+    protected void populateReportDetailsForUnpaidUnappliedPaymentApplications(List paymentApplicationIds, List results, Hashtable details, String refDocumentNumber) throws WorkflowException {
+        Collection<PaymentApplicationDocument> paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
+
+        for (PaymentApplicationDocument paymentApplication : paymentApplications) {
+            for (InvoicePaidApplied invoicePaidApplied : paymentApplication.getInvoicePaidApplieds()){
+                
+                if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(refDocumentNumber)){
+                    String documentNumber = paymentApplication.getDocumentNumber();
+
+                    CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
+
+                    // populate Document Description
+                    String documentDescription = paymentApplication.getDocumentHeader().getDocumentDescription();
+                    if (ObjectUtils.isNotNull(documentDescription))
+                        detail.setDocumentDescription(documentDescription);
+                    else
+                        detail.setDocumentDescription("");
+
+                    // populate Document Payment Amount
+                    detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                    
+                    // populate Unpaid/Unapplied Amount if the customer number is the same
+                    if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
+                        if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
+                            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated()); 
+                        }
+                    }
+                    
+                    results.add(detail);
+                }
+            }
+        }
+    }
+    
+    protected void populateReportDetailsForCreditMemo(List creditMemoIds, List results, Hashtable details, String refDocumentNumber){
+        Collection<CustomerCreditMemoDocument> creditMemoDetailDocs = getDocuments(CustomerCreditMemoDocument.class, creditMemoIds);
+        for (CustomerCreditMemoDocument creditMemo: creditMemoDetailDocs){
+            if (creditMemo.getFinancialDocumentReferenceInvoiceNumber().equals(refDocumentNumber)){
+                String documentNumber = creditMemo.getDocumentNumber();
+
+                CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
+
+                // populate Document Description
+                String documentDescription = creditMemo.getDocumentHeader().getDocumentDescription();
+                if (ObjectUtils.isNotNull(documentDescription))
+                    detail.setDocumentDescription(documentDescription);
+                else
+                    detail.setDocumentDescription("");
+
+                // populate Document Payment Amount
+                detail.setDocumentPaymentAmount(creditMemo.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                
+                // Unpaid/Unapplied Amount
+                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            
+                results.add(detail);
+            }
+        }
+    }
+    
+    protected void populateReportDetailsForWriteOff(List writeOffIds, List results, Hashtable details, String refDocumentNumber){
+        Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocs = getDocuments(CustomerInvoiceWriteoffDocument.class, writeOffIds);
+        for (CustomerInvoiceWriteoffDocument invoiceWriteoffDocument : customerInvoiceWriteoffDocs) {
+            if (invoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber().equals(refDocumentNumber)){
+                String documentNumber = invoiceWriteoffDocument.getDocumentNumber();
+
+                CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
+
+                // populate Document Description
+                String documentDescription = invoiceWriteoffDocument.getDocumentHeader().getDocumentDescription();
+                if (ObjectUtils.isNotNull(documentDescription))
+                    detail.setDocumentDescription(documentDescription);
+                else
+                    detail.setDocumentDescription("");
+
+                // populate Document Payment Amount
+                detail.setDocumentPaymentAmount(invoiceWriteoffDocument.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+                
+                // Unpaid/Unapplied Amount
+                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            
+                results.add(detail);
+            }
+        }
+    }
+    
     public void setAccountsReceivableDocumentHeaderDao(AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao) {
         this.accountsReceivableDocumentHeaderDao = accountsReceivableDocumentHeaderDao;
     }

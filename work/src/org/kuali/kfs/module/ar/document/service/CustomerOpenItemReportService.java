@@ -15,10 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface CustomerOpenItemReportService {
     
@@ -33,4 +32,8 @@ public interface CustomerOpenItemReportService {
      * @param urlParameters
      */
     public List getPopulatedReportDetails(Map urlParameters);
+    
+    public Collection<String> getDocumentNumbersOfReferenceReports(String customerNumber);
+    
+    public List getPopulatedUnpaidUnappliedAmountReportDetails(String customerNumber, String document);
 }

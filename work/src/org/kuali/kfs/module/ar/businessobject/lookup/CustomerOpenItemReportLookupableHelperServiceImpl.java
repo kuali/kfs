@@ -24,17 +24,24 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.format.DateFormatter;
 import org.kuali.rice.kns.web.format.Formatter;
@@ -70,6 +77,10 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         if  (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME)) {
             String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
             results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(customerNumber);
+        } else if (StringUtils.equals(reportName, KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT)){
+            String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
+            String documentNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER))[0];
+            results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedUnpaidUnappliedAmountReportDetails(customerNumber, documentNumber);
         } else {
             results = SpringContext.getBean(CustomerOpenItemReportService.class).getPopulatedReportDetails(getParameters());
         }
@@ -164,6 +175,10 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         HashMap<String, Class> propertyTypes = new HashMap<String, Class>();
 
         boolean hasReturnableRow = false;
+        
+        String customerNumber = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER))[0];
+        String customerName = ((String[]) getParameters().get(KFSConstants.CustomerOpenItemReport.CUSTOMER_NAME))[0];
+        Collection<String> refDocumentNumbers = SpringContext.getBean(CustomerOpenItemReportService.class).getDocumentNumbersOfReferenceReports(customerNumber);
 
         // iterate through result list and wrap rows with return url and action urls
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
@@ -174,13 +189,12 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
             // String actionUrls = getActionUrls(element);
             String returnUrl = "www.bigfrickenRETURNurl";
             String actionUrls = "www.someACTIONurl";
-
             List<Column> columns = getColumns();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
 
                 Column col = (Column) iterator.next();
                 Formatter formatter = col.getFormatter();
-
+                
                 // pick off result column from result list, do formatting
                 String propValue = KNSConstants.EMPTY_STRING;
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
@@ -208,10 +222,29 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
                         String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
                         col.setPropertyURL(propertyURL);
-                    } else col.setPropertyURL("");
-                }
-            }
+                    } else if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT, col.getPropertyName())){
+                        String documentNumber = ObjectUtils.getPropertyValue(element, KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER).toString();
+                        if (refDocumentNumbers.contains(documentNumber)){
+                            String href="arCustomerOpenItemReportLookup.do" +
+                            "?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail" +
+                            "&returnLocation=&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable" +
+                            "&methodToCall=search&customerNumber="+customerNumber+ 
+                            "&reportName=" + KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT +
+                            "&customerName=" + customerName +
+                            //"&customerName=" +customer.getCustomerName()+
+                            "&documentNumber=" + documentNumber +
+                            "&reportName=Unpaid / Unapplied Amount Report&docFormKey=88888888";
+                            col.setPropertyURL(href);
+                        } else col.setPropertyURL(""); 
+                    }
 
+                    else col.setPropertyURL("");
+                }
+                
+            }
+            
+            
+            
             ResultRow row = new ResultRow(columns, returnUrl, actionUrls);
             if (element instanceof PersistableBusinessObject)
                 row.setObjectId(((PersistableBusinessObject) element).getObjectId());

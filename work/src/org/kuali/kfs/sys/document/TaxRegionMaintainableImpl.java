@@ -31,6 +31,9 @@ public class TaxRegionMaintainableImpl extends FinancialSystemMaintainable {
      * This method hides particular tax region sections based on tax region type code
      * 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
+     * 
+     * KRAD Conversion: Maintainable customizes the hiding/showing of the sections
+     * No Use of data dictionary
      */
     @Override
     public List<Section> getCoreSections(MaintenanceDocument document, Maintainable oldMaintainable) {

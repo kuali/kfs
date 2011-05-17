@@ -39,6 +39,9 @@ public class OrganizationAccountingDefaultInquirable extends KfsInquirableImpl {
     
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
+     * KRAD Conversion: Maintainable customizes adding/removing sections
+     * 
+     * Uses data dictionary services
      */
     @Override
     @SuppressWarnings("unchecked")

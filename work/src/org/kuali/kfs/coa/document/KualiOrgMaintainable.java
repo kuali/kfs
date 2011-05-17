@@ -42,7 +42,7 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
      * 
-     * KRAD Conversion: Inquirable performs the logic to adds new fields to sections if
+     * KRAD Conversion: Maintainable performs the logic to adds new fields to sections if
      * organization zip code field exists in the core sections.
      * The fields definitions are built here for the new section.  They are not in data dictionary.
      */

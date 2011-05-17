@@ -263,6 +263,8 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
      * @param document
      * @param section
      * @param field
+     * 
+     * KRAD Conversion: MaintainableImpl performs customization of the fields in the rows of the sections.
      */
     private void preparePayoutInstructionsTab(MaintenanceDocument document, Section section) {
 

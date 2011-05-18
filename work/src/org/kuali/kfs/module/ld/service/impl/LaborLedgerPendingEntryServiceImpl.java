@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.LookupService;
@@ -45,6 +46,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
     private BusinessObjectService businessObjectService;
     protected UniversityDateService universityDateService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService#hasPendingLaborLedgerEntry(org.kuali.kfs.coa.businessobject.Account)
@@ -123,8 +125,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = generalLedgerPendingEntryService.getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return laborLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -137,8 +140,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = generalLedgerPendingEntryService.getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return laborLedgerPendingEntryDao.findPendingLedgerEntriesForLedgerBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -180,5 +184,14 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    /**
+     * Sets the generalLedgerPendingEntryService.
+     * 
+     * @param generalLedgerPendingEntryService
+     */
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 }

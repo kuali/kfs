@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -46,8 +47,8 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerPendingEntryDao#findPendingLedgerEntriesForLedgerBalance(java.util.Map,
      *      boolean)
      */
-    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriodCode, int currentFY) {
-        return this.findPendingEntries(fieldValues, isApproved, currentFYPeriodCode, currentFY).iterator();
+    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriodCode, int currentFY, List<String> encumbranceBalanceTypes) {
+        return this.findPendingEntries(fieldValues, isApproved, currentFYPeriodCode, currentFY, encumbranceBalanceTypes).iterator();
     }
 
     /**
@@ -94,10 +95,10 @@ public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoO
      *      java.lang.String, int)
      */
     @Override
-    public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear) {
+    public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingEntries(Map, boolean) started");
 
-        Collection<LaborLedgerPendingEntry> pendingEntries = super.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        Collection<LaborLedgerPendingEntry> pendingEntries = super.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
 
         for (LaborLedgerPendingEntry pendingEntry : pendingEntries) {
 

@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -227,7 +226,7 @@ public interface GeneralLedgerPendingEntryService {
      * @return
      */
     public Collection findPendingEntries(Map fieldValues, boolean isApproved);
-    
+
     /**
      * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
      * 
@@ -237,9 +236,10 @@ public interface GeneralLedgerPendingEntryService {
      * @param explicitEntry
      */
     public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource poster, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry);
-    
+
     /**
      * Convenience method to build a GLPE without a generalLedgerPendingEntrySourceDetail
+     * 
      * @param document a GeneralLedgerPostingDocument
      * @param account the account for use in the GLPE
      * @param objectCode the object code for use in the GLPE
@@ -257,7 +257,7 @@ public interface GeneralLedgerPendingEntryService {
      * @return a populated general ledger pending entry
      */
     public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(GeneralLedgerPostingDocument document, Account account, ObjectCode objectCode, String subAccountNumber, String subObjectCode, String organizationReferenceId, String projectCode, String referenceNumber, String referenceTypeCode, String referenceOriginCode, String description, boolean isDebit, KualiDecimal amount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
-    
+
     /**
      * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in
      * the explicit entry that it was cloned from. Note that the entries do not contain BOs now.
@@ -268,7 +268,7 @@ public interface GeneralLedgerPendingEntryService {
      * @param offsetEntry Cloned from the explicit entry
      */
     public boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry);
-    
+
     /**
      * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
      * posted as a side-effect if the given Bank has not defined the necessary bank offset relations.
@@ -285,15 +285,28 @@ public interface GeneralLedgerPendingEntryService {
 
     /**
      * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
+     * 
      * @param glPostingDocument the accounting document total the offset to cash amount for
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
     public abstract KualiDecimal getOffsetToCashAmount(GeneralLedgerPostingDocument glPostingDocument);
-    
+
     /**
      * Determines if the given GeneralLedgerPendingEntry represents offsets to cash
+     * 
      * @param generalLedgerPendingEntry the GeneralLedgerPendingEntry to check
      * @return true if the GeneralLedgerPendingEntry represents an offset to cash; false otherwise
      */
     public abstract boolean isOffsetToCash(GeneralLedgerPendingEntry generalLedgerPendingEntry);
+
+    /**
+     * Gets the encumbrance balance type. It returns the encumbrance balance type for the given universityFiscalYear if one is
+     * passed in the fieldValues or the current year encumbrance balance types.
+     * 
+     * @param fieldValues
+     * @param currentFiscalYear
+     * @return the encumbrance balance type for the given universityFiscalYear if one is passed in the fieldValues or the current
+     *         year encumbrance balance types.
+     */
+    public List<String> getEncumbranceBalanceTypes(Map fieldValues, Integer currentFiscalYear);
 }

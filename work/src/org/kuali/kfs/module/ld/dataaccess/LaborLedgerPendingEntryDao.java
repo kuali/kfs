@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ld.dataaccess;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
@@ -34,9 +35,10 @@ public interface LaborLedgerPendingEntryDao extends GeneralLedgerPendingEntryDao
      * @param isApproved the flag that indicates whether the pending entries are approved or don't care
      * @param currentFYPeriod current FY period code
      * @param currentFY current fiscal year
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return all pending ledger entries that may belong to encumbrance table
      */
-    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriod, int currentFY);
+    public Iterator<LaborLedgerPendingEntry> findPendingLedgerEntriesForLedgerBalance(Map fieldValues, boolean isApproved, String currentFYPeriod, int currentFY, List<String> encumbranceBalanceTypes);
 
     /**
      * This method retrieves all pending ledger entries with the given search criteria

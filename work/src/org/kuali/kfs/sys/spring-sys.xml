@@ -429,17 +429,8 @@
 	<bean id="originationCodeDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" abstract="true" />
 
 	<bean id="generalLedgerPendingEntryDao" parent="generalLedgerPendingEntryDao-parentBean"/>
-	<bean id="generalLedgerPendingEntryDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb" abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="balanceTypService">
-			<ref bean="balanceTypService" />
-		</property>
-		<property name="optionsService">
-			<ref bean="optionsService" />
-		</property>
-	</bean>
+	<bean id="generalLedgerPendingEntryDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb" abstract="true"/>
+	
 	<bean id="fiscalYearMakersDao" parent="fiscalYearMakersDao-parentBean"/>
 	
 	<bean id="fiscalYearMakersDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakersDaoOjb" abstract="true">

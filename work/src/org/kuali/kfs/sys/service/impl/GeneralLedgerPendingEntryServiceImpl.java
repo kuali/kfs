@@ -722,8 +722,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEntry(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -735,8 +736,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        SystemOptions currentYearOptions = optionsService.getCurrentYearOptions();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForEncumbrance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, currentYearOptions, encumbranceBalanceTypes);
     }
 
     /**
@@ -749,8 +752,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForCashBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -762,8 +766,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -776,8 +781,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntriesForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -790,8 +796,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
@@ -800,8 +807,9 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         UniversityDate currentUniversityDate = universityDateService.getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
+        List<String> encumbranceBalanceTypes = getEncumbranceBalanceTypes(fieldValues, currentFiscalYear);
 
-        return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear);
+        return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
     /**
@@ -860,6 +868,37 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
             }
         }
         return total;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService#getEncumbranceBalanceTypes(java.util.Map, java.lang.Integer)
+     */
+    public List<String> getEncumbranceBalanceTypes(Map fieldValues, Integer currentFiscalYear) {
+
+        String fiscalYearFromForm = null;
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+            fiscalYearFromForm = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        }
+        boolean includeNullFiscalYearInLookup = null != currentFiscalYear && currentFiscalYear.toString().equals(fiscalYearFromForm);
+
+        // handle encumbrance balance type
+        Map<String, Object> localFieldValues = new HashMap();
+        localFieldValues.putAll(fieldValues);
+
+        if (includeNullFiscalYearInLookup) {
+            localFieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        }
+
+        // parse the fiscal year (it's not a required field on the lookup screens
+        String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        if (StringUtils.isNotBlank(universityFiscalYearStr)) {
+            Integer universityFiscalYear = new Integer(universityFiscalYearStr);
+            return balanceTypeService.getEncumbranceBalanceTypes(universityFiscalYear);
+        }
+        else {
+            return balanceTypeService.getCurrentYearEncumbranceBalanceTypes();
+        }
+
     }
 
     public void setBalanceTypeService(BalanceTypeService balanceTypeService) {

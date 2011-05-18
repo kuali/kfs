@@ -46,6 +46,8 @@ public class CloseServiceImpl implements CloseService {
     private ProposalDao proposalDao;
     private CloseDao closeDao;
     private DateTimeService dateTimeService;
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
 
     /**
      * <ul>
@@ -70,7 +72,7 @@ public class CloseServiceImpl implements CloseService {
     public boolean close() {
 
         Date today = dateTimeService.getCurrentSqlDateMidnight();
-        ProposalAwardCloseDocument max = closeDao.getMaxApprovedClose(today);
+        ProposalAwardCloseDocument max = getMaxApprovedClose(today);
 
         if (null == max) { // no closes at all. Gotta wait until we get an approved one.
             return true;
@@ -81,27 +83,27 @@ public class CloseServiceImpl implements CloseService {
         if (StringUtils.equals(max.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(), CGConstants.CGKimConstants.UNPROCESSED_ROUTING_NODE_NAME)) {
 
             KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-            BusinessObjectService bo = SpringContext.getBean(BusinessObjectService.class);
+
             try {
 
                 Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
                 Long proposalCloseCount = new Long(proposals.size());
                 for (Proposal p : proposals) {
                     p.setProposalClosingDate(today);
-                    bo.save(p);
+                    businessObjectService.save(p);
                 }
 
                 Collection<Award> awards = awardDao.getAwardsToClose(max);
                 Long awardCloseCount = new Long(awards.size());
                 for (Award a : awards) {
                     a.setAwardClosingDate(today);
-                    bo.save(a);
+                    businessObjectService.save(a);
                 }
 
                 max.setAwardClosedCount(awardCloseCount);
                 max.setProposalClosedCount(proposalCloseCount);
 
-                bo.save(max);
+                businessObjectService.save(max);
                 noteText = kualiConfigurationService.getPropertyString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
 
             }
@@ -116,10 +118,24 @@ public class CloseServiceImpl implements CloseService {
         return result;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cg.service.CloseService#getMostRecentClose()
+     */
     public ProposalAwardCloseDocument getMostRecentClose() {
         Date today = dateTimeService.getCurrentSqlDateMidnight();
-        ProposalAwardCloseDocument mostRecentClose = closeDao.getMostRecentClose(today);
-        return mostRecentClose;
+        String documentNumber = closeDao.getMostRecentClose(today);
+        if (StringUtils.isNotBlank(documentNumber)) {
+            try {
+                return (ProposalAwardCloseDocument) documentService.getByDocumentHeaderId(documentNumber);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException(we);
+            }
+        }
+        else {
+            return null;
+        }
+
     }
 
     /**
@@ -142,6 +158,24 @@ public class CloseServiceImpl implements CloseService {
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.cg.service.CloseService#getMaxApprovedClose(java.sql.Date)
+     */
+    public ProposalAwardCloseDocument getMaxApprovedClose(Date today) {
+        String documentNumber = closeDao.getMaxApprovedClose(today);
+        if (StringUtils.isNotBlank(documentNumber)) {
+
+            try {
+                return (ProposalAwardCloseDocument) documentService.getByDocumentHeaderId(documentNumber);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException(we);
+            }
+        }
+        else {
+            return null;
+        }
+    }
 
     public void setAwardDao(AwardDao awardDao) {
         this.awardDao = awardDao;
@@ -157,5 +191,13 @@ public class CloseServiceImpl implements CloseService {
 
     public void setProposalDao(ProposalDao proposalDao) {
         this.proposalDao = proposalDao;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }

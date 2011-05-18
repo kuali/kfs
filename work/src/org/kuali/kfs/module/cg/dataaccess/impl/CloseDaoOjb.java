@@ -16,20 +16,17 @@
 package org.kuali.kfs.module.cg.dataaccess.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
 /**
  * @see CloseDao
@@ -39,95 +36,55 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMaxApprovedClose()
      */
-    public ProposalAwardCloseDocument getMaxApprovedClose(Date today) {
+    public String getMaxApprovedClose(Date today) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("userInitiatedCloseDate", today);
-        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.ENROUTE);
-        QueryByCriteria query = QueryFactory.newQuery(ProposalAwardCloseDocument.class, criteria);
-        query.addOrderByDescending("documentNumber");
+        criteria.addEqualTo(CGPropertyConstants.PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE, today);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.ENROUTE);
 
-        Iterator<ProposalAwardCloseDocument> documents = (Iterator<ProposalAwardCloseDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        ArrayList<String> documentHeaderIds = new ArrayList<String>();
-        while (documents.hasNext()) {
-            ProposalAwardCloseDocument document = (ProposalAwardCloseDocument) documents.next();
-            documentHeaderIds.add(document.getDocumentNumber());
-        }
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ProposalAwardCloseDocument.class, criteria);
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-        List<ProposalAwardCloseDocument> docs = null;
+        Iterator<?> documentHeaderIdsIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
 
-        if (documentHeaderIds.size() > 0) {
-
-            try {
-                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
+        if (documentHeaderIdsIterator.hasNext()) {
+            Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
+            if (result[0] != null) {
+                return result[0].toString();
             }
-            catch (WorkflowException we) {
-                throw new RuntimeException(we);
-            }
-
-            if (docs.size() > 1) {
-                ProposalAwardCloseDocument close = docs.remove(0);
-                Date closeDate = close.getCloseOnOrBeforeDate();
-                for (ProposalAwardCloseDocument cfdaClose : docs) {
-                    if (cfdaClose.getCloseOnOrBeforeDate().equals(closeDate)) {
-                        // disapprove docs with same close date??
-                    }
-
-                }
-                return close;
-
-            }
-            else if (docs.size() == 1) {
-                return docs.get(0);
-            }
-            else
+            else {
                 return null;
-
+            }
         }
         else {
             return null;
         }
-
-
     }
 
-    public ProposalAwardCloseDocument getMostRecentClose(Date today) {
+    /**
+     * @see org.kuali.kfs.module.cg.dataaccess.CloseDao#getMostRecentClose(java.sql.Date)
+     */
+    public String getMostRecentClose(Date today) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("userInitiatedCloseDate", today);
-        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        QueryByCriteria query = QueryFactory.newQuery(ProposalAwardCloseDocument.class, criteria);
-        query.addOrderByDescending("documentNumber");
+        criteria.addEqualTo(CGPropertyConstants.PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE, today);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(ProposalAwardCloseDocument.class, criteria);
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
 
-        Iterator<ProposalAwardCloseDocument> documents = (Iterator<ProposalAwardCloseDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        ArrayList<String> documentHeaderIds = new ArrayList<String>();
-        while (documents.hasNext()) {
-            ProposalAwardCloseDocument document = (ProposalAwardCloseDocument) documents.next();
-            documentHeaderIds.add(document.getDocumentNumber());
-        }
+        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-        List<ProposalAwardCloseDocument> docs = null;
+        Iterator<?> documentHeaderIdsIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
 
-        if (documentHeaderIds.size() > 0) {
-
-            try {
-                docs = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(ProposalAwardCloseDocument.class, documentHeaderIds);
+        if (documentHeaderIdsIterator.hasNext()) {
+            Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
+            if (result[0] != null) {
+                return result[0].toString();
             }
-            catch (WorkflowException we) {
-                throw new RuntimeException(we);
-            }
-
-            if (docs.size() > 1) {
-                ProposalAwardCloseDocument close = docs.remove(0);
-                return close;
-
-            }
-            else if (docs.size() == 1) {
-                return docs.get(0);
-            }
-            else
+            else {
                 return null;
-
+            }
         }
         else {
             return null;

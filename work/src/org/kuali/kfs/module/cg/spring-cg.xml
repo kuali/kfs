@@ -114,6 +114,12 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>			
 	</bean>
 	
 	<bean id="proposalLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ProposalLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >

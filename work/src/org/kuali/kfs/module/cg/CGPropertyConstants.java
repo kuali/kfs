@@ -27,4 +27,11 @@ public class CGPropertyConstants extends JSTLConstants {
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
     public static final String RESEARCH_RISK_TYPE_SORT_NUMBER = "researchRiskTypeSortNumber";
 
+    // ProposalAwardCloseDocument
+    public static final String PROPOSAL_AWARD_CLOSE_DOC_CLOSE_ON_OR_BEFORE_DATE = "closeOnOrBeforeDate";
+    public static final String PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE = "userInitiatedCloseDate";
+    public static final String PROPOSAL_AWARD_CLOSE_DOC_AWARD_CLOSED_COUNT = "awardClosedCount";
+    public static final String PROPOSAL_AWARD_CLOSE_DOC_PROPOSAL_CLOSED_COUNT = "proposalClosedCount";
+    public static final String PPROPOSAL_AWARD_CLOSE_DOC_RINCIPAL_NAME = "principalName";
+
 }

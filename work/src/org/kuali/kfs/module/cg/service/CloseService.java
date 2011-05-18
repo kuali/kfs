@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cg.service;
 
+import java.sql.Date;
+
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
@@ -30,5 +32,12 @@ public interface CloseService {
     public boolean close();
 
     public ProposalAwardCloseDocument getMostRecentClose();
+    /**
+     * Gets the persisted instance with the latest close date.
+     * 
+     * @param currentSqlMidnight
+     * @return the persisted instance with the latest close date.
+     */
+    public ProposalAwardCloseDocument getMaxApprovedClose(Date currentSqlMidnight);
    
 }

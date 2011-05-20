@@ -32,7 +32,6 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.kfs.gl.batch.service.FilteringBalanceIterator;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.CashBalance;
 import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
@@ -42,7 +41,6 @@ import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.ParameterEvaluator;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -131,62 +129,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * This method adds to the given criteria if the given collection is non-empty. It uses an EQUALS if there is exactly one
-     * element in the collection; otherwise, its uses an IN
-     * 
-     * @param criteria - the criteria that might have a criterion appended
-     * @param name - name of the attribute
-     * @param collection - the collection to inspect
-     */
-    protected void criteriaBuilder(Criteria criteria, String name, Collection collection) {
-        criteriaBuilderHelper(criteria, name, collection, false);
-    }
-
-    /**
-     * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
-     * 
-     * @param criteria - the criteria that might have a criterion appended
-     * @param name - name of the attribute
-     * @param collection - the collection to inspect
-     */
-    protected void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
-        criteriaBuilderHelper(criteria, name, collection, true);
-    }
-
-
-    /**
-     * This method provides the implementation for the conveniences methods criteriaBuilder & negatedCriteriaBuilder
-     * 
-     * @param criteria - the criteria that might have a criterion appended
-     * @param name - name of the attribute
-     * @param collection - the collection to inspect
-     * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
-     */
-    protected void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
-        if (collection != null) {
-            int size = collection.size();
-            if (size == 1) {
-                if (negate) {
-                    criteria.addNotEqualTo(name, collection.iterator().next());
-                }
-                else {
-                    criteria.addEqualTo(name, collection.iterator().next());
-                }
-            }
-            if (size > 1) {
-                if (negate) {
-                    criteria.addNotIn(name, collection);
-                }
-                else {
-                    criteria.addIn(name, collection);
-
-                }
-            }
-        }
-
-    }
-
-    /**
      * Build a query based on all the parameters, and return an Iterator of all Balances from the database that qualify
      * 
      * @param account the account of balances to find
@@ -209,10 +151,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
-        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
-        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
-        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
-        negatedCriteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
+        criteria.addIn(GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
+        criteria.addIn(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
+        criteria.addIn(GeneralLedgerConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
+        criteria.addNotIn(GeneralLedgerConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
 
@@ -222,14 +164,15 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * Using the given fieldValues as keys, return all cash balance records
+     * Using the given fieldValues as keys, return all cash balance records. The results will be limited to the system lookup
+     * results limit.
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the records of cash balance entries
-     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#findCashBalance(Map, boolean, List)
+     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#lookupCashBalance(Map, boolean, List)
      */
-    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
         LOG.debug("findCashBalance() started");
 
         Query query = this.getCashBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes);
@@ -259,11 +202,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
      * @return the size collection of cash balance entry groups
      * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getConsolidatedCashBalanceRecordCount(Map, List)
      */
-    public Iterator getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
+    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
         LOG.debug("getCashBalanceRecordCount() started");
 
         ReportQueryByCriteria query = this.getCashBalanceCountQuery(fieldValues, encumbranceBalanceTypes);
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        return getPersistenceBrokerTemplate().getCount(query);
     }
 
     /**
@@ -322,9 +265,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
-
-        // set the selection attributes
-        query.setAttributes(new String[] { "count(*)" });
 
         return query;
     }
@@ -509,28 +449,6 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
-     * Whoa! This method is seemingly not called in the code base right now, and you know what? You shouldn't call it First of all,
-     * we're not even sending in all the primary keys for Balance, and second of all, we're returning a SufficientFundsBalance,
-     * which we cast to a Balance, which is *always* going to throw a ClassCastException. Don't call this method. Just...just step
-     * away.
-     * 
-     * @see org.kuali.kfs.gl.dataaccess.BalanceDao#getBalanceByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
-     */
-    public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
-        // TODO just kill this
-        LOG.debug("getBalanceByPrimaryId() started");
-
-        Criteria crit = new Criteria();
-        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
-        return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-    }
-
-
-    /**
      * Since SubAccountNumber, SubObjectCode, and ObjectType are all part of the primary key of Balance, you're guaranteed to get
      * one of those records when you call this method. Let's hope the right one.
      * 
@@ -692,11 +610,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
-        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
-        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
-        filteredBalances.setBalancesSource(balances);
-
-        return filteredBalances;
+        return balances;
     }
 
     /**
@@ -748,10 +662,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         Iterator<Balance> balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
 
-        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
-        filteredBalances.setBalancesSource(balances);
-
-        return filteredBalances;
+        return balances;
     }
 
     /**

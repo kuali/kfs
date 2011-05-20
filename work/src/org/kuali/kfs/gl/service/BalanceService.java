@@ -28,47 +28,48 @@ import org.kuali.kfs.gl.businessobject.GlSummary;
  */
 public interface BalanceService {
     /**
-     * Save.  Like.  OK.  You know.  Save a balance?  You know?  That's what this method should do.  Yeah.  It should save a balance.  In the DB and stuff.
+     * Save. Like. OK. You know. Save a balance? You know? That's what this method should do. Yeah. It should save a balance. In the
+     * DB and stuff.
      * 
      * @param b the balance to, like, totally save
      */
     public void save(Balance b);
 
     /**
-     * 
      * This method...
+     * 
      * @param account
      * @return
      */
     public boolean hasAssetLiabilityFundBalanceBalances(Account account);
 
     /**
-     * 
      * This method...
+     * 
      * @param account
      * @return
      */
     public boolean fundBalanceWillNetToZero(Account account);
 
     /**
-     * 
      * This method...
+     * 
      * @param account
      * @return
      */
     public boolean hasEncumbrancesOrBaseBudgets(Account account);
 
     /**
-     * 
      * This method...
+     * 
      * @param account
      * @return
      */
     public boolean beginningBalanceLoaded(Account account);
 
     /**
-     * 
      * This method...
+     * 
      * @param account
      * @return
      */
@@ -83,13 +84,14 @@ public interface BalanceService {
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear);
 
     /**
-     * This method finds the summary records of balance entries according to input fields an values
+     * This method finds the summary records of balance entries according to input fields an values. The results will be limited to
+     * the system lookup results limit.
      * 
      * @param fieldValues the input fields an values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
      */
-    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator lookupCashBalance(Map fieldValues, boolean isConsolidated);
 
     /**
      * This method gets the size of cash balance entries according to input fields and values
@@ -153,6 +155,7 @@ public interface BalanceService {
 
     /**
      * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * 
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the general balance forward process
      */
@@ -160,6 +163,7 @@ public interface BalanceService {
 
     /**
      * Returns all the balances to be forwarded for the "cumulative" rule
+     * 
      * @param year the fiscal year to find balances for
      * @return an Iterator of balances to process for the cumulative/active balance forward process
      */

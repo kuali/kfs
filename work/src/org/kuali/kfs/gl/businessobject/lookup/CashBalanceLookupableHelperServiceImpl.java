@@ -52,13 +52,13 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
 
     /**
      * Returns the URL for inquiries on fields returned in the lookup
+     * 
      * @param bo the business object the field to inquiry on is in
      * @param propertyName the name of the property that an inquiry url is being asked of
      * @return the String of the url
-     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
-     * 
-     * KRAD Conversion: Lookupable modifies the search results based on the fields consolidated.
-     * But all field definitions are in data dictionary.
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String) KRAD
+     *      Conversion: Lookupable modifies the search results based on the fields consolidated. But all field definitions are in
+     *      data dictionary.
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -67,6 +67,7 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
 
     /**
      * Generates a list of results for this inquiry
+     * 
      * @param fieldValues the field values that the user entered for this inquiry
      * @return a List of results
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
@@ -83,7 +84,7 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         boolean isConsolidated = isConsolidationSelected(fieldValues);
 
         // get the search result collection
-        Iterator cashBalanceIterator = balanceService.findCashBalance(fieldValues, isConsolidated);
+        Iterator cashBalanceIterator = balanceService.lookupCashBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildCashBalanceCollection(cashBalanceIterator, isConsolidated);
 
         // update search results according to the selected pending entry option
@@ -233,19 +234,20 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
     public List<Row> getRows() {
         // TODO Auto-generated method stub
         List<Row> rows = super.getRows();
-        
-        //look for field and replace BO class
+
+        // look for field and replace BO class
         for (Iterator iter = rows.iterator(); iter.hasNext();) {
-            Row row = (Row) iter.next();                
+            Row row = (Row) iter.next();
             for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                    Field field = (Field) iterator.next();
-                    
-                    if(ObjectUtils.isNotNull(field) && StringUtils.equalsIgnoreCase(field.getPropertyName(), KFSPropertyConstants.ACCOUNT_NUMBER)){                        
-                        field.setQuickFinderClassNameImpl(Account.class.getName());
-                    }
+                Field field = (Field) iterator.next();
+
+                if (ObjectUtils.isNotNull(field) && StringUtils.equalsIgnoreCase(field.getPropertyName(), KFSPropertyConstants.ACCOUNT_NUMBER)) {
+                    field.setQuickFinderClassNameImpl(Account.class.getName());
+                }
             }
         }
-        
+
         return rows;
     }
+
 }

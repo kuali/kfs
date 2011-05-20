@@ -32,6 +32,7 @@ import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.BalanceForwardStep;
+import org.kuali.kfs.gl.batch.service.FilteringBalanceIterator;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
@@ -326,17 +327,18 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * This method finds the summary records of balance entries according to input fields an values, using the DAO
+     * This method finds the summary records of balance entries according to input fields an values, using the DAO. The results will
+     * be limited to the system lookup results limit.
      * 
      * @param fieldValues the input fields an values
      * @param isConsolidated consolidation option is applied or not
      * @return the summary records of balance entries
-     * @see org.kuali.kfs.gl.service.BalanceService#findCashBalance(java.util.Map, boolean)
+     * @see org.kuali.kfs.gl.service.BalanceService#lookupCashBalance(java.util.Map, boolean)
      */
-    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
+    public Iterator lookupCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
 
-        return balanceDao.findCashBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
+        return balanceDao.lookupCashBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
     }
 
     /**
@@ -355,10 +357,7 @@ public class BalanceServiceImpl implements BalanceService {
             recordCount = balanceDao.getDetailedCashBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
         }
         else {
-            Iterator recordCountIterator = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
-            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
-            List recordCountList = IteratorUtils.toList(recordCountIterator);
-            recordCount = recordCountList.size();
+            recordCount = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues, getEncumbranceBalanceTypes(fieldValues));
         }
         return recordCount;
     }
@@ -543,7 +542,12 @@ public class BalanceServiceImpl implements BalanceService {
         final String[] subFundGroupsForCumulativeBalanceForwardingArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING).toArray(new String[] {});
         String[] cumulativeBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE).toArray(new String[] {});
         boolean fundGroupDenotesCGInd = parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
-        return balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd);
+        Iterator<Balance> balances = balanceDao.findCumulativeBalancesToForwardForFiscalYear(year, cumulativeForwardBalanceObjectTypes, contractsAndGrantsDenotingValues, subFundGroupsForCumulativeBalanceForwardingArray, cumulativeBalanceForwardBalanceTypesArray, fundGroupDenotesCGInd);
+
+        FilteringBalanceIterator filteredBalances = SpringContext.getBean(FilteringBalanceIterator.class, "glBalanceAnnualAndCGTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
     }
 
     /**
@@ -556,7 +560,13 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
         List<String> generalForwardBalanceObjectTypes = objectTypeService.getGeneralForwardBalanceObjectTypes(year);
         String[] generalBalanceForwardBalanceTypesArray = parameterService.getParameterValues(BalanceForwardStep.class, GeneralLedgerConstants.BalanceForwardRule.BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET).toArray(new String[] {});
-        return balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray);
+        Iterator<Balance> balances = balanceDao.findGeneralBalancesToForwardForFiscalYear(year, generalForwardBalanceObjectTypes, generalBalanceForwardBalanceTypesArray);
+
+        Map<String, FilteringBalanceIterator> balanceIterators = SpringContext.getBeansOfType(FilteringBalanceIterator.class);
+        FilteringBalanceIterator filteredBalances = balanceIterators.get("glBalanceTotalNotZeroIterator");
+        filteredBalances.setBalancesSource(balances);
+
+        return filteredBalances;
     }
 
     /**

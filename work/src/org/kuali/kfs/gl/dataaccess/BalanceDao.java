@@ -49,17 +49,6 @@ public interface BalanceDao {
     public Balance getBalanceByTransaction(Transaction t);
 
     /**
-     * Given the primary keys of a balance, finds the balance in the database. Although not all of the primary keys are sent into
-     * this method... Programmers are seriously advised not to use this method; the default implementation does not work
-     * 
-     * @param universityFiscalYear the university fiscal year of the balance to find
-     * @param chartOfAccountsCode the chart of accounts code of the balance to find
-     * @param accountNumber the account number of the balance to find
-     * @return the balance that is specified by those...er...partially defined primary keys.
-     */
-    public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
-
-    /**
      * Based on specific query types, return an Iterator of balance records
      * 
      * @param account the account of balances to find
@@ -73,14 +62,15 @@ public interface BalanceDao {
     public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
 
     /**
-     * This method finds the cash balance entries according to input fields and values
+     * This method finds the cash balance entries according to input fields and values. The results will be limited to the system
+     * lookup results limit.
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @param encumbranceBalanceTypes a list of encumbrance Balance Types
      * @return the records of cash balance entries
      */
-    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
+    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of cash balance entries or entry groups according to input fields and values
@@ -100,7 +90,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of cash balance entry groups
      */
-    public Iterator getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
 
     /**
      * This method finds the records of balance entries according to input fields and values

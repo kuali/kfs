@@ -34,7 +34,6 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.CashBalance;
-import org.kuali.kfs.gl.businessobject.SufficientFundBalances;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.gl.dataaccess.BalanceDao;
 import org.kuali.kfs.gl.dataaccess.LedgerBalanceBalancingDao;
@@ -129,6 +128,62 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
     }
 
     /**
+     * This method adds to the given criteria if the given collection is non-empty. It uses an EQUALS if there is exactly one
+     * element in the collection; otherwise, its uses an IN
+     * 
+     * @param criteria - the criteria that might have a criterion appended
+     * @param name - name of the attribute
+     * @param collection - the collection to inspect
+     */
+    protected void criteriaBuilder(Criteria criteria, String name, Collection collection) {
+        criteriaBuilderHelper(criteria, name, collection, false);
+    }
+
+    /**
+     * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
+     * 
+     * @param criteria - the criteria that might have a criterion appended
+     * @param name - name of the attribute
+     * @param collection - the collection to inspect
+     */
+    protected void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
+        criteriaBuilderHelper(criteria, name, collection, true);
+    }
+
+
+    /**
+     * This method provides the implementation for the conveniences methods criteriaBuilder & negatedCriteriaBuilder
+     * 
+     * @param criteria - the criteria that might have a criterion appended
+     * @param name - name of the attribute
+     * @param collection - the collection to inspect
+     * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
+     */
+    protected void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
+        if (collection != null) {
+            int size = collection.size();
+            if (size == 1) {
+                if (negate) {
+                    criteria.addNotEqualTo(name, collection.iterator().next());
+                }
+                else {
+                    criteria.addEqualTo(name, collection.iterator().next());
+                }
+            }
+            if (size > 1) {
+                if (negate) {
+                    criteria.addNotIn(name, collection);
+                }
+                else {
+                    criteria.addIn(name, collection);
+
+                }
+            }
+        }
+
+    }
+
+    /**
      * Build a query based on all the parameters, and return an Iterator of all Balances from the database that qualify
      * 
      * @param account the account of balances to find
@@ -151,10 +206,10 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
 
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
-        criteria.addIn(GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
-        criteria.addIn(GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
-        criteria.addIn(GeneralLedgerConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
-        criteria.addNotIn(GeneralLedgerConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
+        criteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, includedObjectCodes);
+        negatedCriteriaBuilder(criteria, GeneralLedgerConstants.ColumnNames.OBJECT_CODE, excludedObjectCodes);
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
 

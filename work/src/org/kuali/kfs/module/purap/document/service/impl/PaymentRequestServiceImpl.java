@@ -213,7 +213,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract(Date)
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate);
@@ -223,7 +223,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractSpecialPayments(java.lang.String,
      *      java.sql.Date)
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
@@ -232,7 +232,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
         return paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
@@ -242,7 +242,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String,
      *      java.sql.Date)
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
         return paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
@@ -255,7 +255,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        //List<PaymentRequestDocument> docs = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
+        for (String docNumber : docNumbers) {
+            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
+            if (ObjectUtils.isNotNull(preq)) {
+                docs.add(preq);
+            }
+        }     
         LOG.info(" -- Initial filtering complete, returned " + new Integer((docs == null ? 0 : docs.size())).toString() + " docs.");
         if (docs != null) {
             String samt = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
@@ -1671,7 +1679,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     public void processPaymentRequestInReceivingStatus() {
-        List<PaymentRequestDocument> preqsAwaitingReceiving = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
+        List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
+        for (String docNumber : docNumbers) {
+            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
+            if (ObjectUtils.isNotNull(preq)) {
+                preqsAwaitingReceiving.add(preq);
+            }
+        }  
         if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
             for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
                 if (preqDoc.isReceivingRequirementMet()) {

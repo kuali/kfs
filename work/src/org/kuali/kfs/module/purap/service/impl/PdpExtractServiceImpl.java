@@ -244,9 +244,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         LOG.debug("processing PREQs without CMs");
 
-        // Get all the payment requests to process that do not have credit memos
-        Collection<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
-        for (PaymentRequestDocument prd : paymentRequests) {
+        Iterator<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
+        while (paymentRequests.hasNext()) {
+            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
             // if in the list created above, don't create the payment group
             if (!preqsWithOutstandingCreditMemos.contains(prd.getDocumentNumber())) {
                 PaymentGroup paymentGroup = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
@@ -255,6 +255,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 totals.totalAmount = totals.totalAmount.add(paymentGroup.getNetPaymentAmount());
             }
         }
+
+
 
         LOG.debug("END - extractRegularPaymentsForChart()");
         return totals;
@@ -352,7 +354,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     protected Totals extractSpecialPaymentsForChart(String campusCode, Person puser, Date processRunDate, Batch batch, boolean immediatesOnly) {
         Totals totals = new Totals();
 
-        Collection<PaymentRequestDocument> paymentRequests = null;
+        Iterator<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
         }
@@ -361,7 +363,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
         }
 
-        for (PaymentRequestDocument prd : paymentRequests) {
+        while (paymentRequests.hasNext()) {
+            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
             PaymentGroup pg = processSinglePaymentRequestDocument(prd, batch, puser, processRunDate);
 
             totals.count = totals.count + pg.getPaymentDetails().size();
@@ -370,6 +373,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         return totals;
     }
+
 
     /**
      * Mark a credit memo as extracted
@@ -921,10 +925,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * 
      * @return List<String>
      */
+    
     protected List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
         List<String> output = new ArrayList<String>();
 
-        Collection<PaymentRequestDocument> paymentRequests = null;
+        Iterator<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
         }
@@ -932,8 +937,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
-
-        for (PaymentRequestDocument prd : paymentRequests) {
+        
+        while (paymentRequests.hasNext()) {
+            PaymentRequestDocument prd = (PaymentRequestDocument) paymentRequests.next();
             if (!output.contains(prd.getProcessingCampusCode())) {
                 output.add(prd.getProcessingCampusCode());
             }
@@ -941,6 +947,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         return output;
     }
+
 
     /**
      * Holds total count and amount for extract

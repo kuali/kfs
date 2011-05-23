@@ -34,11 +34,9 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TransactionalServiceUtils;
 
@@ -56,7 +54,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * 
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -103,13 +101,13 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addAndCriteria(c1);
         }
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -121,7 +119,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
@@ -199,35 +197,26 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getEligibleForAutoApproval()
      */
-    public List<PaymentRequestDocument> getEligibleForAutoApproval(Date todayAtMidnight) {
+    public List<String> getEligibleForAutoApproval(Date todayAtMidnight) {
 
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
         criteria.addIn("status", Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
+     
+        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 
-        Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-        Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        ArrayList<String> documentHeaderIds = new ArrayList<String>();
-        while (documents.hasNext()) {
-            PaymentRequestDocument document = (PaymentRequestDocument) documents.next();
-            documentHeaderIds.add(document.getDocumentNumber());
+        List<String> returnList = new ArrayList<String>();
+       
+        while (docHeaderIdsIter.hasNext()) {
+            Object[] cols = (Object[]) docHeaderIdsIter.next();
+            returnList.add((String) cols[0]);
         }
-
-        if (documentHeaderIds.size() > 0) {
-            try {
-                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(PaymentRequestDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve paymentRequestDocuments", e);
-            }
-        }
-        else {
-            return null;
-        }
+        return returnList;
 
     }
+
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getDocumentNumberByPaymentRequestId(java.lang.Integer)
@@ -306,8 +295,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      */
     protected List<PaymentRequestDocument> getPaymentRequestsByQueryByCriteria(QueryByCriteria qbc) {
         LOG.debug("getPaymentRequestsByQueryByCriteria() started");
-        List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        return l;
+        return (List<PaymentRequestDocument>)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     /**
@@ -368,8 +356,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
         criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
-        QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-
         Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
         while (iter.hasNext()) {
             Object[] cols = (Object[]) iter.next();
@@ -377,32 +363,24 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
         return returnList;
     }
-
-    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus() {
+    public List<String> getPaymentRequestInReceivingStatus() {
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
         criteria.addEqualTo("statusCode", PurapConstants.PaymentRequestStatuses.AWAITING_RECEIVING_REVIEW);
+        
+        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 
-        Query query = new QueryByCriteria(PaymentRequestDocument.class, criteria);
-        Iterator<PaymentRequestDocument> documents = (Iterator<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        ArrayList<String> documentHeaderIds = new ArrayList<String>();
-        while (documents.hasNext()) {
-            PaymentRequestDocument document = (PaymentRequestDocument) documents.next();
-            documentHeaderIds.add(document.getDocumentNumber());
+        List<String> returnList = new ArrayList<String>();
+       
+        while (docHeaderIdsIter.hasNext()) {
+            Object[] cols = (Object[]) docHeaderIdsIter.next();
+            returnList.add((String) cols[0]);
         }
-
-        if (documentHeaderIds.size() > 0) {
-            try {
-                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(PaymentRequestDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve paymentRequestDocuments", e);
-            }
-        }
-        else {
-            return null;
-        }
+        return returnList;
 
     }
-}
+    
+
+ }
+

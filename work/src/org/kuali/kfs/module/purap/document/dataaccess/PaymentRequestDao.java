@@ -60,7 +60,7 @@ public interface PaymentRequestDao {
      * @param chartCode - if not null, limit results to a single chart
      * @return - Collection of payment requests
      */
-    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that are marked immediate that need to be extracted to PDP.
@@ -68,7 +68,7 @@ public interface PaymentRequestDao {
      * @param chartCode - chart of accounts code
      * @return - Collection of payment requests
      */
-    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
+    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all payment request documents that are eligible for auto-approval. Whether or not a document is eligible for
@@ -80,7 +80,7 @@ public interface PaymentRequestDao {
      * @param todayAtMidnight
      * @return - an Iterator over all payment request documents eligible for automatic approval
      */
-    public List<PaymentRequestDocument> getEligibleForAutoApproval(Date todayAtMidnight);
+    public List<String> getEligibleForAutoApproval(Date todayAtMidnight);
 
     /**
      * Get a payment request document number by id.
@@ -142,6 +142,6 @@ public interface PaymentRequestDao {
      * 
      * @return
      */
-    public List<PaymentRequestDocument> getPaymentRequestInReceivingStatus();
+    public List<String> getPaymentRequestInReceivingStatus();
 
 }

@@ -867,7 +867,14 @@ public class ReceivingServiceImpl implements ReceivingService {
     }
 
     public void approveReceivingDocsForPOAmendment(){
-        List<LineItemReceivingDocument> docs = receivingDao.getReceivingDocumentsForPOAmendment();
+        List<String> docNumbers = receivingDao.getReceivingDocumentsForPOAmendment();
+        List<LineItemReceivingDocument> docs = new ArrayList<LineItemReceivingDocument>();
+        for (String docNumber : docNumbers) {
+            LineItemReceivingDocument lreq = getLineItemReceivingByDocumentNumber(docNumber);
+            if (ObjectUtils.isNotNull(lreq)) {
+                docs.add(lreq);
+            }
+        }     
         if (docs != null){
             for (LineItemReceivingDocument receivingDoc: docs) {
                 if (StringUtils.equals(receivingDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getCurrentRouteNodeNames(),
@@ -878,6 +885,27 @@ public class ReceivingServiceImpl implements ReceivingService {
         }
         
     }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestByDocumentNumber(java.lang.String)
+     */
+    public LineItemReceivingDocument getLineItemReceivingByDocumentNumber(String documentNumber) {
+        LOG.debug("getLineItemReceivingByDocumentNumber() started");
+
+        if (ObjectUtils.isNotNull(documentNumber)) {
+            try {
+                LineItemReceivingDocument doc = (LineItemReceivingDocument) documentService.getByDocumentHeaderId(documentNumber);
+                return doc;
+            }
+            catch (WorkflowException e) {
+                String errorMessage = "Error getting LineItemReceiving document from document service";
+                LOG.error("getLineItemReceivingByDocumentNumber() " + errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
+            }
+        }
+        return null;
+    }
+
     
     protected void approveReceivingDoc(LineItemReceivingDocument receivingDoc){
         PurchaseOrderDocument poDoc = receivingDoc.getPurchaseOrderDocument();

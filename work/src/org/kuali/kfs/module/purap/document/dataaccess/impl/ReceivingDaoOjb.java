@@ -166,32 +166,22 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         
         return returnList;
     }
-
-    public List<LineItemReceivingDocument> getReceivingDocumentsForPOAmendment() {
+ 
+   public List<String> getReceivingDocumentsForPOAmendment() {
         
         Criteria criteria = new Criteria();
         criteria.addEqualTo("lineItemReceivingStatusCode", PurapConstants.LineItemReceivingStatuses.AWAITING_PO_OPEN_STATUS);
+        
+        
+        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);       
 
-        Query query = new QueryByCriteria(LineItemReceivingDocument.class, criteria);
-        Iterator<LineItemReceivingDocument> documents = (Iterator<LineItemReceivingDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(query);
-        ArrayList<String> documentHeaderIds = new ArrayList<String>();
-        while (documents.hasNext()) {
-            LineItemReceivingDocument document = (LineItemReceivingDocument) documents.next();
-            documentHeaderIds.add(document.getDocumentNumber());
+        List<String> returnList = new ArrayList<String>();
+       
+        while (docHeaderIdsIter.hasNext()) {
+            Object[] cols = (Object[]) docHeaderIdsIter.next();
+            returnList.add((String) cols[0]);
         }
-
-        if (documentHeaderIds.size() > 0) {
-            try {
-                return SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(LineItemReceivingDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve LineItemReceivingDocuments", e);
-            }
+        return returnList;
         }
-        else {
-            return null;
-        }
-
-    }
     
 }

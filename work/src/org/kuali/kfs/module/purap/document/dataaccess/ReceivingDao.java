@@ -37,5 +37,8 @@ public interface ReceivingDao {
     
     public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber);
     
-    public List<LineItemReceivingDocument> getReceivingDocumentsForPOAmendment();
+  //Modified by Suma
+    //public List<LineItemReceivingDocument> getReceivingDocumentsForPOAmendment();
+    public List<String> getReceivingDocumentsForPOAmendment();
+    
 }

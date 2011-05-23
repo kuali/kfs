@@ -93,11 +93,11 @@ public class ThresholdHelper {
 
             for (SummaryAccount account : accounts) {
                 
-                updateThresholdSummary(CHART,account,null);
-                updateThresholdSummary(CHART_AND_ACCOUNTTYPE,account,null);
-                updateThresholdSummary(CHART_AND_SUBFUND,account,null);
-                updateThresholdSummary(CHART_AND_OBJECTCODE,account,null);
-                updateThresholdSummary(CHART_AND_ORGANIZATIONCODE,account,document.getTotalDollarAmount());
+                updateThresholdSummary(CHART,account);
+                updateThresholdSummary(CHART_AND_ACCOUNTTYPE,account);
+                updateThresholdSummary(CHART_AND_SUBFUND,account);
+                updateThresholdSummary(CHART_AND_OBJECTCODE,account);
+                updateThresholdSummary(CHART_AND_ORGANIZATIONCODE,account);
                 
                 processVendorForThresholdSummary(account,
                                                  document.getVendorHeaderGeneratedIdentifier().toString(),
@@ -123,8 +123,7 @@ public class ThresholdHelper {
     }
     
     private void updateThresholdSummary(ThresholdCriteria thresholdCriteria,
-                                        SummaryAccount account,
-                                        KualiDecimal documentAmount){
+                                        SummaryAccount account){
         
         if (thresholdCriteria != CHART_AND_COMMODITYCODE && 
             thresholdCriteria != CHART_AND_VENDOR){
@@ -161,12 +160,9 @@ public class ThresholdHelper {
                 }
                 thresholdSummary.setProperty(ThresholdField.ORGANIZATION_CODE,
                                              account.getAccount().getAccount().getOrganizationCode());
-                thresholdSummary.addTotalAmount(documentAmount);
             }
             
-            if (thresholdCriteria != CHART_AND_ORGANIZATIONCODE){
-                thresholdSummary.addTotalAmount(account.getAccount().getAmount());
-            }
+            thresholdSummary.addTotalAmount(account.getAccount().getAmount());
             addToSummaryList(thresholdSummary);
         }
     }

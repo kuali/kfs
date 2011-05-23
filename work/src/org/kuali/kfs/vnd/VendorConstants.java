@@ -41,6 +41,7 @@ public class VendorConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String VENDOR_CONTRACT_LOOKUPABLE_IMPL = "vendorContractLookupable";
+    public static final int MAX_VENDOR_NAME_LENGTH = 45;
 
     // Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";

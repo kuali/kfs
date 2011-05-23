@@ -420,6 +420,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 putFieldError(VendorPropertyConstants.VENDOR_NAME, VendorKeyConstants.ERROR_VENDOR_BOTH_NAME_REQUIRED);
                 valid &= false;
             }
+            else {
+                String vendorName = vendorDetail.getVendorLastName() + VendorConstants.NAME_DELIM + vendorDetail.getVendorFirstName();
+                if (vendorName.length() > VendorConstants.MAX_VENDOR_NAME_LENGTH) {
+                    putFieldError(VendorPropertyConstants.VENDOR_LAST_NAME, VendorKeyConstants.ERROR_VENDOR_NAME_TOO_LONG);
+                    valid &= false;
+                }
+                
+            }
         }
         else {
             // Both of the two ways of entering vendor name (One vendor name field vs VendorFirstName/VendorLastName) cannot be used

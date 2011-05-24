@@ -202,6 +202,11 @@
 				<ref bean="pdpClearPendingTransactionsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="pdpExtractGlTransactionsStepJob" value="softDependency"/>
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">

@@ -63,6 +63,7 @@ public class SpringContext {
     protected static Set<Class<? extends Object>> SINGLETON_TYPES = new HashSet<Class<? extends Object>>();
     protected static Map<Class<? extends Object>, Object> SINGLETON_BEANS_BY_TYPE_CACHE = new HashMap<Class<? extends Object>, Object>();
     protected static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = new HashMap<String, Object>();
+    @SuppressWarnings("rawtypes")
     protected static Map<Class<? extends Object>, Map> SINGLETON_BEANS_OF_TYPE_CACHE = new HashMap<Class<? extends Object>, Map>();
     protected static Thread processWatchThread = null;
     /**
@@ -273,7 +274,7 @@ public class SpringContext {
 
     private static void verifyProperInitialization() {
         if (applicationContext == null) {
-            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use KNSServiceLocator before the application context is initialized.");
+            throw new RuntimeException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized.");
         }
     }
 

@@ -1670,6 +1670,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
 
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                document.setStatusChange(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             }
         }

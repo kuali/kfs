@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="KFS50" id="NEW_CAMS_PARAMETERS">
+		<comment>KFSMI-6741 Create new system parameters for KFS-CAM</comment>
+		<insert tableName="KRNS_PARM_T">
+			<column name='NMSPC_CD' value='KFS-CAM' />
+			<column name='PARM_DTL_TYP_CD' value='ASSET' />
+			<column name='PARM_NM' value='VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND' />
+			<column name='OBJ_ID' value='KFSCAM102' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='PARM_DESC_TXT'
+				value='INDICATES WHETHER OR NOT THE VENDOR IS REQUIRED FOR A NON-MOVEABLE ASSET' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name='NMSPC_CD' value='KFS-CAM' />
+			<column name='PARM_DTL_TYP_CD' value='ASSET' />
+			<column name='PARM_NM'
+				value='MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND' />
+			<column name='OBJ_ID' value='KFSCAM102' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='PARM_DESC_TXT'
+				value='INDICATES WHETHER OR NOT THE MANUFACTURER IS REQUIRED FOR A NON-MOVEABLE ASSET' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+	</changeSet>
+</databaseChangeLog>   
+      

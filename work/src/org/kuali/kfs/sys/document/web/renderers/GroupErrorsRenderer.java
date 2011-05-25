@@ -24,6 +24,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.struts.Globals;
 import org.apache.struts.taglib.html.ErrorsTag;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -70,9 +71,9 @@ public class GroupErrorsRenderer implements Renderer {
      * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
-        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_ERROR_SECTION_TITLE, getErrorPropertyList(pageContext), "errormark.gif", "error", getErrorsRendered());
-        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_WARNING_SECTION_TITLE, getWarningPropertyList(pageContext), "warning.png", "warning", getWarningsRendered());
-        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_INFORMATION_SECTION_TITLE, getInfoPropertyList(pageContext), "info.png", "info", getInfoRendered());
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_ERROR_SECTION_TITLE, getErrorPropertyList(pageContext), "errormark.gif", "error", getErrorsRendered(), Globals.ERROR_KEY);
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_WARNING_SECTION_TITLE, getWarningPropertyList(pageContext), "warning.png", "warning", getWarningsRendered(), "WarningActionMessages");
+        renderMessages(pageContext, parentTag, KFSKeyConstants.MESSAGE_ACCOUNTING_LINES_INFORMATION_SECTION_TITLE, getInfoPropertyList(pageContext), "info.png", "info", getInfoRendered(), "InfoActionMessages");
     }
     
     /**
@@ -85,7 +86,7 @@ public class GroupErrorsRenderer implements Renderer {
      * @param sectionGraphicAlt the wording to be used in the "alt" section of the mark graphic
      * @throws JspException thrown if rendering cannot be successfully completed
      */
-    protected void renderMessages(PageContext pageContext, Tag parentTag, String titleConstant, List propertyList, String sectionMarkGraphicName, String sectionGraphicAlt, List<String> keysRendered) throws JspException {
+    protected void renderMessages(PageContext pageContext, Tag parentTag, String titleConstant, List propertyList, String sectionMarkGraphicName, String sectionGraphicAlt, List<String> keysRendered, String requestScopeBeanNameContainingMessages ) throws JspException {
         JspWriter out = pageContext.getOut();
         
         try {
@@ -101,6 +102,7 @@ public class GroupErrorsRenderer implements Renderer {
                     errorTag.setPageContext(pageContext);
                     errorTag.setParent(parentTag);
                     errorTag.setProperty(matchingKey);
+                    errorTag.setName(requestScopeBeanNameContainingMessages);
                    
                     errorTag.doStartTag();
                     errorTag.doEndTag();

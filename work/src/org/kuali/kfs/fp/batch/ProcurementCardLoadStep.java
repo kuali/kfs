@@ -29,8 +29,8 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 /**
  * This step will call a service method to load the kuali pcard xml file into the transaction table. Validates the data before the
  * load. Functions performed by this step: 1) Lookup path and filename from APC for the pcard input file 2) Load the pcard xml file
- * 3) Parse each transaction and validate against the data dictionary 4) Clean fp_prcrmnt_card_trn_t from the previous run 5) Load
- * new transactions into fp_prcrmnt_card_trn_t 6) Rename input file using the current date (backup) RESTART: All functions performed
+ * 3) Parse each transaction and validate against the data dictionary 4) Clean fp_prcrmnt_card_trn_mt from the previous run 5) Load
+ * new transactions into fp_prcrmnt_card_trn_mt 6) Rename input file using the current date (backup) RESTART: All functions performed
  * withing a single transaction. Step can be restarted as needed.
  */
 public class ProcurementCardLoadStep extends AbstractStep {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="KFS50" id="FP_PRCRMNT_CARD_TRN_T">
+		<comment>KFSMI-6720</comment>
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT"/>
+		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ"/>
+	</changeSet>
+</databaseChangeLog>

@@ -266,6 +266,9 @@
 	    <property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
 		</property>
+	    <property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>				

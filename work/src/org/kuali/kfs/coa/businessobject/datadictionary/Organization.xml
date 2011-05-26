@@ -265,6 +265,7 @@
 		p:sourceAttributeName="campusCode">
 		<property name="name" value="organizationPhysicalCampusCode" />
 		<property name="label" value="Organization Physical Campus Code" />
+		<property name="forceUppercase" value="true"/>
 	</bean>
 
 	<bean id="Organization-organizationTypeCode" parent="Organization-organizationTypeCode-parentBean" />

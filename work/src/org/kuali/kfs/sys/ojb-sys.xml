@@ -635,7 +635,6 @@
  		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="taxRegionTypeName" column="TAX_REGION_TYP_NM" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 	</class-descriptor>  	    
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.TaxRegionState" table="FS_TAX_STATE_T" >

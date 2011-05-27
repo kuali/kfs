@@ -51,7 +51,6 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxRegionTypeName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active"/>
       </list>
     </property>
   </bean>

@@ -31,7 +31,6 @@
       <list>
         <ref bean="TaxRegionType-taxRegionTypeCode"/>
         <ref bean="TaxRegionType-taxRegionTypeName"/>
-        <ref bean="TaxRegionType-active"/>
       </list>
     </property>
   </bean>
@@ -76,12 +75,6 @@
     
   </bean>
   
-  <bean id="TaxRegionType-active" parent="TaxRegionType-active-parentBean"/>
-
-  <bean id="TaxRegionType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-      <property name="name" value="active"/>
-  </bean>
-  
 <!-- Business Object Inquiry Definition -->
   
   <bean id="TaxRegionType-inquiryDefinition" parent="TaxRegionType-inquiryDefinition-parentBean"/>
@@ -102,7 +95,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:noInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>
@@ -129,14 +121,12 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
-        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeCode" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="taxRegionTypeName"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
            
       </list>
     </property>

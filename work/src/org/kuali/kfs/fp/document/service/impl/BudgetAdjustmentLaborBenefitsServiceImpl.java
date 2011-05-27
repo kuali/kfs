@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -113,12 +114,16 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     benefitLine.copyFrom(line);
                     benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
                     benefitLine.refreshNonUpdateableReferences();
-                    
-                    //convert whole percentage to decimal value (5% to .05)
-                    KualiDecimal fringeBenefitPercent = formatPercentageForMultiplication(benefitsCalculation.getPositionFringeBenefitPercent());
-                    
-                    KualiDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
-                    benefitLine.setCurrentBudgetAdjustmentAmount(benefitCurrentAmount);
+
+                    // convert whole percentage to decimal value (5% to .0500, 18.66% to 0.1866)
+                    BigDecimal fringeBenefitPercent = formatPercentageForMultiplication(benefitsCalculation.getPositionFringeBenefitPercent());
+
+                    // compute the benefit current amount with all decimals and then round it to the closest integer by setting the
+                    // scale to 0 and using the round half up rounding mode: exp. 1200*0.1866 = 223.92 -> rounded to 224
+                    BigDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().bigDecimalValue().multiply(fringeBenefitPercent);
+                    benefitCurrentAmount = benefitCurrentAmount.setScale(0, BigDecimal.ROUND_HALF_UP);
+
+                    benefitLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(benefitCurrentAmount));
 
                     KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
                     benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
@@ -174,9 +179,23 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
         return hasLaborObjectCodes;
     }
 
-    
-    protected KualiDecimal formatPercentageForMultiplication(KualiDecimal percent) {
-        return percent.divide(new KualiDecimal(100));
+
+    /**
+     * Formats the stored percentage to be used in multiplication. For example if the percentage is 18.66 it will return 0.1866. The
+     * returned number will always have 4 digits.
+     * 
+     * @param percent the stored percent
+     * @return percentage formatted for multiplication
+     */
+    protected BigDecimal formatPercentageForMultiplication(KualiDecimal percent) {
+
+        BigDecimal result = BigDecimal.ZERO;
+
+        if (percent != null) {
+            result = percent.bigDecimalValue().divide(new BigDecimal(100), 4, BigDecimal.ROUND_HALF_UP);
+        }
+
+        return result;
     }
 
     /**

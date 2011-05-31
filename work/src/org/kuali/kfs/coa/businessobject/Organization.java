@@ -677,7 +677,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @return Returns the postalZip.
      */
     public PostalCode getPostalZip() {
-        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary( organizationCountryCode, organizationZipCode, postalZip);
+        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationZipCode, postalZip);
         return postalZip;
     }
 
@@ -844,7 +844,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
 
             result.append(rChart).append("/").append(rOrg).append(" ");
             result.append(((org == null) ? "" : org.getOrganizationName()));
-            if ( org != null && org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
+            if (org != null && org.getReportsToOrganizationCode() != null && !seen.contains(org)) {
                 result.append(" ==> ");
             }
             result.append("\n");
@@ -868,7 +868,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
 
         return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
-        
+
     /**
      * Gets the campus code for Endowment Report
      * 
@@ -937,5 +937,18 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      */
     public String getOrganizationCodeForReport() {
         return organizationCode;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     */
+    @Override
+    public void refreshReferenceObject(String referenceObjectName) {
+        if (referenceObjectName.equals("organizationManagerUniversal")) {
+            getOrganizationManagerUniversal();
+        }
+        else {
+            super.refreshReferenceObject(referenceObjectName);
+        }
     }
 }

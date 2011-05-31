@@ -79,7 +79,6 @@
         <bean parent="MaintainableFieldDefinition" p:name="organizationName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.principalName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.name" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="responsibilityCenterCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationPhysicalCampusCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>

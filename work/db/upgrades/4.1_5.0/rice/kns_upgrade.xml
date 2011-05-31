@@ -5,29 +5,74 @@
 	<changeSet author="KFS50" id="NEW_CAMS_PARAMETERS">
 		<comment>KFSMI-6741 Create new system parameters for KFS-CAM</comment>
 		<insert tableName="KRNS_PARM_T">
-			<column name='NMSPC_CD' value='KFS-CAM' />
-			<column name='PARM_DTL_TYP_CD' value='ASSET' />
-			<column name='PARM_NM' value='VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND' />
-			<column name='OBJ_ID' value='KFSCAM102' />
-			<column name='VER_NBR' valueNumeric='1' />
-			<column name='PARM_TYP_CD' value='CONFG' />
-			<column name='PARM_DESC_TXT'
-				value='INDICATES WHETHER OR NOT THE VENDOR IS REQUIRED FOR A NON-MOVEABLE ASSET' />
-			<column name='CONS_CD' value='A' />
-			<column name='APPL_NMSPC_CD' value='KFS' />
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="ASSET" />
+			<column name="PARM_NM" value="VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
+			<column name="OBJ_ID" value="KFSCAM102" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT"
+				value="INDICATES WHETHER OR NOT THE VENDOR IS REQUIRED FOR A NON-MOVEABLE ASSET" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
 		<insert tableName="KRNS_PARM_T">
-			<column name='NMSPC_CD' value='KFS-CAM' />
-			<column name='PARM_DTL_TYP_CD' value='ASSET' />
-			<column name='PARM_NM'
-				value='MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND' />
-			<column name='OBJ_ID' value='KFSCAM102' />
-			<column name='VER_NBR' valueNumeric='1' />
-			<column name='PARM_TYP_CD' value='CONFG' />
-			<column name='PARM_DESC_TXT'
-				value='INDICATES WHETHER OR NOT THE MANUFACTURER IS REQUIRED FOR A NON-MOVEABLE ASSET' />
-			<column name='CONS_CD' value='A' />
-			<column name='APPL_NMSPC_CD' value='KFS' />
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="PARM_DTL_TYP_CD" value="ASSET" />
+			<column name="PARM_NM"
+				value="MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
+			<column name="OBJ_ID" value="KFSCAM102" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT"
+				value="INDICATES WHETHER OR NOT THE MANUFACTURER IS REQUIRED FOR A NON-MOVEABLE ASSET" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
+			<column name="PARM_NM"
+				value="PAYMENT_REASON_CODE_ROYALTIES" />
+			<column name="OBJ_ID" value="KFSFP298" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="R" />
+			<column name="PARM_DESC_TXT"
+				value="Non Taxable Payment Reason Code - Royalties" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
+			<column name="PARM_NM"
+				value="PAYMENT_REASON_CODE_RENTAL_PAYMENT" />
+			<column name="OBJ_ID" value="KFSFP299" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="T" />
+			<column name="PARM_DESC_TXT"
+				value="Non Taxable Payment Reason Code - Rental Payment" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+
+			<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
+			<column name="PARM_NM"
+				value="PAYMENT_REASON_CODE_TRAVEL_HONORARIUM" />
+			<column name="OBJ_ID" value="KFSFP300" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="X" />
+			<column name="PARM_DESC_TXT"
+				value="Non Taxable Payment Reason Code - Travel Honorarium" />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
 	</changeSet>
 </databaseChangeLog>   

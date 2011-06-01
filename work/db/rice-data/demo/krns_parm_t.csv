@@ -82,6 +82,8 @@
 "KFS-CAM","Asset","OBJECT_SUB_TYPE_GROUPS","KFS78","1","CONFG","BD,BF;CM,CF,CO;UC,UF,UO;LI,LF","Set of object sub types codes that are used to validate that the asset payment being created has the same object sub type code in the existing payments.","A","KFS"
 "KFS-CAM","Asset","RETIRED_STATUS_CODES","KFS79","1","CONFG","O;R;E","Set of Status codes which identify retired assets.","A","KFS"
 "KFS-CAM","Asset","VALID_ASSET_STATUS_BY_PRIOR_ASSET_STATUS","KFS80","1","CONFG","A=C,S;C=A,S;S=A,C;N=O;O=N;E=D;D=E","Set of valid inventory status code transitions.","A","KFS"
+KFS-CAM,Asset,VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND,KFSCAM101,1,CONFG,Y,Indicates whether or not the vendor is required for a non-moveable asset.,A,KFS
+KFS-CAM,Asset,MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND,KFSCAM102,1,CONFG,Y,Indicates whether or not the Manufacturer is required for a non-moveable asset.,A,KFS
 "KFS-CAM","AssetGlobal","CAPITALIZATION_LIMIT_AMOUNT","KFS81","1","CONFG","5000","Capitalization limit amount for a university","A","KFS"
 "KFS-CAM","AssetGlobal","CAPITAL_OBJECT_SUB_TYPES","KFS82","1","CONFG","CM;CF;CO;C1;C2;UC;UF;UO;AM;BD;BF;BI; ES;IF;LA;LE;LI;LF;LR;BR;BY;BX","List of capital object sub type codes","A","KFS"
 "KFS-CAM","AssetGlobal","INVALID_ASSET_STATUSES_BY_ACQUISITION_TYPE","KFS83","1","CONFG","","Defines an invalid relationship between the asset status specified on an asset and the asset acquisition type.","D","KFS"
@@ -230,7 +232,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-FP","Document","OBJECT_CODES","KFS250","1","VALID","8160;8116;8118;5019","Object Code(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","Document","OBJECT_TYPES","KFS251","1","VALID","FB","Object Type(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","Document","SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES","KFS252","1","CONFG","9612706:9015;9612779:9015;9612704:9015","Account and Object Code for checking if Sales Tax data is needed for an accounting line. Format of list is account 1:object code 1;account 2:object code 2","A","KFS"
-"KFS-FP","Document","SALES_TAX_APPLICABLE_DOCUMENT_TYPES","KFS253","1","CONFG","CR;DI;DV;GEC;IB;YEDI;YEGE","Document types for which sales tax should be collected on accounting lines.","A","KFS"
+"KFS-FP","Document","SALES_TAX_APPLICABLE_DOCUMENT_TYPES","KFS253","1","CONFG","CR;DI;GEC;IB;YEDI;YEGE","Document types for which sales tax should be collected on accounting lines.","A","KFS"
 "KFS-FP","Document","SUB_FUND_GROUPS","KFS254","1","VALID","","Sub-Fund Group(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","DvToPdpExtractStep","CORPORATION_OWNERSHIP_TYPE","KFS255","1","CONFG","CP","Vendor Ownership Type representing Corporations","A","KFS"
 "KFS-FP","DvToPdpExtractStep","NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY","KFS256","1","CONFG","","Non-taxable payment reason codes by corporation ownership type category","D","KFS"
@@ -275,6 +277,9 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-FP","ServiceBilling","OBJECT_SUB_TYPES","KFS295","1","VALID","FR;ST;MT;BU;RE;SW;SA;GI;IV;CP;WO;TF;HW;PL;TN","Object Sub-Type(s) restricted from use on the Internal Billing document.","D","KFS"
 "KFS-FP","ServiceBilling","OBJECT_TYPES","KFS296","1","VALID","IN;EE;EX","Allowed Object Type(s) for use on the Service Billing document.","A","KFS"
 "KFS-FP","ServiceBilling","SUB_FUND_GROUPS","KFS297","1","VALID","PFRI;PFIP","Sub-Fund Group(s) restricted from use on the Internal Billing document.","D","KFS"
+KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_ROYALTIES,KFSFP298,1,CONFG,R,Non Taxable Payment Reason Code - Royalties,A,KFS
+KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_RENTAL_PAYMENT,KFSFP299,1,CONFG,T,Non Taxable Payment Reason Code - Rental Payment,A,KFS
+KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_TRAVEL_HONORARIUM,KFSFP300,1,CONFG,X,Non Taxable Payment Reason Code - Travel Honorarium,A,KFS
 "KFS-FP","TransferOfFunds","FUND_GROUP_BALANCING_SET","KFS298","1","CONFG","AF;CL","The Transfer of Funds document relies on a balancing check that transfers of funds from agency and clearing funds must balance between the To and From sections. This rule may be updated by configuring the parameter values to hold other Fund Group codes.","A","KFS"
 "KFS-GL","BalanceForwardStep","BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET","KFS299","1","CONFG","AC;NB","The balance type(s) that will be considered when bringing assets, liabilities, and fund balance forward to the new fiscal year.","A","KFS"
 "KFS-GL","BalanceForwardStep","BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE","KFS300","1","CONFG","AC;CB","The balance type(s) that will be considered when bringing income and expenses forward to the new fiscal year for inception to date reporting.","A","KFS"

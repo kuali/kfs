@@ -107,24 +107,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         if (awardAccountDTO == null) return false;
         
         boolean _isFederalSponsor_return = awardAccountDTO.getFederalSponsor();
-         
-        //String federalSponsorTypeCode = getParameterService().getParameterValue(EffortCertificationDocument.class, "FEDERAL_SPONSOR_TYPE_CODES");
-        //if (federalAgencyTypeCodes.contains(federalSponsorTypeCode)) return true;
-
         return _isFederalSponsor_return;
-        /*
-        AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
-        if (primaryAward == null) {
-            return false;
-        }
-
-        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
-        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
-            return true;
-        }
-
-        return false;
-        */
     }
 
   

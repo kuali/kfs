@@ -24,9 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.TravelPerDiem;
+import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
@@ -34,11 +36,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
-
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 /**
  * This class is the action form for the Disbursement Voucher.
  */
@@ -293,6 +296,26 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
     }
     
+    public DisbursementVoucherDocument getDisbursementVoucherDocument() {
+       return (DisbursementVoucherDocument) getDocument();
+     
+       }
+    /**
+     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary and modify the
+     * values entered to follow all the attributes set for the values of the accounting line.
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+       //SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewAdvanceDeposit());
+
+        DisbursementVoucherPayeeDetail payeeDetail = getDisbursementVoucherDocument().getDvPayeeDetail();
+        SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(payeeDetail);
+        }
+   
+
     
 
     /**

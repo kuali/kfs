@@ -61,13 +61,8 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
         public static final String EXTRACTED = "E";
     }
 
-    public static class PaymentReasonCodes {
-        public static final String ROYALTIES = "R";
-        public static final String RENTAL_PAYMENT = "T";
-        public static final String TRAVEL_HONORARIUM = "X";
-    }
-
-    public static class DvPdpExtractGroup {
+  
+     public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
@@ -214,6 +209,11 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
     public static final String DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM = "COVER_SHEET_TEMPLATE_HANDLING";
     public static final String DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM = "COVER_SHEET_TEMPLATE_BAR";
     public static final String DV_COVER_SHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
+    
+    public static final String PAYMENT_REASON_CODE_ROYALTIES_PARM_NM = "PAYMENT_REASON_CODE_ROYALTIES";
+    public static final String PAYMENT_REASON_CODE_RENTAL_PAYMENT_PARM_NM = "PAYMENT_REASON_CODE_RENTAL_PAYMENT";
+    public static final String PAYMENT_REASON_CODE_TRAVEL_HONORARIUM_PARM_NM = "PAYMENT_REASON_CODE_TRAVEL_HONORARIUM";
+   
     
     public static class RouteLevelNames {
         public static final String PURCHASING = "Purchasing";

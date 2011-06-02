@@ -221,12 +221,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
-
-            // All payments are taxable except research participant, rental & royalties
             pg.setTaxablePayment(
                     !parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_PAYMENT_REASONS_PARM_NM, rc).evaluationSucceeds()
-                        && !DisbursementVoucherConstants.PaymentReasonCodes.RENTAL_PAYMENT.equals(rc)
-                        && !DisbursementVoucherConstants.PaymentReasonCodes.ROYALTIES.equals(rc));
+                        && !parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYMENT_REASON_CODE_RENTAL_PAYMENT_PARM_NM).equals(rc)
+                        && !parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYMENT_REASON_CODE_ROYALTIES_PARM_NM).equals(rc));
         }
         // Payee is not an employee
         else {

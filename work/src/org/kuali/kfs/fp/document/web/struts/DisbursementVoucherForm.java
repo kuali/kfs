@@ -300,17 +300,12 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
        return (DisbursementVoucherDocument) getDocument();
      
        }
-    /**
-     * Overrides the parent to call super.populate and then tells each line to check the associated data dictionary and modify the
-     * values entered to follow all the attributes set for the values of the accounting line.
-     * 
+    /** 
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-       //SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(getNewAdvanceDeposit());
-
         DisbursementVoucherPayeeDetail payeeDetail = getDisbursementVoucherDocument().getDvPayeeDetail();
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(payeeDetail);
         }

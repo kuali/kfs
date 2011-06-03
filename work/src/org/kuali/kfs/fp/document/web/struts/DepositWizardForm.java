@@ -32,6 +32,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -280,6 +282,43 @@ public class DepositWizardForm extends KualiForm {
      */
     public void setCurrencyDetail(CurrencyDetail currencyDetail) {
         this.currencyDetail = currencyDetail;
+    }
+    
+    /**
+     * Retrieves the summed total amount in a currency format with commas.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedSumTotalAmount() {
+        return (String) new CurrencyFormatter().format(getTotalDollarAmount());
+    }
+    
+    /**
+     * This method returns the overall total of the document - coin plus check plus cash.
+     * 
+     * @return KualiDecimal
+     */
+    public KualiDecimal getTotalDollarAmount() {
+        KualiDecimal sumTotalAmount = getTotalCoinAmount().add(getTotalCashAmount());
+        return sumTotalAmount;
+    }
+    
+    /**
+     * Gets the totalCoinAmount attribute.
+     * 
+     * @return Returns the totalCoinAmount.
+     */
+    public KualiDecimal getTotalCoinAmount() {
+        return (coinDetail != null) ? coinDetail.getTotalAmount() : KualiDecimal.ZERO;
+    }
+    
+    /**
+     * Gets the totalCashAmount attribute.
+     * 
+     * @return Returns the totalCashAmount.
+     */
+    public KualiDecimal getTotalCashAmount() {
+        return (currencyDetail != null) ? currencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
 
     /**

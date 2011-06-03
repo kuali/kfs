@@ -103,17 +103,41 @@ function checkCheckAllOrNone() {
 			</div>
 			</div>
 		</kul:tabTop>
-    
-    <c:if test="${KualiForm.depositFinal}">
-      <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
-        <div class="tab-container" align="center">
-            <h3>Currency and Coin Detail</h3>
-          <fp:currencyCoinLine currencyProperty="currencyDetail" coinProperty="coinDetail" readOnly="false" />
-        </div>
-      </kul:tab>
-    </c:if>
 
-    <c:set var="crCounter" value="0" />
+		<c:if test="${KualiForm.depositFinal}">
+			<kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true">
+				<div class="tab-container" align="center">
+				<h3>Currency and Coin Detail</h3>
+				<fp:currencyCoinLine currencyProperty="currencyDetail"
+					coinProperty="coinDetail" readOnly="false" /></div>
+				<div class="tab-container" align="center">
+				<table>
+					<tbody>
+						<tr>
+							<th width="23%">
+							<div align="right"><strong><kul:htmlAttributeLabel
+								attributeEntry="${cashReceiptAttributes.totalDollarAmount}"
+								useShortLabel="false" /></strong></div>
+							</th>
+							<td width="11%" align="left" valign="middle"><c:out
+								value="${KualiForm.currencyFormattedSumTotalAmount}" />&nbsp;&nbsp;&nbsp;
+							</td>
+							<td width="18%">
+							<c:if test="${!readOnly}">
+								<html:image
+									src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+									styleClass="tinybutton" alt="recalculate total"
+									title="recalculate total" />
+							</c:if> <c:if test="${readOnly}"> &nbsp; </c:if></td>
+							<th></th>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</kul:tab>
+		</c:if>
+
+		<c:set var="crCounter" value="0" />
     <c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tab tabTitle="Cash Receipts" defaultOpen="true"
 			tabErrorKey="cashReceiptErrors">

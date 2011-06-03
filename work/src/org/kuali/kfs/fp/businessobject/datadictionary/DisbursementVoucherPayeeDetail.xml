@@ -140,6 +140,7 @@
 
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
     <property name="name" value="disbVchrPayeeStateCode"/>
+    <property name="forceUppercase" value="true"/>
     <property name="required" value="false"/>
   </bean>
   <bean id="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode" parent="DisbursementVoucherPayeeDetail-disbVchrPayeeZipCode-parentBean"/>

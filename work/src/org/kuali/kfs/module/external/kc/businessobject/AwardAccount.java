@@ -249,7 +249,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
      * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        this.active = true;
+        this.active = active;
     }
 
     /**

@@ -38,7 +38,7 @@ public class ObjectConsServiceImpl implements ObjectConsService {
     public ObjectConsolidation getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE, objectConsCode);
+        keys.put(KFSPropertyConstants.FIN_CONSOLIDATION_OBJECT_CODE, objectConsCode);
         return (ObjectConsolidation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectConsolidation.class, keys);
     }
 

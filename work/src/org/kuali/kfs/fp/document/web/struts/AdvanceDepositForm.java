@@ -24,15 +24,15 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 
 /**
  * This class is the struts form for Advance Deposit document.
  */
-public class AdvanceDepositForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
+public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable {
     protected AdvanceDepositDetail newAdvanceDeposit;
-
+    
+    //transient objects
     protected CapitalAssetInformation capitalAssetInformation;
 
     /**

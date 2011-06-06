@@ -42,6 +42,8 @@
 	</kul:tab>
 	
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
+  	<fp:capitalAccountingLines readOnly="${readOnly}"/>
+	
 	<fp:capitalAssetEditTab readOnly="${readOnly}"/>
 	
 	<gl:generalLedgerPendingEntries />

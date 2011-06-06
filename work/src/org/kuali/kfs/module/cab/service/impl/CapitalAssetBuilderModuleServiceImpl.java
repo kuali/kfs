@@ -2037,4 +2037,24 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return SpringContext.getBean(PurApInfoService.class);
     }
 
+    /**
+     * Get the Capital Asset Object Code from the accounting lines.
+     * 
+     * @param accountingLine
+     * @return true if the accounting line has an object code that belongs to
+     * OBJECT_SUB_TYPE_GROUPS system paramters list else return false;
+     */
+    public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
+        List<String> financialProcessingCapitalObjectSubTypes = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+        
+        ObjectCode objectCode = accountingLine.getObjectCode();
+        if (ObjectUtils.isNotNull(objectCode)) {
+            String objectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
+            if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
+                return true;
+            }
+        }
+        
+        return false ;
+    }
 }

@@ -92,4 +92,5 @@ public interface CapitalAssetBuilderModuleService {
     
     public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument);
 
+    public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine);
 }

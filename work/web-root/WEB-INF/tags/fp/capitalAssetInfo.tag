@@ -39,8 +39,8 @@
 	    <fp:dataCell dataCellCssClass="${dataCellCssClass}"
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetNumber" lookup="true" inquiry="true"
-			boClassSimpleName="CapitalAssetManagementAsset" boPackageName="org.kuali.kfs.integration.cam"
-			lookupUnkeyedFieldConversions="campusTagNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
+			boClassSimpleName="AssetPayment" boPackageName="org.kuali.kfs.module.cam.businessobject"
+			lookupUnkeyedFieldConversions="capitalAssetNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 			lookupOrInquiryKeys="capitalAssetNumber"
 			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>
    	</tr>   
@@ -70,7 +70,7 @@
 		<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 			businessObjectFormName="${capitalAssetInfoName}" attributes="${attributes}" readOnly="${readOnly}"
 			field="capitalAssetTypeCode" lookup="true" inquiry="true"
-			boClassSimpleName="CapitalAssetManagementAssetType" boPackageName="org.kuali.kfs.integration.cam" 
+			boClassSimpleName="AssetPayment" boPackageName="org.kuali.kfs.module.cam.businessobject" 
 			lookupOrInquiryKeys="capitalAssetTypeCode"
 			businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>		
 			   

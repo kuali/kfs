@@ -257,7 +257,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
         return success;
     }
 
-    
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);

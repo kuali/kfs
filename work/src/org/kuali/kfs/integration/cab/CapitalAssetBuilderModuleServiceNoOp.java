@@ -61,6 +61,11 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         return false;
     }
 
+    public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return false;
+    }
+    
     public void notifyRouteStatusChange(DocumentHeader documentHeader) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }

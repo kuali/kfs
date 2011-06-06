@@ -28,14 +28,14 @@ import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.validation.impl.AdvanceDepositDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This is the action class for the Advance Deposit document.
  */
-public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
+public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
+
     /**
      * Adds handling for advance deposit detail amount updates.
      * 

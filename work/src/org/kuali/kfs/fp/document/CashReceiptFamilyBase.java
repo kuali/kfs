@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,6 +36,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
@@ -46,7 +48,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
 
     // capital asset
     protected transient CapitalAssetInformation capitalAssetInformation;
-
+    
     /**
      * Constructs a CashReceiptFamilyBase
      */

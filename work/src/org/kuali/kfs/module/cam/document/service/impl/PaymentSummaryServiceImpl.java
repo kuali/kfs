@@ -92,7 +92,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.PaymentSummaryService#calculateFederalContribution(org.kuali.kfs.module.cam.businessobject.Asset)
-     */
+     */ 
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
@@ -103,12 +103,13 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
                 payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             }
             Object[] fedContrTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).toArray();
-            if (ArrayUtils.contains(fedContrTypes, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            if (!ObjectUtils.isNull(payment.getFinancialObject()) && ArrayUtils.contains(fedContrTypes, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }
         return amount;
     }
+
 
     /**
      * Sums up total payment cost for an asset

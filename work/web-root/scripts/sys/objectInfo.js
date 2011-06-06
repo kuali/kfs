@@ -400,4 +400,19 @@ function getChartCode(coaCodeFieldName) {
 }
 */
 
+/** searchs for all child nodes recursively and executes the specified function **/
+function NodeIterator() {
+	this.iterate = fucntion iterate(func, node) {
+		for (var x in node) {
+			var childNode = node.childNodes[x];
+			if (childNode[x].id && childNode[x].id.substring(0, 4) === 'tab-' 
+				&& childNode[x].id.substring(childNode[x].id.length - 4, childNode[x].id.length) === '-div') {
+				func(document, childNode[x].id.substring(4, childNode[x].id.length - 4));
+			}
+			if (childNode.childNodes.length > 0) {
+				this.iterate(func, childNode);
+			}
+		}
+	}			
+}
 

@@ -24,6 +24,7 @@
       <list>
         <ref bean="CapitalAccountingLines-documentNumber"/>
         <ref bean="CapitalAccountingLines-sequenceNumber"/>
+        <ref bean="CapitalAccountingLines-lineType"/>
         <ref bean="CapitalAccountingLines-chartOfAccountsCode"/>
         <ref bean="CapitalAccountingLines-accountNumber"/>
         <ref bean="CapitalAccountingLines-financialObjectCode"/>
@@ -33,6 +34,7 @@
         <ref bean="CapitalAccountingLines-financialDocumentLineDescription"/>
         <ref bean="CapitalAccountingLines-amount"/>
         <ref bean="CapitalAccountingLines-selectLine"/>
+        <ref bean="CapitalAccountingLines-distributionAmountCode"/>
       </list>
     </property>
   </bean>
@@ -49,7 +51,19 @@
   <bean id="CapitalAccountingLines-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
 	<property name="maxLength" value="8"/>
   	<property name="forceUppercase" value="true"/>
-  </bean>  
+  </bean>
+  <bean id="CapitalAccountingLines-lineType" parent="CapitalAccountingLines-lineType-parentBean"/>
+
+  <bean id="CapitalAccountingLines-lineType-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="lineType"/>
+	<property name="maxLength" value="10"/>
+    <property name="label" value="Line Type"/>
+    <property name="shortLabel" value="Line Type"/>
+  	<property name="forceUppercase" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
   <bean id="CapitalAccountingLines-chartOfAccountsCode" parent="CapitalAccountingLines-chartOfAccountsCode-parentBean"/>
 
   <bean id="CapitalAccountingLines-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode">
@@ -97,6 +111,19 @@
     <property name="label" value="Select Line"/>
     <property name="shortLabel" value="Sel Ln."/>
     <property name="required" value="false"/>
+  </bean>
+  <bean id="CapitalAccountingLines-distributionAmountCode" parent="CapitalAccountingLines-distributionAmountCode-parentBean"/>
+
+  <bean id="CapitalAccountingLines-distributionAmountCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="distributionAmountCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Distribution Type"/>
+    <property name="shortLabel" value="Dist. Typ"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DistributeAmountsForAssetsValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
   
 </beans>

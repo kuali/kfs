@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
+import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -44,6 +46,9 @@ public class CapitalAccountingLinesFormBase extends KualiAccountingDocumentFormB
      * @return Returns the capitalAccountingLines
      */
     public List<CapitalAccountingLines> getCapitalAccountingLines() {
+        CapitalAccountingLinesComparator calc = new CapitalAccountingLinesComparator();
+        Collections.sort(capitalAccountingLines, calc);
+        
         return capitalAccountingLines;
     }
 

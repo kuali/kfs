@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +46,24 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
     /**
+     * Removes the current capital accounting lines and recreates them with accounting lines
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
+        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        capitalAccountingLines.clear();
+        
+        AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
+        createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        
+        ActionForward result = super.execute(mapping, form, request, response);        
+        return result;
+    }
+    
+    /**
      * All document-load operations get routed through here
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
@@ -54,19 +74,9 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
         List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
-        
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
-        List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
 
-        for (SourceAccountingLine line : sourceAccountLines) {
-            createCapitalAccountingLine(capitalAccountingLines, line);
-        }
-        
-        List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
-
-        for (TargetAccountingLine line : targetAccountLines) {
-            createCapitalAccountingLine(capitalAccountingLines, line);
-        }
+        createCapitalAccountingLines(capitalAccountingLines, tdoc);
     }
     
     /**
@@ -78,8 +88,8 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         super.insertAccountingLine(isSource, financialDocumentForm, line);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) financialDocumentForm;
-
         List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+
         createCapitalAccountingLine(capitalAccountingLines, line);
     }
       
@@ -109,6 +119,62 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
     }
     
     /**
+     * After uploading the accounting lines, the capital accounting lines will be created from these.
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#uploadAccountingLines(boolean, org.apache.struts.action.ActionForm)
+     */
+    @Override
+    protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
+        super.uploadAccountingLines(isSource, form);
+        
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
+        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
+        
+        createCapitalAccountingLines(capitalAccountingLines, tdoc);
+    }
+    
+    /**
+     * creates the capital accounting lines looking at source and/or target accounting lines.
+     * 
+     * @param capitalAccountingLines
+     * @param tdoc
+     */
+    protected void createCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
+        List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
+
+        for (SourceAccountingLine line : sourceAccountLines) {
+            createCapitalAccountingLine(capitalAccountingLines, line);
+        }
+        
+        List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
+
+        for (TargetAccountingLine line : targetAccountLines) {
+            createCapitalAccountingLine(capitalAccountingLines, line);
+        }
+    }
+    
+    /**
+     * updates the capital accounting lines looking at source and/or target accounting lines.
+     * 
+     * @param capitalAccountingLines
+     * @param tdoc
+     */
+    protected void updateCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
+        List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
+
+        for (SourceAccountingLine line : sourceAccountLines) {
+            udpateCapitalAccountingLine(capitalAccountingLines, line);
+        }
+        
+        List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
+
+        for (TargetAccountingLine line : targetAccountLines) {
+            udpateCapitalAccountingLine(capitalAccountingLines, line);
+        }
+    }
+    
+    /**
      * Checks if the accounting line has an object code that belongs to object sub type group codes and
      * if so, creates a capital accounting line that will be displayed on the jsp.
      * 
@@ -121,24 +187,79 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
 
         if (capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(line)) {
             //capital object code so we need to build the capital accounting line...
-            CapitalAccountingLines cal = new CapitalAccountingLines();
-            cal.setSequenceNumber(sequenceNumber++);
-            cal.setChartOfAccountsCode(line.getChartOfAccountsCode());
-            cal.setAccountNumber(line.getAccountNumber());
-            cal.setSubAccountNumber(line.getSubAccountNumber());
-            cal.setFinancialObjectCode(line.getFinancialObjectCode());
-            cal.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
-            cal.setProjectCode(line.getProjectCode());
-            cal.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
-            cal.setAmount(line.getAmount());
-            cal.setSelectLine(false);
-            
+            CapitalAccountingLines cal = addCapitalAccountingLine(capitalAccountingLines, line);
             capitalAccountingLines.add(cal);
         }
         
         return capitalAccountingLines;
     }
 
+    /**
+     * Checks if the accounting line exits in the capital accounting lines
+     * and if so, updates the other information.
+     * else inserts a new record into the collection
+     * 
+     * @param capitalAccountingLines
+     * @param line
+     * @return List of capitalAccountingLines
+     */
+    protected void udpateCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
+        boolean found = false;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.getChartOfAccountsCode().equals(line.getChartOfAccountsCode()) && 
+                    capitalAccountingLine.getAccountNumber().equals(line.getAccountNumber()) &&
+                    capitalAccountingLine.getFinancialObjectCode().equals(line.getFinancialObjectCode()) &&
+                    capitalAccountingLine.getLineType().equalsIgnoreCase(line instanceof SourceAccountingLine ? KFSConstants.SOURCE : KFSConstants.TARGET)) {
+                capitalAccountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
+                capitalAccountingLine.setSubAccountNumber(line.getSubAccountNumber());
+                capitalAccountingLine.setProjectCode(line.getProjectCode());
+                capitalAccountingLine.setAmount(line.getAmount());
+                capitalAccountingLine.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            //capital object code so we need to build the capital accounting line...
+            if (capitalAssetBuilderModuleService.hasCapitalAssetObjectSubType(line)) {
+                CapitalAccountingLines cal = addCapitalAccountingLine(capitalAccountingLines, line);
+                capitalAccountingLines.add(cal);
+            }
+        }
+    }
+    
+    /**
+     * convinence method tp add a new capital accounting line to the collection of capital 
+     * accounting lines.
+     * 
+     * @param capitalAccountingLines
+     * @param line
+     * @return cal newly created capital accounting line
+     */
+    protected CapitalAccountingLines addCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
+        CapitalAccountingLines cal = new CapitalAccountingLines();
+        cal.setSequenceNumber(capitalAccountingLines.size() + 1);
+        if (line instanceof SourceAccountingLine) {
+            cal.setLineType(KFSConstants.SOURCE);
+        }
+        else {
+            cal.setLineType(KFSConstants.TARGET);
+        }
+        cal.setChartOfAccountsCode(line.getChartOfAccountsCode());
+        cal.setAccountNumber(line.getAccountNumber());
+        cal.setSubAccountNumber(line.getSubAccountNumber());
+        cal.setFinancialObjectCode(line.getFinancialObjectCode());
+        cal.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
+        cal.setProjectCode(line.getProjectCode());
+        cal.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
+        cal.setAmount(line.getAmount());
+        cal.setSelectLine(false);
+        
+        return cal;
+    }
+    
     /**
      * If the line exists in capital accounting lines, that will be deleted.
      * 
@@ -152,7 +273,8 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.getChartOfAccountsCode().equals(line.getChartOfAccountsCode()) && 
                     capitalAccountingLine.getAccountNumber().equals(line.getAccountNumber()) &&
-                    capitalAccountingLine.getFinancialObjectCode().equals(line.getFinancialObjectCode())) {
+                    capitalAccountingLine.getFinancialObjectCode().equals(line.getFinancialObjectCode()) &&
+                    capitalAccountingLine.getLineType().equalsIgnoreCase(line instanceof SourceAccountingLine ? KFSConstants.SOURCE : KFSConstants.TARGET)) {
                 cal = capitalAccountingLine;
                 break;
             }

@@ -829,6 +829,7 @@ public class KFSKeyConstants {
         public static final String ACCOUNTING_LINE_DELETE_ACTION_LABEL = "accounting.line.actions.delete.label";
         public static final String ACCOUNTING_LINE_ADD_ACTION_LABEL = "accounting.line.actions.add.label";
         public static final String ACCOUNTING_LINE_COPY_ACTION_LABEL = "accounting.line.actions.copy.label";
+        public static final String ACCOUNTING_LINE_REFRESH_ACTION_LABEL = "accounting.line.actions.refresh.label";
     }
     
     public static final class Bank {

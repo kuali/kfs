@@ -15,13 +15,16 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Map;
+
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
+import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 
 /**
  * The default implementation of AccountingLineAuthorizer
  */
-public class AdvanceDepositAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
+public class AdvanceDepositAccountingLineAuthorizer extends FinancialTransactionalDocumentAccountingLineAuthorizerBase {
 }

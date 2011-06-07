@@ -29,6 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected String documentNumber;
     protected Integer sequenceNumber; // relative to the grouping of accounting lines
+    protected String lineType; //tells where source or target line
     protected String chartOfAccountsCode;
     protected String accountNumber;
     protected String financialObjectCode;
@@ -38,6 +39,7 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected String financialDocumentLineDescription;
     protected KualiDecimal amount;
     protected boolean selectLine;
+    protected String distributionAmountCode;
     
     /**
      * Default constructor.
@@ -79,6 +81,24 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
      */
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
+    }
+
+    /**
+     * Gets the lineType attribute.
+     * 
+     * @return Returns the lineType
+     */
+    public String getLineType() {
+        return lineType;
+    }
+
+    /** 
+     * Sets the lineType attribute.
+     * 
+     * @param lineType The lineType to set.
+     */
+    public void setLineType(String lineType) {
+        this.lineType = lineType;
     }
 
     /**
@@ -244,6 +264,25 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     }
 
     /**
+     * Gets the distributionAmountCode attribute.
+     * 
+     * @return Returns the distributionAmountCode
+     */
+    
+    public String getDistributionAmountCode() {
+        return distributionAmountCode;
+    }
+
+    /** 
+     * Sets the distributionAmountCode attribute.
+     * 
+     * @param distributionAmountCode The distributionAmountCode to set.
+     */
+    public void setDistributionAmountCode(String distributionAmountCode) {
+        this.distributionAmountCode = distributionAmountCode;
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
@@ -251,6 +290,7 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("sequenceNumber", this.getSequenceNumber());
+        m.put("lineType", this.getLineType());
         m.put("chartOfAccountsCode", this.getChartOfAccountsCode());
         m.put("accountNumber", this.getAccountNumber());
         m.put("financialObjectCode", this.getFinancialObjectCode());
@@ -260,6 +300,7 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
         m.put("financialDocumentLineDescription", this.getFinancialDocumentLineDescription());
         m.put("amount", this.getAmount());
         m.put("selectLine", this.isSelectLine());
+        m.put("distributionAmountCode", this.getDistributionAmountCode());
         return m;
     }
 }

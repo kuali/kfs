@@ -29,6 +29,11 @@ public class CapitalAccountingLinesComparator implements Comparator {
         CapitalAccountingLines capitalAccountingLines1 = (CapitalAccountingLines) c1;
         CapitalAccountingLines capitalAccountingLines2 = (CapitalAccountingLines) c2;
         
-        return capitalAccountingLines1.getFinancialObjectCode().compareTo(capitalAccountingLines2.getFinancialObjectCode());
+        int objectCodeComparator = capitalAccountingLines1.getFinancialObjectCode().compareTo(capitalAccountingLines2.getFinancialObjectCode());
+        if (objectCodeComparator != 0) {
+            return objectCodeComparator;
+        }
+        
+        return capitalAccountingLines1.getAccountNumber().compareTo(capitalAccountingLines2.getAccountNumber());
     }
 }

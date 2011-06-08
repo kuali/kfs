@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
+import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -58,6 +60,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         
         AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        sortCaptitalAccountingLines(capitalAccountingLines);
         
         ActionForward result = super.execute(mapping, form, request, response);        
         return result;
@@ -77,6 +80,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
 
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
     
     /**
@@ -91,6 +95,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
 
         createCapitalAccountingLine(capitalAccountingLines, line);
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
       
     /**
@@ -116,6 +121,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         }
         
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
     
     /**
@@ -132,6 +138,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
         
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
     
     /**
@@ -152,6 +159,9 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         for (TargetAccountingLine line : targetAccountLines) {
             createCapitalAccountingLine(capitalAccountingLines, line);
         }
+        
+        //sort the capital accounting lines collection
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
     
     /**
@@ -172,6 +182,9 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         for (TargetAccountingLine line : targetAccountLines) {
             udpateCapitalAccountingLine(capitalAccountingLines, line);
         }
+        
+        //sort the capital accounting lines collection
+        sortCaptitalAccountingLines(capitalAccountingLines);
     }
     
     /**
@@ -231,7 +244,7 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
     }
     
     /**
-     * convinence method tp add a new capital accounting line to the collection of capital 
+     * convenience method to add a new capital accounting line to the collection of capital 
      * accounting lines.
      * 
      * @param capitalAccountingLines
@@ -240,13 +253,14 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
      */
     protected CapitalAccountingLines addCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
         CapitalAccountingLines cal = new CapitalAccountingLines();
-        cal.setSequenceNumber(capitalAccountingLines.size() + 1);
+
         if (line instanceof SourceAccountingLine) {
             cal.setLineType(KFSConstants.SOURCE);
         }
         else {
             cal.setLineType(KFSConstants.TARGET);
         }
+        cal.setSequenceNumber(line.getSequenceNumber());
         cal.setChartOfAccountsCode(line.getChartOfAccountsCode());
         cal.setAccountNumber(line.getAccountNumber());
         cal.setSubAccountNumber(line.getSubAccountNumber());
@@ -285,6 +299,17 @@ public class CapitalAccountingLinesActionBase extends KualiAccountingDocumentAct
         }
         
         return capitalAccountingLines;
+    }
+    
+    /**
+     * sort the capital accounting lines collection based on financial object code and account number.
+     * @param capitalAccountingLines List of capital accounting lines
+     */
+    protected void sortCaptitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines) {
+        CapitalAccountingLinesComparator calComparator = new CapitalAccountingLinesComparator();
+        
+        //sort the collection based on financial object code and account number
+        Collections.sort(capitalAccountingLines, calComparator);
     }
     
     /**

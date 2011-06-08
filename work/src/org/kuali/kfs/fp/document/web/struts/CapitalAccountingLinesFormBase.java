@@ -46,9 +46,6 @@ public class CapitalAccountingLinesFormBase extends KualiAccountingDocumentFormB
      * @return Returns the capitalAccountingLines
      */
     public List<CapitalAccountingLines> getCapitalAccountingLines() {
-        CapitalAccountingLinesComparator calc = new CapitalAccountingLinesComparator();
-        Collections.sort(capitalAccountingLines, calc);
-        
         return capitalAccountingLines;
     }
 

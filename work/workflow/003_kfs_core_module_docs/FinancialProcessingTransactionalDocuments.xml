@@ -914,7 +914,7 @@
         default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true

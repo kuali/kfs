@@ -45,7 +45,7 @@
         ReceivingTransactionalDocument
       </label>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -102,7 +102,7 @@
         default.htm?turl=WordDocuments%2Frequisition.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -219,7 +219,7 @@
         default.htm?turl=WordDocuments%2Fpurchaseorder.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -670,7 +670,7 @@
         ${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
       </docHandler>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -710,7 +710,7 @@
         default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -775,7 +775,7 @@
         default.htm?turl=WordDocuments%2Fpaymentrequest.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true

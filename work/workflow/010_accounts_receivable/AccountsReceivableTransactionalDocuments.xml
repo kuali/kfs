@@ -17,7 +17,7 @@
         default.htm?turl=WordDocuments%2Fcashcontrol.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -85,7 +85,7 @@
         default.htm?turl=WordDocuments%2Fpaymentapplication.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -111,7 +111,7 @@
         default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -173,7 +173,7 @@
         default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true
@@ -216,7 +216,7 @@
         default.htm?turl=WordDocuments%2Fcustomerinvoice.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+        default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm
       </docSearchHelpURL>
       <active>
         true

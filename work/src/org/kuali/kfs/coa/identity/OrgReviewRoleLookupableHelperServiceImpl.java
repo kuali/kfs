@@ -48,6 +48,7 @@ import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.KimTypeInfoService;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.kim.util.KimConstants;
@@ -232,7 +233,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         String principalName = fieldValues.get(MEMBER_PRINCIPAL_NAME);
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
-            Map<String, Object> criteria = new HashMap<String, Object>();
+            Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(criteria);
         }
@@ -242,7 +243,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
@@ -255,7 +256,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isEmpty(assignedToRoleName) ||
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);
@@ -626,41 +627,23 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             return WILDCARD+parameter+WILDCARD;
     }
 
-    public Person getPerson(Map<String, Object> fieldValues) {
-        return (Person) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Person.class).getExternalizableBusinessObject(Person.class, fieldValues);
-    }
-
-    public List<Person> getPersons(Map<String, Object> fieldValues) {
-        return (List<Person>) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Person.class).getExternalizableBusinessObjectsList(Person.class, fieldValues);
+    public List<Person> getPersons(Map<String, String> fieldValues) {
+        return (List<Person>) SpringContext.getBean(PersonService.class).findPeople(fieldValues);
     }
     
-    public Role getRole(Map<String, Object> fieldValues) {
-        return (Role) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Role.class).getExternalizableBusinessObject(Role.class, fieldValues);
+    public List<Role> getRoles(Map<String, String> fieldValues) {
+        return (List<Role>) SpringContext.getBean(RoleManagementService.class).getRolesSearchResults(fieldValues);
     }
 
-    public List<Role> getRoles(Map<String, Object> fieldValues) {
-        return (List<Role>) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Role.class).getExternalizableBusinessObjectsList(Role.class, fieldValues);
-    }
-    
-    public Group getGroup(Map<String, Object> fieldValues) {
-        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
-    }
-
-    public List<Group> getGroups(Map<String, Object> fieldValues) {
-        return (List<Group>) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(
-                Group.class).getExternalizableBusinessObjectsList(Group.class, fieldValues);
+    public List<Group> getGroups(Map<String, String> fieldValues) {
+        return (List<Group>) SpringContext.getBean(GroupService.class).lookupGroups(fieldValues);
     }
     
     protected Map<String, String> buildOrgReviewRoleSearchCriteria(String documentTypeName, Map<String, String> fieldValues){
         String principalName = fieldValues.get(MEMBER_PRINCIPAL_NAME);
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
-            Map<String, Object> criteria = new HashMap<String, Object>();
+            Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(criteria);
             if(principals==null || principals.isEmpty())
@@ -672,7 +655,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
@@ -687,7 +670,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isEmpty(assignedToRoleName) ||
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);
@@ -751,10 +734,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     
     protected Map<String, String> buildOrgReviewRoleSearchCriteriaForDelegations(String documentTypeName, Map<String, String> fieldValues){
         String principalName = fieldValues.get(MEMBER_PRINCIPAL_NAME);
-        Map<String, Object> searchCriteriaTemp;
+        Map<String, String> searchCriteriaTemp;
         List<Person> principals = null;
         if(StringUtils.isNotEmpty(principalName)){
-            searchCriteriaTemp = new HashMap<String, Object>();
+            searchCriteriaTemp = new HashMap<String, String>();
             searchCriteriaTemp.put(KimConstants.UniqueKeyConstants.PRINCIPAL_NAME, WILDCARD+principalName+WILDCARD);
             principals = (List<Person>)getPersons(searchCriteriaTemp);
             if(principals==null || principals.isEmpty())
@@ -766,7 +749,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isEmpty(assignedToGroupName) ||
                 StringUtils.isEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName) ||
                 StringUtils.isNotEmpty(assignedToGroupNamespaceCode) && StringUtils.isNotEmpty(assignedToGroupName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToGroupNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.GROUP_NAME, getQueryString(assignedToGroupName));
             groups = getGroups(searchCriteria);
@@ -786,7 +769,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         if(StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isEmpty(assignedToRoleName) ||
                 StringUtils.isEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName) ||
                 StringUtils.isNotEmpty(assignedToRoleNamespaceCode) && StringUtils.isNotEmpty(assignedToRoleName)){
-            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            Map<String, String> searchCriteria = new HashMap<String, String>();
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, getQueryString(assignedToRoleNamespaceCode));
             searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(assignedToRoleName));
             roles = getRoles(searchCriteria);

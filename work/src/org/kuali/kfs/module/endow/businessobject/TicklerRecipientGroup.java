@@ -23,6 +23,7 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.kim.service.GroupService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -86,16 +87,14 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
     {
         if(assignedToGroup == null)
         {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, getGroupId());
-            Group groupInfo = getGroup(fieldValues);
+            Group groupInfo = getGroup(getGroupId());
             return groupInfo;
         }
         return assignedToGroup;
     }
 
-    public Group getGroup(Map<String, Object> fieldValues) {
-        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
+    public Group getGroup(String groupId) {
+        return (Group) SpringContext.getBean(IdentityManagementService.class).getGroup(groupId);
     }
     
     public void setAssignedToGroup(Group assignedToGroup) {

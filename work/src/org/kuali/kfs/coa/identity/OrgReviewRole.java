@@ -41,7 +41,9 @@ import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -1057,23 +1059,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     }
 
     public Role getRole(String roleId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
-        return (Role) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Role.class).getExternalizableBusinessObject(Role.class, fieldValues);
-    }
-
-    public Role getRole(Map<String, Object> fieldValues) {
-        return (Role) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Role.class).getExternalizableBusinessObject(Role.class, fieldValues);
+        return (Role) SpringContext.getBean(RoleManagementService.class).getRole(roleId);
     }
 
     public Group getGroup(String groupId) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, groupId);
-        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
-    }
-
-    public Group getGroup(Map<String, Object> fieldValues) {
-        return (Group) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Group.class).getExternalizableBusinessObject(Group.class, fieldValues);
+        return (Group) SpringContext.getBean(IdentityManagementService.class).getGroup(groupId);
     }
 
     /**
@@ -1097,9 +1087,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setDelegationMemberGroup(DelegateMemberCompleteInfo delegationMemberGroup) {
         this.delegationMemberGroup = delegationMemberGroup;
         if(delegationMemberGroup!=null){
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberGroup.getMemberId());
-            Group groupInfo = getGroup(fieldValues);
+            Group groupInfo = getGroup(memberGroup.getMemberId());
             setGroup(groupInfo);
         }
     }
@@ -1137,9 +1125,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     public void setDelegationMemberRole(DelegateMemberCompleteInfo delegationMemberRole) {
         this.delegationMemberRole = delegationMemberRole;
         if(delegationMemberRole!=null){
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KimConstants.PrimaryKeyConstants.ROLE_ID, delegationMemberRole.getMemberId());
-            Role roleInfo = getRole(fieldValues);
+            Role roleInfo = getRole(delegationMemberRole.getMemberId());
             setRole(roleInfo);
         }
     }
@@ -1157,9 +1143,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected void setMemberGroup(RoleMemberCompleteInfo memberGroup) {
         this.memberGroup = memberGroup;
         if(memberGroup!=null){
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberGroup.getMemberId());
-            Group groupInfo = getGroup(fieldValues);
+            Group groupInfo = getGroup(memberGroup.getMemberId());
             setGroup(groupInfo);
         }
     }
@@ -1197,9 +1181,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
     protected void setMemberRole(RoleMemberCompleteInfo memberRole) {
         this.memberRole = memberRole;
         if(memberRole!=null){
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, memberRole.getMemberId());
-            Role roleInfo = getRole(criteria);
+            Role roleInfo = getRole(memberRole.getMemberId());
             setRole(roleInfo);
         }
     }

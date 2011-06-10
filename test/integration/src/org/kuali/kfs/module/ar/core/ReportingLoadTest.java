@@ -119,7 +119,7 @@ public class ReportingLoadTest extends KualiTestBase {
         createManyInvoiceReadyForAgingReport();
         
         //  test the following line for perf
-        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG);
+        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG, "S", "N");
         assertNotNull("Reports list should not be null.", reports);
         assertFalse("Reports should not be empty.", reports.isEmpty());
     }

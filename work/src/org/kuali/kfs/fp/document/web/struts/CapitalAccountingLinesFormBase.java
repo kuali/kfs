@@ -30,7 +30,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocumentFormBase {
     //transient objects
     protected transient List<CapitalAccountingLines> capitalAccountingLines;
-
+    protected String distributionCode;
+    protected boolean canCreateAsset;
+    
     /**
      * Constructs a AdvanceDepositForm.java.
      */
@@ -38,6 +40,7 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
         super();
 
         capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
+        canCreateAsset = true;
     }
 
     /**
@@ -56,5 +59,43 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
      */
     public void setCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines) {
         this.capitalAccountingLines = capitalAccountingLines;
+    }
+    
+    /**
+     * Gets the distributionCode attribute.
+     * 
+     * @return Returns the distributionCode
+     */
+    
+    public String getDistributionCode() {
+        return distributionCode;
+    }
+
+    /** 
+     * Sets the distributionCode attribute.
+     * 
+     * @param distributionCode The distributionCode to set.
+     */
+    public void setDistributionCode(String distributionCode) {
+        this.distributionCode = distributionCode;
+    }
+    
+    /**
+     * Gets the canCreateAsset attribute.
+     * 
+     * @return Returns the canCreateAsset
+     */
+    
+    public boolean isCanCreateAsset() {
+        return canCreateAsset;
+    }
+
+    /** 
+     * Sets the canCreateAsset attribute.
+     * 
+     * @param canCreateAsset The canCreateAsset to set.
+     */
+    public void setCanCreateAsset(boolean canCreateAsset) {
+        this.canCreateAsset = canCreateAsset;
     }
 }

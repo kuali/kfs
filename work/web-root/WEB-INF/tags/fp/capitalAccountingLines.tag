@@ -97,28 +97,32 @@
                     </td>
 		        </tr>
 			</logic:iterate>
-			<tr height="40">
-				<td colSpan="11">
-				<div align="center"><b>Select Distribution Method&nbsp;</b>
-						<html:select property="capitalAccountingLines[0].distributionAmountCode">
-							<html:option value="1">
-								<c:out value="Create assets with equal individual costs" />
-							</html:option>
-							<html:option value="2">
-								<c:out value="Create assets with different individual costs" />
-							</html:option>
-						</html:select>
-					</div>
-				</td>
-			</tr>
-			<tr height="40">
-	            <td class="datacell"  rowSpan="2" colSpan="11">
-	            	<div align="center">
-	                	<html:image property="methodToCall.createAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
-						<html:image property="methodToCall.modifyAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
-	                 </div>
-	            </td>
-			</tr>
+			<c:if test="${!empty KualiForm.capitalAccountingLines}" >
+				<tr height="40">
+					<td colSpan="11">
+					<div align="center"><b>Select Distribution Method&nbsp;</b>
+							<html:select property="distributionCode">
+								<html:option value="1">
+									<c:out value="Create assets with equal individual costs" />
+								</html:option>
+								<html:option value="2">
+									<c:out value="Create assets with different individual costs" />
+								</html:option>
+							</html:select>
+						</div>
+					</td>
+				</tr>
+				<tr height="40">
+		            <td class="datacell"  rowSpan="2" colSpan="11">
+		            	<div align="center">
+		            		<c:if test="${canCreateAsset}">
+		                		<html:image property="methodToCall.createAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
+							</c:if>
+							<html:image property="methodToCall.modifyAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
+		                 </div>
+		            </td>
+				</tr>
+			</c:if>
      	</table>	 
 	 </div>	
 </kul:tab>	 

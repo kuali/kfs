@@ -22,6 +22,8 @@ public class ArConstants {
 
     public static final String INVOICE_DOC_TYPE = "Invoice";
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
+    public static final String PAYMENT_DOC_TYPE = "Payment";
+    public static final String WRITEOFF_DOC_TYPE = "Writeoff";
     
     //System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";

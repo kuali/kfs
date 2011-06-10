@@ -15,8 +15,13 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +36,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -290,6 +296,65 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         pairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
         pairs &= customerInvoiceDetail.getDocumentNumber().equals(invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber());
         return pairs;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getPaymentApplicationDocumentsByCustomerNumber(java.lang.String)
+     */
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
+
+        Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("customerNumber", customerNumber);
+
+        Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
+
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (AccountsReceivableDocumentHeader header : documentHeaders) {
+            String documentNumber = null;
+            try {
+                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
+                documentNumber = header.getDocumentHeader().getDocumentNumber();
+                documentHeaderIds.add(documentNumber);
+            }
+            catch (NumberFormatException nfe) {
+            }
+        }
+
+        if (0 < documentHeaderIds.size()) {
+            try {
+                payments = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                //LOG.error(e.getMessage(), e);
+            }
+        }
+        return payments;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getPaymentApplicationDocumentsByAccountNumber(java.lang.String)
+     */
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
+
+        Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+        
+        Set<String> customerNumberSet = new HashSet<String>();
+        for (CustomerInvoiceDocument invoice : invoiceList) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("documentNumber", invoice.getDocumentNumber());
+
+            AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
+            customerNumberSet.add(arDocHeader.getCustomerNumber());
+        }
+
+        Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();        
+        for (String customerNumber : customerNumberSet) {
+            paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
+        }
+        
+        return paymentApplicationDocumentList;
     }
     
     public DocumentService getDocumentService() {

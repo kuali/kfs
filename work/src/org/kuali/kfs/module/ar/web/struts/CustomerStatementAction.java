@@ -73,6 +73,8 @@ public class CustomerStatementAction extends KualiAction {
         String orgCode = csForm.getOrgCode();
         String customerNumber = csForm.getCustomerNumber();
         String accountNumber = csForm.getAccountNumber();
+        String statementFormat = csForm.getStatementFormat();
+        String includeZeroBalanceCustomer = csForm.getIncludeZeroBalanceCustomer();
 
         HashMap<String, String> params = new HashMap<String, String>();
         if(!StringUtils.isBlank(chartCode)) {
@@ -87,8 +89,13 @@ public class CustomerStatementAction extends KualiAction {
         if(!StringUtils.isBlank(accountNumber)) {
             params.put("accountNumber", accountNumber);
         }
-        
-        
+        if(!StringUtils.isBlank(statementFormat)) {
+            params.put("statementFormat", statementFormat);
+        }
+        if(!StringUtils.isBlank(includeZeroBalanceCustomer)) {
+            params.put("includeZeroBalanceCustomer", includeZeroBalanceCustomer);
+        }
+                
         String methodToCallPrintPDF = "printStatementPDF";
         String methodToCallStart = "start";
         String printPDFUrl = getUrlForPrintStatement(basePath, methodToCallPrintPDF, params);
@@ -124,6 +131,9 @@ public class CustomerStatementAction extends KualiAction {
         customerNumber = customerNumber==null?"":customerNumber;
         String accountNumber = request.getParameter("accountNumber");
         accountNumber = accountNumber==null?"":accountNumber;
+        String statementFormat = request.getParameter("statementFormat");
+        String includeZeroBalanceCustomer = request.getParameter("includeZeroBalanceCustomer");
+        
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<File> reports = new ArrayList<File>();
         
@@ -131,17 +141,17 @@ public class CustomerStatementAction extends KualiAction {
         String contentDisposition = "";
         
         if ( !StringUtils.isBlank(chartCode) && !StringUtils.isBlank(orgCode)) {
-            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode); 
+            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode, statementFormat, includeZeroBalanceCustomer); 
             fileName.append(chartCode);
             fileName.append(orgCode);
         } else if (!StringUtils.isBlank(customerNumber)) {
-            reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase());
+            reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase(), statementFormat, includeZeroBalanceCustomer);
             fileName.append(customerNumber);
         } else if (!StringUtils.isBlank(accountNumber)) {
-            reports = reportService.generateStatementByAccount(accountNumber);
+            reports = reportService.generateStatementByAccount(accountNumber, statementFormat, includeZeroBalanceCustomer);
             fileName.append(accountNumber);
         }
-        if (reports.size() !=0) {
+        if (reports.size() != 0) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
                 int pageOffset = 0;

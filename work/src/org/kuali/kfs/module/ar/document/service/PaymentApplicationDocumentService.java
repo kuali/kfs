@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -107,6 +108,22 @@ public interface PaymentApplicationDocumentService {
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
     
     /**
+     * Gets a paymentApplciationDocument by customerNumber
+     * 
+     * @param customerNumber
+     * @return
+     */
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber);
+
+    /**
+     * Gets a paymentApplciationDocument by accountNumber
+     * 
+     * @param accountNumber
+     * @return
+     */
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber);
+
+    /**
      * This method returns true if invoicePaidApplied is the applied payment for 
      * the customer invoice detail based on document number and item/sequence number.
      * 
@@ -115,5 +132,5 @@ public interface PaymentApplicationDocumentService {
      * @return
      */
     public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied);
-    
+        
 }

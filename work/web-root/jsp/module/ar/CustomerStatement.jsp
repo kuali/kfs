@@ -65,7 +65,24 @@
                 </td>                
 				            
             </tr>
-            
+            <tr>		
+                <th align=right valign=middle class="grid"">
+                    <div align="right">Statement Format:</div>
+                </th>
+                <td align=left valign=middle class="grid">
+					<input type="radio" name="statementFormat" value="S" checked />Summary&nbsp;&nbsp;
+					<input type="radio" name="statementFormat" value="D" />Detail&nbsp;&nbsp;
+                </td>				                      
+            </tr>            
+            <tr>		
+                <th align=right valign=middle class="grid">
+                    <div align="right">Include Zero Balance Customer?:</div>
+                </th>
+                <td align=left valign=middle class="grid">
+	                <input type="radio" name="includeZeroBalanceCustomer" value="Y" />Yes&nbsp;&nbsp;
+					<input type="radio" name="includeZeroBalanceCustomer" value="N" checked />No&nbsp;&nbsp;
+                </td>				                      
+            </tr>  
        
         </tr>
         </table>

@@ -42,10 +42,10 @@ public interface AccountsReceivableReportService {
    public File generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException;
    
    
-   public List<File> generateStatementByBillingOrg(String chartCode, String orgCode);
+   public List<File> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomer);
 
-   public List<File> generateStatementByAccount(String accountNumber);
+   public List<File> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomer);
 
-   public List<File> generateStatementByCustomer(String customerNumber);
+   public List<File> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomer);
    
 }

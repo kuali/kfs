@@ -36,13 +36,34 @@ public interface CustomerCreditMemoDocumentService {
      */
     public void recalculateCustomerCreditMemoDocument(CustomerCreditMemoDocument customerCreditMemoDocument, boolean blanketApproveDocumentEventFlag);
 
-    
+    /**
+     * Gets the collection of CustomerCreditMemoDocument by customerInvoiceDocumentNumber
+     * 
+     * @param customerNumber
+     * @return
+     */
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String customerInvoiceDocumentNumber);
+    
+    /**
+     * Gets the collection of CustomerCreditMemoDocument by customerNumber
+     * 
+     * @param customerNumber
+     * @return
+     */
+    public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentsByCustomerNumber(String customerNumber);
 
     /**
      * This method checks if there is no data to submit
      * @return
      */
     public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument);
+    
+    /**
+     * Gets a collection of CustomerCreditMemoDocument by accountNumber
+     * 
+     * @param accountNumber
+     * @return
+     */
+    public Collection<CustomerCreditMemoDocument> getCreditMemoDocumentsByAccountNumber(String accountNumber);
 
 }

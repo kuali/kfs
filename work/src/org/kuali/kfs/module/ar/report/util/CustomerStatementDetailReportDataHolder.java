@@ -41,14 +41,20 @@ public class CustomerStatementDetailReportDataHolder {
     private String fein;
     private String docType;
     
+    public CustomerStatementDetailReportDataHolder(String description, KualiDecimal totalAmount) {
+        this.docType = "";
+        this.documentDescription = description;
+        this.financialDocumentTotalAmountCharge = totalAmount;
+    }
     
     public CustomerStatementDetailReportDataHolder(FinancialSystemDocumentHeader docHeader, Organization processingOrg, String docType, KualiDecimal totalAmount) {
        documentDescription = docHeader.getDocumentDescription();
-       if (docType.equals(ArConstants.CREDIT_MEMO_DOC_TYPE)) {
-           financialDocumentTotalAmountCredit = totalAmount;
-       } else if (docType.equals(ArConstants.INVOICE_DOC_TYPE)) {
+       if (docType.equals(ArConstants.INVOICE_DOC_TYPE)) {
            financialDocumentTotalAmountCharge = totalAmount;
+       } else {
+           financialDocumentTotalAmountCredit = totalAmount;
        }
+       
        documentNumber = docHeader.getDocumentNumber();
        this.setDocumentFinalDate(docHeader.getDocumentFinalDate());
        this.docType = docType;

@@ -38,6 +38,8 @@ public class CustomerStatementForm extends KualiForm {
     private String orgCode;
     private String accountNumber;
     private String customerNumber;
+    private String statementFormat;
+    private String includeZeroBalanceCustomer;
     private String message;
     //private File report = new File("");
    
@@ -132,12 +134,45 @@ public class CustomerStatementForm extends KualiForm {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+    
+    /**
+     * Gets the satementFormat attribute
+     */
+    public String getStatementFormat() {
+        return statementFormat;
+    }
+
+    /**
+     * Sets the satementFormat attribute
+     * @return statementFormat
+     */
+    public void setStatementFormat(String statementFormat) {
+        this.statementFormat = statementFormat;
+    }
+
+    /**
+     * Gets the incldueZeroBalanceCustomer attribute
+     */
+    public String getIncludeZeroBalanceCustomer() {
+        return includeZeroBalanceCustomer;
+    }
+
+    /**
+     * Sets the incldueZeroBalanceCustomer attribute
+     * @return incldueZeroBalanceCustomer
+     */
+    public void setIncludeZeroBalanceCustomer(String includeZeroBalanceCustomer) {
+        this.includeZeroBalanceCustomer = includeZeroBalanceCustomer;
+    }
+
 
     public void clear() {
         this.accountNumber = null;
         this.customerNumber = null;
         this.chartCode = null;
         this.orgCode = null;
+        this.statementFormat = null;
+        this.includeZeroBalanceCustomer = null;
         this.message = null;
     }
 
@@ -185,4 +220,5 @@ public class CustomerStatementForm extends KualiForm {
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
+
 }

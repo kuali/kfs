@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLine;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
-import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -30,17 +29,16 @@ import org.kuali.rice.kns.util.TypedArrayList;
 public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocumentFormBase {
     //transient objects
     protected transient List<CapitalAccountingLines> capitalAccountingLines;
-    protected String distributionCode;
-    protected boolean canCreateAsset;
+    protected transient CapitalAccountingLine capitalAccountingLine;
     
     /**
      * Constructs a AdvanceDepositForm.java.
      */
     public CapitalAccountingLinesFormBase() {
         super();
-
+        
         capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
-        canCreateAsset = true;
+        capitalAccountingLine = new CapitalAccountingLine();
     }
 
     /**
@@ -62,40 +60,21 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
     }
     
     /**
-     * Gets the distributionCode attribute.
+     * Gets the capitalAccountingLine attribute.
      * 
-     * @return Returns the distributionCode
+     * @return Returns the capitalAccountingLine
      */
     
-    public String getDistributionCode() {
-        return distributionCode;
+    public CapitalAccountingLine getCapitalAccountingLine() {
+        return capitalAccountingLine;
     }
 
     /** 
-     * Sets the distributionCode attribute.
+     * Sets the capitalAccountingLine attribute.
      * 
-     * @param distributionCode The distributionCode to set.
+     * @param capitalAccountingLine The capitalAccountingLine to set.
      */
-    public void setDistributionCode(String distributionCode) {
-        this.distributionCode = distributionCode;
-    }
-    
-    /**
-     * Gets the canCreateAsset attribute.
-     * 
-     * @return Returns the canCreateAsset
-     */
-    
-    public boolean isCanCreateAsset() {
-        return canCreateAsset;
-    }
-
-    /** 
-     * Sets the canCreateAsset attribute.
-     * 
-     * @param canCreateAsset The canCreateAsset to set.
-     */
-    public void setCanCreateAsset(boolean canCreateAsset) {
-        this.canCreateAsset = canCreateAsset;
+    public void setCapitalAccountingLine(CapitalAccountingLine capitalAccountingLine) {
+        this.capitalAccountingLine = capitalAccountingLine;
     }
 }

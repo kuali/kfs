@@ -324,7 +324,8 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
      */
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
-        String distributionCode = calfb.getDistributionCode();
+        String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
+        boolean createAction = calfb.getCapitalAccountingLine().isCanCreateAsset();
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

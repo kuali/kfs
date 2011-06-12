@@ -46,6 +46,7 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
         setNewAdvanceDeposit(advanceDepositDetail);
 
         this.setCapitalAssetInformation(new CapitalAssetInformation());
+        this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 
     @Override

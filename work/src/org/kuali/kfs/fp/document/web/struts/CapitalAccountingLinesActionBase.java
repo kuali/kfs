@@ -341,6 +341,9 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
      * @throws Exception
      */
     public ActionForward modifyAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+        String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

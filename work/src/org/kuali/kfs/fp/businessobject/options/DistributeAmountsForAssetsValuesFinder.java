@@ -31,8 +31,8 @@ public class DistributeAmountsForAssetsValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("1", "Create assets with equal individual costs"));
-        keyValues.add(new KeyLabelPair("2", "Create assets with different individual costs"));
+        keyValues.add(new KeyLabelPair("1", "Distribute cost equally"));
+        keyValues.add(new KeyLabelPair("2", "Distribute cost by individual asset amount"));
 
         return keyValues;
     }

@@ -113,9 +113,9 @@
 		            <td class="datacell" colSpan="11">
 		            	<div align="center">
 		            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
-		                		<html:image property="methodToCall.createAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
+		                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
 							</c:if>
-							<html:image property="methodToCall.modifyAsset.line${0}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
+							<html:image property="methodToCall.modifyAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
 		                 </div>
 		            </td>
 				</tr>

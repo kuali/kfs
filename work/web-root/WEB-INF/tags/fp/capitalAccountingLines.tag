@@ -20,7 +20,12 @@
 <c:set var="capitalAccountingLinesAttributes" value="${DataDictionary.CapitalAccountingLines.attributes}"/>
 <c:set var="capitalAccountingLineAttributes" value="${DataDictionary.CapitalAccountingLine.attributes}"/>
 
-<kul:tab tabTitle="Accounting Lines for Capitalization" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
+<c:set var="defaultOpen" value="false"/>
+<c:if test="${!empty KualiForm.capitalAccountingLines}" >
+	<c:set var="defaultOpen" value="true"/>
+</c:if>
+
+<kul:tab tabTitle="Accounting Lines for Capitalization" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS}" >
      <div class="tab-container" align="center">
      	<h3>Accounting Lines for Capitalization</h3>
      	<table cellpadding="0" cellspacing="0" summary="Accounting Lines for Capitalization">

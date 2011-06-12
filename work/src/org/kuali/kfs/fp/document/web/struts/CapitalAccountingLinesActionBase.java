@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_REQUIRED;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
@@ -30,6 +32,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -38,6 +41,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -47,25 +51,6 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDocumentActionBase {
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
-    /**
-     * Removes the current capital accounting lines and recreates them with accounting lines
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
-        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
-        capitalAccountingLines.clear();
-        
-        AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
-        createCapitalAccountingLines(capitalAccountingLines, tdoc);
-        sortCaptitalAccountingLines(capitalAccountingLines);
-        
-        ActionForward result = super.execute(mapping, form, request, response);        
-        return result;
-    }
-    
     /**
      * All document-load operations get routed through here
      * 
@@ -326,6 +311,11 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
         boolean createAction = calfb.getCapitalAccountingLine().isCanCreateAsset();
+
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        if (!capitalAccountingLinesSelected(calfb)) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_CREATE);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -343,7 +333,26 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
     public ActionForward modifyAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
-
+        
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        if (!capitalAccountingLinesSelected(calfb)) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_MODIFY);
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    protected boolean capitalAccountingLinesSelected(CapitalAccountingLinesFormBase calfb) {
+        boolean selected = false;
+        List<CapitalAccountingLines> capitalAccountingLines = calfb.getCapitalAccountingLines();
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.isSelectLine()) {
+                selected = true;
+                break;
+            }
+        }
+        
+        return selected;
     }
 }

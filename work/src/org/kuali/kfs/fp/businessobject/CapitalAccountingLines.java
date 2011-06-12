@@ -40,7 +40,7 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected KualiDecimal amount;
     protected boolean selectLine;
     protected String distributionAmountCode;
-    
+
     /**
      * Default constructor.
      */

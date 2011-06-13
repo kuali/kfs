@@ -17,7 +17,7 @@ ${application.url}/effortEffortCertification.do?methodToCall=docHandler
 default.htm?turl=WordDocuments%2F assetincrease.htm
 </helpDefinitionURL>
 <docSearchHelpURL>
-default.htm?turl=WordDocuments%2Fcustomdocumentsearches1.htm
+default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm
 </docSearchHelpURL>
 <active>
 true

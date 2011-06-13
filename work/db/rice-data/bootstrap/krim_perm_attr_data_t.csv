@@ -414,3 +414,4 @@ KFSENDOW6008-1,KFSENDOW6008-1,1,KFSENDOW6008,12,2,org.kuali.kfs.module.endow.web
 KFSENDOW6009-1,KFSENDOW6009-1,1,KFSENDOW6009,12,2,org.kuali.kfs.module.endow.web.struts.TransactionStatementAction
 KFSENDOW6010-1,KFSENDOW6010-1,1,KFSENDOW6010,12,2,org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction
 KFSENDOW6011-1,KFSENDOW6011-1,1,KFSENDOW6011,12,2,org.kuali.kfs.module.endow.web.struts.AssetStatementAction
+KFSAR6012-1,KFSAR6012-1,1,KFSAR6012,15,1,customerLoadCSVInputFileType

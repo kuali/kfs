@@ -33,14 +33,12 @@
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
-			<column name="PARM_NM"
-				value="PAYMENT_REASON_CODE_ROYALTIES" />
+			<column name="PARM_NM" value="PAYMENT_REASON_CODE_ROYALTIES" />
 			<column name="OBJ_ID" value="KFSFP298" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="TXT" value="R" />
-			<column name="PARM_DESC_TXT"
-				value="Non Taxable Payment Reason Code - Royalties" />
+			<column name="PARM_DESC_TXT" value="Non Taxable Payment Reason Code - Royalties" />
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
@@ -48,8 +46,7 @@
 		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
-			<column name="PARM_NM"
-				value="PAYMENT_REASON_CODE_RENTAL_PAYMENT" />
+			<column name="PARM_NM" value="PAYMENT_REASON_CODE_RENTAL_PAYMENT" />
 			<column name="OBJ_ID" value="KFSFP299" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -60,11 +57,10 @@
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
 
-			<insert tableName="KRNS_PARM_T">
+		<insert tableName="KRNS_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="PARM_DTL_TYP_CD" value="DisbursementVoucher" />
-			<column name="PARM_NM"
-				value="PAYMENT_REASON_CODE_TRAVEL_HONORARIUM" />
+			<column name="PARM_NM" value="PAYMENT_REASON_CODE_TRAVEL_HONORARIUM" />
 			<column name="OBJ_ID" value="KFSFP300" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -74,17 +70,50 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
-		
+
 		<update tableName="KRNS_PARM_T">
 			<column name="TXT" value="CR;DI;GEC;IB;YEDI;YEGE" />
-			<where>NMSPC_CD="KFS_FP" AND PARM_NM="SALES_TAX_APPLICABLE_DOCUMENT_TYPES"</where>
+			<where>NMSPC_CD="KFS_FP" AND
+				PARM_NM="SALES_TAX_APPLICABLE_DOCUMENT_TYPES"</where>
 		</update>
-		
+
 		<update tableName="KRNS_PARM_T">
-			<column name="TXT" value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
-		<where>NMSPC_CD="KFS_SYS" AND PARM_NM="BATCH_UPLOAD_HELP_URL"</where>
+			<column name="TXT"
+				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
+			<where>NMSPC_CD="KFS_SYS" AND PARM_NM="BATCH_UPLOAD_HELP_URL"</where>
 		</update>
-		
+
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="OBJ_ID" value="KFSAR6012" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="33" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Upload Batch Input Files(s)" />
+			<column name="DESC_TXT"
+				value="Allows access to the Customer Upload Batch Upload page." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSAR6012-1" />
+			<column name="OBJ_ID" value="KFSAR6012-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="KIM_TYP_ID" value="15" />
+			<column name="KIM_ATTR_DEFN_ID" value="1" />
+			<column name="ATTR_VAL" value="customerLoadCSVInputFileType" />
+		</insert>
+		<!--
+			Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User
+		-->
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSAR6012-1" />
+			<column name="OBJ_ID" value="KFSAR6012-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="2" />
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
 	</changeSet>
 </databaseChangeLog>   
       

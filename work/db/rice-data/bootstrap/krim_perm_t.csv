@@ -283,3 +283,4 @@ KFSENDOW6008,KFSENDOW6008,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authori
 KFSENDOW6009,KFSENDOW6009,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authorizes the use of the Transaction Statement reporting screen within the Endowment module.,Y
 KFSENDOW6010,KFSENDOW6010,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authorizes the use of the Transaction Summary reporting screen within the Endowment module.,Y
 KFSENDOW6011,KFSENDOW6011,1,29,KFS-ENDOW,Use Endowment Reporting Screens,Authorizes the use of the Asset Statement reporting screen within the Endowment module.,Y
+KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Batch Input Files(s),Allows access to the Customer Upload Batch Upload page.,Y

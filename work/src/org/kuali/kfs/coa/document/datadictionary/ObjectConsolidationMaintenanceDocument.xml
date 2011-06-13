@@ -63,8 +63,8 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjectCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjShortName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjectName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finConsolidationObjShortName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialReportingSortCode" p:required="true"/>
       </list>

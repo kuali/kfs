@@ -311,11 +311,16 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
         boolean createAction = calfb.getCapitalAccountingLine().isCanCreateAsset();
+        calfb.setEditCreateOrModify(false);
 
         GlobalVariables.getMessageMap().clearErrorMessages();
         if (!capitalAccountingLinesSelected(calfb)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_CREATE);
         }
+        else {
+            calfb.setEditCreateOrModify(false);
+        }
+            
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -337,6 +342,9 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         GlobalVariables.getMessageMap().clearErrorMessages();
         if (!capitalAccountingLinesSelected(calfb)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_MODIFY);
+        }
+        else {
+            calfb.setEditCreateOrModify(false);
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

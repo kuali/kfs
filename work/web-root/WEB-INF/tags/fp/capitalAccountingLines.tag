@@ -21,7 +21,7 @@
 <c:set var="capitalAccountingLineAttributes" value="${DataDictionary.CapitalAccountingLine.attributes}"/>
 
 <c:set var="defaultOpen" value="false"/>
-<c:if test="${!empty KualiForm.capitalAccountingLines}" >
+<c:if test="${!empty KualiForm.capitalAccountingLines and KualiForm.editCreateOrModify}" >
 	<c:set var="defaultOpen" value="true"/>
 </c:if>
 
@@ -118,9 +118,9 @@
 		            <td class="datacell" colSpan="11">
 		            	<div align="center">
 		            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
-		                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
+		                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
 							</c:if>
-							<html:image property="methodToCall.modifyAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
+							<html:image property="methodToCall.modifyAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
 		                 </div>
 		            </td>
 				</tr>

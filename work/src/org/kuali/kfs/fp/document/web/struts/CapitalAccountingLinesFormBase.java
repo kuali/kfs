@@ -30,6 +30,7 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
     //transient objects
     protected transient List<CapitalAccountingLines> capitalAccountingLines;
     protected transient CapitalAccountingLine capitalAccountingLine;
+    protected transient boolean editCreateOrModify;
     
     /**
      * Constructs a AdvanceDepositForm.java.
@@ -39,6 +40,7 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
         
         capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
         capitalAccountingLine = new CapitalAccountingLine();
+        editCreateOrModify = true;
     }
 
     /**
@@ -76,5 +78,24 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
      */
     public void setCapitalAccountingLine(CapitalAccountingLine capitalAccountingLine) {
         this.capitalAccountingLine = capitalAccountingLine;
+    }
+    
+    /**
+     * Gets the editCreateOrModify attribute.
+     * 
+     * @return Returns the editCreateOrModify
+     */
+    
+    public boolean isEditCreateOrModify() {
+        return editCreateOrModify;
+    }
+
+    /** 
+     * Sets the editCreateOrModify attribute.
+     * 
+     * @param editCreateOrModify The editCreateOrModify to set.
+     */
+    public void setEditCreateOrModify(boolean editCreateOrModify) {
+        this.editCreateOrModify = editCreateOrModify;
     }
 }

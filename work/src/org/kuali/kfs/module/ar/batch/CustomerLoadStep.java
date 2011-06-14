@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -23,6 +25,14 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 public class CustomerLoadStep extends AbstractStep {
 
     private CustomerLoadService batchService;
+    
+    /**
+     * @see org.kuali.kfs.sys.batch.AbstractStep#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        return batchService.getRequiredDirectoryNames();
+    }
     
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         return batchService.loadFiles();

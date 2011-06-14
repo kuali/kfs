@@ -110,6 +110,7 @@ public class ArConstants {
 
     public static final class CustomerLoad {
         public static final String CUSTOMER_LOAD_FILE_TYPE_IDENTIFIER = "customerLoadInputFileType";
+        public static final String CUSTOMER_CSV_LOAD_FILE_TYPE_IDENTIFIER = "customerLoadCSVInputFileType";
         public static final String CUSTOMER_LOAD_REPORT_SUBFOLDER = "ar";
         public static final String BATCH_REPORT_BASENAME = "ar_customer_load";
     }

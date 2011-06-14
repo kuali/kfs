@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,32 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
+import org.kuali.kfs.module.ar.batch.vo.CustomerAddressCSV;
+import org.kuali.kfs.module.ar.batch.vo.CustomerAddressDigesterVO;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.kfs.sys.batch.CsvBatchInputFileTypeBase;
+import org.kuali.kfs.sys.exception.ParseException;
 
-public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadInputFileType.class);
+import au.com.bytecode.opencsv.CSVReader;
+
+/**
+ * 
+ */
+public class CustomerLoadCSVInputFileType extends CsvBatchInputFileTypeBase<CustomerAddressCSV> {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadCSVInputFileType.class);
 
     private static final String FILE_NAME_PREFIX = "customer_load";
     private static final String FILE_NAME_DELIM = "_";
@@ -50,34 +60,33 @@ public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileTypeIdentifer()
      */
     public String getFileTypeIdentifer() {
-        return ArConstants.CustomerLoad.CUSTOMER_LOAD_FILE_TYPE_IDENTIFIER;
+        return ArConstants.CustomerLoad.CUSTOMER_CSV_LOAD_FILE_TYPE_IDENTIFIER;
     }
 
     /**
      * 
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
+    @Override
     public boolean validate(Object parsedFileContents) {
-        //  attempt to cast the parsedFileContents into the expected type
-        List<CustomerDigesterVO> customerVOs = null;
-        try {
-            customerVOs = (List<CustomerDigesterVO>) parsedFileContents;
-        }
-        catch (Exception e) {
-            LOG.error("Could not convert the passed-in parsedFileContents of type [" + parsedFileContents.getClass().toString() + 
-                    "] to List<CustomerDigesterVO>.");
-            throw new RuntimeException("Could not convert the passed-in parsedFileContents of type [" + parsedFileContents.getClass().toString() + 
-                    "] to List<CustomerDigesterVO>.", e);
-        }
+        List<CustomerDigesterVO> customerVOs = (List<CustomerDigesterVO>)parsedFileContents;
         return customerLoadService.validate(customerVOs);
     }
-
+    
     /**
+     * override super class implementation to specify/convert to the expected data structure
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileTypeBase#process(java.lang.String, java.lang.Object)
+     * For customer load, it will be CustomerDigesterVO
+     * 
+     * @see org.kuali.kfs.sys.batch.CsvBatchInputFileTypeBase#parse(byte[])
      */
-    public void process(String fileName, Object parsedFileContents) {
-        super.process(fileName, parsedFileContents);
+    @Override
+    public Object parse(byte[] fileByteContent) throws ParseException {
+        
+        //super class should have already defined a way to parse the content
+        Object parsedContents = super.parse(fileByteContent);
+        List<CustomerDigesterVO> customerVOs = (List<CustomerDigesterVO>)convertParsedObjectToVO(parsedContents);
+        return customerVOs;    
     }
 
     /**
@@ -85,7 +94,7 @@ public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
     public String getTitleKey() {
-        return ArKeyConstants.CustomerLoad.MESSAGE_BATCH_UPLOAD_XML_TITLE_CUSTOMER;
+        return ArKeyConstants.CustomerLoad.MESSAGE_BATCH_UPLOAD_CSV_TITLE_CUSTOMER;
     }
 
     public void setCustomerLoadService(CustomerLoadService customerLoadService) {
@@ -98,6 +107,26 @@ public class CustomerLoadInputFileType extends XmlBatchInputFileTypeBase {
             return fileNameParts[2];
         }
         return null;
+    }
+
+    /**
+     * Convert the parsedFileContents object into CustomerDigesterVO for validation
+     * 
+     * @see org.kuali.kfs.sys.batch.CsvBatchInputFileTypeBase#convertParsedObjectToVO(java.lang.Object)
+     */
+    @Override
+    protected Object convertParsedObjectToVO(Object parsedContent) {
+        List<CustomerDigesterVO> customerVOs = new ArrayList<CustomerDigesterVO>();
+        try {
+            //  attempt to cast the parsedFileContents into the expected type
+            List<Map<String, String>> parseDataList = (List<Map<String, String>>) parsedContent;
+            customerVOs = CustomerLoadCSVBuilder.buildCustomerDigestVO(parseDataList);
+        }
+        catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+        return customerVOs;
     }
 }
 

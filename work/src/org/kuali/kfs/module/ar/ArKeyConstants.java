@@ -107,7 +107,8 @@ public class ArKeyConstants {
 
     // Customer Load messages
     public static final class CustomerLoad {
-        public static final String MESSAGE_BATCH_UPLOAD_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.title";
+        public static final String MESSAGE_BATCH_UPLOAD_XML_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.xml.title";
+        public static final String MESSAGE_BATCH_UPLOAD_CSV_TITLE_CUSTOMER = "message.ar.customerLoad.batchUpload.csv.title";
     }
 
     // Customer errors

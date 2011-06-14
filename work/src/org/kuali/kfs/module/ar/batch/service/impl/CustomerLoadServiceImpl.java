@@ -26,7 +26,9 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -52,6 +54,7 @@ import org.kuali.kfs.module.ar.document.validation.impl.CustomerRule;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -77,7 +80,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
-public class CustomerLoadServiceImpl implements CustomerLoadService {
+public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements CustomerLoadService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerLoadServiceImpl.class);
 
     private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
@@ -94,13 +97,16 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
     
-    private BatchInputFileType batchInputFileType;
+    private List<BatchInputFileType> batchInputFileTypes;
     private CustomerDigesterAdapter adapter;
     private String reportsDirectory;
     
     public CustomerLoadServiceImpl() {
     }
     
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFiles()
+     */
     public boolean loadFiles() {
         
         LOG.info("Beginning processing of all available files for AR Customer Batch Upload.");
@@ -109,13 +115,17 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         List<CustomerLoadFileResult> fileResults = new ArrayList<CustomerLoadFileResult>();
         CustomerLoadFileResult reporter = null;
         
+        // moved these two lists from loadFile() as comment indicated from svn-17753 which can possibly be used for report/log output 
+        List<String> routedDocumentNumbers = new ArrayList<String>();
+        List<String> failedDocumentNumbers = new ArrayList<String>();
+        
         //  create a list of the files to process
-        List<String> fileNamesToLoad = getListOfFilesToProcess();
+         Map<String, BatchInputFileType> fileNamesToLoad = getListOfFilesToProcess();
         LOG.info("Found " + fileNamesToLoad.size() + " file(s) to process.");
         
         //  process each file in turn
         List<String> processedFiles = new ArrayList<String>();
-        for (String inputFileName : fileNamesToLoad) {
+        for (String inputFileName : fileNamesToLoad.keySet()) {
             
             LOG.info("Beginning processing of filename: " + inputFileName + ".");
             
@@ -123,7 +133,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             reporter = new CustomerLoadFileResult(inputFileName);
             fileResults.add(reporter);
             
-            if (loadFile(inputFileName, reporter)) {
+            if (loadFile(inputFileName,  reporter, fileNamesToLoad.get(inputFileName), routedDocumentNumbers, failedDocumentNumbers)) {
                 result &= true;
                 reporter.addFileInfoMessage("File successfully completed processing.");
                 processedFiles.add(inputFileName);
@@ -143,29 +153,36 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         return result;
     }
     
-    protected List<String> getListOfFilesToProcess() {
-        
-        //  create a list of the files to process
-        List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
-        
-        if (fileNamesToLoad == null) {
-            LOG.error("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
-                    batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
-            throw new RuntimeException("BatchInputFileService.listInputFileNamesWithDoneFile(" + 
-                    batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
-        }
-        
-        //  filenames returned should never be blank/empty/null
-        for (String inputFileName : fileNamesToLoad) {
-            if (StringUtils.isBlank(inputFileName)) {
-                LOG.error("One of the file names returned as ready to process [" + inputFileName + 
-                        "] was blank.  This should not happen, so throwing an error to investigate.");
-                throw new RuntimeException("One of the file names returned as ready to process [" + inputFileName + 
-                        "] was blank.  This should not happen, so throwing an error to investigate.");
+    /**
+     * Create a collection of the files to process with the mapped value of the BatchInputFileType
+     * 
+     * @return
+     */
+    protected Map<String, BatchInputFileType> getListOfFilesToProcess() {
+
+        Map<String, BatchInputFileType> inputFileTypeMap = new LinkedHashMap<String, BatchInputFileType>();
+
+        for (BatchInputFileType batchInputFileType : batchInputFileTypes) {
+
+            List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(batchInputFileType);
+            if (inputFileNames == null) {
+                criticalError("BatchInputFileService.listInputFileNamesWithDoneFile(" + batchInputFileType.getFileTypeIdentifer() + ") returned NULL which should never happen.");
+            }
+            else {
+                // update the file name mapping
+                for (String inputFileName : inputFileNames) {
+
+                    // filenames returned should never be blank/empty/null
+                    if (StringUtils.isBlank(inputFileName)) {
+                        criticalError("One of the file names returned as ready to process [" + inputFileName + "] was blank.  This should not happen, so throwing an error to investigate.");
+                    }
+
+                    inputFileTypeMap.put(inputFileName, batchInputFileType);
+                }
             }
         }
-        
-        return fileNamesToLoad;
+
+        return inputFileTypeMap;
     }
     
     /**
@@ -183,20 +200,12 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
     }
 
     /**
-     * 
-     * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String)
+     * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String, org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult, org.kuali.kfs.sys.batch.BatchInputFileType, java.util.List, java.util.List)
      */
-    public boolean loadFile(String fileName) {
-        return loadFile(fileName, new CustomerLoadFileResult(fileName));
-    }
-    
-    public boolean loadFile(String fileName, CustomerLoadFileResult reporter) {
+    public boolean loadFile(String fileName, CustomerLoadFileResult reporter, BatchInputFileType batchInputFileType, 
+            List<String> routedDocumentNumbers, List<String> failedDocumentNumbers) {
         
         boolean result = true;
-        
-        //TODO move up to the loadFiles() method
-        List<String> routedDocumentNumbers = new ArrayList<String>();
-        List<String> failedDocumentNumbers = new ArrayList<String>();
         
         //  load up the file into a byte array 
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
@@ -208,16 +217,17 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
             parsedObject = batchInputFileService.parse(batchInputFileType, fileByteContent);
         }
         catch (ParseException e) {
-            LOG.error("Error parsing batch file: " + e.getMessage());
-            reporter.addFileErrorMessage("Error parsing batch file: " + e.getMessage());
-            throw new ParseException(e.getMessage());
+            String errorMessage ="Error parsing batch file: " + e.getMessage();
+            reporter.addFileErrorMessage(errorMessage);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage);
         }
         
         //  make sure we got the type we expected, then cast it
         if (!(parsedObject instanceof List)) {
-            LOG.error("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
-            reporter.addFileErrorMessage("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
-            throw new RuntimeException("Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].");
+            String errorMessage = "Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].";
+            reporter.addFileErrorMessage(errorMessage);
+            criticalError(errorMessage);
         }
         
         //  prepare a list for the regular validate() method
@@ -398,8 +408,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         //  check to make sure the input file doesnt have more docs than we allow in one batch file
         String maxRecordsString = parameterService.getParameterValue(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
         if (StringUtils.isBlank(maxRecordsString) || !StringUtils.isNumeric(maxRecordsString)) {
-            LOG.error("Expected 'Max Records Per Document' System Parameter is not available.");
-            throw new RuntimeException("Expected 'Max Records Per Document' System Parameter is not available.");
+            criticalError("Expected 'Max Records Per Document' System Parameter is not available.");
         }
         Integer maxRecords = new Integer(maxRecordsString);
         if (customerUploads.size() > maxRecords.intValue()) {
@@ -803,14 +812,14 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         
         MessageMap messageMap = GlobalVariables.getMessageMap();
 
-        Set<String> errorKeys = messageMap.keySet();
+        Set<String> errorKeys = messageMap.getAllPropertiesWithErrors();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
         String errorKeyString;
         String errorString;
         
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) messageMap.get(errorProperty);
+            errorMessages = (List<ErrorMessage>) messageMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
                 errorKeyString = configService.getPropertyString(errorMessage.getErrorKey()); 
                 messageParams = errorMessage.getMessageParameters();
@@ -832,7 +841,7 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         }
         
         //  clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getMessageMap().clear();
+        GlobalVariables.getMessageMap().clearErrorMessages();
         return result;
     }
     
@@ -1061,8 +1070,8 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
         this.docService = docService;
     }
     
-    public void setBatchInputFileType(BatchInputFileType batchInputFileType) {
-        this.batchInputFileType = batchInputFileType;
+    public void setBatchInputFileTypes(List<BatchInputFileType> batchInputFileType) {
+        this.batchInputFileTypes = batchInputFileType;
     }
 
     public void setParameterService(ParameterService parameterService) {
@@ -1087,6 +1096,54 @@ public class CustomerLoadServiceImpl implements CustomerLoadService {
 
     public void setReportsDirectory(String reportsDirectory) {
         this.reportsDirectory = reportsDirectory;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#getFileName()
+     * 
+     * this is abstracted from the CustomerLoadInputFileType
+     */
+    @Override
+    public String getFileName(String principalName, String fileUserIdentifer, String prefix, String delim) {
+
+        //  start with the batch-job-prefix
+        StringBuilder fileName = new StringBuilder(delim);
+        
+        //  add the logged-in user name if there is one, otherwise use a sensible default
+        fileName.append(delim + principalName);
+        
+        //  if the user specified an identifying lable, then use it
+        if (StringUtils.isNotBlank(fileUserIdentifer)) {
+            fileName.append(delim + fileUserIdentifer);
+        }
+        
+        //  stick a timestamp on the end
+        fileName.append(delim + dateTimeService.toString(dateTimeService.getCurrentTimestamp(), "yyyyMMdd_HHmmss"));
+
+        //  stupid spaces, begone!
+        return StringUtils.remove(fileName.toString(), " ");
+    }
+
+    /**
+     * LOG error and throw RunTimeException
+     * 
+     * @param errorMessage
+     */
+    private void criticalError(String errorMessage){
+        LOG.error(errorMessage);
+        throw new RuntimeException(errorMessage);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.batch.InitiateDirectoryBase#getRequiredDirectoryNames()
+     */
+    @Override
+    public List<String> getRequiredDirectoryNames() {
+        List<String> directoryNames = new ArrayList<String>();
+        for (BatchInputFileType batchInputFileType : batchInputFileTypes){
+            directoryNames.add(batchInputFileType.getDirectoryPath());
+        }
+        return directoryNames;
     }
     
 }

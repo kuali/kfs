@@ -16,11 +16,15 @@
 package org.kuali.kfs.module.ar.batch.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
+import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.batch.InitiateDirectory;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
-public interface CustomerLoadService {
+public interface CustomerLoadService extends InitiateDirectory{
 
     /**
      * Validates and parses all files ready to go in the batch staging area.
@@ -31,10 +35,17 @@ public interface CustomerLoadService {
     /**
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
      * 
-     * @param fileNaem Name of file to be uploaded and processed.
+     * These parameters are used for returning values back to its caller
+     * reporter, routedDocumentNumbers, failedDocumentNumbers 
+     * 
+     * @param fileName Name of file to be uploaded and processed.
+     * @param reporter
+     * @param batchInputFileType batchInputFileType
+     * @param routedDocumentNumbers list of routed doc numbers through workflow
+     * @param failedDocumentNumbers list of failed doc numbers through workflow 
      * @return True if the file load and store was successful, false otherwise.
      */
-    public boolean loadFile(String fileName);
+    public boolean loadFile(String fileName, CustomerLoadFileResult reporter, BatchInputFileType batchInputFileType, List<String> routedDocumentNumbers, List<String> failedDocumentNumbers);
     
     /**
      * 
@@ -60,5 +71,12 @@ public interface CustomerLoadService {
      */
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap);
 
+    /**
+     * 
+     * Provide a file name generation for the CustomerInputFileType(xml or csv) 
+     * 
+     * @return
+     */
+    public String getFileName(String principalName, String fileUserIdentifer, String prefix, String delim);
 }
 

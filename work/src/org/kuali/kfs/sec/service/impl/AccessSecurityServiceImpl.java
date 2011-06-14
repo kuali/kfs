@@ -378,8 +378,8 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
      * @return boolean true if any override is turned on and the person meets the override conditions, false otherwise
      */
     protected boolean checkForEditLineOverrides(AccountingDocument document, AccountingLine line, Person person) {
-        // account must be not be empty for override checks
-        if (line.getAccount() == null || line.getAccountNumber() == null) {
+        // account must not be empty for override checks
+        if (ObjectUtils.isNull(line.getAccount()) || line.getAccountNumber() == null) {
             return false;
         }
 

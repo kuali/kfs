@@ -19,6 +19,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.kuali.kfs.module.ar.batch.CustomerLoadBusinessRulesTest;
+import org.kuali.kfs.module.ar.batch.CustomerLoadCSVInputFileTypeTest;
 import org.kuali.kfs.module.ar.batch.CustomerLoadDigesterTest;
 import org.kuali.kfs.module.ar.batch.CustomerLoadXMLSchemaTest;
 import org.kuali.kfs.module.ar.batch.vo.CustomerLoadDigesterConverterTest;
@@ -112,6 +113,7 @@ public class AllAccountsReceivableTests {
         suite.addTestSuite(CustomerLoadDigesterConverterTest.class);
         suite.addTestSuite(CustomerLoadBusinessRulesTest.class);
         suite.addTestSuite(CustomerLoadXMLSchemaTest.class);
+        suite.addTestSuite(CustomerLoadCSVInputFileTypeTest.class);
         return suite;
     }
 

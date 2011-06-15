@@ -1,0 +1,10 @@
+customerNumber,customerName,customerParentCompanyNumber,customerTypeCode,customerLastActivityDate,customerTaxTypeCode,customerTaxNbr,customerActiveIndicator,customerPhoneNumber,customer800PhoneNumber,customerContactName,customerContactPhoneNumber,customerFaxNumber,customerBirthDate,customerTaxExemptIndicator,customerCreditLimitAmount,customerCreditApprovedByName,customerEmailAddress,customerAddressName,customerLine1StreetAddress,customerLine2StreetAddress,customerCityName,customerStateCode,customerZipCode,customerCountryCode,customerAddressInternationalProvinceName,customerInternationalMailCode,customerAddressEmail,customerAddressTypeCode
+,Eben Sutton,,08,3/9/2009,SSN,194567890,Y,530-752-5873,,,,530-752-5718,,N,50000,KHUNTLEY,esutton@ucdavis.edu,Office,1 Shields Ave,2112 Dutton Hall,Davis,CA,95616,US,,,esutton@ucdavis.edu,P
+,,,,,,,,,,,,,,,,,,Mailing,PO Box 989602,,West Sacramento,CA,95798-9062,US,,,,A
+,City of Woodland,,03,,FEIN,924567890,Y,530-661-5830,,,,530-661-5848,,N,,,citymanager@cityofwoodland.org,City Hall,300 Main St.,,Woodland,CA,95695,US,,,,P
+,,,,,,,,,,,,,,,,,,City Hall,23 Russell Blvd,,Davis,CA,95616,US,,,,A
+,City of Sacramento,,03,,FEIN,924567892,Y,916-264-5011,,Dennis Kaufmann,916-808-5495,916-808-5444,,N,,,citymanager@cityofsacramento.org,Finance Department,"915 I Street, 5th Floor",,Sacramento,CA,95814,US,,,,P
+,University of Idaho,,07,,FEIN,924567893,Y,208-885-9999,,Linda Keeney,,208-885-9999,,Y,,,noreply@uidaho.edu,Accounts Payable,709 Deakin St,,Moscow,ID,83844-4244,US,,,,P
+,Bistro 33 Davis,,05,,FEIN,924567894,Y,530-756-4556,,,,530-756-4353,,N,,,davis@bistro33.com,Accounts Payable,226 F Street,,Davis,CA,95618,US,,,,P
+,"Moss Adams, LLP",,09,,FEIN,924567893,Y,916-503-8100,,,,916-503-8101,,N,,,sacramento@mossadams.com,Accounts Payable,5TH Floor,3100 Zinfandel Drive,Rancho Cordova,CA,95670-6072,US,,,sacramento@mossadams.com,P
+,Chiswick Moran Hotel,,10,,,,Y,,,,044-871-222-3118,,,N,,,,Chiswick Moran Hotel,626 Chiswick High Road,,London,,,UK,United Kingdom,W4-5RY,,P

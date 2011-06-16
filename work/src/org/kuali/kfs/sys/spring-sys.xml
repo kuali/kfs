@@ -541,7 +541,7 @@
     		<ref bean="taxRegionTypeLookupableHelperService" /> 
         </property>
     </bean>		
-	<bean id="taxRegionLookupable" parent="taxRegionLookupable-parentBean"/>
+	<bean id="taxRegionLookupable" parent="taxRegionLookupable-parentBean" scope="prototype"/>
     
     <bean id="taxRegionLookupable-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionLookupableImpl" abstract="true">
         <property name="lookupableHelperService">

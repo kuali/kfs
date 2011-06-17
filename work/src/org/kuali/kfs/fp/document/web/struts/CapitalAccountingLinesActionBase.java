@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_S
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -66,6 +67,30 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
 
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
+        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+     //   capitalAccountingLines.clear();
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
+        
+        capitalAccountingLines = updateCapitalAccountingLines(capitalAccountingLines, tdoc);
+        sortCaptitalAccountingLines(capitalAccountingLines);
+        capitalAccountingLinesFormBase.setCapitalAccountingLines(updateCapitalAccountingLines(capitalAccountingLines, tdoc));
+
+     //   createCapitalAccountingLines(capitalAccountingLines, tdoc);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -155,21 +180,68 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
      * @param capitalAccountingLines
      * @param tdoc
      */
-    protected void updateCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
+    protected List<CapitalAccountingLines> updateCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
         List<SourceAccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
 
         for (SourceAccountingLine line : sourceAccountLines) {
-            udpateCapitalAccountingLine(capitalAccountingLines, line);
+            updateCapitalAccountingLine(capitalAccountingLines, line);
         }
         
         List<TargetAccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
 
         for (TargetAccountingLine line : targetAccountLines) {
-            udpateCapitalAccountingLine(capitalAccountingLines, line);
+            updateCapitalAccountingLine(capitalAccountingLines, line);
         }
         
-        //sort the capital accounting lines collection
-        sortCaptitalAccountingLines(capitalAccountingLines);
+        //remove the orphan capital accounting lines that does not have corresponding
+        //accounting line from either source or target.
+        return removeOrphanCapitalAccountingLines(capitalAccountingLines, tdoc);
+    }
+    
+    /**
+     * updates the capital accounting lines looking at source and/or target accounting lines.
+     * 
+     * @param capitalAccountingLines
+     * @param tdoc
+     */
+    protected List<CapitalAccountingLines> removeOrphanCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
+        List<CapitalAccountingLines> newCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        
+        List<AccountingLine> allAccountLines = tdoc.getSourceAccountingLines();
+        if (ObjectUtils.isNotNull(allAccountLines)) {
+            allAccountLines.addAll(tdoc.getTargetAccountingLines());
+        }
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (removeOrphanCapitalAccountingLine(allAccountLines, capitalAccountingLine)) {
+                newCapitalAccountingLines.add(capitalAccountingLine);
+            }
+        }
+        
+        return newCapitalAccountingLines;
+    }
+    
+    /**
+     * If the line exists in capital accounting lines, and that line does not exist in 
+     * accounting lines (source or target) then remove the line from capital accounting lines.
+     * 
+     * @param capitalAccountingLines
+     * @param line to remove
+     * @return true if the capital accounting line to be removed is found in accounting lines, else false
+     */
+    protected boolean removeOrphanCapitalAccountingLine(List<AccountingLine> allAccountLines, CapitalAccountingLines capitalAccountingLine) {
+        boolean found = false;
+        
+        for (AccountingLine accountingLine : allAccountLines) {
+            if (capitalAccountingLine.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) && 
+                    capitalAccountingLine.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
+                    capitalAccountingLine.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode()) &&
+                    capitalAccountingLine.getLineType().equalsIgnoreCase(accountingLine instanceof SourceAccountingLine ? KFSConstants.SOURCE : KFSConstants.TARGET)) {
+                found = true;
+            }
+        }
+        
+        return found;
     }
     
     /**
@@ -201,7 +273,7 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
      * @param line
      * @return List of capitalAccountingLines
      */
-    protected void udpateCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
+    protected void updateCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, AccountingLine line) {
         boolean found = false;
         
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {

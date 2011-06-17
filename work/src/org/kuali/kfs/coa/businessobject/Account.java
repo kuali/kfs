@@ -1008,14 +1008,13 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
     
     /**
-     * This fix is temporary until Jonathan's fix is reflected to Rice
      * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     public void refreshReferenceObject(String referenceObjectName) {
         if (referenceObjectName.equals("accountFiscalOfficerUser") ||
             referenceObjectName.equals("accountSupervisoryUser") ||
             referenceObjectName.equals("accountManagerUser")) {
-            getAccountFiscalOfficerUser();
+            // do nothing
         } else {
             super.refreshReferenceObject(referenceObjectName);
         }

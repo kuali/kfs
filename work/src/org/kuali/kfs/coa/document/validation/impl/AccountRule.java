@@ -34,6 +34,7 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
+import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -76,10 +77,12 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
     protected static SubFundGroupService subFundGroupService;
     protected static ParameterService parameterService;    
+    protected EncumbranceService encumbranceService;
     
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected BalanceService balanceService;
     protected AccountService accountService;
+
     protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
 
     protected Account oldAccount;
@@ -155,6 +158,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkSubFundGroup(document);
         success &= checkIncomeStreamAccountRule();
         success &= checkUniqueAccountNumber(document);
+        success &= checkOpenEncumbrances();
         
         return success;
     }
@@ -1124,6 +1128,20 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         return success;
     }
     
+    protected boolean checkOpenEncumbrances() {
+        boolean success = true;
+        if(!oldAccount.isClosed() && newAccount.isClosed()){
+            Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, oldAccount.getAccountNumber());
+            if (ObjectUtils.isNotNull(getEncumbranceService().getOpenEncumbranceRecordCount(pkMap))){
+                success = false;
+                putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);
+                //putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);
+            }
+        }
+        return success;
+    }
+    
     /**
      * This method sets the generalLedgerPendingEntryService
      * 
@@ -1173,5 +1191,11 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         return parameterService;
     }
 
+    public EncumbranceService getEncumbranceService() {
+        if ( encumbranceService == null ) {
+            encumbranceService = SpringContext.getBean(EncumbranceService.class);
+        }
+        return encumbranceService;
+    }       
 }
 

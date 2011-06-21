@@ -48,7 +48,7 @@ import org.kuali.rice.kns.util.UrlFactory;
  */
 public class AssetPaymentLookupableHelperServiceImpl extends AssetLookupableHelperServiceImpl {
     
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,

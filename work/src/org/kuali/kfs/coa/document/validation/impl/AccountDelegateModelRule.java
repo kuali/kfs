@@ -21,11 +21,10 @@ import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
+import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -33,15 +32,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * This class implements the business rules specific to the {@link OrganizationRoutingModelName} Maintenance Document.
  */
-public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
+public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
-    private AccountDelegateModel model;
-
-    /**
-     * Constructs a AccountDelegateModelRule
-     */
-    public AccountDelegateModelRule() {
-    }
+    protected AccountDelegateModel model;
 
     /**
      * This method sets the convenience objects like model, so you have short and easy handles to the new and
@@ -268,8 +261,8 @@ public class AccountDelegateModelRule extends MaintenanceDocumentRuleBase {
         }
 
         if (success) {
-            if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, delegateModel.getAccountDelegate().getPrincipalId())) {
-                super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateModel.getAccountDelegate().getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
+            if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, delegateModel.getAccountDelegate().getPrincipalId())) {
+                super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateModel.getAccountDelegate().getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
                 success = false;
             }
         }

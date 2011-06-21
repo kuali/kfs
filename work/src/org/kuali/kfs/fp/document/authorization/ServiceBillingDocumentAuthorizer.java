@@ -21,14 +21,12 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSConstants;
 
 /**
@@ -45,7 +43,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActions = super.getDocumentActions(document, user, documentActionsFromPresentationController);
         
-        final boolean canCopyOrErrorCorrect = (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_COPY) || documentActions.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) ? canModifyAllSourceAccountingLines(document, user) : true;
+        boolean canCopyOrErrorCorrect = (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_COPY) || documentActions.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)) ? canModifyAllSourceAccountingLines(document, user) : true;
         
         if (documentActions.contains(KNSConstants.KUALI_ACTION_CAN_COPY)) {
             if (!canCopyOrErrorCorrect) {
@@ -81,7 +79,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @return true if the user can modify the given accounting line, false otherwise
      */
     public boolean canModifyAccountingLine(Document document, AccountingLine accountingLine, Person user) {
-        return this.isAuthorized(document, KFSConstants.ParameterNamespaces.FINANCIAL, KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name, user.getPrincipalId(), buildPermissionDetails(document), buildRoleQualifiers(accountingLine));
+        return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name, user.getPrincipalId(), buildPermissionDetails(document), buildRoleQualifiers(accountingLine));
     }
     
     /**
@@ -104,7 +102,7 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      */
     protected String getDocumentTypeName(Document document) {
         if (serviceBillingDocumentTypeName == null) {
-            serviceBillingDocumentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
+            serviceBillingDocumentTypeName = getDataDictionaryService().getDocumentTypeNameByClass(document.getClass());
         }
         return serviceBillingDocumentTypeName;
     }

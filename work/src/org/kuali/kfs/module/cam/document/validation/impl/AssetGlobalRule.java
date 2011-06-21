@@ -73,7 +73,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * Rule implementation for Asset Global document.
  */
 public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalRule.class);
     protected static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
     static {
         LOCATION_FIELD_MAP.put(LocationField.CAMPUS_CODE, CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE);

@@ -48,14 +48,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalRule.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalRule.class);
     protected AssetService assetService = SpringContext.getBean(AssetService.class);
-
-    /**
-     * Constructs an AssetLocationGlobalRule
-     */
-    public AssetLocationGlobalRule() {
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)

@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * DocumentAuthorizer containing common, reusable document-level authorization code for financial (i.e. Transactional) documents
  */
 public class AccountingDocumentAuthorizerBase extends FinancialSystemTransactionalDocumentAuthorizerBase {
-    protected static Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
+    private static final Log LOG = LogFactory.getLog(AccountingDocumentAuthorizerBase.class);
 
     /**
      * Determines if the line is editable; if so, it adds the line to the editableAccounts map

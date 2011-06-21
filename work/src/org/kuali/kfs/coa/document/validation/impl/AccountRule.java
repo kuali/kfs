@@ -60,20 +60,13 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
     protected static final String ACCT_PREFIX_RESTRICTION = "PREFIXES";
     protected static final String ACCT_CAPITAL_SUBFUNDGROUP = "CAPITAL_SUB_FUND_GROUPS";
 
-    protected static final String GENERAL_FUND_CD = "GF";
-    protected static final String RESTRICTED_FUND_CD = "RF";
-    protected static final String ENDOWMENT_FUND_CD = "EN";
-    protected static final String PLANT_FUND_CD = "PF";
-
-    protected static final String RESTRICTED_CD_RESTRICTED = "R";
-    protected static final String RESTRICTED_CD_UNRESTRICTED = "U";
+    @Deprecated
     protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    protected static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
     protected static SubFundGroupService subFundGroupService;
     protected static ParameterService parameterService;    
@@ -268,7 +261,7 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         if (document.isEdit()) {
             // do the test
             if (oldAccount.isClosed() ) {
-                return !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT, user.getPrincipalId());
+                return !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT, user.getPrincipalId());
             }
             return false;
         }
@@ -349,16 +342,16 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
-        if (ObjectUtils.isNotNull(fiscalOfficer) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId())) {
-            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER});
+        if (ObjectUtils.isNotNull(fiscalOfficer) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId())) {
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER});
 			success = false;
         }
-        if (ObjectUtils.isNotNull(accountSupervisor) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId())) {
-            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR});
+        if (ObjectUtils.isNotNull(accountSupervisor) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId())) {
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR});
 			success = false;
         }
-        if (ObjectUtils.isNotNull(accountManager) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId())) {
-            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
+        if (ObjectUtils.isNotNull(accountManager) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId())) {
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
 			success = false;
         }
 

@@ -42,11 +42,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class BudgetConstructionSelectionForm extends BudgetExpansionForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSelectionForm.class);
 
-    private BudgetConstructionHeader budgetConstructionHeader;
-    private boolean hideDetails = false;
-    private boolean accountReportsExist;
-    private boolean rootApprover;
-    private boolean sessionInProgressDetected = false;
+    protected BudgetConstructionHeader budgetConstructionHeader;
+    protected boolean hideDetails = false;
+    protected boolean accountReportsExist;
+    protected boolean rootApprover;
+    protected boolean sessionInProgressDetected = false;
 
     public BudgetConstructionSelectionForm() {
         super();

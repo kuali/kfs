@@ -30,9 +30,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
+import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -40,19 +40,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * Validates content of a <code>{@link AccountDelegate}</code> maintenance document upon triggering of a approve, save, or route
  * event.
  */
-public class DelegateRule extends MaintenanceDocumentRuleBase {
+public class DelegateRule extends KfsMaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
 
     protected AccountDelegate oldDelegate;
     protected AccountDelegate newDelegate;
-
-    /**
-     * Constructs a DelegateRule.java.
-     */
-    public DelegateRule() {
-        super();
-    }
 
     /**
      * This runs specific rules that are called when a document is saved:
@@ -278,9 +271,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         Map whereMap = new HashMap();
         whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
-        whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+        whereMap.put("accountsDelegatePrmrtIndicator", Boolean.TRUE);
         whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
-        whereMap.put("active", Boolean.valueOf(true));
+        whereMap.put("active", Boolean.TRUE);
 
         // find all the matching records
         Collection primaryRoutes = getBoService().findMatching(AccountDelegate.class, whereMap);
@@ -314,8 +307,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        if (StringUtils.isBlank(accountDelegate.getEntityId()) || !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
-            super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountDelegate.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
+        if (StringUtils.isBlank(accountDelegate.getEntityId()) || !getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
+            super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountDelegate.getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
             success = false;
         }
         return success;

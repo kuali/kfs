@@ -58,11 +58,11 @@ import org.kuali.rice.kns.util.KNSConstants;
 public abstract class SalarySettingBaseAction extends BudgetExpansionAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingBaseAction.class);
 
-    private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
-    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-    private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-    private KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
+    protected SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
+    protected BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+    protected KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+    protected BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
+    protected KualiRuleService kualiRuleService = SpringContext.getBean(KualiRuleService.class);
 
     /**
      * loads the data for the expansion screen based on the passed in url parameters

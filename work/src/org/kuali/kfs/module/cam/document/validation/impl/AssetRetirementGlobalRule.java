@@ -59,16 +59,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalRule.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalRule.class);
 
     protected PersistableBusinessObject bo;
-
-
-    /**
-     * Constructs a AssetLocationGlobalRule
-     */
-    public AssetRetirementGlobalRule() {
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()

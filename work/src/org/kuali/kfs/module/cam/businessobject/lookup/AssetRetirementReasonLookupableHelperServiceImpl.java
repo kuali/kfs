@@ -42,7 +42,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
  * {@link OrganizationRoutingModelName}
  */
 public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private boolean initializingAssetRetirement = true;
+    protected boolean initializingAssetRetirement = true;
 
 
     /**

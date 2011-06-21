@@ -31,7 +31,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.kfs.module.cam.document.gl.CamsGeneralLedgerPendingEntrySourceBase;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -97,9 +97,9 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
                 UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                 String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
 
-                pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityDateService.getCurrentFiscalYear());
-                pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, assetPayment.getAsset().getOrganizationOwnerChartOfAccountsCode());
-                pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, gainDispositionObjectCode);
+                pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
+                pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, assetPayment.getAsset().getOrganizationOwnerChartOfAccountsCode());
+                pkMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, gainDispositionObjectCode);
 
                 ObjectCode offsetFinancialObject = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
 
@@ -110,12 +110,12 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         abstract void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode);
     }
 
-    private UniversityDateService universityDateService;
-    private AssetObjectCodeService assetObjectCodeService;
-    private BusinessObjectService businessObjectService;
-    private AssetPaymentService assetPaymentService;
-    private ParameterService parameterService;
-    private AssetService assetService;
+    protected UniversityDateService universityDateService;
+    protected AssetObjectCodeService assetObjectCodeService;
+    protected BusinessObjectService businessObjectService;
+    protected AssetPaymentService assetPaymentService;
+    protected ParameterService parameterService;
+    protected AssetService assetService;
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -385,9 +385,9 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String gainDispositionObjectCode = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE);
 
-        pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityDateService.getCurrentFiscalYear());
-        pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, gainDispositionObjectCode);
+        pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDateService.getCurrentFiscalYear());
+        pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        pkMap.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, gainDispositionObjectCode);
 
         return (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pkMap);
     }

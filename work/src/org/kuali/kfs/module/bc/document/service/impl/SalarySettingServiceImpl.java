@@ -71,18 +71,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class SalarySettingServiceImpl implements SalarySettingService {
-    public static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingServiceImpl.class);
 
-    private KualiConfigurationService kualiConfigurationService;
-    private BusinessObjectService businessObjectService;
-    private LaborModuleService laborModuleService;
-    private BudgetDocumentService budgetDocumentService;
-    private BenefitsCalculationService benefitsCalculationService;
-    private OptionsService optionsService;
-    private LockService lockService;
-    private DocumentHelperService documentHelperService;
-    private DocumentService documentService;
-    private BudgetConstructionProcessorService budgetConstructionProcessorService;
+    protected KualiConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected LaborModuleService laborModuleService;
+    protected BudgetDocumentService budgetDocumentService;
+    protected BenefitsCalculationService benefitsCalculationService;
+    protected OptionsService optionsService;
+    protected LockService lockService;
+    protected DocumentHelperService documentHelperService;
+    protected DocumentService documentService;
+    protected BudgetConstructionProcessorService budgetConstructionProcessorService;
 
     /**
      * for now just return false, implement application parameter if decision is made implement this functionality

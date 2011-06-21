@@ -24,10 +24,11 @@ import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -36,9 +37,9 @@ import org.kuali.rice.kns.util.KNSConstants;
  * Override of KualiLookupableHelperServiceImpl to prevent the editing and copying of Cash Drawers.  Also to
  * keep the hobbitses away from my precious.
  */
-public class CashDrawerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl implements LookupableHelperService {
-    private CashReceiptService cashReceiptService;
-    private CashDrawerService cashDrawerService;
+public class CashDrawerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    protected CashReceiptService cashReceiptService;
+    protected CashDrawerService cashDrawerService;
 
     /**
      * Return an empty list - you can't edit or copy cash drawers.
@@ -59,8 +60,8 @@ public class CashDrawerLookupableHelperServiceImpl extends KualiLookupableHelper
      * @return
      */
     protected boolean isEditOfCashDrawerAuthorized(CashDrawer cashDrawer) {
-        final FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("CDS");
-        final boolean isAuthorized = documentAuthorizer.isAuthorized(cashDrawer, "KFS-FP", "Initiate Document", GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("CDS");
+        boolean isAuthorized = documentAuthorizer.isAuthorizedByTemplate(cashDrawer, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         
         return isAuthorized;
 

@@ -43,7 +43,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for {@link OrganizationRoutingModelName}
  */
 public class AssetAcquisitionTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    private boolean initializingAssetGlobal = true;
+    protected boolean initializingAssetGlobal = true;
 
 
     /**

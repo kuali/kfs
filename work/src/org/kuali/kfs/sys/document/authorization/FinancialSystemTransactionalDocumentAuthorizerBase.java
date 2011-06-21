@@ -27,7 +27,7 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class FinancialSystemTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase {
-    protected static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
+    private static final Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentAuthorizerBase.class);
 
     /**
      * Overridden to check if document error correction can be allowed here.
@@ -61,7 +61,7 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
      * @return true if the user can error correct, false otherwise
      */
     public boolean canErrorCorrect(Document document, Person user) {
-        return isAuthorizedByTemplate(document, KFSConstants.ParameterNamespaces.KFS, PermissionTemplate.ERROR_CORRECT_DOCUMENT.name, user.getPrincipalId());
+        return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, PermissionTemplate.ERROR_CORRECT_DOCUMENT.name, user.getPrincipalId());
     }
     
     /**
@@ -72,6 +72,6 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
      * @return true if the user can error correct, false otherwise
      */
     public boolean canEditBankCode(Document document, Person user) {
-        return isAuthorizedByTemplate(document, KFSConstants.ParameterNamespaces.KFS, PermissionTemplate.EDIT_BANK_CODE.name, user.getPrincipalId());
+        return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, PermissionTemplate.EDIT_BANK_CODE.name, user.getPrincipalId());
     }
 }

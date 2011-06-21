@@ -53,7 +53,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
 
     protected AssetService assetService;
-    private PersonService<Person> personService;
+    protected PersonService<Person> personService;
 
     /**
      * Custom action urls for Asset.

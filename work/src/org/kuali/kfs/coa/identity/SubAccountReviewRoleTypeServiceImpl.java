@@ -18,25 +18,29 @@ package org.kuali.kfs.coa.identity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
+import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 
 public class SubAccountReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     private DocumentTypeService documentTypeService;
-    
-    @Override
+   @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
-        if (KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) && KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.ACCOUNT_NUMBER) && KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.SUB_ACCOUNT_NUMBER)) {
+        if (KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) && (KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.ACCOUNT_NUMBER) || KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.ORGANIZATION_CODE)) && KimCommonUtils.storedValueNotSpecifiedOrInputValueMatches(roleQualifier, qualification, KfsKimAttributes.SUB_ACCOUNT_NUMBER)) {
+      
             Set<String> potentialParentDocumentTypeNames = new HashSet<String>(1);
             if (roleQualifier.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
                 potentialParentDocumentTypeNames.add(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
-            }
-            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);
-        }
+            }         
+            return potentialParentDocumentTypeNames.isEmpty() || qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME).equalsIgnoreCase(roleQualifier.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)) || (KimCommonUtils.getClosestParentDocumentTypeName(getDocumentTypeService().findByName(qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME)), potentialParentDocumentTypeNames) != null);       
+        }     
         return false;
     }
     
@@ -45,5 +49,46 @@ public class SubAccountReviewRoleTypeServiceImpl extends KimRoleTypeServiceBase 
             documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         }
         return this.documentTypeService;
+   }
+    /**
+     * note: for validating Sub-account review role
+     *   - if acct or org are specified, sub-account and chart are all required
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateAttributes(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     */
+    @Override
+    public AttributeSet validateAttributes(String kimTypeId, AttributeSet attributes) {
+        AttributeSet errorMap = super.validateAttributes(kimTypeId, attributes);
+        String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String accountNumber = attributes.get(KfsKimAttributes.ACCOUNT_NUMBER);
+        String subAccountNumber = attributes.get(KfsKimAttributes.SUB_ACCOUNT_NUMBER);
+        if(StringUtils.isEmpty(accountNumber) && StringUtils.isEmpty(organizationCode)){
+            //remove chartofAccountCode, organizationCode and account number and sub-account number errors
+          errorMap.remove(KfsKimAttributes.ACCOUNT_NUMBER);
+          errorMap.remove(KfsKimAttributes.ORGANIZATION_CODE);
+          if(StringUtils.isEmpty(chartCode))
+              errorMap.remove(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+          if(StringUtils.isEmpty(subAccountNumber))
+              errorMap.remove(KfsKimAttributes.SUB_ACCOUNT_NUMBER); 
+        } 
+        else if (StringUtils.isNotEmpty(accountNumber) || StringUtils.isNotEmpty(organizationCode)){
+          if(StringUtils.isEmpty(chartCode))
+              errorMap.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+          if(StringUtils.isEmpty(subAccountNumber))
+              errorMap.put(KfsKimAttributes.SUB_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_CHART_OR_ORG_NOTEMPTY_ALL_REQUIRED);
+        }
+        return errorMap;
+    }
+    
+    @Override
+    public AttributeDefinitionMap getAttributeDefinitions(String kimTypeId) {
+        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypeId);
+        for (AttributeDefinition definition : map.values()) {
+            if (KfsKimAttributes.SUB_ACCOUNT_NUMBER.equals(definition.getName()) || KfsKimAttributes.CHART_OF_ACCOUNTS_CODE.equals(definition.getName()) || KfsKimAttributes.ACCOUNT_NUMBER.equals(definition.getName())
+                    || KfsKimAttributes.ORGANIZATION_CODE.equals(definition.getName())) {
+                definition.setRequired(Boolean.FALSE);
+            }
+        }
+        return map;
     }
 }

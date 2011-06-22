@@ -82,38 +82,6 @@
 				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
 			<where>NMSPC_CD="KFS_SYS" AND PARM_NM="BATCH_UPLOAD_HELP_URL"</where>
 		</update>
-
-		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSAR6012" />
-			<column name="OBJ_ID" value="KFSAR6012" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_TMPL_ID" value="33" />
-			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="NM" value="Upload Batch Input Files(s)" />
-			<column name="DESC_TXT"
-				value="Allows access to the Customer Upload Batch Upload page." />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSAR6012-1" />
-			<column name="OBJ_ID" value="KFSAR6012-1" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSAR6012" />
-			<column name="KIM_TYP_ID" value="15" />
-			<column name="KIM_ATTR_DEFN_ID" value="1" />
-			<column name="ATTR_VAL" value="customerLoadCSVInputFileType" />
-		</insert>
-		<!--
-			Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User
-		-->
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSAR6012-1" />
-			<column name="OBJ_ID" value="KFSAR6012-1" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="2" />
-			<column name="PERM_ID" value="KFSAR6012" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
 	</changeSet>
 </databaseChangeLog>   
       

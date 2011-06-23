@@ -32,6 +32,7 @@ import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.util.PdpPaymentDetailQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
@@ -43,6 +44,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
@@ -365,9 +367,13 @@ public class PaymentDetailAction extends KualiAction {
             paymentDetailId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
         }
 
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findBySinglePrimaryKey(PaymentDetail.class, paymentDetailId);
+        PaymentGroup paymentGroup = paymentDetail.getPaymentGroup();
+        int associatedPayments = paymentGroup.getPaymentDetails().size() - 1;
+        
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
         confirmationText = kualiConfiguration.getPropertyString(confirmationText);
-        confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
+        confirmationText = MessageFormat.format(confirmationText, paymentDetailId, paymentGroup.getId().toString(), associatedPayments);
 
         if (question == null) {
           

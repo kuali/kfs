@@ -201,7 +201,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLoo
      * @param balanceCollection the balance collection to be updated
      * @param isAccumulated determine if the accumulated result is desired
      */
-    private void accumulate(Collection balanceCollection, boolean isAccumulated) {
+    protected void accumulate(Collection balanceCollection, boolean isAccumulated) {
 
         if (isAccumulated) {
             for (Iterator iterator = balanceCollection.iterator(); iterator.hasNext();) {

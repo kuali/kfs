@@ -63,6 +63,7 @@
 				<ref bean="LedgerBalance-dummyBusinessObject.genericAmount" />
 				<ref bean="LedgerBalance-dummyBusinessObject.consolidationOption" />
 				<ref bean="LedgerBalance-dummyBusinessObject.pendingEntryOption" />
+				<ref bean="LedgerBalance-dummyBusinessObject.amountViewOption" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -370,6 +371,16 @@
 		abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
 		<property name="name" value="dummyBusinessObject.pendingEntryOption" />
 	</bean>
+	
+	<bean id="LedgerBalance-dummyBusinessObject.amountViewOption" parent="LedgerBalance-dummyBusinessObject.amountViewOption-parentBean" />
+
+	<bean id="LedgerBalance-dummyBusinessObject.amountViewOption-parentBean"
+		abstract="true" parent="TransientBalanceInquiryAttributes-amountViewOption">
+		<property name="name" value="dummyBusinessObject.amountViewOption" />
+	</bean>
+	
+
+	
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -460,6 +471,9 @@
 				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.amountViewOption"
+					p:defaultValueFinderClass="org.kuali.kfs.gl.businessobject.options.AmountViewOptionFinder" />
+				
 			</list>
 		</property>
 		<property name="resultFields">

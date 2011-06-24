@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
+import org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceInquirableImpl;
@@ -41,7 +42,6 @@ import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -54,7 +54,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Service implementation of LedgerBalanceLookupableHelperService. The class is the front-end for all Ledger balance inquiry
  * processing.
  */
-public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableHelperServiceImpl {
     private static final Log LOG = LogFactory.getLog(LedgerBalanceLookupableHelperServiceImpl.class);
 
     private LaborLedgerBalanceService balanceService;
@@ -84,7 +84,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map fieldValues) {
         String wildCards = "";
         for (int i = 0; i < KNSConstants.QUERY_CHARACTERS.length; i++) {
             wildCards += KNSConstants.QUERY_CHARACTERS[i];
@@ -108,8 +108,12 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
         // test if the consolidation option is selected or not
         boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues);
 
+        // get Amount View Option and determine if the results has to be accumulated
+        String amountViewOption = getSelectedAmountViewOption(fieldValues);
+        boolean isAccumulated = amountViewOption.equals(Constant.ACCUMULATE);
+        
         // get the input balance type code
-        String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE).toString();
         boolean isA21Balance = StringUtils.isNotEmpty(balanceTypeCode) && BALANCE_TYPE_AC_AND_A21.equals(balanceTypeCode.trim());
 
         // get the ledger balances with actual balance type code
@@ -135,10 +139,13 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
             searchResultsCollection = ConsolidationUtil.consolidateA2Balances(searchResultsCollection, effortBalances, BALANCE_TYPE_AC_AND_A21, consolidationKeyList);
         }
 
+        // perform the accumulation of the amounts
+        accumulate(searchResultsCollection, isAccumulated);
+        
         // get the actual size of all qualified search results
         Integer recordCount = recordCountForActualBalance + recordCountForEffortBalance;
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new LedgerBalance());
-
+        
         return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 

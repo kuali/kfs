@@ -197,6 +197,11 @@
 			<td width="1%"><img
 				src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif"
 				alt="" height="20" width="20"></td>
+				
 		</tr>
 	</table>
+	<div id="globalbuttons" class="globalbuttons">
+	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 
+	        onclick="window.close();return false;" title="close the window" alt="close the window"/>		
+    </div>
 </kul:page>

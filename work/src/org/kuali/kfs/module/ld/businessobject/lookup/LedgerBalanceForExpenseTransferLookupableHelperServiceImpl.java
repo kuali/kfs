@@ -80,7 +80,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @see org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map fieldValues) {
         return null;
     }
 

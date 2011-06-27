@@ -5,7 +5,7 @@
     <insert tableName='PDP_PMT_CHG_CD_T'>
       <column name='PMT_CHG_CD' valueNumeric='RC' />
       <column name='PMT_CHG_CD_DESC' valueNumeric='REISSUE CANCEL' />
-      <column name='VER_NBR' valueNumeric='SYS_GUID' />
+      <column name='VER_NBR' valueNumeric='0' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
     </insert>
     <modifySql dbms='mysql'>

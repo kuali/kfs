@@ -46,12 +46,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and Income.
  */
-public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
+public class InternalBillingDocument extends CapitalAssetInformationDocumentBase implements Copyable, Correctable, AmountTotaling {
 
     protected List items;
     protected Integer nextItemLineNumber;
 
-    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -103,10 +103,15 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        
         managedLists.add(getItems());
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
-            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
+                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+            }
         }
+        
         return managedLists;
     }
 
@@ -181,24 +186,18 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     }
 
     /**
-     * Gets the capitalAssetInformation attribute.
-     * 
-     * @return Returns the capitalAssetInformation.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
     }
 
     /**
-     * Sets the capitalAssetInformation attribute value.
-     * 
-     * @param capitalAssetInformation The capitalAssetInformation to set.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
-
 
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()

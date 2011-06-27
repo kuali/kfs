@@ -16,7 +16,7 @@
 <descriptor-repository version="1.0">
 <!--  INTERNAL BILLING DOCUMENT MAPPINGS -->
 <class-descriptor class="org.kuali.kfs.fp.document.InternalBillingDocument" table="FP_INT_BILL_DOC_T">
-    <!--  common transactional document base attributes -->
+    <!--  common transaction document base attributes -->
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -24,7 +24,7 @@
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_INC_NBR" jdbc-type="INTEGER" />
 
-    <!--  internal billing specfic attributes -->
+    <!--  internal billing specific attributes -->
     <field-descriptor name="nextItemLineNumber" column="FDOC_NXT_ITM_NBR" jdbc-type="INTEGER" />
 
     <!--  object references -->
@@ -61,9 +61,10 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.InternalBillingItem" table="FP_INT_BILL_ITM_T">
@@ -81,7 +82,7 @@
 
 <!--  SERVICE BILLING DOCUMENT MAPPINGS -->
 <class-descriptor class="org.kuali.kfs.fp.document.ServiceBillingDocument" table="FP_INT_BILL_DOC_T">
-    <!--  common transactional document base attributes -->
+    <!--  common transaction document base attributes -->
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -89,7 +90,7 @@
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextTargetLineNumber" column="FDOC_NXT_INC_NBR" jdbc-type="INTEGER" />
 
-    <!--  service billing specfic attributes -->
+    <!--  service billing specific attributes -->
     <field-descriptor name="nextItemLineNumber" column="FDOC_NXT_ITM_NBR" jdbc-type="INTEGER" />
 
     <!--  object references -->
@@ -126,14 +127,15 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <!-- AUXILIARY VOUCHER DOCUMENT -->
 <class-descriptor class="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument" table="FP_ACRL_VCHR_DOC_T">
-    <!--  common transactional document base attributes -->
+    <!--  common transaction document base attributes -->
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -176,7 +178,7 @@
 
 <!-- PRE-ENCUMBRANCE DOCUMENT -->
 <class-descriptor class="org.kuali.kfs.fp.document.PreEncumbranceDocument" table="FP_PRE_ENCUM_DOC_T">
-    <!--  common transactional document base attributes -->
+    <!--  common transaction document base attributes -->
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -254,10 +256,12 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-    
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<orderby name="sequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <!-- YEAR END DIST OF INCOME AND EXPENSE MAPPINGS -->
@@ -299,9 +303,10 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <!-- GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->
@@ -349,9 +354,10 @@
         <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>    
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine" table="FP_ACCT_LINES_T">
@@ -590,9 +596,10 @@
         <foreignkey field-ref="postingPeriodCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <!--  TRANSFER OF FUNDS DOCUMENT MAPPINGS -->
@@ -794,9 +801,10 @@
         <inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
     </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CheckBase" table="FP_CHECK_DTL_T">
@@ -858,10 +866,10 @@
         <orderby name="financialDocumentLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-        
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor> 
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CreditCardDetail" table="FP_CR_CARD_DTL_T">
@@ -932,10 +940,12 @@
         <orderby name="financialDocumentLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>  
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.AdvanceDepositDetail" table="FP_ADV_DPST_DTL_T">
@@ -1510,9 +1520,10 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>     
+    <!-- capital asset specific collections -->
+    <collection-descriptor name="capitalAssetInformation" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.businessobject.ProcurementCardVendor" table="FP_PRCRMNT_VNDR_T">
@@ -2315,6 +2326,12 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="amount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" />
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" />
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" />
@@ -2322,6 +2339,7 @@
     <field-descriptor name="capitalAssetManufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetDescription" column="CPTLAST_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="capitalAssetManufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="capitalAssetLineNumber" column="CPTLAST_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
     
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.kfs.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="vendorHeaderGeneratedIdentifier"/>
@@ -2331,7 +2349,18 @@
     <collection-descriptor name="capitalAssetInformationDetails" element-class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="documentNumber" sort="ASC" />
         <orderby name="itemLineNumber" sort="ASC" />
+        <orderby name="sequenceNumber" sort="ASC" />
+        <orderby name="financialDocumentLineTypeCode" sort="ASC" />
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+    	<inverse-foreignkey field-ref="sequenceNumber"/>
+    	<inverse-foreignkey field-ref="financialDocumentLineTypeCode"/>
+    	<inverse-foreignkey field-ref="chartOfAccountsCode"/>
+    	<inverse-foreignkey field-ref="accountNumber"/>
+    	<inverse-foreignkey field-ref="financialObjectCode"/>
+    	<inverse-foreignkey field-ref="itemLineNumber"/>
     </collection-descriptor>    
 </class-descriptor>
 
@@ -2340,6 +2369,11 @@
 	<field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" primarykey="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
+    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR" />
@@ -2360,6 +2394,12 @@
     
     <reference-descriptor name="capitalAssetInformation" class-ref="org.kuali.kfs.fp.businessobject.CapitalAssetInformation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
     	<foreignkey field-ref="documentNumber"/>
+    	<foreignkey field-ref="sequenceNumber"/>
+    	<foreignkey field-ref="financialDocumentLineTypeCode"/>
+    	<foreignkey field-ref="chartOfAccountsCode"/>
+    	<foreignkey field-ref="accountNumber"/>
+    	<foreignkey field-ref="financialObjectCode"/>
+    	<foreignkey field-ref="itemLineNumber"/>
     </reference-descriptor>
 </class-descriptor>	
 </descriptor-repository>

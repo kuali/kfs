@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.List;
+
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 
 public interface CapitalAssetEditable {
@@ -24,10 +26,10 @@ public interface CapitalAssetEditable {
      * 
      * @return Returns the capitalAssetInformation.
      */
-    public CapitalAssetInformation getCapitalAssetInformation();
+    public List<CapitalAssetInformation> getCapitalAssetInformation();
     
     /**
      * Sets the capitalAssetInformation attribute.
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation);
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation);
 }

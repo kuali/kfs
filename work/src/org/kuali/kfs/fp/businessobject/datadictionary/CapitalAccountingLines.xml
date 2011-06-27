@@ -35,6 +35,7 @@
         <ref bean="CapitalAccountingLines-amount"/>
         <ref bean="CapitalAccountingLines-selectLine"/>
         <ref bean="CapitalAccountingLines-distributionAmountCode"/>
+        <ref bean="CapitalAccountingLines-amountDistributed"/>
       </list>
     </property>
   </bean>
@@ -125,5 +126,12 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DistributeAmountsForAssetsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  
+  <bean id="CapitalAccountingLines-amountDistributed" parent="CapitalAccountingLines-amountDistributed-parentBean"/>
+
+  <bean id="CapitalAccountingLines-amountDistributed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="amountDistributed"/>
+    <property name="label" value="Amount Distributed"/>
+    <property name="shortLabel" value="Distributed"/>
+    <property name="required" value="false"/>
+  </bean>
 </beans>

@@ -50,13 +50,13 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  */
-public class ProcurementCardForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
+public class ProcurementCardForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable{
     protected static final long serialVersionUID = 1L;
     protected List newTargetLines;
     protected List<Boolean> transactionCreditCardNumbersViewStatus;
     protected final static String TARGET_ACCOUNTING_LINE_GROUP_NAME = "target";
     
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
      * Override to accomodate multiple target lines.
@@ -102,8 +102,9 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
      */
     public ProcurementCardForm() {
         super();
+        
         this.newTargetLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
-        this.setCapitalAssetInformation(new CapitalAssetInformation());
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
     }
 
     @Override
@@ -136,14 +137,14 @@ public class ProcurementCardForm extends KualiAccountingDocumentFormBase impleme
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return this.capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;        
     }
     

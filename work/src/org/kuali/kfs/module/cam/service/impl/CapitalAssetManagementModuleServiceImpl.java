@@ -79,15 +79,17 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#generateCapitalAssetLock(org.kuali.rice.kns.document.Document)
      */
     public void generateCapitalAssetLock(Document document, String documentTypeName) {
-        CapitalAssetInformation capitalAssetInformation = ((CapitalAssetEditable) document).getCapitalAssetInformation();
+        List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
+        
+        for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
+                ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+                capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
 
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-            ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
-            capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
-
-            if (document instanceof AccountingDocument) {
-                if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
-                    throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+                if (document instanceof AccountingDocument) {
+                    if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
+                        throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
+                    }
                 }
             }
         }
@@ -167,12 +169,15 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      */
     public void deleteDocumentAssetLocks(Document document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        CapitalAssetInformation capitalAssetInformation = ((CapitalAssetEditable) document).getCapitalAssetInformation();
 
-        // Deleting document lock
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
-            if (ObjectUtils.isNotNull(capitalAssetInformation) && isAssetLockedByCurrentDocument(document.getDocumentNumber(), null)) {
-                this.deleteAssetLocks(document.getDocumentNumber(), null);
+        List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
+        
+        for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
+            // Deleting document lock
+            if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved()) {
+                if (ObjectUtils.isNotNull(capitalAssetInformation) && isAssetLockedByCurrentDocument(document.getDocumentNumber(), null)) {
+                    this.deleteAssetLocks(document.getDocumentNumber(), null);
+                }
             }
         }
     }

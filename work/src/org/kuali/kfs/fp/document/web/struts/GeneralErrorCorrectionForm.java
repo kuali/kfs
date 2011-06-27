@@ -15,25 +15,28 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.List;
+
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
  */
-public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
+public class GeneralErrorCorrectionForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable{
     protected static final long serialVersionUID = 1L;
     
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
      * Constructs a GeneralErrorCorrectionForm.java.
      */
     public GeneralErrorCorrectionForm() {
         super();
-        this.setCapitalAssetInformation(new CapitalAssetInformation());
+        
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
     }
 
     @Override
@@ -58,14 +61,14 @@ public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return this.capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;        
     }
 }

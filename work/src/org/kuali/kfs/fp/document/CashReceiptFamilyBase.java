@@ -47,7 +47,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
     protected Date depositDate;
 
     // capital asset
-    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected transient List<CapitalAssetInformation> capitalAssetInformation;
     
     /**
      * Constructs a CashReceiptFamilyBase
@@ -62,9 +62,14 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
-            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        
+        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
+                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+            }
         }
+        
         return managedLists;
     }
 
@@ -95,7 +100,6 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
     public void setCampusLocationCode(String campusLocationCode) {
         this.campusLocationCode = campusLocationCode;
     }
-
 
     /**
      * Gets the depositDate attribute.
@@ -217,21 +221,19 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase imple
         }
     }
 
-
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
-
 
     protected CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
         return SpringContext.getBean(CapitalAssetManagementModuleService.class);

@@ -22,6 +22,7 @@
 	description="The capital asset info object containing the data being displayed"%>
 <%@ attribute name="capitalAssetInfoDetailsName" required="true" description="The name of the capital asset info object"%>	
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>	
+<%@ attribute name="capitalAssetInfoIndex" required="true" description="Gives the capital asset information index" %>	
 	
 <c:set var="attributes" value="${DataDictionary.CapitalAssetInformationDetail.attributes}" />		
 <c:set var="dataCellCssClass" value="datacell"/>
@@ -59,21 +60,21 @@
 				field="campusCode" lookup="false" inquiry="true"
 				boClassSimpleName="Campus" boPackageName="org.kuali.rice.kns.bo"
 				lookupOrInquiryKeys="campusCode"
-				businessObjectValuesMap="${detailLine.valuesMap}"/>	
+				businessObjectValuesMap="${capitalAssetInfoDetail.valuesMap}"/>	
 			
 			<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 				field="buildingCode" lookup="true" inquiry="true"
 				boClassSimpleName="Building" boPackageName="org.kuali.kfs.sys.businessobject"
 				lookupOrInquiryKeys="campusCode,buildingCode"
-				businessObjectValuesMap="${detailLine.valuesMap}"/>
+				businessObjectValuesMap="${capitalAssetInfoDetail.valuesMap}"/>
 			
 			<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 				field="buildingRoomNumber" lookup="true" inquiry="true"
 				boClassSimpleName="Room" boPackageName="org.kuali.kfs.sys.businessobject"
 				lookupOrInquiryKeys="campusCode,buildingCode,buildingRoomNumber"
-				businessObjectValuesMap="${detailLine.valuesMap}"/>	
+				businessObjectValuesMap="${capitalAssetInfoDetail.valuesMap}"/>	
 			
 			<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 				businessObjectFormName="${capitalAssetInfoDetailsName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
@@ -82,7 +83,7 @@
 			<c:if test="${!readOnly}">
 				<td class="infoline">  
 					<div style="text-align: center;">			 
-						 <html:image property="methodToCall.deleteCapitalAssetInfoDetailLine.line${status.index}" 
+						 <html:image property="methodToCall.deleteCapitalAssetInfoDetailLine.line${capitalAssetInfoIndex}.Anchor" 
 							src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
 							title="delete the capital Asset Information Detail line ${lineNumber}"
 							alt="delete the capital Asset Information Detail line ${lineNumber}" styleClass="tinybutton" />

@@ -19,21 +19,21 @@
 
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>
 
-<c:set var="capitalAssetInfo" value="${KualiForm.document.capitalAssetInformation}" />
-<c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
-
-<c:set var="newCapitalAssetInfo" value="${KualiForm.capitalAssetInformation}" />	
+<c:set var="capitalAssetInfo" value="document.capitalAssetInformation" />	
 <c:set var="newCapitalAssetInfoName" value="capitalAssetInformation" />
 
-<kul:tab tabTitle="Capital Edit" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
-     <div class="tab-container" align="center">	 
-	 <c:choose>
-	 	<c:when test="${not empty capitalAssetInfo}">
-	 		<fp:capitalAssetInfo capitalAssetInfo="${capitalAssetInfo}" capitalAssetInfoName="${capitalAssetInfoName}" readOnly="${readOnly}"/>
-	 	</c:when>
-	 	<c:when test="${not readOnly}">
-	 		<fp:capitalAssetInfo capitalAssetInfo="${newCapitalAssetInfo}" capitalAssetInfoName="${newCapitalAssetInfoName}"/>
-	 	</c:when>
-	 </c:choose>
+<kul:tab tabTitle="Create Capital Assets" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
+     <div class="tab-container" align="center">
+	 <h3>Create Capital Assets</h3>     
+	<table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+	     <c:if test="${empty capitalAssetInfo}">
+			<tr>
+				<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
+			</tr>
+		</c:if>
+     </table>
+     <c:if test="${not empty capitalAssetInfo}">	 
+	 	<fp:capitalAssetInfo readOnly="${readOnly}"/>
+	 </c:if>     
 	 </div>	
 </kul:tab>	 

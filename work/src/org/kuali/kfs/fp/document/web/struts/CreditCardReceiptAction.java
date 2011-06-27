@@ -26,13 +26,12 @@ import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.validation.impl.CreditCardReceiptDocumentRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * This is the action class for the CreditCardReceiptDocument.
  */
-public class CreditCardReceiptAction extends KualiAccountingDocumentActionBase {
+public class CreditCardReceiptAction extends CapitalAccountingLinesActionBase {
     /**
      * Adds handling for credit card receipt amount updates.
      * 

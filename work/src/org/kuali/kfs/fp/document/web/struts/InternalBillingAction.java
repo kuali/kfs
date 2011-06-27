@@ -25,13 +25,12 @@ import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 
 /**
  * This class handles Actions for InternalBilling.
  */
-public class InternalBillingAction extends KualiAccountingDocumentActionBase {
+public class InternalBillingAction extends CapitalAccountingLinesActionBase {
 
     /**
      * Adds a new InternalBillingItem from the Form to the Document if valid. This method is called reflectively from KualiAction.

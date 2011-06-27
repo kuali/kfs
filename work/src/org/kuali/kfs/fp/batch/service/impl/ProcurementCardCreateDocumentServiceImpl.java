@@ -38,6 +38,7 @@ import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
 import org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
 import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
@@ -332,10 +333,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         try {
             // get new document from doc service
             pcardDocument = (ProcurementCardDocument) SpringContext.getBean(DocumentService.class).getNewDocument(PROCUREMENT_CARD);
-            if (ObjectUtils.isNotNull(pcardDocument.getCapitalAssetInformation())) {
-                pcardDocument.getCapitalAssetInformation().setDocumentNumber(pcardDocument.getDocumentNumber());
-            }
 
+            List<CapitalAssetInformation> capitalAssets = pcardDocument.getCapitalAssetInformation();
+            for (CapitalAssetInformation capitalAsset : capitalAssets) {
+                if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
+                    capitalAsset.setDocumentNumber(pcardDocument.getDocumentNumber());
+                }
+            }
+            
             // set the card holder record on the document from the first transaction
             createCardHolderRecord(pcardDocument, (ProcurementCardTransaction) transactions.get(0));
 

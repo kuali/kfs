@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 
 
 /**
  * This class handles Actions for the Distribution Income Expense objects.
  */
-public class DistributionOfIncomeAndExpenseAction extends KualiAccountingDocumentActionBase {
+public class DistributionOfIncomeAndExpenseAction extends CapitalAccountingLinesActionBase {
 }

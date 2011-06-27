@@ -15,15 +15,19 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
+import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -67,6 +71,54 @@ public class FinancialProcessingAccountingLineAuthorizer extends AccountingLineA
             return false;
         }
         return true;
+    }
+    
+    /**
+     * adds refresh method to the action map.
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getActionMap(org.kuali.kfs.sys.document.web.AccountingLineRenderingContext, java.lang.String, java.lang.Integer, java.lang.String)
+     */
+    @Override
+    protected Map<String, AccountingLineViewAction> getActionMap(AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+    
+        Map<String, AccountingLineViewAction> actionMap = super.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
+
+        if (accountingLineIndex != null) {
+            AccountingLineViewAction refreshAction = this.getRefreshAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
+            actionMap.put(KFSConstants.RETURN_METHOD_TO_CALL, refreshAction);
+        }
+        
+        return actionMap;
+    }
+    
+    /**
+     * constructs a refresh action image and action
+     * 
+     * @param accountingLine
+     * @param accountingLinePropertyName
+     * @param accountingLineIndex
+     * @param groupTitle
+     * @return
+     */
+    protected AccountingLineViewAction getRefreshAction(AccountingLine accountingLine, String accountingLinePropertyName, Integer accountingLineIndex, String groupTitle) {
+        String actionMethod = this.getRefreshLineMethod(accountingLine, accountingLinePropertyName, accountingLineIndex);
+        String actionLabel = getActionLabel(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_REFRESH_ACTION_LABEL, groupTitle, accountingLineIndex + 1);
+
+        String actionImageName = getRiceImagePath() + "tinybutton-refresh.gif";
+
+        return new AccountingLineViewAction(actionMethod, actionLabel, actionImageName);
+    }
+    
+    /**
+     * constructs a refresh line method
+     * 
+     * @param accountingLine
+     * @param accountingLineProperty
+     * @param accountingLineIndex
+     * @return
+     */
+    protected String getRefreshLineMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
+        final String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);
+        return "refresh.line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
     }
 }
 

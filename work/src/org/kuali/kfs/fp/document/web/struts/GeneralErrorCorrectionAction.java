@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 
 
 /**
  * This class piggy backs on all of the functionality in the FinancialSystemTransactionalDocumentActionBase.
  */
-public class GeneralErrorCorrectionAction extends KualiAccountingDocumentActionBase {
+public class GeneralErrorCorrectionAction extends CapitalAccountingLinesActionBase {
 }

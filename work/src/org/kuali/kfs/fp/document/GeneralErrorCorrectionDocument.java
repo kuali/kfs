@@ -42,6 +42,7 @@ import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 
 /**
@@ -51,7 +52,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
 
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -59,6 +60,7 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      */
     public GeneralErrorCorrectionDocument() {
         super();
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
     }
 
     /**
@@ -67,9 +69,14 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
-            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        
+        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
+                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+            }
         }
+        
         return managedLists;
     }
 
@@ -171,22 +178,17 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * Gets the capitalAssetInformation attribute.
-     * 
-     * @return Returns the capitalAssetInformation.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
     }
 
     /**
-     * Sets the capitalAssetInformation attribute value.
-     * 
-     * @param capitalAssetInformation The capitalAssetInformation to set.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 
     /**

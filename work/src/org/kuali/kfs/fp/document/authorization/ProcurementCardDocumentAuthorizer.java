@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 
+
 /**
  * Document Authorizer for the Procurement Card document.
  */

@@ -40,7 +40,8 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected KualiDecimal amount;
     protected boolean selectLine;
     protected String distributionAmountCode;
-
+    protected boolean amountDistributed;
+    
     /**
      * Default constructor.
      */
@@ -283,6 +284,25 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     }
 
     /**
+     * Gets the amountDistributed attribute.
+     * 
+     * @return Returns the amountDistributed
+     */
+    
+    public boolean isAmountDistributed() {
+        return amountDistributed;
+    }
+
+    /** 
+     * Sets the amountDistributed attribute.
+     * 
+     * @param amountDistributed The amountDistributed to set.
+     */
+    public void setAmountDistributed(boolean amountDistributed) {
+        this.amountDistributed = amountDistributed;
+    }
+
+    /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
@@ -301,6 +321,8 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
         m.put("amount", this.getAmount());
         m.put("selectLine", this.isSelectLine());
         m.put("distributionAmountCode", this.getDistributionAmountCode());
+        m.put("amountDistributed", this.isAmountDistributed());
+        
         return m;
     }
 }

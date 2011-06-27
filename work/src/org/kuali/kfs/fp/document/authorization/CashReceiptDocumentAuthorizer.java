@@ -15,24 +15,10 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Abstract base class for all TransactionalDocumentAuthorizers, since there's this one bit of common code.
  */
 public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 }
-

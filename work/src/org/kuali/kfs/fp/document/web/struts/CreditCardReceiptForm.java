@@ -24,25 +24,25 @@ import org.kuali.kfs.fp.businessobject.CreditCardDetail;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the struts form for Credit Card Receipt document.
  */
-public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable {
+public class CreditCardReceiptForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable {
     protected CreditCardDetail newCreditCardReceipt;
-
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
      * Constructs a CreditCardReceiptForm.java.
      */
     public CreditCardReceiptForm() {
         super();
+        
         setNewCreditCardReceipt(new CreditCardDetail());
-
-        this.setCapitalAssetInformation(new CapitalAssetInformation());
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 
     @Override
@@ -95,14 +95,14 @@ public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase imple
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return capitalAssetInformation;
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 }

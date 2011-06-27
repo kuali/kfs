@@ -634,6 +634,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_DOCUMENT_TEMPLATE_NUMBER = "financialDocumentTemplateNumber";
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT = "financialDocumentTotalAmount";
     // below field used by KFS specifically
+    public static final String FINANCIAL_DOCUMENT_LINE_TYPE_CODE = "financialDocumentLineTypeCode";
     public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     public static final String FINANCIAL_FEDERAL_FUNDED = "financialFederalFunded";
     public static final String FINANCIAL_FEDERAL_FUNDED_CODE = "financialFederalFundedCode";
@@ -1219,6 +1220,7 @@ public class KFSPropertyConstants {
     public static final String CAPITAL_ASSET_INFORMATION_DETAILS = "capitalAssetInformationDetails";
     public static final String CLOSED = "closed";
     public static final String ITEM_LINE_NUMBER = "itemLineNumber";
+    public static final String CAPITAL_ASSET_LINE_NUMBER = "capitalAssetLineNumber";
     public static final String VENDOR_NAME = "vendorName";
     public static final String PAYEE_NAME = "payeeName";
     public static final String VENDOR_ADDRESSES = "vendorAddresses";

@@ -38,7 +38,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -51,7 +50,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /**
  * 
  */
-public class CashReceiptAction extends KualiAccountingDocumentActionBase {
+public class CashReceiptAction extends CapitalAccountingLinesActionBase {
     /**
      * Adds handling for check updates
      * 

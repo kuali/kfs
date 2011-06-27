@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLine;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
@@ -31,13 +32,16 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
     protected transient List<CapitalAccountingLines> capitalAccountingLines;
     protected transient CapitalAccountingLine capitalAccountingLine;
     protected transient boolean editCreateOrModify;
-    
+    protected transient KualiDecimal systemControlAmount;
+    protected transient KualiDecimal createdAssetsControlAmount;
+
     /**
      * Constructs a AdvanceDepositForm.java.
      */
     public CapitalAccountingLinesFormBase() {
         super();
         
+        this.setSystemControlAmount(KualiDecimal.ZERO);
         capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
         capitalAccountingLine = new CapitalAccountingLine();
         editCreateOrModify = true;
@@ -97,5 +101,43 @@ public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocu
      */
     public void setEditCreateOrModify(boolean editCreateOrModify) {
         this.editCreateOrModify = editCreateOrModify;
+    }
+
+    /**
+     * Gets the systemControlAmount attribute.
+     * 
+     * @return Returns the systemControlAmount
+     */
+    
+    public KualiDecimal getSystemControlAmount() {
+        return systemControlAmount;
+    }
+
+    /** 
+     * Sets the systemControlAmount attribute.
+     * 
+     * @param systemControlAmount The systemControlAmount to set.
+     */
+    public void setSystemControlAmount(KualiDecimal systemControlAmount) {
+        this.systemControlAmount = systemControlAmount;
+    }
+    
+    /**
+     * Gets the createdAssetsControlAmount attribute.
+     * 
+     * @return Returns the createdAssetsControlAmount
+     */
+    
+    public KualiDecimal getCreatedAssetsControlAmount() {
+        return createdAssetsControlAmount;
+    }
+
+    /** 
+     * Sets the createdAssetsControlAmount attribute.
+     * 
+     * @param createdAssetsControlAmount The createdAssetsControlAmount to set.
+     */
+    public void setCreatedAssetsControlAmount(KualiDecimal createdAssetsControlAmount) {
+        this.createdAssetsControlAmount = createdAssetsControlAmount;
     }
 }

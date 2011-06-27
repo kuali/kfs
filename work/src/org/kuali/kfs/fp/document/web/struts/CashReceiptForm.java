@@ -30,21 +30,20 @@ import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
-import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
 
 /**
  * This class is the action form for Cash Receipts.
  */
-public class CashReceiptForm extends KualiAccountingDocumentFormBase implements CapitalAssetEditable{
+public class CashReceiptForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable{
     protected static final long serialVersionUID = 1L;
     protected static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
 
@@ -57,7 +56,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
 
     protected List baselineChecks;
     
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
      * Constructs a CashReceiptForm.java.
@@ -72,8 +71,8 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
         
         baselineChecks = new ArrayList();
-        
-        this.setCapitalAssetInformation(new CapitalAssetInformation());
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 
     @Override
@@ -269,14 +268,14 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase implements 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return this.capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;        
     }
     

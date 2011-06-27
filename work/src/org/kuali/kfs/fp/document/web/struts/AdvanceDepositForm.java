@@ -25,15 +25,14 @@ import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the struts form for Advance Deposit document.
  */
 public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable {
     protected AdvanceDepositDetail newAdvanceDeposit;
-    
-    //transient objects
-    protected CapitalAssetInformation capitalAssetInformation;
+    protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
      * Constructs a AdvanceDepositForm.java.
@@ -45,7 +44,7 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
         advanceDepositDetail.setDefautBankCode();
         setNewAdvanceDeposit(advanceDepositDetail);
 
-        this.setCapitalAssetInformation(new CapitalAssetInformation());
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 
@@ -98,14 +97,14 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return capitalAssetInformation;
     }
 
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
 }

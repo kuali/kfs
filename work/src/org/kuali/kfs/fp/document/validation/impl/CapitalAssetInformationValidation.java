@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.List;
+
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
@@ -52,18 +54,20 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         }
 
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
-        CapitalAssetInformation capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
+        List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
-        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            MessageMap errors = GlobalVariables.getMessageMap();
-            errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-            errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
-            
-            boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation);
-            
-            errors.removeFromErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
-            errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-            return isValid;
+        for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+                MessageMap errors = GlobalVariables.getMessageMap();
+                errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+                errors.addToErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
+                
+                boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation);
+                
+                errors.removeFromErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION);
+                errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+                return isValid;
+            }
         }
 
         return true;

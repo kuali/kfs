@@ -42,34 +42,17 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
  * being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts.
  */
-public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, ElectronicPaymentClaiming, CapitalAssetEditable {
+public class DistributionOfIncomeAndExpenseDocument extends CapitalAssetInformationDocumentBase implements Copyable, Correctable, AmountTotaling, ElectronicPaymentClaiming {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DistributionOfIncomeAndExpenseDocument.class);
+
     protected List<ElectronicPaymentClaim> electronicPaymentClaims;
-
-    protected transient CapitalAssetInformation capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
-
 
     /**
      * Constructs a DistributionOfIncomeAndExpenseDocument.java.
      */
     public DistributionOfIncomeAndExpenseDocument() {
         super();
-    }
-
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        if (ObjectUtils.isNotNull(getCapitalAssetInformation()) && 
-            ObjectUtils.isNotNull(getCapitalAssetInformation().getCapitalAssetInformationDetails()) &&
-            getCapitalAssetInformation().getCapitalAssetInformationDetails().size() > 0) {
-            managedLists.add(getCapitalAssetInformation().getCapitalAssetInformationDetails());
-        }
-        return managedLists;
     }
 
     /**
@@ -88,20 +71,6 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
         return KFSConstants.TO;
     }
 
-    /**
-     * Return true if account line is debit
-     * 
-     * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line from accounting document
-     * @return true is account line is debit
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
-     */
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        return isDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, (AccountingLine) postable);
-    }
 
     /**
      * @see org.kuali.kfs.sys.document.ElectronicPaymentClaiming#declaimElectronicPaymentClaims()
@@ -130,26 +99,6 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     }
 
     /**
-     * Gets the capitalAssetInformation attribute.
-     * 
-     * @return Returns the capitalAssetInformation.
-     */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
-    }
-
-    /**
-     * Sets the capitalAssetInformation attribute value.
-     * 
-     * @param capitalAssetInformation The capitalAssetInformation to set.
-     */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
-    }
-
-
-    /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
@@ -157,7 +106,6 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
         super.doRouteStatusChange(statusChangeEvent);
         this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
     }
-
 
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
@@ -170,7 +118,6 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
             this.getCapitalAssetManagementModuleService().generateCapitalAssetLock(this, documentTypeName);
         }
     }
-
 
     /**
      * @return CapitalAssetManagementModuleService

@@ -56,7 +56,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
 
     protected List transactionEntries;
 
-    protected transient CapitalAssetInformation capitalAssetInformation;
+    protected transient List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -66,7 +66,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         super();
         transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
         // Save Capital Asset Information for PCard document when created.
-        this.capitalAssetInformation = new CapitalAssetInformation();
+        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
     }
 
     /**
@@ -75,9 +75,14 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     @Override
     public List buildListOfDeletionAwareLists() {
         List<List> managedLists = super.buildListOfDeletionAwareLists();
-        if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetInformationDetails())) {
-            managedLists.add(capitalAssetInformation.getCapitalAssetInformationDetails());
+        
+        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
+                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+            }
         }
+        
         return managedLists;
     }
 
@@ -270,22 +275,17 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     }
 
     /**
-     * Gets the capitalAssetInformation attribute.
-     * 
-     * @return Returns the capitalAssetInformation.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
-        return ObjectUtils.isNull(capitalAssetInformation) ? null : capitalAssetInformation;
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
+        return this.capitalAssetInformation;
     }
 
     /**
-     * Sets the capitalAssetInformation attribute value.
-     * 
-     * @param capitalAssetInformation The capitalAssetInformation to set.
+     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
-    @Deprecated
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
+        this.capitalAssetInformation = capitalAssetInformation;        
     }
 
     /**

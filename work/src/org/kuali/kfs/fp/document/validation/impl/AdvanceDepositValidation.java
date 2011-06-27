@@ -67,7 +67,4 @@ public class AdvanceDepositValidation extends GenericValidation {
     public void setAdvanceDepositDetailForValidation(AdvanceDepositDetail advanceDepositDetailForValidation) {
         this.advanceDepositDetailForValidation = advanceDepositDetailForValidation;
     }
-   
-    
-
 }

@@ -309,6 +309,46 @@ public class PaymentDetailAction extends KualiAction {
      * @return
      * @throws Exception
      */
+    public ActionForward confirmAndReIssue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
+            public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
+                return performReIssueWithoutCancelDisbursement( paymentDetailId, changeText, user);
+            }
+        };
+        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_REISSUED, "confirmAndReissue", callback);
+    }
+
+    /**
+     * This method reissue a disbursement
+     * @param paymentDetailId the payment detail id
+     * @param changeText the text entered by the user 
+     * @param user the user that canceled the disbursement
+     * @return true if disbursement successfully reissued/canceled, false otherwise
+     */
+    private boolean performReIssueWithoutCancelDisbursement(int paymentDetailId, String changeText, Person user) {
+        Map keyMap = new HashMap();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
+
+        PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findByPrimaryKey(PaymentDetail.class, keyMap);
+        if (ObjectUtils.isNotNull(paymentDetail)) {
+            int paymentGroupId = paymentDetail.getPaymentGroupId().intValue();
+            return paymentMaintenanceService.reissueDisbursement(paymentGroupId, changeText, user);
+        }
+        else {
+            GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
+            return false;
+        }
+    }
+    
+    /**
+     * This method confirms an reissues/cancels a disbursement.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward confirmAndReIssueCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {

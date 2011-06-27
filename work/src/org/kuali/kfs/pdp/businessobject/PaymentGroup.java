@@ -153,6 +153,10 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
             if (PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT.equals(paymentGroupHistory.getPaymentChangeCode())) {
                 isCanceledReissued = true;
             }
+            if (PdpConstants.PaymentChangeCodes.REISSUE_DISBURSEMENT.equals(paymentGroupHistory.getPaymentChangeCode())) {
+                isCanceledReissued = true;
+            }
+
         }
 
         if (isCanceledReissued) {

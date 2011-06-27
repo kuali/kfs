@@ -66,6 +66,15 @@ public interface PaymentMaintenanceService {
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user);
 
     /**
+     * This method re-opens all disbursements with the same disbursment number as that of
+     * the given payment id if the following rules apply. - Payment status must be: "cdis".
+     * @param paymentGroupId Primary key of the PaymentGroup that the Payment Detail to be canceled/reissued belongs to.
+     * @param changeText Change note text entered by user.
+     * @param user The user that cancels/reissues disbursement
+     */
+    public boolean reissueDisbursement(Integer paymentGroupId, String changeText, Person user);
+
+    /**
      * This method cancels and re-opens all disbursements with the same disbursment number as that of
      * the given payment id if the following rules apply. - Payment status must be: "extr".
      * @param paymentGroupId Primary key of the PaymentGroup that the Payment Detail to be canceled/reissued belongs to.

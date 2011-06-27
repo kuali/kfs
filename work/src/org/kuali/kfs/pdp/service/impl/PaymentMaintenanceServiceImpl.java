@@ -441,6 +441,104 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
         return true;
     }
+    
+    /**
+     * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#reissueDisbursement(java.lang.Integer,
+     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean reissueDisbursement(Integer paymentGroupId, String note, Person user) {
+        // All actions must be performed on entire group not individual detail record
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("reissueDisbursement() Enter method to reissue disbursement with id = " + paymentGroupId);
+        }
+        
+   
+        PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
+        if (paymentGroup == null) {
+            LOG.debug("reissueDisbursement() Disbursement not found; throw exception.");
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_NOT_FOUND);
+            return false;
+        }
+
+        String paymentStatus = paymentGroup.getPaymentStatus().getCode();
+
+        if (!(PdpConstants.PaymentStatusCodes.OPEN.equals(paymentStatus))) {
+            if (((PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentStatus)) && (ObjectUtils.isNotNull(paymentGroup.getDisbursementDate())))) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("reissueDisbursement() Payment status is " + paymentStatus + "; continue with reissue.");
+                }
+
+                List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
+
+                for (PaymentGroup pg : allDisbursementPaymentGroups) {
+                    PaymentGroupHistory pgh = new PaymentGroupHistory();
+                    
+                    if (!pg.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
+                        LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                    }
+
+
+                    pgh.setOrigProcessImmediate(pg.getProcessImmediate());
+                    pgh.setOrigPmtSpecHandling(pg.getPymtSpecialHandling());
+                    pgh.setBank(pg.getBank());
+                    pgh.setOrigPaymentDate(pg.getPaymentDate());
+                    //put a check for null since disbursement date was not set in testMode / dev
+                    if (ObjectUtils.isNotNull(pg.getDisbursementDate())) {
+                        pgh.setOrigDisburseDate(new Timestamp(pg.getDisbursementDate().getTime()));
+                    }
+                    pgh.setOrigAchBankRouteNbr(pg.getAchBankRoutingNbr());
+                    pgh.setOrigDisburseNbr(pg.getDisbursementNbr());
+                    pgh.setOrigAdviceEmail(pg.getAdviceEmailAddress());
+                    pgh.setDisbursementType(pg.getDisbursementType());
+                    pgh.setProcess(pg.getProcess());
+
+                   // glPendingTransactionService.generateReissueGeneralLedgerPendingEntry(pg);
+
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("cancelReissueDisbursement() Status is '" + paymentStatus + "; delete row from AchAccountNumber table.");
+                    }
+
+                    AchAccountNumber achAccountNumber = pg.getAchAccountNumber();
+
+                    if (ObjectUtils.isNotNull(achAccountNumber)) {
+                        this.businessObjectService.delete(achAccountNumber);
+                        pg.setAchAccountNumber(null);
+                    }
+
+                    // if bank functionality is not enabled or the group bank is inactive clear bank code
+                    if (!bankService.isBankSpecificationEnabled() || !pg.getBank().isActive()) {
+                        pg.setBank(null);
+                    }
+
+                    pg.setDisbursementDate((java.sql.Date) null);
+                    pg.setAchBankRoutingNbr(null);
+                    pg.setAchAccountType(null);
+                    pg.setPhysCampusProcessCd(null);
+                    pg.setDisbursementNbr((KualiInteger) null);
+                    pg.setAdviceEmailAddress(null);
+                    pg.setDisbursementType(null);
+                    pg.setProcess(null);
+                    pg.setProcessImmediate(false);
+                    changeStatus(pg, PdpConstants.PaymentStatusCodes.OPEN, PdpConstants.PaymentChangeCodes.REISSUE_DISBURSEMENT, note, user, pgh);
+                }
+
+                LOG.debug("reissueDisbursement() Disbursement reissued; exit method.");
+            }
+            else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("cancelReissueDisbursement() Payment status is " + paymentStatus + " and disbursement date is " + paymentGroup.getDisbursementDate() + "; cannot cancel payment");
+                }
+
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_DISBURSEMENT_INVALID_TO_CANCEL_AND_REISSUE);
+                return false;
+            }
+        }
+        else {
+            LOG.debug("cancelReissueDisbursement() Disbursement already cancelled and reissued; exit method.");
+        }
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer,

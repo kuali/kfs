@@ -43,6 +43,7 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
         Collection codes = new ArrayList();
         codes.add(PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT);
         codes.add(PdpConstants.PaymentChangeCodes.CANCEL_REISSUE_DISBURSEMENT);
+        codes.add(PdpConstants.PaymentChangeCodes.REISSUE_DISBURSEMENT);
 
         Criteria crit = new Criteria();
         crit.addIn(PdpPropertyConstants.PAYMENT_CHANGE_CODE, codes);

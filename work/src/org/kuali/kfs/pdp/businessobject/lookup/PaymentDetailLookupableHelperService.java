@@ -281,6 +281,19 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 anchorHtmlDataList.add(anchorHtmlData);
 
             }
+            
+            boolean showReissue = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT) && (pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && paymentDetail.isDisbursementActionAllowed()));
+            if (showReissue) {
+                Properties params = new Properties();
+                params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_REISSUE_ACTION);
+                params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
+                url = UrlFactory.parameterizeUrl(basePath, params);
+
+                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE);
+
+                AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_ACTION, linkText);
+                anchorHtmlDataList.add(anchorHtmlData);                
+            }
 
             boolean showReissueCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()));
 

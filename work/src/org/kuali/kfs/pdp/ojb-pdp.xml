@@ -637,7 +637,17 @@
 	<field-descriptor name="achTransactionType" column="ACH_TRANS_TYP" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankAccountTypeCode" column="BNK_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-
+ 	<!-- Winston new addition for Jira 5383
+	<field-descriptor name="customerIntlAchInd" column="CUST_INTL_ACH_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="receiverName" column="RCVR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receivingBankRoutingNumber" column="RCVNG_BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receivingBankCountryCode" column="RCVNG_BNK_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receiverStreetAddress" column="RCVR_STR_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receiverCityName" column="RCVR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receiverStateName" column="RCVR_ST_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receiverCountryName" column="RCVR_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="receiverPostalCode" column="RCVR_PSTL_CD" jdbc-type="VARCHAR"/>
+	-->
 	<reference-descriptor name="bankRouting" class-ref="org.kuali.kfs.pdp.businessobject.ACHBank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankRoutingNumber" />
 	</reference-descriptor>

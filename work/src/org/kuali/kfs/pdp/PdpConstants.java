@@ -54,6 +54,7 @@ public class PdpConstants {
     public static class PaymentChangeCodes {
         public static final String CANCEL_DISBURSEMENT = "CD";
         public static final String CANCEL_REISSUE_DISBURSEMENT = "CRD";
+        public static final String REISSUE_DISBURSEMENT = "RC";
         public static final String CANCEL_BATCH_CHNG_CD = "CB";
         public static final String HOLD_BATCH_CHNG_CD = "HB";
         public static final String REMOVE_HOLD_BATCH_CHNG_CD = "RHB";
@@ -93,6 +94,7 @@ public class PdpConstants {
         public static final String CONFIRM_REMOVE_IMMEDIATE_PRINT_ACTION = "confirmAndRemoveImmediate";
         public static final String CONFIRM_SET_IMMEDIATE_PRINT_ACTION = "confirmAndSetImmediate";
         public static final String CONFIRM_DISBURSEMENT_CANCEL_ACTION = "confirmAndCancelDisbursement";
+        public static final String CONFIRM_REISSUE_ACTION = "confirmAndReIssue";
         public static final String CONFIRM_REISSUE_CANCEL_ACTION = "confirmAndReIssueCancel";
         public static final String CLEAR_FORMAT_PROCESS_ACTION = "clearUnfinishedFormat";
     }

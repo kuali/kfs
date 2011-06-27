@@ -148,6 +148,7 @@ public class PdpKeyConstants {
             public static final String PAYMENT_SUCCESSFULLY_HOLD = "message.payment.successfullyHold";
             public static final String HOLD_SUCCESSFULLY_REMOVED_ON_PAYMENT = "message.payment.successfullyRemoveHold";
             public static final String DISBURSEMENT_SUCCESSFULLY_CANCELED = "message.disbursement.successfullyCanceled";
+            public static final String DISBURSEMENT_SUCCESSFULLY_REISSUED = "message.disbursement.successfullyReissued";
             public static final String PAYMENT_SUCCESSFULLY_SET_AS_IMMEDIATE = "message.payment.successfullySetAsImmediate";
             public static final String IMMEDIATE_SUCCESSFULLY_REMOVED_ON_PAYMENT = "message.payment.immediateSuccessfullyRemoved";
         }
@@ -160,6 +161,7 @@ public class PdpKeyConstants {
             public static final String SET_IMMEDIATE_PRINT = "paymentLookup.setImmediatePrint.text";
             public static final String CANCEL_DISBURSEMENT = "paymentLookup.cancelDisbursement.text";
             public static final String REISSUE_CANCEL = "paymentLookup.reIssueCancel.text";
+            public static final String REISSUE = "paymentLookup.reIssue.text";
         }
 
         public static class Confirmation {
@@ -173,6 +175,8 @@ public class PdpKeyConstants {
             public static final String CANCEL_DISBURSEMENT_QUESTION = "CancelDisbursement";
             public static final String CANCEL_REISSUE_DISBURSEMENT_MESSAGE = "message.paymentDetail.cancelReissueDisbursement";
             public static final String CANCEL_REISSUE_DISBURSEMENT_QUESTION = "CancelReissueDisbursement";
+            public static final String REISSUE_DISBURSEMENT_MESSAGE = "message.paymentDetail.reissueDisbursement";
+            public static final String REISSUE_DISBURSEMENT_QUESTION="ReissueDisbursement";
             public static final String CHANGE_IMMEDIATE_PAYMENT_MESSAGE = "message.paymentDetail.changeImmediate";
             public static final String CHANGE_IMMEDIATE_PAYMENT_QUESTION = "ChangeImmediatePayment";
         }

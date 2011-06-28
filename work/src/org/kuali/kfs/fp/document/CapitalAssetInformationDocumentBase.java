@@ -50,7 +50,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
             int caiSize = this.getCapitalAssetInformation().size();
         }
         
-     //   this.setCapitalAssetInformation(new ArrayList<CapitalAssetInformation>());
+        this.setCapitalAssetInformation(new ArrayList<CapitalAssetInformation>());
     }
 
     /**
@@ -67,10 +67,10 @@ import org.kuali.rice.kns.util.TypedArrayList;
    //     }
         
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            managedLists.add(capitalAsset.getCapitalAssetInformationDetails());            
-         //   if (ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails()) && capitalAsset.getCapitalAssetInformationDetails().size() > 0) {
-         //       managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
-         //   }
+         //   managedLists.add(capitalAsset.getCapitalAssetInformationDetails());            
+            if (ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails()) && capitalAsset.getCapitalAssetInformationDetails().size() > 0) {
+                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+            }
         }
        
         return managedLists;

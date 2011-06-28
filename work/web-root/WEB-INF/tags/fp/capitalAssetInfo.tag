@@ -156,6 +156,11 @@
 											title="Add the capital Asset Information"
 											alt="Add the capital Asset Information" styleClass="tinybutton" />	
 										<br /><br />	 
+										<html:image property="methodToCall.deleteCapitalAssetInfo.line${status.index}.Anchor" 
+											src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
+											title="Delete the capital Asset Information"
+											alt="Delete the capital Asset Information" styleClass="tinybutton" />
+										<br /><br />	 
 										<html:image property="methodToCall.clearCapitalAssetInfo.line${status.index}.Anchor" 
 											src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 											title="Clear the capital Asset Information"

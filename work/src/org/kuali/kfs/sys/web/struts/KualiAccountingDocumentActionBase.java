@@ -1093,15 +1093,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         int clearIndex = getSelectedLine(request);
         this.resetCapitalAssetInfo(capitalAssetInformation.get(clearIndex)); 
         
-        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
-        
-        //recalculate the amount remaining to be distributed and save the value on the form
-        calculateRemainingDistributedAmount(calfb, capitalAssetInformation);
-        
-        //set the amountDistributed property to true if the total amount of all the capital assets 
-        //for a given capital accounting line is greater or equal to the line amount.
-        
-        checkCapitalAccountingLinesSelected(calfb);
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1119,6 +1112,46 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        //now add the capital asset information detail record....
+        int addIndex = getSelectedLine(request);
+        createCapitalAssetInformationDetail(capitalAssetInformation.get(addIndex));
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * deletes the capital asset information
+     */
+    public ActionForward deleteCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("deleteCapitalAssetInfoDetail() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        int lineIndexForCapitalAssetInfo = this.getLineToDelete(request);
+        capitalAssetInformation.remove(lineIndexForCapitalAssetInfo);
+        
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * process any remaining capital asset info in the list to check and calculate the
+     * remaining distributed amount.  Also checks to make sure if "select Lines" is to be
+     * checked on/off
+     * @param form
+     * @param capitalAssetInformation
+     */
+    protected void processRemainingCapitalAssetInfo(ActionForm form, List<CapitalAssetInformation> capitalAssetInformation) {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         
         //recalculate the amount remaining to be distributed and save the value on the form
@@ -1126,17 +1159,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         
         //set the amountDistributed property to true if the total amount of all the capital assets 
         //for a given capital accounting line is greater or equal to the line amount.
-        
         checkCapitalAccountingLinesSelected(calfb);
-        
-        //now add the capital asset information detail record....
-        int addIndex = getSelectedLine(request);
-        
-        createCapitalAssetInformationDetail(capitalAssetInformation.get(addIndex));
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
+    
     /**
      * delete a detail line from the capital asset information
      */
@@ -1339,6 +1364,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         
         String documentNumber = calfb.getDocument().getDocumentNumber();
         
+      //  if (ObjectUtils.isNull(currentCapitalAssetInformation)) {
+     //       currentCapitalAssetInformation = new ArrayList();
+     //   }
+        
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.isSelectLine()) {
                 calfb.setSystemControlAmount(calfb.getSystemControlAmount().add(capitalAccountingLine.getAmount()));
@@ -1360,7 +1389,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                         capitalAsset.setFinancialObjectCode(existingCapitalAsset.getFinancialObjectCode());
                         capitalAsset.setAmount(KualiDecimal.ZERO);
                         capitalAsset.setDocumentNumber(documentNumber);
-                   //     createCapitalAssetInformationDetail(capitalAsset);
+                      //  createCapitalAssetInformationDetail(capitalAsset);
                         currentCapitalAssetInformation.add(capitalAsset);
                     }
                 }
@@ -1416,7 +1445,11 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     protected CapitalAssetInformation capitalAssetCreated(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
         CapitalAssetInformation existingCapitalAsset = null;
-
+        
+        if (ObjectUtils.isNull(capitalAssetInformation) && capitalAssetInformation.size() <= 0) {
+            return existingCapitalAsset;
+        }
+        
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
             if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
                     capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 

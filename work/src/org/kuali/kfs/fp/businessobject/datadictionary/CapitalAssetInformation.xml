@@ -111,11 +111,10 @@
   <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="manufacturerModelNumber">
      <property name="name" value="capitalAssetManufacturerModelNumber"/>
   </bean>  
-  
   <bean id="CapitalAssetInformation-sequenceNumber" parent="CapitalAssetInformation-sequenceNumber-parentBean"/>
 
   <bean id="CapitalAssetInformation-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
-	<property name="maxLength" value="8"/>
+	<property name="maxLength" value="7"/>
   	<property name="forceUppercase" value="true"/>
   </bean>
   <bean id="CapitalAssetInformation-financialDocumentLineTypeCode" parent="CapitalAssetInformation-financialDocumentLineTypeCode-parentBean"/>
@@ -158,7 +157,7 @@
 
   <bean id="CapitalAssetInformation-capitalAssetLineNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
 	<property name="name" value="capitalAssetLineNumber"/>
-	<property name="maxLength" value="8"/>
+	<property name="maxLength" value="7"/>
   	<property name="forceUppercase" value="true"/>
   </bean>
 </beans>

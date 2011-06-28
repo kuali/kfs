@@ -44,7 +44,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
-
+    
     private Campus campus;
     private Building building;
     private Room room;
@@ -62,6 +62,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.getAccountNumber());
         m.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.getFinancialObjectCode());
+        
         return m;
     }
 
@@ -383,6 +384,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
         Map<String, Object> simpleValues = new HashMap<String, Object>();
 
         simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        simpleValues.put(KFSPropertyConstants.ITEM_LINE_NUMBER, this.getItemLineNumber());
         simpleValues.put(KFSPropertyConstants.SEQUENCE_NUMBER, this.getSequenceNumber());
         simpleValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, this.getFinancialDocumentLineTypeCode());
         simpleValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.getChartOfAccountsCode());

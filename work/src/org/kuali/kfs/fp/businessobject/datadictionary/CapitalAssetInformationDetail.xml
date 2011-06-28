@@ -32,6 +32,11 @@
 	  	<ref bean="CapitalAssetInformationDetail-buildingSubRoomNumber"/>
 	  	<ref bean="CapitalAssetInformationDetail-capitalAssetTagNumber"/>
 		<ref bean="CapitalAssetInformationDetail-capitalAssetSerialNumber"/>
+        <ref bean="CapitalAssetInformationDetail-sequenceNumber"/>
+        <ref bean="CapitalAssetInformationDetail-financialDocumentLineTypeCode"/>
+        <ref bean="CapitalAssetInformationDetail-chartOfAccountsCode"/>
+        <ref bean="CapitalAssetInformationDetail-accountNumber"/>
+        <ref bean="CapitalAssetInformationDetail-financialObjectCode"/>
 	  </list>
     </property>
     <property name="relationships">
@@ -101,5 +106,39 @@
   <bean id="CapitalAssetInformationDetail-capitalAssetSerialNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="serialNumber">
      <property name="name" value="capitalAssetSerialNumber"/>
   </bean>
-				
+  <bean id="CapitalAssetInformationDetail-sequenceNumber" parent="CapitalAssetInformationDetail-sequenceNumber-parentBean"/>
+
+  <bean id="CapitalAssetInformationDetail-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
+	<property name="maxLength" value="8"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetInformationDetail-financialDocumentLineTypeCode" parent="CapitalAssetInformationDetail-financialDocumentLineTypeCode-parentBean"/>
+
+  <bean id="CapitalAssetInformationDetail-financialDocumentLineTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="financialDocumentLineTypeCode"/>
+	<property name="maxLength" value="10"/>
+    <property name="label" value="Line Type"/>
+    <property name="shortLabel" value="Line Type"/>
+  	<property name="forceUppercase" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+  </bean>
+  <bean id="CapitalAssetInformationDetail-chartOfAccountsCode" parent="CapitalAssetInformationDetail-chartOfAccountsCode-parentBean"/>
+
+  <bean id="CapitalAssetInformationDetail-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode">
+	<property name="maxLength" value="10"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetInformationDetail-accountNumber" parent="CapitalAssetInformationDetail-accountNumber-parentBean"/>
+
+  <bean id="CapitalAssetInformationDetail-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber">
+	<property name="maxLength" value="10"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetInformationDetail-financialObjectCode" parent="CapitalAssetInformationDetail-financialObjectCode-parentBean"/>
+
+  <bean id="CapitalAssetInformationDetail-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
 </beans>

@@ -404,6 +404,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public void setCapitalAssetLineNumber(Integer capitalAssetLineNumber) {
         this.capitalAssetLineNumber = capitalAssetLineNumber;
     }
+    
     /**
      * @return Returns the amount.
      */

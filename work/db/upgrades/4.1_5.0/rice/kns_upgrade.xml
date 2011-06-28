@@ -72,12 +72,6 @@
 		</insert>
 
 		<update tableName="KRNS_PARM_T">
-			<column name="TXT" value="CR;DI;GEC;IB;YEDI;YEGE" />
-			<where>NMSPC_CD="KFS_FP" AND
-				PARM_NM="SALES_TAX_APPLICABLE_DOCUMENT_TYPES"</where>
-		</update>
-
-		<update tableName="KRNS_PARM_T">
 			<column name="TXT"
 				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
 			<where>NMSPC_CD="KFS_SYS" AND PARM_NM="BATCH_UPLOAD_HELP_URL"</where>

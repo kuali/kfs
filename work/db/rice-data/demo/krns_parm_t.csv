@@ -232,7 +232,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-FP","Document","OBJECT_CODES","KFS250","1","VALID","8160;8116;8118;5019","Object Code(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","Document","OBJECT_TYPES","KFS251","1","VALID","FB","Object Type(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","Document","SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES","KFS252","1","CONFG","9612706:9015;9612779:9015;9612704:9015","Account and Object Code for checking if Sales Tax data is needed for an accounting line. Format of list is account 1:object code 1;account 2:object code 2","A","KFS"
-"KFS-FP","Document","SALES_TAX_APPLICABLE_DOCUMENT_TYPES","KFS253","1","CONFG","CR;DI;GEC;IB;YEDI;YEGE","Document types for which sales tax should be collected on accounting lines.","A","KFS"
+"KFS-FP","Document","SALES_TAX_APPLICABLE_DOCUMENT_TYPES","KFS253","1","CONFG","CR;DI;GEC;IB;YEDI;YEGE;DV","Document types for which sales tax should be collected on accounting lines.","A","KFS"
 "KFS-FP","Document","SUB_FUND_GROUPS","KFS254","1","VALID","","Sub-Fund Group(s) restricted from use on any Financial Transaction document.","D","KFS"
 "KFS-FP","DvToPdpExtractStep","CORPORATION_OWNERSHIP_TYPE","KFS255","1","CONFG","CP","Vendor Ownership Type representing Corporations","A","KFS"
 "KFS-FP","DvToPdpExtractStep","NON_TAXABLE_PAYMENT_REASON_CODES_BY_CORPORATION_OWNERSHIP_TYPE_CATEGORY","KFS256","1","CONFG","","Non-taxable payment reason codes by corporation ownership type category","D","KFS"

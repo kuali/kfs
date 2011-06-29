@@ -63,11 +63,15 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         super.loadDocument(kualiDocumentFormBase);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+//        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
+
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
 
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
+        capitalAccountingLinesFormBase.setCapitalAccountingLines(capitalAccountingLines);
+        
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
     }
         

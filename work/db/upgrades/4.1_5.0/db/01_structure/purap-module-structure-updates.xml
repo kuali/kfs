@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="KFS50" id="pur_po_itm_tot_amt_v">
+		<comment>KFSMI-6745</comment>
+		<createView viewName="pur_po_itm_tot_amt_v"
+			replaceIfExists="true"><![CDATA[
+		select fdoc_nbr, sum(
+                     CASE
+                     WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC
+                     WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC
+                     WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC
+                     WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC
+                     WHEN ITM_ACTV_IND ='N' THEN 0
+                     ELSE 0
+                       END) as TOTAL_AMOUNT
+       from pur_po_itm_t group by fdoc_nbr
+		]]></createView>
+	</changeSet>
+</databaseChangeLog>

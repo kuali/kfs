@@ -205,6 +205,9 @@
 		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
     		        <property name="qualificationAttributeName" value="subAccountNumber" />
     		    </bean>
+    		    <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+    		        <property name="qualificationAttributeName" value="organizationCode" />
+    		    </bean>
     		</list>
     	</property>
     	<property name="documentValuePathGroups">
@@ -223,6 +226,7 @@
 	   			        <value>chartOfAccountsCode</value>
 	   			        <value>accountNumber</value>
 	   			        <value>subAccountNumber</value>
+	   			        <value>account.organizationCode</value>
 	   		        </list>
    		        </property>
     		</bean>

@@ -68,8 +68,9 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public CapitalAssetInformation() {
         super();
         setAmount(KualiDecimal.ZERO);
-
-        capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
+        capitalAssetInformationDetails = new ArrayList();
+        
+      //  capitalAssetInformationDetails = new TypedArrayList<CapitalAssetInformationDetail>();
     }
 
     protected LinkedHashMap toStringMapper() {

@@ -1136,6 +1136,12 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
         
         int lineIndexForCapitalAssetInfo = this.getLineToDelete(request);
+        
+        if (capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails() != null &&
+                capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().size() > 0) {
+            capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().remove(0);
+        }
+        
         capitalAssetInformation.remove(lineIndexForCapitalAssetInfo);
         
         //now process the remaining capital asset records

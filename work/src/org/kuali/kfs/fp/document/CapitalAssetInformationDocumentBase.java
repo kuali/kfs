@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
+import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -49,8 +50,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
         if (ObjectUtils.isNotNull(this.getCapitalAssetInformation())) {
             int caiSize = this.getCapitalAssetInformation().size();
         }
+        this.setCapitalAssetInformation(new ArrayList());
         
-        this.setCapitalAssetInformation(new ArrayList<CapitalAssetInformation>());
+      //  this.setCapitalAssetInformation(new ArrayList<CapitalAssetInformation>());
     }
 
     /**
@@ -61,17 +63,16 @@ import org.kuali.rice.kns.util.TypedArrayList;
         List<List> managedLists = super.buildListOfDeletionAwareLists();
         
         List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
-        managedLists.add(capitalAssets);           
-   //     if (ObjectUtils.isNotNull(capitalAssets) && capitalAssets.size() > 0) {
-   //         managedLists.add(capitalAssets);    
-   //     }
+        managedLists.add(capitalAssets); 
+        List<CapitalAssetInformationDetail> capitalAssetDetails = new ArrayList();
         
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-         //   managedLists.add(capitalAsset.getCapitalAssetInformationDetails());            
-            if (ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails()) && capitalAsset.getCapitalAssetInformationDetails().size() > 0) {
-                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
+        if (capitalAssets != null && capitalAssets.size() > 0) {
+            for (CapitalAssetInformation capitalAsset : capitalAssets) {
+                capitalAssetDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());               
             }
         }
+        
+        managedLists.add(capitalAssetDetails);  
        
         return managedLists;
     }

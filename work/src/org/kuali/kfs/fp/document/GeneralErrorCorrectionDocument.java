@@ -18,31 +18,21 @@ package org.kuali.kfs.fp.document;
 import static org.kuali.kfs.sys.KFSConstants.FROM;
 import static org.kuali.kfs.sys.KFSConstants.TO;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
-import org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 
 /**
@@ -50,9 +40,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
  */
-public class GeneralErrorCorrectionDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
+public class GeneralErrorCorrectionDocument extends CapitalAssetInformationDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralErrorCorrectionDocument.class);
 
-    protected List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -60,24 +50,6 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
      */
     public GeneralErrorCorrectionDocument() {
         super();
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        
-        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
-                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
-            }
-        }
-        
-        return managedLists;
     }
 
     /**
@@ -114,20 +86,6 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     @Override
     public Class getTargetAccountingLineClass() {
         return GECTargetAccountingLine.class;
-    }
-
-    /**
-     * Returns true if accounting line is debit
-     * 
-     * @param transactionalDocument submitted accounting document
-     * @param accountingLine accounting line in account document
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
-     */
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        return isDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, (AccountingLine) postable);
     }
 
     /**
@@ -175,20 +133,6 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
         }
 
         return description;
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
-     */
-    public List<CapitalAssetInformation> getCapitalAssetInformation() {
-        return this.capitalAssetInformation;
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
-     */
-    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;        
     }
 
     /**

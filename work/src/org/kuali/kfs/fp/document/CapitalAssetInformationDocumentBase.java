@@ -50,9 +50,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
         if (ObjectUtils.isNotNull(this.getCapitalAssetInformation())) {
             int caiSize = this.getCapitalAssetInformation().size();
         }
-        this.setCapitalAssetInformation(new ArrayList());
         
-      //  this.setCapitalAssetInformation(new ArrayList<CapitalAssetInformation>());
+        this.setCapitalAssetInformation(new ArrayList());
     }
 
     /**

@@ -51,7 +51,6 @@ public class InternalBillingDocument extends CapitalAssetInformationDocumentBase
     protected List items;
     protected Integer nextItemLineNumber;
 
-    protected List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -93,26 +92,6 @@ public class InternalBillingDocument extends CapitalAssetInformationDocumentBase
      */
     public List getItems() {
         return items;
-    }
-
-    /**
-     * Allows items (in addition to accounting lines) to be deleted from the database after being saved there.
-     * 
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        
-        managedLists.add(getItems());
-        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
-                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
-            }
-        }
-        
-        return managedLists;
     }
 
     /**
@@ -168,35 +147,6 @@ public class InternalBillingDocument extends CapitalAssetInformationDocumentBase
     @Override
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.EXPENSE;
-    }
-
-    /**
-     * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
-     * 
-     * @param transactionalDocument The document containing the accounting line being analyzed.
-     * @param accountingLine The accounting line being reviewed to determine if it is a debit line or not.
-     * @return True if the accounting line is a debit accounting line, false otherwise.
-     * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
-     */
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine) postable);
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
-     */
-    public List<CapitalAssetInformation> getCapitalAssetInformation() {
-        return this.capitalAssetInformation;
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
-     */
-    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;        
     }
 
     /**

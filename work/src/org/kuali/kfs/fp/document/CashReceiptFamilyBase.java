@@ -41,36 +41,16 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * Abstract class which defines behavior common to CashReceipt-like documents.
  */
-abstract public class CashReceiptFamilyBase extends AccountingDocumentBase implements CapitalAssetEditable {
+abstract public class CashReceiptFamilyBase extends CapitalAssetInformationDocumentBase implements CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
     protected String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     protected Date depositDate;
 
-    // capital asset
-    protected transient List<CapitalAssetInformation> capitalAssetInformation;
-    
     /**
      * Constructs a CashReceiptFamilyBase
      */
     public CashReceiptFamilyBase() {
         setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        
-        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
-                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
-            }
-        }
-        
-        return managedLists;
     }
 
     /**

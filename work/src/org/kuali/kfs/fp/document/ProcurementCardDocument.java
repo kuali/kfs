@@ -49,14 +49,13 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * document, but only target lines are displayed because source lines cannot be changed. Transaction, Card, and Vendor information
  * are associated with the document to help better distribute the expense.
  */
-public class ProcurementCardDocument extends AccountingDocumentBase implements AmountTotaling, CapitalAssetEditable {
+public class ProcurementCardDocument extends CapitalAssetInformationDocumentBase implements AmountTotaling, CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
 
     protected ProcurementCardHolder procurementCardHolder;
 
     protected List transactionEntries;
 
-    protected transient List<CapitalAssetInformation> capitalAssetInformation;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**
@@ -65,25 +64,6 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     public ProcurementCardDocument() {
         super();
         transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
-        // Save Capital Asset Information for PCard document when created.
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
-     */
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        
-        List<CapitalAssetInformation> capitalAssets = this.getCapitalAssetInformation();
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            if (ObjectUtils.isNotNull(capitalAsset) && ObjectUtils.isNotNull(capitalAsset.getCapitalAssetInformationDetails())) {
-                managedLists.add(capitalAsset.getCapitalAssetInformationDetails());
-            }
-        }
-        
-        return managedLists;
     }
 
     /**
@@ -272,20 +252,6 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
         return isDebitUtils.isDebitConsideringSection(this, (AccountingLine) postable);
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
-     */
-    public List<CapitalAssetInformation> getCapitalAssetInformation() {
-        return this.capitalAssetInformation;
-    }
-
-    /**
-     * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
-     */
-    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;        
     }
 
     /**

@@ -17,13 +17,13 @@
 		<createTable tableName='FP_CPTL_AST_INFO_T'>
 			<column name='FDOC_NBR' type='VARCHAR2(14)' nullable='false' />
 			<column name='OBJ_ID' type='VARCHAR2(36)' nullable='false' />
-			<column name='VER_NBR' type='NUMBER(8)' nullable='false' />
+			<column name='VER_NBR' type='NUMBER(8)' defaultValueNumeric="1" nullable='false' />
 			<column name='FDOC_LINE_NBR' type='NUMBER(7)' nullable='false' />
 			<column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)' nullable='false' />
 			<column name='FIN_COA_CD' type='VARCHAR2(2)' nullable='false' />
 			<column name='ACCOUNT_NBR' type='VARCHAR2(7)' nullable='false' />
 			<column name='FIN_OBJECT_CD' type='VARCHAR2(4)' nullable='false' />
-			<column name='CPTLAST_LINE_NBR' type='NUMBER(7)' nullable='false' />
+			<column name='CPTLAST_LINE_NBR' type='NUMBER(7)' defaultValueNumeric="1" nullable='false' />
 			<column name='VNDR_HDR_GNRTD_ID' type='NUMBER(10)' nullable='true' />
 			<column name='VNDR_DTL_ASND_ID' type='NUMBER(10)' nullable='true' />
 			<column name='CPTLAST_NBR' type='NUMBER(12)' nullable='true' />
@@ -40,9 +40,9 @@
 
 		<createTable tableName='FP_CPTL_AST_INFO_DTL_T'>
 			<column name='FDOC_NBR' type='VARCHAR2(14)' nullable='false' />
-			<column name='ITM_LN_NBR' type='NUMBER(7)' nullable='false' />
+			<column name='ITM_LN_NBR' type='NUMBER(7)' defaultValueNumeric="1" nullable='false' />
 			<column name='OBJ_ID' type='VARCHAR2(36)' nullable='false' />
-			<column name='VER_NBR' type='NUMBER(8)' nullable='false' />
+			<column name='VER_NBR' type='NUMBER(8)' defaultValueNumeric="1" nullable='false' />
 			<column name='FDOC_LINE_NBR' type='NUMBER(8)' nullable='false' />
 			<column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)' nullable='false' />
 			<column name='FIN_COA_CD' type='VARCHAR2(2)' nullable='false' />

@@ -1204,77 +1204,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     }
 
     /**
-     * add detail lines into the given capital asset information
-     * 
-     * @param capitalAssetInformation the given capital asset information
-     */
-    protected void addCapitalAssetInfoDetailLines(CapitalAssetInformation capitalAssetInformation) {
-        LOG.debug("addCapitalAssetInfoDetailLines() - start");
-
-        if (ObjectUtils.isNull(capitalAssetInformation)) {
-            return;
-        }
-
-        Integer quantity = capitalAssetInformation.getCapitalAssetQuantity();
-        if (quantity == null || quantity <= 0) {
-            String errorPath = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION;
-            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_INVALID_CAPITAL_ASSET_QUANTITY);
-            return;
-        }
-
-        List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
-        // If details collection has old lines, this loop will add new lines to make the total equal to the quantity.
-        for (int index = 1; detailLines.size() < quantity; index++) {
-            CapitalAssetInformationDetail detailLine = new CapitalAssetInformationDetail();
-            detailLine.setItemLineNumber(getNextItemLineNumberAndIncremented(capitalAssetInformation));
-            detailLines.add(detailLine);
-        }
-    }
-
-    /**
-     * Get next available item line number. If it's already stored in the session, pick it up and increment by 1. Otherwise get it
-     * from the DB and save it to session.
-     * 
-     * @param capitalAssetInformation
-     * @return
-     */
-    protected Integer getNextItemLineNumberAndIncremented(CapitalAssetInformation capitalAssetInformation) {
-        Integer nextItemLineNumber = capitalAssetInformation.getCapitalAssetLineNumber();
-        if (nextItemLineNumber == null) {
-            nextItemLineNumber = new Integer(getMaxItemLineNumber(capitalAssetInformation) + 1);
-        }
-        capitalAssetInformation.setCapitalAssetLineNumber(new Integer(nextItemLineNumber.intValue() + 1));
-        return nextItemLineNumber;
-    }
-
-    /**
-     * Get the maximum item line number from DB.
-     * 
-     * @param capitalAssetInformation
-     * @return
-     */
-    protected int getMaxItemLineNumber(CapitalAssetInformation capitalAssetInformation) {
-        int maxItemLineNumber = 0;
-        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
-
-            if (detailLines != null && !detailLines.isEmpty()) {
-                maxItemLineNumber = detailLines.size();
-            }
-
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, capitalAssetInformation.getDocumentNumber());
-            List<CapitalAssetInformationDetail> perisitentDetails = (List<CapitalAssetInformationDetail>) getBusinessObjectService().findMatching(CapitalAssetInformationDetail.class, fieldValues);
-            for (CapitalAssetInformationDetail persistentDetail : perisitentDetails) {
-                if (persistentDetail.getItemLineNumber().intValue() > maxItemLineNumber) {
-                    maxItemLineNumber = persistentDetail.getItemLineNumber().intValue();
-                }
-            }
-        }
-        return maxItemLineNumber;
-    }
-
-    /**
      * reset the nonkey fields of the given capital asset information
      * 
      * @param capitalAssetInformation the given capital asset information
@@ -1369,10 +1298,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
         
         String documentNumber = calfb.getDocument().getDocumentNumber();
-        
-      //  if (ObjectUtils.isNull(currentCapitalAssetInformation)) {
-     //       currentCapitalAssetInformation = new ArrayList();
-     //   }
         
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.isSelectLine()) {
@@ -1586,6 +1511,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                 else {
                     capitalAccountingLine.setAmountDistributed(false);
                 }
+            }
+            else {
+                capitalAccountingLine.setSelectLine(false);
             }
         }
         

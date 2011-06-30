@@ -92,6 +92,7 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         capitalAccountingLines = updateCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
         capitalAccountingLinesFormBase.setCapitalAccountingLines(updateCapitalAccountingLines(capitalAccountingLines, tdoc));
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

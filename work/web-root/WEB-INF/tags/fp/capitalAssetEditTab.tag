@@ -19,20 +19,24 @@
 
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>
 
-<c:set var="capitalAssetInfo" value="document.capitalAssetInformation" />	
-<c:set var="newCapitalAssetInfoName" value="capitalAssetInformation" />
+<c:set var="capitalAssetInfoSize" value="${fn:length(KualiForm.document.capitalAssetInformation)}" />	
+<c:set var="defaultOpen" value="false"/>
 
-<kul:tab tabTitle="Create Capital Assets" defaultOpen="false" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
+<c:if test="${capitalAssetInfoSize > 0}" >
+	<c:set var="defaultOpen" value="true"/>
+</c:if>
+
+<kul:tab tabTitle="Create Capital Assets" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
      <div class="tab-container" align="center">
-	 <h3>Create Capital Assets</h3>     
-	<table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
-	     <c:if test="${empty capitalAssetInfo}">
+	 <h3>Create Capital Assets</h3>
+	 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+	     <c:if test="${capitalAssetInfoSize <= 0}">
 			<tr>
 				<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
 			</tr>
 		</c:if>
      </table>
-     <c:if test="${not empty capitalAssetInfo}">	 
+     <c:if test="${capitalAssetInfoSize > 0}">	 
 	 	<fp:capitalAssetInfo readOnly="${readOnly}"/>
 	 </c:if>     
 	 </div>	

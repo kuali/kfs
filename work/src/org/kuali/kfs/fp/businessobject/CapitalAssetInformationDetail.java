@@ -44,6 +44,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
+    private Integer capitalAssetLineNumber;
     
     private Campus campus;
     private Building building;
@@ -376,6 +377,22 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
     }
     
     /**
+     * Gets the capitalAssetLineNumber attribute. 
+     * @return Returns the capitalAssetLineNumber.
+     */
+    public Integer getCapitalAssetLineNumber() {
+        return capitalAssetLineNumber;
+    }
+
+    /**
+     * Sets the capitalAssetLineNumber attribute value.
+     * @param capitalAssetLineNumber The capitalAssetLineNumber to set.
+     */
+    public void setCapitalAssetLineNumber(Integer capitalAssetLineNumber) {
+        this.capitalAssetLineNumber = capitalAssetLineNumber;
+    }
+    
+    /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
      * 
      * @return Map a map with the primitive field names as the key and the primitive values as the map value.
@@ -393,6 +410,7 @@ public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase
         simpleValues.put(KFSPropertyConstants.CAMPUS_CODE, this.getCampusCode());
         simpleValues.put(KFSPropertyConstants.BUILDING_CODE, this.getBuildingCode());
         simpleValues.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, this.getBuildingRoomNumber());
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_LINE_NUMBER, this.getCapitalAssetLineNumber());
 
         return simpleValues;
     }

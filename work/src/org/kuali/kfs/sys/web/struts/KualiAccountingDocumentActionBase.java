@@ -1473,6 +1473,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         assetDetail.setFinancialDocumentLineTypeCode(capitalAsset.getFinancialDocumentLineTypeCode());
         assetDetail.setFinancialObjectCode(capitalAsset.getFinancialObjectCode());
         assetDetail.setSequenceNumber(capitalAsset.getSequenceNumber());
+        assetDetail.setCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
         assetDetail.setItemLineNumber(capitalAsset.getCapitalAssetLineNumber());
         capitalAsset.getCapitalAssetInformationDetails().add(0,assetDetail);
     }

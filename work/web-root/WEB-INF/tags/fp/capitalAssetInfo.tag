@@ -27,23 +27,22 @@
 <c:set var="dataCellCssClass" value="datacell" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
 
-<table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
-   <tr>
+<table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+    <tr>
    		<td colspan="7" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
-   </tr>
-   <tr>
+    </tr>
+	<tr>
    		<td colspan="4" class="tab-subhead" style="border-top: medium;">
    			<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
    		</td>
    		<td colspan="3" class="tab-subhead" style="border-top: medium;">
    			<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
    		</td>
-   </tr>
-
+  	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
 		<c:if test="${empty detailLine.capitalAssetNumber}">
 			<tr><td colspan="7">
-	     	<div class="tab-container" align="center">
+	     	<div align="center" vAlign="middle">
 	     		<h3>Capital Asset for Accounting Line</h3>
 		     	<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 98%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
 					<tr>
@@ -70,12 +69,12 @@
 						/>
 					</tr>
 				    <tr>
-				    	<td class="datacell">
-							<div align="center">
+				    	<td class="datacell center">
+							<div align="center" valign="middle">
 								<kul:htmlControlAttribute attributeEntry="${attributes.sequenceNumber}" property="${capitalAssetInfoName}[${status.index}].sequenceNumber" readOnly="true"/>					
 							</div>		            
 				        </td>
-				        <td class="datacell"><div>
+				        <td class="datacell center"><div>
 				        	<c:set var="lineType" value="${detailLine.financialDocumentLineTypeCode}" />
 				            <c:if test="${lineType eq KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE}">
 					        	<c:out value="${KFSConstants.SOURCE}" />
@@ -84,17 +83,17 @@
 					            	<c:out value="${KFSConstants.TARGET}" />
 					        </c:if>
 				            </div></td>
-				            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${attributes.chartOfAccountsCode}" property="${capitalAssetInfoName}[${status.index}].chartOfAccountsCode" readOnly="true"/></td>
-				            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${attributes.accountNumber}" property="${capitalAssetInfoName}[${status.index}].accountNumber" readOnly="true"/></td>
-				            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${attributes.financialObjectCode}" property="${capitalAssetInfoName}[${status.index}].financialObjectCode" readOnly="true"/></td>
+				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.chartOfAccountsCode}" property="${capitalAssetInfoName}[${status.index}].chartOfAccountsCode" readOnly="true"/></td>
+				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.accountNumber}" property="${capitalAssetInfoName}[${status.index}].accountNumber" readOnly="true"/></td>
+				            <td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.financialObjectCode}" property="${capitalAssetInfoName}[${status.index}].financialObjectCode" readOnly="true"/></td>
 				    </tr>
 				</table></div></td>	
 		   </tr>
 		   
 			<tr>
 				<td colspan="7">
-		     		<div class="tab-container" align="center">
-			     		<table datatable style="border-top: 1px solid rgb(153, 153, 153); ; width: 96%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
+		     		<div align="center" valign="middle">
+			     		<table datatable style="border-top: 1px solid rgb(153, 153, 153); width: 96%;" cellpadding="0" cellspacing="0" summary="Asset for Accounting Lines">
 						   <tr> 
 								<kul:htmlAttributeHeaderCell literalLabel=""/>	   
 						   	    <kul:htmlAttributeHeaderCell attributeEntry="${attributes.capitalAssetQuantity}" labelFor="${capitalAssetInfoName}.capitalAssetQuantity"/> 
@@ -151,7 +150,7 @@
 							<c:if test="${!readOnly}">
 								<tr>
 									<td class="infoline">  
-										<div style="text-align: center;">	
+										<div align="center" valign="middle">	
 											<html:image property="methodToCall.addCapitalAssetInfo.line${status.index}.Anchor" 
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
 												title="Add the capital Asset Information"

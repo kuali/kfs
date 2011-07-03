@@ -35,16 +35,20 @@
 
 <kul:tab tabTitle="Create Capital Assets" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS}" >
      <div class="tab-container" align="center">
-	 <h3>Create Capital Assets</h3>
-	 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
-	     <c:if test="${createdCapitalAssets <= 0}">
-			<tr>
-				<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
-			</tr>
-		</c:if>
-     </table>
-     <c:if test="${createdCapitalAssets > 0}">	 
-	 	<fp:capitalAssetInfo readOnly="${readOnly}"/>
-	 </c:if>     
+	 	<h3>Create Capital Assets</h3>
+		 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+		     <c:if test="${createdCapitalAssets <= 0}">
+				<tr>
+					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
+				</tr>
+			</c:if>
+	     	<c:if test="${createdCapitalAssets > 0}">
+	     		<tr>
+					<td>
+		 				<fp:capitalAssetInfo readOnly="${readOnly}"/>
+					</td>
+				</tr>
+	     	</c:if>     
+	     </table>
 	 </div>	
 </kul:tab>	 

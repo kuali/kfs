@@ -34,17 +34,21 @@
 </c:if>
 
 <kul:tab tabTitle="Modify Capital Assets" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS}" >
-     <div class="tab-container" align="center">
+     <div class="tab-container" align="center" valign="middle">
 		 <h3>Modify Capital Assets</h3>
-		 <table class="datatable" style="border-top: 1px solid rgb(153, 153, 153);"  cellpadding="0" cellspacing="0" summary="Capital Asset Information">
+		 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
 		     <c:if test="${modifiedCapitalAssets <= 0}">
 				<tr>
 					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
 				</tr>
 			</c:if>
+			<c:if test="${modifiedCapitalAssets > 0}">
+				<tr>
+					<td>
+						<fp:capitalAssetModify readOnly="${readOnly}"/>					
+					</td>
+				</tr>	 
+	 		</c:if>
 	     </table>
-	     <c:if test="${modifiedCapitalAssets > 0}">	 
-		 	<fp:capitalAssetModify readOnly="${readOnly}"/>
-		 </c:if>     
 	 </div>	
 </kul:tab>	 

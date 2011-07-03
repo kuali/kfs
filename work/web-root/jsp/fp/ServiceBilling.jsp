@@ -37,8 +37,10 @@
   	<fp:capitalAccountingLines readOnly="${readOnly}"/>
   	
 	<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
-		<fp:capitalAssetEditTab readOnly="${readOnly}"/>
+		<fp:capitalAssetCreateTab readOnly="${readOnly}"/>
 	</c:if>
+  	
+	<fp:capitalAssetModifyTab readOnly="${readOnly}"/>  
 	
 	<gl:generalLedgerPendingEntries />
 	<kul:notes />

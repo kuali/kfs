@@ -21,7 +21,7 @@
 
 <c:set var="capitalAssetInfoSize" value="${fn:length(KualiForm.document.capitalAssetInformation)}" />	
 <c:set var="defaultOpen" value="false"/>
-<c:set var="modifyCapitalAssets" value="false"/>
+<c:set var="modifiedCapitalAssets" value="0"/>
 
 <c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
 	<c:if test="${!empty detailLine.capitalAssetNumber}">
@@ -39,7 +39,7 @@
 		 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
 		     <c:if test="${modifiedCapitalAssets <= 0}">
 				<tr>
-					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
+					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Modify Capital Assets entries associated with this Transaction Processing document.</div></td>
 				</tr>
 			</c:if>
 			<c:if test="${modifiedCapitalAssets > 0}">

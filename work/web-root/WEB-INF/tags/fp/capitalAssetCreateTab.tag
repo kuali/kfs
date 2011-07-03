@@ -39,7 +39,7 @@
 		 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
 		     <c:if test="${createdCapitalAssets <= 0}">
 				<tr>
-					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Capital Assets entries associated with this Transaction Processing document.</div></td>
+					<td class="datacell" height="50" colspan="5"><div align="center">There are currently no Create Capital Assets entries associated with this Transaction Processing document.</div></td>
 				</tr>
 			</c:if>
 	     	<c:if test="${createdCapitalAssets > 0}">

@@ -549,7 +549,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS = "document.currencyDetail.*,document.coinDetail.*";
     public static final String EDIT_CASH_MANAGEMENT_CASHIERING_TRANSACTION_ERRORS = "document.currentTransaction.*";
     public static final String EDIT_CAPITAL_ASSET_INFORMATION_ERRORS = "document.capitalAssetInformation*";
-    public static final String EDIT_CAPITAL_ASSET_MODIFY_ERRORS = "document.capitalAssetInformation*";
+    public static final String EDIT_CAPITAL_ASSET_MODIFY_ERRORS = "document.capitalAssetModify*";
     public static final String EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS = "document.capitalAccountingLines*";
     
     public static final String MULTIPLE_VALUE = "multipleValues";

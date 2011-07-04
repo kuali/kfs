@@ -88,6 +88,9 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class KualiAccountingDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
 
+    protected static final String ASSET_CREATE_ACTION_TYPE = "create";
+    protected static final String ASSET_MODIFY_ACTION_TYPE = "modify";
+
     /**
      * Adds check for accountingLine updates, generates and dispatches any events caused by such updates
      * 
@@ -1100,6 +1103,30 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     }
 
     /**
+     * clear up the modify capital asset information.  The asset number will be reset to 0 and
+     * clear out the amount.  Processes any remaining capital assets.
+     */
+    public ActionForward clearCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("clearCapitalAssetModify() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+
+        int clearIndex = getSelectedLine(request);
+        capitalAssetInformation.get(clearIndex).setCapitalAssetNumber(new Long(0));
+        capitalAssetInformation.get(clearIndex).setAmount(KualiDecimal.ZERO);
+        
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * add the capital asset information
      */
     public ActionForward addCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1123,6 +1150,31 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     }
 
     /**
+     * add the capital asset modify information.
+     */
+    public ActionForward addCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addCapitalAssetInfoDetail() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        int addIndex = getSelectedLine(request);        
+        if (capitalAssetInformation.get(addIndex).getCapitalAssetNumber() == null) {
+            capitalAssetInformation.get(addIndex).setCapitalAssetNumber(new Long(0));
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
+        }
+        
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * deletes the capital asset information
      */
     public ActionForward deleteCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1141,6 +1193,29 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                 capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().size() > 0) {
             capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().remove(0);
         }
+        
+        capitalAssetInformation.remove(lineIndexForCapitalAssetInfo);
+        
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * deletes the capital asset information
+     */
+    public ActionForward deleteCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("deleteCapitalAssetModify() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        int lineIndexForCapitalAssetInfo = this.getLineToDelete(request);
         
         capitalAssetInformation.remove(lineIndexForCapitalAssetInfo);
         
@@ -1283,14 +1358,18 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
     //new code that is moved from capitalaccountinglinesactionbase class
     /**
-     * Populates capital asset information collection with capital accounting lines
+     * Populates capital asset information collection with capital accounting lines.
+     * Based on actionType, capitalAssetNumber attribute is left null if actionType is "createAsset"
+     * else populated with a '0' which will be used to differentiate to pull the records in
+     * create asset screen or modify asset screen. 
      * 
      * @param calfb
+     * @param actionType tells whether we are here from createAsset or modifyAsset actions
      */
-    protected void createCapitalAssetInformation(CapitalAccountingLinesFormBase calfb) {
+    protected void createCapitalAssetInformation(CapitalAccountingLinesFormBase calfb, String actionType) {
         List<CapitalAccountingLines> capitalAccountingLines = calfb.getCapitalAccountingLines();        
         List<CapitalAssetInformation> capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
-
+        
         calfb.setSystemControlAmount(KualiDecimal.ZERO);
         
         KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) calfb;
@@ -1320,7 +1399,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                         capitalAsset.setFinancialObjectCode(existingCapitalAsset.getFinancialObjectCode());
                         capitalAsset.setAmount(KualiDecimal.ZERO);
                         capitalAsset.setDocumentNumber(documentNumber);
-                      //  createCapitalAssetInformationDetail(capitalAsset);
+                        if (ASSET_MODIFY_ACTION_TYPE.equalsIgnoreCase(actionType)) {
+                            capitalAsset.setCapitalAssetNumber(new Long(0));
+                        }
                         currentCapitalAssetInformation.add(capitalAsset);
                     }
                 }
@@ -1335,7 +1416,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
                     capitalAsset.setAmount(KualiDecimal.ZERO);
                     capitalAsset.setDocumentNumber(documentNumber);
                     capitalAsset.setCapitalAssetLineNumber(1);
-                  //  createCapitalAssetInformationDetail(capitalAsset);                    
+                    if (ASSET_MODIFY_ACTION_TYPE.equalsIgnoreCase(actionType)) {
+                        capitalAsset.setCapitalAssetNumber(new Long(0));
+                    }
                     currentCapitalAssetInformation.add(capitalAsset);
                 }
             }

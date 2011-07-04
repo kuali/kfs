@@ -118,16 +118,16 @@
 									
 								<c:if test="${!readOnly}">
 									<td class="infoline"> 
-											<div style="text-align: center;">	
-												<html:image property="methodToCall.addCapitalAssetInfo.line${status.index}.Anchor" 
-													src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-													title="Add the capital Asset Information"
-													alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
-												<html:image property="methodToCall.deleteCapitalAssetInfo.line${status.index}.Anchor" 
+											<div style="text-align: center;">
+											<html:image property="methodToCall.addCapitalAssetModify.line${status.index}.Anchor" 
+												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
+												title="Add the capital Asset Information"
+												alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
+												<html:image property="methodToCall.deleteCapitalAssetModify.line${status.index}.Anchor" 
 													src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
 													title="Delete the capital Asset Information"
 													alt="Delete the capital Asset Information" styleClass="tinybutton" />&nbsp;
-												<html:image property="methodToCall.clearCapitalAssetInfo.line${status.index}.Anchor" 
+												<html:image property="methodToCall.clearCapitalAssetModify.line${status.index}.Anchor" 
 													src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 													title="Clear the capital Asset Information"
 													alt="Clear the capital Asset Information" styleClass="tinybutton" />

@@ -397,7 +397,7 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
             calfb.setEditCreateOrModify(false);
         }
             
-        createCapitalAssetInformation(calfb);
+        createCapitalAssetInformation(calfb, ASSET_CREATE_ACTION_TYPE);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -423,6 +423,8 @@ public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDo
         else {
             calfb.setEditCreateOrModify(false);
         }
+        
+        createCapitalAssetInformation(calfb, ASSET_MODIFY_ACTION_TYPE);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

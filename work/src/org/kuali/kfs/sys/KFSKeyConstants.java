@@ -115,8 +115,12 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_ACCT_OBJ_CD = "error.document.accountingLine.invalidAccountAndObjectCode";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_SALES_TAX_INVALID_ACCOUNT = "error.document.accountingLine.salesTax.invalidAccountChart";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE = "error.document.accountingLine.nonActiveCurrentAccountingDocumentType";
+    // Capital accounting lines errors
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_MODIFY = "error.document.capitalAccountingLines.selectLinesRequired.modify";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_CREATE = "error.document.capitalAccountingLines.selectLinesRequired.create";
+    
+    //capital asset information errors
+    public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";
     
     public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 

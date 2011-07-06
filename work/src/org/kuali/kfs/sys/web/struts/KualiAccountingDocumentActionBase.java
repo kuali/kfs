@@ -1066,5 +1066,4 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         return new ActionForward(path, true);
     }
-
 }

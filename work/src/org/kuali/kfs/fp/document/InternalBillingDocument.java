@@ -63,6 +63,22 @@ public class InternalBillingDocument extends CapitalAssetInformationDocumentBase
     }
 
     /**
+     * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
+     * 
+     * @param transactionalDocument The document containing the accounting line being analyzed.
+     * @param accountingLine The accounting line being reviewed to determine if it is a debit line or not.
+     * @return True if the accounting line is a debit accounting line, false otherwise.
+     * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
+     *      org.kuali.rice.kns.bo.AccountingLine)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine) postable);
+    }
+    
+    /**
      * Adds a new item to the item list.
      * 
      * @param item

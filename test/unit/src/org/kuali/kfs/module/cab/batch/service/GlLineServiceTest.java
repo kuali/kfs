@@ -73,6 +73,12 @@ public class GlLineServiceTest extends KualiTestBase {
     private CapitalAssetInformationDetail createNewCapitalAssetInformationDetail() {
         CapitalAssetInformationDetail assetInformationDetail = new CapitalAssetInformationDetail();
         assetInformationDetail.setDocumentNumber("1001");
+        assetInformationDetail.setFinancialDocumentLineTypeCode("F");
+        assetInformationDetail.setChartOfAccountsCode("BL");
+        assetInformationDetail.setAccountNumber("1031400");
+        assetInformationDetail.setFinancialObjectCode("7000");
+        assetInformationDetail.setCapitalAssetLineNumber(1);
+        
         assetInformationDetail.setItemLineNumber(1);
         assetInformationDetail.setCampusCode("BL");
         assetInformationDetail.setBuildingCode("BL001");
@@ -86,6 +92,13 @@ public class GlLineServiceTest extends KualiTestBase {
     private CapitalAssetInformation createNewCapitalAssetInformation() {
         CapitalAssetInformation assetInformation = new CapitalAssetInformation();
         assetInformation.setDocumentNumber("1001");
+        assetInformation.setFinancialDocumentLineTypeCode("F");
+        assetInformation.setChartOfAccountsCode("BL");
+        assetInformation.setAccountNumber("1031400");
+        assetInformation.setFinancialObjectCode("7000");
+        assetInformation.setSequenceNumber(1);
+        assetInformation.setAmount(KualiDecimal.ZERO);
+        assetInformation.setCapitalAssetLineNumber(1);
         assetInformation.setVendorHeaderGeneratedIdentifier(1000);
         assetInformation.setVendorDetailAssignedIdentifier(0);
         assetInformation.setCapitalAssetTypeCode("07009");
@@ -239,6 +252,14 @@ public class GlLineServiceTest extends KualiTestBase {
         CapitalAssetInformation assetInformation = new CapitalAssetInformation();
         assetInformation.setDocumentNumber("1001");
         assetInformation.setCapitalAssetNumber(1594L);
+        assetInformation.setFinancialDocumentLineTypeCode("F");
+        assetInformation.setChartOfAccountsCode("BL");
+        assetInformation.setAccountNumber("1031400");
+        assetInformation.setFinancialObjectCode("7000");
+        assetInformation.setSequenceNumber(1);
+        assetInformation.setAmount(KualiDecimal.ZERO);
+        assetInformation.setCapitalAssetLineNumber(1);
+        
         businessObjectService.save(assetInformation);
         AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
         assertNotNull(document);

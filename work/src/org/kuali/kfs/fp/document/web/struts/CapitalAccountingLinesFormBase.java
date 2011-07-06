@@ -27,7 +27,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * This class is the struts base form for financial form documents that need
  * capital accounting lines.
  */
-public abstract class CapitalAccountingLinesFormBase extends KualiAccountingDocumentFormBase {
+public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInformationFormBase {
     //transient objects
     protected transient List<CapitalAccountingLines> capitalAccountingLines;
     protected transient CapitalAccountingLine capitalAccountingLine;

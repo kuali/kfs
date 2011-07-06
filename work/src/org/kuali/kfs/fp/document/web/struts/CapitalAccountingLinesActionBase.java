@@ -50,7 +50,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /**
  * This is the action class for the Advance Deposit document.
  */
-public abstract class CapitalAccountingLinesActionBase extends KualiAccountingDocumentActionBase {
+public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInformationActionBase {
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
     /**

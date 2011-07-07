@@ -19,7 +19,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,7 @@ import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
+import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -41,11 +44,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This is the action class for the Advance Deposit document.
@@ -63,7 +68,6 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         super.loadDocument(kualiDocumentFormBase);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
-//        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
         List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
 
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
@@ -73,6 +77,11 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         capitalAccountingLinesFormBase.setCapitalAccountingLines(capitalAccountingLines);
         
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        
+        KualiForm kualiForm = (KualiForm) kualiDocumentFormBase;
+        //based on the records in capital accounting lines, capital asset information lists
+        //set the tabs to open if lists not empty else set to close
+        setTabStatesForCapitalAssets(kualiForm);
     }
         
     /**
@@ -94,6 +103,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         capitalAccountingLinesFormBase.setCapitalAccountingLines(updateCapitalAccountingLines(capitalAccountingLines, tdoc));
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         
+        setTabStatesForCapitalAssets(form);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -110,6 +121,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
 
         createCapitalAccountingLine(capitalAccountingLines, line);
         sortCaptitalAccountingLines(capitalAccountingLines);
+        
+        KualiForm kualiForm = (KualiForm) financialDocumentForm;
+        setTabStatesForCapitalAssets(kualiForm);
     }
       
     /**
@@ -136,6 +150,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
         sortCaptitalAccountingLines(capitalAccountingLines);
+        
+        KualiForm kualiForm = (KualiForm) financialDocumentForm;
+        setTabStatesForCapitalAssets(kualiForm);
     }
     
     /**
@@ -153,6 +170,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
+        
+        KualiForm kualiForm = (KualiForm) form;
+        setTabStatesForCapitalAssets(kualiForm);
     }
     
     /**
@@ -397,7 +417,10 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             calfb.setEditCreateOrModify(false);
         }
             
-        createCapitalAssetInformation(calfb, ASSET_CREATE_ACTION_TYPE);
+        createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+        
+        KualiForm kualiForm = (KualiForm) form;
+        setTabStatesForCapitalAssets(kualiForm);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -424,7 +447,10 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             calfb.setEditCreateOrModify(false);
         }
         
-        createCapitalAssetInformation(calfb, ASSET_MODIFY_ACTION_TYPE);
+        createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+        
+        KualiForm kualiForm = (KualiForm) form;
+        setTabStatesForCapitalAssets(kualiForm);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -446,7 +472,4 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         return selected;
     }
-    
-    
-    
 }

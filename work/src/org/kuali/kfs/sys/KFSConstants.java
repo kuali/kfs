@@ -1007,7 +1007,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         
         // capital asset
         public static final String ASSET_PAYMENT = "MPAY";
-        
+
         // labor
         public static final String SALARY_EXPENSE_TRANSFER = "ST";
         
@@ -1248,6 +1248,15 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String KC_NAMESPACE_URI = "KC";
         public static final String KC_BUDGET_CATEGORY_SERVICE = "budgetCategorySoapService";
         public static final String KC_UNIT_SERVICE = "institutionalUnitSoapService";
+    }
+    
+    public static class CapitalAssets {
+        //C ==> create asset action, M ==> modify asset action
+        public static final String CAPITAL_ASSET_CREATE_ACTION_INDICATOR = "C";
+        public static final String CAPITAL_ASSET_MODIFY_ACTION_INDICATOR = "M";
+        public static final String CAPITAL_ASSET_TAB_STATE_OPEN = "OPEN";
+        public static final String CAPITAL_ASSET_TAB_STATE_CLOSE = "CLOSE";
+        
     }
 }
 

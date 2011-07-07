@@ -16,7 +16,9 @@
 package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,18 +39,23 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * This is the action class for the CapitalAssetInformationActionBase.
  */
 public abstract class CapitalAssetInformationActionBase extends KualiAccountingDocumentActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
-
-    protected static final String ASSET_CREATE_ACTION_TYPE = "create";
-    protected static final String ASSET_MODIFY_ACTION_TYPE = "modify";
-
+    
     /**
-     * clear up the capital asset information
+     * Clear the capital asset information that the user has entered
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
      */
     public ActionForward clearCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearCapitalAssetInfo() - start");
@@ -70,8 +77,16 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
-     * clear up the modify capital asset information.  The asset number will be reset to 0 and
-     * clear out the amount.  Processes any remaining capital assets.
+     * clear up the modify capital asset information.  The amount field is reset to 0
+     * Processes any remaining capital assets so that it recalculates the system control
+     * and system control remaining amounts.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
      */
     public ActionForward clearCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("clearCapitalAssetModify() - start");
@@ -94,7 +109,16 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * add the capital asset information
+     * adds capital asset information to the list and create a new capital asset information
+     * detail record for the user enter details. Also recalculates the system control and system
+     * control remaining amounts.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
      */
     public ActionForward addCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("addCapitalAssetInfoDetail() - start");
@@ -117,7 +141,16 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
-     * add the capital asset modify information.
+     * adds capital asset information to the modify capital assets list.
+     * Also recalculates the system control and system control remaining amounts.
+     * Puts a global error message if the user does not enter capital asset number.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
      */
     public ActionForward addCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("addCapitalAssetInfoDetail() - start");
@@ -131,7 +164,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         int addIndex = getSelectedLine(request);        
         if (capitalAssetInformation.get(addIndex).getCapitalAssetNumber() == null) {
-            capitalAssetInformation.get(addIndex).setCapitalAssetNumber(new Long(0));
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
         }
         
@@ -208,13 +240,15 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         //set the amountDistributed property to true if the total amount of all the capital assets 
         //for a given capital accounting line is greater or equal to the line amount.
         checkCapitalAccountingLinesSelected(calfb);
+        
+        setTabStatesForCapitalAssets(form);
     }
     
     /**
      * delete a detail line from the capital asset information
      */
     public ActionForward deleteCapitalAssetInfoDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("deleteCapitalAssetDetailInfo() - start");
+        LOG.debug("deleteCapitalAssetInfoDetailLine() - start");
 
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
         List<CapitalAssetInformation> capitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
@@ -247,7 +281,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
     /**
      * reset the nonkey fields of the given capital asset information
-     * 
+     * removes the corresponding capital asset information detail record from the list.
      * @param capitalAssetInformation the given capital asset information
      */
     protected void resetCapitalAssetInfo(CapitalAssetInformation capitalAssetInformation) {
@@ -270,34 +304,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             
             capitalAssetInformation.getCapitalAssetInformationDetails().clear();
         }
-    }
-
-    // associate the new capital asset information with the current document if any
-    protected void applyCapitalAssetInformation(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
-        LOG.debug("applyCapitalAssetInformation() - start");
-
-        // do nothing if the given document is not required to have capital asset collection
-        AccountingDocument document = kualiAccountingDocumentFormBase.getFinancialDocument();
-        if (!(document instanceof CapitalAssetEditable)) {
-            return;
-        }
-
-        // do nothing if there exists capital asset information associated with the current document
-        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) document;
-        List<CapitalAssetInformation> capitalAssetInformation = capitalAssetEditable.getCapitalAssetInformation();
-        if (capitalAssetInformation != null || !(kualiAccountingDocumentFormBase instanceof CapitalAssetEditable)) {
-            return;
-        }
-
-        CapitalAssetEditable capitalAssetEditableForm = (CapitalAssetEditable) kualiAccountingDocumentFormBase;
-        List<CapitalAssetInformation> newCapitalAssetInformation = capitalAssetEditableForm.getCapitalAssetInformation();
-        // apply capitalAsset information if there is at least one movable object code associated with the source accounting
-        // lines
-        for (CapitalAssetInformation newCapitalAsset : newCapitalAssetInformation) {
-            newCapitalAsset.setDocumentNumber(document.getDocumentNumber());
-        }
-        
-        capitalAssetEditable.setCapitalAssetInformation(newCapitalAssetInformation);
     }
 
     /**
@@ -323,11 +329,10 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         return forward;
     }
 
-    //new code that is moved from capitalaccountinglinesactionbase class
     /**
      * Populates capital asset information collection with capital accounting lines.
-     * Based on actionType, capitalAssetNumber attribute is left null if actionType is "createAsset"
-     * else populated with a '0' which will be used to differentiate to pull the records in
+     * Based on actionType, capitalassetactionindicator attribute is filled with 'C' for create
+     * and 'M' for modify assets, which will be used to differentiate to pull the records in
      * create asset screen or modify asset screen. 
      * 
      * @param calfb
@@ -366,9 +371,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                         capitalAsset.setFinancialObjectCode(existingCapitalAsset.getFinancialObjectCode());
                         capitalAsset.setAmount(KualiDecimal.ZERO);
                         capitalAsset.setDocumentNumber(documentNumber);
-                        if (ASSET_MODIFY_ACTION_TYPE.equalsIgnoreCase(actionType)) {
-                            capitalAsset.setCapitalAssetNumber(new Long(0));
-                        }
+                        capitalAsset.setCapitalAssetActionIndicator(actionType);
                         currentCapitalAssetInformation.add(capitalAsset);
                     }
                 }
@@ -383,9 +386,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                     capitalAsset.setAmount(KualiDecimal.ZERO);
                     capitalAsset.setDocumentNumber(documentNumber);
                     capitalAsset.setCapitalAssetLineNumber(1);
-                    if (ASSET_MODIFY_ACTION_TYPE.equalsIgnoreCase(actionType)) {
-                        capitalAsset.setCapitalAssetNumber(new Long(0));
-                    }
+                    capitalAsset.setCapitalAssetActionIndicator(actionType);
                     currentCapitalAssetInformation.add(capitalAsset);
                 }
             }
@@ -575,4 +576,89 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             calfb.setCreatedAssetsControlAmount(calfb.getCreatedAssetsControlAmount().subtract(capitalAsset.getAmount()));
         }
     }
+    /**
+     * sets the capital assets screens for create and modify and accounting lines
+     * for capitalization screen as open. If accounting lines for capitalizataion list is
+     * not empty then set "Accounting Lines for Capitalization" tab to open else set to close.
+     * If capital asset with capital asset action indicator = 'C' then set "Create Capital Asset"
+     * tab to open else set to close
+     * If capital asset with capital asset action indicator = 'M' then set "Modify Capital Asset"
+     * tab to open else set to close
+     * 
+     * @param form
+     */
+    protected void setTabStatesForCapitalAssets(ActionForm form) {
+        KualiForm kualiForm = (KualiForm) form;
+
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
+        
+        Map<String, String> tabStates = kualiForm.getTabStates();
+        Map<String, String> newTabStates = new HashMap<String, String>();
+        
+        CapitalAssetInformationFormBase capitalAssetInformationFormBase = (CapitalAssetInformationFormBase) form;
+        if (capitalAccountingLinesFormBase.getCapitalAccountingLines().size() > 0) {
+            newTabStates.put("AccountingLinesforCapitalization", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);
+        }
+        else {
+            newTabStates.put("AccountingLinesforCapitalization", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);
+        }
+
+        if (checkCreateAssetsExist(capitalAccountingLinesFormBase)) {
+            newTabStates.put("CreateCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+        }
+        else {
+            newTabStates.put("CreateCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+        }
+        
+        if (checkModifyAssetsExist(capitalAccountingLinesFormBase)) {
+            newTabStates.put("ModifyCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+        }
+        else {
+            newTabStates.put("ModifyCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+        }
+        
+        kualiForm.setTabStates(newTabStates);
+    }
+    
+    /**
+     * 
+     * @param capitalAccountingLinesFormBase
+     * @return true if a capital asset with capital asset action indicator = 'C' else false;
+     */
+    protected boolean checkCreateAssetsExist(CapitalAccountingLinesFormBase capitalAccountingLinesFormBase) {
+        boolean exists = false;
+        
+        CapitalAssetInformationDocumentBase capitalAssetInformationDocumentBase = (CapitalAssetInformationDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAssetInformation> capitalAssets = capitalAssetInformationDocumentBase.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
+                return true;
+            }
+        }
+        
+        return exists;
+    }
+    
+    /**
+     * 
+     * @param capitalAccountingLinesFormBase
+     * @return true if a capital asset with capital asset action indicator = 'C' else false;
+     */
+    protected boolean checkModifyAssetsExist(CapitalAccountingLinesFormBase capitalAccountingLinesFormBase) {
+        boolean exists = false;
+        
+        CapitalAssetInformationDocumentBase capitalAssetInformationDocumentBase = (CapitalAssetInformationDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAssetInformation> capitalAssets = capitalAssetInformationDocumentBase.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
+                return true;
+            }
+        }
+        
+        return exists;
+    }
+    
+    
 }

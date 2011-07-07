@@ -55,7 +55,8 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private String accountNumber;
     private String financialObjectCode;
     private KualiDecimal amount;
-    
+    private String capitalAssetActionIndicator;
+
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
@@ -83,6 +84,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         m.put("accountNumber", this.getAccountNumber());
         m.put("financialObjectCode", this.getFinancialObjectCode());
         m.put("capitalAssetLineNumber", this.getCapitalAssetLineNumber());
+        m.put("capitalAssetActionIndicator", this.getCapitalAssetActionIndicator());
         
         return m;
     }
@@ -343,6 +345,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, this.getCapitalAssetTypeCode());
         simpleValues.put(KFSPropertyConstants.AMOUNT, this.getAmount());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_LINE_NUMBER, this.getCapitalAssetLineNumber());
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_ACTION_INDICATOR, this.getCapitalAssetActionIndicator());
 
         return simpleValues;
     }
@@ -430,5 +433,25 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         }
 
         this.amount = amount;
+    }
+    
+    
+    /**
+     * Gets the capitalAssetActionIndicator attribute.
+     * 
+     * @return Returns the capitalAssetActionIndicator
+     */
+    
+    public String getCapitalAssetActionIndicator() {
+        return capitalAssetActionIndicator;
+    }
+
+    /** 
+     * Sets the capitalAssetActionIndicator attribute.
+     * 
+     * @param capitalAssetActionIndicator The capitalAssetActionIndicator to set.
+     */
+    public void setCapitalAssetActionIndicator(String capitalAssetActionIndicator) {
+        this.capitalAssetActionIndicator = capitalAssetActionIndicator;
     }
 }

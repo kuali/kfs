@@ -40,7 +40,7 @@
    		</td>
   	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
-		<c:if test="${empty detailLine.capitalAssetNumber}">
+		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR}">
 			<tr><td colspan="7">
 	     	<div align="center" vAlign="middle">
 	     		<h3>Capital Asset for Accounting Line</h3>

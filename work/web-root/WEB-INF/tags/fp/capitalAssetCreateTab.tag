@@ -24,7 +24,7 @@
 <c:set var="createdCapitalAssets" value="0"/>
 
 <c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
-	<c:if test="${empty detailLine.capitalAssetNumber}">
+	<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR}">
 		<c:set var="createdCapitalAssets" value="${createdCapitalAssets + 1}"/>
 	</c:if>
 </c:forEach>	

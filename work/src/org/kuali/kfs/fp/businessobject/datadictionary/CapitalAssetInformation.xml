@@ -39,6 +39,7 @@
         <ref bean="CapitalAssetInformation-financialObjectCode"/>
         <ref bean="CapitalAssetInformation-amount"/>
         <ref bean="CapitalAssetInformation-capitalAssetLineNumber"/>
+        <ref bean="CapitalAssetInformation-capitalAssetActionIndicator"/>
       </list>
     </property>
     <property name="relationships">
@@ -159,5 +160,17 @@
 	<property name="name" value="capitalAssetLineNumber"/>
 	<property name="maxLength" value="7"/>
   	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetInformation-capitalAssetActionIndicator" parent="CapitalAssetInformation-capitalAssetActionIndicator-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetActionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="capitalAssetActionIndicator"/>
+	<property name="maxLength" value="1"/>
+    <property name="label" value="Action Indicator"/>
+    <property name="shortLabel" value="Actn. Ind"/>
+  	<property name="forceUppercase" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
   </bean>
 </beans>

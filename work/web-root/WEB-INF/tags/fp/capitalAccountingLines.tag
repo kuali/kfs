@@ -26,7 +26,7 @@
 	<c:set var="defaultOpen" value="true"/>
 </c:if>
 
-<kul:tab tabTitle="Accounting Lines for Capitalization" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS}" >
+<kul:tab tabTitle="${KFSConstants.CapitalAssets.ACCOUNTING_LINES_FOR_CAPITALIZATION_TAB_TITLE}" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS}" >
      <div class="tab-container" align="center">
      	<h3>Accounting Lines for Capitalization</h3>
 	    <c:if test="${empty KualiForm.capitalAccountingLines}">

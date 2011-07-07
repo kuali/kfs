@@ -39,6 +39,7 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -596,25 +597,32 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         Map<String, String> newTabStates = new HashMap<String, String>();
         
         CapitalAssetInformationFormBase capitalAssetInformationFormBase = (CapitalAssetInformationFormBase) form;
+
+        //generated tab key for the three tabs
+        String tabIdForAccountingLinesForCapitalization = WebUtils.generateTabKey(KFSConstants.CapitalAssets.ACCOUNTING_LINES_FOR_CAPITALIZATION_TAB_TITLE);
+        String tabIdForCreateCapitalAsset = WebUtils.generateTabKey(KFSConstants.CapitalAssets.CREATE_CAPITAL_ASSETS_TAB_TITLE);
+        String tabIdForModifyCapitalAsset = WebUtils.generateTabKey(KFSConstants.CapitalAssets.MODIFY_CAPITAL_ASSETS_TAB_TITLE);
+        
+        //if there are any capital accounting lines for capitalization exists then
         if (capitalAccountingLinesFormBase.getCapitalAccountingLines().size() > 0) {
-            newTabStates.put("AccountingLinesforCapitalization", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);
+            newTabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);
         }
         else {
-            newTabStates.put("AccountingLinesforCapitalization", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);
+            newTabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);
         }
 
         if (checkCreateAssetsExist(capitalAccountingLinesFormBase)) {
-            newTabStates.put("CreateCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+            newTabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
         }
         else {
-            newTabStates.put("CreateCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+            newTabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
         }
         
         if (checkModifyAssetsExist(capitalAccountingLinesFormBase)) {
-            newTabStates.put("ModifyCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+            newTabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
         }
         else {
-            newTabStates.put("ModifyCapitalAssets", KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+            newTabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
         }
         
         kualiForm.setTabStates(newTabStates);

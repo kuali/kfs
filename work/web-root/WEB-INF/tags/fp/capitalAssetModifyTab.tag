@@ -33,7 +33,7 @@
 	<c:set var="defaultOpen" value="true"/>
 </c:if>
 
-<kul:tab tabTitle="Modify Capital Assets" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS}" >
+<kul:tab tabTitle="${KFSConstants.CapitalAssets.MODIFY_CAPITAL_ASSETS_TAB_TITLE}" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS}" >
      <div class="tab-container" align="center" valign="middle">
 		 <h3>Modify Capital Assets</h3>
 		 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">

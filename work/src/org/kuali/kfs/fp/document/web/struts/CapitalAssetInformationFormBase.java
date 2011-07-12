@@ -19,7 +19,10 @@ import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLine;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.TypedArrayList;
 
@@ -28,10 +31,95 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * capital accounting lines.
  */
 public abstract class CapitalAssetInformationFormBase extends KualiAccountingDocumentFormBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
+
+    // Indicates which result set we are using when refreshing/returning from a multi-value lookup.
+    protected String lookupResultsSequenceNumber;
+
+    // Type of result returned by the multi-value lookup. ?to be persisted in the lookup results service instead?
+    protected String lookupResultsBOClassName;
+
+    // The name of the collection looked up (by a multiple value lookup)
+    protected String lookedUpCollectionName;
+
     /**
      * Constructs a AdvanceDepositForm.java.
      */
     public CapitalAssetInformationFormBase() {
         super();
+    }
+   
+    /**
+     * Gets the lookupResultsSequenceNumber attribute.
+     * 
+     * @return Returns the lookupResultsSequenceNumber
+     */
+    
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    /** 
+     * Sets the lookupResultsSequenceNumber attribute.
+     * 
+     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
+     */
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Gets the lookupResultsBOClassName attribute.
+     * 
+     * @return Returns the lookupResultsBOClassName
+     */
+    
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    /** 
+     * Sets the lookupResultsBOClassName attribute.
+     * 
+     * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
+     */
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    /**
+     * Gets the lookedUpCollectionName attribute.
+     * 
+     * @return Returns the lookedUpCollectionName
+     */
+    
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    /** 
+     * Sets the lookedUpCollectionName attribute.
+     * 
+     * @param lookedUpCollectionName The lookedUpCollectionName to set.
+     */
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
+     */
+    @Override
+    public String getRefreshCaller() {
+        return KFSConstants.MULTIPLE_VALUE;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#addRequiredNonEditableProperties()
+     */
+    @Override
+    public void addRequiredNonEditableProperties() {
+        super.addRequiredNonEditableProperties();
+        registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
     }
 }

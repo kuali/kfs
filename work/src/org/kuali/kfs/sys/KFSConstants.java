@@ -112,6 +112,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String BACK_LOCATION = "backLocation";
     @Deprecated // Move to GL constants
     public static final String BALANCE_INQUIRY_REPORT_MENU_ACTION = "balanceInquiryReportMenu.do";
+    public static final String ASSET_INQUIRY_MENU_ACTION = "camsAssetPayment.do";
     @Deprecated
     public static final String BALANCE_TYPE_CURRENT_BUDGET = "CB";
     @Deprecated
@@ -153,6 +154,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String DOC_FORM_KEY = "docFormKey";
     public static final String FORM_KEY = "formKey";
     public static final String BALANCE_INQUIRY_REPORT_MENU_CALLER_DOC_FORM_KEY = "balanceInquiryReportMenuCallerDocFormKey";
+    public static final String ASSET_INQUIRY_CALLER_DOC_FORM_KEY = "assetInquiryCallerDocFormKey";
     public static final String DOCUMENT_CANCEL_QUESTION = "DocCancel";
     public static final String DOCUMENT_DELETE_QUESTION = "DocDelete";
     public static final String DOCUMENT_HEADER_ID = "documentHeaderId";

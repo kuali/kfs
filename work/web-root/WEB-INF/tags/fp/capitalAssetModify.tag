@@ -32,11 +32,14 @@
 		<td colspan="7" class="tab-subhead" style="border-top: medium;">Modify Assets</td>
 	</tr>
 	<tr>
-		<td colspan="4" class="tab-subhead" style="border-top: medium;">
+		<td colspan="3" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
 	   	</td>
 	   	<td colspan="3" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
+	   	</td>
+	   	<td colspan="1" class="tab-subhead" style="border-top: medium;">
+	   		<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="assetPaymentAssetDetail" />
 	   	</td>
 	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
@@ -107,10 +110,11 @@
 						   		<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 									field="capitalAssetNumber" lookup="true" inquiry="true"
-									boClassSimpleName="AssetPayment" boPackageName="org.kuali.kfs.module.cam.businessobject"
+									boClassSimpleName="CapitalAssetManagementAsset" boPackageName="org.kuali.kfs.integration.cam"
 									lookupUnkeyedFieldConversions="capitalAssetNumber:${capitalAssetInfoName}.capitalAssetTagNumber,"
 									lookupOrInquiryKeys="capitalAssetNumber"
 									businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/></td>
+									
 									
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"

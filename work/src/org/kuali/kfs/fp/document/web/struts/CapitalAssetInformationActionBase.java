@@ -16,13 +16,17 @@
 package org.kuali.kfs.fp.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -31,11 +35,17 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -47,6 +57,141 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  */
 public abstract class CapitalAssetInformationActionBase extends KualiAccountingDocumentActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentActionBase.class);
+    
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        
+        //process the multivalue lookup data 
+        CapitalAssetInformationFormBase capitalAssetInformationFormBase = (CapitalAssetInformationFormBase) form;
+
+        Collection<PersistableBusinessObject> rawValues = null;
+        Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
+
+        // If multiple asset lookup was used to select the assets, then....
+        if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, capitalAssetInformationFormBase.getRefreshCaller())) {
+            String lookupResultsSequenceNumber = capitalAssetInformationFormBase.getLookupResultsSequenceNumber();
+
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                // actually returning from a multiple value lookup
+                Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                for (String selectedId : selectedIds) {
+                    String selectedObjId = StringUtils.substringBefore(selectedId, ".");
+                    String selectedMonthData = StringUtils.substringAfter(selectedId, ".");
+
+                    if (!segmentedSelection.containsKey(selectedObjId)) {
+                        segmentedSelection.put(selectedObjId, new HashSet<String>());
+                    }
+                    segmentedSelection.get(selectedObjId).add(selectedMonthData);
+                }
+                // Retrieving selected data from table.
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Asking segmentation service for object ids " + segmentedSelection.keySet());
+                }
+                rawValues = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            }
+            
+            KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+            CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+            List<CapitalAccountingLines> capitalAccountingLines = calfb.getCapitalAccountingLines();        
+            
+            List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+            
+            if (rawValues != null) {
+                for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+                    for (PersistableBusinessObject bo : rawValues) {
+                        Asset asset = (Asset) bo;
+
+                     //   boolean addIt = true;
+                        boolean addIt = modifyAssetAlreadyExists(capitalAssetInformation, asset.getCapitalAssetNumber());
+                        
+                        // If it doesn't already exist in the list add it.
+                        if (addIt) {
+                            CapitalAssetInformation capitalAsset = new CapitalAssetInformation();
+                            capitalAsset.setSequenceNumber(capitalAccountingLine.getSequenceNumber());
+                            capitalAsset.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+                            capitalAsset.setChartOfAccountsCode(capitalAccountingLine.getChartOfAccountsCode());
+                            capitalAsset.setAccountNumber(capitalAccountingLine.getAccountNumber());
+                            capitalAsset.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
+                            capitalAsset.setAmount(KualiDecimal.ZERO);
+                            capitalAsset.setDocumentNumber(calfb.getDocument().getDocumentNumber());
+                            capitalAsset.setCapitalAssetLineNumber(capitalAssetInformation.size()+1);
+                            capitalAsset.setCapitalAssetActionIndicator(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+                            capitalAsset.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+                            capitalAssetInformation.add(capitalAsset);
+                        }
+                    }
+                }
+            }
+        }
+        
+        //now redistribute the amount for all assets if needed....
+        redistributeCostEquallyForModifiedAssets(form);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        
+    }
+    
+    /**
+     * checks the capital asset information list for the specific capital asset number
+     * that was returned as part of the multivalue lookup.
+     * 
+     * @param capitalAssetInformation
+     * @param capitalAssetNumber
+     * @return true if asset does not exist in the list else return false
+     */
+    protected boolean modifyAssetAlreadyExists(List<CapitalAssetInformation> capitalAssetInformation, Long capitalAssetNumber) {
+       boolean addIt = true; 
+       
+        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
+                    ObjectUtils.isNotNull(capitalAsset.getCapitalAssetNumber()) &&
+                    capitalAsset.getCapitalAssetNumber().compareTo(capitalAssetNumber) == 0) {
+                addIt = false;
+                break;
+            }
+        }
+        
+        return addIt;
+    }
+    
+    /**
+     * 
+     * @param form
+     */
+    protected void redistributeCostEquallyForModifiedAssets(ActionForm form) {
+        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+        String distributinCode = calfb.getCapitalAccountingLine().getDistributionCode();
+
+        if (distributinCode.equalsIgnoreCase("1")) {
+            KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+            List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+            KualiDecimal equalModifyAssetAmount = calfb.getCreatedAssetsControlAmount().divide(new KualiDecimal(numberOfModifiedAssetsExist(capitalAssetInformation)), true);
+            
+            for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+                capitalAsset.setAmount(equalModifyAssetAmount);
+            }
+        }
+    }
+    
+    protected int numberOfModifiedAssetsExist(List<CapitalAssetInformation> capitalAssetInformation) {
+        int modifiedAssetsCount = 0;
+        
+        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
+                    ObjectUtils.isNotNull(capitalAsset.getCapitalAssetNumber())) {
+                modifiedAssetsCount++;
+            }
+        }
+        
+        return modifiedAssetsCount;
+    }
     
     /**
      * Clear the capital asset information that the user has entered

@@ -105,27 +105,13 @@ public interface PaymentApplicationDocumentService {
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
 
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException;
+    
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException;
     
-    /**
-     * Gets a paymentApplciationDocument by customerNumber
-     * 
-     * @param customerNumber
-     * @return
-     */
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber);
-
-    /**
-     * Gets a paymentApplciationDocument by accountNumber
-     * 
-     * @param accountNumber
-     * @return
-     */
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber);
 
     /**
      * This method returns true if invoicePaidApplied is the applied payment for 
-     * the customer invoice detail based on document number and item/sequence number.
+     * the customer invoice detail based on document number and item/sequence number. 
      * 
      * @param customerInvoiceDetail
      * @param invoicePaidApplied

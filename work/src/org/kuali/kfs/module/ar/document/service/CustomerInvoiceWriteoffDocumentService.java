@@ -106,21 +106,13 @@ public interface CustomerInvoiceWriteoffDocumentService {
     public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException;
     
     /**
-     * Gets a CustomerInvoiceWriteoffDocument by customerNumber
+     * Gets a collection of CustomerInvoiceWriteoffDocument by invoice number
      * 
-     * @param customerNumber
+     * @param invoiceNumber
      * @return
      */
-    public Collection<CustomerInvoiceWriteoffDocument> getCustomerInvoiceWriteoffDocumentsByCustomerNumber(String customerNumber);
+    public Collection<CustomerInvoiceWriteoffDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber);
     
-    /**
-     * Gets a CustomerInvoiceWriteoffDocument by accountNumber
-     * 
-     * @param accountNumber
-     * @return
-     */
-    public Collection<CustomerInvoiceWriteoffDocument> getCustomerInvoiceWriteoffDocumentsByAccountNumber(String accountNumber);
-   
     public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode);
     
     

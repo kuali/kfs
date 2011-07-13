@@ -45,25 +45,9 @@ public interface CustomerCreditMemoDocumentService {
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String customerInvoiceDocumentNumber);
     
     /**
-     * Gets the collection of CustomerCreditMemoDocument by customerNumber
-     * 
-     * @param customerNumber
-     * @return
-     */
-    public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentsByCustomerNumber(String customerNumber);
-
-    /**
      * This method checks if there is no data to submit
      * @return
      */
-    public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument);
-    
-    /**
-     * Gets a collection of CustomerCreditMemoDocument by accountNumber
-     * 
-     * @param accountNumber
-     * @return
-     */
-    public Collection<CustomerCreditMemoDocument> getCreditMemoDocumentsByAccountNumber(String accountNumber);
+    public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument);    
 
 }

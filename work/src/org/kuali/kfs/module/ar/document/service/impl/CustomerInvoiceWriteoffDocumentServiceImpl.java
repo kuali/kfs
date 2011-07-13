@@ -446,6 +446,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#getCustomerInvoiceWriteoffDocumentsByCustomerNumber(java.lang.String)
      */
+    /*
     public Collection<CustomerInvoiceWriteoffDocument> getCustomerInvoiceWriteoffDocumentsByCustomerNumber(String customerNumber) {
 
         Collection<CustomerInvoiceWriteoffDocument> wirteoffList = new ArrayList<CustomerInvoiceWriteoffDocument>();
@@ -497,6 +498,17 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         }
         
         return customerInvoiceWriteoffDocumentList;
+    }
+    */
+    
+    public Collection<CustomerInvoiceWriteoffDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+        
+        Collection<CustomerInvoiceWriteoffDocument> writeoffs = service.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
+        
+        return writeoffs;
     }
     
     public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode) {

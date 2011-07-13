@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
@@ -298,9 +299,17 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return pairs;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getPaymentApplicationDocumentsByCustomerNumber(java.lang.String)
-     */
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+        
+        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
+        
+        return payments;
+    }
+    
+    /*
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
 
         Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
@@ -332,10 +341,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         }
         return payments;
     }
-    
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getPaymentApplicationDocumentsByAccountNumber(java.lang.String)
-     */
+
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
 
         Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
@@ -356,6 +362,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         
         return paymentApplicationDocumentList;
     }
+    */
     
     public DocumentService getDocumentService() {
         return documentService;

@@ -172,60 +172,6 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         return creditMemos;
     }
     
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService#getCustomerCreditMemoDocumentsByCustomerNumber(java.lang.String)
-     */
-    public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentsByCustomerNumber(String customerNumber) {
-
-        Collection<CustomerCreditMemoDocument> invoices = new ArrayList<CustomerCreditMemoDocument>();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("customerNumber", customerNumber);
-
-        Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
-
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader header : documentHeaders) {
-            String documentNumber = null;
-            try {
-                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
-                documentNumber = header.getDocumentHeader().getDocumentNumber();
-                documentHeaderIds.add(documentNumber);
-            }
-            catch (NumberFormatException nfe) {
-            }
-        }
-
-        if (0 < documentHeaderIds.size()) {
-            try {
-                invoices = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerCreditMemoDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                //LOG.error(e.getMessage(), e);
-            }
-        }
-        return invoices;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDocumentService#getCreditMemoDocumentsByAccountNumber(java.lang.String)
-     */
-    public Collection<CustomerCreditMemoDocument> getCreditMemoDocumentsByAccountNumber(String accountNumber) {
-
-        List<String> docNumbers = SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDocumentNumbersByAccountNumber(accountNumber);
-
-        Collection<CustomerCreditMemoDocument> customerCreditMemoDocumentList = new ArrayList<CustomerCreditMemoDocument>();
-
-        for (String docNumber : docNumbers) {
-            Map<String, Object> keys = new HashMap<String, Object>();
-            keys.put("financialDocumentReferenceInvoiceNumber", docNumber);                
-            customerCreditMemoDocumentList.addAll(businessObjectService.findMatching(CustomerCreditMemoDocument.class, keys));
-        }
-        
-        return customerCreditMemoDocumentList;
-    }
-    
     public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument) {
         boolean success = true;
         KualiDecimal customerCreditMemoDetailItemAmount;

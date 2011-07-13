@@ -31,5 +31,5 @@ public interface CustomerStatementReportService {
      * @param reportDataHolder the given report data holder
      * @param runDate the datetime of the repor generation
      */
-    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate);
+    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate, String statementFormat);
 }

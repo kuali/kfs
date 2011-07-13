@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRParameter;
 
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.report.service.CustomerStatementReportService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
@@ -38,18 +39,26 @@ public class CustomerStatementReportServiceImpl implements CustomerStatementRepo
 
     private ReportGenerationService reportGenerationService;
     private ReportInfo customerStatementReportInfo;
+    private ReportInfo customerDetailStatementReportInfo;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generateReportForExtractProcess(org.kuali.module.effort.util.ExtractProcessReportDataHolder, java.util.Date)
      */
-    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate) {
+    public File generateReport(CustomerStatementReportDataHolder reportDataHolder, Date runDate, String statementFormat) {
         String reportFileName = customerStatementReportInfo.getReportFileName();
         String reportDirectory = customerStatementReportInfo.getReportsDirectory();
         String reportTemplateClassPath = customerStatementReportInfo.getReportTemplateClassPath();
-        String reportTemplateName = customerStatementReportInfo.getReportTemplateName();
         ResourceBundle resourceBundle = customerStatementReportInfo.getResourceBundle();
         String subReportTemplateClassPath = customerStatementReportInfo.getSubReportTemplateClassPath();
-        Map<String, String> subReports = customerStatementReportInfo.getSubReports();
+        String reportTemplateName = "";
+        Map<String, String> subReports = null;
+        if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_SUMMARY)) {
+            reportTemplateName = customerStatementReportInfo.getReportTemplateName();
+            subReports = customerStatementReportInfo.getSubReports();
+        } else {
+            reportTemplateName = customerDetailStatementReportInfo.getReportTemplateName();
+            subReports = customerDetailStatementReportInfo.getSubReports();
+        }
 
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
@@ -80,4 +89,14 @@ public class CustomerStatementReportServiceImpl implements CustomerStatementRepo
     public void setReportGenerationService(ReportGenerationService reportGenerationService) {
         this.reportGenerationService = reportGenerationService;
     }
+
+    /**
+     * Sets the customerDetailStatementReportInfo attribute value
+     * 
+     * @param customerDetailStatementReportInfo 
+     */
+    public void setCustomerDetailStatementReportInfo(ReportInfo customerDetailStatementReportInfo) {
+        this.customerDetailStatementReportInfo = customerDetailStatementReportInfo;
+    }
+    
 }

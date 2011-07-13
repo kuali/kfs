@@ -785,9 +785,27 @@
 		<property name="customerStatementReportInfo">
 			<ref bean="customerStatementReportInfo" />
 		</property>
+		<property name="customerDetailStatementReportInfo">
+			<ref bean="customerDetailStatementReportInfo" />
+		</property>
 	</bean>
 	
-	<bean id="customerStatementReportInfo"  parent="customerStatementReportInfo-parentBean"/>
+	<bean id="customerStatementReportInfo"  parent="customerStatementReportInfo-parentBean">
+		<property name="reportTemplateName" value="SummaryStatement" />
+		<property name="subReports">
+			<map>
+				<entry key="statementDetails" value="SubSummaryStatement"/>
+			</map>
+		</property>
+	</bean>
+	<bean id="customerDetailStatementReportInfo"  parent="customerStatementReportInfo-parentBean">
+		<property name="reportTemplateName" value="DetailStatement" />
+		<property name="subReports">
+			<map>
+				<entry key="subDetailStatement" value="SubDetailStatement"/>
+			</map>
+		</property>
+	</bean>
 	<bean id="customerStatementReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder" abstract="true">
 		<property name="reportTitle" value="Customer Statement Report" />
 		<property name="reportFileName" value="customer_statement" />

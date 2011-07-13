@@ -64,11 +64,14 @@ public class CustomerStatementDetailReportDataHolder {
        Map<String, String> criteria = new HashMap<String, String>();
        criteria.put("universityFiscalYear", fiscalYear);
        criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
-       criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
-         
+       criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());         
          
        SystemInformation sysinfo = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
-       fein = sysinfo.getUniversityFederalEmployerIdentificationNumber();
+       if (sysinfo == null) {
+           fein = null;
+       } else {
+           fein = sysinfo.getUniversityFederalEmployerIdentificationNumber();
+       }
        
     }
 

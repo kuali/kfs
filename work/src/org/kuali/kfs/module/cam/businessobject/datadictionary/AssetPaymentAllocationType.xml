@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AssetPaymentAllocationType" parent="AssetPaymentAllocationType-parentBean"/>
+
+  <bean id="AssetPaymentAllocationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType"/>
+    <property name="inquiryDefinition">
+      <ref bean="AssetPaymentAllocationType-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="AssetPaymentAllocationType-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Asset Payment Allocation Method"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AssetPaymentAllocationType-active"/>
+        <ref bean="AssetPaymentAllocationType-allocationCode"/>
+        <ref bean="AssetPaymentAllocationType-allocationName"/>
+        <ref bean="AssetPaymentAllocationType-allocationColumnName"/>
+        <ref bean="AssetPaymentAllocationType-allocationEditable"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="AssetPaymentAllocationType-active" parent="AssetPaymentAllocationType-active-parentBean"/>
+  <bean id="AssetPaymentAllocationType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  
+  <bean id="AssetPaymentAllocationType-allocationCode" parent="AssetPaymentAllocationType-allocationCode-parentBean"/>
+  <bean id="AssetPaymentAllocationType-allocationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="allocationCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Allocation Method"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition"  p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.AssetPaymentAllocationTypeValuesFinder"/>
+    </property>
+  </bean>
+  
+  
+  <bean id="AssetPaymentAllocationType-allocationName" parent="AssetPaymentAllocationType-allocationName-parentBean"/>
+  <bean id="AssetPaymentAllocationType-allocationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="allocationName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Allocation Code Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
+    </property>
+  </bean>
+  
+  
+  <bean id="AssetPaymentAllocationType-allocationColumnName" parent="AssetPaymentAllocationType-allocationColumnName-parentBean"/>
+  <bean id="AssetPaymentAllocationType-allocationColumnName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="allocationColumnName"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Payment Allocation Column Name"/>
+    <property name="shortLabel" value="Column Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="42"/>
+    </property>
+  </bean>
+
+ <bean id="AssetPaymentAllocationType-allocationEditable" parent="AssetPaymentAllocationType-allocationEditable-parentBean"/>
+  <bean id="AssetPaymentAllocationType-allocationEditable-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="allocationEditable"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Asset Payment Allocation Editable code"/>
+    <property name="shortLabel" value="Editable"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="1"/>
+    </property>
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="AssetPaymentAllocationType-inquiryDefinition" parent="AssetPaymentAllocationType-inquiryDefinition-parentBean"/>
+  <bean id="AssetPaymentAllocationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Asset Payment Allocation Type Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="allocationCode"/>
+              <bean parent="FieldDefinition" p:attributeName="allocationName"/>
+              <bean parent="FieldDefinition" p:attributeName="allocationColumnName"/>
+              <bean parent="FieldDefinition" p:attributeName="allocationEditable"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="AssetPaymentAllocationType-lookupDefinition" parent="AssetPaymentAllocationType-lookupDefinition-parentBean"/>
+  <bean id="AssetPaymentAllocationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Asset Payment Allocation Type Lookup"/>
+    <property name="lookupableID" value="AssetPaymentAllocationTypeLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="allocationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationName"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationColumnName"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationEditable"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="allocationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationName"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationColumnName"/>
+        <bean parent="FieldDefinition" p:attributeName="allocationEditable"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

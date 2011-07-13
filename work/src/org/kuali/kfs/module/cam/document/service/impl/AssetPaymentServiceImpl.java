@@ -35,6 +35,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
@@ -43,7 +44,7 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.util.AssetPaymentDistributor;
+import org.kuali.kfs.module.cam.util.distribution.AssetDistribution;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -154,7 +155,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         Integer maxSequenceNo = new Integer(0);
 
         //instantiate asset payment distributor
-        AssetPaymentDistributor paymentDistributor = document.getAssetPaymentDistributor();
+        AssetDistribution paymentDistributor = document.getAssetPaymentDistributor();
         
         // Calculating the asset payments distributions for each individual asset on the list
         Map<String, Map<AssetPaymentAssetDetail, KualiDecimal>> assetPaymentDistributionMap = paymentDistributor.getAssetPaymentDistributions();
@@ -465,4 +466,14 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         this.assetService = assetService;
     }
 
+	/**
+	 * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#getAssetDistributionTypeColumnName(java.lang.String)
+	 */
+	public AssetPaymentAllocationType getAssetDistributionType(String distributionCode) {
+		HashMap<String, String> keys = new HashMap<String, String>();
+		keys.put("distributionCode", distributionCode);
+		AssetPaymentAllocationType d = (AssetPaymentAllocationType) getBusinessObjectService().findByPrimaryKey(AssetPaymentAllocationType.class, keys);
+		return d;
+	}
+	
 }

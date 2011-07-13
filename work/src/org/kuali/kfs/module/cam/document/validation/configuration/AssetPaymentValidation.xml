@@ -68,6 +68,18 @@
   			</list>
   		</property>
     </bean>
+
+    <bean id="AssetPayment-assetPaymentAllocationValidation" parent="AssetPayment-assetPaymentAllocationValidation-parentBean" scope="prototype" />
+    <bean id="AssetPayment-assetPaymentAllocationValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+			<list>
+				<bean parent="AssetPayment-allocationValidation" scope="prototype" >
+						<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+  		</property>
+    </bean>
+
     
   	<bean id="AssetPayment-approveDocumentValidation" parent="AssetPayment-approveDocumentValidation-parentBean" scope="prototype" />
   

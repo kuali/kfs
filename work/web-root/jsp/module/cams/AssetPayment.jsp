@@ -23,6 +23,8 @@
 	showTabButtons="true">
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 	<html:hidden property="document.capitalAssetNumber" />
+	
+	<cams:assetPaymentAllocation />
 	<cams:assetPayments />
 
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true"

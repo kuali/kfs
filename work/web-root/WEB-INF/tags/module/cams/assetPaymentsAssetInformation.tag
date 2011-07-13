@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <c:set var="assetAttributes" value="${DataDictionary.Asset.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
@@ -21,9 +22,14 @@
 <c:set var="globalTotalAllocated" 	   value="${0.00}"/>
 <c:set var="globalTotalHistoricalCost" value="${0.00}"/>
 <c:set var="viewOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
-<c:set var="assetTotalAllocations" value="${KualiForm.document.assetPaymentDistributor.totalAssetAllocations}"/> 
 
-<logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr">
+<c:set var="assetAllocationLabel" value="${KualiForm.allocationLabel}"/>
+<c:set var="isAllocationEditable" value="${KualiForm.allocationEditable}"/>
+<c:set var="sourceLineCount" value="${KualiForm.sourceLineCount}"/>
+
+
+
+<logic:iterate id="assetPaymentAssetDetail" name="KualiForm" property="document.assetPaymentAssetDetail" indexId="ctr"> 
 		<c:set var="capitalAssetNumber" value="${KualiForm.document.assetPaymentAssetDetail[ctr].capitalAssetNumber}"/>
 		<c:set var="assetObject" value="document.assetPaymentAssetDetail[${ctr}].asset" />
 		<c:set var="assetValue" value="${KualiForm.document.assetPaymentAssetDetail[ctr].asset}" />
@@ -31,17 +37,14 @@
 		<c:set var="assetPaymentsAssetDetail" value="${KualiForm.document.assetPaymentAssetDetail[ctr]}" />
 		
 		<c:set var="totalAllocated" value="${0.00}"/>
-		<c:set var="newTotal" value="${0.00}"/>
+		<c:set var="newTotal" value="${KualiForm.document.assetPaymentAssetDetail[ctr].newTotal}" />
 		<c:set var="previousCost" value="${KualiForm.document.assetPaymentAssetDetail[ctr].previousTotalCostAmount}"/>
 		
-		<c:set var="totalAllocated" value="${assetTotalAllocations[assetPaymentsAssetDetail]}"/>
-		
+		<c:set var="totalAllocated" value="${KualiForm.document.assetPaymentAssetDetail[ctr].allocatedAmount}"/>		
 		<c:if test="${totalAllocated != 0.00 }">
-	    	<fmt:formatNumber var="sTotlaAllocated" value="${totalAllocated }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
-			<fmt:parseNumber value="${sTotlaAllocated}" type="number" var="totalAllocated"/>
+	    	<fmt:formatNumber var="sTotalAllocated" value="${totalAllocated }" maxFractionDigits="2" minFractionDigits="2" type="number"/>			 		 	
+			<fmt:parseNumber value="${sTotalAllocated}" type="number" var="totalAllocated"/>
 		</c:if>
-		
-	 	<fmt:formatNumber var="newTotal" value="${totalAllocated + previousCost }" maxFractionDigits="2" minFractionDigits="2"/>			 		 	
 
 		<table borders="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -53,7 +56,8 @@
 					<kul:htmlAttributeHeaderCell width="42%" align="center" attributeEntry="${assetAttributes.capitalAssetDescription}"/>
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${accountAttributes.organizationCode}"/>
 					<kul:htmlAttributeHeaderCell width="10%" align="center" attributeEntry="${assetPaymentAssetDetailAttributes.previousTotalCostAmount}"/>
-			        <th class="grid" width="10%" align="center" style="padding: border-top-style:solid;">Allocated</th>
+
+			        <th class="grid" width="10%" align="center" style="padding: border-top-style:solid;">${assetAllocationLabel}</th>
 			        <th class="grid" width="10%" align="center">New Total</th>
 					<th class="grid" width="8%" align="center"><c:if test="${!viewOnly}">Actions</c:if></th>			
 				</tr>
@@ -78,13 +82,34 @@
 			        <td class="grid" width="10%"><div align="right">
 				        <kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].previousTotalCostAmount" attributeEntry="${assetPaymentAssetDetailAttributes.previousTotalCostAmount}" readOnly="true"/>
 			        </div></td>
-			        
-			        <td class="grid" width="10%"><div align="right"><fmt:formatNumber value="${totalAllocated}" maxFractionDigits="2" minFractionDigits="2"/></div></td>
+
+					<%-- Allocated Amount  --%>
+					<td class="grid" width="10%">
+						<div align="right">
+							<c:if test="${isAllocationEditable}">							
+								<kul:htmlControlAttribute 
+									property="document.assetPaymentAssetDetail[${ctr}].allocatedUserValue" 
+									attributeEntry="${assetPaymentAssetDetailAttributes.allocatedUserValue}" 
+									styleClass="amount"  
+									readOnly="${viewOnly && (sourceLineCount > 0)}"/>
+							</c:if>
+							<c:if test="${!isAllocationEditable}">
+								<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].allocatedAmount" attributeEntry="${assetPaymentAssetDetailAttributes.allocatedAmount}" readOnly="true"/>
+							</c:if>
+						</div>
+					</td>
+
 			        <td class="grid" width="10%"><div align="right">${newTotal}</div></td>
 			               		
 					<th class="datacell" rowspan="" nowrap="nowrap" width="5%">
 						<c:if test="${!viewOnly}">			               		
-				            <div align="center"><html:image property="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Delete asset" title="Delete asset"/></div>
+				            <div align="center">
+					            <c:if test="${isAllocationEditable && !readOnly}">
+					            	<html:image property="methodToCall.updateAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.externalizable.images.url}tinybutton-updateview.gif" styleClass="tinybutton" alt="Update Allocations" title="Update Allocations"/>
+					            	<br/> 					            	
+					            </c:if>
+				            	<html:image property="methodToCall.deleteAssetPaymentAssetDetail.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" styleClass="tinybutton" alt="Delete asset" title="Delete asset"/>
+				            </div>
 						</c:if>			        				            
 			        </th>
 			    </tr>
@@ -147,9 +172,9 @@
 								    </tr>	            			            
 								</table>
 						  </td>
-						<tr/>
+						</tr>
 				</table>				
-				<cams:viewPayments	defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>	
+				<cams:viewPayments defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>	
 				
 				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${totalAllocated}"/>
 			</div>

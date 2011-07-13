@@ -262,4 +262,9 @@ public class CamsKeyConstants {
         public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";
         public static final String ERROR_PRE_TAG_DETAIL_EXCESS = "error.pre.tag.detail.excess";
     }
+    
+	public static class AssetPaymentAllocation {
+		public static final String ERROR_PERCENT_NOT_100 = "error.asset.payment.allocation.percent";
+		public static final String ERROR_AMOUNT_NOT_EQUAL = "error.asset.payment.allocation.not.equal";
+	}
 }

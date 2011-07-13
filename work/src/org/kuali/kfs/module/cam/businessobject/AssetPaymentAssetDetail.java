@@ -27,15 +27,18 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private Long capitalAssetNumber;
     private KualiDecimal previousTotalCostAmount;
+    private KualiDecimal allocatedAmount = KualiDecimal.ZERO;
+    private KualiDecimal allocatedUserValue = KualiDecimal.ZERO;
+
     private Asset asset;
     private List<AssetPaymentDetail> assetPaymentDetails;
     private FinancialSystemDocumentHeader documentHeader;
 
-    public AssetPaymentAssetDetail() { 
-        this.assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);  
-        this.documentHeader = new FinancialSystemDocumentHeader(); 
+    public AssetPaymentAssetDetail() {
+        this.assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
+        this.documentHeader = new FinancialSystemDocumentHeader();
     }
-    
+
     public Long getCapitalAssetNumber() {
         return capitalAssetNumber;
     }
@@ -67,7 +70,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-    
+
     protected LinkedHashMap<String, String> toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.documentNumber != null) {
@@ -95,4 +98,40 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
         this.documentHeader = documentHeader;
     }
 
+    /**
+     * Get the allocated amount
+     */
+    public KualiDecimal getAllocatedAmount() {
+        return allocatedAmount;
+    }
+
+    /**
+     * Set the allocated amount
+     */
+    public void setAllocatedAmount(KualiDecimal allocatedAmount) {
+        this.allocatedAmount = allocatedAmount;
+    }
+
+	/**
+	 * Set the value the user allocates when editable 
+	 */
+	public void setAllocatedUserValue(KualiDecimal allocatedUserValue) {
+		this.allocatedUserValue = allocatedUserValue;
+	}
+
+	/**
+	 * Get the value the user allocates when editable
+	 */
+	public KualiDecimal getAllocatedUserValue() {
+		return allocatedUserValue;
+	}
+
+	
+	/**
+	 * Return the New total allocation amount 
+	 * @return
+	 */
+	public KualiDecimal getNewTotal() {
+		return getAllocatedAmount().add(getPreviousTotalCostAmount());
+	}
 }

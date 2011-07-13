@@ -26,7 +26,7 @@
 				<td colspan="3" class="subhead">
 			    	<span class="subhead-left">Assets</span>
 			  	</td>
-			</tr>
+			</tr>			
 			<c:if test="${!readOnly}">
 			    <tr>
 				    <th width="10%">${requiredCapitalAssetNumber }</th>

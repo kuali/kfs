@@ -20,6 +20,8 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="allocatedAmount" column="CPTLAST_ALLOC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="allocatedUserValue" column="CPTLAST_ALLOC_VAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
@@ -443,23 +445,36 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cam.document.AssetPaymentDocument" table="CM_AST_PMT_DOC_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="nextSourceLineNumber" column="NXT_AST_PMT_LN_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="capitalAssetBuilderOriginIndicator" column="CB_ORIGIN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	
-
+	<field-descriptor 			name="documentNumber" 						column="FDOC_NBR" 				jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor 			name="objectId" 							column="OBJ_ID" 				jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor 			name="versionNumber" 						column="VER_NBR" 				jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor 			name="nextSourceLineNumber" 				column="NXT_AST_PMT_LN_NBR" 	jdbc-type="INTEGER"/>
+	<field-descriptor 			name="capitalAssetBuilderOriginIndicator" 	column="CB_ORIGIN_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+	<field-descriptor 			name="assetPaymentAllocationTypeCode" 		column="AST_PMT_DST_CD" 		jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>	
+	<reference-descriptor 	name="assetPaymentAllocationType" class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType" 
+							auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+		<foreignkey field-ref="assetPaymentAllocationTypeCode" />
 	</reference-descriptor>
-   <collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+   	<collection-descriptor name="sourceAccountingLines" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="sequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    	
-   <collection-descriptor name="assetPaymentAssetDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+   	<collection-descriptor name="assetPaymentAssetDetail" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>    	
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType" table="CM_AST_PMT_DST_CD_T">
+    <field-descriptor name="allocationCode" 		column="AST_PMT_DST_CD" 	jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" 				column="OBJ_ID" 			jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" 			column="VER_NBR" 			jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="allocationName" 		column="AST_PMT_DST_NM" 	jdbc-type="VARCHAR"/>
+    <field-descriptor name="allocationColumnName" 	column="AST_PMT_DST_COL_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="allocationEditable" 	column="AST_PMT_DST_EDT" 	jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" 				column="ROW_ACTV_IND" 		jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail" table="CM_AST_PMT_DTL_T">

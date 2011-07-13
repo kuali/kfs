@@ -100,7 +100,12 @@
 			<entry>
 				<key><value>org.kuali.kfs.module.cam.document.validation.event.AssetPaymentPrepareRouteEvent</value></key>
 				<value>AssetPayment-assetPaymentPrepareRouteValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.module.cam.document.validation.event.AssetPaymentAllocationEvent</value></key>
+				<value>AssetPayment-assetPaymentAllocationValidation</value>
 			</entry>			
+						
     	</map>
     </property>
   </bean>

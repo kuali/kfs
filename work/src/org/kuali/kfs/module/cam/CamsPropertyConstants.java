@@ -15,13 +15,6 @@
  */
 package org.kuali.kfs.module.cam;
 
-import org.kuali.kfs.coa.businessobject.ObjectSubType;
-import org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType;
-import org.kuali.kfs.module.cam.businessobject.AssetCondition;
-import org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod;
-import org.kuali.kfs.module.cam.businessobject.AssetStatus;
-import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 
 /**
@@ -402,5 +395,12 @@ public class CamsPropertyConstants {
 
     public static class AssetLock {
         public static final String DOCUMENT_NUMBER = "documentNumber";
+    }
+
+    public static class AssetPaymentAllocation {
+    	public static final String ASSET_DISTRIBUTION_BY_AMOUNT_CODE = "1";
+    	public static final String ASSET_DISTRIBUTION_EVENLY_CODE = "2";
+    	public static final String ASSET_DISTRIBUTION_BY_TOTAL_COST_CODE = "3";
+    	public static final String ASSET_DISTRIBUTION_BY_PERCENTAGE_CODE = "4";
     }
 }

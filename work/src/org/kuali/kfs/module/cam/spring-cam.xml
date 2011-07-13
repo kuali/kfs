@@ -221,6 +221,13 @@
 		</property>
 	</bean>
 
+    <bean id="assetPaymentAllocationTypeLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentAllocationTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetPaymentAllocationTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="assetPaymentAllocationTypeLookupableHelperService" />
+		</property>
+	</bean>
+
     <bean id="assetAcquisitionTypeLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	<bean id="assetAcquisitionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">

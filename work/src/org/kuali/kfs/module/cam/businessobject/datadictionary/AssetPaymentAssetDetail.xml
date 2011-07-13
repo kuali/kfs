@@ -12,6 +12,8 @@
         <ref bean="AssetPaymentAssetDetail-documentNumber"/>
         <ref bean="AssetPaymentAssetDetail-capitalAssetNumber"/>
         <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount"/>
+        <ref bean="AssetPaymentAssetDetail-allocatedAmount"/>
+        <ref bean="AssetPaymentAssetDetail-allocatedUserValue"/>
       </list>
     </property>
   </bean>
@@ -30,12 +32,31 @@
 
 
 
- <bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean"/>
-  <bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="previousTotalCostAmount"/>
-    <property name="label" value="Previous Cost"/>
-    <property name="shortLabel" value="Previous Cost"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
-  
-  </bean>    
+ 	<bean id="AssetPaymentAssetDetail-previousTotalCostAmount" parent="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean"/>
+  	<bean id="AssetPaymentAssetDetail-previousTotalCostAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+	    <property name="name" value="previousTotalCostAmount"/>
+	    <property name="label" value="Previous Cost"/>
+	    <property name="shortLabel" value="Previous Cost"/>
+	    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+  	</bean>    
+
+ 	<bean id="AssetPaymentAssetDetail-allocatedAmount" parent="AssetPaymentAssetDetail-allocatedAmount-parentBean"/>
+ 	<bean id="AssetPaymentAssetDetail-allocatedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+	    <property name="name" value="allocatedAmount"/>
+	    <property name="label" value="Allocated Amount"/>
+	    <property name="shortLabel" value="Allocated Amount"/>
+		<property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>	
+	</bean>
+	    
+	<bean id="AssetPaymentAssetDetail-allocatedUserValue" parent="AssetPaymentAssetDetail-allocatedUserValue-parentBean"/>
+ 	<bean id="AssetPaymentAssetDetail-allocatedUserValue-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+	    <property name="name" value="allocatedUserValue"/>
+	    <property name="label" value="Allocated User Value"/>
+	    <property name="shortLabel" value="Allocated Value"/>
+	    <property name="control">
+	      	<bean parent="TextControlDefinition"  p:size="15"/>
+	    </property>
+	</bean>    
+
 </beans>
+

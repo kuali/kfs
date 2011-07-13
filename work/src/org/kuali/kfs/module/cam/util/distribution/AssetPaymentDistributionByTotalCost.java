@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cam.util;
+package org.kuali.kfs.module.cam.util.distribution;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
+import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -39,11 +39,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
  *      <li>* Keep track of unallocated amount within each asset payment loop* <li>
  *      <li>* For the last asset in each payment detail iteration, use the rest of unallocated amount</li>
  */
-public class AssetPaymentDistributor {
+public class AssetPaymentDistributionByTotalCost extends AssetDistribution {
 
-    private List<AssetPaymentDetail> assetPaymentDetailLines;
-
-    private List<AssetPaymentAssetDetail> assetPaymentAssetDetails;
     
     private KualiDecimal totalHistoricalCost;
     
@@ -52,10 +49,9 @@ public class AssetPaymentDistributor {
     /**
      * Constructor and instantiate the detai lists as empty
      */
-    public AssetPaymentDistributor(List<AssetPaymentDetail> assetPaymentDetailLines, List<AssetPaymentAssetDetail> assetPaymentAssetDetails, KualiDecimal totalHistoricalCost) {
-        this.assetPaymentDetailLines = assetPaymentDetailLines;
-        this.assetPaymentAssetDetails = assetPaymentAssetDetails;
-        this.totalHistoricalCost = totalHistoricalCost;
+    public AssetPaymentDistributionByTotalCost(AssetPaymentDocument doc) {
+    	super(doc);
+        this.totalHistoricalCost = doc.getAssetsTotalHistoricalCost();
         
         //init method
         calculateAssetPaymentDistributions();
@@ -175,4 +171,7 @@ public class AssetPaymentDistributor {
         return percentage;
     }
 
+    public String getLabel() {
+        return getClass().getSimpleName();
+    }
 }

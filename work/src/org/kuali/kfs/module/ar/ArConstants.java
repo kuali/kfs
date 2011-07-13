@@ -154,5 +154,11 @@ public class ArConstants {
     public static class OrganizationOptionsSections {
         public static final String  EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
     }
-    
+
+    //Report
+    public static final String STATEMENT_FORMAT_SUMMARY = "S";
+    public static final String STATEMENT_FORMAT_DETAIL = "D";
+    public static final String INCLUDE_ZERO_BALANCE_YES = "Y";
+    public static final String INCLUDE_ZERO_BALANCE_NO = "N";       
+
 }

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 /**
@@ -42,10 +43,10 @@ public interface AccountsReceivableReportService {
    public File generateCreditMemo(CustomerCreditMemoDocument creditMemo) throws WorkflowException;
    
    
-   public List<File> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomer);
+   public List<CustomerStatementResultHolder> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomer);
 
-   public List<File> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomer);
+   public List<CustomerStatementResultHolder> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomer);
 
-   public List<File> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomer);
+   public List<CustomerStatementResultHolder> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomer);
    
 }

@@ -18,7 +18,10 @@ package org.kuali.kfs.module.ar.report.service.impl;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerBillingStatement;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -62,6 +66,8 @@ import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerInvoiceReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementDetailReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
+import org.kuali.kfs.module.ar.report.util.SortTransaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -88,6 +94,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private PersonService<Person> personService;
+    private ParameterService parameterService;
 
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
 
@@ -377,7 +384,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param details
      * @return
      */
-    public File createStatement(String billingChartCode, String billingOrgCode, String customerNumber, Organization processingOrg, List<CustomerStatementDetailReportDataHolder> details, String statementFormat, String zeroBalance) {
+    public File createStatement(String billingChartCode, String billingOrgCode, String customerNumber, Organization processingOrg, List<CustomerStatementDetailReportDataHolder> details, String statementFormat, String zeroBalance, CustomerStatementResultHolder customerStatementResultHolder) {
 
         CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
         CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
@@ -410,11 +417,16 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
 
         KualiDecimal previousBalance = KualiDecimal.ZERO;
+        String lastReportedDate = "";
         if (statementFormat.equals(ArConstants.STATEMENT_FORMAT_DETAIL)) {
-            // TODO: get the previous balance
-            //previousBalance = previousBalance.add(new KualiDecimal(1000));
+            CustomerBillingStatement customerBillingStatement = getCustomerBillingStatement(customerNumber);
+            if (ObjectUtils.isNotNull(customerBillingStatement)) {
+                previousBalance = customerBillingStatement.getPreviouslyBilledAmount();
+                lastReportedDate = dateTimeService.toDateString(customerBillingStatement.getReportedDate());
+            } 
         }
         invoiceMap.put("previousBalance", currencyFormatter.format(previousBalance).toString());  
+        invoiceMap.put("lastReportedDate", lastReportedDate);
 
         KualiDecimal amountDue = previousBalance;
         for (CustomerStatementDetailReportDataHolder data : details) {            
@@ -429,7 +441,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         // This customer has a zero balance and so we do not need to generate the report if the include zero balance is "No." 
         if (amountDue.equals(KualiDecimal.ZERO) && zeroBalance.equals(ArConstants.INCLUDE_ZERO_BALANCE_NO)) return null;
         
+        customerStatementResultHolder.setCurrentBilledAmount(amountDue);
+        
         invoiceMap.put("amountDue", currencyFormatter.format(amountDue).toString());
+        invoiceMap.put("dueDate", calculateDueDate());
         
         String ocrLine = SpringContext.getBean(OCRLineService.class).generateOCRLine(amountDue, customerNumber, null);
         invoiceMap.put("ocrLine", ocrLine);
@@ -573,10 +588,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 for (String customerId : customerKeys) {
                     List<CustomerStatementDetailReportDataHolder> statementDetailsByCustomer = statementDetailsByBillingOrg.get(customerId);
 
-                    File file = createStatement(billingChartCode, billingOrgCode, customerId, processingOrg, statementDetailsByCustomer, ArConstants.STATEMENT_FORMAT_SUMMARY, ArConstants.INCLUDE_ZERO_BALANCE_NO);
-                    if (file != null) {
-                        reports.add(file);
-                    }
+//                    File file = createStatement(billingChartCode, billingOrgCode, customerId, processingOrg, statementDetailsByCustomer, ArConstants.STATEMENT_FORMAT_SUMMARY, ArConstants.INCLUDE_ZERO_BALANCE_NO);
+//                    if (file != null) {
+//                        reports.add(file);
+//                    }
                 }
             }
         }
@@ -610,16 +625,17 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param creditMemoList
      * @param paymentList
      * @param writeoffList
-     * @return
+     * @return CustomerStatementResultHolder
      */
-    protected List<File> generateStatementReports(Collection<CustomerInvoiceDocument> invoices, String statementFormat, String incldueZeroBalanceCustomer) {
+    protected List<CustomerStatementResultHolder> generateStatementReports(Collection<CustomerInvoiceDocument> invoices, String statementFormat, String incldueZeroBalanceCustomer) {
  
         List<CustomerInvoiceDocument> invoiceList = new ArrayList<CustomerInvoiceDocument>(invoices);
         Collections.sort(invoiceList);
         Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> statementDetailsSorted = buildCustomerStatementData(invoiceList, statementFormat, incldueZeroBalanceCustomer);
         Set<String> processingOrgKeys = statementDetailsSorted.keySet();
 
-        List<File> reports = new ArrayList<File>();
+        //List<File> reports = new ArrayList<File>();
+        List<CustomerStatementResultHolder> result = new ArrayList<CustomerStatementResultHolder>();
 
         for (String processingChartAndOrg : processingOrgKeys) {
             String processingChartCode = processingChartAndOrg.substring(0, 2);
@@ -642,9 +658,21 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 for (String customerId : customerKeys) {
                     List<CustomerStatementDetailReportDataHolder> statementDetailsByCustomer = statementDetailsByBillingOrg.get(customerId);
 
-                    File file = createStatement(billingChartCode, billingOrgCode, customerId, processingOrg, statementDetailsByCustomer, statementFormat, incldueZeroBalanceCustomer);
+                    CustomerStatementResultHolder customerStatementResultHolder = new CustomerStatementResultHolder();
+                    customerStatementResultHolder.setCustomerNumber(customerId);
+                    File file = createStatement(billingChartCode, billingOrgCode, customerId, processingOrg, statementDetailsByCustomer, statementFormat, incldueZeroBalanceCustomer, customerStatementResultHolder);
                     if (file != null) {
-                        reports.add(file);
+                        customerStatementResultHolder.setFile(file);
+                        if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) {
+                            List<String> invoiceNumbers = new ArrayList<String>();
+                            for (CustomerStatementDetailReportDataHolder c : statementDetailsByCustomer) {
+                                if (c.getDocType().equalsIgnoreCase(ArConstants.INVOICE_DOC_TYPE)) {
+                                    invoiceNumbers.add(c.getDocumentNumber());
+                                }
+                            }
+                            customerStatementResultHolder.setInvoiceNumbers(invoiceNumbers);
+                        }
+                        result.add(customerStatementResultHolder);
                     }
                 }
             }
@@ -670,29 +698,24 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 //        reports.add(createStatement(billingChartCode, billingOrgCode, customerNumber, processingOrg, statementDetailsByCustomerList));
       
         
-        return reports;
+        return result;
     }
     
     /**
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByBillingOrg(java.lang.String,
      *      java.lang.String)
      */
-    public List<File> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomer) {
-        List<File> files = new ArrayList<File>();
-        if (ArConstants.STATEMENT_FORMAT_SUMMARY.equals(statementFormat)) {      
-            files = generateSummaryStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode));
-        } else {
-            files = generateSummaryStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode));
-        }       
-        return files;
+    public List<CustomerStatementResultHolder> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomer) {
+        return null;
+        //return generateSummaryStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode), statementFormat, incldueZeroBalanceCustomer);
     }
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByAccount(java.lang.String)
      */
-    public List<File> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomer) {
-        if (ArConstants.STATEMENT_FORMAT_SUMMARY.equals(statementFormat))
-            return generateSummaryStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber));
+    public List<CustomerStatementResultHolder> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomer) {
+        //if (ArConstants.STATEMENT_FORMAT_SUMMARY.equals(statementFormat))
+        //    return generateSummaryStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber));
         
         return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber), statementFormat, incldueZeroBalanceCustomer); 
     }
@@ -700,7 +723,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     /**
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateStatementByCustomer(java.lang.String)
      */
-    public List<File> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomer) {
+    public List<CustomerStatementResultHolder> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomer) {
         return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomer);
     }
     
@@ -711,7 +734,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @return
      */
     protected Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> buildCustomerStatementData(List<CustomerInvoiceDocument> invoiceList, String statementFormat, String incldueZeroBalanceCustomer) {
-        // Map<processingOrg, map<billedByOrg, map<customerNumber, List<CustomerStatementDetailReportDataHolder>
+        // To group - Map<processingOrg, map<billedByOrg, map<customerNumber, List<CustomerStatementDetailReportDataHolder>
         Map<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>> customerStatementDetailsSorted = new HashMap<String, Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>>>();        
 
         // This is where all the magic will begin
@@ -720,6 +743,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
                 if (invoice.isOpenInvoiceIndicator()) {
 
+                    // if it is detailed report, take only invoices that have not reported yet
+                    if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL) && ObjectUtils.isNotNull(invoice.getReportedDate())) continue;
+                    
                     // Break down list into a map based on processing org
                     Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
 
@@ -753,8 +779,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                                 doc.populateCustomerCreditMemoDetailsAfterLoad();
                                 CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
                                 CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getDocumentHeader(),
-                                            creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                            ArConstants.CREDIT_MEMO_DOC_TYPE, creditMemoDoc.getTotalDollarAmount());                            
+                                            //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
                                 statementDetailsByCustomer.add(detail);
                              } catch(Exception ex) {
                                  LOG.error(ex);
@@ -791,6 +818,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         }
                     }
                      
+                    // add invoice
                     CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
                     if (detail != null) {
                         statementDetailsByCustomer.add(detail);    
@@ -798,9 +826,16 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         statementDetailsForGivenProcessingOrg.put(getChartAndOrgCodesCombined(billedByOrg), statementDetailsForGivenBillingOrg);
                         customerStatementDetailsSorted.put(getChartAndOrgCodesCombined(processingOrg), statementDetailsForGivenProcessingOrg);
                     }
+                    
+                    // sort 
+                    Collections.sort(statementDetailsByCustomer, new SortTransaction());   
+//                    for (CustomerStatementDetailReportDataHolder c : statementDetailsByCustomer) {
+//                        System.out.println(c.getDocType() + "-" + c.getDocumentFinalDateString() + " - " + c.getFinancialDocumentTotalAmountCharge() + " - " + c.getFinancialDocumentTotalAmountCredit());
+//                    }
                 }
             }
         }
+        
         return customerStatementDetailsSorted;
     }
     
@@ -925,7 +960,34 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         KualiDecimal newAmount = new KualiDecimal(amount.add(amountToAdd.bigDecimalValue()));
         invoiceMap.put(mapKey, currencyFormatter.format(newAmount).toString());
     }
-
+    
+    /**
+     * Gets a CustomerBillingStatement
+     * @param customerNumber
+     * @return
+     */
+    protected CustomerBillingStatement getCustomerBillingStatement(String customerNumber) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("customerNumber", customerNumber);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        return (CustomerBillingStatement) businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);        
+    }
+    
+    protected String calculateDueDate() {
+        String parameterValue = getParameterService().getParameterValue(CustomerBillingStatement.class, "DUE_DATE_DAYS");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateTimeService.getCurrentDate());
+        cal.add(Calendar.DATE, Integer.parseInt(parameterValue));
+        Date dueDate = null;
+        try {
+            dueDate = dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
+        }
+        catch (ParseException e) {
+            // TODO: throw an error here, but don't die
+        }
+        return dateTimeService.toDateString(dueDate);
+    }
+    
     /**
      * This method...
      * 
@@ -975,4 +1037,21 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         this.documentService = documentService;
     }
 
+    /**
+     * @return the parameterService
+     */
+    public ParameterService getParameterService() {
+        if (parameterService == null)
+            parameterService = SpringContext.getBean(ParameterService.class);
+        return parameterService;
+    }
+
+    /**
+     * @param parameterService the parameterService to set
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    
 }

@@ -133,6 +133,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     protected String shippingEmailAddress;
     protected String shippingAddressTypeCode;
     protected boolean recurredInvoiceIndicator;
+    protected Date reportedDate;
     
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     protected Chart billByChartOfAccount;
@@ -1827,6 +1828,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
 
     public void setRecurredInvoiceIndicator(boolean recurredInvoiceIndicator) {
         this.recurredInvoiceIndicator = recurredInvoiceIndicator;
+    }
+
+    public Date getReportedDate() {
+        return reportedDate;
+    }
+
+    public void setReportedDate(Date reportedDate) {
+        this.reportedDate = reportedDate;
     }
 
     /**

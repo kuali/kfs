@@ -30,7 +30,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -135,7 +138,7 @@ public class CustomerStatementAction extends KualiAction {
         String includeZeroBalanceCustomer = request.getParameter("includeZeroBalanceCustomer");
         
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
-        List<File> reports = new ArrayList<File>();
+        List<CustomerStatementResultHolder> reports = new ArrayList<CustomerStatementResultHolder>();
         
         StringBuilder fileName = new StringBuilder();
         String contentDisposition = "";
@@ -155,19 +158,20 @@ public class CustomerStatementAction extends KualiAction {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
                 int pageOffset = 0;
-                ArrayList master = new ArrayList();
+                ArrayList<PdfReader> master = new ArrayList<PdfReader>();
                 int f = 0;
                 //   File file = new File(fileName);
                 Document document = null;
                 PdfCopy  writer = null;
-                for (File file : reports) {
+                for (CustomerStatementResultHolder customerStatementResultHolder : reports) {
+                    File file = customerStatementResultHolder.getFile();
                     // we create a reader for a certain document
                     String reportName = file.getAbsolutePath();
                     PdfReader reader = new PdfReader(reportName);
                     reader.consolidateNamedDestinations();
                     // we retrieve the total number of pages
                     int n = reader.getNumberOfPages();
-                    List bookmarks = SimpleBookmark.getBookmark(reader);
+                    List<PdfReader> bookmarks = SimpleBookmark.getBookmark(reader);
                     if (bookmarks != null) {
                         if (pageOffset != 0) {
                             SimpleBookmark.shiftPageNumbers(bookmarks, pageOffset, null);
@@ -194,6 +198,7 @@ public class CustomerStatementAction extends KualiAction {
                     writer.freeReader(reader);
                     f++;
                 }
+                
                 if (!master.isEmpty())
                     writer.setOutlines(master);
                 // step 5: we close the document
@@ -233,11 +238,31 @@ public class CustomerStatementAction extends KualiAction {
             sos.flush();
             sos.close();
             
+            // update reported data
+            if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) {
+                CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);                                
+                for (CustomerStatementResultHolder data : reports) {                    
+                    // update reported invoice info
+                    if (data.getInvoiceNumbers() != null) {
+//                        System.out.println(data.getCustomerNumber());
+                        List<String> invoiceNumbers = data.getInvoiceNumbers();
+                        for (String number : invoiceNumbers) {
+//                            System.out.println(number);                    
+                            customerInvoiceDocumentService.updateReportedDate(number);
+                        }
+                        
+                    }
+                    // update reported customer info
+                    customerInvoiceDocumentService.updateReportedInvoiceInfo(data);
+                }                               
+            }
+            
             return null;
         }
         csForm.setMessage("No Reports Generated");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
     /**
      * Creates a URL to be used in printing the purchase order.
      * 

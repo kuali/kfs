@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
@@ -246,4 +247,18 @@ public interface CustomerInvoiceDocumentService {
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber);
+    
+    /**
+     * Updates report date
+     * 
+     * @param docNumber
+     */
+    public void updateReportedDate(String docNumber);
+    
+    /**
+     * Updates statement info
+     * 
+     * @param data
+     */
+    public void updateReportedInvoiceInfo(CustomerStatementResultHolder data);
 }

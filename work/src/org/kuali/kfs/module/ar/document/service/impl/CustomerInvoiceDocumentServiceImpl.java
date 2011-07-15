@@ -30,6 +30,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerBillingStatement;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -43,6 +44,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -705,7 +707,41 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         customerInvoiceDocument.setClosedDate(dateTimeService.getCurrentSqlDate());
         businessObjectService.save(customerInvoiceDocument);
     }
+    
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateReportedDate(String)
+     */
+    public void updateReportedDate(String docNumber) {
+        //businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        HashMap<String, String> criteria = new HashMap<String, String>();
+        criteria.put("documentNumber", docNumber);
+        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
+        Date reportedDate = dateTimeService.getCurrentSqlDate();
+        if (ObjectUtils.isNotNull(customerInvoiceDocument)) {            
+            customerInvoiceDocument.setReportedDate(reportedDate);
+            businessObjectService.save(customerInvoiceDocument);
+        }        
+    }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#updateReportedInvoiceInfo(CustomerStatementResultHolder)
+     */
+    public void updateReportedInvoiceInfo(CustomerStatementResultHolder data) {
+        HashMap<String, String> criteria = new HashMap<String, String>();
+        criteria.put("customerNumber", data.getCustomerNumber());
+        CustomerBillingStatement customerBillingStatement = (CustomerBillingStatement)businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
+        if (ObjectUtils.isNotNull(customerBillingStatement)) {            
+            customerBillingStatement.setPreviouslyBilledAmount(data.getCurrentBilledAmount());
+            customerBillingStatement.setReportedDate(dateTimeService.getCurrentSqlDate());
+        } else {
+            customerBillingStatement = new CustomerBillingStatement();
+            customerBillingStatement.setCustomerNumber(data.getCustomerNumber());
+            customerBillingStatement.setPreviouslyBilledAmount(data.getCurrentBilledAmount());
+            customerBillingStatement.setReportedDate(dateTimeService.getCurrentSqlDate());
+        }
+        businessObjectService.save(customerBillingStatement);
+    }
+    
     public CustomerInvoiceDocumentDao getCustomerInvoiceDocumentDao() {
         return customerInvoiceDocumentDao;
     }

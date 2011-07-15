@@ -575,6 +575,23 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("amountDue")]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="dataCell"
+						mode="Transparent"
+						x="129"
+						y="7"
+						width="63"
+						height="20"
+						key="textField-33"
+						stretchType="RelativeToTallestObject"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="10"></box>
+					<textElement verticalAlignment="Middle" lineSpacing="1_1_2">
+						<font fontName="Times New Roman"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("lastReportedDate")]]></textFieldExpression>
+				</textField>
 			</band>
 		</lastPageFooter>
 		<summary>

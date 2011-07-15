@@ -483,7 +483,7 @@
 			</band>
 		</columnFooter>
 		<pageFooter>
-			<band height="222"  isSplitAllowed="true" >
+			<band height="239"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() ==1)]]></printWhenExpression>
 				<rectangle>
 					<reportElement
@@ -491,7 +491,7 @@
 						x="285"
 						y="60"
 						width="227"
-						height="35"
+						height="51"
 						key="rectangle-1"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
@@ -525,7 +525,7 @@
 					<reportElement
 						mode="Opaque"
 						x="285"
-						y="115"
+						y="132"
 						width="62"
 						height="16"
 						backcolor="#DDDDDD"
@@ -552,7 +552,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="351"
-						y="115"
+						y="132"
 						width="191"
 						height="16"
 						key="textField-24"/>
@@ -565,7 +565,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="351"
-						y="132"
+						y="149"
 						width="191"
 						height="16"
 						key="textField-25"/>
@@ -578,7 +578,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="351"
-						y="149"
+						y="166"
 						width="191"
 						height="16"
 						key="textField-26"/>
@@ -591,7 +591,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="351"
-						y="166"
+						y="183"
 						width="191"
 						height="16"
 						key="textField-27"/>
@@ -635,7 +635,7 @@
 					<reportElement
 						mode="Opaque"
 						x="286"
-						y="78"
+						y="94"
 						width="110"
 						height="16"
 						backcolor="#DDDDDD"
@@ -644,7 +644,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[AMOUNT DUE:]]></text>
+				<text><![CDATA[DUE DATE:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -689,7 +689,7 @@
 					<reportElement
 						mode="Opaque"
 						x="19"
-						y="115"
+						y="132"
 						width="49"
 						height="16"
 						backcolor="#DDDDDD"
@@ -703,7 +703,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="115"
+						y="132"
 						width="191"
 						height="16"
 						key="textField-35"/>
@@ -716,7 +716,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="132"
+						y="149"
 						width="191"
 						height="16"
 						key="textField-36"/>
@@ -729,7 +729,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="166"
+						y="183"
 						width="191"
 						height="16"
 						key="textField-37"/>
@@ -742,7 +742,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="149"
+						y="166"
 						width="191"
 						height="16"
 						key="textField-40"/>
@@ -755,7 +755,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="72"
-						y="204"
+						y="221"
 						width="480"
 						height="16"
 						key="textField-43"/>
@@ -783,6 +783,52 @@
 						width="227"
 						height="0"
 						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="286"
+						y="78"
+						width="110"
+						height="16"
+						backcolor="#DDDDDD"
+						key="staticText-54"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[AMOUNT DUE:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="401"
+						y="94"
+						width="105"
+						height="16"
+						key="textField-102"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("dueDate")]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="285"
+						y="77"
+						width="227"
+						height="0"
+						key="line-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="284"
+						y="94"
+						width="227"
+						height="0"
+						key="line-4"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 			</band>

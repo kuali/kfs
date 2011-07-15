@@ -252,6 +252,7 @@
 	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
@@ -1038,6 +1039,12 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerBillingStatement" table="AR_CUST_BILLING_STMT_T">
+	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="previouslyBilledAmount" column="PREV_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
+</class-descriptor>	
+	
 <!-- TEMPORARY TABLE -->
 <class-descriptor class="org.kuali.kfs.module.ar.document.PaymentApplicationDocument" table="AR_APPLICATION_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -51,6 +52,7 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
     protected static final Long ONE = new Long(1);
 
     protected PersistenceStructureService persistenceStructureService;
+    protected BusinessObjectService businessObjectService; 
 
     protected Class<? extends FiscalYearBasedBusinessObject> businessObjectClass;
     protected Set<Class<? extends FiscalYearBasedBusinessObject>> parentClasses;
@@ -430,6 +432,10 @@ public class FiscalYearMakerImpl extends PlatformAwareDaoBaseOjb implements Fisc
      */
     public void setAllowOverrideTargetYear(boolean allowOverrideTargetYear) {
         this.allowOverrideTargetYear = allowOverrideTargetYear;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

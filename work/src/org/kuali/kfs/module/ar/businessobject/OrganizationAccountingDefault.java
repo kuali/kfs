@@ -24,62 +24,63 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OrganizationAccountingDefault extends PersistableBusinessObjectBase {
+public class OrganizationAccountingDefault extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
 
-	private Integer universityFiscalYear;
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String organizationLateChargeObjectCode;
-	private String defaultInvoiceChartOfAccountsCode;
-	private String defaultInvoiceAccountNumber;
-	private String defaultInvoiceSubAccountNumber;
-	private String defaultInvoiceFinancialObjectCode;
-	private String defaultInvoiceFinancialSubObjectCode;
-	private String defaultInvoiceProjectCode;
-	private String defaultInvoiceOrganizationReferenceIdentifier;
-	private String defaultPaymentChartOfAccountsCode;
-	private String defaultPaymentAccountNumber;
-	private String defaultPaymentSubAccountNumber;
-    private String defaultPaymentFinancialObjectCode;
-    private String defaultPaymentFinancialSubObjectCode;
-    private String defaultPaymentProjectCode;
-	private String defaultPaymentOrganizationReferenceIdentifier;
-    private String writeoffChartOfAccountsCode;
-    private String writeoffAccountNumber;
-    private String writeoffSubAccountNumber;
-    private String writeoffFinancialObjectCode;
-    private String writeoffFinancialSubObjectCode;
-    private String writeoffProjectCode;
-    private String writeoffOrganizationReferenceIdentifier;
+	protected Integer universityFiscalYear;
+	protected String chartOfAccountsCode;
+	protected String organizationCode;
+	protected String organizationLateChargeObjectCode;
+	protected String defaultInvoiceChartOfAccountsCode;
+	protected String defaultInvoiceAccountNumber;
+	protected String defaultInvoiceSubAccountNumber;
+	protected String defaultInvoiceFinancialObjectCode;
+	protected String defaultInvoiceFinancialSubObjectCode;
+	protected String defaultInvoiceProjectCode;
+	protected String defaultInvoiceOrganizationReferenceIdentifier;
+	protected String defaultPaymentChartOfAccountsCode;
+	protected String defaultPaymentAccountNumber;
+	protected String defaultPaymentSubAccountNumber;
+    protected String defaultPaymentFinancialObjectCode;
+    protected String defaultPaymentFinancialSubObjectCode;
+    protected String defaultPaymentProjectCode;
+	protected String defaultPaymentOrganizationReferenceIdentifier;
+    protected String writeoffChartOfAccountsCode;
+    protected String writeoffAccountNumber;
+    protected String writeoffSubAccountNumber;
+    protected String writeoffFinancialObjectCode;
+    protected String writeoffFinancialSubObjectCode;
+    protected String writeoffProjectCode;
+    protected String writeoffOrganizationReferenceIdentifier;
    
-    private ObjectCode defaultInvoiceFinancialObject;
-	private SubObjectCode defaultInvoiceFinancialSubObject;
-	private ObjectCode organizationLateChargeObject;
-	private Chart chartOfAccounts;
-	private Organization organization;
-	private Chart defaultInvoiceChartOfAccounts;
-	private SubAccount defaultInvoiceSubAccount;
-	private Account defaultInvoiceAccount;
-	private ProjectCode defaultInvoiceProject;
-	private Account defaultPaymentAccount;
-	private Chart defaultPaymentChartOfAccounts;
-	private SubAccount defaultPaymentSubAccount;
-	private ProjectCode defaultPaymentProject;
-	private SystemOptions universityFiscal;
-    private ObjectCode defaultPaymentFinancialObject;
-    private SubObjectCode defaultPaymentFinancialSubObject;
-    private Chart writeoffChartOfAccounts;
-    private Account writeoffAccount;
-    private SubAccount writeoffSubAccount;
-    private ObjectCode writeoffFinancialObject;
-    private SubObjectCode writeoffFinancialSubObject;
-    private ProjectCode writeoffProject;
+    protected ObjectCode defaultInvoiceFinancialObject;
+	protected SubObjectCode defaultInvoiceFinancialSubObject;
+	protected ObjectCode organizationLateChargeObject;
+	protected Chart chartOfAccounts;
+	protected Organization organization;
+	protected Chart defaultInvoiceChartOfAccounts;
+	protected SubAccount defaultInvoiceSubAccount;
+	protected Account defaultInvoiceAccount;
+	protected ProjectCode defaultInvoiceProject;
+	protected Account defaultPaymentAccount;
+	protected Chart defaultPaymentChartOfAccounts;
+	protected SubAccount defaultPaymentSubAccount;
+	protected ProjectCode defaultPaymentProject;
+	protected transient SystemOptions universityFiscal;
+    protected ObjectCode defaultPaymentFinancialObject;
+    protected SubObjectCode defaultPaymentFinancialSubObject;
+    protected Chart writeoffChartOfAccounts;
+    protected Account writeoffAccount;
+    protected SubAccount writeoffSubAccount;
+    protected ObjectCode writeoffFinancialObject;
+    protected SubObjectCode writeoffFinancialSubObject;
+    protected ProjectCode writeoffProject;
     
 	/**
 	 * Default constructor.

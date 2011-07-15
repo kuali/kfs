@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -25,13 +26,13 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * This class is used to represent a Travel Per Diem business object.
  */
-public class TravelPerDiem extends PersistableBusinessObjectBase {
-    private Integer universityFiscalYear;
-    private String perDiemCountryName;
-    private KualiDecimal perDiemRate;
-    private String perDiemCountryText;
+public class TravelPerDiem extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
+    protected Integer universityFiscalYear;
+    protected String perDiemCountryName;
+    protected KualiDecimal perDiemRate;
+    protected String perDiemCountryText;
 
-    private SystemOptions fiscalYear;
+    protected transient SystemOptions fiscalYear;
 
     /**
      * Default no-arg constructor.
@@ -117,6 +118,7 @@ public class TravelPerDiem extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("perDiemCountryName", this.perDiemCountryName);

@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,19 +30,19 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Labor business object for Modeling of Position Object Benefit
  */
-public class PositionObjectBenefit extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectBenefit, Inactivateable {
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String financialObjectCode;
-    private String financialObjectBenefitsTypeCode;
-    private Chart chartOfAccounts;
-    private boolean active;
+public class PositionObjectBenefit extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectBenefit, Inactivateable, FiscalYearBasedBusinessObject {
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String financialObjectCode;
+    protected String financialObjectBenefitsTypeCode;
+    protected Chart chartOfAccounts;
+    protected boolean active;
   
-    private ObjectCode financialObject;
-    private transient SystemOptions universityFiscal;
-    private BenefitsCalculation benefitsCalculation;
-    private BenefitsType financialObjectBenefitsType;
-    private LaborObject laborObject;
+    protected ObjectCode financialObject;
+    protected transient SystemOptions universityFiscal;
+    protected BenefitsCalculation benefitsCalculation;
+    protected BenefitsType financialObjectBenefitsType;
+    protected LaborObject laborObject;
 
     /**
      * Default constructor.

@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectSubType;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -28,23 +29,23 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AssetObjectCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class AssetObjectCode extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
 
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String financialObjectSubTypeCode;
-    private String capitalizationFinancialObjectCode;
-    private String accumulatedDepreciationFinancialObjectCode;
-    private String depreciationExpenseFinancialObjectCode;
-    private boolean active;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String financialObjectSubTypeCode;
+    protected String capitalizationFinancialObjectCode;
+    protected String accumulatedDepreciationFinancialObjectCode;
+    protected String depreciationExpenseFinancialObjectCode;
+    protected boolean active;
 
-    private transient SystemOptions universityFiscal;
-    private ObjectCode accumulatedDepreciationFinancialObject;
-    private ObjectCode capitalizationFinancialObject;
-    private ObjectCode depreciationExpenseFinancialObject;
-    private List<ObjectCode> objectCode;
-    private Chart chartOfAccounts;
-    private ObjectSubType financialObjectSubType;
+    protected transient SystemOptions universityFiscal;
+    protected ObjectCode accumulatedDepreciationFinancialObject;
+    protected ObjectCode capitalizationFinancialObject;
+    protected ObjectCode depreciationExpenseFinancialObject;
+    protected List<ObjectCode> objectCode;
+    protected Chart chartOfAccounts;
+    protected ObjectSubType financialObjectSubType;
 
     /**
      * Default constructor.

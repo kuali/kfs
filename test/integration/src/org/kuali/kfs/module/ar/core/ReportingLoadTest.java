@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
+import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
@@ -119,7 +120,7 @@ public class ReportingLoadTest extends KualiTestBase {
         createManyInvoiceReadyForAgingReport();
         
         //  test the following line for perf
-        List<File> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG, "S", "N");
+        List<CustomerStatementResultHolder> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG, "S", "N");
         assertNotNull("Reports list should not be null.", reports);
         assertFalse("Reports should not be empty.", reports.isEmpty());
     }

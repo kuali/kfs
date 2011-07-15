@@ -85,12 +85,27 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         
+        //setup the initial next sequence number column..
+        setupIntialNextCapitalAssetLineNumber(kualiDocumentFormBase);
+        
         KualiForm kualiForm = (KualiForm) kualiDocumentFormBase;
         //based on the records in capital accounting lines, capital asset information lists
         //set the tabs to open if lists not empty else set to close
         setTabStatesForCapitalAssets(kualiForm);
     }
         
+    protected void setupIntialNextCapitalAssetLineNumber(KualiDocumentFormBase kualiDocumentFormBase) {
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) kualiDocumentFormBase;
+        CapitalAssetInformationDocumentBase caidb = (CapitalAssetInformationDocumentBase) kadfb.getFinancialDocument();
+        
+        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
+        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
+            caidb.setNextCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
+        }
+        
+        caidb.setNextCapitalAssetLineNumber(caidb.getNextCapitalAssetLineNumber()+1);
+    }
+    
     /**
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,

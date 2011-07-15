@@ -33,7 +33,8 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
  public class CapitalAssetInformationDocumentBase extends AccountingDocumentBase implements CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetInformationDocumentBase.class);
-
+    protected Integer nextCapitalAssetLineNumber;
+    
     // capital asset
     protected List<CapitalAssetInformation> capitalAssetInformation;
     
@@ -52,6 +53,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
         }
         
         this.setCapitalAssetInformation(new ArrayList());
+        this.setNextCapitalAssetLineNumber(1);
     }
 
     /**
@@ -103,5 +105,24 @@ import org.kuali.rice.kns.util.TypedArrayList;
      */
     public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
+    }
+    
+    /**
+     * Gets the nextCapitalAssetLineNumber attribute.
+     * 
+     * @return Returns the nextCapitalAssetLineNumber
+     */
+    
+    public Integer getNextCapitalAssetLineNumber() {
+        return nextCapitalAssetLineNumber;
+    }
+
+    /** 
+     * Sets the nextCapitalAssetLineNumber attribute.
+     * 
+     * @param nextCapitalAssetLineNumber The nextCapitalAssetLineNumber to set.
+     */
+    public void setNextCapitalAssetLineNumber(Integer nextCapitalAssetLineNumber) {
+        this.nextCapitalAssetLineNumber = nextCapitalAssetLineNumber;
     }
 }

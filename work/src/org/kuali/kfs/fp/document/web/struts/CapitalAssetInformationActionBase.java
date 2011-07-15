@@ -118,7 +118,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                                 capitalAsset.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
                                 capitalAsset.setAmount(KualiDecimal.ZERO);
                                 capitalAsset.setDocumentNumber(calfb.getDocument().getDocumentNumber());
-                                capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(capitalAssetInformation));
+                                capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kualiAccountingDocumentFormBase));
                                 capitalAsset.setCapitalAssetActionIndicator(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
                                 capitalAsset.setCapitalAssetNumber(asset.getCapitalAssetNumber());
                                 capitalAssetInformation.add(capitalAsset);
@@ -589,7 +589,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                         //add the capital information record to the list of asset information
                         CapitalAssetInformation capitalAsset = new CapitalAssetInformation();
                         capitalAsset.setSequenceNumber(existingCapitalAsset.getSequenceNumber());
-                        capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(currentCapitalAssetInformation));
+                        capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kadfb));
                         capitalAsset.setFinancialDocumentLineTypeCode(existingCapitalAsset.getFinancialDocumentLineTypeCode());
                         capitalAsset.setChartOfAccountsCode(existingCapitalAsset.getChartOfAccountsCode());
                         capitalAsset.setAccountNumber(existingCapitalAsset.getAccountNumber());
@@ -610,7 +610,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                     capitalAsset.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
                     capitalAsset.setAmount(KualiDecimal.ZERO);
                     capitalAsset.setDocumentNumber(documentNumber);
-                    capitalAsset.setCapitalAssetLineNumber(1);
+                    capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kadfb));
                     capitalAsset.setCapitalAssetActionIndicator(actionType);
                     currentCapitalAssetInformation.add(capitalAsset);
                 }
@@ -707,14 +707,13 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param existingCapitalAssetInformation
      * @return
      */
-    protected Integer getNextCapitalAssetLineNumber(List<CapitalAssetInformation> capitalAssetInformation) {
+    protected Integer getNextCapitalAssetLineNumber(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
         int nextCapitalAssetLineNumber = 1;
+        CapitalAssetInformationDocumentBase caidb = (CapitalAssetInformationDocumentBase) kualiAccountingDocumentFormBase.getFinancialDocument();
+        nextCapitalAssetLineNumber = caidb.getNextCapitalAssetLineNumber();
+        caidb.setNextCapitalAssetLineNumber(nextCapitalAssetLineNumber+1);
         
-        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            nextCapitalAssetLineNumber = capitalAsset.getCapitalAssetLineNumber();
-        }
-        
-        return ++nextCapitalAssetLineNumber;
+        return nextCapitalAssetLineNumber;
     }
     
     /**

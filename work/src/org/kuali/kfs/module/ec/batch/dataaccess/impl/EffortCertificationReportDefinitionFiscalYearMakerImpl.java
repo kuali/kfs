@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ec.batch.dataaccess.impl;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
@@ -30,7 +31,7 @@ public class EffortCertificationReportDefinitionFiscalYearMakerImpl extends Fisc
      *      org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
-    public void changeForNewYear(Integer baseFiscalYear, PersistableBusinessObject currentRecord) {
+    public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {
         super.changeForNewYear(baseFiscalYear, currentRecord);
 
         EffortCertificationReportDefinition reportDefinition = (EffortCertificationReportDefinition) currentRecord;

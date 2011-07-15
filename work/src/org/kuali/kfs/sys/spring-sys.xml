@@ -431,16 +431,9 @@
 	<bean id="generalLedgerPendingEntryDao" parent="generalLedgerPendingEntryDao-parentBean"/>
 	<bean id="generalLedgerPendingEntryDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb" abstract="true"/>
 	
-	<bean id="fiscalYearMakersDao" parent="fiscalYearMakersDao-parentBean"/>
-	
-	<bean id="fiscalYearMakersDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakersDaoOjb" abstract="true">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
+	<bean id="fiscalYearMakersDao" parent="fiscalYearMakersDao-parentBean"/>	
+	<bean id="fiscalYearMakersDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakersDaoOjb" abstract="true" />
+
 	<bean id="fiscalYearMakerService" parent="fiscalYearMakerService-parentBean"/>
 	
 	<bean id="fiscalYearMakerService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.FiscalYearMakerServiceImpl" abstract="true">

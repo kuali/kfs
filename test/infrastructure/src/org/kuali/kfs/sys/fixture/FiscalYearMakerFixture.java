@@ -32,6 +32,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -58,15 +59,15 @@ public enum FiscalYearMakerFixture {
     OPTIONS1(SystemOptions.class, ObjectCode.class), 
 //    OBJECT_CODE1(ObjectCode.class, LaborObject.class), 
 //    LABOR_OBJECT1(LaborObject.class, SubObjectCode.class), 
-    WIRE_CHARGE1(WireCharge.class, ObjectCode.class, WireCharge.class), 
-    MISSING_PARENT_FYM(ObjectCode.class, Account.class);
+    WIRE_CHARGE1(WireCharge.class, ObjectCode.class, WireCharge.class);//, 
+    //MISSING_PARENT_FYM(ObjectCode.class, Account.class);
 
-    public Class<? extends PersistableBusinessObject> businessObjectClass;
-    public Set<Class<? extends PersistableBusinessObject>> parentClasses;
+    public Class<? extends FiscalYearBasedBusinessObject> businessObjectClass;
+    public Set<Class<? extends FiscalYearBasedBusinessObject>> parentClasses;
 
-    private FiscalYearMakerFixture(Class<? extends PersistableBusinessObject> businessObjectClass, Class<? extends PersistableBusinessObject>... parentClasses) {
+    private FiscalYearMakerFixture(Class<? extends FiscalYearBasedBusinessObject> businessObjectClass, Class<? extends FiscalYearBasedBusinessObject>... parentClasses) {
         this.businessObjectClass = businessObjectClass;
-        this.parentClasses = new HashSet<Class<? extends PersistableBusinessObject>>(Arrays.asList(parentClasses));
+        this.parentClasses = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>(Arrays.asList(parentClasses));
     }
 
     public FiscalYearMaker createFiscalYearMaker() {

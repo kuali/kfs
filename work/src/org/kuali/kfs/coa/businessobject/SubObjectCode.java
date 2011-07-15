@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -25,7 +26,7 @@ import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
 /**
  * 
  */
-public class SubObjectCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class SubObjectCode extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
 
     private static final long serialVersionUID = -5292158248714650271L;
 

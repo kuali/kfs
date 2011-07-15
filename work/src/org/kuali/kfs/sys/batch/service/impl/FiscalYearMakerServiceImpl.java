@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.batch.FiscalYearMakerStep;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMakersDao;
 import org.kuali.kfs.sys.batch.service.FiscalYearMakerService;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ModuleService;
@@ -43,13 +44,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(FiscalYearMakerServiceImpl.class);
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(FiscalYearMakerServiceImpl.class);
 
-    private FiscalYearMakersDao fiscalYearMakersDao;
-    private ParameterService parameterService;
-    private KualiModuleService kualiModuleService;
+    protected FiscalYearMakersDao fiscalYearMakersDao;
+    protected ParameterService parameterService;
+    protected KualiModuleService kualiModuleService;
 
-    private List<FiscalYearMaker> fiscalYearMakers;
+    protected List<FiscalYearMaker> fiscalYearMakers;
 
     /**
      * @see org.kuali.kfs.coa.batch.service.FiscalYearMakerService#runProcess()
@@ -83,26 +84,30 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
         }
 
         // Map to hold parent primary key values written to use for child RI checks
-        Map<Class<? extends PersistableBusinessObject>, Set<String>> parentKeysWritten = new HashMap<Class<? extends PersistableBusinessObject>, Set<String>>();
+        Map<Class<? extends FiscalYearBasedBusinessObject>, Set<String>> parentKeysWritten = new HashMap<Class<? extends FiscalYearBasedBusinessObject>, Set<String>>();
 
         // do copy process on each setup business object
         for (FiscalYearMaker fiscalYearMaker : copyList) {
-            boolean isParent = isParentClass(fiscalYearMaker.getBusinessObjectClass());
-            if (!fiscalYearMaker.doCustomProcessingOnly()) {
-                Collection<String> copyErrors = fiscalYearMakersDao.createNewYearRows(baseYear, fiscalYearMaker, replaceMode, parentKeysWritten, isParent);
-                writeCopyFailureMessages(copyErrors);
-            }
-
-            fiscalYearMaker.performCustomProcessing(baseYear, true);
-
-            // if copy two years call copy procedure again to copy records from base year + 1 to base year + 2
-            if (fiscalYearMaker.isTwoYearCopy()) {
+            try {
+                boolean isParent = isParentClass(fiscalYearMaker.getBusinessObjectClass());
                 if (!fiscalYearMaker.doCustomProcessingOnly()) {
-                    Collection<String> copyErrors = fiscalYearMakersDao.createNewYearRows(baseYear + 1, fiscalYearMaker, replaceMode, parentKeysWritten, isParent);
+                    Collection<String> copyErrors = fiscalYearMakersDao.createNewYearRows(baseYear, fiscalYearMaker, replaceMode, parentKeysWritten, isParent);
                     writeCopyFailureMessages(copyErrors);
                 }
-
-                fiscalYearMaker.performCustomProcessing(baseYear + 1, false);
+    
+                fiscalYearMaker.performCustomProcessing(baseYear, true);
+    
+                // if copy two years call copy procedure again to copy records from base year + 1 to base year + 2
+                if (fiscalYearMaker.isTwoYearCopy()) {
+                    if (!fiscalYearMaker.doCustomProcessingOnly()) {
+                        Collection<String> copyErrors = fiscalYearMakersDao.createNewYearRows(baseYear + 1, fiscalYearMaker, replaceMode, parentKeysWritten, isParent);
+                        writeCopyFailureMessages(copyErrors);
+                    }
+    
+                    fiscalYearMaker.performCustomProcessing(baseYear + 1, false);
+                }
+            } catch ( Exception ex ) {
+                throw new RuntimeException( "Internal exception while processing fiscal year for " + fiscalYearMaker.getBusinessObjectClass(), ex );
             }
         }
     }
@@ -114,24 +119,24 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @return List<FiscalYearMaker> in copy order
      */
     protected List<FiscalYearMaker> getFiscalYearMakerHelpersInCopyOrder() {
-        List<Class<? extends PersistableBusinessObject>> classCopyOrder = new ArrayList<Class<? extends PersistableBusinessObject>>();
+        List<Class<? extends FiscalYearBasedBusinessObject>> classCopyOrder = new ArrayList<Class<? extends FiscalYearBasedBusinessObject>>();
 
         // build map of parents and their children
-        Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren = getParentChildrenMap();
+        Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> parentChildren = getParentChildrenMap();
 
         // figure out correct order among parents by picking off levels of hierarchy
         while (!parentChildren.isEmpty()) {
-            Set<Class<? extends PersistableBusinessObject>> parents = parentChildren.keySet();
-            Set<Class<? extends PersistableBusinessObject>> children = getChildren(parentChildren);
+            Set<Class<? extends FiscalYearBasedBusinessObject>> parents = parentChildren.keySet();
+            Set<Class<? extends FiscalYearBasedBusinessObject>> children = getChildren(parentChildren);
 
-            Set<Class<? extends PersistableBusinessObject>> rootParents = new HashSet<Class<? extends PersistableBusinessObject>>(CollectionUtils.subtract(parents, children));
+            Set<Class<? extends FiscalYearBasedBusinessObject>> rootParents = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>(CollectionUtils.subtract(parents, children));
 
             // if there are no root parents, then we must have a circular reference
             if (rootParents.isEmpty()) {
                 findCircularReferenceAndThrowException(parentChildren);
             }
 
-            for (Class<? extends PersistableBusinessObject> rootParent : rootParents) {
+            for (Class<? extends FiscalYearBasedBusinessObject> rootParent : rootParents) {
                 classCopyOrder.add(rootParent);
                 parentChildren.remove(rootParent);
             }
@@ -147,8 +152,8 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
         // finally build list of FiscalYearMaker objects by the correct class order
         List<FiscalYearMaker> fiscalYearMakerHelpersCopyOrder = new ArrayList<FiscalYearMaker>();
 
-        Map<Class<? extends PersistableBusinessObject>, FiscalYearMaker> copyMap = getFiscalYearMakerMap();
-        for (Class<? extends PersistableBusinessObject> copyClass : classCopyOrder) {
+        Map<Class<? extends FiscalYearBasedBusinessObject>, FiscalYearMaker> copyMap = getFiscalYearMakerMap();
+        for (Class<? extends FiscalYearBasedBusinessObject> copyClass : classCopyOrder) {
             fiscalYearMakerHelpersCopyOrder.add(copyMap.get(copyClass));
         }
 
@@ -178,12 +183,12 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @param parents Set of parent classes to check
      * @param parentChildren Map with parent class as the key and its children classes as value
      */
-    protected void findCircularReferenceAndThrowException(Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren) {
-        Set<Class<? extends PersistableBusinessObject>> classesWithCircularReference = new HashSet<Class<? extends PersistableBusinessObject>>();
+    protected void findCircularReferenceAndThrowException(Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> parentChildren) {
+        Set<Class<? extends FiscalYearBasedBusinessObject>> classesWithCircularReference = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>();
 
         // resolve children for each parent and verify the parent does not appear as a child to itself
-        for (Class<? extends PersistableBusinessObject> parent : parentChildren.keySet()) {
-            boolean circularReferenceFound = checkChildrenForParentReference(parent, parentChildren.get(parent), parentChildren, new HashSet<Class<? extends PersistableBusinessObject>>());
+        for (Class<? extends FiscalYearBasedBusinessObject> parent : parentChildren.keySet()) {
+            boolean circularReferenceFound = checkChildrenForParentReference(parent, parentChildren.get(parent), parentChildren, new HashSet<Class<? extends FiscalYearBasedBusinessObject>>());
             if (circularReferenceFound) {
                 classesWithCircularReference.add(parent);
             }
@@ -206,17 +211,17 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @return true if the parent class was found in one of the children list (meaning we have a circular reference), false
      *         otherwise
      */
-    protected boolean checkChildrenForParentReference(Class<? extends PersistableBusinessObject> parent, Set<Class<? extends PersistableBusinessObject>> children, Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren, Set<Class<? extends PersistableBusinessObject>> checkedParents) {
+    protected boolean checkChildrenForParentReference(Class<? extends FiscalYearBasedBusinessObject> parent, Set<Class<? extends FiscalYearBasedBusinessObject>> children, Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> parentChildren, Set<Class<? extends FiscalYearBasedBusinessObject>> checkedParents) {
         // if parent is in child list then we have a circular reference
         if (children.contains(parent)) {
             return true;
         }
 
         // iterate through children and check if the child is also a parent, if so then need to check its children
-        for (Class<? extends PersistableBusinessObject> child : children) {
+        for (Class<? extends FiscalYearBasedBusinessObject> child : children) {
             if (parentChildren.containsKey(child) && !checkedParents.contains(child)) {
                 checkedParents.add(child);
-                Set<Class<? extends PersistableBusinessObject>> childChildren = parentChildren.get(child);
+                Set<Class<? extends FiscalYearBasedBusinessObject>> childChildren = parentChildren.get(child);
 
                 boolean foundParent = checkChildrenForParentReference(parent, childChildren, parentChildren, checkedParents);
                 if (foundParent) {
@@ -233,12 +238,12 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * 
      * @return Map<Class, Set<Class>> of parent to children classes
      */
-    protected Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> getParentChildrenMap() {
-        Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren = new HashMap<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>>();
+    protected Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> getParentChildrenMap() {
+        Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> parentChildren = new HashMap<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>>();
 
         for (FiscalYearMaker fiscalYearMakerHelper : fiscalYearMakers) {
-            for (Class<? extends PersistableBusinessObject> parentClass : fiscalYearMakerHelper.getParentClasses()) {
-                Set<Class<? extends PersistableBusinessObject>> children = new HashSet<Class<? extends PersistableBusinessObject>>();
+            for (Class<? extends FiscalYearBasedBusinessObject> parentClass : fiscalYearMakerHelper.getParentClasses()) {
+                Set<Class<? extends FiscalYearBasedBusinessObject>> children = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>();
                 if (parentChildren.containsKey(parentClass)) {
                     children = parentChildren.get(parentClass);
                 }
@@ -257,9 +262,9 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @param businessObjectClass class to check
      * @return true if class is a parent, false otherwise
      */
-    protected boolean isParentClass(Class<? extends PersistableBusinessObject> businessObjectClass) {
+    protected boolean isParentClass(Class<? extends FiscalYearBasedBusinessObject> businessObjectClass) {
         for (FiscalYearMaker fiscalYearMakerHelper : fiscalYearMakers) {
-            for (Class<? extends PersistableBusinessObject> parentClass : fiscalYearMakerHelper.getParentClasses()) {
+            for (Class<? extends FiscalYearBasedBusinessObject> parentClass : fiscalYearMakerHelper.getParentClasses()) {
                 if (businessObjectClass.isAssignableFrom(parentClass)) {
                     return true;
                 }
@@ -276,10 +281,10 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * @param parentChildren Map with parent class as the key and its children classes as value
      * @return Set of classes that are a child of another class
      */
-    protected Set<Class<? extends PersistableBusinessObject>> getChildren(Map<Class<? extends PersistableBusinessObject>, Set<Class<? extends PersistableBusinessObject>>> parentChildren) {
-        Set<Class<? extends PersistableBusinessObject>> children = new HashSet<Class<? extends PersistableBusinessObject>>();
+    protected Set<Class<? extends FiscalYearBasedBusinessObject>> getChildren(Map<Class<? extends FiscalYearBasedBusinessObject>, Set<Class<? extends FiscalYearBasedBusinessObject>>> parentChildren) {
+        Set<Class<? extends FiscalYearBasedBusinessObject>> children = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>();
 
-        for (Class<? extends PersistableBusinessObject> parentClass : parentChildren.keySet()) {
+        for (Class<? extends FiscalYearBasedBusinessObject> parentClass : parentChildren.keySet()) {
             children.addAll(parentChildren.get(parentClass));
         }
 
@@ -292,8 +297,8 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * 
      * @return Map<Class, FiscalYearMaker> of copy classes to FiscalYearMaker objects
      */
-    protected Map<Class<? extends PersistableBusinessObject>, FiscalYearMaker> getFiscalYearMakerMap() {
-        Map<Class<? extends PersistableBusinessObject>, FiscalYearMaker> fiscalYearMakerMap = new HashMap<Class<? extends PersistableBusinessObject>, FiscalYearMaker>();
+    protected Map<Class<? extends FiscalYearBasedBusinessObject>, FiscalYearMaker> getFiscalYearMakerMap() {
+        Map<Class<? extends FiscalYearBasedBusinessObject>, FiscalYearMaker> fiscalYearMakerMap = new HashMap<Class<? extends FiscalYearBasedBusinessObject>, FiscalYearMaker>();
 
         for (FiscalYearMaker fiscalYearMakerHelper : fiscalYearMakers) {
             fiscalYearMakerMap.put(fiscalYearMakerHelper.getBusinessObjectClass(), fiscalYearMakerHelper);
@@ -306,18 +311,18 @@ public class FiscalYearMakerServiceImpl implements FiscalYearMakerService {
      * Validates each configured fiscal year maker implementation
      */
     protected void validateFiscalYearMakerConfiguration() {
-        Set<Class<? extends PersistableBusinessObject>> businessObjectClasses = new HashSet<Class<? extends PersistableBusinessObject>>();
+        Set<Class<? extends FiscalYearBasedBusinessObject>> businessObjectClasses = new HashSet<Class<? extends FiscalYearBasedBusinessObject>>();
 
         for (FiscalYearMaker fiscalYearMaker : fiscalYearMakers) {
-            Class<? extends PersistableBusinessObject> businessObjectClass = fiscalYearMaker.getBusinessObjectClass();
+            Class<? extends FiscalYearBasedBusinessObject> businessObjectClass = fiscalYearMaker.getBusinessObjectClass();
             if (businessObjectClass == null) {
                 String error = "Business object class is null for fiscal year maker";
                 LOG.error(error);
                 throw new RuntimeException(error);
             }
 
-            if (!PersistableBusinessObject.class.isAssignableFrom(businessObjectClass)) {
-                String error = String.format("Business object class %s does not implement %s", businessObjectClass.getName(), PersistableBusinessObject.class.getName());
+            if (!FiscalYearBasedBusinessObject.class.isAssignableFrom(businessObjectClass)) {
+                String error = String.format("Business object class %s does not implement %s", businessObjectClass.getName(), FiscalYearBasedBusinessObject.class.getName());
                 LOG.error(error);
                 throw new RuntimeException(error);
             }

@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.TypedArrayList;
 
-public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase implements Inactivateable {
+public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
     
     private Integer universityFiscalYear;
     private String financialIcrSeriesIdentifier;

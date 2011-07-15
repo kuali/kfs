@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * Represents a specific university date
  * 
  */
-public class UniversityDate extends PersistableBusinessObjectBase {
+public class UniversityDate extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
     static final long serialVersionUID = 2587833750168955556L;
 
     private Date universityDate;

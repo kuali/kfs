@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.KualiCode;
@@ -31,43 +32,43 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * 
  */
-public class ObjectCode extends PersistableBusinessObjectBase implements KualiCode {
+public class ObjectCode extends PersistableBusinessObjectBase implements KualiCode, FiscalYearBasedBusinessObject {
 
 
     static {
         PersistenceStructureServiceImpl.referenceConversionMap.put(ObjectCode.class, ObjectCodeCurrent.class);
     }
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
     private static final long serialVersionUID = -965833141452795485L;
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String financialObjectCode;
-    private String financialObjectCodeName;
-    private String financialObjectCodeShortName;
-    private String historicalFinancialObjectCode;
-    private boolean active;
-    private String financialObjectLevelCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToFinancialObjectCode;
-    private String financialObjectTypeCode;
-    private String financialObjectSubTypeCode;
-    private String financialBudgetAggregationCd;
-    private String nextYearFinancialObjectCode;
-    private String finObjMandatoryTrnfrelimCd;
-    private String financialFederalFundedCode;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String financialObjectCode;
+    protected String financialObjectCodeName;
+    protected String financialObjectCodeShortName;
+    protected String historicalFinancialObjectCode;
+    protected boolean active;
+    protected String financialObjectLevelCode;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToFinancialObjectCode;
+    protected String financialObjectTypeCode;
+    protected String financialObjectSubTypeCode;
+    protected String financialBudgetAggregationCd;
+    protected String nextYearFinancialObjectCode;
+    protected String finObjMandatoryTrnfrelimCd;
+    protected String financialFederalFundedCode;
         
-    private transient BudgetAggregationCode financialBudgetAggregation;
-    private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
-    private transient FederalFundedCode financialFederalFunded;
-    private transient SystemOptions universityFiscal;
-    private transient ObjectLevel financialObjectLevel;
-    private transient Chart chartOfAccounts;
-    private transient Chart reportsToChartOfAccounts;
-    private transient ObjectCode reportsToFinancialObject;
-    private transient ObjectType financialObjectType;
-    private transient ObjectSubType financialObjectSubType;
+    protected transient BudgetAggregationCode financialBudgetAggregation;
+    protected transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
+    protected transient FederalFundedCode financialFederalFunded;
+    protected transient SystemOptions universityFiscal;
+    protected transient ObjectLevel financialObjectLevel;
+    protected transient Chart chartOfAccounts;
+    protected transient Chart reportsToChartOfAccounts;
+    protected transient ObjectCode reportsToFinancialObject;
+    protected transient ObjectType financialObjectType;
+    protected transient ObjectSubType financialObjectSubType;
     
     /**
      * Default no-arg constructor.

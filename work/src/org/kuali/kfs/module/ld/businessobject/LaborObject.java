@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * Labor business object for LaborObject.
  */
-public class LaborObject extends PersistableBusinessObjectBase implements LaborLedgerObject, Inactivateable {
+public class LaborObject extends PersistableBusinessObjectBase implements LaborLedgerObject, Inactivateable, FiscalYearBasedBusinessObject {
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String financialObjectCode;

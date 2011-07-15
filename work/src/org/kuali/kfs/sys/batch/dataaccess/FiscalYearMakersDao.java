@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 
 /**
  * Provides data access methods for the fiscal year maker process
@@ -44,6 +44,6 @@ public interface FiscalYearMakersDao {
      * @param isParentClass indicates whether the class being copied is a parent to another FYM class that will be copied
      * @return Collection of error messages encountered while attempting to copy a record
      */
-    public Collection<String> createNewYearRows(Integer baseYear, FiscalYearMaker objectFiscalYearMaker, boolean replaceMode, Map<Class<? extends PersistableBusinessObject>, Set<String>> parentKeysWritten, boolean isParentClass);
+    public Collection<String> createNewYearRows(Integer baseYear, FiscalYearMaker objectFiscalYearMaker, boolean replaceMode, Map<Class<? extends FiscalYearBasedBusinessObject>, Set<String>> parentKeysWritten, boolean isParentClass) throws Exception;
 
 }

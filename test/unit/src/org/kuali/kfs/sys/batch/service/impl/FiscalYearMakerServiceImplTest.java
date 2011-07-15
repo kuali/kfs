@@ -22,6 +22,7 @@ import java.util.Set;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMakersDao;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.FiscalYearMakerFixture;
@@ -82,17 +83,17 @@ public class FiscalYearMakerServiceImplTest extends KualiTestBase {
         assertEquals("Copy order size does not match maker list size", fiscalYearMakerService.getFiscalYearMakers().size(), fiscalYearMakersCopyOrder.size());
 
         // turn list of fym into list of classes
-        List<Class<? extends PersistableBusinessObject>> classCopyOrder = new ArrayList<Class<? extends PersistableBusinessObject>>();
+        List<Class<? extends FiscalYearBasedBusinessObject>> classCopyOrder = new ArrayList<Class<? extends FiscalYearBasedBusinessObject>>();
         for (FiscalYearMaker fiscalYearMaker : fiscalYearMakersCopyOrder) {
             classCopyOrder.add(fiscalYearMaker.getBusinessObjectClass());
         }
 
         // verify for each child its parents appear in copy list with a lower index (thus will be copied first)
         for (FiscalYearMaker fiscalYearMaker : fiscalYearMakerService.getFiscalYearMakers()) {
-            Class<? extends PersistableBusinessObject> child = fiscalYearMaker.getBusinessObjectClass();
+            Class<? extends FiscalYearBasedBusinessObject> child = fiscalYearMaker.getBusinessObjectClass();
 
-            Set<Class<? extends PersistableBusinessObject>> parents = fiscalYearMaker.getParentClasses();
-            for (Class<? extends PersistableBusinessObject> parent : parents) {
+            Set<Class<? extends FiscalYearBasedBusinessObject>> parents = fiscalYearMaker.getParentClasses();
+            for (Class<? extends FiscalYearBasedBusinessObject> parent : parents) {
                 String msg = String.format("Parent class %s not in copy list before child class %s", parent.getName(), child.getName());
                 assertTrue(msg, classCopyOrder.indexOf(parent) < classCopyOrder.indexOf(child));
             }

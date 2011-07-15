@@ -38,6 +38,7 @@ public class ObjectCodeFiscalYearMakerImpl extends FiscalYearMakerImpl {
         // or with criteria to pick up budget dummy object for base year (active or inactive)
         Criteria criteriaBdg = new Criteria();
         criteriaBdg.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, baseFiscalYear);
+        // REMOVE: THIS IS REALLY, REALLY BAD!  We should not be hard-coding object code values ANYWHERE!
         criteriaBdg.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
         criteria.addOrCriteria(criteriaBdg);
 

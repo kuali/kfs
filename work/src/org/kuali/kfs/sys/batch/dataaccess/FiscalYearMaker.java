@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.sys.batch.dataaccess;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 
 /**
  * Defines methods that must be implemented for a DAO making an entity for a new fiscal year
@@ -36,7 +37,7 @@ public interface FiscalYearMaker {
      * @return business object of type (@see org.kuali.kfs.coa.dataaccess.FiscalYearMakerDao.getBusinessObjectClass()) populated
      *         with data for the new fiscal year record
      */
-    public void changeForNewYear(Integer baseFiscalYear, PersistableBusinessObject currentRecord);
+    public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord);
 
     /**
      * Creates OJB Criteria object that will be used to query for records to copy
@@ -76,7 +77,7 @@ public interface FiscalYearMaker {
      * 
      * @return business object class
      */
-    public Class<? extends PersistableBusinessObject> getBusinessObjectClass();
+    public Class<? extends FiscalYearBasedBusinessObject> getBusinessObjectClass();
 
     /**
      * Returns Set of Class objects that are parents to this business object. Parents will be copied before this object to satisfy
@@ -84,7 +85,7 @@ public interface FiscalYearMaker {
      * 
      * @return Set of Class objects that extend PersistableBusinessObject
      */
-    public Set<Class<? extends PersistableBusinessObject>> getParentClasses();
+    public Set<Class<? extends FiscalYearBasedBusinessObject>> getParentClasses();
 
     /**
      * Indicates whether records should be created for two fiscal years out as opposed to just one
@@ -101,4 +102,13 @@ public interface FiscalYearMaker {
      */
     public boolean isAllowOverrideTargetYear();
 
+    Criteria createNextYearSelectionCriteria(Integer fiscalYear);
+
+    List<String> getPrimaryKeyPropertyNames();
+    List<String> getPropertyNames();
+    @SuppressWarnings("rawtypes")
+    Map<String,Class> getReferenceObjectProperties();
+    @SuppressWarnings("rawtypes")
+    Map<String,Class> getCollectionProperties();
+    Map<String,String> getForeignKeyMappings( String referenceName );
 }

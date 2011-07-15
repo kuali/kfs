@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 /**
  * 
  */
-public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountingPeriod extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String universityFiscalPeriodCode;

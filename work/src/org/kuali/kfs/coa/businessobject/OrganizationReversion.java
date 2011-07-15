@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -29,7 +30,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
 /**
  * 
  */
-public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable, CarryForwardReversionProcessOrganizationInfo {
+public class OrganizationReversion extends PersistableBusinessObjectBase implements Inactivateable, CarryForwardReversionProcessOrganizationInfo, FiscalYearBasedBusinessObject {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

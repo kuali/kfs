@@ -27,7 +27,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 
 /**
  * Performs custom population of accounting periods records for a new year being created in the fiscal year maker process
@@ -47,7 +47,7 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
      *      org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
-    public void changeForNewYear(Integer baseFiscalYear, PersistableBusinessObject currentRecord) {
+    public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {
         super.changeForNewYear(baseFiscalYear, currentRecord);
 
         AccountingPeriod accountingPeriod = (AccountingPeriod) currentRecord;

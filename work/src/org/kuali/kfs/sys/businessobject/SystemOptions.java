@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class SystemOptions extends PersistableBusinessObjectBase {
+public class SystemOptions extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
 
     /**
      * Default no-arg constructor.
@@ -932,6 +932,7 @@ public class SystemOptions extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("universityFiscalYear", getUniversityFiscalYear());

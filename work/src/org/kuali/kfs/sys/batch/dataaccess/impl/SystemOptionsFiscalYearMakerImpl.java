@@ -16,8 +16,8 @@
 package org.kuali.kfs.sys.batch.dataaccess.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * Customizes new option records created by fiscal year process
@@ -35,7 +35,7 @@ public class SystemOptionsFiscalYearMakerImpl extends FiscalYearMakerImpl {
      *      org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
-    public void changeForNewYear(Integer baseFiscalYear, PersistableBusinessObject currentRecord) {
+    public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {
         super.changeForNewYear(baseFiscalYear, currentRecord);
         
         SystemOptions options = (SystemOptions) currentRecord;

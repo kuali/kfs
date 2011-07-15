@@ -829,10 +829,10 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
 	</bean>	
-
-
-
 	
 	<bean id="arCustomerAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" scope="prototype">
 		<property name="businessObjectService">

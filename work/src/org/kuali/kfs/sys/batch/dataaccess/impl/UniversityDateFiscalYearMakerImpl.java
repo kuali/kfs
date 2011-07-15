@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.batch.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
@@ -31,9 +32,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
  * Performs custom fiscal year process for University Date records
  */
 public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(UniversityDateFiscalYearMakerImpl.class);
-
-    private BusinessObjectService businessObjectService;
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(UniversityDateFiscalYearMakerImpl.class);
 
     /**
      * @see org.kuali.kfs.coa.batch.dataaccess.impl.FiscalYearMakerHelperImpl#performCustomProcessing(java.lang.Integer)
@@ -47,7 +46,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
         if (Calendar.JANUARY == fiscalYearStartMonth) {
             startDateYear += 1;
         }
-
+        getPersistenceBrokerTemplate();
         // start with first day of fiscal year and create records for each year up to end date
         GregorianCalendar univPeriodDate = new GregorianCalendar(startDateYear, fiscalYearStartMonth, 1);
 
@@ -57,7 +56,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
         enddate.add(Calendar.DAY_OF_MONTH, -1);
 
         // the fiscal year is always the year of the ending date of the fiscal year
-        Integer nextFiscalYear = (Integer) enddate.get(Calendar.YEAR);
+        Integer nextFiscalYear = enddate.get(Calendar.YEAR);
 
         // get rid of any records already existing for next fiscal year
         deleteNewYearRows(nextFiscalYear);
@@ -66,7 +65,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
         int period = 1;
         String periodString = String.format("%02d", period);
         int compareMonth = univPeriodDate.get(Calendar.MONTH);
-        int currentMonth = univPeriodDate.get(Calendar.MONTH);
+        int currentMonth = compareMonth;
 
         // loop through the dates until we are past end date
         while (univPeriodDate.compareTo(enddate) <= 0) {
@@ -82,7 +81,7 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
             universityDate.setUniversityDate(new Date(univPeriodDate.getTimeInMillis()));
             universityDate.setUniversityFiscalAccountingPeriod(periodString);
 
-            getPersistenceBrokerTemplate().store(universityDate);
+            businessObjectService.save(universityDate);
 
             // add one to day for the next record
             univPeriodDate.add(Calendar.DAY_OF_MONTH, 1);
@@ -103,13 +102,8 @@ public class UniversityDateFiscalYearMakerImpl extends FiscalYearMakerImpl {
      * @param requestYear year to delete records for
      */
     protected void deleteNewYearRows(Integer requestYear) {
-        Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
+        businessObjectService.deleteMatching(UniversityDate.class, Collections.singletonMap(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear));
 
-        QueryByCriteria queryID = new QueryByCriteria(UniversityDate.class, criteriaID);
-        getPersistenceBrokerTemplate().deleteByQuery(queryID);
-
-        getPersistenceBrokerTemplate().clearCache();
         LOG.warn(String.format("\n rows for %d deleted", requestYear));
     }
 

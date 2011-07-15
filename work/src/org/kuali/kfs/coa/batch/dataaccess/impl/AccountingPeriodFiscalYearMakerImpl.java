@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.batch.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,16 +93,10 @@ public class AccountingPeriodFiscalYearMakerImpl extends FiscalYearMakerImpl {
         if (!firstCopyYear) {
             return;
         }
-        
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, baseFiscalYear + 1);
-
-        QueryByCriteria queryId = new QueryByCriteria(AccountingPeriod.class, criteriaId);
-
-        Collection<AccountingPeriod> accountingPeriods = getPersistenceBrokerTemplate().getCollectionByQuery(queryId);
+        Collection<AccountingPeriod> accountingPeriods = businessObjectService.findMatching(AccountingPeriod.class,Collections.singletonMap(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, baseFiscalYear + 1));
         for (AccountingPeriod accountingPeriod : accountingPeriods) {
             accountingPeriod.setActive(true);
-            getPersistenceBrokerTemplate().store(accountingPeriod);
+            businessObjectService.save(accountingPeriod);
         }
     }
 

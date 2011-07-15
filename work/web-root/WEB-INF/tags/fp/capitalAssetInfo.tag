@@ -27,17 +27,40 @@
 <c:set var="dataCellCssClass" value="datacell" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
 
+<c:set var="totalColumnSpan" value="7"/>
+<c:set var="amountReadOnly" value="false" />
+<c:if test="${KualiForm.distributeEqualAmount}">
+	<c:set var="amountReadOnly" value="true" />
+</c:if>
+
 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
     <tr>
    		<td colspan="7" class="tab-subhead" style="border-top: medium;">Create New Assets</td>
     </tr>
 	<tr>
-   		<td colspan="4" class="tab-subhead" style="border-top: medium;">
+   		<td colspan="3" class="tab-subhead" style="border-top: medium;">
    			<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
    		</td>
-   		<td colspan="3" class="tab-subhead" style="border-top: medium;">
-   			<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
-   		</td>
+	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   		<c:set var="totalColumnSpan" value="3"/>
+	   	</c:if>
+	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0}" >
+	   		<c:set var="totalColumnSpan" value="4"/>
+	   	</c:if>
+	   	<td colspan="${totalColumnSpan}" class="tab-subhead" style="border-top: medium;">
+	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
+	   	</td>
+   		<c:if test="${KualiForm.createdAssetsControlAmount > 0}">
+	   		<td colspan="1" class="tab-subhead" style="border-top: medium;"><br/>
+				<div align="center" valign="bottom">	
+					<html:image property="methodToCall.redistributeCreateCapitalAssetAmount" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-redtotamt.gif" 
+						title="Redistribute Total Amount for new capital assets"
+						alt="Redistribute Total Amount for new capital assets" styleClass="tinybutton" />	
+				</div>
+	   		</td>
+   		</c:if>
   	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
 		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR}">
@@ -133,7 +156,7 @@
 									field="capitalAssetManufacturerModelNumber" lookup="false" inquiry="false"/>
 									
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
-									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
+									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${amountReadOnly}"
 									field="amount" lookup="false" inquiry="false" />
 									
 						   </tr>
@@ -152,9 +175,9 @@
 									<td class="infoline">  
 										<div align="center" valign="middle">	
 											<html:image property="methodToCall.addCapitalAssetInfo.line${status.index}.Anchor" 
-												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-												title="Add the capital Asset Information"
-												alt="Add the capital Asset Information" styleClass="tinybutton" />	
+												src="${ConfigProperties.externalizable.images.url}tinybutton-addtaglocation.gif" 
+												title="Add the capital Asset tag and location"
+												alt="Add the capital Asset tag and location" styleClass="tinybutton" />	
 											<br /><br />	 
 											<html:image property="methodToCall.deleteCapitalAssetInfo.line${status.index}.Anchor" 
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
@@ -165,6 +188,13 @@
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 												title="Clear the capital Asset Information"
 												alt="Clear the capital Asset Information" styleClass="tinybutton" />
+											<c:if test="${!KualiForm.distributeEqualAmount}">
+												<br /><br />
+												<html:image property="methodToCall.refreshCapitalAssetModify.line${status.index}.Anchor" 
+													src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" 
+													title="Add the capital Asset Information"
+													alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
+											</c:if>
 										</div>
 									</td>
 								</tr>

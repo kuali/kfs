@@ -26,6 +26,11 @@
 <c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 <c:set var="dataCellCssClass" value="datacell" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
+<c:set var="amountReadOnly" value="false" />
+<c:if test="${KualiForm.distributeEqualAmount}">
+	<c:set var="amountReadOnly" value="true" />
+</c:if>
+<c:set var="totalColumnSpan" value="7"/>
 
 <table class="datatable" cellpadding="0" cellspacing="0" summary="Capital Asset Information">
 	<tr>
@@ -35,12 +40,24 @@
 		<td colspan="3" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
 	   	</td>
-	   	<td colspan="3" class="tab-subhead" style="border-top: medium;">
+	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   		<c:set var="totalColumnSpan" value="3"/>
+	   	</c:if>
+	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0}" >
+	   		<c:set var="totalColumnSpan" value="4"/>
+	   	</c:if>
+	   	
+	   	<td colspan="${totalColumnSpan}" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
 	   	</td>
-	   	<td colspan="1" class="tab-subhead" style="border-top: medium;">
-	   		<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="assetPaymentAssetDetail" />
-	   	</td>
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   		<td colspan="1" class="tab-subhead" style="border-top: medium;">
+	   			<div align="right">
+	   				<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="assetPaymentAssetDetail" />
+				</div>	   			
+	   		</td>
+	   	</c:if>
 	</tr>
 	<c:forEach items="${KualiForm.document.capitalAssetInformation}" var="detailLine" varStatus="status">
 		<c:if test="${detailLine.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR}">
@@ -117,16 +134,18 @@
 									
 									
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}" dataFieldCssClass="amount"
-									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
+									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${amountReadOnly}"
 									field="amount" lookup="false" inquiry="false" /></td>
 									
 								<c:if test="${!readOnly}">
 									<td class="infoline"> 
 											<div style="text-align: center;">
-											<html:image property="methodToCall.addCapitalAssetModify.line${status.index}.Anchor" 
-												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" 
-												title="Add the capital Asset Information"
-												alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
+											<c:if test="${!KualiForm.distributeEqualAmount}">
+												<html:image property="methodToCall.refreshCapitalAssetModify.line${status.index}.Anchor" 
+													src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" 
+													title="Add the capital Asset Information"
+													alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
+											</c:if>
 												<html:image property="methodToCall.deleteCapitalAssetModify.line${status.index}.Anchor" 
 													src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
 													title="Delete the capital Asset Information"

@@ -63,6 +63,8 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInformationActionBase {
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
+    private static final String AMOUNT_EQUAL_DISTRIBUTION = "1";
+    
     /**
      * All document-load operations get routed through here
      * 
@@ -412,6 +414,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
+        if (AMOUNT_EQUAL_DISTRIBUTION.equals(distributionCode)) {
+           calfb.setDistributeEqualAmount(true);
+        }
+        else {
+            calfb.setDistributeEqualAmount(false);
+        }
+        
         boolean createAction = calfb.getCapitalAccountingLine().isCanCreateAsset();
         calfb.setEditCreateOrModify(false);
 
@@ -444,6 +453,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     public ActionForward modifyAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
+
+        if (AMOUNT_EQUAL_DISTRIBUTION.equals(distributionCode)) {
+            calfb.setDistributeEqualAmount(true);
+         }
+        else {
+            calfb.setDistributeEqualAmount(false);
+        }
         
         GlobalVariables.getMessageMap().clearErrorMessages();
         if (!capitalAccountingLinesSelected(calfb)) {

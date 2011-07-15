@@ -34,6 +34,7 @@ public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInforma
     protected transient boolean editCreateOrModify;
     protected transient KualiDecimal systemControlAmount;
     protected transient KualiDecimal createdAssetsControlAmount;
+    protected transient boolean distributeEqualAmount;
 
     /**
      * Constructs a AdvanceDepositForm.java.
@@ -45,6 +46,7 @@ public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInforma
         capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
         capitalAccountingLine = new CapitalAccountingLine();
         editCreateOrModify = true;
+        distributeEqualAmount = true;
     }
 
     /**
@@ -140,4 +142,24 @@ public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInforma
     public void setCreatedAssetsControlAmount(KualiDecimal createdAssetsControlAmount) {
         this.createdAssetsControlAmount = createdAssetsControlAmount;
     }
+    
+    /**
+     * Gets the distributeEqualAmount attribute.
+     * 
+     * @return Returns the distributeEqualAmount
+     */
+    
+    public boolean isDistributeEqualAmount() {
+        return distributeEqualAmount;
+    }
+
+    /** 
+     * Sets the distributeEqualAmount attribute.
+     * 
+     * @param distributeEqualAmount The distributeEqualAmount to set.
+     */
+    public void setDistributeEqualAmount(boolean distributeEqualAmount) {
+        this.distributeEqualAmount = distributeEqualAmount;
+    }
+    
 }

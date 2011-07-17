@@ -44,7 +44,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
         sqlText.append("INSERT INTO ld_bcn_2plg_list_mt \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, ACLN_ANNL_BAL_AMT) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr, pbgl.acln_annl_bal_amt \n");
-        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ld_bcn_ctrl_list_t ctrl \n");
+        sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND pbgl.fdoc_nbr = ctrl.fdoc_nbr \n");
         sqlText.append(" AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");

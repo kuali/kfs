@@ -45,7 +45,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         StringBuilder sqlText = new StringBuilder(2500);
         sqlText.append("INSERT INTO ld_bcn_build_exsaltot01_mt (SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -66,7 +66,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         /* get emplids with at least one reason rec for the selections if we are doing the report without a threshold */
         sqlText.append("INSERT INTO ld_bcn_build_exsaltot01_mt (SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick, ld_bcn_af_reason_t reas, ld_bcn_rsn_cd_pk_t rpk \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick, LD_BCN_AF_REASON_T reas, LD_BCN_RSN_CD_PK_T rpk \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -101,7 +101,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
         sqlText.append("SELECT ?, bcaf.emplid, bcaf.position_nbr, bcaf.appt_rqst_amt, bcaf.appt_rqst_tm_pct, bcaf.appt_fnd_mo,  \n");
         sqlText.append(" COALESCE(bcsf.pos_csf_amt,0), COALESCE(bcsf.pos_csf_tm_pct,0.0), posn.iu_pay_months \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_csf_trckr_t bcsf \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf \n");
         sqlText.append(" ON ((bcaf.univ_fiscal_yr = bcsf.univ_fiscal_yr) \n");
         sqlText.append(" AND (bcaf.fin_coa_cd = bcsf.fin_coa_cd) \n");
         sqlText.append(" AND (bcaf.account_nbr = bcsf.account_nbr) \n");
@@ -110,7 +110,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" AND (bcaf.fin_sub_obj_cd = bcsf.fin_sub_obj_cd) \n");
         sqlText.append(" AND (bcaf.position_nbr = bcsf.position_nbr) \n");
         sqlText.append(" AND (bcaf.emplid = bcsf.emplid))),\n");
-        sqlText.append(" ld_bcn_pos_t posn, ld_bcn_ctrl_list_t ctrl, ld_bcn_build_exsaltot01_mt tssn, ld_bcn_obj_pick_t pick \n");
+        sqlText.append(" LD_BCN_POS_T posn, LD_BCN_CTRL_LIST_T ctrl, ld_bcn_build_exsaltot01_mt tssn, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND tssn.sesid = ? \n");
         sqlText.append(" AND bcaf.emplid = tssn.emplid \n");
@@ -143,7 +143,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
         sqlText.append(" SELECT ?, bcaf.emplid, bcaf.position_nbr, bcaf.appt_rqst_csf_amt, bcaf.appt_rqcsf_tm_pct, posn.iu_norm_work_months, \n");
         sqlText.append(" bcsf.pos_csf_amt, bcsf.pos_csf_tm_pct, posn.iu_pay_months \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_csf_trckr_t bcsf \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf \n");
         sqlText.append("ON ((bcaf.univ_fiscal_yr = bcsf.univ_fiscal_yr) \n");
         sqlText.append(" AND (bcaf.fin_coa_cd = bcsf.fin_coa_cd)\n");
         sqlText.append(" AND (bcaf.account_nbr = bcsf.account_nbr) \n");
@@ -152,7 +152,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" AND (bcaf.fin_sub_obj_cd = bcsf.fin_sub_obj_cd) \n");
         sqlText.append(" AND (bcaf.position_nbr = bcsf.position_nbr) \n");
         sqlText.append(" AND (bcaf.emplid = bcsf.emplid))),\n");
-        sqlText.append(" ld_bcn_pos_t posn, ld_bcn_ctrl_list_t ctrl, ld_bcn_build_exsaltot01_mt tssn, ld_bcn_obj_pick_t pick \n");
+        sqlText.append(" LD_BCN_POS_T posn, LD_BCN_CTRL_LIST_T ctrl, ld_bcn_build_exsaltot01_mt tssn, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append("AND tssn.sesid = ? \n");
         sqlText.append("AND bcaf.emplid = tssn.emplid \n");
@@ -202,7 +202,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         /* get the previous year's (base) appointment attributes for each person from the base row with the largest amount */
         sqlText.append("INSERT INTO ld_bcn_build_exsaltot04_mt (SESID, EMPLID, CSF_MTHS, CSF_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, p.iu_norm_work_months, p.iu_pay_months \n");
-        sqlText.append("FROM ld_bcn_build_exsaltot02_mt sd, ld_bcn_pos_t p \n");
+        sqlText.append("FROM ld_bcn_build_exsaltot02_mt sd, LD_BCN_POS_T p \n");
         sqlText.append("WHERE sesid = ? AND sd.pos_csf_amt <> 0 AND sd.pos_csf_amt = \n");
         sqlText.append(" (SELECT max(sd2.pos_csf_amt) FROM ld_bcn_build_exsaltot02_mt sd2 \n");
         sqlText.append("  WHERE sd2.sesid = sd.sesid AND sd2.emplid = sd.emplid) \n");
@@ -280,7 +280,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" APPT_RQST_AMT, APPT_RQST_FTE_QTY, INIT_RQST_AMT, INIT_RQST_FTE) \n");
         sqlText.append("SELECT DISTINCT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ssni.emplid, ssni.res_csf_amt, \n");
         sqlText.append(" ssni.sal_amt, ssni.sal_fte, 0, 0 \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick, ld_bcn_build_exsaltot05_mt ssni \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_exsaltot05_mt ssni \n");
         sqlText.append("WHERE ssni.res_csf_amt <> 0 \n");
         sqlText.append(" AND ssni.use_flag = 'Y' \n");
         sqlText.append(" AND ctrl.person_unvl_id = ? \n");
@@ -306,7 +306,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append("  APPT_RQST_AMT, APPT_RQST_FTE_QTY, INIT_RQST_AMT, INIT_RQST_FTE) \n");
         sqlText.append("SELECT DISTINCT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ssni.emplid, ssni.res_csf_amt, \n");
         sqlText.append(" 0, 0, ssni.sal_amt, ssni.sal_fte \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick, ld_bcn_build_exsaltot05_mt ssni \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_exsaltot05_mt ssni \n");
         sqlText.append("WHERE ssni.res_csf_amt = 0 \n");
         sqlText.append(" AND ssni.use_flag = 'Y' \n");
         sqlText.append(" AND ctrl.person_unvl_id = ? \n");
@@ -324,7 +324,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.delete(0, sqlText.length());
 
         /* sum all the detailed rows and insert into the report table */
-        sqlText.append("INSERT INTO ld_bcn_slry_tot_t \n");
+        sqlText.append("INSERT INTO LD_BCN_SLRY_TOT_T \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, POS_CSF_AMT, \n");
         sqlText.append("APPT_RQST_AMT, APPT_RQST_FTE_QTY, INIT_RQST_AMT, INIT_RQST_FTE_QTY) \n");
         sqlText.append("SELECT ?, org_fin_coa_cd, org_cd, ROUND(SUM(pos_csf_amt),0),\n");

@@ -49,12 +49,12 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append("INSERT INTO ld_bcn_build_salsumm01_mt \n");
         sqlText.append(" (SESID, EMPLID, POSITION_NBR, SAL_AMT, SAL_PCT, SAL_MTHS, POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
         sqlText.append("SELECT ?, bcaf.emplid, bcaf.position_nbr,  bcaf.appt_rqst_amt, bcaf.appt_rqst_tm_pct, bcaf.appt_fnd_mo, bcsf.pos_csf_amt, bcsf.pos_csf_tm_pct, posn.iu_pay_months \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_csf_trckr_t bcsf \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf \n");
         sqlText.append(" ON ((bcaf.fin_coa_cd = bcsf.fin_coa_cd) AND (bcaf.account_nbr = bcsf.account_nbr) \n");
         sqlText.append(" AND(bcaf.sub_acct_nbr = bcsf.sub_acct_nbr) AND (bcaf.fin_object_cd = bcsf.fin_object_cd) \n");
         sqlText.append(" AND(bcaf.fin_sub_obj_cd = bcsf.fin_sub_obj_cd) AND (bcaf.position_nbr = bcsf.position_nbr)\n");
         sqlText.append(" AND(bcaf.emplid = bcsf.emplid) AND (bcaf.univ_fiscal_yr= bcsf.univ_fiscal_yr))),\n");
-        sqlText.append("      ld_bcn_pos_t posn, ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick\n");
+        sqlText.append("      LD_BCN_POS_T posn, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick\n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -85,11 +85,11 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append(" POS_CSF_AMT, POS_CSF_TM_PCT, SAL_PMTHS) \n");
         sqlText.append("SELECT ?, bcaf.emplid, bcaf.position_nbr, bcaf.appt_rqst_csf_amt, bcaf.appt_rqcsf_tm_pct, posn.iu_norm_work_months, \n");
         sqlText.append("  bcsf.pos_csf_amt, bcsf.pos_csf_tm_pct, posn.iu_pay_months \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_csf_trckr_t bcsf \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf \n");
         sqlText.append(" ON ((bcaf.fin_coa_cd = bcsf.fin_coa_cd) AND (bcaf.account_nbr = bcsf.account_nbr) \n");
         sqlText.append("AND (bcaf.sub_acct_nbr = bcsf.sub_acct_nbr) AND (bcaf.fin_object_cd = bcsf.fin_object_cd) \n");
         sqlText.append("AND (bcaf.fin_sub_obj_cd = bcsf.fin_sub_obj_cd) AND (bcaf.position_nbr = bcsf.position_nbr) \n");
-        sqlText.append("AND (bcaf.emplid = bcsf.emplid) AND (bcaf.univ_fiscal_yr= bcsf.univ_fiscal_yr))), ld_bcn_pos_t posn, ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("AND (bcaf.emplid = bcsf.emplid) AND (bcaf.univ_fiscal_yr= bcsf.univ_fiscal_yr))), LD_BCN_POS_T posn, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -137,7 +137,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append("INSERT INTO ld_bcn_build_salsumm03_mt\n");
         sqlText.append("(SESID, EMPLID, CSF_MTHS, CSF_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, p.iu_norm_work_months, p.iu_pay_months \n");
-        sqlText.append("FROM ld_bcn_build_salsumm01_mt sd, ld_bcn_pos_t p \n");
+        sqlText.append("FROM ld_bcn_build_salsumm01_mt sd, LD_BCN_POS_T p \n");
         sqlText.append("WHERE sesid = ? \n");
         sqlText.append(" AND sd.pos_csf_amt = (SELECT max(sd2.pos_csf_amt)  \n");
         sqlText.append("                       FROM ld_bcn_build_salsumm01_mt sd2\n");
@@ -219,7 +219,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append("INSERT INTO ld_bcn_build_salsumm05_mt\n");
         sqlText.append("(SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid  \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick, ld_bcn_af_reason_t reas, ld_bcn_rsn_cd_pk_t rpk \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick, LD_BCN_AF_REASON_T reas, LD_BCN_RSN_CD_PK_T rpk \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -252,7 +252,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.append("INSERT INTO ld_bcn_build_salsumm05_mt \n");
         sqlText.append("(SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -273,10 +273,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         /* these are the two common driving SQL statements for all the reports */
 
         /* get the name recs for the set of EMPLIDs */
-        sqlText.append("INSERT INTO ld_bcn_sal_ssn_t \n");
+        sqlText.append("INSERT INTO LD_BCN_SAL_SSN_T \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, PERSON_NM, EMPLID)");
         sqlText.append("SELECT DISTINCT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, iinc.person_nm, bcaf.emplid \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_build_salsumm05_mt tssn, ld_bcn_obj_pick_t pick, ld_bcn_intincbnt_t iinc \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, ld_bcn_build_salsumm05_mt tssn, LD_BCN_OBJ_PICK_T pick, LD_BCN_INTINCBNT_T iinc \n");
         sqlText.append("WHERE  ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append(" AND bcaf.account_nbr = ctrl.account_nbr \n");
@@ -292,12 +292,12 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.delete(0, sqlText.length());
 
         /* get the detail recs for the set of EMPLIDs */
-        sqlText.append("INSERT INTO ld_bcn_sal_fnd_t \n");
+        sqlText.append("INSERT INTO LD_BCN_SAL_FND_T \n");
         sqlText.append("(PERSON_UNVL_ID, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, FIN_COA_CD,  \n");
         sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr, bcaf.fin_coa_cd, \n");
         sqlText.append(" bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf, ld_bcn_build_salsumm05_mt tssn, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, ld_bcn_build_salsumm05_mt tssn, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -320,8 +320,8 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * @param principalName--the user requesting the report
      */
     protected void clearUserPreviouSalarySummaryReports(String principalName) {
-        this.clearTempTableByUnvlId("ld_bcn_sal_ssn_t", "PERSON_UNVL_ID", principalName);
-        this.clearTempTableByUnvlId("ld_bcn_sal_fnd_t", "PERSON_UNVL_ID", principalName);
+        this.clearTempTableByUnvlId("LD_BCN_SAL_SSN_T", "PERSON_UNVL_ID", principalName);
+        this.clearTempTableByUnvlId("LD_BCN_SAL_FND_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**

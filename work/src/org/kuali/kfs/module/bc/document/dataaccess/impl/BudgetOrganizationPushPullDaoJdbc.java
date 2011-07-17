@@ -24,7 +24,7 @@ import org.kuali.rice.kns.util.Guid;
  * Implements BudgetOrganizationPushPullDao using raw SQL and populating temporary tables with the potential set of documents to
  * push down or pull up. The temporary tables are then used to drive the entire push down or pull up process. First, an attempt is
  * made to place budget locks on each document. Successfully locked documents are then pushed down or pulled up by setting the
- * associated BudgetConstructionHeader (ld_bcnstr_hdr_t) row with the appropriate level attribute values and releasing the locks.
+ * associated BudgetConstructionHeader (LD_BCNSTR_HDR_T) row with the appropriate level attribute values and releasing the locks.
  */
 public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetOrganizationPushPullDao {
 
@@ -562,7 +562,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
 
         // build list of budget documents for selected orgs at user's point of view (documents that will be pushed down by org
         // pushdown)
-        sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_ACCTSEL_T \n");
         sqlText.append("SELECT ?, \n");
         sqlText.append("    head.univ_fiscal_yr, \n");
         sqlText.append("    head.fin_coa_cd, \n");

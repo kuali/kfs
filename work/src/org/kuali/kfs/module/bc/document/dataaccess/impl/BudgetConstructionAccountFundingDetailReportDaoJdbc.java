@@ -33,12 +33,12 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
 
         /* get accounts for selected orgs and objects */
         StringBuilder sqlText = new StringBuilder(500);
-        sqlText.append("INSERT INTO ld_bcn_objt_dump_t \n");
+        sqlText.append("INSERT INTO LD_BCN_OBJT_DUMP_T \n");
         sqlText.append(" (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD)\n");
         sqlText.append("SELECT DISTINCT \n");
         sqlText.append(" ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_sub_fund_grp, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, \n");
         sqlText.append(" ctrl.account_nbr, ctrl.sub_acct_nbr, pick.fin_object_cd \n");
-        sqlText.append("FROM ld_pndbc_apptfnd_t af, ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("FROM LD_PNDBC_APPTFND_T af, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND af.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND af.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -53,7 +53,7 @@ public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetC
     }
 
     public void cleanReportsAccountFundingDetailTable(String principalName) {
-        clearTempTableByUnvlId("ld_bcn_objt_dump_t", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_OBJT_DUMP_T", "PERSON_UNVL_ID", principalName);
     }
 
     public void updateReportsAccountFundingDetailTable(String principalName) {

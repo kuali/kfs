@@ -32,7 +32,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
 
         // build the INSERT SQL for the main table
-        sqlBuilder.append("INSERT INTO ld_bcn_objt_summ_t\n");
+        sqlBuilder.append("INSERT INTO LD_BCN_OBJT_SUMM_T\n");
         sqlBuilder.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD,\n");
         sqlBuilder.append("INC_EXP_CD, FIN_CONS_SORT_CD, FIN_LEV_SORT_CD, FIN_OBJECT_CD, ACLN_ANNL_BAL_AMT,\n");
         sqlBuilder.append("FIN_BEG_BAL_LN_AMT, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY,\n");

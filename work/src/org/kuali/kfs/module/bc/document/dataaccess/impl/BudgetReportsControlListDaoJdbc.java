@@ -130,7 +130,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         sqlText.append("WHERE ctrl.sesid = ? \n");
         sqlText.append("  AND acct.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append("  AND acct.account_nbr = ctrl.account_nbr \n");
-        sqlText.append("  AND exists (SELECT * FROM ld_pndbc_apptfnd_t bcaf \n");
+        sqlText.append("  AND exists (SELECT * FROM LD_PNDBC_APPTFND_T bcaf \n");
         sqlText.append("             WHERE bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append("               AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
         sqlText.append("               AND bcaf.account_nbr = ctrl.account_nbr \n");
@@ -151,7 +151,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         // build the object code list for selection from the control list accounts and appointment funding table
         sqlText.append("INSERT INTO LD_BCN_OBJ_PICK_T (PERSON_UNVL_ID, FIN_OBJECT_CD, SELECT_FLAG) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.fin_object_cd, 0 \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_pndbc_apptfnd_t bcaf \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append("  AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append("  AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -164,7 +164,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         // build the reason code list for selection from the account control table, object code control table, and reason code table
         sqlText.append("INSERT INTO LD_BCN_RSN_CD_PK_T (PERSON_UNVL_ID, APPT_FND_REASON_CD, SELECT_FLAG) \n");
         sqlText.append("SELECT DISTINCT  ?, brsn.appt_fnd_reason_cd, 0 \n");
-        sqlText.append("FROM ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t opk, ld_bcn_af_reason_t brsn \n");
+        sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T opk, LD_BCN_AF_REASON_T brsn \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append("  AND brsn.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append("  AND brsn.fin_coa_cd = ctrl.fin_coa_cd \n");

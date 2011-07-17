@@ -38,10 +38,10 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
         // This uses the GROUP BY clause to force a distinct set so as to not trip over the unique constraint on the target table.
         // For some reason the constraint is violated without the use of GROUP BY in Oracle
-        sqlText.append("INSERT INTO ld_bcn_incumbent_sel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_INCUMBENT_SEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, EMPLID, FIN_OBJECT_CD, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm \n");
-        sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier, ld_pndbc_apptfnd_t bcaf, ld_bcn_intincbnt_t iinc \n");
+        sqlText.append("FROM LD_BCN_PULLUP_T pull, LD_BCN_ACCT_ORG_HIER_T hier, LD_PNDBC_APPTFND_T bcaf, LD_BCN_INTINCBNT_T iinc \n");
         sqlText.append("WHERE pull.pull_flag > 0 \n");
         sqlText.append("  AND pull.person_unvl_id = ? \n");
         sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
@@ -59,7 +59,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, p.fin_coa_cd, p.org_cd,  ? \n");
-        sqlText.append("FROM ld_bcn_pullup_t p \n");
+        sqlText.append("FROM LD_BCN_PULLUP_T p \n");
         sqlText.append("WHERE p.pull_flag > 0 \n");
         sqlText.append("  AND p.person_unvl_id = ?");
         initSelectedPositionOrgsTemplates[0] = sqlText.toString();
@@ -68,7 +68,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, ? \n");
-        sqlText.append("FROM ld_bcn_org_rpts_t r, ld_bcn_build_pos_sel01_mt a \n");
+        sqlText.append("FROM LD_BCN_ORG_RPTS_T r, ld_bcn_build_pos_sel01_mt a \n");
         sqlText.append("WHERE a.sesid = ? \n");
         sqlText.append("  AND a.org_level_cd = ? \n");
         sqlText.append("  AND a.fin_coa_cd = r.rpts_to_fin_coa_cd \n");
@@ -78,13 +78,13 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // insert actives that are funded with person or vacant
-        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_SEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr,p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, \n");
-        sqlText.append("     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p, \n");
+        sqlText.append("     LD_PNDBC_APPTFND_T af LEFT OUTER JOIN LD_BCN_INTINCBNT_T i ON (af.emplid=i.emplid) \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
@@ -97,19 +97,19 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // add actives that are unfunded
-        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_SEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
         sqlText.append("  AND p.pos_eff_status <> 'I' \n");
         sqlText.append("  AND NOT EXISTS \n");
         sqlText.append("      (SELECT * \n");
-        sqlText.append("       FROM ld_bcn_pos_sel_t ps \n");
+        sqlText.append("       FROM LD_BCN_POS_SEL_T ps \n");
         sqlText.append("       WHERE ps.person_unvl_id = ? \n");
         sqlText.append("         AND ps.position_nbr = p.position_nbr \n");
         sqlText.append("         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) \n");
@@ -119,13 +119,13 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // insert inactives that are funded due to timing problem
-        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_SEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, \n");
-        sqlText.append("     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p, \n");
+        sqlText.append("     LD_PNDBC_APPTFND_T af LEFT OUTER JOIN LD_BCN_INTINCBNT_T i ON (af.emplid=i.emplid) \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
@@ -138,19 +138,19 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // insert inactives that are unfunded
-        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_SEL_T \n");
         sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
         sqlText.append(" IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
         sqlText.append("  AND p.pos_eff_status = 'I' \n");
         sqlText.append("  AND NOT EXISTS \n");
         sqlText.append("      (SELECT * \n");
-        sqlText.append("       FROM ld_bcn_pos_sel_t ps \n");
+        sqlText.append("       FROM LD_BCN_POS_SEL_T ps \n");
         sqlText.append("       WHERE ps.person_unvl_id = ? \n");
         sqlText.append("         AND ps.position_nbr = p.position_nbr \n");
         sqlText.append("         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) \n");
@@ -160,7 +160,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // set name field for vacants
-        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("UPDATE LD_BCN_POS_SEL_T p \n");
         sqlText.append("SET person_nm = 'VACANT' \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("  AND p.emplid = 'VACANT' \n");
@@ -170,13 +170,13 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
         // reset name field for positions that only have deleted funding associated
         // note that this overwrites any actual names except for Inactives
-        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("UPDATE LD_BCN_POS_SEL_T p \n");
         sqlText.append("SET person_nm = 'NOT FUNDED' \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("  AND p.person_nm <> 'INACTIVE POS.' \n");
         sqlText.append("  AND NOT EXISTS \n");
         sqlText.append("    (SELECT * \n");
-        sqlText.append("    FROM ld_pndbc_apptfnd_t af \n");
+        sqlText.append("    FROM LD_PNDBC_APPTFND_T af \n");
         sqlText.append("    WHERE af.univ_fiscal_yr = p.univ_fiscal_yr \n");
         sqlText.append("      AND af.position_nbr = p.position_nbr \n");
         sqlText.append("      AND af.appt_fnd_dlt_cd = 'N')");
@@ -184,7 +184,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.delete(0, sqlText.length());
 
         // anything leftover is not funded
-        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("UPDATE LD_BCN_POS_SEL_T p \n");
         sqlText.append("SET person_nm = 'NOT FUNDED' \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("    AND p.person_nm IS NULL \n");
@@ -208,7 +208,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
      */
     public void cleanIntendedIncumbentSelect(String principalName) {
 
-        clearTempTableByUnvlId("ld_bcn_incumbent_sel_t", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_INCUMBENT_SEL_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**
@@ -285,7 +285,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
      */
     public void cleanPositionSelect(String principalName) {
 
-        clearTempTableByUnvlId("ld_bcn_pos_sel_t", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_POS_SEL_T", "PERSON_UNVL_ID", principalName);
     }
 
 }

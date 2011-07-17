@@ -40,7 +40,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append("INSERT INTO ld_bcn_build_poslist01_mt \n");
         sqlText.append("(SESID, EMPLID, POS_CSF_AMT, POS_CSF_FTE_QTY, APPT_RQST_AMT, APPT_RQST_FTE_QTY) \n");
         sqlText.append("SELECT ?, bcaf.emplid, SUM(COALESCE(bcsf.pos_csf_amt,0)), SUM(COALESCE(bcsf.pos_csf_fte_qty,0)), SUM(bcaf.appt_rqst_amt), SUM(bcaf.appt_rqst_fte_qty) \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_csf_trckr_t bcsf ON \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf ON \n");
         sqlText.append(" ((bcaf.univ_fiscal_yr = bcsf.univ_fiscal_yr) AND \n");
         sqlText.append(" (bcaf.fin_coa_cd = bcsf.fin_coa_cd) AND \n");
         sqlText.append(" (bcaf.account_nbr = bcsf.account_nbr) AND \n");
@@ -48,7 +48,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" (bcaf.fin_object_cd = bcsf.fin_object_cd) AND \n");
         sqlText.append(" (bcaf.fin_sub_obj_cd = bcsf.fin_sub_obj_cd) AND \n");
         sqlText.append(" (bcaf.position_nbr = bcsf.position_nbr) AND \n");
-        sqlText.append(" (bcaf.emplid = bcsf.emplid))), ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick \n");
+        sqlText.append(" (bcaf.emplid = bcsf.emplid))), LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -64,13 +64,13 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.delete(0, sqlText.length());
 
         /* get the set where percent change (fraction * 100) in the salary exceeds the threshold */
-        sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_FND_T \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, COALESCE(iinc.person_nm,'VACANT'), bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr,\n");
         sqlText.append(" bcaf.fin_coa_cd, bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_intincbnt_t iinc \n");
-        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick, ld_bcn_build_poslist01_mt tssn \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_INTINCBNT_T iinc \n");
+        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_poslist01_mt tssn \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -89,13 +89,13 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.delete(0, sqlText.length());
 
         /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */
-        sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_FND_T \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
         sqlText.append(" SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, COALESCE(iinc.person_nm,'VACANT'), bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr, \n");
         sqlText.append(" bcaf.fin_coa_cd, bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_intincbnt_t iinc ON (bcaf.emplid = iinc.emplid)), \n");
-        sqlText.append(" ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick, ld_bcn_build_poslist01_mt tssn \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_INTINCBNT_T iinc ON (bcaf.emplid = iinc.emplid)), \n");
+        sqlText.append(" LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_poslist01_mt tssn \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -114,13 +114,13 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.delete(0, sqlText.length());
 
         /* populate the table using the full set--no check on the percent change in the salary */
-        sqlText.append("INSERT INTO ld_bcn_pos_fnd_t \n");
+        sqlText.append("INSERT INTO LD_BCN_POS_FND_T \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, COALESCE(iinc.person_nm,'VACANT'), bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr, \n");
         sqlText.append(" bcaf.fin_coa_cd, bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
-        sqlText.append("FROM (ld_pndbc_apptfnd_t bcaf LEFT OUTER JOIN ld_bcn_intincbnt_t iinc \n");
-        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), ld_bcn_ctrl_list_t ctrl, ld_bcn_obj_pick_t pick \n");
+        sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_INTINCBNT_T iinc \n");
+        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -135,7 +135,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
     }
 
     public void cleanReportsPositionFundingDetailTable(String principalName) {
-        clearTempTableByUnvlId("ld_bcn_pos_fnd_t", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_POS_FND_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**

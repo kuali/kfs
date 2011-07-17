@@ -35,7 +35,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         StringBuilder sqlBuilder = new StringBuilder(5000);
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>();
         // delete all rows for a given key from the budget construction monthly table
-        sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
+        sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
         sqlBuilder.append("WHERE (fdoc_nbr = ?)\n");
         sqlBuilder.append("  AND (univ_fiscal_yr = ?)\n");
         sqlBuilder.append("  AND (fin_coa_cd = ?)\n");
@@ -53,7 +53,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
         // SQL needed to spread revenue
         // delete existing revenue for this key, so it can be spread again
-        sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
+        sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
         sqlBuilder.append("WHERE (fdoc_nbr = ?)\n");
         sqlBuilder.append("  AND (univ_fiscal_yr = ?)\n");
         sqlBuilder.append("  AND (fin_coa_cd = ?)\n");
@@ -75,18 +75,18 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("(SELECT ?, ?, ?, ?, ?, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD,\n");
         sqlBuilder.append("        ROUND((acln_annl_bal_amt / 12), 0) + \n");
         sqlBuilder.append("        (acln_annl_bal_amt - (ROUND((acln_annl_bal_amt / 12), 0) * 12)),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0)\n");
-        sqlBuilder.append("        FROM ld_pnd_bcnstr_gl_t\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0)\n");
+        sqlBuilder.append("        FROM LD_PND_BCNSTR_GL_T\n");
         sqlBuilder.append("        WHERE (fdoc_nbr = ?)\n");
         sqlBuilder.append("          AND (univ_fiscal_yr = ?)\n");
         sqlBuilder.append("          AND (fin_coa_cd = ?)\n");
@@ -103,7 +103,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         // SQL to spread expenditure
         // delete existing monthly expenditure (except for actual benefits objects--the benefits will be recalulated and spread
         // later from the GL)
-        sqlBuilder.append("DELETE FROM ld_bcnstr_month_t\n");
+        sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
         sqlBuilder.append("WHERE (fdoc_nbr = ?)\n");
         sqlBuilder.append("  AND (univ_fiscal_yr = ?)\n");
         sqlBuilder.append("  AND (fin_coa_cd = ?)\n");
@@ -129,18 +129,18 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
         sqlBuilder.append("(SELECT ?, ?, ?, ?, ?, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD,\n");
         sqlBuilder.append("        ROUND((acln_annl_bal_amt / 12), 0) + \n");
         sqlBuilder.append("        (acln_annl_bal_amt - (ROUND((acln_annl_bal_amt / 12), 0) * 12)),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0),\n");
-        sqlBuilder.append("        ROUND((ld_pnd_bcnstr_gl_t.acln_annl_bal_amt / 12), 0)\n");
-        sqlBuilder.append("        FROM ld_pnd_bcnstr_gl_t\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0),\n");
+        sqlBuilder.append("        ROUND((LD_PND_BCNSTR_GL_T.acln_annl_bal_amt / 12), 0)\n");
+        sqlBuilder.append("        FROM LD_PND_BCNSTR_GL_T\n");
         sqlBuilder.append("        WHERE (fdoc_nbr = ?)\n");
         sqlBuilder.append("          AND (univ_fiscal_yr = ?)\n");
         sqlBuilder.append("          AND (fin_coa_cd = ?)\n");

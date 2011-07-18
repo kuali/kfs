@@ -135,10 +135,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
          */
         sqlBuilder.append("UPDATE LD_PND_BCNSTR_GL_T\n");
         sqlBuilder.append("SET acln_annl_bal_amt =\n");
-        sqlBuilder.append("        (SELECT ld_bcn_benefits_recalc01_mt.fb_sum\n");
-        sqlBuilder.append("         FROM ld_bcn_benefits_recalc01_mt\n");
-        sqlBuilder.append("        WHERE (ld_bcn_benefits_recalc01_mt.sesid = ?)\n");
-        sqlBuilder.append("          AND (LD_PND_BCNSTR_GL_T.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd))\n");
+        sqlBuilder.append("        (SELECT LD_BCN_BENEFITS_RECALC01_MT.fb_sum\n");
+        sqlBuilder.append("         FROM LD_BCN_BENEFITS_RECALC01_MT\n");
+        sqlBuilder.append("        WHERE (LD_BCN_BENEFITS_RECALC01_MT.sesid = ?)\n");
+        sqlBuilder.append("          AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd))\n");
         sqlBuilder.append("WHERE (LD_PND_BCNSTR_GL_T.fdoc_nbr = ?)\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.univ_fiscal_yr = ?)\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.fin_coa_cd = ?)\n");
@@ -153,9 +153,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("  AND EXISTS (SELECT 1\n");
-        sqlBuilder.append("              FROM ld_bcn_benefits_recalc01_mt\n");
+        sqlBuilder.append("              FROM LD_BCN_BENEFITS_RECALC01_MT\n");
         sqlBuilder.append("              WHERE (sesid = ?)\n");
-        sqlBuilder.append("                AND (LD_PND_BCNSTR_GL_T.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd))\n");
+        sqlBuilder.append("                AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.fin_obj_typ_cd IN ");
         // expenditure object types
         insertionPoints.add(sqlBuilder.length());
@@ -174,7 +174,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
         sqlBuilder.append(" FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT)\n");
         sqlBuilder.append("(SELECT ?, ?, ?, ?, ?,\n");
-        sqlBuilder.append("ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd,\n");
+        sqlBuilder.append("LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd,\n");
         sqlBuilder.append(" '");
         // default sub object code
         insertionPoints.add(sqlBuilder.length());
@@ -183,9 +183,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
         sqlBuilder.append("?, \n");
-        sqlBuilder.append("ld_bcn_benefits_recalc01_mt.fb_sum, 0\n");
-        sqlBuilder.append("FROM ld_bcn_benefits_recalc01_mt\n");
-        sqlBuilder.append("WHERE (ld_bcn_benefits_recalc01_mt.sesid = ?)\n");
+        sqlBuilder.append("LD_BCN_BENEFITS_RECALC01_MT.fb_sum, 0\n");
+        sqlBuilder.append("FROM LD_BCN_BENEFITS_RECALC01_MT\n");
+        sqlBuilder.append("WHERE (LD_BCN_BENEFITS_RECALC01_MT.sesid = ?)\n");
         sqlBuilder.append("  AND (NOT EXISTS\n");
         sqlBuilder.append("(SELECT 1\n");
         sqlBuilder.append(" FROM LD_PND_BCNSTR_GL_T\n");
@@ -194,7 +194,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_coa_cd = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.account_nbr = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.sub_acct_nbr = ?)\n");
-        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_object_cd = ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_sub_obj_cd = '");
         // default sub object code
         insertionPoints.add(sqlBuilder.length());

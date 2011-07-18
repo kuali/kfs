@@ -41,7 +41,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
          * class 2PLG
          */
         StringBuilder sqlText = new StringBuilder(500);
-        sqlText.append("INSERT INTO ld_bcn_2plg_list_mt \n");
+        sqlText.append("INSERT INTO LD_BCN_2PLG_LIST_MT \n");
         sqlText.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, ACLN_ANNL_BAL_AMT) \n");
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr, pbgl.acln_annl_bal_amt \n");
         sqlText.append("FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl \n");
@@ -66,7 +66,7 @@ public class BudgetConstructionList2PLGReportDaoJdbc extends BudgetConstructionD
      * remove from the table rows for any previous report requested by this user
      */
     protected void cleanReportsList2PLGTable(String principalName) {
-        clearTempTableByUnvlId("ld_bcn_2plg_list_mt", "PERSON_UNVL_ID", principalName);
+        clearTempTableByUnvlId("LD_BCN_2PLG_LIST_MT", "PERSON_UNVL_ID", principalName);
     }
 
     /**

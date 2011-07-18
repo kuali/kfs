@@ -56,7 +56,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         buildIntendedIncumbentSelectTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
-        sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
+        sqlText.append("INSERT INTO LD_BCN_BUILD_POS_SEL01_MT \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, p.fin_coa_cd, p.org_cd,  ? \n");
         sqlText.append("FROM LD_BCN_PULLUP_T p \n");
@@ -65,10 +65,10 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         initSelectedPositionOrgsTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
         
-        sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
+        sqlText.append("INSERT INTO LD_BCN_BUILD_POS_SEL01_MT \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, ? \n");
-        sqlText.append("FROM LD_BCN_ORG_RPTS_T r, ld_bcn_build_pos_sel01_mt a \n");
+        sqlText.append("FROM LD_BCN_ORG_RPTS_T r, LD_BCN_BUILD_POS_SEL01_MT a \n");
         sqlText.append("WHERE a.sesid = ? \n");
         sqlText.append("  AND a.org_level_cd = ? \n");
         sqlText.append("  AND a.fin_coa_cd = r.rpts_to_fin_coa_cd \n");
@@ -83,7 +83,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr,p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p, \n");
+        sqlText.append("FROM LD_BCN_BUILD_POS_SEL01_MT o, LD_BCN_POS_T p, \n");
         sqlText.append("     LD_PNDBC_APPTFND_T af LEFT OUTER JOIN LD_BCN_INTINCBNT_T i ON (af.emplid=i.emplid) \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
@@ -102,7 +102,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p \n");
+        sqlText.append("FROM LD_BCN_BUILD_POS_SEL01_MT o, LD_BCN_POS_T p \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
@@ -124,7 +124,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p, \n");
+        sqlText.append("FROM LD_BCN_BUILD_POS_SEL01_MT o, LD_BCN_POS_T p, \n");
         sqlText.append("     LD_PNDBC_APPTFND_T af LEFT OUTER JOIN LD_BCN_INTINCBNT_T i ON (af.emplid=i.emplid) \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
@@ -143,7 +143,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append(" IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
         sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
         sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
-        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, LD_BCN_POS_T p \n");
+        sqlText.append("FROM LD_BCN_BUILD_POS_SEL01_MT o, LD_BCN_POS_T p \n");
         sqlText.append("WHERE o.sesid = ? \n");
         sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
         sqlText.append("  AND p.univ_fiscal_yr = ? \n");
@@ -223,7 +223,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
         populatePositionSelectForSubTree(sessionId, principalName, universityFiscalYear);
 
-        clearTempTableBySesId("ld_bcn_build_pos_sel01_mt", "SESID", sessionId);
+        clearTempTableBySesId("LD_BCN_BUILD_POS_SEL01_MT", "SESID", sessionId);
     }
 
     protected void initSelectedPositionOrgs(String sessionId, String principalName) {

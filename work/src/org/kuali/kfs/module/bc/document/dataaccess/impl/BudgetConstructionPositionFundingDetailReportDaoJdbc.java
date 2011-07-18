@@ -37,7 +37,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         /* populate the table based on threshold settings */
         /* sum the request and base by ssn */
         StringBuilder sqlText = new StringBuilder(1500);
-        sqlText.append("INSERT INTO ld_bcn_build_poslist01_mt \n");
+        sqlText.append("INSERT INTO LD_BCN_BUILD_POSLIST01_MT \n");
         sqlText.append("(SESID, EMPLID, POS_CSF_AMT, POS_CSF_FTE_QTY, APPT_RQST_AMT, APPT_RQST_FTE_QTY) \n");
         sqlText.append("SELECT ?, bcaf.emplid, SUM(COALESCE(bcsf.pos_csf_amt,0)), SUM(COALESCE(bcsf.pos_csf_fte_qty,0)), SUM(bcaf.appt_rqst_amt), SUM(bcaf.appt_rqst_fte_qty) \n");
         sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_CSF_TRCKR_T bcsf ON \n");
@@ -70,7 +70,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, COALESCE(iinc.person_nm,'VACANT'), bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr,\n");
         sqlText.append(" bcaf.fin_coa_cd, bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
         sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_INTINCBNT_T iinc \n");
-        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_poslist01_mt tssn \n");
+        sqlText.append(" ON (bcaf.emplid = iinc.emplid)), LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, LD_BCN_BUILD_POSLIST01_MT tssn \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -95,7 +95,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.append(" SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, COALESCE(iinc.person_nm,'VACANT'), bcaf.emplid, bcaf.position_nbr, bcaf.univ_fiscal_yr, \n");
         sqlText.append(" bcaf.fin_coa_cd, bcaf.account_nbr, bcaf.sub_acct_nbr, bcaf.fin_object_cd, bcaf.fin_sub_obj_cd \n");
         sqlText.append("FROM (LD_PNDBC_APPTFND_T bcaf LEFT OUTER JOIN LD_BCN_INTINCBNT_T iinc ON (bcaf.emplid = iinc.emplid)), \n");
-        sqlText.append(" LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, ld_bcn_build_poslist01_mt tssn \n");
+        sqlText.append(" LD_BCN_CTRL_LIST_T ctrl, LD_BCN_OBJ_PICK_T pick, LD_BCN_BUILD_POSLIST01_MT tssn \n");
         sqlText.append("WHERE ctrl.person_unvl_id = ? \n");
         sqlText.append(" AND bcaf.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
         sqlText.append(" AND bcaf.fin_coa_cd = ctrl.fin_coa_cd \n");
@@ -158,7 +158,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         Number thresholdValue = thresholdPercent.floatValue();
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(), principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT", "SESID", idForSession);
     }
 
     /**
@@ -181,7 +181,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         Number thresholdValue = thresholdPercent.floatValue();
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(), principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("ld_bcn_build_poslist01_mt", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT", "SESID", idForSession);
     }
 
     /**

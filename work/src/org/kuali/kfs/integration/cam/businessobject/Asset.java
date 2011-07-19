@@ -18,14 +18,7 @@ package org.kuali.kfs.integration.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
-import org.kuali.kfs.module.cam.businessobject.AssetComponent;
-import org.kuali.kfs.module.cam.businessobject.AssetLocation;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

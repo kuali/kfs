@@ -29,7 +29,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
  */
 public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInformationFormBase {
     //transient objects
-    protected transient List<CapitalAccountingLines> capitalAccountingLines;
     protected transient CapitalAccountingLine capitalAccountingLine;
     protected transient boolean editCreateOrModify;
     protected transient KualiDecimal systemControlAmount;
@@ -43,28 +42,9 @@ public abstract class CapitalAccountingLinesFormBase extends CapitalAssetInforma
         super();
         
         this.setSystemControlAmount(KualiDecimal.ZERO);
-        capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
         capitalAccountingLine = new CapitalAccountingLine();
         editCreateOrModify = true;
         distributeEqualAmount = true;
-    }
-
-    /**
-     * Gets the capitalAccountingLines attribute.
-     * 
-     * @return Returns the capitalAccountingLines
-     */
-    public List<CapitalAccountingLines> getCapitalAccountingLines() {
-        return capitalAccountingLines;
-    }
-
-    /** 
-     * Sets the capitalAccountingLines attribute.
-     * 
-     * @param capitalAccountingLines The capitalAccountingLines to set.
-     */
-    public void setCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines) {
-        this.capitalAccountingLines = capitalAccountingLines;
     }
     
     /**

@@ -15,12 +15,22 @@
  */
 package org.kuali.kfs.integration.cam.businessobject;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.module.cam.businessobject.AssetComponent;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
+import org.kuali.kfs.module.cam.businessobject.AssetPayment;
+import org.kuali.kfs.module.cam.businessobject.AssetRepairHistory;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
+import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobalDetail;
+import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Asset implements CapitalAssetManagementAsset {
+public class Asset extends PersistableBusinessObjectBase implements CapitalAssetManagementAsset {
     private Long capitalAssetNumber;
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
@@ -35,6 +45,12 @@ public class Asset implements CapitalAssetManagementAsset {
     private String serialNumber;
     private Integer quantity;
 
+    /**
+     * Default constructor.
+     */
+    public Asset() {
+    }
+    
     /**
      * Gets the capitalAssetNumber attribute.
      * 
@@ -53,6 +69,16 @@ public class Asset implements CapitalAssetManagementAsset {
         this.capitalAssetNumber = capitalAssetNumber;
     }
 
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+        if (this.capitalAssetNumber != null) {
+            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
+        }
+        return m;
+    }
 
     /**
      * Gets the capitalAssetDescription attribute

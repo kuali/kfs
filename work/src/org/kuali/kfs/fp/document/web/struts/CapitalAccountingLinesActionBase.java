@@ -19,41 +19,31 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
+import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
 import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -63,8 +53,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInformationActionBase {
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
 
-    private static final String AMOUNT_EQUAL_DISTRIBUTION = "1";
-    
     /**
      * All document-load operations get routed through here
      * 
@@ -75,13 +63,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         super.loadDocument(kualiDocumentFormBase);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiDocumentFormBase;
-        List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
-
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
-
+        List<CapitalAccountingLines> capitalAccountingLines = new ArrayList();
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
-        capitalAccountingLinesFormBase.setCapitalAccountingLines(capitalAccountingLines);
+
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) tdoc;
+        caldb.setCapitalAccountingLines(capitalAccountingLines);
         
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         
@@ -116,13 +104,15 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         super.refresh(mapping, form, request, response);
 
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountingDocument tdoc = (AccountingDocument) kualiDocumentFormBase.getDocument();
         
         capitalAccountingLines = updateCapitalAccountingLines(capitalAccountingLines, tdoc);
         sortCaptitalAccountingLines(capitalAccountingLines);
-        capitalAccountingLinesFormBase.setCapitalAccountingLines(updateCapitalAccountingLines(capitalAccountingLines, tdoc));
+        caldb.setCapitalAccountingLines(capitalAccountingLines);
 
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         
@@ -140,7 +130,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         super.insertAccountingLine(isSource, financialDocumentForm, line);
         
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) financialDocumentForm;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
 
         createCapitalAccountingLine(capitalAccountingLines, line);
         sortCaptitalAccountingLines(capitalAccountingLines);
@@ -158,7 +150,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
 
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) financialDocumentForm;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         
         if (isSource) {
             // remove from capital accounting lines for this source line
@@ -188,7 +182,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;
-        List<CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesFormBase.getCapitalAccountingLines();
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+                
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         AccountingDocument tdoc = (AccountingDocument) kualiAccountingDocumentFormBase.getDocument();
         
         createCapitalAccountingLines(capitalAccountingLines, tdoc);
@@ -429,7 +425,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     public ActionForward createAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
-        if (AMOUNT_EQUAL_DISTRIBUTION.equals(distributionCode)) {
+        if (AMOUNT_EQUAL_DISTRIBUTION_CODE.equals(distributionCode)) {
            calfb.setDistributeEqualAmount(true);
         }
         else {
@@ -469,7 +465,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
 
-        if (AMOUNT_EQUAL_DISTRIBUTION.equals(distributionCode)) {
+        if (AMOUNT_EQUAL_DISTRIBUTION_CODE.equals(distributionCode)) {
             calfb.setDistributeEqualAmount(true);
          }
         else {
@@ -498,7 +494,8 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      */
     protected boolean capitalAccountingLinesSelected(CapitalAccountingLinesFormBase calfb) {
         boolean selected = false;
-        List<CapitalAccountingLines> capitalAccountingLines = calfb.getCapitalAccountingLines();
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
         
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.isSelectLine()) {

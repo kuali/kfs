@@ -54,7 +54,7 @@
 	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
 	   		<td colspan="1" class="tab-subhead" style="border-top: medium;">
 	   			<div align="right">
-	   				<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="assetPaymentAssetDetail" />
+	   				<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="capitalAssetManagementAssets" />
 				</div>	   			
 	   		</td>
 	   	</c:if>

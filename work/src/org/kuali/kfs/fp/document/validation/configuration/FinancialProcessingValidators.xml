@@ -279,6 +279,18 @@
 		<property name="parameterToCheckAgainst" value="OBJECT_CODES" />
 	</bean>
 	
+	<bean id="CapitalAccountingLines-capitalAccountingLinesValidations" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesValidations" abstract="true">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="validationFieldConversion">
+					<property name="sourceEventProperty" value="document" />
+					<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+				</bean>
+			</list>
+		</property>
+		<property name="quitOnFail" value="true" />		
+	</bean>		
+	
 	<bean id="CapitialAssetInformation-capitalAssetInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAssetInformationValidation" abstract="true">
 		<property name="parameterProperties">
 			<list>

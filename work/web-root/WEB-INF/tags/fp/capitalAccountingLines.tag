@@ -18,25 +18,25 @@
 <%@ tag description="render accounting lines for capitalization tag that contains the given accounting lines for capitalization info"%>
 <%@ attribute name="readOnly" required="false" description="Whether the accounting lines for capitalization information should be read only" %>
 <c:set var="capitalAccountingLinesAttributes" value="${DataDictionary.CapitalAccountingLines.attributes}"/>
-<c:set var="capitalAccountingLines" value="${KualiForm.capitalAccountingLines}" />
+<c:set var="capitalAccountingLines" value="${KualiForm.document.capitalAccountingLines}" />
 <c:set var="capitalAccountingLineAttributes" value="${DataDictionary.CapitalAccountingLine.attributes}"/>
 
 <c:set var="defaultOpen" value="false"/>
-<c:if test="${!empty KualiForm.capitalAccountingLines and KualiForm.editCreateOrModify}" >
+<c:if test="${!empty KualiForm.document.capitalAccountingLines and KualiForm.editCreateOrModify}" >
 	<c:set var="defaultOpen" value="true"/>
 </c:if>
 
 <kul:tab tabTitle="${KFSConstants.CapitalAssets.ACCOUNTING_LINES_FOR_CAPITALIZATION_TAB_TITLE}" defaultOpen="${defaultOpen}" tabErrorKey="${KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS}" >
      <div class="tab-container" align="center">
      	<h3>Accounting Lines for Capitalization</h3>
-	    <c:if test="${empty KualiForm.capitalAccountingLines}">
+	    <c:if test="${empty KualiForm.document.capitalAccountingLines}">
 		    <table cellpadding="0" cellspacing="0" summary="Accounting Lines for Capitalization">
 		    	<tr>
 					<td class="datacell" height="50" colspan="11"><div align="center">There are currently no Accounting lines for capitalization entries associated with this Transaction Processing document.</div></td>
 				</tr>
 		    </table>
 	    </c:if>
-		<c:if test="${not empty KualiForm.capitalAccountingLines}">
+		<c:if test="${not empty KualiForm.document.capitalAccountingLines}">
 	     	<table cellpadding="0" cellspacing="0" summary="Accounting Lines for Capitalization">
 				<tr>
 					<kul:htmlAttributeHeaderCell
@@ -86,7 +86,7 @@
 						/>
 				</tr>
 				
-				<logic:iterate id="capitalAccountingLinesCollection" name="KualiForm" property="capitalAccountingLines" indexId="ctr">
+				<logic:iterate id="capitalAccountingLinesCollection" name="KualiForm" property="document.capitalAccountingLines" indexId="ctr">
 					<bean:define id="amountDistributed" name="capitalAccountingLinesCollection" property="amountDistributed"/>
 					<c:set var="lineReadOnly" value="false"/>
 	                <c:if test="${amountDistributed == true}" >
@@ -96,30 +96,30 @@
 			    	<tr>
 			            <td class="datacell">
 							<div align="center">
-								<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.sequenceNumber}" property="capitalAccountingLines[${ctr}].sequenceNumber" readOnly="true"/>					
+								<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.sequenceNumber}" property="document.capitalAccountingLines[${ctr}].sequenceNumber" readOnly="true"/>					
 							</div>		            
 			            </td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.lineType}" property="capitalAccountingLines[${ctr}].lineType" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.chartOfAccountsCode}" property="capitalAccountingLines[${ctr}].chartOfAccountsCode" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.accountNumber}" property="capitalAccountingLines[${ctr}].accountNumber" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.subAccountNumber}" property="capitalAccountingLines[${ctr}].subAccountNumber" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialObjectCode}" property="capitalAccountingLines[${ctr}].financialObjectCode" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialSubObjectCode}" property="capitalAccountingLines[${ctr}].financialSubObjectCode" readOnly="true"/></td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.projectCode}" property="capitalAccountingLines[${ctr}].projectCode" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.lineType}" property="document.capitalAccountingLines[${ctr}].lineType" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.chartOfAccountsCode}" property="document.capitalAccountingLines[${ctr}].chartOfAccountsCode" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.accountNumber}" property="document.capitalAccountingLines[${ctr}].accountNumber" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.subAccountNumber}" property="document.capitalAccountingLines[${ctr}].subAccountNumber" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialObjectCode}" property="document.capitalAccountingLines[${ctr}].financialObjectCode" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialSubObjectCode}" property="document.capitalAccountingLines[${ctr}].financialSubObjectCode" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.projectCode}" property="document.capitalAccountingLines[${ctr}].projectCode" readOnly="true"/></td>
 			            <td class="datacell">
 			            	<div align="right">
-			            		<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.amount}" property="capitalAccountingLines[${ctr}].amount" readOnly="true"/>
+			            		<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.amount}" property="document.capitalAccountingLines[${ctr}].amount" readOnly="true"/>
 							</div>		            		
 			            </td>
-			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialDocumentLineDescription}" property="capitalAccountingLines[${ctr}].financialDocumentLineDescription" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialDocumentLineDescription}" property="document.capitalAccountingLines[${ctr}].financialDocumentLineDescription" readOnly="true"/></td>
 	                    <td class="datacell">
 	                    	<div align="center">
-								<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.selectLine}" property="capitalAccountingLines[${ctr}].selectLine" readOnly="${readOnly}" disabled="${lineReadOnly}"/>                    	
+								<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.selectLine}" property="document.capitalAccountingLines[${ctr}].selectLine" readOnly="${readOnly}" disabled="${lineReadOnly}"/>                    	
 	                    	</div>
 	                    </td>
 			        </tr>
 				</logic:iterate>
-				<c:if test="${!empty KualiForm.capitalAccountingLines}" >
+				<c:if test="${!empty KualiForm.document.capitalAccountingLines}" >
 					<tr height="40">
 						<td colSpan="11">
 						<div align="center"><b>Select Amount Distribution Method&nbsp;</b>

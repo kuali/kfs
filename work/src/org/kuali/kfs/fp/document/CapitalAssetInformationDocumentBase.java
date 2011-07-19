@@ -20,13 +20,13 @@ import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
+import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Abstract class which defines behavior common for capital asset information lines.
@@ -43,14 +43,6 @@ import org.kuali.rice.kns.util.TypedArrayList;
      */
     public CapitalAssetInformationDocumentBase() {
         super();
-        
-        if (ObjectUtils.isNotNull(this.getGeneralLedgerPendingEntries())) {
-            int caiSize = this.getGeneralLedgerPendingEntries().size();
-        }
-        
-        if (ObjectUtils.isNotNull(this.getCapitalAssetInformation())) {
-            int caiSize = this.getCapitalAssetInformation().size();
-        }
         
         this.setCapitalAssetInformation(new ArrayList());
         this.setNextCapitalAssetLineNumber(1);

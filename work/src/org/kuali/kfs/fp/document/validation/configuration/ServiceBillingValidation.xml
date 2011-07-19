@@ -45,6 +45,7 @@
   			<list>
   				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
   				<bean parent="ServiceBilling-checkItemsValidation" scope="prototype" />		
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>
   		</property>
@@ -76,6 +77,7 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
   				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>
   		</property>

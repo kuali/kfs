@@ -40,7 +40,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
  */
-public class GeneralErrorCorrectionDocument extends CapitalAssetInformationDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
+public class GeneralErrorCorrectionDocument extends CapitalAccountingLinesDocumentBase implements Copyable, Correctable, AmountTotaling, CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralErrorCorrectionDocument.class);
 
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;

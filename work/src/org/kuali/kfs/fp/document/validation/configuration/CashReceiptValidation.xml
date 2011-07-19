@@ -56,6 +56,8 @@
 					</property>
 				</bean>
 				
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
+				
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
 			</list>
 		</property>
@@ -139,6 +141,9 @@
 						</list>
 					</property>
 				</bean>
+				
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
+				
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
 			</list>
 		</property>

@@ -279,6 +279,8 @@
 		<property name="parameterToCheckAgainst" value="OBJECT_CODES" />
 	</bean>
 	
+	<!--
+	
 	<bean id="CapitalAccountingLines-capitalAccountingLinesValidations" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesValidations" abstract="true">
 		<property name="parameterProperties">
 			<list>
@@ -290,6 +292,7 @@
 		</property>
 		<property name="quitOnFail" value="true" />		
 	</bean>		
+	-->
 	
 	<bean id="CapitialAssetInformation-capitalAssetInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAssetInformationValidation" abstract="true">
 		<property name="parameterProperties">
@@ -301,6 +304,47 @@
 			</list>
 		</property>
 	</bean>		
+
+	<bean id="CapitalAccountingLines-capitalAccountingLinesValidations" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean id="CapitalAccountingLines-validateAllCapitalAccountingLinesProcessed" class="org.kuali.kfs.fp.document.validation.impl.ValidateAllCapitalAccountingLinesProcessed" abstract="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />		
+				</bean>		
+				<bean id="CapitalAccountingLines-validateCapitalAssetsExistForCapitalAccountingLinesProcessed" class="org.kuali.kfs.fp.document.validation.impl.ValidateCapitalAssetsExistForCapitalAccountingLinesProcessed" abstract="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />		
+				</bean>
+				<bean id="CapitalAccountingLines-validateCapitalAccountingLinesTotalAmountMatch" class="org.kuali.kfs.fp.document.validation.impl.ValidateCapitalAccountingLinesTotalAmountMatch" abstract="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />		
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
 
 	<bean id="DisbursementVoucher-accountingLineAccessibleValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherAccountingLineAccessibleValidation" abstract="true" >
 		<property name="dataDictionaryService" ref="dataDictionaryService" />

@@ -196,9 +196,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             
             if (equalModifyAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
-                            ObjectUtils.isNotNull(capitalAsset.getCapitalAssetNumber())) {
+                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
                         capitalAsset.setAmount(equalModifyAssetAmount);
+                        capitalAsset.setCapitalAssetQuantity(1);
                     }
                 }
             }
@@ -222,8 +222,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             //  KualiDecimal equalModifyAssetAmount = calfb.getCreatedAssetsControlAmount().divide(new KualiDecimal(numberOfModifiedAssetsExist(capitalAssetInformation)), true);
             if (equalCreateAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
-                            ObjectUtils.isNotNull(capitalAsset.getCapitalAssetNumber())) {
+                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
                         capitalAsset.setAmount(equalCreateAssetAmount);
                     }
                 }
@@ -969,20 +968,36 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * delete a detail line from the capital asset information
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
      */
     public ActionForward redistributeCreateCapitalAssetAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("redistributeCreateCapitalAssetAmount() - start");
+        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+        String distributinCode = calfb.getCapitalAccountingLine().getDistributionCode();
 
-        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
-        List<CapitalAssetInformation> capitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
-
-        if (capitalAssetInformation == null) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        if (distributinCode.equalsIgnoreCase(AMOUNT_EQUAL_DISTRIBUTION_CODE)) {
+            KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+            List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+            KualiDecimal equalCreateAssetAmount = calfb.getCreatedAssetsControlAmount().add(getEqualDistributedAmount(capitalAssetInformation, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR));
+            equalCreateAssetAmount = equalCreateAssetAmount.divide(new KualiDecimal(numberOfCreateAssetsExist(capitalAssetInformation)), true);
+            
+            //  KualiDecimal equalModifyAssetAmount = calfb.getCreatedAssetsControlAmount().divide(new KualiDecimal(numberOfModifiedAssetsExist(capitalAssetInformation)), true);
+            if (equalCreateAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
+                for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
+                        capitalAsset.setAmount(equalCreateAssetAmount);
+                    }
+                }
+            }
         }
-
-        int lineIndexForCapitalAssetInfo = this.getLineToDelete(request);
-        capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().remove(0);
+        
+        checkCapitalAccountingLinesSelected(calfb);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

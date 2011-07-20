@@ -87,7 +87,9 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -115,7 +117,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
     private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
-
+    
     protected static enum AccountCapitalObjectCode {
         BOTH_NONCAP {
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
@@ -1017,7 +1019,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (unitPrice.compareTo(priceThreshold) >= 0) {
             List<String> possibleCAMSObjectLevels = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
             if (possibleCAMSObjectLevels.contains(objectCode.getFinancialObjectLevelCode())) {
-
                 String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
                 warning = StringUtils.replace(warning, "{0}", itemIdentifier);
                 warning = StringUtils.replace(warning, "{1}", priceThreshold.toString());
@@ -1435,17 +1436,29 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid = false;
         }
 
+        //VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
+        //vendor name entered.
+        String vendorNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET);
+        
+        if ("Y".equalsIgnoreCase(vendorNameRequired)) {
         // skip vendor name required validation for procurement card document
-        if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.VENDOR_NAME);
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-            valid = false;
+            if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
+                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.VENDOR_NAME);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+                valid = false;
+            }
         }
+        
+        //MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
+        //vendor name entered.
+        String manufacturerNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET);
 
-        if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
-            String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME);
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
-            valid = false;
+        if ("Y".equalsIgnoreCase(manufacturerNameRequired)) {
+            if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {
+                String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME);
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_MANUFACTURE_NAME, KFSKeyConstants.ERROR_REQUIRED, label);
+                valid = false;
+            }
         }
 
         if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetDescription())) {

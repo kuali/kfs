@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.BalanceCalculator;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -80,9 +81,19 @@ public class CashBalanceLookupableHelperServiceImpl extends AbstractGeneralLedge
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = getSelectedPendingEntryOption(fieldValues);
 
+        
+        
+        // KFSMI-410: need to get this before getting isConsolidated because this value will be removed.
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
         // get the consolidation option
         boolean isConsolidated = isConsolidationSelected(fieldValues);
 
+        // KFSMI-410: added one more node for consolidationOption
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
+            fieldValues.put(Constant.SUB_ACCOUNT_OPTION, KFSConstants.getDashSubAccountNumber());
+            isConsolidated = false;
+        } 
+        
         // get the search result collection
         Iterator cashBalanceIterator = balanceService.lookupCashBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildCashBalanceCollection(cashBalanceIterator, isConsolidated);

@@ -30,6 +30,7 @@ public final class Constant {
     public static final String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
     public static final String CONSOLIDATION = "Consolidation";
     public static final String DETAIL = "Detail";
+    public static final String EXCLUDE_SUBACCOUNTS = "Exclude Sub-Accounts";
 
     public static final String AMOUNT_VIEW_OPTION = "dummyBusinessObject.amountViewOption";
     public static final String MONTHLY = "Monthly";

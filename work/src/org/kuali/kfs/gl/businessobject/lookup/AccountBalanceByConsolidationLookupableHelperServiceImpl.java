@@ -75,7 +75,13 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
 
         String costShareOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.COST_SHARE_OPTION);
         String pendingEntryOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
+        // KFSMI-410: need to get this before getting isConsolidated because this value will be removed.
         String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        String chartOfAccountsCode = (String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        String ufy = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
 
         int pendingEntryCode = AccountBalanceService.PENDING_NONE;
@@ -85,18 +91,13 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
         else if (GeneralLedgerConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
             pendingEntryCode = AccountBalanceService.PENDING_ALL;
         }
-
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
-
-        String chartOfAccountsCode = (String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
-        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        String ufy = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-
-        // Dashes means no sub account number
-        if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
-            subAccountNumber = "";
-        }
+        
+        // KFSMI-410: added one more node for consolidationOption
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
+            subAccountNumber = KFSConstants.getDashSubAccountNumber();
+            isConsolidated = false;
+        } 
 
         // TODO Deal with invalid numbers
         Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));

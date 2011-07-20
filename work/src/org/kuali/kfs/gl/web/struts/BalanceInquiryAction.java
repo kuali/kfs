@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.ObjectHelper;
 import org.kuali.kfs.gl.businessobject.AccountBalance;
 import org.kuali.kfs.gl.businessobject.lookup.AccountBalanceByConsolidationLookupableHelperServiceImpl;
@@ -44,6 +45,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
@@ -121,6 +123,14 @@ public class BalanceInquiryAction extends KualiAction {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
 
+        // check consolidation option and sub-account number
+        Map fieldValues = lookupForm.getFields();
+        String consolidationOption = (String) fieldValues.get(Constant.CONSOLIDATION_OPTION);
+        String subAccountNumber = (String) fieldValues.get(Constant.SUB_ACCOUNT_OPTION);
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS) && !subAccountNumber.equals("")){
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_BALANCE_CONSOLIDATION_EXCLUDE_SUBACCOUNT);
+        }
+        
         Lookupable lookupable = lookupForm.getLookupable();
 
         if (lookupable == null) {

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.BalanceCalculator;
 import org.kuali.kfs.gl.businessobject.Balance;
@@ -70,10 +71,19 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLoo
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
-
+        
+        // KFSMI-410: need to get this before getting isConsolidated because this value will be removed.
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        
         // test if the consolidation option is selected or not
         boolean isConsolidated = isConsolidationSelected(fieldValues);
-
+     
+        // KFSMI-410: added one more node for consolidationOption
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
+            fieldValues.put(Constant.SUB_ACCOUNT_OPTION, KFSConstants.getDashSubAccountNumber());
+            isConsolidated = false;
+        } 
+       
         // get Amount View Option and determine if the results has to be accumulated
         String amountViewOption = getSelectedAmountViewOption(fieldValues);
         boolean isAccumulated = amountViewOption.equals(Constant.ACCUMULATE);

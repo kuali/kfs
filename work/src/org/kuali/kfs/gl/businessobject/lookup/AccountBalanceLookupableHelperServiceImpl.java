@@ -80,11 +80,18 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
 
-        // test if the consolidation option is selected or not
+        // KFSMI-410: added one more node for consolidationOption
         String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
-        boolean isConsolidated = isConsolidationSelected(fieldValues);
-
+        // test if the consolidation option is selected or not
+        boolean isConsolidated = isConsolidationSelected(fieldValues); 
+        
         // get the search result collection
+        // KFSMI-410: added one more node for consolidationOption
+        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS)){
+            fieldValues.put(Constant.SUB_ACCOUNT_OPTION, KFSConstants.getDashSubAccountNumber());
+            isConsolidated = false;
+        } 
+        
         if (isConsolidated) {
             Iterator availableBalanceIterator = accountBalanceService.findConsolidatedAvailableAccountBalance(fieldValues);
             searchResultsCollection = buildConsolidedAvailableBalanceCollection(availableBalanceIterator);

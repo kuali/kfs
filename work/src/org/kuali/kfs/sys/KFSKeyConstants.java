@@ -55,6 +55,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_BA_NO_INCOME_STREAM_ACCOUNT = "error.document.ba.noIncomeAccount";
     public static final String WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS = "warning.document.ba.copyLaborBenefits";
     public static final String ERROR_DOCUMENT_BALANCE = "error.document.balance";
+    public static final String ERROR_BALANCE_CONSOLIDATION_EXCLUDE_SUBACCOUNT = "error.balance.consolidation.exclude.subaccount";
     public static final String ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS = "error.document.balanceConsideringCreditAndDebitAmounts";
     public static final String ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS = "error.document.balanceConsideringSourceAndTargetAmounts";
     public static final String ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE = "error.document.incorrectExpenseOnIncomeSide";

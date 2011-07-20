@@ -38,6 +38,7 @@ public class ConsolidationOptionFinder extends KeyValuesBase implements ValueFin
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(Constant.CONSOLIDATION, Constant.CONSOLIDATION));
         labels.add(new KeyLabelPair(Constant.DETAIL, Constant.DETAIL));
+        labels.add(new KeyLabelPair(Constant.EXCLUDE_SUBACCOUNTS, Constant.EXCLUDE_SUBACCOUNTS));
 
         return labels;
     }

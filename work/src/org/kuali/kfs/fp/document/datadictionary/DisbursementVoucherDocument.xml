@@ -596,7 +596,7 @@
 	  <property name="accountingLineView" ref="DisbursementVoucherDocument-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
 	  <property name="groupLabel" value="Source"/>
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DisbursementVoucherAccountingLineAuthorizer"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="source"/>
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/>

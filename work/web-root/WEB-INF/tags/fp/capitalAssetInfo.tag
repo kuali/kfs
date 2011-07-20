@@ -173,28 +173,24 @@
 							<c:if test="${!readOnly}">
 								<tr>
 									<td class="infoline">  
-										<div align="center" valign="middle">	
-											<html:image property="methodToCall.addCapitalAssetInfo.line${status.index}.Anchor" 
-												src="${ConfigProperties.externalizable.images.url}tinybutton-addtaglocation.gif" 
-												title="Add the capital Asset tag and location"
-												alt="Add the capital Asset tag and location" styleClass="tinybutton" />	
-											<br /><br />	 
+										<div align="center" valign="middle">
+											<html:image property="methodToCall.InsertCapitalAssetInfo.line${status.index}.Anchor" 
+												src="${ConfigProperties.externalizable.images.url}tinybutton-insert.gif" 
+												title="Add the capital Asset Information"
+												alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
 											<html:image property="methodToCall.deleteCapitalAssetInfo.line${status.index}.Anchor" 
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
 												title="Delete the capital Asset Information"
-												alt="Delete the capital Asset Information" styleClass="tinybutton" />
-											<br /><br />	 
+												alt="Delete the capital Asset Information" styleClass="tinybutton" />&nbsp;
 											<html:image property="methodToCall.clearCapitalAssetInfo.line${status.index}.Anchor" 
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 												title="Clear the capital Asset Information"
 												alt="Clear the capital Asset Information" styleClass="tinybutton" />
-											<c:if test="${!KualiForm.distributeEqualAmount}">
-												<br /><br />
-												<html:image property="methodToCall.refreshCapitalAssetModify.line${status.index}.Anchor" 
-													src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" 
-													title="Add the capital Asset Information"
-													alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
-											</c:if>
+											<br /><br />
+											<html:image property="methodToCall.addCapitalAssetTagLocationInfo.line${status.index}.Anchor" 
+												src="${ConfigProperties.externalizable.images.url}tinybutton-addtaglocation.gif" 
+												title="Add the capital Asset tag and location"
+												alt="Add the capital Asset tag and location" styleClass="tinybutton" />	
 										</div>
 									</td>
 								</tr>

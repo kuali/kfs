@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -63,6 +64,7 @@ public class CapitalAccountingLinesValidations extends GenericValidation {
 
         isValid &= allCapitalAccountingLinesProcessed(capitalAccountingLines, capitalAssets);
         isValid &= capitalAssetExistsForCapitalAccountingLinesProcessed(capitalAccountingLines, capitalAssets);
+        isValid &= totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(capitalAccountingLines, capitalAssets);
         
         return isValid;
     }
@@ -126,6 +128,36 @@ public class CapitalAccountingLinesValidations extends GenericValidation {
         
         return exists;
     }
+    
+    protected boolean totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
+        boolean totalAmountMatched = true;
+        
+        KualiDecimal capitalAccountingLinesTotals = KualiDecimal.ZERO;
+        KualiDecimal capitalAAssetTotals = KualiDecimal.ZERO;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            capitalAccountingLinesTotals = capitalAccountingLinesTotals.add(capitalAccountingLine.getAmount());
+        }
+    
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getAmount());
+        }
+        
+        if (capitalAccountingLinesTotals.isGreaterThan(capitalAAssetTotals)) {
+            //not all the accounting lines amounts have been distributed to capital assets
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_NOT_ALL_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
+            return false;
+        }
+        
+        if (capitalAccountingLinesTotals.isLessEqual(capitalAAssetTotals)) {
+            //not all the accounting lines amounts have been distributed to capital assets
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET);
+            return false;
+        }
+        
+        return totalAmountMatched;
+    }
+    
     
     /**
      * Sets the accountingDocumentForValidation attribute value.

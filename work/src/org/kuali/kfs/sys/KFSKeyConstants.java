@@ -120,9 +120,12 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATAION_REQUIRED_CREATE = "error.document.capitalAccountingLines.selectLinesRequired.create";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_NOT_PROCESSED = "error.document.capitalAccountingLines.notProcessed";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET = "error.document.capitalAccountingLines.capitalAssetsInformationMissing";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_NOT_ALL_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS = "error.document.capitalAccountingLines.totalAmountNotDistributed";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS = "error.document.capitalAccountingLines.moreTotalAmountDistributed";
     
     //capital asset information errors
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";
+    public static final String ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED = "error.document.capitalAsset.quantity.notEntered";
     
     public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 

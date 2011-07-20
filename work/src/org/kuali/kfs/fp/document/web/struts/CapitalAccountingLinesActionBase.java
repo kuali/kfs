@@ -99,7 +99,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
+   // @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
 
@@ -126,6 +126,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * that line has capital object type code group then a capital accounting line is created.
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#insertAccountingLine(boolean, org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase, org.kuali.kfs.sys.businessobject.AccountingLine)
      */
+    @Override
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
         super.insertAccountingLine(isSource, financialDocumentForm, line);
         
@@ -238,7 +239,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         
         //remove the orphan capital accounting lines that does not have corresponding
         //accounting line from either source or target.
-        return removeOrphanCapitalAccountingLines(capitalAccountingLines, tdoc);
+       return removeOrphanCapitalAccountingLines(capitalAccountingLines, tdoc);
     }
     
     /**
@@ -250,13 +251,16 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     protected List<CapitalAccountingLines> removeOrphanCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
         List<CapitalAccountingLines> newCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
         
-        List<AccountingLine> allAccountLines = tdoc.getSourceAccountingLines();
-        if (ObjectUtils.isNotNull(allAccountLines)) {
-            allAccountLines.addAll(tdoc.getTargetAccountingLines());
+        List<AccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (removeOrphanCapitalAccountingLine(sourceAccountLines, capitalAccountingLine)) {
+                newCapitalAccountingLines.add(capitalAccountingLine);
+            }
         }
         
+        List<AccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (removeOrphanCapitalAccountingLine(allAccountLines, capitalAccountingLine)) {
+            if (removeOrphanCapitalAccountingLine(targetAccountLines, capitalAccountingLine)) {
                 newCapitalAccountingLines.add(capitalAccountingLine);
             }
         }
@@ -272,10 +276,10 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      * @param line to remove
      * @return true if the capital accounting line to be removed is found in accounting lines, else false
      */
-    protected boolean removeOrphanCapitalAccountingLine(List<AccountingLine> allAccountLines, CapitalAccountingLines capitalAccountingLine) {
+    protected boolean removeOrphanCapitalAccountingLine(List<AccountingLine> accountLines, CapitalAccountingLines capitalAccountingLine) {
         boolean found = false;
         
-        for (AccountingLine accountingLine : allAccountLines) {
+        for (AccountingLine accountingLine : accountLines) {
             if (capitalAccountingLine.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) && 
                     capitalAccountingLine.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
                     capitalAccountingLine.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode()) &&
@@ -444,6 +448,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         }
             
         createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+        checkCapitalAccountingLinesSelected(calfb);
         
         KualiForm kualiForm = (KualiForm) form;
         setTabStatesForCapitalAssets(kualiForm);
@@ -481,6 +486,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         }
         
         createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+        checkCapitalAccountingLinesSelected(calfb);
         
         KualiForm kualiForm = (KualiForm) form;
         setTabStatesForCapitalAssets(kualiForm);

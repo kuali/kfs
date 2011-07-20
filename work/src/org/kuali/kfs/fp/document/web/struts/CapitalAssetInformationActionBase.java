@@ -39,6 +39,7 @@ import org.kuali.kfs.fp.document.CapitalAssetInformationDocumentBase;
 import org.kuali.kfs.integration.cam.businessobject.Asset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -323,7 +324,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         }
 
         int clearIndex = getSelectedLine(request);
-        capitalAssetInformation.get(clearIndex).setCapitalAssetNumber(new Long(0));
         capitalAssetInformation.get(clearIndex).setAmount(KualiDecimal.ZERO);
         
         //now process the remaining capital asset records
@@ -344,7 +344,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @return action forward string
      * @throws Exception
      */
-    public ActionForward addCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addCapitalAssetTagLocationInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("addCapitalAssetInfoDetail() - start");
 
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
@@ -376,8 +376,47 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @return action forward string
      * @throws Exception
      */
+    public ActionForward InsertCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("InsertCapitalAssetInfo() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        int addIndex = getSelectedLine(request);        
+        if (capitalAssetInformation.get(addIndex).getCapitalAssetQuantity() == null || capitalAssetInformation.get(addIndex).getCapitalAssetQuantity() <= 0) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED, 
+                    capitalAssetInformation.get(addIndex).getSequenceNumber().toString(),
+                    capitalAssetInformation.get(addIndex).getCapitalAssetLineNumber().toString(),
+                    capitalAssetInformation.get(addIndex).getFinancialDocumentLineTypeCode(),
+                    capitalAssetInformation.get(addIndex).getChartOfAccountsCode(),
+                    capitalAssetInformation.get(addIndex).getAccountNumber(),
+                    capitalAssetInformation.get(addIndex).getFinancialObjectCode());
+        }
+        
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * refreshes capital asset modify information to the modify capital assets list.
+     * Also recalculates the system control and system control remaining amounts.
+     * Puts a global error message if the user does not enter capital asset number.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
+     */
     public ActionForward refreshCapitalAssetModify(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("addCapitalAssetInfoDetail() - start");
+        LOG.debug("refreshCapitalAssetModify() - start");
 
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
         List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
@@ -808,7 +847,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             CapitalAssetInformation existingCapitalAsset = capitalAssetCreated(capitalAccountingLine, currentCapitalAssetInformation);
             if (ObjectUtils.isNotNull(existingCapitalAsset)) {
                 capitalAccountingLine.setSelectLine(true);
-                calfb.setSystemControlAmount(calfb.getSystemControlAmount().add(capitalAccountingLine.getAmount()));
                 if (accountingLineAmountDistributed(capitalAccountingLine, currentCapitalAssetInformation, existingCapitalAsset)) {
                     capitalAccountingLine.setAmountDistributed(true);
                 }
@@ -821,6 +859,12 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.isSelectLine()) {
+                calfb.setSystemControlAmount(calfb.getSystemControlAmount().add(capitalAccountingLine.getAmount()));
+            }
+        }
+        
         calfb.setCreatedAssetsControlAmount(calfb.getSystemControlAmount());
         
         //get amount allocated so far....or the system control remainder amount field.
@@ -828,6 +872,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             calfb.setCreatedAssetsControlAmount(calfb.getCreatedAssetsControlAmount().subtract(capitalAsset.getAmount()));
         }
     }
+
     /**
      * sets the capital assets screens for create and modify and accounting lines
      * for capitalization screen as open. If accounting lines for capitalizataion list is

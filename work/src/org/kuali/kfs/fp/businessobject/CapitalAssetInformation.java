@@ -346,7 +346,8 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         simpleValues.put(KFSPropertyConstants.AMOUNT, this.getAmount());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_LINE_NUMBER, this.getCapitalAssetLineNumber());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_ACTION_INDICATOR, this.getCapitalAssetActionIndicator());
-
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, this.getCapitalAssetQuantity());
+        
         return simpleValues;
     }
 

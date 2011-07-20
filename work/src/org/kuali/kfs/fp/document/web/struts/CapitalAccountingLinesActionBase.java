@@ -159,11 +159,13 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             // remove from capital accounting lines for this source line
             AccountingLine line = (AccountingLine) financialDocumentForm.getFinancialDocument().getSourceAccountingLines().get(deleteIndex);
             deleteCapitalAccountingLine(capitalAccountingLines, line);
+            deleteCapitalAssetLines(financialDocumentForm, line);
         }
         else {
             // remove from document
             AccountingLine line = (AccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLines().get(deleteIndex);
             deleteCapitalAccountingLine(capitalAccountingLines, line);
+            deleteCapitalAssetLines(financialDocumentForm, line);
         }
         
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);

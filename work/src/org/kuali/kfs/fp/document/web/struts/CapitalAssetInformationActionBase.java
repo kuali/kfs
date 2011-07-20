@@ -40,6 +40,8 @@ import org.kuali.kfs.integration.cam.businessobject.Asset;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -165,7 +167,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetInformation
      */
     protected boolean removeModifyAsset(List<CapitalAssetInformation> capitalAssetInformation) {
-       boolean addIt = true; 
+       boolean removeIt = true; 
        
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
             if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
@@ -174,7 +176,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
-        return addIt;
+        return removeIt;
     }
     
     /**
@@ -985,5 +987,31 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
+    /**
+     * Removes any matching capital asset records whenever an accounting line is removed.
+     * @param financialDocumentForm
+     * @param line
+     */
+    protected void deleteCapitalAssetLines(KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
+        CapitalAssetInformationDocumentBase capitalAssetInformationDocumentBase = (CapitalAssetInformationDocumentBase) financialDocumentForm.getFinancialDocument();
+        
+        List<CapitalAssetInformation> removalCaiList = new ArrayList<CapitalAssetInformation>();
+        
+        List<CapitalAssetInformation> capitalAssets = capitalAssetInformationDocumentBase.getCapitalAssetInformation();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (capitalAsset.getChartOfAccountsCode().equals(line.getChartOfAccountsCode()) &&
+                    capitalAsset.getSequenceNumber().compareTo(line.getSequenceNumber()) == 0 &&
+                    capitalAsset.getAccountNumber().equals(line.getAccountNumber()) &&
+                    capitalAsset.getFinancialObjectCode().equals(line.getFinancialObjectCode()) &&
+                    capitalAsset.getFinancialDocumentLineTypeCode().equalsIgnoreCase(line.getFinancialDocumentLineTypeCode())) {
+                    removalCaiList.add(capitalAsset);
+            }
+        }
+        
+        //if the removal list is not empty, remove these bunch of capital asset records 
+        //for that accounting line.
+        if (ObjectUtils.isNotNull(removalCaiList)) {
+            capitalAssets.removeAll(removalCaiList);
+        }
+    }
 }

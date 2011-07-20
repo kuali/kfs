@@ -19,6 +19,8 @@ KFS-AR,InvoiceRecurrence,MAXIMUM_RECURRENCES_BY_INTERVAL,KFS14,1,CONFG,M=12;Q=4,
 KFS-AR,OrganizationOptions,INSTITUTION_NAME,KFS15,1,CONFG,Parameter: KFS-AR / InvoiceRecurrence / INSTITUTION_NAME,Indiana University,A,KFS
 KFS-AR,OrganizationOptions,REMIT_TO_ADDRESS_EDITABLE_IND,KFS16,1,CONFG,N,"This parameter controls whether the Remit to Address on the Accounts Receivable Organization Options is editable. When set to ""Y"" the Remit to Address is editable, when ""N"" the Remit to Address is not editable.",A,KFS
 KFS-AR,OrganizationOptions,REMIT_TO_NAME_EDITABLE_IND,KFS17,1,CONFG,N,"This parameter controls whether the Remit to Name on the Accounts Receivable Organization Options is editable. When set to ""Y"" the Remit to Name is editable, when ""N"" the Remit to Name is not editable.",A,KFS
+KFS-AR,CustomerBillingStatement,DUE_DATE_DAYS,KFSAR18,1,CONFG,30,"Set the number of days that will be added to the system date to calculate the due date.",A,KFS
+KFS-AR,CustomerBillingStatement,DEFAULT_FORMAT,KFSAR19,1,CONFG,SUMMARY,"Set this value to "SUMMARY" if you generate the summary statement as default. Set this value to "DETAIL" if you generate the detailed statement as default.",A,KFS
 KFS-BC,BudgetConstruction,ANNUAL_WORKING_HOURS,KFS18,1,CONFG,2080,The total working hours in a year,A,KFS
 KFS-BC,BudgetConstruction,BIWEEKLY_PAY_TYPE_CODES,KFS19,1,CONFG,B,The Labor Object table pay type code for hourly/biweekly pay.,A,KFS
 KFS-BC,BudgetConstruction,BUDGET_AGGREGATION_CODES,KFS20,1,VALID,O,Allowed Object Budget Aggregation Code(s),A,KFS

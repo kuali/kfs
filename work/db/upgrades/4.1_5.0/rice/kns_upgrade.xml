@@ -76,6 +76,43 @@
 				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
 			<where>NMSPC_CD="KFS_SYS" AND PARM_NM="BATCH_UPLOAD_HELP_URL"</where>
 		</update>
+
+		<!-- KFSMI-6867 -->
+		<insert tableName="KRNS_PARM_DTL_TYP_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="CustomerBillingStatement" />
+			<column name="OBJ_ID" value="KFSAR18" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="NM" value="Customer Billing Statement" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="CustomerBillingStatement" />
+			<column name="PARM_NM" value="'DUE_DATE_DAYS" />
+			<column name="OBJ_ID" value="KFSAR18" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="30" />
+			<column name="PARM_DESC_TXT"
+				value="Set the number of days that will be added to the system date to calculate the due date." />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="PARM_DTL_TYP_CD" value="CustomerBillingStatement" />
+			<column name="PARM_NM" value="DEFAULT_FORMAT" />
+			<column name="OBJ_ID" value="KFSAR19" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="SUMMARY" />
+			<column name="PARM_DESC_TXT"
+				value='Set this value to "SUMMARY" if you generate the summary statement as default. Set this value to "DETAIL" if you generate the detailed statement as default' />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
+
 	</changeSet>
 </databaseChangeLog>   
       

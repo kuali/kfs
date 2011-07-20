@@ -1,0 +1,22 @@
+
+<changeSet author='kfs50' id='KFS_50_ar_inv_doc_t'
+	failOnError='true'>
+	<comment>KFSMI-6861 </comment>
+	<addColumn tableName='AR_INV_DOC_T'>
+		<column name='REPORTED_DT' type='DATETIME' />
+	</addColumn>
+
+	<createTable tableName="AR_CUST_BILLING_STMT_T">
+		<column name='cust_nbr' type='VARCHAR2(9)' />
+		<column name='cust_nbr' type='VARCHAR2(9)' />
+		<column name='prev_billed_amt' type='NUMBER(19,2)' />
+		<column name='reported' type='DATETIME' />
+	</createTable>
+
+
+	<modifySql dbms='mysql'>
+		<replace replace='varchar2' with='varchar' />
+		<replace replace='NUMBER' with='DECIMAL' />
+	</modifySql>
+</changeSet>
+</databaseChangeLog>

@@ -3,6 +3,7 @@
 "KFS-AR","Batch","KFS2","1","Batch","Y"
 "KFS-AR","Document","KFS3","1","Document","Y"
 "KFS-AR","Lookup","KFS4","1","Lookup","Y"
+"KFS-AR","CustomerBillingStatement","KFSAR18,"1","Customer Billing Statement","Y"
 "KFS-BC","All","KFS5","1","All","Y"
 "KFS-BC","Batch","KFS6","1","Batch","Y"
 "KFS-BC","Document","KFS7","1","Document","Y"

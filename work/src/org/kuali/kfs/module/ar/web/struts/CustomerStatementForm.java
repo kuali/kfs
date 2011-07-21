@@ -39,10 +39,9 @@ public class CustomerStatementForm extends KualiForm {
     private String accountNumber;
     private String customerNumber;
     private String statementFormat;
-    private String includeZeroBalanceCustomer;
-    private String message;
-    //private File report = new File("");
-   
+    private String statementFormatOption;
+    private String includeZeroBalanceCustomers;
+    private String message;  
 
     /**
      * Gets the message attribute. 
@@ -153,18 +152,31 @@ public class CustomerStatementForm extends KualiForm {
     /**
      * Gets the incldueZeroBalanceCustomer attribute
      */
-    public String getIncludeZeroBalanceCustomer() {
-        return includeZeroBalanceCustomer;
+    public String getIncludeZeroBalanceCustomers() {
+        return this.includeZeroBalanceCustomers;
     }
 
     /**
      * Sets the incldueZeroBalanceCustomer attribute
      * @return incldueZeroBalanceCustomer
      */
-    public void setIncludeZeroBalanceCustomer(String includeZeroBalanceCustomer) {
-        this.includeZeroBalanceCustomer = includeZeroBalanceCustomer;
+    public void setIncludeZeroBalanceCustomers(String includeZeroBalanceCustomers) {
+        this.includeZeroBalanceCustomers = includeZeroBalanceCustomers;
     }
 
+    /**
+     * @return the statementFormatOption
+     */
+    public String getStatementFormatOption() {
+        return statementFormatOption;
+    }
+
+    /**
+     * @param statementFormatOption the statementFormatOption to set
+     */
+    public void setStatementFormatOption(String statementFormatOption) {
+        this.statementFormatOption = statementFormatOption;
+    }
 
     public void clear() {
         this.accountNumber = null;
@@ -172,7 +184,7 @@ public class CustomerStatementForm extends KualiForm {
         this.chartCode = null;
         this.orgCode = null;
         this.statementFormat = null;
-        this.includeZeroBalanceCustomer = null;
+        this.includeZeroBalanceCustomers = null;
         this.message = null;
     }
 

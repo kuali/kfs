@@ -8,8 +8,7 @@ public class SortTransaction implements Comparator<CustomerStatementDetailReport
         int result = c1.getDocumentFinalDate().compareTo(c2.getDocumentFinalDate());
         if (result == 0) {
             result = c1.getDocType().compareTo(c2.getDocType());
-        }
-        
+        }        
         return result;
     }
 }

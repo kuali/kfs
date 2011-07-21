@@ -19,6 +19,7 @@
 	<c:set var="arDocHeaderAttributes" value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
 	<c:set var="invoiceAttributes" value="${DataDictionary.CustomerInvoiceDocument.attributes}" />
 	<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
+	<c:set var="customerBillingStatementAttributes" value="${DataDictionary.CustomerBillingStatement.attributes}" />
 	
 <kul:page  showDocumentInfo="false"
 	headerTitle="Billing Statement Generation" docTitle="Billing Statement Generation" renderMultipart="true"
@@ -67,20 +68,21 @@
             </tr>
             <tr>		
                 <th align=right valign=middle class="grid"">
-                    <div align="right">Statement Format:</div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${customerBillingStatementAttributes.statementFormat}" readOnly="true" /></div>
                 </th>
-                <td align=left valign=middle class="grid">
-					<input type="radio" name="statementFormat" value="S" checked />Summary&nbsp;&nbsp;
-					<input type="radio" name="statementFormat" value="D" />Detail&nbsp;&nbsp;
+                <td align=left valign=middle class="grid">                	
+                	<%--<kul:htmlControlAttribute attributeEntry="${customerBillingStatementAttributes.statementFormat}" property="statementFormat" />--%>
+	                <input type="radio" name="statementFormat" value="Summary" checked />Summary&nbsp;&nbsp;
+					<input type="radio" name="statementFormat" value="Detail" />Detail&nbsp;&nbsp;
                 </td>				                      
             </tr>            
             <tr>		
                 <th align=right valign=middle class="grid">
-                    <div align="right">Include Zero Balance Customer?:</div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${customerBillingStatementAttributes.includeZeroBalanceCustomers}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid">
-	                <input type="radio" name="includeZeroBalanceCustomer" value="Y" />Yes&nbsp;&nbsp;
-					<input type="radio" name="includeZeroBalanceCustomer" value="N" checked />No&nbsp;&nbsp;
+	                <input type="radio" name="includeZeroBalanceCustomer" value="Yes" />Yes&nbsp;&nbsp;
+					<input type="radio" name="includeZeroBalanceCustomer" value="No" checked />No&nbsp;&nbsp;
                 </td>				                      
             </tr>  
        

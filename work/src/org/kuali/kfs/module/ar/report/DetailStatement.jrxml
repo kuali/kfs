@@ -457,6 +457,7 @@
 						height="39"
 						key="subreport-1"
 						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
 					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
@@ -824,7 +825,7 @@
 				</line>
 				<line direction="TopDown">
 					<reportElement
-						x="284"
+						x="285"
 						y="94"
 						width="227"
 						height="0"

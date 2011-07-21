@@ -77,7 +77,7 @@ public class CustomerStatementAction extends KualiAction {
         String customerNumber = csForm.getCustomerNumber();
         String accountNumber = csForm.getAccountNumber();
         String statementFormat = csForm.getStatementFormat();
-        String includeZeroBalanceCustomer = csForm.getIncludeZeroBalanceCustomer();
+        String includeZeroBalanceCustomers = csForm.getIncludeZeroBalanceCustomers();
 
         HashMap<String, String> params = new HashMap<String, String>();
         if(!StringUtils.isBlank(chartCode)) {
@@ -95,8 +95,8 @@ public class CustomerStatementAction extends KualiAction {
         if(!StringUtils.isBlank(statementFormat)) {
             params.put("statementFormat", statementFormat);
         }
-        if(!StringUtils.isBlank(includeZeroBalanceCustomer)) {
-            params.put("includeZeroBalanceCustomer", includeZeroBalanceCustomer);
+        if(!StringUtils.isBlank(includeZeroBalanceCustomers)) {
+            params.put("includeZeroBalanceCustomers", includeZeroBalanceCustomers);
         }
                 
         String methodToCallPrintPDF = "printStatementPDF";
@@ -135,7 +135,7 @@ public class CustomerStatementAction extends KualiAction {
         String accountNumber = request.getParameter("accountNumber");
         accountNumber = accountNumber==null?"":accountNumber;
         String statementFormat = request.getParameter("statementFormat");
-        String includeZeroBalanceCustomer = request.getParameter("includeZeroBalanceCustomer");
+        String includeZeroBalanceCustomers = request.getParameter("includeZeroBalanceCustomers");
         
         AccountsReceivableReportService reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         List<CustomerStatementResultHolder> reports = new ArrayList<CustomerStatementResultHolder>();
@@ -144,14 +144,14 @@ public class CustomerStatementAction extends KualiAction {
         String contentDisposition = "";
         
         if ( !StringUtils.isBlank(chartCode) && !StringUtils.isBlank(orgCode)) {
-            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode, statementFormat, includeZeroBalanceCustomer); 
+            reports = reportService.generateStatementByBillingOrg(chartCode, orgCode, statementFormat, includeZeroBalanceCustomers); 
             fileName.append(chartCode);
             fileName.append(orgCode);
         } else if (!StringUtils.isBlank(customerNumber)) {
-            reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase(), statementFormat, includeZeroBalanceCustomer);
+            reports = reportService.generateStatementByCustomer(customerNumber.toUpperCase(), statementFormat, includeZeroBalanceCustomers);
             fileName.append(customerNumber);
         } else if (!StringUtils.isBlank(accountNumber)) {
-            reports = reportService.generateStatementByAccount(accountNumber, statementFormat, includeZeroBalanceCustomer);
+            reports = reportService.generateStatementByAccount(accountNumber, statementFormat, includeZeroBalanceCustomers);
             fileName.append(accountNumber);
         }
         if (reports.size() != 0) {
@@ -238,19 +238,16 @@ public class CustomerStatementAction extends KualiAction {
             sos.flush();
             sos.close();
             
-            // update reported data
+            // update reported data for the detailed statement
             if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) {
                 CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);                                
                 for (CustomerStatementResultHolder data : reports) {                    
                     // update reported invoice info
                     if (data.getInvoiceNumbers() != null) {
-//                        System.out.println(data.getCustomerNumber());
                         List<String> invoiceNumbers = data.getInvoiceNumbers();
                         for (String number : invoiceNumbers) {
-//                            System.out.println(number);                    
                             customerInvoiceDocumentService.updateReportedDate(number);
-                        }
-                        
+                        }                        
                     }
                     // update reported customer info
                     customerInvoiceDocumentService.updateReportedInvoiceInfo(data);

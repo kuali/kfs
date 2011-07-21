@@ -39,6 +39,9 @@ public class ArConstants {
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
     public static final String CUSTOMER_INVOICE_AGE = "CUSTOMER_INVOICE_AGE";
     public static final String WRITEOFF_APPROVAL_THRESHOLD = "APPROVAL_THRESHOLD";
+    public static final String DEFAULT_FORMAT = "DEFAULT_FORMAT";
+    public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
+    public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
     
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
@@ -155,10 +158,10 @@ public class ArConstants {
         public static final String  EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
     }
 
-    //Report
-    public static final String STATEMENT_FORMAT_SUMMARY = "S";
-    public static final String STATEMENT_FORMAT_DETAIL = "D";
-    public static final String INCLUDE_ZERO_BALANCE_YES = "Y";
-    public static final String INCLUDE_ZERO_BALANCE_NO = "N";       
+    // Customer Billing Statement
+    public static final String STATEMENT_FORMAT_SUMMARY = "Summary";
+    public static final String STATEMENT_FORMAT_DETAIL = "Detail";
+    public static final String INCLUDE_ZERO_BALANCE_YES = "Yes";
+    public static final String INCLUDE_ZERO_BALANCE_NO = "No"; 
 
 }

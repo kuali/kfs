@@ -72,10 +72,8 @@ public class ValidateCapitalAssetsExistForCapitalAccountingLinesProcessed extend
         
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (!capitalAssetExist(capitalAccountingLine, capitalAssets)) {
-                exists = false;
                 GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
-                
-                break;
+                return false;
             }
         }
         

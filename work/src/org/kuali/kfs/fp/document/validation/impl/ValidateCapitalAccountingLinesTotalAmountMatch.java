@@ -91,9 +91,9 @@ public class ValidateCapitalAccountingLinesTotalAmountMatch extends GenericValid
             return false;
         }
         
-        if (capitalAccountingLinesTotals.isLessEqual(capitalAAssetTotals)) {
+        if (capitalAccountingLinesTotals.isLessThan(capitalAAssetTotals)) {
             //not all the accounting lines amounts have been distributed to capital assets
-            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET);
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
             return false;
         }
         

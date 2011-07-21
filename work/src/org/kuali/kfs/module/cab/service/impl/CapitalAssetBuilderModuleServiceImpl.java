@@ -1438,7 +1438,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         //VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
-        String vendorNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET);
+        String vendorNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_DOCUMENT.class, CabParameterConstants.CapitalAsset.VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
         
         if ("Y".equalsIgnoreCase(vendorNameRequired)) {
         // skip vendor name required validation for procurement card document
@@ -1451,7 +1451,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         
         //MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
-        String manufacturerNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET);
+        String manufacturerNameRequired = getParameterService().getParameterValue(KfsParameterConstants.CAPITAL_ASSETS_DOCUMENT.class, CabParameterConstants.CapitalAsset.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
 
         if ("Y".equalsIgnoreCase(manufacturerNameRequired)) {
             if (StringUtils.isBlank(capitalAssetInformation.getCapitalAssetManufacturerName())) {

@@ -333,38 +333,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * adds capital asset information to the list and create a new capital asset information
-     * detail record for the user enter details. Also recalculates the system control and system
-     * control remaining amounts.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return action forward string
-     * @throws Exception
-     */
-    public ActionForward addCapitalAssetTagLocationInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("addCapitalAssetInfoDetail() - start");
-
-        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
-        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
-
-        if (capitalAssetInformation == null) {
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }
-        
-        //now process the remaining capital asset records
-        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
-        
-        //now add the capital asset information detail record....
-        int addIndex = getSelectedLine(request);
-        createCapitalAssetInformationDetail(capitalAssetInformation.get(addIndex));
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * refreshes capital asset information to the modify capital assets list.
      * Also recalculates the system control and system control remaining amounts.
      * Puts a global error message if the user does not enter capital asset number.

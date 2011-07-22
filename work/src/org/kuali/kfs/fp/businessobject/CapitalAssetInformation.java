@@ -82,7 +82,6 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         m.put("accountNumber", this.getAccountNumber());
         m.put("financialObjectCode", this.getFinancialObjectCode());
         m.put("capitalAssetLineNumber", this.getCapitalAssetLineNumber());
-     //   m.put("capitalAssetActionIndicator", this.getCapitalAssetActionIndicator());
         
         return m;
     }

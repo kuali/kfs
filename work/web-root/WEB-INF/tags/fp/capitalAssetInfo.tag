@@ -186,11 +186,6 @@
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 												title="Clear the capital Asset Information"
 												alt="Clear the capital Asset Information" styleClass="tinybutton" />
-											<br /><br />
-											<html:image property="methodToCall.addCapitalAssetTagLocationInfo.line${status.index}.Anchor" 
-												src="${ConfigProperties.externalizable.images.url}tinybutton-addtaglocation.gif" 
-												title="Add the capital Asset tag and location"
-												alt="Add the capital Asset tag and location" styleClass="tinybutton" />	
 										</div>
 									</td>
 								</tr>

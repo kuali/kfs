@@ -41,7 +41,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -397,6 +396,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                     capitalAssetInformation.get(addIndex).getAccountNumber(),
                     capitalAssetInformation.get(addIndex).getFinancialObjectCode());
         }
+        else {
+            this.addCapitalAssetInfoDetailLines(capitalAssetInformation.get(addIndex));
+        }
         
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
@@ -454,7 +456,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         if (capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails() != null &&
                 capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().size() > 0) {
-            capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().remove(0);
+            capitalAssetInformation.get(lineIndexForCapitalAssetInfo).getCapitalAssetInformationDetails().clear();
         }
         
         capitalAssetInformation.remove(lineIndexForCapitalAssetInfo);
@@ -1027,6 +1029,52 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         //for that accounting line.
         if (ObjectUtils.isNotNull(removalCaiList)) {
             capitalAssets.removeAll(removalCaiList);
+        }
+    }
+    
+    
+    
+    
+    /**
+     * add detail lines into the given capital asset information
+     * 
+     * @param capitalAssetInformation the given capital asset information
+     */
+    protected void addCapitalAssetInfoDetailLines(CapitalAssetInformation capitalAssetInformation) {
+        LOG.debug("addCapitalAssetInfoDetailLines() - start");
+
+        if (ObjectUtils.isNull(capitalAssetInformation)) {
+            return;
+        }
+
+        Integer quantity = capitalAssetInformation.getCapitalAssetQuantity();
+        if (quantity == null || quantity <= 0) {
+            String errorPath = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION;
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_INVALID_CAPITAL_ASSET_QUANTITY);
+            return;
+        }
+
+        List<CapitalAssetInformationDetail> detailLines = capitalAssetInformation.getCapitalAssetInformationDetails();
+        Integer nextItemLineNumber = 0;
+
+        if (ObjectUtils.isNotNull(detailLines) || detailLines.size() > 0) {
+            for (CapitalAssetInformationDetail detailLine : detailLines) {
+                nextItemLineNumber  = detailLine.getItemLineNumber().intValue();
+            }
+        }
+        
+        // If details collection has old lines, this loop will add new lines to make the total equal to the quantity.
+        for (int index = 1; detailLines.size() < quantity; index++) {
+            CapitalAssetInformationDetail detailLine = new CapitalAssetInformationDetail();
+            detailLine.setDocumentNumber(capitalAssetInformation.getDocumentNumber());
+            detailLine.setChartOfAccountsCode(capitalAssetInformation.getChartOfAccountsCode());
+            detailLine.setAccountNumber(capitalAssetInformation.getAccountNumber());
+            detailLine.setFinancialDocumentLineTypeCode(capitalAssetInformation.getFinancialDocumentLineTypeCode());
+            detailLine.setFinancialObjectCode(capitalAssetInformation.getFinancialObjectCode());
+            detailLine.setSequenceNumber(capitalAssetInformation.getSequenceNumber());
+            detailLine.setCapitalAssetLineNumber(capitalAssetInformation.getCapitalAssetLineNumber());
+            detailLine.setItemLineNumber(++nextItemLineNumber);
+            detailLines.add(detailLine);
         }
     }
 }

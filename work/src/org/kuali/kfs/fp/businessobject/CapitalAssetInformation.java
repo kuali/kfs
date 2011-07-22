@@ -69,9 +69,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public CapitalAssetInformation() {
         super();
         setAmount(KualiDecimal.ZERO);
-        capitalAssetInformationDetails = new ArrayList();
-        
-      //  capitalAssetInformationDetails = new TypedArrayList<CapitalAssetInformationDetail>();
+        capitalAssetInformationDetails = new TypedArrayList(CapitalAssetInformationDetail.class);
     }
 
     protected LinkedHashMap toStringMapper() {
@@ -84,7 +82,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         m.put("accountNumber", this.getAccountNumber());
         m.put("financialObjectCode", this.getFinancialObjectCode());
         m.put("capitalAssetLineNumber", this.getCapitalAssetLineNumber());
-        m.put("capitalAssetActionIndicator", this.getCapitalAssetActionIndicator());
+     //   m.put("capitalAssetActionIndicator", this.getCapitalAssetActionIndicator());
         
         return m;
     }

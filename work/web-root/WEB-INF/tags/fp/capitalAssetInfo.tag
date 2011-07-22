@@ -198,7 +198,7 @@
 							
 							<c:if test="${not empty detailLine.capitalAssetInformationDetails}" >
 							   <tr><td colSpan="7"><center><br/>
-									<fp:capitalAssetInfoDetail capitalAssetInfoDetails="${capitalAssetInfoName}[${status.index}].capitalAssetInformationDetails" 
+									<fp:capitalAssetInfoDetail capitalAssetInfoDetails="${detailLine.capitalAssetInformationDetails}" 
 										capitalAssetInfoDetailsName="${capitalAssetInfoName}[${status.index}].capitalAssetInformationDetails" readOnly="${readOnly}"
 										capitalAssetInfoIndex="${status.index}"/>
 								<br/></center></td></tr>

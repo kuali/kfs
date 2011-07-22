@@ -59,7 +59,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
         managedLists.add(capitalAssets); 
         List<CapitalAssetInformationDetail> capitalAssetDetails = new ArrayList();
         
-        if (capitalAssets != null && capitalAssets.size() > 0) {
+        if (capitalAssets != null) {
             for (CapitalAssetInformation capitalAsset : capitalAssets) {
                 capitalAssetDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());               
             }

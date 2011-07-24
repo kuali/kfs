@@ -333,9 +333,11 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * refreshes capital asset information to the modify capital assets list.
+     * inserts capital asset information into capital assets list.
      * Also recalculates the system control and system control remaining amounts.
-     * Puts a global error message if the user does not enter capital asset number.
+     * Puts a global error message if the user does not enter capital asset quantity.
+     * If the quantity is > 1, it will insert that many tag/location detail records for this
+     * capital asset item.
      * 
      * @param mapping
      * @param form
@@ -344,8 +346,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @return action forward string
      * @throws Exception
      */
-    public ActionForward InsertCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LOG.debug("InsertCapitalAssetInfo() - start");
+    public ActionForward insertCapitalAssetInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("insertCapitalAssetInfo() - start");
 
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
         List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
@@ -370,6 +372,47 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * inserts capital asset information into capital assets list.
+     * Also recalculates the system control and system control remaining amounts.
+     * Puts a global error message if the user does not enter capital asset quantity.
+     * If the quantity is > 1, it will insert that many tag/location detail records for this
+     * capital asset item.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return action forward string
+     * @throws Exception
+     */
+    public ActionForward addCapitalAssetTagLocationInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("addCapitalAssetTagLocationInfo() - start");
+
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+
+        if (capitalAssetInformation == null) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
+        int addIndex = getSelectedLine(request);        
+        if (capitalAssetInformation.get(addIndex).getCapitalAssetQuantity() == null || capitalAssetInformation.get(addIndex).getCapitalAssetQuantity() <= 0) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_INFORMATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED, 
+                    capitalAssetInformation.get(addIndex).getSequenceNumber().toString(),
+                    capitalAssetInformation.get(addIndex).getCapitalAssetLineNumber().toString(),
+                    capitalAssetInformation.get(addIndex).getFinancialDocumentLineTypeCode(),
+                    capitalAssetInformation.get(addIndex).getChartOfAccountsCode(),
+                    capitalAssetInformation.get(addIndex).getAccountNumber(),
+                    capitalAssetInformation.get(addIndex).getFinancialObjectCode());
+        }
+        else {
+            this.addCapitalAssetInfoDetailLines(capitalAssetInformation.get(addIndex));
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -826,6 +869,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 }
             }
             else {
+                capitalAccountingLine.setAmountDistributed(false);
                 capitalAccountingLine.setSelectLine(false);
             }
         }

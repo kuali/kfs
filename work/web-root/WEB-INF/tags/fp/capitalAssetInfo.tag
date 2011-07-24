@@ -42,16 +42,16 @@
    			<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
    		</td>
 	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
-	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}" >
 	   		<c:set var="totalColumnSpan" value="3"/>
 	   	</c:if>
-	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0}" >
+	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0.00}" >
 	   		<c:set var="totalColumnSpan" value="4"/>
 	   	</c:if>
 	   	<td colspan="${totalColumnSpan}" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
 	   	</td>
-   		<c:if test="${KualiForm.createdAssetsControlAmount > 0}">
+   		<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}">
 	   		<td colspan="1" class="tab-subhead" style="border-top: medium;"><br/>
 				<div align="center" valign="bottom">	
 					<html:image property="methodToCall.redistributeCreateCapitalAssetAmount" 
@@ -174,7 +174,7 @@
 								<tr>
 									<td class="infoline">  
 										<div align="center" valign="middle">
-											<html:image property="methodToCall.InsertCapitalAssetInfo.line${status.index}.Anchor" 
+											<html:image property="methodToCall.insertCapitalAssetInfo.line${status.index}.Anchor" 
 												src="${ConfigProperties.externalizable.images.url}tinybutton-insert.gif" 
 												title="Add the capital Asset Information"
 												alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
@@ -186,6 +186,11 @@
 												src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" 
 												title="Clear the capital Asset Information"
 												alt="Clear the capital Asset Information" styleClass="tinybutton" />
+											<br /><br />
+											<html:image property="methodToCall.addCapitalAssetTagLocationInfo.line${status.index}.Anchor" 
+												src="${ConfigProperties.externalizable.images.url}tinybutton-addtaglocation.gif" 
+												title="Add the capital Asset tag and location"
+												alt="Add the capital Asset tag and location" styleClass="tinybutton" />	
 										</div>
 									</td>
 								</tr>

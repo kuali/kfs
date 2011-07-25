@@ -37,7 +37,7 @@
 			<column name='CPTLAST_LINE_QTY' type='number(7,0)' nullable='true' defaultValueNumeric="0" />
 		</createTable>
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T "
-			columnNames="FDOC_NBR,FDOC_LINE_NBR,FDOC_LN_TYP_CD,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,CPTLAST_LINE_NBR"
+				columnNames="FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR"
 			constraintName="SYS_C005400612" />
 
 		<createTable tableName='FP_CPTL_AST_INFO_DTL_T'>
@@ -61,10 +61,10 @@
 		</createTable>
 		<addPrimaryKey tableName='FP_CPTL_AST_INFO_DTL_T'
 			constraintName='SYS_C00500623'
-			columnNames='FDOC_NBR,ITM_LN_NBR,FDOC_LINE_NBR,FDOC_LN_TYP_CD,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD' />
+			columnNames='FDOC_NBR, ITM_LN_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR' />
 		<addForeignKeyConstraint constraintName='FP_CPTL_AST_INFO_DTL_TR1'
 			baseTableName='FP_CPTL_AST_INFO_DTL_T'
-			baseColumnNames='FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ITM_LN_NBR'
+			baseColumnNames='FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR'
 			referencedTableName='FP_CPTL_AST_INFO_T'
 			referencedColumnNames='FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR' />
 

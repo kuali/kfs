@@ -127,7 +127,7 @@ public class BalanceInquiryAction extends KualiAction {
         Map fieldValues = lookupForm.getFields();
         String consolidationOption = (String) fieldValues.get(Constant.CONSOLIDATION_OPTION);
         String subAccountNumber = (String) fieldValues.get(Constant.SUB_ACCOUNT_OPTION);
-        if (consolidationOption.equals(Constant.EXCLUDE_SUBACCOUNTS) && !subAccountNumber.equals("")){
+        if (Constant.EXCLUDE_SUBACCOUNTS.equals(consolidationOption) && !subAccountNumber.equals("")){
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_BALANCE_CONSOLIDATION_EXCLUDE_SUBACCOUNT);
         }
         

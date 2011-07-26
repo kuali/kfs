@@ -123,6 +123,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET = "error.document.capitalAccountingLines.capitalAssetsInformationMissing";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_NOT_ALL_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS = "error.document.capitalAccountingLines.totalAmountNotDistributed";
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS = "error.document.capitalAccountingLines.moreTotalAmountDistributed";
+    public static final String ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE = "error.document.capitalAccountingLines.capitalAssetsAmountGreater";
     
     //capital asset information errors
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";

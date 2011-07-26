@@ -340,7 +340,18 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />		
-				</bean>		
+				</bean>	
+				<bean id="CapitalAccountingLines-validateCapitalAccountingLineTotalAmountToCapitalAssetTotalAmountMatch" class="org.kuali.kfs.fp.document.validation.impl.ValidateCapitalAccountingLineTotalAmountToCapitalAssetTotalAmountMatch" abstract="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="document" />
+								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+							</bean>
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />		
+				</bean>	
 			</list>
 		</property>
 	</bean>

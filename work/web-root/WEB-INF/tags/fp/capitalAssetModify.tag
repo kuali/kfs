@@ -26,7 +26,7 @@
 <c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 <c:set var="dataCellCssClass" value="datacell" />
 <c:set var="capitalAssetInfoName" value="document.capitalAssetInformation" />
-<c:set var="amountReadOnly" value="false" />
+<c:set var="amountReadOnly" value="${readOnly}" />
 <c:if test="${KualiForm.distributeEqualAmount}">
 	<c:set var="amountReadOnly" value="true" />
 </c:if>

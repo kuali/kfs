@@ -485,7 +485,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Collection<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
 
         if (docNumbers.size() != 0) {
-            System.out.println(docNumbers);
             // customerInvoiceDocuments.clear();
             try {
                 customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);

@@ -55,7 +55,7 @@ public class ValidateCapitalAccountingLineTotalAmountToCapitalAssetTotalAmountMa
         
         for(CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.getAmount().isLessThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
+                GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
                 valid = false;
             }
         }

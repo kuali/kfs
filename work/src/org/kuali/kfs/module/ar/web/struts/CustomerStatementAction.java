@@ -80,23 +80,27 @@ public class CustomerStatementAction extends KualiAction {
         String includeZeroBalanceCustomers = csForm.getIncludeZeroBalanceCustomers();
 
         HashMap<String, String> params = new HashMap<String, String>();
-        if(!StringUtils.isBlank(chartCode)) {
+        if(StringUtils.isNotBlank(chartCode)) {
             params.put("chartCode", chartCode);
         }
-        if(!StringUtils.isBlank(orgCode)) {
+        if(StringUtils.isNotBlank(orgCode)) {
             params.put("orgCode", orgCode);
         }
-        if(!StringUtils.isBlank(customerNumber)) {
+        if(StringUtils.isNotBlank(customerNumber)) {
             params.put("customerNumber", customerNumber);
         }
-        if(!StringUtils.isBlank(accountNumber)) {
+        if(StringUtils.isNotBlank(accountNumber)) {
             params.put("accountNumber", accountNumber);
         }
-        if(!StringUtils.isBlank(statementFormat)) {
+        if(StringUtils.isNotBlank(statementFormat)) {
             params.put("statementFormat", statementFormat);
+        } else {
+            params.put("statementFormat", "Summary");   
         }
-        if(!StringUtils.isBlank(includeZeroBalanceCustomers)) {
+        if(StringUtils.isNotBlank(includeZeroBalanceCustomers)) {
             params.put("includeZeroBalanceCustomers", includeZeroBalanceCustomers);
+        } else {
+            params.put("includeZeroBalanceCustomers", "No");
         }
                 
         String methodToCallPrintPDF = "printStatementPDF";

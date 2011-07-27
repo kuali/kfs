@@ -81,8 +81,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${customerBillingStatementAttributes.includeZeroBalanceCustomers}" readOnly="true" /></div>
                 </th>
                 <td align=left valign=middle class="grid">
-	                <input type="radio" name="includeZeroBalanceCustomer" value="Yes" />Yes&nbsp;&nbsp;
-					<input type="radio" name="includeZeroBalanceCustomer" value="No" checked />No&nbsp;&nbsp;
+	                <input type="radio" name="includeZeroBalanceCustomers" value="Yes" />Yes&nbsp;&nbsp;
+					<input type="radio" name="includeZeroBalanceCustomers" value="No" checked />No&nbsp;&nbsp;
                 </td>				                      
             </tr>  
        

@@ -97,6 +97,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.setAccountNumber("1031400");
         assetInformation.setFinancialObjectCode("7000");
         assetInformation.setSequenceNumber(1);
+        assetInformation.setCapitalAssetActionIndicator("C");
         assetInformation.setAmount(KualiDecimal.ZERO);
         assetInformation.setCapitalAssetLineNumber(1);
         assetInformation.setVendorHeaderGeneratedIdentifier(1000);
@@ -259,6 +260,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.setSequenceNumber(1);
         assetInformation.setAmount(KualiDecimal.ZERO);
         assetInformation.setCapitalAssetLineNumber(1);
+        assetInformation.setCapitalAssetActionIndicator("C");
         
         businessObjectService.save(assetInformation);
         AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);

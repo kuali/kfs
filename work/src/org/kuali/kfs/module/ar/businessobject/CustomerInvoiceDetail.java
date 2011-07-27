@@ -190,6 +190,24 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         //TODO Andrew - need to fix this to actually respect the dates
         //return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),null);
     }
+
+    /** 
+     * Gets the amount that does not include the applied amount
+     * @param date
+     * @return
+     */
+    public KualiDecimal getAmountOpenByDateFromDatabaseForReport(java.sql.Date date) {
+        return getAmount();
+    }
+
+    /** 
+     * Gets the amount that does not include the applied amount
+     * @param date
+     * @return
+     */
+    public KualiDecimal getAmountOpenByDateFromDatabaseForReport(java.util.Date date) {
+        return getAmount();
+    }
     
     //TODO Andrew
 //    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.sql.Date date, PaymentApplicationDocument paymentApplicationDocument) {

@@ -244,9 +244,11 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetInformation
      */
     protected void redistributeAmountsForAccountingLineForModifyAssets(AccountingLine accountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
-        //  KualiDecimal equalModifyAssetAmount = calfb.getCreatedAssetsControlAmount().add(getEqualDistributedAmount(capitalAssetInformation, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR));
         KualiDecimal equalModifyAssetAmount = accountingLine.getAmount();
         equalModifyAssetAmount = equalModifyAssetAmount.divide(new KualiDecimal(numberOfModifiedAssetsExist(accountingLine, capitalAssetInformation)), true);
+        
+        int lastAssetIndex = 0;
+        CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
         
         if (equalModifyAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
             for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
@@ -259,8 +261,17 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                         capitalAsset.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
                     capitalAsset.setAmount(equalModifyAssetAmount);
                     capitalAsset.setCapitalAssetQuantity(1);
+                    lastAssetIndex++;
+                    //get a reference to the last capital create asset to fix any variances...
+                    lastCapitalAsset = capitalAsset;
                 }
             }
+        }
+        
+        //apply any variance left to the last 
+        KualiDecimal varianceForAssets = accountingLine.getAmount().subtract(equalModifyAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
+        if (varianceForAssets.isNonZero()) {
+            lastCapitalAsset.setAmount(lastCapitalAsset.getAmount().add(varianceForAssets));
         }
     }
     
@@ -299,6 +310,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     protected void redistributeAmountsForAccountingLineForCreateAssets(AccountingLine accountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
         KualiDecimal equalCreateAssetAmount = accountingLine.getAmount();
         equalCreateAssetAmount = equalCreateAssetAmount.divide(new KualiDecimal(numberOfCreateAssetsExist(accountingLine, capitalAssetInformation)), true);
+        int lastAssetIndex = 0;
+        CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
         
         if (equalCreateAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
             for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
@@ -309,8 +322,17 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                         capitalAsset.getAccountNumber().equals(accountingLine.getAccountNumber()) && 
                         capitalAsset.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
                     capitalAsset.setAmount(equalCreateAssetAmount);
+                    lastAssetIndex++;
+                    //get a reference to the last capital create asset to fix any variances...
+                    lastCapitalAsset = capitalAsset;
                 }
             }
+        }
+        
+        //apply any variance left to the last 
+        KualiDecimal varianceForAssets = accountingLine.getAmount().subtract(equalCreateAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
+        if (varianceForAssets.isNonZero()) {
+            lastCapitalAsset.setAmount(lastCapitalAsset.getAmount().add(varianceForAssets));
         }
     }
     
@@ -346,6 +368,10 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
+        if (createAssetsCount == 0) {
+            return 1;
+        }
+        
         return createAssetsCount;
     }
     
@@ -364,7 +390,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
         
-        if (modifiedAssetsCount ==0) {
+        if (modifiedAssetsCount == 0) {
             return 1;
         }
         

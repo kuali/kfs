@@ -746,17 +746,19 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
         
         // sort 
-        // To group - Map<processingOrg, map<billedByOrg, map<customerNumber, List<CustomerStatementDetailReportDataHolder>
-        Set<String> ProcessingOrgKeys = customerStatementDetailsSorted.keySet();
-        for (String processingOrg : ProcessingOrgKeys) {
-            Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>> billedByOrgs = customerStatementDetailsSorted.get(processingOrg);
-            Set<String> billedByOrgKeys = billedByOrgs.keySet();
-            for (String billedOrg : billedByOrgKeys) {
-                Map<String, List<CustomerStatementDetailReportDataHolder>> customerNumbers = billedByOrgs.get(billedOrg);
-                Set<String> customerNumberKeys = customerNumbers.keySet();
-                for (String customerNumber : customerNumberKeys) {
-                    List<CustomerStatementDetailReportDataHolder> transactions =  customerNumbers.get(customerNumber);
-                    Collections.sort(transactions, new SortTransaction());
+        if (ArConstants.STATEMENT_FORMAT_DETAIL.equals(statementFormat)) {
+            // To group - Map<processingOrg, map<billedByOrg, map<customerNumber, List<CustomerStatementDetailReportDataHolder>
+            Set<String> ProcessingOrgKeys = customerStatementDetailsSorted.keySet();
+            for (String processingOrg : ProcessingOrgKeys) {
+                Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>> billedByOrgs = customerStatementDetailsSorted.get(processingOrg);
+                Set<String> billedByOrgKeys = billedByOrgs.keySet();
+                for (String billedOrg : billedByOrgKeys) {
+                    Map<String, List<CustomerStatementDetailReportDataHolder>> customerNumbers = billedByOrgs.get(billedOrg);
+                    Set<String> customerNumberKeys = customerNumbers.keySet();
+                    for (String customerNumber : customerNumberKeys) {
+                        List<CustomerStatementDetailReportDataHolder> transactions =  customerNumbers.get(customerNumber);
+                        Collections.sort(transactions, new SortTransaction());
+                    }
                 }
             }
         }

@@ -89,7 +89,8 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                 continue;
             }
 
-            if(custInvoice!=null && cid.getAmount().isNonZero()) { 
+            // only for items that have positive amounts and non-zero open amounts - e.g. a discount should not be added
+            if(ObjectUtils.isNotNull(custInvoice) && cid.getAmountOpen().isNonZero() && cid.getAmount().isPositive()) { 
                 Customer customerobj = custInvoice.getCustomer();                        
                 String customerNumber = customerobj.getCustomerNumber();    // tested and works
                 String customerName = customerobj.getCustomerName();  // tested and works
@@ -102,7 +103,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
                     custDetail.setCustomerNumber(customerNumber);
                     knownCustomers.put(customerNumber, custDetail);
                 }
-                KualiDecimal amountOpenOnReportRunDate = cid.getAmountOpenByDateFromDatabaseForReport(reportRunDate);
+                KualiDecimal amountOpenOnReportRunDate = cid.getAmountOpenByDateFromDatabase(reportRunDate);
                 if (!approvalDate.after(reportRunDate) && !approvalDate.before(cutoffdate30)) {                                
                     custDetail.setUnpaidBalance0to30(amountOpenOnReportRunDate.add(custDetail.getUnpaidBalance0to30()));
                     total0to30 = total0to30.add(amountOpenOnReportRunDate);

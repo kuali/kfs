@@ -397,10 +397,11 @@ public class CamsPropertyConstants {
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }
 
-    public static class AssetPaymentAllocation {
+    public static class AssetPaymentAllocation {    	
     	public static final String ASSET_DISTRIBUTION_BY_AMOUNT_CODE = "1";
     	public static final String ASSET_DISTRIBUTION_EVENLY_CODE = "2";
     	public static final String ASSET_DISTRIBUTION_BY_TOTAL_COST_CODE = "3";
     	public static final String ASSET_DISTRIBUTION_BY_PERCENTAGE_CODE = "4";
+    	public static final String ASSET_DISTRIBUTION_DEFAULT_CODE = ASSET_DISTRIBUTION_EVENLY_CODE;
     }
 }

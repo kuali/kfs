@@ -63,6 +63,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 
 	public AssetPaymentDocument() {
 		super();
+		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
 		this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));		
 	}
 

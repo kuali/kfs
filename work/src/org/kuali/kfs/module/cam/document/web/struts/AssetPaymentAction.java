@@ -68,7 +68,7 @@ public class AssetPaymentAction extends KualiAccountingDocumentActionBase {
 	@Override
 	protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
 		super.createDocument(kualiDocumentFormBase);
-		((AssetPaymentDocument) kualiDocumentFormBase.getDocument()).setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_EVENLY_CODE);
+		((AssetPaymentDocument) kualiDocumentFormBase.getDocument()).setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE);
 	}
 	
 	@Override

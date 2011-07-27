@@ -117,6 +117,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         // Creating document
         AssetPaymentDocument document = AssetPaymentServiceFixture.PAYMENT1.newAssetPaymentDocument();
         document.setDocumentHeader(getDocumentHeader());
+        document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_TOTAL_COST_CODE);
 
         KualiDecimal totalDocument = new KualiDecimal(0); 
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
@@ -163,6 +164,7 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         LOG.info("***Retrieving Document:"+document.getDocumentNumber());
         // Checking that total cost was updated in the asset table
         document = (AssetPaymentDocument) businessObjectService.findByPrimaryKey(AssetPaymentDocument.class, key);
+        document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_TOTAL_COST_CODE);
         KualiDecimal calculatedAssetNewCost;
         KualiDecimal assetOldCost;
 

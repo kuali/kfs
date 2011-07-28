@@ -8,8 +8,8 @@ elog/dbchangelog-1.9.xsd'>
       <column name='AST_PMT_DST_CD' value='1' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
-      <column name='AST_PMT_DST_NM' value='DISTRIBUTE COST BY AMOUNT' />
-      <column name='AST_PMT_DST_COL_NM' value='ALLOCATE AMOUNT' />
+      <column name='AST_PMT_DST_NM' value='Distribute cost by amount' />
+      <column name='AST_PMT_DST_COL_NM' value='Allocate Amount' />
       <column name='AST_PMT_DST_EDT' value='Y' />
       <column name='ROW_ACTV_IND' value='Y' />
     </insert>
@@ -17,8 +17,8 @@ elog/dbchangelog-1.9.xsd'>
       <column name='AST_PMT_DST_CD' value='2' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
-      <column name='AST_PMT_DST_NM' value='DISTRIBUTE COST EVENLY' />
-      <column name='AST_PMT_DST_COL_NM' value='ALLOCATED' />
+      <column name='AST_PMT_DST_NM' value='Distribute cost evenly' />
+      <column name='AST_PMT_DST_COL_NM' value='Allocated' />
       <column name='AST_PMT_DST_EDT' value='N' />
       <column name='ROW_ACTV_IND' value='Y' />
     </insert>
@@ -26,8 +26,8 @@ elog/dbchangelog-1.9.xsd'>
       <column name='AST_PMT_DST_CD' value='3' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
-      <column name='AST_PMT_DST_NM' value='DISTRIBUTE COST BY TOTAL COST' />
-      <column name='AST_PMT_DST_COL_NM' value='ALLOCATED' />
+      <column name='AST_PMT_DST_NM' value='Distribute cost by total cost' />
+      <column name='AST_PMT_DST_COL_NM' value='Allocated' />
       <column name='AST_PMT_DST_EDT' value='N' />
       <column name='ROW_ACTV_IND' value='Y' />
     </insert>
@@ -35,8 +35,8 @@ elog/dbchangelog-1.9.xsd'>
       <column name='AST_PMT_DST_CD' value='4' />
       <column name='OBJ_ID' valueNumeric='SYS_GUID' />
       <column name='VER_NBR' valueNumeric='1' />
-      <column name='AST_PMT_DST_NM' value='DISTRIBUTE COST BY PERCENTAGE' />
-      <column name='AST_PMT_DST_COL_NM' value='ALLOCATE PERCENTAGE' />
+      <column name='AST_PMT_DST_NM' value='Distribute cost by percentage' />
+      <column name='AST_PMT_DST_COL_NM' value='Allocate Percentage' />
       <column name='AST_PMT_DST_EDT' value='Y' />
       <column name='ROW_ACTV_IND' value='Y' />
     </insert>

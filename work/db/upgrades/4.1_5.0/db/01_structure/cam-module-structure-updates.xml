@@ -31,6 +31,8 @@ elog/dbchangelog-1.9.xsd'>
    <addColumn tableName='cm_ast_pmt_ast_dtl_t'>
       <column name='CPTLAST_ALLOC_AMT' type='number(19,2)' defaultValueNumeric='0'>
         <constraints nullable='false' />
+	<column name='CPTLAST_ALLOC_VAL' type='number(19,2)'>
+        <constraints nullable='false' />
       </column>
     </addColumn>
 

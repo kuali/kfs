@@ -146,7 +146,7 @@ public class GlLineServiceTest extends KualiTestBase {
     }
 
     public void testCreateAssetGlobalDocument_noFPData() throws Exception {
-        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(entries, primary);
+        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(primary, 1);
         assertNotNull(assetGlobalDocument);
         AssetGlobal assetGlobal = (AssetGlobal) assetGlobalDocument.getNewMaintainableObject().getBusinessObject();
         // assert here
@@ -178,7 +178,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.getCapitalAssetInformationDetails().add(createNewCapitalAssetInformationDetail());
         businessObjectService.save(assetInformation);
         assetInformation.refreshNonUpdateableReferences();
-        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(entries, primary);
+        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(primary, 1);
         assertNotNull(assetGlobalDocument);
         AssetGlobal assetGlobal = (AssetGlobal) assetGlobalDocument.getNewMaintainableObject().getBusinessObject();
         // assert here
@@ -234,7 +234,7 @@ public class GlLineServiceTest extends KualiTestBase {
     }
 
     public void testCreateAssetPaymentDocument_noFPData() throws Exception {
-        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
+        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(primary, 1);
         assertNotNull(document);
         // assert here
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
@@ -263,7 +263,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.setCapitalAssetActionIndicator("C");
         
         businessObjectService.save(assetInformation);
-        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(entries, primary);
+        AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(primary, 1);
         assertNotNull(document);
         List<AssetPaymentAssetDetail> assetPaymentAssetDetails = document.getAssetPaymentAssetDetail();
         assertEquals(1, assetPaymentAssetDetails.size());

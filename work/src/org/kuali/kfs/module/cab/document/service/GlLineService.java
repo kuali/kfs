@@ -24,9 +24,13 @@ import org.kuali.rice.kns.document.Document;
 
 public interface GlLineService {
 
-    CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry);
+    List<CapitalAssetInformation> findCapitalAssetInformation(GeneralLedgerEntry entry);
 
-    Document createAssetGlobalDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException;
+    List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry);
 
-    Document createAssetPaymentDocument(List<GeneralLedgerEntry> entries, GeneralLedgerEntry primary) throws WorkflowException;
+    CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber);
+ 
+    Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
+
+    Document createAssetPaymentDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
 }

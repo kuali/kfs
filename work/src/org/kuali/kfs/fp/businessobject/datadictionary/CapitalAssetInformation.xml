@@ -158,6 +158,8 @@
 
   <bean id="CapitalAssetInformation-capitalAssetLineNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
 	<property name="name" value="capitalAssetLineNumber"/>
+    <property name="label" value="Capital Asset Sequence Number"/>
+    <property name="shortLabel" value="Asset Seq. Nbr"/>
 	<property name="maxLength" value="7"/>
   	<property name="forceUppercase" value="true"/>
   </bean>
@@ -166,8 +168,8 @@
   <bean id="CapitalAssetInformation-capitalAssetActionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="capitalAssetActionIndicator"/>
 	<property name="maxLength" value="1"/>
-    <property name="label" value="Action Indicator"/>
-    <property name="shortLabel" value="Actn. Ind"/>
+    <property name="label" value="Create/Modify Asset"/>
+    <property name="shortLabel" value="Create/Modify Asset"/>
   	<property name="forceUppercase" value="true"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="1"/>

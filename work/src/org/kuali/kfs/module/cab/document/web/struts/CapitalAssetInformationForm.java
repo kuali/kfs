@@ -29,14 +29,14 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class GlLineForm extends KualiForm {
+public class CapitalAssetInformationForm extends KualiForm {
     private GeneralLedgerEntry generalLedgerEntry;
     private Long primaryGlAccountId;
-    private CapitalAssetInformation capitalAssetInformation;
+    private List<CapitalAssetInformation> capitalAssetInformation;
     private boolean selectAllGlEntries;
     private String currDocNumber;
-    private Integer capitalAssetLineNumber;
-    
+    protected Long generalLedgerAccountIdentifier;
+
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER) && (StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.PROCESS) || StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.VIEW_DOC))) {
@@ -51,7 +51,7 @@ public class GlLineForm extends KualiForm {
         registerRequiredNonEditableProperty(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
     }
 
-    public GlLineForm() {
+    public CapitalAssetInformationForm() {
         this.generalLedgerEntry = new GeneralLedgerEntry();
     }
 
@@ -65,13 +65,14 @@ public class GlLineForm extends KualiForm {
     }
 
     /**
-     * Sets the generalLedgerEntry attribute value.
+     * Sets the relatedGlEntries attribute value.
      * 
-     * @param generalLedgerEntry The generalLedgerEntry to set.
+     * @param relatedGlEntries The generalLedgerEntry to set.
      */
     public void setGeneralLedgerEntry(GeneralLedgerEntry generalLedgerEntry) {
         this.generalLedgerEntry = generalLedgerEntry;
     }
+
 
     /**
      * Gets the primaryGlAccountId attribute.
@@ -96,7 +97,7 @@ public class GlLineForm extends KualiForm {
      * 
      * @return Returns the capitalAssetInformation.
      */
-    public CapitalAssetInformation getCapitalAssetInformation() {
+    public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return capitalAssetInformation;
     }
 
@@ -105,32 +106,15 @@ public class GlLineForm extends KualiForm {
      * 
      * @param capitalAssetInformation The capitalAssetInformation to set.
      */
-    public void setCapitalAssetInformation(CapitalAssetInformation capitalAssetInformation) {
+    public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
         this.capitalAssetInformation = capitalAssetInformation;
     }
 
-    /**
-     * Gets the capitalAssetLineNumber attribute. 
-     * @return Returns the capitalAssetLineNumber.
-     */
-    public Integer getCapitalAssetLineNumber() {
-        return capitalAssetLineNumber;
-    }
-
-    /**
-     * Sets the capitalAssetLineNumber attribute value.
-     * @param capitalAssetLineNumber The capitalAssetLineNumber to set.
-     */
-    public void setCapitalAssetLineNumber(Integer capitalAssetLineNumber) {
-        this.capitalAssetLineNumber = capitalAssetLineNumber;
-    }
-    
     /**
      * Initialize index for struts
      * 
      * @param index current
      * @return value
-     
     public GeneralLedgerEntry getRelatedGlEntry(int index) {
         int size = getRelatedGlEntries().size();
         while (size <= index || getRelatedGlEntries().get(index) == null) {
@@ -138,7 +122,7 @@ public class GlLineForm extends KualiForm {
         }
         return (GeneralLedgerEntry) getRelatedGlEntries().get(index);
     }
-*/
+    */
     
     /**
      * Gets the selectAllGlEntries attribute.
@@ -177,6 +161,25 @@ public class GlLineForm extends KualiForm {
         this.currDocNumber = currDocNumber;
     }
 
+    /**
+     * Gets the generalLedgerAccountIdentifier attribute.
+     * 
+     * @return Returns the generalLedgerAccountIdentifier
+     */
+    
+    public Long getGeneralLedgerAccountIdentifier() {
+        return generalLedgerAccountIdentifier;
+    }
+
+    /** 
+     * Sets the generalLedgerAccountIdentifier attribute.
+     * 
+     * @param generalLedgerAccountIdentifier The generalLedgerAccountIdentifier to set.
+     */
+    public void setGeneralLedgerAccountIdentifier(Long generalLedgerAccountIdentifier) {
+        this.generalLedgerAccountIdentifier = generalLedgerAccountIdentifier;
+    }
+    
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);

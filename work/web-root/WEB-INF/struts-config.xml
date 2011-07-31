@@ -225,6 +225,8 @@
 			type="org.kuali.kfs.module.cab.document.web.struts.PurApLineForm" />
 		<form-bean name="GlLineForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.GlLineForm" />
+		<form-bean name="CapitalAssetInformationForm"
+			type="org.kuali.kfs.module.cab.document.web.struts.CapitalAssetInformationForm" />
 
 		<!-- Endowment Module Bean Definitions -->
 		<form-bean name="AssetIncreaseDocumentForm"

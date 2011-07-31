@@ -40,166 +40,104 @@
 		<c:set var="CapitalAssetInformationAttributes"	value="${DataDictionary.CapitalAssetInformation.attributes}" />	
 		<c:set var="CapitalAssetInformationDetailAttributes"	value="${DataDictionary.CapitalAssetInformationDetail.attributes}" />
 			<c:if test="${!empty KualiForm.capitalAssetInformation }">
+	    	<div align="center" vAlign="middle">
+	    	<c:if test="${KualiForm.capitalAssetInformation.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR}" >
+	    		<h3><c:out value="${KFSConstants.CapitalAssets.CREATE_CAPITAL_ASSETS_TAB_TITLE}"/></h3>
+	    	</c:if>
+	    	<c:if test="${KualiForm.capitalAssetInformation.capitalAssetActionIndicator == KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR}" >
+	    		<h3><c:out value="${KFSConstants.CapitalAssets.MODIFY_CAPITAL_ASSETS_TAB_TITLE}"/></h3>
+	    	</c:if>
 			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">			
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%">
-				<html:link target="_blank" href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.capitalAssetInformation.documentNumber}">
-				<kul:htmlControlAttribute property="capitalAssetInformation.documentNumber" attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true"/>
-				</html:link>
-				</td>			
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%">
-					<c:if test="${!empty KualiForm.capitalAssetInformation.capitalAssetNumber}">
-						<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${KualiForm.capitalAssetInformation.capitalAssetNumber}" render="true">
-							<kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/>
-						</kul:inquiry>
-					</c:if>
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTypeCode" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.vendorName}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.vendorName" attributeEntry="${CapitalAssetInformationAttributes.vendorName}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetQuantity" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true"/></td>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerName" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerModelNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>				
-				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true" /></th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetDescription" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
-			</tr>			
-		</table>
-		<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
-			<tr>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.campusCode}" hideRequiredAsterisk="true" scope="col"/>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingCode}" hideRequiredAsterisk="true" scope="col"/>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingSubRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetTagNumber}" hideRequiredAsterisk="true" scope="col"/>
-			<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetSerialNumber}" hideRequiredAsterisk="true" scope="col"/>
-			</tr>			
-		<c:forEach var="assetDetail" items="${KualiForm.capitalAssetInformation.capitalAssetInformationDetails}" varStatus="current">
-			<tr>
-				<td class="grid" width="15%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].campusCode" attributeEntry="${CapitalAssetInformationDetailAttributes.campusCode}" readOnly="true"/></td>			
-				<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingCode" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingCode}" readOnly="true"/></td>
-				<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingRoomNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingRoomNumber}" readOnly="true"/></td>
-				<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingSubRoomNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></td>
-				<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].capitalAssetTagNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetTagNumber}" readOnly="true"/></td>
-				<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].capitalAssetSerialNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetSerialNumber}" readOnly="true"/></td>
-			</tr>
-		</c:forEach>
-		</table>
-		</c:if>
+				<tr>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true" /></th>
+					<td class="grid" width="25%">
+					<html:link target="_blank" href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.capitalAssetInformation.documentNumber}">
+					<kul:htmlControlAttribute property="capitalAssetInformation.documentNumber" attributeEntry="${CapitalAssetInformationAttributes.documentNumber}" readOnly="true"/>
+					</html:link>
+					</td>			
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineNumber}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetLineNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetLineNumber}" readOnly="true"/></td>
+				</tr>
+				<tr>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true" /></th>
+					<td class="grid" width="25%">
+						<c:if test="${!empty KualiForm.capitalAssetInformation.capitalAssetNumber}">
+							<kul:inquiry boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" keyValues="capitalAssetNumber=${KualiForm.capitalAssetInformation.capitalAssetNumber}" render="true">
+								<kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetNumber}" readOnly="true"/>
+							</kul:inquiry>
+						</c:if>
+						&nbsp;
+					</td>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetTypeCode" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetTypeCode}" readOnly="true"/></td>
+				</tr>
+				<tr>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.vendorName}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.vendorName" attributeEntry="${CapitalAssetInformationAttributes.vendorName}" readOnly="true"/></td>
+				
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetQuantity" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetQuantity}" readOnly="true"/></td>
+				</tr>
+				<tr>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerName" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerName}" readOnly="true"/></td>
+				
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetManufacturerModelNumber" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetManufacturerModelNumber}" readOnly="true"/></td>				
+				</tr>
+				<tr>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetDescription" attributeEntry="${CapitalAssetInformationAttributes.capitalAssetDescription}" readOnly="true"/></td>
+					<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${CapitalAssetInformationAttributes.amount}" readOnly="true" /></th>
+					<td class="grid" width="25%"><kul:htmlControlAttribute property="capitalAssetInformation.amount" attributeEntry="${CapitalAssetInformationAttributes.amount}" readOnly="true"/></td>
+				</tr>			
+			</table>
+			</div>
+		<c:if test="${!empty KualiForm.capitalAssetInformation.capitalAssetInformationDetails}">
+		<div align="center" valign="middle">
+			<h3>Capital Asset Tag/Location Details</h3>
+			<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.campusCode}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingCode}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.buildingSubRoomNumber}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetTagNumber}" hideRequiredAsterisk="true" scope="col"/>
+					<kul:htmlAttributeHeaderCell attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetSerialNumber}" hideRequiredAsterisk="true" scope="col"/>
+				</tr>			
+			<c:forEach var="assetDetail" items="${KualiForm.capitalAssetInformation.capitalAssetInformationDetails}" varStatus="current">
+				<tr>
+					<td class="grid" width="15%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].campusCode" attributeEntry="${CapitalAssetInformationDetailAttributes.campusCode}" readOnly="true"/></td>			
+					<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingCode" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingCode}" readOnly="true"/></td>
+					<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingRoomNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingRoomNumber}" readOnly="true"/></td>
+					<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].buildingSubRoomNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.buildingSubRoomNumber}" readOnly="true"/></td>
+					<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].capitalAssetTagNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetTagNumber}" readOnly="true"/></td>
+					<td class="grid" width="17%"><kul:htmlControlAttribute property="capitalAssetInformation.capitalAssetInformationDetails[${current.index}].capitalAssetSerialNumber" attributeEntry="${CapitalAssetInformationDetailAttributes.capitalAssetSerialNumber}" readOnly="true"/></td>
+				</tr>
+			</c:forEach>
+			</table>
 		</div>
+		</c:if>
+	</c:if>
+	</div>
 	</kul:tabTop>
 	
 	<kul:tab tabTitle="GL Entry Processing" defaultOpen="true">
-		<div class="tab-container" align=center>
-		<c:set var="entryAttributes"	value="${DataDictionary.GeneralLedgerEntry.attributes}" />
-		<table width="95%" border="0" cellpadding="0" cellspacing="0" class="datatable">
-				<tr>
-					<th><html:checkbox property="selectAllGlEntries" onclick="selectAll(this,'glselect');" />Select</th>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.accountNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.subAccountNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSubObjectCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialDocumentTypeCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.documentNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationReferenceId}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
-		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.amount}" hideRequiredAsterisk="true" scope="col"/>
-				</tr>
-		<c:set var="pos" value="-1" />		   			 
-    	<c:forEach var="entry" items="${KualiForm.relatedGlEntries}">
-	 	<c:set var="pos" value="${pos+1}" />    	
-			<tr>
-				<td class="grid">
-					<c:choose> 
-					<c:when test="${entry.generalLedgerAccountIdentifier == KualiForm.primaryGlAccountId && entry.active}">
-						<html:checkbox property="relatedGlEntry[${pos}].selected" disabled="true" />
-						<c:set var="allowSubmit" value="true" />
-					</c:when>
-					<c:when test="${!entry.active}">
-						<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}">						
-						${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}</a>
-					</c:when>
-					<c:otherwise> 
-						<html:checkbox styleId="glselect" property="relatedGlEntry[${pos}].selected"/>
-						<c:set var="allowSubmit" value="true" />
-					</c:otherwise>
-					</c:choose>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].universityFiscalYear" 
-				attributeEntry="${entryAttributes.universityFiscalYear}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].universityFiscalPeriodCode" 
-				attributeEntry="${entryAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
-				<td class="grid">
-					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${entry.chartOfAccountsCode}" render="true">
-					<kul:htmlControlAttribute property="relatedGlEntry[${pos}].chartOfAccountsCode" 
-					attributeEntry="${entryAttributes.chartOfAccountsCode}" readOnly="true"/>
-				</kul:inquiry>
-				</td>
-				<td class="grid">
-					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${entry.chartOfAccountsCode}&accountNumber=${entry.accountNumber}" render="true">
-					<kul:htmlControlAttribute property="relatedGlEntry[${pos}].accountNumber" 
-					attributeEntry="${entryAttributes.accountNumber}" readOnly="true"/>
-					</kul:inquiry>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].subAccountNumber" 
-				attributeEntry="${entryAttributes.subAccountNumber}" readOnly="true"/></td>
-				<td class="grid">
-				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="universityFiscalYear=${entry.universityFiscalYear}&chartOfAccountsCode=${entry.chartOfAccountsCode}&financialObjectCode=${entry.financialObjectCode}" render="true">
-				<kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialObjectCode" 
-				attributeEntry="${entryAttributes.financialObjectCode}" readOnly="true"/>
-				</kul:inquiry>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialSubObjectCode" 
-				attributeEntry="${entryAttributes.financialSubObjectCode}" readOnly="true"/></td>
-				<td class="grid">
-				<kul:inquiry boClassName="org.kuali.rice.kew.doctype.bo.DocumentTypeEBO" keyValues="documentTypeId=${entry.financialSystemDocumentTypeCode.documentTypeId}" render="true">
-				<kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialDocumentTypeCode" 
-				attributeEntry="${entryAttributes.financialDocumentTypeCode}" readOnly="true"/>
-				</kul:inquiry>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].financialSystemOriginationCode" 
-				attributeEntry="${entryAttributes.financialSystemOriginationCode}" readOnly="true"/></td>
-				<td class="grid">
-					<html:link target="_blank" href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.documentNumber}">
-						<kul:htmlControlAttribute property="relatedGlEntry[${pos}].documentNumber" attributeEntry="${entryAttributes.documentNumber}" readOnly="true"/>
-					</html:link>
-				</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].transactionLedgerEntryDescription" 
-				attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].organizationDocumentNumber" 
-				attributeEntry="${entryAttributes.organizationDocumentNumber}" readOnly="true"/></td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].organizationReferenceId" 
-				attributeEntry="${entryAttributes.organizationReferenceId}" readOnly="true"/>&nbsp;</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].referenceFinancialSystemOriginationCode" 
-				attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" readOnly="true"/>&nbsp;</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].referenceFinancialDocumentNumber" 
-				attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>&nbsp;</td>
-				<td class="grid"><kul:htmlControlAttribute property="relatedGlEntry[${pos}].amount" 
-				attributeEntry="${entryAttributes.amount}" readOnly="true"/></td>
-			</tr>
-		</c:forEach>   			
-    	</table>
-		</div>
+		<cams:glEntryProcessing generalLedgerEntry="${KualiForm.generalLedgerEntry}" />
+		<c:choose> 
+			<c:when test="${KualiForm.generalLedgerEntry.generalLedgerAccountIdentifier == KualiForm.primaryGlAccountId && KualiForm.generalLedgerEntry.active}">
+				<c:set var="allowSubmit" value="true" />
+			</c:when>
+			<c:when test="${!KualiForm.generalLedgerEntry.active}">
+				<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.generalLedgerEntry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="${KualiForm.generalLedgerEntry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}">						
+					${KualiForm.generalLedgerEntry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}</a>
+			</c:when>
+			<c:otherwise> 
+				<c:set var="allowSubmit" value="true" />
+			</c:otherwise>
+		</c:choose>
 	</kul:tab>
+	
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">

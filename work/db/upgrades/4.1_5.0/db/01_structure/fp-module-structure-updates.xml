@@ -24,6 +24,7 @@
 			<column name='ACCOUNT_NBR' type='VARCHAR2(7)' nullable='false' />
 			<column name='FIN_OBJECT_CD' type='VARCHAR2(4)' nullable='false' />
 			<column name='CPTLAST_ACTION_IND' type='VARCHAR2(1)' nullable='false' defaultValue='C' />
+			<column name='CPTLAST_PROCESSED_IND' type='VARCHAR2(1)' nullable='false' defaultValue='N' />
 			<column name='CPTLAST_LINE_NBR' type='NUMBER(7,0)' defaultValueNumeric="1" nullable='false' />
 			<column name='VNDR_HDR_GNRTD_ID' type='NUMBER(10,0)' nullable='true' />
 			<column name='VNDR_DTL_ASND_ID' type='NUMBER(10,0)' nullable='true' />

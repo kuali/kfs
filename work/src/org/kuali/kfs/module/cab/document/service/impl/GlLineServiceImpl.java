@@ -103,33 +103,35 @@ public class GlLineServiceImpl implements GlLineService {
     protected void updatePreTagInformation(GeneralLedgerEntry entry, MaintenanceDocument document, AssetGlobal assetGlobal, Integer capitalAssetLineNumber) {
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
         //if it is create asset...
-        if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAssetInformation.getCapitalAssetActionIndicator())) {
-            List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
-            for (CapitalAssetInformationDetail capitalAssetInformationDetail : capitalAssetInformationDetails) {
-                // This is not added to constructor in CAMS to provide module isolation from CAMS
-                AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
-                assetGlobalDetail.setDocumentNumber(document.getDocumentNumber());
-                assetGlobalDetail.setCampusCode(capitalAssetInformationDetail.getCampusCode());
-                assetGlobalDetail.setBuildingCode(capitalAssetInformationDetail.getBuildingCode());
-                assetGlobalDetail.setBuildingRoomNumber(capitalAssetInformationDetail.getBuildingRoomNumber());
-                assetGlobalDetail.setBuildingSubRoomNumber(capitalAssetInformationDetail.getBuildingSubRoomNumber());
-                assetGlobalDetail.setSerialNumber(capitalAssetInformationDetail.getCapitalAssetSerialNumber());
-                assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
-                assetGlobalDetail.setCampusTagNumber(capitalAssetInformationDetail.getCapitalAssetTagNumber());
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAssetInformation.getCapitalAssetActionIndicator())) {
+                List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
+                for (CapitalAssetInformationDetail capitalAssetInformationDetail : capitalAssetInformationDetails) {
+                    // This is not added to constructor in CAMS to provide module isolation from CAMS
+                    AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
+                    assetGlobalDetail.setDocumentNumber(document.getDocumentNumber());
+                    assetGlobalDetail.setCampusCode(capitalAssetInformationDetail.getCampusCode());
+                    assetGlobalDetail.setBuildingCode(capitalAssetInformationDetail.getBuildingCode());
+                    assetGlobalDetail.setBuildingRoomNumber(capitalAssetInformationDetail.getBuildingRoomNumber());
+                    assetGlobalDetail.setBuildingSubRoomNumber(capitalAssetInformationDetail.getBuildingSubRoomNumber());
+                    assetGlobalDetail.setSerialNumber(capitalAssetInformationDetail.getCapitalAssetSerialNumber());
+                    assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+                    assetGlobalDetail.setCampusTagNumber(capitalAssetInformationDetail.getCapitalAssetTagNumber());
+                    
+                    AssetGlobalDetail uniqueAsset = new AssetGlobalDetail();
+                    ObjectValueUtils.copySimpleProperties(assetGlobalDetail, uniqueAsset);
+                    assetGlobalDetail.getAssetGlobalUniqueDetails().add(uniqueAsset);
+                    assetGlobal.getAssetSharedDetails().add(assetGlobalDetail);
+                }
                 
-                AssetGlobalDetail uniqueAsset = new AssetGlobalDetail();
-                ObjectValueUtils.copySimpleProperties(assetGlobalDetail, uniqueAsset);
-                assetGlobalDetail.getAssetGlobalUniqueDetails().add(uniqueAsset);
-                assetGlobal.getAssetSharedDetails().add(assetGlobalDetail);
-            }
-            
-            assetGlobal.setVendorName(capitalAssetInformation.getVendorName());
-            assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
-            assetGlobal.setCapitalAssetTypeCode(capitalAssetInformation.getCapitalAssetTypeCode());
-            assetGlobal.setManufacturerName(capitalAssetInformation.getCapitalAssetManufacturerName());
-            assetGlobal.setManufacturerModelNumber(capitalAssetInformation.getCapitalAssetManufacturerModelNumber());
-            assetGlobal.setCapitalAssetDescription(capitalAssetInformation.getCapitalAssetDescription());
-        } 
+                assetGlobal.setVendorName(capitalAssetInformation.getVendorName());
+                assetGlobal.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_ACTIVE_IDENTIFIABLE);
+                assetGlobal.setCapitalAssetTypeCode(capitalAssetInformation.getCapitalAssetTypeCode());
+                assetGlobal.setManufacturerName(capitalAssetInformation.getCapitalAssetManufacturerName());
+                assetGlobal.setManufacturerModelNumber(capitalAssetInformation.getCapitalAssetManufacturerModelNumber());
+                assetGlobal.setCapitalAssetDescription(capitalAssetInformation.getCapitalAssetDescription());
+            } 
+        }
     }
 
     /**
@@ -200,6 +202,7 @@ public class GlLineServiceImpl implements GlLineService {
         assetGlobal.setOrganizationOwnerAccountNumber(entry.getAccountNumber());
         assetGlobal.setDocumentNumber(maintDoc.getDocumentNumber());
         assetGlobal.setConditionCode(CamsConstants.Asset.CONDITION_CODE_E);
+        
         return assetGlobal;
     }
 
@@ -231,16 +234,18 @@ public class GlLineServiceImpl implements GlLineService {
      */
     protected void updatePreTagInformation(GeneralLedgerEntry entry, AssetPaymentDocument document, Integer capitalAssetLineNumber) {
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
-        //if it is modify asset...
-        if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAssetInformation.getCapitalAssetActionIndicator())) {
-            AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();
-            assetPaymentAssetDetail.setDocumentNumber(document.getDocumentNumber());
-            assetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetInformation.getCapitalAssetNumber());
-            assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
-            Asset asset = assetPaymentAssetDetail.getAsset();
-            if (ObjectUtils.isNotNull(asset)) {
-                assetPaymentAssetDetail.setPreviousTotalCostAmount(asset.getTotalCostAmount() != null ? asset.getTotalCostAmount() : KualiDecimal.ZERO);
-                document.getAssetPaymentAssetDetail().add(assetPaymentAssetDetail);
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            //if it is modify asset...
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAssetInformation.getCapitalAssetActionIndicator())) {
+                AssetPaymentAssetDetail assetPaymentAssetDetail = new AssetPaymentAssetDetail();
+                assetPaymentAssetDetail.setDocumentNumber(document.getDocumentNumber());
+                assetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetInformation.getCapitalAssetNumber());
+                assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
+                Asset asset = assetPaymentAssetDetail.getAsset();
+                if (ObjectUtils.isNotNull(asset)) {
+                    assetPaymentAssetDetail.setPreviousTotalCostAmount(asset.getTotalCostAmount() != null ? asset.getTotalCostAmount() : KualiDecimal.ZERO);
+                    document.getAssetPaymentAssetDetail().add(assetPaymentAssetDetail);
+                }
             }
         }
     }
@@ -284,7 +289,11 @@ public class GlLineServiceImpl implements GlLineService {
      */
     protected KualiDecimal getCapitalAssetAmount(GeneralLedgerEntry entry, Integer capitalAssetLineNumber) {
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
-        return capitalAssetInformation.getAmount();
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            return capitalAssetInformation.getAmount();
+        }
+        
+        return KualiDecimal.ZERO;
     }
     
     /**

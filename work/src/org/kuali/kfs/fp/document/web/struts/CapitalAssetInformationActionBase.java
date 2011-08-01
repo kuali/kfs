@@ -125,6 +125,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                                     capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kualiAccountingDocumentFormBase));
                                     capitalAsset.setCapitalAssetActionIndicator(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
                                     capitalAsset.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+                                    capitalAsset.setCapitalAssetProcessedIndicator(false);
                                     capitalAssetInformation.add(capitalAsset);
                             }
                         }
@@ -777,6 +778,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                         capitalAsset.setAmount(KualiDecimal.ZERO);
                         capitalAsset.setDocumentNumber(documentNumber);
                         capitalAsset.setCapitalAssetActionIndicator(actionType);
+                        capitalAsset.setCapitalAssetProcessedIndicator(false);                        
                         currentCapitalAssetInformation.add(capitalAsset);
                     }
                 }
@@ -792,6 +794,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                     capitalAsset.setDocumentNumber(documentNumber);
                     capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kadfb));
                     capitalAsset.setCapitalAssetActionIndicator(actionType);
+                    capitalAsset.setCapitalAssetProcessedIndicator(false);                    
                     currentCapitalAssetInformation.add(capitalAsset);
                 }
             }

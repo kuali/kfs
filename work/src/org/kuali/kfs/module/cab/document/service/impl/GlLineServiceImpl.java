@@ -76,20 +76,45 @@ public class GlLineServiceImpl implements GlLineService {
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
         documentService.saveDocument(document);
-        deactivateGLEntries(primary, document);
+        //mark the capital asset as processed..
+        markCapitalAssetProcessed(primary, capitalAssetLineNumber);
+        deactivateGLEntries(primary, document, capitalAssetLineNumber);
+        
         return document;
     }
 
+    /**
+     * Marks the capital asset information as "processed" so that it won't be picked up again
+     * for processing.
+     * 
+     * @param primary
+     * @param capitalAssetLineNumber
+     */
+    protected void markCapitalAssetProcessed(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) {
+        CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(primary, capitalAssetLineNumber);
+        //if it is create asset...
+        if (ObjectUtils.isNotNull(capitalAssetInformation)) {
+            capitalAssetInformation.setCapitalAssetProcessedIndicator(true);
+            getBusinessObjectService().save(capitalAssetInformation);
+        }
+    }
+    
     /**
      * De-activate the GL Entry
      * 
      * @param entries GL Entry
      * @param document Document
      */
-    protected void deactivateGLEntries(GeneralLedgerEntry entry, Document document) {
-        entry.setTransactionLedgerSubmitAmount(entry.getTransactionLedgerEntryAmount());
-        entry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
-        createGeneralLedgerEntryAsset(entry, document);
+    protected void deactivateGLEntries(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
+        //if no more capital assets to be processed...
+        createGeneralLedgerEntryAsset(entry, document, capitalAssetLineNumber);
+        
+        //now deactivate the gl line..
+        if (findUnprocessedCapitalAssetInformation(entry) == 0) {
+            entry.setTransactionLedgerSubmitAmount(entry.getTransactionLedgerEntryAmount());
+            entry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
+        }
+        
         getBusinessObjectService().save(entry);
     }
 
@@ -175,16 +200,36 @@ public class GlLineServiceImpl implements GlLineService {
     }
     
     /**
+     * @see org.kuali.kfs.module.cab.document.service.GlLineService#findUnprocessedCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
+     */
+    public long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+
+        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
+        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
+        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.ACCOUNT_NUMBER, entry.getAccountNumber());
+        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.FINANCIAL_OBJECT_CODE, entry.getFinancialObjectCode());
+        fieldValues.put(CabPropertyConstants.CapitalAssetInformation.ASSET_PROCESSED_IND, KFSConstants.CapitalAssets.CAPITAL_ASSET_PROCESSED_IND);
+        
+        List<CapitalAssetInformation> assetInformation = (List<CapitalAssetInformation>) businessObjectService.findMatching(CapitalAssetInformation.class, fieldValues);
+        if (ObjectUtils.isNotNull(assetInformation)) {
+            return assetInformation.size();
+        }
+        
+        return 0;
+    }
+    
+    /**
      * Creates general ledger entry asset
      * 
      * @param entry GeneralLedgerEntry
      * @param maintDoc Document
      */
-    protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document document) {
+    protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
         // store the document number
         GeneralLedgerEntryAsset entryAsset = new GeneralLedgerEntryAsset();
         entryAsset.setGeneralLedgerAccountIdentifier(entry.getGeneralLedgerAccountIdentifier());
-        entryAsset.setCapitalAssetBuilderLineNumber(1);
+        entryAsset.setCapitalAssetBuilderLineNumber(capitalAssetLineNumber);
         entryAsset.setCapitalAssetManagementDocumentNumber(document.getDocumentNumber());
         entry.getGeneralLedgerEntryAssets().add(entryAsset);
     }
@@ -222,7 +267,8 @@ public class GlLineServiceImpl implements GlLineService {
         // Asset payment asset detail
         // save the document
         documentService.saveDocument(document);
-        deactivateGLEntries(primaryGlEntry, document);
+        markCapitalAssetProcessed(primaryGlEntry, capitalAssetLineNumber);
+        deactivateGLEntries(primaryGlEntry, document, capitalAssetLineNumber);
         return document;
     }
 

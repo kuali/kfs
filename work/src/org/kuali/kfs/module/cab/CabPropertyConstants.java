@@ -163,6 +163,7 @@ public class CabPropertyConstants {
         public static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
         public static final String ACTION_INDICATOR = "capitalAssetActionIndicator";
         public static final String ASSET_LINE_NUMBER = "capitalAssetLineNumber";
+        public static final String ASSET_PROCESSED_IND = "capitalAssetProcessedIndicator";
     }
 
     public static class PurchasingAccountsPayableProcessingReport {

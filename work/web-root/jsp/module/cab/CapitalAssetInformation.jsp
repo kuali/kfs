@@ -15,17 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <script>
-		function selectAll(all, styleid){
-		var elms = document.getElementsByTagName("input");
-		for(var i=0; i< elms.length; i++){
-			if(elms[i].id !=null  && elms[i].id==styleid && !elms[i].disabled){
-				elms[i].checked = all.checked;
-			}
-		}
-	}
-
 <c:if test="${!empty KualiForm.currDocNumber}">
-	var popUpurl = 'cabGlLine.do?methodToCall=viewDoc&documentNumber=${KualiForm.currDocNumber}';
+	var popUpurl = 'cabCapitalAssetInformation.do?methodToCall=viewDoc&documentNumber=${KualiForm.currDocNumber}';
 	window.open(popUpurl, "${KualiForm.currDocNumber}");
 </c:if>
 	
@@ -60,12 +51,17 @@
 			</tr>
 			<c:forEach items="${KualiForm.capitalAssetInformation}" var="detailLine" varStatus="status">
 			<tr>
-				<c:if test="${!readOnly}">	
-		    	<td class="grid" align="center">
-	    			<html:link target="_blank" href="cabGlLine.do?methodToCall=process&documentNumber=${detailLine.documentNumber}&generalLedgerAccountIdentifier=${KualiForm.generalLedgerAccountIdentifier}&capitalAssetLineNumber=${detailLine.capitalAssetLineNumber}">
-						Process
-					</html:link>
-				</td>
+				<c:if test="${!readOnly}">
+					<c:if test="${detailLine.capitalAssetProcessedIndicator == true}" >
+				    	<td class="grid" align="center">Processed</td>
+					</c:if>	
+					<c:if test="${detailLine.capitalAssetProcessedIndicator == false}" >
+				    	<td class="grid" align="center">
+			    			<html:link target="_blank" href="cabGlLine.do?methodToCall=process&documentNumber=${detailLine.documentNumber}&generalLedgerAccountIdentifier=${KualiForm.generalLedgerAccountIdentifier}&capitalAssetLineNumber=${detailLine.capitalAssetLineNumber}">
+								Process
+							</html:link>
+						</td>
+					</c:if>
 				</c:if>
 				<td class="grid"><div>
 					<c:set var="assetActionType" value="${detailLine.capitalAssetActionIndicator}" />

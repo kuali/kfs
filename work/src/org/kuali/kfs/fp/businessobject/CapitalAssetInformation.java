@@ -56,7 +56,8 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private KualiDecimal amount;
     private String capitalAssetActionIndicator;
-
+    private boolean capitalAssetProcessedIndicator;
+    
     private CapitalAssetManagementAsset capitalAssetManagementAsset;
     private CapitalAssetManagementAssetType capitalAssetManagementAssetType;
     private List<CapitalAssetInformationDetail> capitalAssetInformationDetails;
@@ -344,6 +345,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_LINE_NUMBER, this.getCapitalAssetLineNumber());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_ACTION_INDICATOR, this.getCapitalAssetActionIndicator());
         simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_QUANTITY, this.getCapitalAssetQuantity());
+        simpleValues.put(KFSPropertyConstants.CAPITAL_ASSET_PROCESSED_IND, this.isCapitalAssetProcessedIndicator());
         
         return simpleValues;
     }
@@ -451,5 +453,24 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
      */
     public void setCapitalAssetActionIndicator(String capitalAssetActionIndicator) {
         this.capitalAssetActionIndicator = capitalAssetActionIndicator;
+    }
+
+    /**
+     * Gets the capitalAssetProcessedIndicator attribute.
+     * 
+     * @return Returns the capitalAssetProcessedIndicator
+     */
+    
+    public boolean isCapitalAssetProcessedIndicator() {
+        return capitalAssetProcessedIndicator;
+    }
+
+    /** 
+     * Sets the capitalAssetProcessedIndicator attribute.
+     * 
+     * @param capitalAssetProcessedIndicator The capitalAssetProcessedIndicator to set.
+     */
+    public void setCapitalAssetProcessedIndicator(boolean capitalAssetProcessedIndicator) {
+        this.capitalAssetProcessedIndicator = capitalAssetProcessedIndicator;
     }
 }

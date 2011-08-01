@@ -40,6 +40,7 @@
         <ref bean="CapitalAssetInformation-amount"/>
         <ref bean="CapitalAssetInformation-capitalAssetLineNumber"/>
         <ref bean="CapitalAssetInformation-capitalAssetActionIndicator"/>
+        <ref bean="CapitalAssetInformation-capitalAssetProcessedIndicator"/>
       </list>
     </property>
     <property name="relationships">
@@ -166,13 +167,27 @@
   <bean id="CapitalAssetInformation-capitalAssetActionIndicator" parent="CapitalAssetInformation-capitalAssetActionIndicator-parentBean"/>
 
   <bean id="CapitalAssetInformation-capitalAssetActionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-	<property name="name" value="capitalAssetActionIndicator"/>
-	<property name="maxLength" value="1"/>
-    <property name="label" value="Create/Modify Asset"/>
-    <property name="shortLabel" value="Create/Modify Asset"/>
-  	<property name="forceUppercase" value="true"/>
+    <property name="name" value="capitalAssetActionIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Capital Asset Action Indicator"/>
+    <property name="shortLabel" value="Actn Ind"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="1"/>
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="CapitalAssetInformation-capitalAssetProcessedIndicator" parent="CapitalAssetInformation-capitalAssetProcessedIndicator-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetProcessedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetProcessedIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Capital Asset Processed Indicator"/>
+    <property name="shortLabel" value="Processed Ind"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
     </property>
   </bean>
 </beans>

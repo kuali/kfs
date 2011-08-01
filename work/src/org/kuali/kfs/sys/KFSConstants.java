@@ -1258,6 +1258,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CAPITAL_ASSET_MODIFY_ACTION_INDICATOR = "M";
         public static final String CAPITAL_ASSET_TAB_STATE_OPEN = "OPEN";
         public static final String CAPITAL_ASSET_TAB_STATE_CLOSE = "CLOSE";
+        public static final String CAPITAL_ASSET_PROCESSED_IND = "N";
         
         public static final String ACCOUNTING_LINES_FOR_CAPITALIZATION_TAB_TITLE = "Accounting Lines for Capitalization";
         public static final String CREATE_CAPITAL_ASSETS_TAB_TITLE = "Create Capital Assets";

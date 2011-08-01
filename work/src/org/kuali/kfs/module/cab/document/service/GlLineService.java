@@ -28,6 +28,8 @@ public interface GlLineService {
 
     List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry);
 
+    long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry);
+    
     CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber);
  
     Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;

@@ -37,21 +37,29 @@
 		<td colspan="7" class="tab-subhead" style="border-top: medium;">Modify Assets</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="tab-subhead" style="border-top: medium;">
+		<td colspan="2" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
 	   	</td>
-	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
+	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-2}"/>
 	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}" >
-	   		<c:set var="totalColumnSpan" value="3"/>
+	   		<c:set var="totalColumnSpan" value="2"/>
 	   	</c:if>
 	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0.00}" >
-	   		<c:set var="totalColumnSpan" value="4"/>
+	   		<c:set var="totalColumnSpan" value="3"/>
 	   	</c:if>
 	   	
 	   	<td colspan="${totalColumnSpan}" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
 	   	</td>
 	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}" >
+	   		<td colspan="1" class="tab-subhead" style="border-top: medium;"><br/>
+				<div align="center" valign="bottom">	
+					<html:image property="methodToCall.redistributeModifyCapitalAssetAmount" 
+						src="${ConfigProperties.externalizable.images.url}tinybutton-redtotamt.gif" 
+						title="Redistribute Total Amount for modify capital assets"
+						alt="Redistribute Total Amount for modify capital assets" styleClass="tinybutton" />
+				</div>
+			</td>	
 	   		<td colspan="1" class="tab-subhead" style="border-top: medium;">
 	   			<div align="right">
 	   				<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="capitalAssetManagementAssets" />
@@ -140,12 +148,10 @@
 								<c:if test="${!readOnly}">
 									<td class="infoline"> 
 											<div style="text-align: center;">
-											<c:if test="${!KualiForm.distributeEqualAmount}">
 												<html:image property="methodToCall.refreshCapitalAssetModify.line${status.index}.Anchor" 
 													src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif" 
-													title="Add the capital Asset Information"
-													alt="Add the capital Asset Information" styleClass="tinybutton" />&nbsp;	
-											</c:if>
+													title="Refresh Modify capital Asset Information"
+													alt="Refresh Modify capital Asset Information" styleClass="tinybutton" />&nbsp;	
 												<html:image property="methodToCall.deleteCapitalAssetModify.line${status.index}.Anchor" 
 													src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" 
 													title="Delete the capital Asset Information"

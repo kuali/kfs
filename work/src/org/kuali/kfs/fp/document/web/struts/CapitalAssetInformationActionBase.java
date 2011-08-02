@@ -1164,6 +1164,27 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward redistributeModifyCapitalAssetAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("redistributeCreateCapitalAssetAmount() - start");
+        
+        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+        //run the process to redistribute the accounting line amount to the capital assets.
+        redistributeCostEquallyForModifiedAssets(form);
+        
+        checkCapitalAccountingLinesSelected(calfb);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * Removes any matching capital asset records whenever an accounting line is removed.
      * @param financialDocumentForm
      * @param line

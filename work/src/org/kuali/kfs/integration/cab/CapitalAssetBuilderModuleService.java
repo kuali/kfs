@@ -93,4 +93,36 @@ public interface CapitalAssetBuilderModuleService {
     public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument);
 
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine);
+    
+    /**
+     * validates all capital accounting lines that have been processed.
+     * 
+     * @param accountingDocumentForValidation
+     * @return true if all lines have been processes else return false
+     */
+    public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocumentForValidation);    
+    
+    /**
+     * determine whether the given document's all capital accounting lines totals
+     * match to that of capital assets.
+     * @param accountingDocumentForValidation
+     * @return true if totals match else return false
+     */
+    public boolean validateTotalAmountMatch(AccountingDocument accountingDocumentForValidation);
+    
+    /**
+     * determine whether the any capital accounting line's amount matches
+     * with all the capital assets for that capital accounting line.
+     * 
+     * @param accountingDocument
+     * @return true if totals match else return false
+     */
+    public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument);
+    
+    /**
+     * validates whether capital assets exist for any given capital accounting line.
+     * @param accountingDocumentForValidation
+     * @return true if capital assets exist for capital accounting line else return false.
+     */
+    public boolean validateCapitalAccountingLines(AccountingDocument accountingDocumentForValidation);    
 }

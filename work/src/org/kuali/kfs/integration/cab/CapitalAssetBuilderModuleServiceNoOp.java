@@ -120,4 +120,24 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         return false;
     }
 
+    //capital accounting lines validations called from fp documents side..
+    public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocument) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
+    
+    public boolean validateTotalAmountMatch(AccountingDocument accountingDocument) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
+    
+    public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
+    
+    public boolean validateCapitalAccountingLines(AccountingDocument accountingDocument) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
 }

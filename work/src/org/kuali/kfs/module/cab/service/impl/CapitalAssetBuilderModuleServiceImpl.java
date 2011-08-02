@@ -28,9 +28,12 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
+import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
+import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
@@ -2069,5 +2072,220 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         
         return false ;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAllCapitalAccountingLinesProcessed(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocumentForValidation) {
+        LOG.debug("validateCapitalAccountingLines - start");
+        boolean isValid = true;
+        
+        if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
+            return true;
+        }
+
+        CapitalAccountingLinesDocumentBase capitalAccountingLinesDocumentBase = (CapitalAccountingLinesDocumentBase) accountingDocumentForValidation;
+        List <CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesDocumentBase.getCapitalAccountingLines();
+        
+        isValid = allCapitalAccountingLinesProcessed(capitalAccountingLines);
+        
+        return isValid;
+    }
+
+    /**
+     * checks if all the lines have been selected for processing by checking the selectLine property
+     * on each capital accounting line.
+     * 
+     * @param capitalAccountingLines
+     * @return true if all lines have been selected else return false
+     */
+    protected boolean allCapitalAccountingLinesProcessed(List<CapitalAccountingLines> capitalAccountingLines) {
+        LOG.debug("allCapitalAccountingLinesProcessed - start");
+        
+        boolean processed = true;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (!capitalAccountingLine.isSelectLine()) {
+                processed = false;
+                GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_NOT_PROCESSED);
+                
+                break;
+            }
+        }
+        
+        return processed;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateTotalAmountMatch(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    public boolean validateTotalAmountMatch(AccountingDocument accountingDocumentForValidation) {
+        LOG.debug("validateTotalAmountMatch - start");
+
+        boolean isValid = true;
+        
+        if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
+            return true;
+        }
+
+        CapitalAccountingLinesDocumentBase capitalAccountingLinesDocumentBase = (CapitalAccountingLinesDocumentBase) accountingDocumentForValidation;
+        List <CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesDocumentBase.getCapitalAccountingLines();
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocumentForValidation;
+        List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
+
+        isValid = totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(capitalAccountingLines, capitalAssets);
+        
+        return isValid;
+    }
+    
+    /**
+     * compares the total amount from capital accounting lines to the
+     * capital assets totals amount.
+     * @param capitalAccountingLines
+     * @param capitalAssets
+     * @return true if two amounts are equal else return false
+     */
+    protected boolean totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
+        boolean totalAmountMatched = true;
+        
+        KualiDecimal capitalAccountingLinesTotals = KualiDecimal.ZERO;
+        KualiDecimal capitalAAssetTotals = KualiDecimal.ZERO;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            capitalAccountingLinesTotals = capitalAccountingLinesTotals.add(capitalAccountingLine.getAmount());
+        }
+    
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getAmount());
+        }
+        
+        if (capitalAccountingLinesTotals.isGreaterThan(capitalAAssetTotals)) {
+            //not all the accounting lines amounts have been distributed to capital assets
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_NOT_ALL_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
+            return false;
+        }
+        
+        if (capitalAccountingLinesTotals.isLessThan(capitalAAssetTotals)) {
+            //not all the accounting lines amounts have been distributed to capital assets
+            GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
+            return false;
+        }
+        
+        return totalAmountMatched;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitlAssetsAmountToAccountingLineAmount(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument) {
+        boolean valid = true;
+       
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) accountingDocument;
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+
+        List<CapitalAssetInformation> capitalAssetInformation = caldb.getCapitalAssetInformation();
+        
+        for(CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.getAmount().isLessThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
+                GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
+                valid = false;
+            }
+        }
+        
+        return valid;
+    }
+    
+    /**
+     * sums the capital assets amount distributed so far for a given capital accounting line
+     * 
+     * @param currentCapitalAssetInformation
+     * @param existingCapitalAsset
+     * @return capitalAssetsAmount amount that has been distributed for the specific capital accounting line
+     */
+    protected KualiDecimal getCapitalAssetsAmountAllocated(List<CapitalAssetInformation> currentCapitalAssetInformation, CapitalAccountingLines capitalAccountingLine) {
+        //check the capital assets records totals
+        KualiDecimal capitalAssetsAmount = KualiDecimal.ZERO;
+
+        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
+            if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
+                    capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                    capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+                    capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                    capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+                    capitalAssetsAmount = capitalAssetsAmount.add(capitalAsset.getAmount());
+            }
+        }
+        
+        return capitalAssetsAmount;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitalAccountingLines(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    public boolean validateCapitalAccountingLines(AccountingDocument accountingDocumentForValidation) {
+        LOG.debug("validateCapitalAccountingLines - start");
+
+        boolean isValid = true;
+        
+        if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
+            return true;
+        }
+
+        CapitalAccountingLinesDocumentBase capitalAccountingLinesDocumentBase = (CapitalAccountingLinesDocumentBase) accountingDocumentForValidation;
+        List <CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesDocumentBase.getCapitalAccountingLines();
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocumentForValidation;
+        List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
+      
+        isValid = capitalAssetExistsForCapitalAccountingLinesProcessed(capitalAccountingLines, capitalAssets);
+        
+        return isValid;
+    }
+    
+    /**
+     * 
+     * @param capitalAccountingLines
+     * @param capitalAssets
+     * @return true capital assets exists for all the capital accounting lines.
+     */
+    protected boolean capitalAssetExistsForCapitalAccountingLinesProcessed(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
+        LOG.debug("capitalAssetExistsForCapitalAccountingLinesProcessed - start");
+        
+        boolean exists = true;
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (!capitalAssetExist(capitalAccountingLine, capitalAssets)) {
+                GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
+                return false;
+            }
+        }
+        
+        return exists;
+    }
+    
+    /**
+     *  checks if capital asset exists for the given capital accounting line.
+     * @param capitalAccountingLine
+     * @param capitalAssetInformation
+     * @return true if capital accounting line has a capital asset information else return false
+     */
+    protected boolean capitalAssetExist(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
+        boolean exists = false;
+        
+        if (ObjectUtils.isNull(capitalAssetInformation) && capitalAssetInformation.size() <= 0) {
+            return exists;
+        }
+        
+        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+            if (capitalAsset.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
+                    capitalAsset.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
+                    capitalAsset.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
+                    capitalAsset.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                    capitalAsset.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
+                return true;
+            }
+        }
+        
+        return exists;
     }
 }

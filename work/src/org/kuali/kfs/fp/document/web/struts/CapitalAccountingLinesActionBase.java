@@ -82,18 +82,6 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         setTabStatesForCapitalAssets(kualiForm);
     }
         
-    protected void setupIntialNextCapitalAssetLineNumber(KualiDocumentFormBase kualiDocumentFormBase) {
-        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) kualiDocumentFormBase;
-        CapitalAssetInformationDocumentBase caidb = (CapitalAssetInformationDocumentBase) kadfb.getFinancialDocument();
-        
-        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
-        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
-            caidb.setNextCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
-        }
-        
-        caidb.setNextCapitalAssetLineNumber(caidb.getNextCapitalAssetLineNumber()+1);
-    }
-    
     /**
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,

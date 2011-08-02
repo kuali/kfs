@@ -41,17 +41,17 @@
 	   		<br/>System Control Amount: <c:out value="${KualiForm.systemControlAmount}" />
 	   	</td>
 	   	<c:set var="totalColumnSpan" value="${totalColumnSpan-3}"/>
-	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}" >
 	   		<c:set var="totalColumnSpan" value="3"/>
 	   	</c:if>
-	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0}" >
+	   	<c:if test="${KualiForm.createdAssetsControlAmount <= 0.00}" >
 	   		<c:set var="totalColumnSpan" value="4"/>
 	   	</c:if>
 	   	
 	   	<td colspan="${totalColumnSpan}" class="tab-subhead" style="border-top: medium;">
 	   		<br/>System Control Remainder Amount: <c:out value="${KualiForm.createdAssetsControlAmount}" />
 	   	</td>
-	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0}" >
+	   	<c:if test="${KualiForm.createdAssetsControlAmount > 0.00}" >
 	   		<td colspan="1" class="tab-subhead" style="border-top: medium;">
 	   			<div align="right">
 	   				<br/>Lookup/Add Multiple Capital Asset Lines <kul:multipleValueLookup boClassName="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" lookedUpCollectionName="capitalAssetManagementAssets" />

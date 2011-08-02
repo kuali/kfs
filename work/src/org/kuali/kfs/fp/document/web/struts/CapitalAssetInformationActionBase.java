@@ -53,6 +53,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -105,7 +106,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
             if (rawValues != null) {
                 for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-                    if (capitalAccountingLine.getAmount().isGreaterThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
+                    if (capitalAccountingLine.isSelectLine() && capitalAccountingLine.getAmount().isGreaterThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
                         for (PersistableBusinessObject bo : rawValues) {
                             Asset asset = (Asset) bo;
                             
@@ -715,7 +716,19 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) form;;
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
+        List<CapitalAccountingLines> copiedCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            copiedCapitalAccountingLines.add(capitalAccountingLine);
+        }
+        capitalAccountingLines.clear();    
+        
         ActionForward forward = super.copy(mapping, form, request, response);
+        
+        caldb.setCapitalAccountingLines(copiedCapitalAccountingLines);
         
         // if the copied document has capital asset collection, remove the collection
         KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
@@ -728,10 +741,30 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 resetCapitalAssetInfo(capitalAsset);
             }
         }
+        
+        //setup the initial next sequence number column..
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        setupIntialNextCapitalAssetLineNumber(kualiDocumentFormBase);
 
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        
         return forward;
     }
 
+    protected void setupIntialNextCapitalAssetLineNumber(KualiDocumentFormBase kualiDocumentFormBase) {
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) kualiDocumentFormBase;
+        CapitalAssetInformationDocumentBase caidb = (CapitalAssetInformationDocumentBase) kadfb.getFinancialDocument();
+        
+        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
+        for (CapitalAssetInformation capitalAsset : currentCapitalAssetInformation) {
+            if (capitalAsset.getCapitalAssetLineNumber() > caidb.getNextCapitalAssetLineNumber()) {
+                caidb.setNextCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
+            }
+        }
+        
+        caidb.setNextCapitalAssetLineNumber(caidb.getNextCapitalAssetLineNumber()+1);
+    }
+    
     /**
      * Populates capital asset information collection with capital accounting lines.
      * Based on actionType, capitalassetactionindicator attribute is filled with 'C' for create

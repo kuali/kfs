@@ -140,4 +140,9 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;
     }
+    
+    public boolean markProcessedGLEntryLine(String documentNumber) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
 }

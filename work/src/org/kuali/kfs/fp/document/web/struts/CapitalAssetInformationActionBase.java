@@ -64,6 +64,11 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     protected static final String AMOUNT_EQUAL_DISTRIBUTION_CODE = "1";
     
     /**
+     * Multi value asset lookup is implemented through the integeration package by module's service
+     * to gather the results. The results are processed for any capital accounting lines where
+     * the line is marked for selection.  After the capital assets are populated with the 
+     * selected asset numbers, the system control amount is redistribute equally among the assets
+     * when the distribution method is "distribute cost equally".
      * 
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -72,7 +77,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         
-        //process the multivalue lookup data 
+        //process the multiple value lookup data 
         CapitalAssetInformationFormBase capitalAssetInformationFormBase = (CapitalAssetInformationFormBase) form;
 
         Collection<PersistableBusinessObject> rawValues = null;
@@ -104,6 +109,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
             List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
 
+            //process the data and create assets only for those accounting lines
+            //where capital accounting line is "selected" and its amount is greater than already allocated.
             if (rawValues != null) {
                 for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
                     if (capitalAccountingLine.isSelectLine() && capitalAccountingLine.getAmount().isGreaterThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
@@ -200,6 +207,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * and if it is null, the capital asset is removed.
      * 
      * @param capitalAssetInformation
+     * @return true if asset does not exist in the list else return false
+     * 
      */
     protected boolean removeModifyAsset(List<CapitalAssetInformation> capitalAssetInformation) {
        boolean removeIt = true; 
@@ -1003,7 +1012,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * Populates capital asset information collection with capital accounting lines
+     * sets the capital accounting lines select and amount distributed values to true if
+     * there are capital asset records for a given capital accounting line. The system control
+     * amount and system control remaining amounts are calculated here.
      * 
      * @param calfb
      */

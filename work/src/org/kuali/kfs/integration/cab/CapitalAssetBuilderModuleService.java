@@ -125,4 +125,11 @@ public interface CapitalAssetBuilderModuleService {
      * @return true if capital assets exist for capital accounting line else return false.
      */
     public boolean validateCapitalAccountingLines(AccountingDocument accountingDocumentForValidation);    
+    
+    /**
+     * mark the gl entry line if all the capital asset lines have been processed
+     * @param documentNumber
+     * @return true if gl entry line marked as processed else return false.
+     */
+    public boolean markProcessedGLEntryLine(String documentNumber);    
 }

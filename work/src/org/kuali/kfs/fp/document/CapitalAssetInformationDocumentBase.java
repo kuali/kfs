@@ -19,17 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
-import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
+import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * Abstract class which defines behavior common for capital asset information lines.
+ * class which defines behavior common for capital asset information lines.
  */
  public class CapitalAssetInformationDocumentBase extends AccountingDocumentBase implements CapitalAssetEditable {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CapitalAssetInformationDocumentBase.class);
@@ -48,6 +48,18 @@ import org.kuali.rice.kns.util.ObjectUtils;
         this.setNextCapitalAssetLineNumber(1);
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+
+        String documentNumber = getDocumentHeader().getDocumentNumber();
+        // update gl status as processed when all the capital assets have been processed...
+        SpringContext.getBean(CapitalAssetBuilderModuleService.class).markProcessedGLEntryLine(documentNumber);
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */

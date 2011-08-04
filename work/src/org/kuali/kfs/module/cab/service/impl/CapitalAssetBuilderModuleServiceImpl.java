@@ -61,6 +61,7 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
+import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
@@ -1707,8 +1708,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
                 // update gl status as processed
-                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                this.getBusinessObjectService().save(generalLedgerEntry);
+                if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+                    generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+                    this.getBusinessObjectService().save(generalLedgerEntry);
+                }
 
                 // release asset lock
                 if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
@@ -2287,5 +2290,31 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         
         return exists;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#markProcessedGLEntryLine(java.lang.String)
+     */
+    public boolean markProcessedGLEntryLine(String documentNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
+            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
+                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
+
+                // update gl status as processed
+                if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+                    generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
+                } 
+                else {
+                    generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
+                }
+                
+                this.getBusinessObjectService().save(generalLedgerEntry);
+            }
+        }
+        
+        return true;
     }
 }

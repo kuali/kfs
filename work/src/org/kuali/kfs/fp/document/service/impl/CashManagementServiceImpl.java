@@ -350,7 +350,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             for (CashReceiptDocument cashReceipt : selectedCashReceipts) {
                 String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
-                if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED) && !StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.INTERIM)) {
+                if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED)) {
+                //if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED) && !StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.INTERIM)) {
                     throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getDocumentNumber() + " has a status other than 'verified' ");
                 }
             }

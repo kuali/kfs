@@ -34,6 +34,7 @@
 				<ref bean="CommodityContractManager-contractManagerCode" />
 				<ref bean="CommodityContractManager-newCollectionRecord" />
 				<ref bean="CommodityContractManager-purchasingCommodityCode" />
+				<ref bean="CommodityContractManger-active" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -86,6 +87,11 @@
 	<bean id="CommodityContractManager-purchasingCommodityCode-parentBean"
 		abstract="true" parent="CommodityCode-purchasingCommodityCode" />
 
+	<bean id="CommodityContractManger-active" parent="CommodityContractManager-active-parent" />
+	<bean id="CommodityContractManager-active-parent" abstract="true" parent="GenericAttributes-activeIndicator">
+	<property name="name" value="active"/>
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -112,6 +118,7 @@
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
 				<bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode" />
 				<bean parent="FieldDefinition" p:attributeName="contractManagerCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
@@ -134,6 +141,8 @@
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
 				<bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode" />
 				<bean parent="FieldDefinition" p:attributeName="contractManagerCode" />
+				<bean parent="FieldDefinition" p:defaultValue="Y"
+					p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -141,6 +150,7 @@
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
 				<bean parent="FieldDefinition" p:attributeName="purchasingCommodityCode" />
 				<bean parent="FieldDefinition" p:attributeName="contractManagerCode" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

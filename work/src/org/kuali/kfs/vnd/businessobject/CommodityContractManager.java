@@ -18,12 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CommodityContractManager extends PersistableBusinessObjectBase {
+public class CommodityContractManager extends PersistableBusinessObjectBase implements Inactivateable {
 
 	private String purchasingCommodityCode;
 	private String campusCode;
@@ -32,6 +33,7 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
     private CampusParameter campus;
     private CommodityCode commodityCode;
     private ContractManager contractManager;
+    private boolean active;
     
 	/**
 	 * Default constructor.
@@ -117,5 +119,13 @@ public class CommodityContractManager extends PersistableBusinessObjectBase {
             m.put(VendorPropertyConstants.CONTRACT_MANAGER_CODE, this.contractManagerCode.toString());
         }
 	    return m;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

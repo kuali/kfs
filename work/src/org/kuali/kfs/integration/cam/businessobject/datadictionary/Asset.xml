@@ -82,7 +82,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Description"/>
     <property name="shortLabel" value="Asset Description"/>
-    <property name="maxLength" value="2000"/>
+    <property name="maxLength" value="4000"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>

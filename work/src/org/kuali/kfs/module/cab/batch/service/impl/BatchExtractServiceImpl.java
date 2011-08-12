@@ -627,7 +627,20 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         PurchasingAccountsPayableItemAsset itemAsset = new PurchasingAccountsPayableItemAsset();
         itemAsset.setDocumentNumber(cabPurapDoc.getDocumentNumber());
         itemAsset.setAccountsPayableLineItemIdentifier(apItem.getItemIdentifier());
-        itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
+        // KFSMI-5337
+        // itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
+        // replacing the above line by following code which can populate item description from PO for normal line item
+        if (ObjectUtils.isNotNull(cabPurapDoc) && ObjectUtils.isNotNull(apItem.getItemType()) && apItem.getItemType().isLineItemIndicator()) {
+            PurchaseOrderDocument poDoc = purApInfoService.getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
+            // get corresponding poItem
+            if (ObjectUtils.isNotNull(poDoc)) {
+                PurApItem poItem = poDoc.getItemByLineNumber(apItem.getItemLineNumber());
+                if (ObjectUtils.isNotNull(poItem)) {
+                    itemAsset.setAccountsPayableLineItemDescription(poItem.getItemDescription());
+                }
+            }
+        }
+        
         itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
         itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity() == null ? new KualiDecimal(1) : apItem.getItemQuantity());
         itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);

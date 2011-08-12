@@ -1029,6 +1029,11 @@ public class PurApLineServiceImpl implements PurApLineService {
     public void buildPurApItemAssetList(List<PurchasingAccountsPayableDocument> purApDocs) {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                
+                // KFSMI-5337
+                // Adding the following code to populate item description from PreAsset tagging
+                updateAssetDescriptionFromPreTag(item, purApDoc);
+                
                 // set item non-persistent fields from PurAp PREQ/CM item tables
                 purApInfoService.setAccountsPayableItemsFromPurAp(item, purApDoc.getDocumentTypeCode());
 
@@ -1047,7 +1052,16 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         // set create asset/apply payment indicator which are used to control display two buttons.
         setAssetIndicator(purApDocs);
-
+    }
+    
+    private void updateAssetDescriptionFromPreTag(PurchasingAccountsPayableItemAsset item, PurchasingAccountsPayableDocument purApDoc){
+        Pretag preTag = null;
+        if (item.isActive()) {
+            preTag = getPreTagLineItem(purApDoc.getPurchaseOrderIdentifier(), item.getItemLineNumber());
+            if (ObjectUtils.isNotNull(preTag) && StringUtils.isNotBlank(preTag.getAssetTopsDescription())) {
+                item.setAccountsPayableLineItemDescription(preTag.getAssetTopsDescription());
+            }
+        }
     }
 
 

@@ -30,7 +30,7 @@
 
 <c:set var="quoteOpen" value="${poOutForQuote || poOpen || isPurchaseOrderAwarded}" />
 <c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
-<c:set var="quoteInitable" value="${poInProcess && fullEntryMode}" />
+<c:set var="quoteInitable" value="${poInProcess && fullEntryMode && !isPurchaseOrderAwarded}" />
 
 <kul:tab tabTitle="Quote" defaultOpen="false" tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center>

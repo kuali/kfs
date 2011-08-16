@@ -136,7 +136,7 @@
 								<fp:dataCell dataCellCssClass="${dataCellCssClass}"
 									businessObjectFormName="${capitalAssetInfoName}[${status.index}]" attributes="${attributes}" readOnly="${readOnly}"
 									field="capitalAssetTypeCode" lookup="true" inquiry="true"
-									boClassSimpleName="AssetPayment" boPackageName="org.kuali.kfs.module.cam.businessobject" 
+									boClassSimpleName="CapitalAssetManagementAssetType" boPackageName="org.kuali.kfs.integration.cam" 
 									lookupOrInquiryKeys="capitalAssetTypeCode"
 									businessObjectValuesMap="${capitalAssetInfo.valuesMap}"/>		
 									   

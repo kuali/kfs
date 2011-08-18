@@ -865,7 +865,13 @@
   
   <bean id="PaymentRequestDocument-bankCode" parent="PaymentRequestDocument-bankCode-parentBean"/>
   
-  <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode"/>
+  <bean id="PaymentRequestDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="bankCode"/>
+    <property name="label" value="Bank Code"/>
+    <property name="shortLabel" value="Bank Code"/>
+    <property name="required" value="false"/>
+  
+  </bean>
 
 <!--  tax related properties -->
 

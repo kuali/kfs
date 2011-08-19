@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -387,6 +388,13 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             return false;
         }
 
+        // get the target PaymentGroup info
+        PaymentDetail targetPd = getPaymentDetail(paymentDetailId);
+        KualiInteger targetGroupId = targetPd.getPaymentGroupId();
+        PaymentGroup targetPg = getPaymentGroup(targetGroupId);
+        String targetDvTypeCode = targetPg.getDisbursementTypeCode();
+        String targetDvBankCode = targetPg.getBankCode();
+        
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
@@ -398,6 +406,12 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
+                    
+                    // should be the same DV type and the same bank
+                    if (!(element.getDisbursementTypeCode().equalsIgnoreCase(targetDvBankCode) && element.getBankCode().equalsIgnoreCase(targetDvBankCode))) {
+                        continue;
+                    }
+                    
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
                     
                     if (!element.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
@@ -412,18 +426,19 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     changeStatus(element, PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
 
                     glPendingTransactionService.generateCancellationGeneralLedgerPendingEntry(element);
+                        
+                    // set primary cancel indicator for EPIC to use
+                    // these payment details will be canceled when running processPdpCancelAndPaidJOb 
+                    Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
+                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DETAIL_PAYMENT_GROUP_ID, element.getId());
+    
+                    PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                    if (pd != null) {
+                        pd.setPrimaryCancelledPayment(Boolean.TRUE);
+                    }
+                    
+                    this.businessObjectService.save(pd);
                 }
-
-                // set primary cancel indicator for EPIC to use
-                Map primaryKeys = new HashMap();
-                primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-
-                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-                if (pd != null) {
-                    pd.setPrimaryCancelledPayment(Boolean.TRUE);
-                }
-
-                this.businessObjectService.save(pd);
 
                 LOG.debug("cancelDisbursement() Disbursement cancelled; exit method.");
             }
@@ -645,7 +660,33 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
         return true;
     }
+    
+    /**
+     * Gets DisbursementVoucher by the primary key
+     * 
+     * @param paymentDetailId
+     * @return
+     */
+    protected PaymentDetail getPaymentDetail(Integer paymentDetailId) {
+        Map<String, Integer> primaryKeys = new HashMap<String, Integer>();
+        primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
+        
+        return (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+    }
 
+    /**
+     * Gets PaymentGroup by the primary key
+     * 
+     * @param paymentDetailId
+     * @return
+     */
+    protected PaymentGroup getPaymentGroup(KualiInteger paymentGroupId) {
+        Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
+        primaryKeys.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID, paymentGroupId);
+        
+        return (PaymentGroup) this.businessObjectService.findByPrimaryKey(PaymentGroup.class, primaryKeys);
+    }
+    
     /**
      * inject
      * 

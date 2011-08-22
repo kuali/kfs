@@ -15,11 +15,12 @@
  */
 package org.kuali.kfs.fp.document;
 
-import org.kuali.kfs.fp.businessobject.IndirectCostAdjustmentDocumentAccountingLineParser;
+import java.math.BigDecimal;
+
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.fp.document.validation.impl.IndirectCostAdjustmentDocumentRuleConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -31,6 +32,7 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.rice.kns.document.Copyable;
 import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 
@@ -74,27 +76,33 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     public void addSourceAccountingLine(SourceAccountingLine line) {
         // add source
         super.addSourceAccountingLine(line);
-        // create and populate target line
-        TargetAccountingLine targetAccountingLine = null;
-        try {
-            targetAccountingLine = (TargetAccountingLine) getTargetAccountingLineClass().newInstance();
+        
+        for (IndirectCostRecoveryAccount icrAccount : line.getAccount().getIndirectCostRecoveryAccounts()){
+            
+            KualiDecimal percentDecimal = new KualiDecimal(icrAccount.getAccountLinePercent().divide(new BigDecimal(100)));
+            
+            // create and populate target line
+            TargetAccountingLine targetAccountingLine = null;
+            try {
+                targetAccountingLine = (TargetAccountingLine) getTargetAccountingLineClass().newInstance();
+            }
+            catch (Exception e) {
+                throw new InfrastructureException("unable to create a target accounting line", e);
+            }
+            // get apc object code value
+            String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+            targetAccountingLine.setFinancialObjectCode(objectCode);
+            targetAccountingLine.setAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
+            targetAccountingLine.setChartOfAccountsCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
+            targetAccountingLine.setDocumentNumber(line.getDocumentNumber());
+            targetAccountingLine.setPostingYear(line.getPostingYear());
+            targetAccountingLine.setAmount(line.getAmount().multiply(percentDecimal));
+            // refresh reference objects
+    
+            targetAccountingLine.refresh();
+            // add target line
+            addTargetAccountingLine(targetAccountingLine);
         }
-        catch (Exception e) {
-            throw new InfrastructureException("unable to create a target accounting line", e);
-        }
-        // get apc object code value
-        String objectCode = SpringContext.getBean(ParameterService.class).getParameterValue(IndirectCostAdjustmentDocument.class, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
-        targetAccountingLine.setFinancialObjectCode(objectCode);
-        targetAccountingLine.setAccountNumber(line.getAccount().getIndirectCostRecoveryAcctNbr());
-        targetAccountingLine.setChartOfAccountsCode(line.getAccount().getIndirectCostRcvyFinCoaCode());
-        targetAccountingLine.setDocumentNumber(line.getDocumentNumber());
-        targetAccountingLine.setPostingYear(line.getPostingYear());
-        targetAccountingLine.setAmount(line.getAmount());
-        // refresh reference objects
-
-        targetAccountingLine.refresh();
-        // add target line
-        addTargetAccountingLine(targetAccountingLine);
     }
     
     /**

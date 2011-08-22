@@ -756,6 +756,14 @@ public class KFSPropertyConstants {
     public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE = "indirectCostRcvyFinCoaCode";
     public static final String INDIRECT_COST_RECOVERY_TYPE = "indirectCostRecoveryType";
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
+    
+    public static final String INDIRECT_COST_RECOVERY_ACCOUNTS = "indirectCostRecoveryAccounts";
+    public static final String ICR_ACCOUNT = "indirectCostRecoveryAccount";
+    public static final String ICR_ACCOUNT_NUMBER = "indirectCostRecoveryAccountNumber";
+    public static final String ICR_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";
+    public static final String ICR_CHART_OF_ACCOUNTS_CODE = "indirectCostRecoveryFinCoaCode";
+    public static final String ICR_ACCOUNT_LINE_PERCENT = "accountLinePercent";
+    
     public static final String INITIATOR_NETWORK_ID = KNSPropertyConstants.INITIATOR_NETWORK_ID;
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";

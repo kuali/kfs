@@ -180,7 +180,9 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER = "error.document.accountMaintenance.userMustBeChartManagerOrRootManager";
     public static final String ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT = "error.document.accountMaintenance.cgFieldsFilledInForNonCGAccount";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE = "error.document.accountMaintenance.accountCannotCloseOpenEncumbrance";
-
+    public static final String ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_INVALID_LINE_PERCENT = "error.document.accountMaintenance.indirectCostRecoveryAccounts.invalidLinePercent";
+    public static final String ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_TOTAL_NOT_100_PERCENT = "error.document.accountMaintenance.indirectCostRecoveryAccounts.totalNot100Percent";
+    
     // Fiscal Period Maintenance Errors
     public static final String ERROR_DOCUMENT_FISCAL_PERIOD_YEAR_DOESNT_EXIST = "error.document.fiscalPeriodMaintenance.yearDosntExist";
 

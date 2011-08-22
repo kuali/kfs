@@ -106,6 +106,8 @@
 					p:label="Sub-Accounts" p:shortLabel="Sub-Accounts" />
 				<bean parent="CollectionDefinition" p:name="awards" p:label="Awards"
 					p:shortLabel="Awards" />
+        <bean parent="CollectionDefinition" p:name="indirectCostRecoveryAccounts" p:label="ICR Accounts"
+          p:shortLabel="ICR Account" />
 			</list>
 		</property>
 		<property name="relationships">

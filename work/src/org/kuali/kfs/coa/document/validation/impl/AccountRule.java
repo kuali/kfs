@@ -29,6 +29,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountDescription;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.FundGroup;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
@@ -42,7 +43,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.bo.Person;
@@ -58,7 +58,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
  */
-public class AccountRule extends KfsMaintenanceDocumentRuleBase {
+public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
 
@@ -104,9 +104,29 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldAccount = (Account) super.getOldBo();
-
+        refreshSubObjects(oldAccount);
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) super.getNewBo();
+        refreshSubObjects(newAccount);
+        
+        setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+    }
+    
+
+    /**
+     * Refreshes the references of account
+     * 
+     * @param account Account
+     */
+    void refreshSubObjects(Account account) {
+        if (account != null) {
+            // refresh contacts
+            if (account.getIndirectCostRecoveryAccounts() != null) {
+                for (IndirectCostRecoveryAccount icra : account.getIndirectCostRecoveryAccounts()) {
+                    icra.refreshNonUpdateableReferences();
+                }
+            }
+        }
     }
 
     /**
@@ -152,6 +172,9 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
         success &= checkIncomeStreamAccountRule();
         success &= checkUniqueAccountNumber(document);
         success &= checkOpenEncumbrances();
+        
+        // process for IndirectCostRecovery Account
+        success &= super.processCustomRouteDocumentBusinessRules(document);
         
         return success;
     }
@@ -734,16 +757,23 @@ public class AccountRule extends KfsMaintenanceDocumentRuleBase {
                     }
                 }
 
-                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
-                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
+//                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
+//                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
+              //check the ICR collection exists
+                result &= checkICRCollectionExistWithErrorMessage(true, replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
+                
             }
             else {
                 // this is not a C&G fund group. So users should not fill in any fields in the C&G tab.
                 result &= checkCGFieldNotFilledIn(newAccount, "acctIndirectCostRcvyTypeCd");
                 result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
-                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
-                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
+
+              //check the ICR collection NOT exists
+//                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
+//                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
+                result &= checkICRCollectionExistWithErrorMessage(false, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, newAccount.getSubFundGroupCode());
+                
             }
         }
         return result;

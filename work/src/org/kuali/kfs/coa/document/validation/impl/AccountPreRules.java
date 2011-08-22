@@ -19,6 +19,7 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -146,11 +147,22 @@ public class AccountPreRules extends MaintenancePreRulesBase {
             }
         }
 
-        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAcctNbr())) {
-            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(), newAccount.getIndirectCostRecoveryAcctNbr(), "");
-            if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setIndirectCostRecoveryAcctNbr(account.getAccountNumber());
-                newAccount.setIndirectCostRcvyFinCoaCode(account.getChartOfAccountsCode());
+        //TODO: replaced the pre-rule check on ICR account to look up the collection list
+//        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAcctNbr())) {
+//            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(), newAccount.getIndirectCostRecoveryAcctNbr(), "");
+//            if (ObjectUtils.isNotNull(account)) { // override old user inputs
+//                newAccount.setIndirectCostRecoveryAcctNbr(account.getAccountNumber());
+//                newAccount.setIndirectCostRcvyFinCoaCode(account.getChartOfAccountsCode());
+//            }
+//        }
+        
+        for (IndirectCostRecoveryAccount icra : newAccount.getIndirectCostRecoveryAccounts()){
+            if (StringUtils.isNotBlank(icra.getIndirectCostRecoveryAccountNumber())) {
+                Account account = checkForContinuationAccount("Indirect Cost Recovery Account", icra.getIndirectCostRecoveryAccountNumber(), icra.getIndirectCostRecoveryFinCoaCode(), "");
+                if (ObjectUtils.isNotNull(account)) { // override old user inputs
+                    icra.setIndirectCostRecoveryAccountNumber(account.getAccountNumber());
+                    icra.setIndirectCostRecoveryFinCoaCode(account.getChartOfAccountsCode());
+                }
             }
         }
 

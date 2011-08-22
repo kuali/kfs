@@ -35,6 +35,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.bo.Inactivateable;
@@ -47,6 +48,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -151,12 +153,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     private List subAccounts;
     private List<ContractsAndGrantsAccountAwardInformation> awards;
+    private List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
 
     /**
      * Default no-arg constructor.
      */
     public Account() {
         active = true; // assume active is true until set otherwise
+        indirectCostRecoveryAccounts = new TypedArrayList(IndirectCostRecoveryAccount.class);
     }
     
     /**
@@ -698,6 +702,15 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.awards = awards;
     }
 
+    public List<IndirectCostRecoveryAccount> getIndirectCostRecoveryAccounts() {
+        return this.indirectCostRecoveryAccounts;
+    }
+    
+    public void setIndirectCostRecoveryAccounts(List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
+        this. indirectCostRecoveryAccounts =  indirectCostRecoveryAccounts;
+    }
+
+    
     /**
      * Gets the accountOffCampusIndicator attribute.
      * 

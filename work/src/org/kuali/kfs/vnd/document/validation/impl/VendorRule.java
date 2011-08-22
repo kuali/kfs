@@ -756,7 +756,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (!vendorDivisionsIdsWithDesiredAddressType.contains(value)) {
                     vendorId = newVendor.getVendorHeaderGeneratedIdentifier().toString() + '-' + value.toString();
                     String[] parameters = new String[] { vendorId, vendorTypeCode, vendorAddressTypeRequiredCode };
-                    putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE_DIVISIONS, parameters);
+                    putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE_DIVISIONS, parameters);
                     valid = false;
                 }
             }

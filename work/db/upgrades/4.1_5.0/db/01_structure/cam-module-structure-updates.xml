@@ -41,8 +41,31 @@ elog/dbchangelog-1.9.xsd'>
         <constraints nullable='false' />
       </column>
     </addColumn>
+
+Ï <comment>KFSMI-KFSMI-6889 Extend the column size for CPTLAST_DESC field </comment>
+    <modifyColumn tableName='CB_PRTG_T'>
+      <column name='CPTLAST_TOPS_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+     <modifyColumn tableName='CM_CPTLAST_T'>
+      <column name='CPTLAST_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+     <modifyColumn tableName='CM_AST_RETIRE_DOC_T'>
+      <column name='MERGED_TGT_CPTLAST_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+     <modifyColumn tableName='CM_CPTLAST_DOC_T'>
+      <column name='CPTLAST_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+     <modifyColumn tableName='CM_CPTLAST_DTL_T'>
+      <column name='CPTLAST_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+     <modifyColumn tableName='FP_CPTL_AST_INFO_T'>
+      <column name='CPTLAST_DESC' type='VARCHAR2(4000))' />
+    </modifyColumn>
+    
     <modifySql dbms='mysql'>
       <replace replace='SYS_GUID' with='uuid()' />
+ 	  <replace replace='VARCHAR2' with='VARCHAR' />
+ 	  <replace replace='NUMBER' with='DECIMAL' />
     </modifySql>
     <modifySql dbms='oracle'>
       <replace replace='SYS_GUID' with='sys_guid()' />

@@ -1,3 +1,4 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-2.0.xsd      http://rice.kuali.org/dd      http://rice.kuali.org/dd/dd.xsd">
 <!--
  Copyright 2009 The Kuali Foundation
  
@@ -13,28 +14,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:dd="http://rice.kuali.org/dd"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-<bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean">
+  <bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean">
   	<property name="maintainableSections">
 		<list merge="true">
 			<ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
+      <ref bean="AccountMaintenanceDocument-IndirectCostRecoveryAccounts"/>
 		</list>
-	</property>
-  <property name="defaultExistenceChecks">
-        <list merge="true">
+  	</property>
+    <property name="defaultExistenceChecks">
+      <list merge="true">
 	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" />
  	    </list>   
     </property>
-</bean>
- <!-- Maintenance Section Definitions -->
- <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
+  </bean>
+  
+  <!-- Maintenance Section Definitions -->
+  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 
   <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Contracts And Grants"/>
@@ -42,25 +38,64 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
       <list>
         <dd:maintField attributeName="contractControlFinCoaCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>contractControlFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
+    			<property name="webUILeaveFieldFunctionParameters">
+    				<list>
+    					<value>contractControlFinCoaCode</value>
+    				</list>
+    			</property> 
+    		</bean>         
         <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
         <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail"/>
         <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAcctNbr" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
-			<property name="webUILeaveFieldFunctionParameters">
-				<list>
-					<value>indirectCostRcvyFinCoaCode</value>
-				</list>
-			</property> 
-		</bean>         
+    			<property name="webUILeaveFieldFunctionParameters">
+    				<list>
+    					<value>indirectCostRcvyFinCoaCode</value>
+    				</list>
+    			</property> 
+    		</bean>         
         <dd:maintField attributeName="accountCfdaNumber"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>
     </property>
   </bean>
+  
+  <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts" parent="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="ICRAccounts"/>
+    <property name="title" value="Indirect Cost Recovery Accounts"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="indirectCostRecoveryAccounts"/>
+            <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount"/>
+            <property name="summaryTitle" value="Indirect Cost Recovery Account"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+              <dd:maintField attributeName="indirectCostRecoveryAccountNumber"/>
+              <dd:maintField attributeName="accountLinePercent"/>
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                  <property name="webUILeaveFieldFunctionParameters">
+                    <list>
+                      <value>indirectCostRecoveryFinCoaCode</value>
+                    </list>
+                  </property> 
+                </bean>      
+                <dd:maintField attributeName="accountLinePercent" />
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+  
 </beans>

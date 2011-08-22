@@ -3,28 +3,28 @@
   <changeSet author='KFS50' id='CreateTable_ca_icr_acct_t' failOnError='true'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='ca_icr_acct_t'>
-      <column name='CA_ICR_ACCT_GNRTD_ID' type='number(10,0)' defaultValueNumeric='0'>
+      <column name='CA_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
         <constraints primaryKey='true' nullable='false' />
       </column>
-      <column name='OBJ_ID' type='varchar2(36)'>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
       	<constraints nullable='false' />
       </column>
-      <column name='VER_NBR' type='number(8,0)' defaultValueNumeric='1'>
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
       	<constraints nullable='false' />
       </column>
-      <column name='FIN_COA_CD' type='varchar2(2)' defaultValue='' >
+      <column name='FIN_COA_CD' type='VARCHAR2(2)' defaultValue='' >
       	<constraints nullable='false' />
       </column>
-      <column name='ACCOUNT_NBR' type='varchar2(7)'>
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)'>
       	<constraints nullable='false' />
       </column>
-      <column name='ICR_FIN_COA_CD' type='varchar2(2)' >
+      <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' >
       	<constraints nullable='true' />
       </column>
-      <column name='ICR_FIN_ACCT_NBR' type='varchar2(7)' >
+      <column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' >
       	<constraints nullable='true' />
       </column>
-      <column name='ACLN_PCT' type='varchar2(45)' >
+      <column name='ACLN_PCT' type='VARCHAR2(45)' >
       	<constraints nullable='true' />
       </column>
     </createTable>
@@ -43,43 +43,41 @@
    
 	<changeSet author="KFS50" id="ca_icr_acct_seq_mysql" dbms="mysql">
 	  	<createTable tableName="ca_icr_acct_seq">
-	  		<column name="ID" type="BIGINT(19)" defaultValueNumeric="10000" autoIncrement="true">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>
 	  	</createTable>
-	  	<modifySql>
-	  		<append value=" ENGINE MyISAM"/>
-	  	</modifySql>
+	  	<sql>ALTER TABLE ca_icr_acct_seq AUTO_INCREMENT=10000</sql>
   	</changeSet>
   	
   <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t' failOnError='true'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='ca_a21_icr_acct_t'>
-      <column name='CA_A21_ICR_ACCT_GNRTD_ID' type='number(10,0)' defaultValueNumeric='0'>
+      <column name='CA_A21_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
         <constraints primaryKey='true' nullable='false' />
       </column>
-      <column name='OBJ_ID' type='varchar2(36)'>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
       	<constraints nullable='false' />
       </column>
-      <column name='VER_NBR' type='number(8,0)' defaultValueNumeric='1' >
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1' >
       	<constraints nullable='false' />
       </column>
-      <column name='FIN_COA_CD' type='varchar2(2)' defaultValue='' >
+      <column name='FIN_COA_CD' type='VARCHAR2(2)' defaultValue='' >
       	<constraints nullable='false' />
       </column>
-      <column name='ACCOUNT_NBR' type='varchar2(7)' >
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)' >
       	<constraints nullable='false' />
       </column>
-      <column name='SUB_ACCT_NBR' type='varchar2(5)' >
+      <column name='SUB_ACCT_NBR' type='VARCHAR2(5)' >
       	<constraints nullable='false' />
       </column>
-      <column name='ICR_FIN_COA_CD' type='varchar2(2)' >
+      <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' >
       	<constraints nullable='false' />
       </column>
-      <column name='ICR_FIN_ACCT_NBR' type='varchar2(7)' >
+      <column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' >
       	<constraints nullable='true' />
       </column>
-      <column name='ACLN_PCT' type='varchar2(45)' >
+      <column name='ACLN_PCT' type='VARCHAR2(45)' >
       	<constraints nullable='true' />
       </column>
     </createTable>
@@ -97,12 +95,10 @@
    
 	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_mysql" dbms="mysql">
 	  	<createTable tableName="ca_a21_icr_acct_seq">
-	  		<column name="ID" type="BIGINT(19)" defaultValueNumeric="10000" autoIncrement="true">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>
 	  	</createTable>
-	  	<modifySql>
-	  		<append value=" ENGINE MyISAM"/>
-	  	</modifySql>
+	  	<sql>ALTER TABLE ca_a21_icr_acct_seq AUTO_INCREMENT=10000</sql>
   	</changeSet>
 </databaseChangeLog>

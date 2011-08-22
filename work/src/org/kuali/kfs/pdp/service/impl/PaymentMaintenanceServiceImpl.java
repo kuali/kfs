@@ -408,7 +408,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
                     
                     // should be the same DV type and the same bank
-                    if (!(element.getDisbursementTypeCode().equalsIgnoreCase(targetDvBankCode) && element.getBankCode().equalsIgnoreCase(targetDvBankCode))) {
+                    if (!(element.getDisbursementTypeCode().equalsIgnoreCase(targetDvTypeCode) && element.getBankCode().equalsIgnoreCase(targetDvBankCode))) {
                         continue;
                     }
                     

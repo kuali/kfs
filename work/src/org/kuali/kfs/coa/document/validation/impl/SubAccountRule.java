@@ -140,10 +140,13 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
         newSubAccount = (SubAccount) super.getNewBo();
         refreshSubObjects(newSubAccount);
         
-        List<IndirectCostRecoveryAccount> icrAccountList = new ArrayList<IndirectCostRecoveryAccount>(
-                newSubAccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts());
-        setIndirectCostRecoveryAccountList(icrAccountList);
-        setBoFieldPath(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS);
+        //icr rule checking setup
+        if (newSubAccount.getA21SubAccount() != null){
+            List<IndirectCostRecoveryAccount> icrAccountList = new ArrayList<IndirectCostRecoveryAccount>(
+                    newSubAccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts());
+            setIndirectCostRecoveryAccountList(icrAccountList);
+            setBoFieldPath(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS);
+        }
     }
     
     /**
@@ -153,10 +156,13 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
      */
     void refreshSubObjects(SubAccount subaccount) {
         if (subaccount != null) {
-            // refresh contacts
-            if (subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts() != null) {
-                for (A21IndirectCostRecoveryAccount icra : subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts()) {
-                    icra.refreshNonUpdateableReferences();
+            if (subaccount.getA21SubAccount() != null) {
+                subaccount.getA21SubAccount().refreshNonUpdateableReferences();
+                // refresh contacts
+                if (subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts() != null) {
+                    for (A21IndirectCostRecoveryAccount icra : subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts()) {
+                        icra.refreshNonUpdateableReferences();
+                    }
                 }
             }
         }

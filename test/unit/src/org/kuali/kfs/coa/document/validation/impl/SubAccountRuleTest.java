@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpt
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -76,8 +77,22 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         subAccount.setFinReportOrganizationCode(finReportOrgCode);
         subAccount.setFinancialReportingCode(finReportingCode);
         subAccount.refresh();
-
+        addA21SubAccount(subAccount);
+        
         return subAccount;
+    }
+    
+    /**
+     * add a dummy object for a21SubAccount
+     * 
+     * @param sub
+     */
+    private void addA21SubAccount(SubAccount sub){
+        A21SubAccount a21 =  new A21SubAccount();
+        a21.setChartOfAccountsCode(sub.getChartOfAccountsCode());
+        a21.setAccountNumber(sub.getAccountNumber());
+        a21.refresh();
+        sub.setA21SubAccount(a21);
     }
 
     public void testCheckForPartiallyEnteredReportingFields_nullChartAndAccount() {
@@ -194,11 +209,14 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         // setup rule, document, and bo
         newSubAccount = SubAccountFixture.SUB_ACCOUNT_WITH_BAD_CG_FUND_GROUP.createSubAccount();
         newSubAccount.refresh();
+        newSubAccount.setA21SubAccount(null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         assertEquals(true, rule.checkCgRules(maintDoc));
+        
+        //System.out.println( GlobalVariables.getMessageMap().entrySet() );
     }
 
     public void testCheckCgRules_badA21SubAccountAccountType() throws Exception {

@@ -108,7 +108,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
      * @param args
      * @return
      */
-    protected boolean checkICRCollectionExistWithErrorMessage(boolean expectFilled, String errorMessage, String...args) {
+    protected boolean checkICRCollectionExistWithErrorMessage(boolean expectFilled, String errorMessage, String args) {
         boolean success = true;
         success = checkICRCollectionExist(expectFilled);
         if (!success){

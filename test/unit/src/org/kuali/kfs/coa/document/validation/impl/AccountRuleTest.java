@@ -28,11 +28,13 @@ import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -45,6 +47,8 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.MessageMap;
+import org.mortbay.log.Log;
 
 @ConfigureContext(session = khuntley)
 public class AccountRuleTest extends ChartRuleTestBase {
@@ -904,19 +908,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContractControlAccountNumber(null);
         newAccount.setAcctIndirectCostRcvyTypeCd(null);
         newAccount.setFinancialIcrSeriesIdentifier(null);
-        newAccount.setIndirectCostRcvyFinCoaCode(null);
-        newAccount.setIndirectCostRecoveryAcctNbr(null);
         newAccount.setAccountCfdaNumber(null);
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
         assertEquals("Rule should return false with missing fields.", false, result);
-        assertGlobalErrorMapSize(4);
+        assertGlobalErrorMapSize(3);
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_REQUIRED);
-
+        assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY);
     }
 
     @SuppressWarnings("deprecation")
@@ -942,14 +942,25 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        addIndirectCostRecoveryAccount(newAccount);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
         assertGlobalErrorMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
+    }
+    
+    /**
+     * Set IndirectCostRecovery Account
+     * 
+     * @param newAccount
+     */
+    private void addIndirectCostRecoveryAccount(Account newAccount) {
+        IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
+        icr.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
+        icr.setIndirectCostRecoveryFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.getIndirectCostRecoveryAccounts().add(icr);
     }
 
     /**
@@ -978,16 +989,17 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        addIndirectCostRecoveryAccount(newAccount);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
+        
+        System.out.println(GlobalVariables.getMessageMap());
+        
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false", result);
     }
 
@@ -1022,8 +1034,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContractControlAccountNumber(newAccount.getAccountNumber());
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        addIndirectCostRecoveryAccount(newAccount);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule

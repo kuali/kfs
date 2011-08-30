@@ -758,10 +758,9 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                     }
                 }
 
-//                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
-//                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
               //check the ICR collection exists
-                result &= checkICRCollectionExistWithErrorMessage(true, replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
+                result &= checkICRCollectionExistWithErrorMessage(true, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY, 
+                        replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
                 
             }
@@ -771,8 +770,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
 
               //check the ICR collection NOT exists
-//                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
-//                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
                 result &= checkICRCollectionExistWithErrorMessage(false, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, newAccount.getSubFundGroupCode());
                 
             }

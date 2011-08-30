@@ -110,6 +110,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         refreshSubObjects(newAccount);
         
         setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        setBoFieldPath(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS);
     }
     
 

@@ -16,48 +16,24 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.AccountDescription;
-import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
-import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
-import org.kuali.kfs.coa.businessobject.SubFundGroup;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.ld.LaborModuleService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -69,7 +45,8 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
 
     protected static final BigDecimal BD100 = new BigDecimal(100);
     private List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccountList;
-
+    private String boFieldPath;
+    
     /**
      * Custom processing for adding collection lines
      * 
@@ -81,7 +58,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         // this incoming bo needs to be refreshed because it doesn't have its subobjects setup
         bo.refreshNonUpdateableReferences();
 
-        if (bo instanceof IndirectCostRecoveryAccount) {
+        if (bo instanceof IndirectCostRecoveryAccount || bo instanceof A21IndirectCostRecoveryAccount) {
             IndirectCostRecoveryAccount account = (IndirectCostRecoveryAccount) bo;
             success &= checkIndirectCostRecoveryAccount(account);
         }
@@ -135,7 +112,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         boolean success = true;
         success = checkICRCollectionExist(expectFilled);
         if (!success){
-            putFieldError(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, errorMessage, args);
+            putFieldError(boFieldPath, errorMessage, args);
         }
         return success;
     }
@@ -216,7 +193,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         BigDecimal totalDistribution = BigDecimal.ZERO;
         
         for (IndirectCostRecoveryAccount icra : indirectCostRecoveryAccountList){
-            String errorPath = MAINTAINABLE_ERROR_PREFIX + KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS + "[" + i++ + "]";
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + boFieldPath + "[" + i++ + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             checkIndirectCostRecoveryAccount(icra);
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
@@ -226,7 +203,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         
         //check the total distribution is 100
         if (totalDistribution.compareTo(BD100) != 0){
-            putFieldError(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_TOTAL_NOT_100_PERCENT);
+            putFieldError(boFieldPath, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_TOTAL_NOT_100_PERCENT);
             result &= false;
         }
         
@@ -248,6 +225,14 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
 
     public void setIndirectCostRecoveryAccountList(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccountList) {
         this.indirectCostRecoveryAccountList = indirectCostRecoveryAccountList;
+    }
+    
+    public String getBoFieldPath() {
+        return boFieldPath;
+    }
+
+    public void setBoFieldPath(String boFieldPath) {
+        this.boFieldPath = boFieldPath;
     }
 
 }

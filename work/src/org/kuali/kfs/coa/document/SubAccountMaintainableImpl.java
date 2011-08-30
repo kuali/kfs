@@ -76,6 +76,7 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
         String chartOfAccountsCode = subAccount.getChartOfAccountsCode();
         String accountNumber = subAccount.getAccountNumber();
         
+        //populate ICR fields if subAccount COA or Acct does not match a21SubAccount COA/Acct
         if (ObjectUtils.isNotNull(a21SubAccount) && (!StringUtils.equals(chartOfAccountsCode, a21SubAccount.getChartOfAccountsCode()) || !StringUtils.equals(accountNumber, a21SubAccount.getAccountNumber()))) {                  
             A21SubAccountService a21SubAccountService = SpringContext.getBean(A21SubAccountService.class);
             a21SubAccountService.populateCgIcrAccount(a21SubAccount, chartOfAccountsCode, accountNumber);

@@ -50,6 +50,12 @@
 				<ref bean="SubAccount-cgICRSection" />
 			</list>
 		</property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="a21SubAccount.a21IndirectCostRecoveryAccounts" p:label="ICR Accounts"
+          p:shortLabel="ICR Account" />
+      </list>
+    </property>
 		<property name="inactivationBlockingDefinitions">
 			<list>
 				<bean parent="InactivationBlockingDefinition"
@@ -268,6 +274,7 @@
 		<property name="inquirySections">
 			<list>
 				<ref bean="SubAccount-inquirySectionDefinition" />
+        <ref bean="SubAccount-inquirySectionDefinition-icr" />
 			</list>
 		</property>
 	</bean>
@@ -306,6 +313,42 @@
 			</list>
 		</property>
 	</bean>
+  
+  <bean id="SubAccount-inquirySectionDefinition-icr" parent="SubAccount-inquirySectionDefinition-icr-parentBean" />
+  <bean id="SubAccount-inquirySectionDefinition-icr-parentBean" parent="InquirySectionDefinition"
+    abstract="true">
+
+    <property name="title" value="Indirect Cost Recovery Accounts" />
+    <property name="inquiryFields">
+      <list>
+        <ref bean="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean 
+    id="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts" 
+    parent="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts-parentBean" />
+  <bean 
+    id="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="a21SubAccount.a21IndirectCostRecoveryAccounts" />
+    <property name="businessObjectClass"
+      value="org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+        <bean parent="FieldDefinition" p:attributeName="accountLinePercent" />
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+      </list>
+    </property>
+  </bean>
 	<!-- Business Object Lookup Definition -->
 
 

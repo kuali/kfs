@@ -17,8 +17,10 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -48,12 +50,15 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private IndirectCostRecoveryType indirectCostRecoveryType;
     private Chart chartOfAccounts;
     private Account account;
+    
+    private List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts;
 
     /**
      * 
      */
     public A21SubAccount() {
         super();
+        a21IndirectCostRecoveryAccounts = new TypedArrayList(A21IndirectCostRecoveryAccount.class);
     }
 
     /**
@@ -427,6 +432,16 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
+
+
+    public List<A21IndirectCostRecoveryAccount> getA21IndirectCostRecoveryAccounts() {
+        return a21IndirectCostRecoveryAccounts;
+    }
+
+    public void setA21IndirectCostRecoveryAccounts(List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts) {
+        this.a21IndirectCostRecoveryAccounts = a21IndirectCostRecoveryAccounts;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -439,6 +454,15 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
         map.put("subAccountNumber", getSubAccountNumber());
         return map;
     }
-
+    
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getA21IndirectCostRecoveryAccounts());
+        return managedLists;
+    }
 
 }

@@ -37,6 +37,12 @@
         <ref bean="A21SubAccount-costShareSourceSubAccountNumber"/>
       </list>
     </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="a21IndirectCostRecoveryAccounts" p:label="ICR Accounts"
+          p:shortLabel="ICR Account" />
+      </list>
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->

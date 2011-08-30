@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
- * Purchasing Contracts with specific Vendors.
+ * IndrectCostRecoveryAccount
  */
 public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase {
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAccount.class);

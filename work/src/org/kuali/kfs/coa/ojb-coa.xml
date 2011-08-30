@@ -508,15 +508,36 @@
         <foreignkey field-ref="accountNumber" />
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
-    
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount" table="CA_ICR_ACCT_T">
-    <field-descriptor name="indirectCostRecoveryAccountGeneratedIdentifier" column="CA_ICR_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CA_ICR_ACCT_GNRTD_ID"/>
+    <field-descriptor name="indirectCostRecoveryAccountGeneratedIdentifier" column="CA_ICR_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CA_ICR_ACCT_SEQ"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="indirectCostRecoveryFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_FIN_ACCT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL" />
+
+    <reference-descriptor name="indirectCostRecoveryAccount" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="indirectCostRecoveryFinCoaCode" />
+        <foreignkey field-ref="indirectCostRecoveryAccountNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="indirectCostRecoveryChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+        <foreignkey field-ref="indirectCostRecoveryFinCoaCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount" table="CA_A21_ICR_ACCT_T">
+    <field-descriptor name="a21IndirectCostRecoveryAccountGeneratedIdentifier" column="CA_A21_ICR_ACCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CA_A21_ICR_ACCT_SEQ"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="indirectCostRecoveryFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_FIN_ACCT_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="DECIMAL" />
@@ -1043,6 +1064,12 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
     
+    <collection-descriptor name="a21IndirectCostRecoveryAccounts" element-class-ref="org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="a21IndirectCostRecoveryAccountGeneratedIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="chartOfAccountsCode" />
+        <inverse-foreignkey field-ref="accountNumber" />
+        <inverse-foreignkey field-ref="subAccountNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.coa.businessobject.AccountDescription" table="CA_ACCT_DESC_T">

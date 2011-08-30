@@ -16,8 +16,10 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -120,9 +122,10 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
                 if (ObjectUtils.isNull(account) || StringUtils.isBlank(account.getAccountNumber())) {
                     account = getAccountService().getByPrimaryId(newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber());
                     if (ObjectUtils.isNotNull(account)) {
-                        if (StringUtils.isBlank(a21SubAccount.getIndirectCostRecoveryAcctNbr())) {
-                            a21SubAccount.setIndirectCostRecoveryAcctNbr(account.getIndirectCostRecoveryAcctNbr());
-                            a21SubAccount.setIndirectCostRcvyFinCoaCode(account.getIndirectCostRcvyFinCoaCode());
+                        if (a21SubAccount.getA21IndirectCostRecoveryAccounts().isEmpty()) {
+                            for (IndirectCostRecoveryAccount icrAccount : account.getIndirectCostRecoveryAccounts()){
+                                a21SubAccount.getA21IndirectCostRecoveryAccounts().add(A21IndirectCostRecoveryAccount.copyICRAccount(icrAccount));
+                            }
                         }
                         if (StringUtils.isBlank(a21SubAccount.getFinancialIcrSeriesIdentifier())) {
                             a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());

@@ -1890,6 +1890,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     */
    public void setIndirectCostRcvyChartOfAccounts(Chart indirectCostRcvyChartOfAccounts) {
        this.indirectCostRcvyChartOfAccounts = indirectCostRcvyChartOfAccounts;
-   }   
+   }
+   
+   /**
+    * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+    */
+   @Override
+   public List buildListOfDeletionAwareLists() {
+       List<List> managedLists = super.buildListOfDeletionAwareLists();
+       managedLists.add(getIndirectCostRecoveryAccounts());
+       return managedLists;
+   }
    
 }

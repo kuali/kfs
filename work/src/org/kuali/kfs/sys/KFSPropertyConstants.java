@@ -758,6 +758,7 @@ public class KFSPropertyConstants {
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
     
     public static final String INDIRECT_COST_RECOVERY_ACCOUNTS = "indirectCostRecoveryAccounts";
+    public static final String A21INDIRECT_COST_RECOVERY_ACCOUNTS = "a21SubAccount.a21IndirectCostRecoveryAccounts";
     public static final String ICR_ACCOUNT = "indirectCostRecoveryAccount";
     public static final String ICR_ACCOUNT_NUMBER = "indirectCostRecoveryAccountNumber";
     public static final String ICR_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";

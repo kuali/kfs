@@ -15,12 +15,17 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubFundGroupService;
@@ -30,14 +35,13 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * This class implements the business rules specific to the {@link SubAccount} Maintenance Document.
  */
-public class SubAccountRule extends MaintenanceDocumentRuleBase {
+public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
 
@@ -89,6 +93,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         // process CG rules if appropriate
         success &= checkCgRules(document);
 
+        success &= super.processCustomRouteDocumentBusinessRules(document);
         return success;
     }
 
@@ -129,9 +134,32 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldSubAccount = (SubAccount) super.getOldBo();
+        refreshSubObjects(oldSubAccount);
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newSubAccount = (SubAccount) super.getNewBo();
+        refreshSubObjects(newSubAccount);
+        
+        List<IndirectCostRecoveryAccount> icrAccountList = new ArrayList<IndirectCostRecoveryAccount>(
+                newSubAccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts());
+        setIndirectCostRecoveryAccountList(icrAccountList);
+        setBoFieldPath(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS);
+    }
+    
+    /**
+     * Refreshes the references of account
+     * 
+     * @param subaccount SubAccount
+     */
+    void refreshSubObjects(SubAccount subaccount) {
+        if (subaccount != null) {
+            // refresh contacts
+            if (subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts() != null) {
+                for (A21IndirectCostRecoveryAccount icra : subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts()) {
+                    icra.refreshNonUpdateableReferences();
+                }
+            }
+        }
     }
 
     /**
@@ -219,28 +247,36 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        A21SubAccount a21 = newSubAccount.getA21SubAccount();
+        
         // short circuit if there is no A21SubAccount object at all (ie, null)
-        if (ObjectUtils.isNull(newSubAccount.getA21SubAccount())) {
+        if (ObjectUtils.isNull(a21)) {
             return success;
         }
 
         // FROM HERE ON IN WE CAN ASSUME THERE IS A VALID A21 SUBACCOUNT OBJECT
 
+        // KFSMI-6848 since there is a ICR Collection Account object, change refresh to perform 
         // manually refresh the a21SubAccount object, as it wont have been
         // refreshed by the parent, as its updateable
         // though only refresh if we didn't refresh in the checks above
+        
         if (!a21SubAccountRefreshed) {
-            newSubAccount.getA21SubAccount().refresh();
+            //preserve the ICRAccounts before refresh to prevent the list from dropping
+            List<A21IndirectCostRecoveryAccount>icrAccounts =a21.getA21IndirectCostRecoveryAccounts(); 
+            a21.refresh();
+            a21.setA21IndirectCostRecoveryAccounts(icrAccounts);
+            
         }
 
         // C&G A21 Type field must be in the allowed values
-        if (!KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES.contains(newSubAccount.getA21SubAccount().getSubAccountTypeCode())) {
+        if (!KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES.contains(a21.getSubAccountTypeCode())) {
             putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, KFSConstants.SubAccountType.ELIGIBLE_SUB_ACCOUNT_TYPE_CODES.toString());
             success &= false;
         }
 
         // get a convenience reference to this code
-        String cgA21TypeCode = newSubAccount.getA21SubAccount().getSubAccountTypeCode();
+        String cgA21TypeCode = a21.getSubAccountTypeCode();
 
         // if this is a Cost Sharing SubAccount, run the Cost Sharing rules
         if (KFSConstants.SubAccountType.COST_SHARE.trim().equalsIgnoreCase(StringUtils.trim(cgA21TypeCode))) {
@@ -362,11 +398,14 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // existence check for ICR Account
-        if (StringUtils.isNotEmpty(a21.getIndirectCostRcvyFinCoaCode()) && StringUtils.isNotEmpty(a21.getIndirectCostRecoveryAcctNbr())) {
-            if (ObjectUtils.isNull(a21.getIndirectCostRecoveryAcct())) {
-                putFieldError("a21SubAccount.indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + a21.getIndirectCostRcvyFinCoaCode() + "-" + a21.getIndirectCostRecoveryAcctNbr());
-                
-                success = false;
+        for (A21IndirectCostRecoveryAccount account : a21.getA21IndirectCostRecoveryAccounts()){
+            if (StringUtils.isNotBlank(account.getIndirectCostRecoveryAccountNumber())
+                && StringUtils.isNotBlank(account.getIndirectCostRecoveryFinCoaCode())){
+                if(ObjectUtils.isNull(account.getIndirectCostRecoveryAccount())){                                
+                    putFieldError(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + account.getIndirectCostRecoveryFinCoaCode() + "-" + account.getIndirectCostRecoveryAccountNumber());
+                    success = false;
+                    break;
+                }
             }
         }
 
@@ -409,8 +448,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
         if (ObjectUtils.isNotNull(newA21SubAccount)) {
             success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
-            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRcvyFinCoaCode());
-            success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAcctNbr());
+            //success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRcvyFinCoaCode());
+            //success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAcctNbr());
+            
+            success &= checkICRCollectionExist(false);
             success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());
             // this is a boolean, so create any value if set to true, meaning a user checked the box, otherwise assume it's empty
             success &= StringUtils.isEmpty(newA21SubAccount.getOffCampusCode() ? "1" : "");

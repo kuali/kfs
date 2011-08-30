@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.dataaccess.A21SubAccountDao;
 import org.kuali.kfs.coa.service.A21SubAccountService;
 import org.kuali.kfs.coa.service.AccountService;
@@ -82,8 +84,9 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
             a21SubAccount.setAccountNumber(account.getAccountNumber());
             a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
 
-            a21SubAccount.setIndirectCostRcvyFinCoaCode(account.getIndirectCostRcvyFinCoaCode());
-            a21SubAccount.setIndirectCostRecoveryAcctNbr(account.getIndirectCostRecoveryAcctNbr());
+            for (IndirectCostRecoveryAccount icrAccount : account.getIndirectCostRecoveryAccounts()){
+                a21SubAccount.getA21IndirectCostRecoveryAccounts().add(A21IndirectCostRecoveryAccount.copyICRAccount(icrAccount));
+            }
             a21SubAccount.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
 
             a21SubAccount.setOffCampusCode(account.isAccountOffCampusIndicator());

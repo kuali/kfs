@@ -18,4 +18,13 @@
        from pur_po_itm_t group by fdoc_nbr
 		]]></createView>
 	</changeSet>
+	<changeSet author='KFS50' id='KFS_50_AddColumn_DISPLAY_TO_USER_IND'>
+		<comment>KFSMI-KFSMI-6486 Add a new column to PUR_PO_TRNS_MTHD_T</comment>
+		<addColumn tableName='pur_po_trns_mthd_t'>
+			<column name='DISPLAY_TO_USER_IND' type='VARCHAR2(1)' />
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+	</changeSet>
 </databaseChangeLog>

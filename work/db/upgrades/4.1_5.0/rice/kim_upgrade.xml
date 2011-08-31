@@ -23,9 +23,7 @@
 			<column name="KIM_ATTR_DEFN_ID" value="1" />
 			<column name="ATTR_VAL" value="customerLoadCSVInputFileType" />
 		</insert>
-		<!--
-			Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User
-		-->
+		<!-- Assign the permission to Roles KFS-SYS/User and KFS-SYS/System User -->
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSAR6012-1" />
 			<column name="OBJ_ID" value="KFSAR6012-1" />
@@ -41,23 +39,70 @@
 			<where>kim_typ_attr_id="78" and sort_cd="d"</where>
 		</update>
 		<sql>
-			insert into krim_typ_attr_t (kim_typ_attr_id, obj_id, ver_nbr, sort_cd,
+			insert into krim_typ_attr_t (kim_typ_attr_id, obj_id, ver_nbr,
+			sort_cd,
 			kim_typ_id, kim_attr_defn_id, actv_ind)
-			values ("KFSSEC1010", "KFSSEC1010", 1, 'd',
-			(select kim_typ_id from krim_typ_t where nmspc_cd = 'KFS-COA' and nm =
+			values ("KFSSEC1010",
+			"KFSSEC1010", 1, 'd',
+			(select kim_typ_id from krim_typ_t where
+			nmspc_cd = 'KFS-COA' and nm =
 			'Sub-Account & Document Type'),
-			(select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KFS-COA'
-			and nm = 'organizationCode'),
+			(select
+			kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KFS-COA'
+			and
+			nm = 'organizationCode'),
 			'Y');
 		</sql>
-		
-		<!--  KFSMI 6842 remove bad data from sub account review role -->
+
+		<!-- KFSMI 6842 remove bad data from sub account review role -->
 		<delete tableName="KRIM_ROLE_MBR_T">
-		<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="5390502344"</where>
+			<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="5390502344"
+			</where>
 		</delete>
 		<delete tableName="KRIM_ROLE_MBR_T">
-		<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="2615708929"</where>
+			<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="2615708929"
+			</where>
 		</delete>
+
+		<!--KFSMI-KFSMI-6940 Establish permission for fully Unmask Field for purapDocumentIdentifier attribute-->
+		<insert tableName='KRIM_PERM_T'>
+			<column name='PERM_ID' value='KFSPURAP6940' />
+			<column name='OBJ_ID' value='KFSPURAP6940' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PERM_TMPL_ID' value='27' />
+			<column name='NMSPC_CD' value='KFS-PURAP' />
+			<column name='NM' value='Full Unmask Field' />
+			<column name='DESC_TXT'
+				value='Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry' />
+			<column name='ACTV_IND' value='Y' />
+		</insert>
+		<insert tableName='KRIM_PERM_ATTR_DATA_T'>
+			<column name='ATTR_DATA_ID' value='KFSPURAP6940-01' />
+			<column name='OBJ_ID' value='KFSPURAP6940-01' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PERM_ID' value='KFSPURAP6940' />
+			<column name='KIM_TYP_ID' value='11' />
+			<column name='KIM_ATTR_DEFN_ID' value='5' />
+			<column name='ATTR_VAL' value='PurchaseOrderDocument' />
+		</insert>
+		<insert tableName='KRIM_PERM_ATTR_DATA_T'>
+			<column name='ATTR_DATA_ID' value='KFSPURAP6940-02' />
+			<column name='OBJ_ID' value='KFSPURAP6940-02' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PERM_ID' value='KFSPURAP6940' />
+			<column name='KIM_TYP_ID' value='11' />
+			<column name='KIM_ATTR_DEFN_ID' value='6' />
+			<column name='ATTR_VAL' value='purapDocumentIdentifier' />
+		</insert>
+		<insert tableName='KRIM_ROLE_PERM_T'>
+			<column name='ROLE_PERM_ID' value='KFSPURAP6940-01' />
+			<column name='OBJ_ID' value='KFSPURAP6940-01' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='ROLE_ID' value='26' />
+			<column name='PERM_ID' value='KFSPURAP6940' />
+			<column name='ACTV_IND' value='Y' />
+		</insert>
+
 	</changeSet>
 </databaseChangeLog>   
       

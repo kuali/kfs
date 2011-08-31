@@ -415,3 +415,5 @@ KFSENDOW6009-1,KFSENDOW6009-1,1,KFSENDOW6009,12,2,org.kuali.kfs.module.endow.web
 KFSENDOW6010-1,KFSENDOW6010-1,1,KFSENDOW6010,12,2,org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction
 KFSENDOW6011-1,KFSENDOW6011-1,1,KFSENDOW6011,12,2,org.kuali.kfs.module.endow.web.struts.AssetStatementAction
 KFSAR6012-1,KFSAR6012-1,1,KFSAR6012,15,1,customerLoadCSVInputFileType
+KFSPURAP6940-01,KFSPURAP6940-01,1,KFSPURAP6940,11,5,PurchaseOrderDocument
+KFSPURAP6940-02,KFSPURAP6940-02,1,KFSPURAP6940,11,6,purapDocumentIdentifier

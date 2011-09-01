@@ -18,27 +18,21 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.docsearch.DocumentSearchResultComponents;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 

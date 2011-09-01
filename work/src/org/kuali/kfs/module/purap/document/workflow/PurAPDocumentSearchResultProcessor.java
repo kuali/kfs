@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.workflow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
@@ -25,10 +26,16 @@ import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
 import org.kuali.rice.kew.docsearch.DocumentSearchResultComponents;
+import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
+import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.SearchingAttribute;
+import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -36,84 +43,31 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 
-public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultProcessor {
-    @Override
-    public DocumentSearchResultComponents processIntoFinalResults(
-            List<DocSearchDTO> docSearchResultRows,
-            DocSearchCriteriaDTO criteria, String principalId) {
-        DocumentSearchResultComponents searchResultComponents = super.processIntoFinalResults(docSearchResultRows, criteria, principalId);
-        
-        String docStatus = "";
-        String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
-        String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        
-        String documentHeaderId = criteria.getRouteHeaderId();
-        Document document = findDocument(documentHeaderId);
-        docStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        
-        for (DocSearchDTO searchResultRow : docSearchResultRows) {
-            for (KeyValueSort keyValueSort : searchResultRow.getSearchableAttributes()) {
-                if (keyValueSort.getkey().equalsIgnoreCase("purapDocumentIdentifier")) {
-                    //KFSMI-4576 masking PO number...
-                    if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) &&
-                            !isAuthorized) {
-                        String poIDstr = "";
-                        int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
-                        for (int i = 0; i < strLength; i++) {
-                            poIDstr = poIDstr.concat("*");
-                        }
-                        
-                        keyValueSort.setvalue(poIDstr);
-                        keyValueSort.setSortValue(poIDstr);
-                    }
-                }
-            }
-        }
-        
-        return searchResultComponents;
-    }
-    
+public class PurAPDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
     /**
-     * This method finds the document for the given document header id
-     * @param documentHeaderId
-     * @return document The document in the workflow that matches the document header id.
+     * Customizes the result set for purap document identified attribute value.  After getting the 
+     * customized result set, if key exists for purapDocumentIdentifier, then check the permission for
+     * the principal id.  If the permission exists and document status is FINAL, then unmask the field value else
+     * mask field with * the length of the attribute as defined in the dd of the document. 
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#generateSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO, java.util.List)
      */
-    protected Document findDocument(String documentHeaderId) {
-        Document document = null;
-        
-        try {
-            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
-        }
-        catch (WorkflowException ex) {
-            throw new RuntimeException("Exception encountered on finding the document: " + documentHeaderId, ex);
-        } catch ( UnknownDocumentTypeException ex ) {
-            // don't blow up just because a document type is not installed (but don't return it either)
-            throw new RuntimeException("Exception encountered on finding the document: " + documentHeaderId, ex);
-        }
-        
-        return document;
-    }
-    
+
     @Override
     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
         DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
         
-        String docStatus = docCriteriaDTO.getDocRouteStatusCode();
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
-        String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
             if (keyValueSort.getkey().equalsIgnoreCase("purapDocumentIdentifier")) {
                 //KFSMI-4576 masking PO number...
+                String docStatus = docCriteriaDTO.getDocRouteStatusCode();
+                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
+                String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
+
+                IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+                Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+                
                 if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) &&
                         !isAuthorized) {
                     String poIDstr = "";
@@ -129,5 +83,103 @@ public class PurAPDocumentSearchResultProcessor extends KFSDocumentSearchResultP
         }
         
         return docSearchResult;
+    }
+    
+    @Override
+    public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {
+        List<Column> tempColumns = new ArrayList<Column>();
+        List<Column> customDisplayColumnNames = getAndSetUpCustomDisplayColumns(criteria);
+        if ((!getShowAllStandardFields()) && (getOverrideSearchableAttributes())) {
+            // use only what is contained in displayColumns
+            this.addAllCustomColumns(tempColumns, criteria, customDisplayColumnNames);
+        } else if (getShowAllStandardFields() && (getOverrideSearchableAttributes())) {
+            // do standard fields and use displayColumns for searchable
+            // attributes
+            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
+            this.addAllCustomColumns(tempColumns, criteria,customDisplayColumnNames);
+        } else if ((!getShowAllStandardFields()) && (!getOverrideSearchableAttributes())) {
+            // do displayColumns and then do standard searchable attributes
+            this.addCustomStandardCriteriaColumns(tempColumns, criteria, customDisplayColumnNames);
+            this.addSearchableAttributeColumnsNoOverrides(tempColumns,criteria);
+        } else if (getShowAllStandardFields() && !getOverrideSearchableAttributes()) {
+            this.addStandardSearchColumns(tempColumns,docSearchResultRows);
+        }
+
+        List<Column> columns = new ArrayList<Column>();
+        this.addRouteHeaderIdColumn(columns);
+        columns.addAll(tempColumns);
+        this.addRouteLogColumn(columns);
+        return columns;
+    }
+
+    /**
+     * Checks the Data Dictionary to verify the visibility of the fields and adds them to the result.
+     * @param criteria used to get DocumentEntry
+     * @return List of DocumentSearchColumns to be displayed
+     */
+    protected List<Column> getCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
+
+        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
+        List<Column> columns = new ArrayList<Column>();
+
+        boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
+        if (documentDisplay) {
+
+            DocumentType documentType = getDocumentType(criteria.getDocTypeFullName());
+            DocumentEntry entry = getDocumentEntry(documentType);
+            if (entry != null && entry.getWorkflowAttributes() != null) {
+                DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
+
+                List<SearchingTypeDefinition> searchingTypeDefinitions = entry.getWorkflowAttributes().getSearchingTypeDefinitions();
+                List<String> searchableAttributeFieldNames = new ArrayList<String>();
+
+                for (SearchingTypeDefinition searchingTypeDefinition : searchingTypeDefinitions) {
+                    SearchingAttribute searchingAttribute = searchingTypeDefinition.getSearchingAttribute();
+                    if (searchingAttribute.isShowAttributeInResultSet()){
+                        String label =  ddService.getAttributeLabel(searchingAttribute.getBusinessObjectClassName(), searchingAttribute.getAttributeName());
+                        searchableAttributeFieldNames.add(label);
+                        addColumnUsingKey(columns, searchingAttribute.getAttributeName(), label, null);
+                    } 
+                }
+                addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
+            }
+        }
+        
+        return columns;
+
+    }
+
+    @Override
+    public List<Column> getAndSetUpCustomDisplayColumns(DocSearchCriteriaDTO criteria) {
+        List<Column> columns = getCustomDisplayColumns(criteria);
+        return super.setUpCustomDisplayColumns(criteria, columns);
+    }
+
+    /**
+     * Retrieves the data dictionary entry for the document being operated on by the given route context
+     * @param context the current route context
+     * @return the data dictionary document entry
+     */
+    protected DocumentEntry getDocumentEntry(DocumentType documentType) {
+        return SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(documentType.getName());
+    }
+
+    @Override
+    public boolean getShowAllStandardFields() {
+        if (searchUsingDocumentInformationResults()) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public boolean getOverrideSearchableAttributes() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    protected boolean searchUsingDocumentInformationResults() {
+        SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
+        return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
     }
 }

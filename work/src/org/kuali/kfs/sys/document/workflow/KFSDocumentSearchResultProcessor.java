@@ -70,11 +70,11 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                 
                 if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) &&
                         !isAuthorized) {
-                    String poIDstr = "";
-                    int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
-                    for (int i = 0; i < strLength; i++) {
-                        poIDstr = poIDstr.concat("*");
-                    }
+                    String poIDstr = "********";
+                  //  int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+                  //  for (int i = 0; i < strLength; i++) {
+                   //     poIDstr = poIDstr.concat("*");
+                  //  }
                     
                     keyValueSort.setvalue(poIDstr);
                     keyValueSort.setSortValue(poIDstr);

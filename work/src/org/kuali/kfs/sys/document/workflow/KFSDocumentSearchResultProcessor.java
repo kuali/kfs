@@ -42,10 +42,10 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
      * Customizes the result set for purap document identified attribute value.  After getting the 
      * customized result set, if key exists for purapDocumentIdentifier, then check the permission for
      * the principal id.  If the permission exists and document status is FINAL, then unmask the field value else
-     * mask field with * the length of the attribute as defined in the dd of the document. 
+     * mask field with ********. 
+     * 
      * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#generateSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO, java.util.List)
      */
-
     @Override
     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
         DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
@@ -62,16 +62,9 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                 Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
                 DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
                 
-                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) &&
-                        !isAuthorized) {
-                    String poIDstr = "********";
-                  //  int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
-                  //  for (int i = 0; i < strLength; i++) {
-                   //     poIDstr = poIDstr.concat("*");
-                  //  }
-                    
-                    keyValueSort.setvalue(poIDstr);
-                    keyValueSort.setSortValue(poIDstr);
+                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) && !isAuthorized) {
+                    keyValueSort.setvalue("********");
+                    keyValueSort.setSortValue("********");
                 }
             }
         }

@@ -13,39 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.document.workflow;
+package org.kuali.kfs.module.purap.document.workflow;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
+import org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchContext;
-import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.rule.WorkflowAttributeValidationError;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.SearchingAttribute;
-import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Row;
 
-public class DataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
+public class PurAPDataDictionaryDocumentSearchCustomizer extends org.kuali.rice.kns.workflow.attribute.DataDictionaryDocumentSearchCustomizer {
 
     /**
      * Constructs a DataDictionaryDocumentSearchCustomizer.java.
      */
-    public DataDictionaryDocumentSearchCustomizer() {
+    public PurAPDataDictionaryDocumentSearchCustomizer() {
         setProcessResultSet(false);
-        setSearchResultProcessor( new KFSDocumentSearchResultProcessor() );
+        setSearchResultProcessor( new PurAPDocumentSearchResultProcessor() );
     }
-
+    
     /**
      * Retrieves the data dictionary entry for the document being operated on by the given route context
      * @param context the current route context

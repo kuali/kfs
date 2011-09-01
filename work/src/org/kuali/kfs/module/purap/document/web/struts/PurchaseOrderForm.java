@@ -31,6 +31,7 @@ import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
+import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderCapitalAssetLocation;
@@ -41,23 +42,19 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
-import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderCloseDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderPaymentHoldDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderRemoveHoldDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderReopenDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderVoidDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.datadictionary.AttributeSecurity;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -95,6 +92,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     protected SensitiveData newSensitiveDataLine = null; // new sensitive data entry to be added to the PO
     protected List<SensitiveData> sensitiveDatasAssigned = null;  // sensitive data entries currently assigned to the PO
 
+    protected final String PURCHASING_PROCESSOR_ROLE_NAME = "Purchasing Processor";
+    
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -308,11 +307,31 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
+        String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+        
+        String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
+        
+        //KFSMI-4576 masking/unmasking PO number...
+        if (!workflowDocument.getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) && !isAuthorized) {
+            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+            AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+            attributeSecurity.setMask(false);
+            if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
+                poIDstr = "";
+                int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+                for (int i = 0; i < strLength; i++) {
+                    poIDstr = poIDstr.concat("*");
+                }
+           }
+        }
+        
         if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-            String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
-            if (getPurchaseOrderDocument().getNeedWarning()) {
-                poIDstr += " UNAPPROVED";
-            }
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", poIDstr));
         }
         else {

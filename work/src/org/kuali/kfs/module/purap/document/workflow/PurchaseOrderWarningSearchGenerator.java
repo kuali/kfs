@@ -34,5 +34,4 @@ public class PurchaseOrderWarningSearchGenerator extends DataDictionaryDocumentS
         messageMap.putWarning("documentNumber", PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE);
         return messageMap;
     }
-    
 }

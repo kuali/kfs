@@ -78,9 +78,17 @@
     <property name="validationPattern">
       <ref bean="NumericValidation" />
     </property>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
     </property>
+     <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  	</property>
   </bean>
   <bean id="PurApGenericAttributes-genericItemQuantity" parent="PurApGenericAttributes-genericItemQuantity-parentBean"/>
 

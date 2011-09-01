@@ -18,20 +18,73 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
+import org.kuali.rice.kew.docsearch.DocumentSearchResult;
+import org.kuali.rice.kew.docsearch.DocumentSearchResultComponents;
 import org.kuali.rice.kew.docsearch.SearchAttributeCriteriaComponent;
 import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.web.KeyValueSort;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 
 public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
 
+    /**
+     * Customizes the result set for purap document identified attribute value.  After getting the 
+     * customized result set, if key exists for purapDocumentIdentifier, then check the permission for
+     * the principal id.  If the permission exists and document status is FINAL, then unmask the field value else
+     * mask field with * the length of the attribute as defined in the dd of the document. 
+     * @see org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor#generateSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO, java.util.List)
+     */
+
+    @Override
+    public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
+        DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
+        
+        for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
+            if (keyValueSort.getkey().equalsIgnoreCase("purapDocumentIdentifier")) {
+                //KFSMI-4576 masking PO number...
+                String docStatus = docCriteriaDTO.getDocRouteStatusCode();
+                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
+                String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
+
+                IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+                Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+                
+                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) &&
+                        !isAuthorized) {
+                    String poIDstr = "";
+                    int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+                    for (int i = 0; i < strLength; i++) {
+                        poIDstr = poIDstr.concat("*");
+                    }
+                    
+                    keyValueSort.setvalue(poIDstr);
+                    keyValueSort.setSortValue(poIDstr);
+                }
+            }
+        }
+        
+        return docSearchResult;
+    }
+    
     @Override
     public List<Column> constructColumnList(DocSearchCriteriaDTO criteria,List<DocSearchDTO> docSearchResultRows) {
         List<Column> tempColumns = new ArrayList<Column>();
@@ -59,7 +112,6 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         return columns;
     }
 
-
     /**
      * Checks the Data Dictionary to verify the visibility of the fields and adds them to the result.
      * @param criteria used to get DocumentEntry
@@ -69,7 +121,6 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
 
         SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
         List<Column> columns = new ArrayList<Column>();
-
 
         boolean documentDisplay =  ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
         if (documentDisplay) {
@@ -92,8 +143,8 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                 }
                 addSearchableAttributeColumnsBasedOnFields(columns, getSearchCriteria(), searchableAttributeFieldNames);
             }
-
         }
+        
         return columns;
 
     }
@@ -103,7 +154,6 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         List<Column> columns = getCustomDisplayColumns(criteria);
         return super.setUpCustomDisplayColumns(criteria, columns);
     }
-    
 
     /**
      * Retrieves the data dictionary entry for the document being operated on by the given route context
@@ -132,5 +182,4 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         SearchAttributeCriteriaComponent displayCriteria = getSearchableAttributeByFieldName("displayType");
         return ((displayCriteria != null) && ("document".equals(displayCriteria.getValue())));
     }
-    
 }

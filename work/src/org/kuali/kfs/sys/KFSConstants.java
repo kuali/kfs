@@ -1192,6 +1192,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String SERVE_AS_ACCOUNT_SUPERVISOR = "Serve As Account Supervisor";
         public static final String SERVE_AS_FISCAL_OFFICER = "Serve As Fiscal Officer";
         public static final String SERVE_AS_FISCAL_OFFICER_DELEGATE = "Serve As Fiscal Officer Delegate";
+        public static final String FULL_UNMASK_FIELD = "Full Unmask Field";
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";

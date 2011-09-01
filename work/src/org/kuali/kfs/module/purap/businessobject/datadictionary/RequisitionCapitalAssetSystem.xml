@@ -70,7 +70,7 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean"/>
+  <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText" parent="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" p:maxLength="255"/>
   
   <bean id="RequisitionCapitalAssetSystem-capitalAssetNoteText-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetNoteText" p:forceUppercase="false" p:label="Capital Asset Note Text" p:shortLabel="Capital Asset Note Text" p:maxLength="800" p:required="false">
     <property name="validationPattern">

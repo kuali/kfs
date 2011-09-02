@@ -25,6 +25,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
 
 public interface SchedulerService {
+    public static final String SCHEDULE_JOB_NAME = "scheduleJob";
+
     public static final String PENDING_JOB_STATUS_CODE = "Pending";
     public static final String SCHEDULED_JOB_STATUS_CODE = "Scheduled";
     public static final String RUNNING_JOB_STATUS_CODE = "Running";
@@ -32,6 +34,8 @@ public interface SchedulerService {
     public static final String FAILED_JOB_STATUS_CODE = "Failed";
     public static final String CANCELLED_JOB_STATUS_CODE = "Cancelled";
 
+    public static final String JOB_STATUS_PARAMETER = "status";
+    
     public static final String SCHEDULED_GROUP = "scheduled";
     public static final String UNSCHEDULED_GROUP = "unscheduled";
 
@@ -95,6 +99,8 @@ public interface SchedulerService {
      */
     public void runJob(String jobName, int startStep, int stopStep, Date startTime, String requestorEmailAddress);
 
+    
+    public void runJob(String groupName, String jobName, int startStep, int stopStep, Date jobStartTime, String requestorEmailAddress);
     /**
      * Immediately runs the specified job.
      * 

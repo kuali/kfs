@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.batch.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -56,8 +57,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SchedulerServiceImpl implements SchedulerService {
     private static final Logger LOG = Logger.getLogger(SchedulerServiceImpl.class);
-    protected static final String SCHEDULE_JOB_NAME = "scheduleJob";
-    public static final String JOB_STATUS_PARAMETER = "status";
     protected static final String SOFT_DEPENDENCY_CODE = "softDependency";
     protected static final String HARD_DEPENDENCY_CODE = "hardDependency";
 
@@ -94,14 +93,17 @@ public class SchedulerServiceImpl implements SchedulerService {
         jobListener.setSchedulerService(this);
         try {
             scheduler.addGlobalJobListener(jobListener);
-        } catch (SchedulerException e) {
+        }
+        catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
+        JobDescriptor jobDescriptor;
         for (ModuleService moduleService : kualiModuleService.getInstalledModuleServices()) {
             initializeJobsForModule(moduleService);
             initializeTriggersForModule(moduleService);
         }
     }
+
     /**
      * Initializes all of the jobs into Quartz for the given ModuleService
      * @param moduleService the ModuleService implementation to initalize jobs for
@@ -177,50 +179,29 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#hasIncompleteJob()
      */
     public boolean hasIncompleteJob() {
-        try {
-            StringBuffer log = new StringBuffer("The schedule has incomplete jobs.");
-            boolean hasIncompleteJob = false;
-            for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
-                JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
-                boolean jobIsIncomplete = isIncomplete(scheduledJobDetail);
-                if (jobIsIncomplete) {
-                    log.append("\n\t").append(scheduledJobDetail.getFullName());
-                    hasIncompleteJob = true;
-                }
+        StringBuilder log = new StringBuilder("The schedule has incomplete jobs.");
+        boolean hasIncompleteJob = false;
+        for (String scheduledJobName : getJobNamesForScheduleJob() ) {
+            JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
+            
+            boolean jobIsIncomplete = isIncomplete(scheduledJobDetail);
+            if (jobIsIncomplete) {
+                log.append("\n\t").append(scheduledJobDetail.getFullName());
+                hasIncompleteJob = true;
             }
-            if (hasIncompleteJob) {
-                LOG.info(log);
-            }
-            return hasIncompleteJob;
         }
-        catch (SchedulerException e) {
-            throw new RuntimeException("Caught exception while getting list of jobs to check for incompletes", e);
+        if (hasIncompleteJob) {
+            LOG.info(log);
         }
+        return hasIncompleteJob;
     }
 
     protected boolean isIncomplete(JobDetail scheduledJobDetail) {
         if ( scheduledJobDetail == null ) {
             return false;
         }
-        try {
-            if (!SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail))) {
-                Trigger[] triggersOfJob = scheduler.getTriggersOfJob(scheduledJobDetail.getName(), SCHEDULED_GROUP);
-                if (triggersOfJob.length > 0) {
-                    for (int triggerIndex = 0; triggerIndex < triggersOfJob.length; triggerIndex++) {
-                        if (triggersOfJob[triggerIndex].getNextFireTime() != null && !isPastScheduleCutoffTime(dateTimeService.getCalendar(triggersOfJob[triggerIndex].getNextFireTime()), false)) {
-                            return true;
-                        }
-                    }
-                }
-                else {
-                    return true;
-                }
-            }
-            return false;
-        }
-        catch (SchedulerException e) {
-            throw new RuntimeException("Caught exception while checking job for completeness: " + scheduledJobDetail.getFullName(), e);
-        }
+         
+        return !SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail));
     }
 
     /**
@@ -255,7 +236,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             }
             boolean isPastScheduleCutoffTime = dateTime.after(scheduleCutoffTime);
             if (log) {
-                LOG.info(new StringBuffer("isPastScheduleCutoffTime=").append(isPastScheduleCutoffTime).append(" : ").append(dateTimeService.toDateTimeString(dateTime.getTime())).append(" / ").append(dateTimeService.toDateTimeString(scheduleCutoffTime.getTime())));
+                LOG.info(new StringBuilder("isPastScheduleCutoffTime=").append(isPastScheduleCutoffTime).append(" : ").append(dateTimeService.toDateTimeString(dateTime.getTime())).append(" / ").append(dateTimeService.toDateTimeString(scheduleCutoffTime.getTime())));
             }
             return isPastScheduleCutoffTime;
         }
@@ -271,21 +252,16 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#processWaitingJobs()
      */
     public void processWaitingJobs() {
-        try {
-            for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
-                JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
-                if (isPending(jobDetail)) {
-                    if (shouldScheduleJob(jobDetail)) {
-                        scheduleJob(SCHEDULED_GROUP, scheduledJobName, 0, 0, new Date(), null);
-                    }
-                    if (shouldCancelJob(jobDetail)) {
-                        updateStatus(SCHEDULED_GROUP, scheduledJobName, CANCELLED_JOB_STATUS_CODE);
-                    }
+        for ( String scheduledJobName : getJobNamesForScheduleJob() ) {
+            JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
+            if (isPending(jobDetail)) {
+                if (shouldScheduleJob(jobDetail)) {
+                    scheduleJob(SCHEDULED_GROUP, scheduledJobName, 0, 0, new Date(), null, Collections.singletonMap(Job.MASTER_JOB_NAME, SCHEDULE_JOB_NAME) );
+                }
+                if (shouldCancelJob(jobDetail)) {
+                    updateStatus(SCHEDULED_GROUP, scheduledJobName, CANCELLED_JOB_STATUS_CODE);
                 }
             }
-        }
-        catch (SchedulerException e) {
-            throw new RuntimeException("Caught exception while trying processing waiting jobs", e);
         }
     }
 
@@ -293,17 +269,12 @@ public class SchedulerServiceImpl implements SchedulerService {
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#logScheduleResults()
      */
     public void logScheduleResults() {
-        StringBuffer scheduleResults = new StringBuffer("The schedule completed.");
-        try {
-            for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
-                JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
-                if ( jobDetail != null &&  !SCHEDULE_JOB_NAME.equals(jobDetail.getName())) {
-                    scheduleResults.append("\n\t").append(jobDetail.getName()).append("=").append(getStatus(jobDetail));
-                }
+        StringBuilder scheduleResults = new StringBuilder("The schedule completed.");
+        for ( String scheduledJobName : getJobNamesForScheduleJob() ) {
+            JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
+            if ( jobDetail != null &&  !SCHEDULE_JOB_NAME.equals(jobDetail.getName())) {
+                scheduleResults.append("\n\t").append(jobDetail.getName()).append("=").append(getStatus(jobDetail));
             }
-        }
-        catch (SchedulerException e) {
-            throw new RuntimeException("Caught exception while trying to logs schedule results", e);
         }
         LOG.info(scheduleResults);
     }
@@ -358,7 +329,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
-            scheduleJob(groupName, jobName, startStep, stopStep, jobStartTime, requestorEmailAddress);
+            scheduleJob(groupName, jobName, startStep, stopStep, jobStartTime, requestorEmailAddress, null);
         }
         catch (SchedulerException ex) {
             throw new RuntimeException("Unable to run a job directly", ex);
@@ -434,7 +405,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    protected void scheduleJob(String groupName, String jobName, int startStep, int endStep, Date startTime, String requestorEmailAddress) {
+    protected void scheduleJob(String groupName, String jobName, int startStep, int endStep, Date startTime, String requestorEmailAddress, Map<String,String> additionalJobData ) {
         try {
             updateStatus(groupName, jobName, SchedulerService.SCHEDULED_JOB_STATUS_CODE);
             SimpleTriggerDescriptor trigger = new SimpleTriggerDescriptor(jobName, groupName, jobName, dateTimeService);
@@ -443,6 +414,9 @@ public class SchedulerServiceImpl implements SchedulerService {
             qTrigger.getJobDataMap().put(JobListener.REQUESTOR_EMAIL_ADDRESS_KEY, requestorEmailAddress);
             qTrigger.getJobDataMap().put(Job.JOB_RUN_START_STEP, String.valueOf(startStep));
             qTrigger.getJobDataMap().put(Job.JOB_RUN_END_STEP, String.valueOf(endStep));
+            if ( additionalJobData != null ) {
+                qTrigger.getJobDataMap().putAll(additionalJobData);
+            }
             for (Trigger oldTrigger : scheduler.getTriggersOfJob(jobName, groupName)) {
                 scheduler.unscheduleJob(oldTrigger.getName(), groupName);
             }
@@ -666,7 +640,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             scheduler.addJob(jobDetail, true);
         }
         catch (SchedulerException e) {
-            throw new RuntimeException(new StringBuffer("Caught scheduler exception while updating job status: ").append(jobName).append(", ").append(jobStatus).toString(), e);
+            throw new RuntimeException(new StringBuilder("Caught scheduler exception while updating job status: ").append(jobName).append(", ").append(jobStatus).toString(), e);
         }
     }
 
@@ -766,16 +740,29 @@ public class SchedulerServiceImpl implements SchedulerService {
         return BatchSpringContext.getJobDescriptor(jobName);
     }
     
-    public void reinitializeScheduledJobs() {
+    ThreadLocal<List<String>> jobNamesForScheduleJob = new ThreadLocal<List<String>>();
+    
+    protected List<String> getJobNamesForScheduleJob() {
+        List<String> jobNames = new ArrayList<String>();
         try {
             for (String scheduledJobName : scheduler.getJobNames(SCHEDULED_GROUP)) {
                 if (scheduler.getTriggersOfJob(scheduledJobName, SCHEDULED_GROUP).length == 0) {
-                    // jobs that have their own triggers will not be reinited
-                    updateStatus(SCHEDULED_GROUP, scheduledJobName, null);
+                    // jobs that have their own triggers will not be included in the master scheduleJob
+                    jobNames.add( scheduledJobName );
                 }
             }
+        } catch (Exception ex) {
+            LOG.error("Error occurred while initializing job name list", ex);
         }
-        catch (Exception e) {
+        return jobNames;
+    }
+    
+    public void reinitializeScheduledJobs() {
+        try {
+            for (String scheduledJobName : getJobNamesForScheduleJob() ) {
+                updateStatus(SCHEDULED_GROUP, scheduledJobName, null);
+            }
+        } catch (Exception e) {
             LOG.error("Error occurred while trying to reinitialize jobs", e);
         }
     }

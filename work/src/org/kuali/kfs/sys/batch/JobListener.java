@@ -67,8 +67,14 @@ public class JobListener implements org.quartz.JobListener {
         if (jobExecutionContext.getJobInstance() instanceof Job) {
             schedulerService.initializeJob(jobExecutionContext.getJobDetail().getName(), (Job) jobExecutionContext.getJobInstance());
             initializeLogging(jobExecutionContext);
-            if (schedulerService.shouldNotRun(jobExecutionContext.getJobDetail())) {
-                ((Job) jobExecutionContext.getJobInstance()).setNotRunnable(true);
+            // We only want to auto-cancel executions if they are part of a master scheduling job
+            // Otherwise, this is a standalone job and should fire, regardless of prior status
+            if ( jobExecutionContext.getMergedJobDataMap().containsKey(Job.MASTER_JOB_NAME) ) {
+                if (schedulerService.shouldNotRun(jobExecutionContext.getJobDetail())) {
+                    ((Job) jobExecutionContext.getJobInstance()).setNotRunnable(true);
+                }
+            } else {
+                ((Job) jobExecutionContext.getJobInstance()).setNotRunnable(false);
             }
         }
     }

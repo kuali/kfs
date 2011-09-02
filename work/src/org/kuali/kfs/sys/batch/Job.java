@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch;
 
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -35,8 +34,6 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -49,10 +46,10 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public static final String JOB_RUN_START_STEP = "JOB_RUN_START_STEP";
     public static final String JOB_RUN_END_STEP = "JOB_RUN_END_STEP";
-    public static final String STEP_RUN_PARM_NM = "RUN_IND";    
+    public static final String MASTER_JOB_NAME = "MASTER_JOB_NAME";
+    public static final String STEP_RUN_PARM_NM = "RUN_IND";
     public static final String STEP_RUN_ON_DATE_PARM_NM = "RUN_DATE";
     public static final String STEP_USER_PARM_NM = "USER";
-    
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;
@@ -140,22 +137,19 @@ public class Job implements StatefulJob, InterruptableJob {
     }
 
     public static boolean runStep(ParameterService parameterService, String jobName, int currentStepNumber, Step step, Date jobRunDate) throws InterruptedException, WorkflowException {
-        
         boolean continueJob = true;
         if (GlobalVariables.getUserSession() == null) {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user <unknown>"));
         }
         else {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
-        }        
+        }
         
         if (!skipStep(parameterService, step, jobRunDate)) {
             
             Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
             Class stepClass = unProxiedStep.getClass();
-            
-            GlobalVariables.setMessageMap(new MessageMap());
-            GlobalVariables.setMessageList(new MessageList());
+            GlobalVariables.clear();
             
             String stepUserName = KFSConstants.SYSTEM_USER;
             if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
@@ -187,10 +181,10 @@ public class Job implements StatefulJob, InterruptableJob {
                 LOG.info("Stopping job after successful step execution");
             }
         }
-        
         LOG.info(new StringBuffer("Finished processing step ").append(currentStepNumber).append(": ").append(step.getName()));
         return continueJob;
     }
+
     
     /**
      * This method determines whether the Job should not run the Step based on the RUN_IND and RUN_DATE Parameters.

@@ -16,115 +16,83 @@
 	-->
 	<bean id="Chart" parent="Chart-parentBean" />
 
-	<bean id="Chart-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Chart" />
-		<property name="inquiryDefinition">
-			<ref bean="Chart-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Chart-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="chartOfAccountsCode" />
-		<property name="objectLabel" value="Chart" />
-		<property name="attributes">
-			<list>
-				<ref bean="Chart-chartOfAccountsCode" />
-				<ref bean="Chart-codeAndDescription" />
-				<ref bean="Chart-finCoaManagerPrincipalId" />
-				<ref bean="Chart-finCoaManager.principalName" />
-				<ref bean="Chart-finCoaManager.name" />
-				<ref bean="Chart-finChartOfAccountDescription" />
-				<ref bean="Chart-active" />
-				<ref bean="Chart-financialCashObjectCode" />
-				<ref bean="Chart-finAccountsPayableObjectCode" />
-				<ref bean="Chart-incBdgtEliminationsFinObjCd" />
-				<ref bean="Chart-expBdgtEliminationsFinObjCd" />
-				<ref bean="Chart-reportsToChartOfAccountsCode" />
-				<ref bean="Chart-finAccountsReceivableObjCode" />
-				<ref bean="Chart-finInternalEncumbranceObjCd" />
-				<ref bean="Chart-finExternalEncumbranceObjCd" />
-				<ref bean="Chart-finPreEncumbranceObjectCode" />
-				<ref bean="Chart-icrIncomeFinancialObjectCode" />
-				<ref bean="Chart-icrExpenseFinancialObjectCd" />
-				<ref bean="Chart-fundBalanceObjectCode" />
-				<ref bean="Chart-chartCodeForReport" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="finCoaManager" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="finCoaManagerPrincipalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="finCoaManager.principalName" p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="finCoaManager.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finAccountsPayableObject"
-					p:relationshipLabel="Accounts Payable Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="incBdgtEliminationsFinObj"
-					p:relationshipLabel="Income Budget Elimination Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="expBdgtEliminationsFinObj"
-					p:relationshipLabel="Expense Budget Elimination Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finExternalEncumbranceObj"
-					p:relationshipLabel="External Encumbrances Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finInternalEncumbranceObj"
-					p:relationshipLabel="Internal Encumbrances Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finPreEncumbranceObject"
-					p:relationshipLabel="Pre Encumbrances Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialCashObject"
-					p:relationshipLabel="Cash Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="icrIncomeFinancialObject"
-					p:relationshipLabel="Indirect Cost Recovery Income Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="icrExpenseFinancialObject"
-					p:relationshipLabel="Indirect Cost Recovery Expense"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finAccountsReceivableObj"
-					p:relationshipLabel="Accounts Receivable Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="fundBalanceObject"
-					p:relationshipLabel="Fund Balance Object"
-					p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="reportsToChartOfAccounts" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Chart-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Chart"/>
+    <property name="inquiryDefinition">
+      <ref bean="Chart-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Chart-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="chartOfAccountsCode"/>
+    <property name="objectLabel" value="Chart"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Chart-chartOfAccountsCode"/>
+        <ref bean="Chart-codeAndDescription"/>
+        <ref bean="Chart-finCoaManagerPrincipalId"/>
+        <ref bean="Chart-finCoaManager.principalName"/>
+        <ref bean="Chart-finCoaManager.name"/>
+        <ref bean="Chart-finChartOfAccountDescription"/>
+        <ref bean="Chart-active"/>
+        <ref bean="Chart-financialCashObjectCode"/>
+        <ref bean="Chart-finAccountsPayableObjectCode"/>
+        <ref bean="Chart-incBdgtEliminationsFinObjCd"/>
+        <ref bean="Chart-expBdgtEliminationsFinObjCd"/>
+        <ref bean="Chart-reportsToChartOfAccountsCode"/>
+        <ref bean="Chart-finAccountsReceivableObjCode"/>
+        <ref bean="Chart-finInternalEncumbranceObjCd"/>
+        <ref bean="Chart-finExternalEncumbranceObjCd"/>
+        <ref bean="Chart-finPreEncumbranceObjectCode"/>
+        <ref bean="Chart-icrIncomeFinancialObjectCode"/>
+        <ref bean="Chart-icrExpenseFinancialObjectCd"/>
+        <ref bean="Chart-fundBalanceObjectCode"/>
+        <ref bean="Chart-chartCodeForReport"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="Chart-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Chart-chartOfAccountsCode"/></bean>
+       </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="finCoaManager"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="finCoaManagerPrincipalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="finCoaManager.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="finCoaManager.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finAccountsPayableObject" p:relationshipLabel="Accounts Payable Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="incBdgtEliminationsFinObj" p:relationshipLabel="Income Budget Elimination Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="expBdgtEliminationsFinObj" p:relationshipLabel="Expense Budget Elimination Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finExternalEncumbranceObj" p:relationshipLabel="External Encumbrances Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finInternalEncumbranceObj" p:relationshipLabel="Internal Encumbrances Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finPreEncumbranceObject" p:relationshipLabel="Pre Encumbrances Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialCashObject" p:relationshipLabel="Cash Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="icrIncomeFinancialObject" p:relationshipLabel="Indirect Cost Recovery Income Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="icrExpenseFinancialObject" p:relationshipLabel="Indirect Cost Recovery Expense" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finAccountsReceivableObj" p:relationshipLabel="Accounts Receivable Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="fundBalanceObject" p:relationshipLabel="Fund Balance Object" p:inactivationBlockingDetectionServiceBeanName="objectCodeCurrentInactivationBlockingDetectionService"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportsToChartOfAccounts"/>
+      </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="Chart-chartOfAccountsCode" parent="Chart-chartOfAccountsCode-parentBean" />
 
@@ -359,42 +327,38 @@
 
 	<!-- Business Object Lookup Definition -->
 
-
 	<bean id="Chart-lookupDefinition" parent="Chart-lookupDefinition-parentBean" />
-
-	<bean id="Chart-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Chart Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>chartOfAccountsCode</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"
-					p:noLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="finChartOfAccountDescription" />
-				<bean parent="FieldDefinition" p:defaultValue="Y"
-					p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="financialCashObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="finAccountsPayableObjectCode" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="finChartOfAccountDescription" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="financialCashObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="finAccountsPayableObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="finCoaManager.name" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Chart-lookupDefinition-parentBean" abstract="true" parent="Chart-lookupDefinition-base-parentBean" />
+  <bean id="Chart-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Chart Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>chartOfAccountsCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:noLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="finChartOfAccountDescription"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="financialCashObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finAccountsPayableObjectCode"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finChartOfAccountDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="financialCashObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finAccountsPayableObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="finCoaManager.name"/>
+      </list>
+    </property>
+  </bean>
 </beans>

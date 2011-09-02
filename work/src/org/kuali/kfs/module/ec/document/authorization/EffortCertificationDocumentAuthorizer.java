@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ec.document.authorization;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
@@ -22,6 +23,8 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.web.session.UserSession;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -57,7 +60,17 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
             throw new RuntimeException("Unable to retrieve prior Approvers list");
         }
         
+        
         return documentActionsToReturn;
     }
 
+    public boolean doPermissionExistsByTemplate(
+            BusinessObject businessObject, String namespaceCode,
+            String permissionTemplateName, Map<String, String> permissionDetails) {
+
+        return permissionExistsByTemplate(businessObject, namespaceCode, permissionTemplateName, permissionDetails);
+        
+    }
+
+    
 }

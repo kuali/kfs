@@ -108,11 +108,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
 
-
-        /*
-         * take the request appointment attributes (months, position months) from the record with the largest salary (arbitrarily
-         * use the smallest position number to break ties)
-         */
+        /* take the request appointment attributes (months, position months) from the record with the largest salary (arbitrarily use the smallest position number to break ties) */
         sqlText.append("INSERT INTO LD_BCN_BUILD_SALTOT02_MT \n");
         sqlText.append("(SESID, EMPLID, SAL_MTHS, SAL_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, sd.sal_mths, sd.sal_pmths \n");
@@ -134,10 +130,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         updateReportsSalaryStatisticsTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
 
-        /*
-         * take the previous year's appointment attributes (work months, pay months) from the record with the largest previous
-         * year's salary (arbitrarily use the smallest position number to break ties)
-         */
+        /* take the previous year's appointment attributes (work months, pay months) from the record with the largest previous year's salary (arbitrarily use the smallest position number to break ties)  */
         sqlText.append("INSERT INTO LD_BCN_BUILD_SALTOT03_MT (SESID, EMPLID, CSF_MTHS, CSF_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, p.iu_norm_work_months, p.iu_pay_months \n");
         sqlText.append("FROM LD_BCN_BUILD_SALTOT01_MT sd, LD_BCN_POS_T p \n");
@@ -176,10 +169,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         updateReportsSalaryStatisticsTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
 
-        /*
-         * restate the prior year (CSF) amount so it is comparable to the request (adjust for a change in months appointment, for
-         * example)
-         */
+        /* restate the prior year (CSF) amount so it is comparable to the request (adjust for a change in months appointment, for example) */
         sqlText.append("UPDATE LD_BCN_BUILD_SALTOT04_MT \n");
         sqlText.append("SET res_csf_amt = ROUND(COALESCE(((pos_csf_amt * sal_pct * sal_mths * csf_pmths) / \n");
         sqlText.append(" (pos_csf_tm_pct * csf_mths * sal_pmths)), 0.00),0) \n");

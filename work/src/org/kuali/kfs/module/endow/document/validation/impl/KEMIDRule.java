@@ -957,8 +957,9 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
                     if (hasPrincipalGL) {
                         hasActivePrincipalGL = kemidGeneralLedgerAccount.isActive();
                     }
-
                 }
+                
+                hasActivePrincipalGL = kemidGeneralLedgerAccount.isActive();
             }
 
             if (!hasIncomeGL || !hasActiveIncomeGL) {

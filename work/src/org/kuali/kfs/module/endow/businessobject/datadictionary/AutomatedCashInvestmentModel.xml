@@ -139,7 +139,7 @@
 		<property name="name" value="investment1Percent" />
 		<property name="label" value="Investment 1 Percent" />
 		<property name="shortLabel" value="Investment 1 Percent" />
-		<property name="maxLength" value="5" />
+		<property name="maxLength" value="6" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
 			<!--
@@ -186,7 +186,7 @@
 		<property name="name" value="investment2Percent" />
 		<property name="label" value="Investment 2 Percent" />
 		<property name="shortLabel" value="Investment 2 Percent" />
-		<property name="maxLength" value="5" />
+		<property name="maxLength" value="6" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
 			<!--
@@ -233,7 +233,7 @@
 		<property name="name" value="investment3Percent" />
 		<property name="label" value="Investment 3 Percent" />
 		<property name="shortLabel" value="Investment 3 Percent" />
-		<property name="maxLength" value="5" />
+		<property name="maxLength" value="6" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
 			<!--
@@ -280,7 +280,7 @@
 		<property name="name" value="investment4Percent" />
 		<property name="label" value="Investment 4 Percent" />
 		<property name="shortLabel" value="Investment 4 Percent" />
-		<property name="maxLength" value="5" />
+		<property name="maxLength" value="6" />
 		<property name="required" value="true" />
 		<property name="validationPattern">
 			<!--

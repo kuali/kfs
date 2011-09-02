@@ -19,63 +19,51 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
-    <bean id="Account-lookupDefinition" parent="Account-lookupDefinition-rsmart-parentBean"/>
-    <bean id="Account-lookupDefinition-rsmart-parentBean" abstract="true" parent="Account-lookupDefinition-parentBean">
+    <bean id="Account-lookupDefinition-parentBean" abstract="true" parent="Account-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityAccountLookupable"/>   
     </bean>     
     
-    <bean id="AccountDelegate-lookupDefinition" parent="AccountDelegate-lookupDefinition-rsmart-parentBean"/>
-    <bean id="AccountDelegate-lookupDefinition-rsmart-parentBean" abstract="true" parent="AccountDelegate-lookupDefinition-parentBean">
+    <bean id="AccountDelegate-lookupDefinition-parentBean" abstract="true" parent="AccountDelegate-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>      
     
-    <bean id="AccountDelegateModel-lookupDefinition" parent="AccountDelegateModel-lookupDefinition-rsmart-parentBean"/>
-    <bean id="AccountDelegateModel-lookupDefinition-rsmart-parentBean" abstract="true" parent="AccountDelegateModel-lookupDefinition-parentBean">
+    <bean id="AccountDelegateModel-lookupDefinition-parentBean" abstract="true" parent="AccountDelegateModel-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityAccountDelegateModelLookupable"/>   
     </bean>    
     
-    <bean id="ObjectCode-lookupDefinition" parent="ObjectCode-lookupDefinition-rsmart-parentBean"/>
-    <bean id="ObjectCode-lookupDefinition-rsmart-parentBean" abstract="true" parent="ObjectCode-lookupDefinition-parentBean">
+    <bean id="ObjectCode-lookupDefinition-parentBean" abstract="true" parent="ObjectCode-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-rsmart-parentBean"/>
-    <bean id="Organization-lookupDefinition-rsmart-parentBean" abstract="true" parent="Organization-lookupDefinition-parentBean">
+    <bean id="Organization-lookupDefinition-parentBean" abstract="true" parent="Organization-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-rsmart-parentBean"/>
-    <bean id="ProjectCode-lookupDefinition-rsmart-parentBean" abstract="true" parent="ProjectCode-lookupDefinition-parentBean">
+    <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="ProjectCode-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="SubAccount-lookupDefinition" parent="SubAccount-lookupDefinition-rsmart-parentBean"/>
-    <bean id="SubAccount-lookupDefinition-rsmart-parentBean" abstract="true" parent="SubAccount-lookupDefinition-parentBean">
+    <bean id="SubAccount-lookupDefinition-parentBean" abstract="true" parent="SubAccount-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="SubObjectCode-lookupDefinition" parent="SubObjectCode-lookupDefinition-rsmart-parentBean"/>
-    <bean id="SubObjectCode-lookupDefinition-rsmart-parentBean" abstract="true" parent="SubObjectCode-lookupDefinition-parentBean">
+    <bean id="SubObjectCode-lookupDefinition-parentBean" abstract="true" parent="SubObjectCode-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="Chart-lookupDefinition" parent="Chart-lookupDefinition-rsmart-parentBean"/>
-    <bean id="Chart-lookupDefinition-rsmart-parentBean" abstract="true" parent="Chart-lookupDefinition-parentBean">
+    <bean id="Chart-lookupDefinition-parentBean" abstract="true" parent="Chart-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
     
-    <bean id="ObjectConsolidation-lookupDefinition" parent="ObjectConsolidation-lookupDefinition-rsmart-parentBean"/>
-    <bean id="ObjectConsolidation-lookupDefinition-rsmart-parentBean" abstract="true" parent="ObjectConsolidation-lookupDefinition-parentBean">
+    <bean id="ObjectConsolidation-lookupDefinition-parentBean" abstract="true" parent="ObjectConsolidation-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>    
   
-    <bean id="ObjectLevel-lookupDefinition" parent="ObjectLevel-lookupDefinition-rsmart-parentBean"/>
-    <bean id="ObjectLevel-lookupDefinition-rsmart-parentBean" abstract="true" parent="ObjectLevel-lookupDefinition-parentBean">
+    <bean id="ObjectLevel-lookupDefinition-parentBean" abstract="true" parent="ObjectLevel-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityLookupable"/>   
     </bean>  
     
-    <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-rsmart-parentBean"/>
-    <bean id="OrgReviewRole-lookupDefinition-rsmart-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-parentBean">
+    <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-base-parentBean">
         <property name="lookupableID" value="securityOrgReviewRoleLookupable"/>   
     </bean>         
 </beans>        

@@ -56,7 +56,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private String accountStateCode;
     private State accountState;
     private String accountStreetAddress;
-    private boolean accountOffCampusIndicator;
     private AccountType accountType;
     private String accountTypeCode;
     private String accountPhysicalCampusCode;
@@ -67,8 +66,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     protected Chart fringeBenefitsChartOfAccount;
     private String reportsToChartOfAccountsCode;
     private String reportsToAccountNumber;
-    private HigherEducationFunction financialHigherEdFunction;
-    private String financialHigherEdFunctionCd;
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
     private String accountManagerSystemIdentifier;
@@ -90,21 +87,13 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private boolean intrnlFinEncumSufficntFndIndicator;
     private boolean finPreencumSufficientFundIndicator;
     private boolean financialObjectivePrsctrlIndicator;
-    private IndirectCostRecoveryType acctIndirectCostRcvyType;
-    private String acctIndirectCostRcvyTypeCd;
     protected Chart indirectCostRcvyChartOfAccounts;
     private String indirectCostRcvyFinCoaCode;
     private Account indirectCostRecoveryAcct;
     private String indirectCostRecoveryAcctNbr;
     private Integer contractsAndGrantsAccountResponsibilityId;
-    private String accountExpenseGuidelineText;
-    private String accountIncomeGuidelineText;
-    private String accountPurposeText;
     private String accountDescriptionCampusCode;
     private String accountDescriptionBuildingCode;
-    private String contractControlFinCoaCode;
-    private String contractControlAccountNumber;
-    private String financialIcrSeriesIdentifier;
     private boolean active;
 
     //
@@ -112,7 +101,7 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
     private ContractsAndGrantsUnit unitDTO;
-
+    
     /**
      * Default no-arg constructor.
      */
@@ -323,22 +312,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountOffCampusIndicator attribute. 
-     * @return Returns the accountOffCampusIndicator.
-     */
-    public boolean isAccountOffCampusIndicator() {
-        return accountOffCampusIndicator;
-    }
-
-    /**
-     * Sets the accountOffCampusIndicator attribute value.
-     * @param accountOffCampusIndicator The accountOffCampusIndicator to set.
-     */
-    public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator) {
-        this.accountOffCampusIndicator = accountOffCampusIndicator;
-    }
-
-    /**
      * Gets the accountType attribute. 
      * @return Returns the accountType.
      */
@@ -497,37 +470,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.reportsToAccountNumber = reportsToAccountNumber;
     }
 
-    /**
-     * Gets the financialHigherEdFunction attribute. 
-     * @return Returns the financialHigherEdFunction.
-     */
-    public HigherEducationFunction getFinancialHigherEdFunction() {
-        return financialHigherEdFunction;
-    }
-
-    /**
-     * Sets the financialHigherEdFunction attribute value.
-     * @param financialHigherEdFunction The financialHigherEdFunction to set.
-     */
-    public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
-        this.financialHigherEdFunction = financialHigherEdFunction;
-    }
-
-    /**
-     * Gets the financialHigherEdFunctionCd attribute. 
-     * @return Returns the financialHigherEdFunctionCd.
-     */
-    public String getFinancialHigherEdFunctionCd() {
-        return financialHigherEdFunctionCd;
-    }
-
-    /**
-     * Sets the financialHigherEdFunctionCd attribute value.
-     * @param financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
-     */
-    public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
-        this.financialHigherEdFunctionCd = financialHigherEdFunctionCd;
-    }
     /**
      * Gets the reportsToAccount attribute.
      * 
@@ -892,38 +834,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the acctIndirectCostRcvyType attribute. 
-     * @return Returns the acctIndirectCostRcvyType.
-     */
-    public IndirectCostRecoveryType getAcctIndirectCostRcvyType() {
-        return acctIndirectCostRcvyType;
-    }
-
-    /**
-     * Sets the acctIndirectCostRcvyType attribute value.
-     * @param acctIndirectCostRcvyType The acctIndirectCostRcvyType to set.
-     */
-    public void setAcctIndirectCostRcvyType(IndirectCostRecoveryType acctIndirectCostRcvyType) {
-        this.acctIndirectCostRcvyType = acctIndirectCostRcvyType;
-    }
-
-    /**
-     * Gets the acctIndirectCostRcvyTypeCd attribute. 
-     * @return Returns the acctIndirectCostRcvyTypeCd.
-     */
-    public String getAcctIndirectCostRcvyTypeCd() {
-        return acctIndirectCostRcvyTypeCd;
-    }
-
-    /**
-     * Sets the acctIndirectCostRcvyTypeCd attribute value.
-     * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
-     */
-    public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd) {
-        this.acctIndirectCostRcvyTypeCd = acctIndirectCostRcvyTypeCd;
-    }
-
-    /**
      * Gets the indirectCostRcvyChartOfAccounts attribute. 
      * @return Returns the indirectCostRcvyChartOfAccounts.
      */
@@ -1004,54 +914,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Gets the accountExpenseGuidelineText attribute. 
-     * @return Returns the accountExpenseGuidelineText.
-     */
-    public String getAccountExpenseGuidelineText() {
-        return accountExpenseGuidelineText;
-    }
-
-    /**
-     * Sets the accountExpenseGuidelineText attribute value.
-     * @param accountExpenseGuidelineText The accountExpenseGuidelineText to set.
-     */
-    public void setAccountExpenseGuidelineText(String accountExpenseGuidelineText) {
-        this.accountExpenseGuidelineText = accountExpenseGuidelineText;
-    }
-
-    /**
-     * Gets the accountIncomeGuidelineText attribute. 
-     * @return Returns the accountIncomeGuidelineText.
-     */
-    public String getAccountIncomeGuidelineText() {
-        return accountIncomeGuidelineText;
-    }
-
-    /**
-     * Sets the accountIncomeGuidelineText attribute value.
-     * @param accountIncomeGuidelineText The accountIncomeGuidelineText to set.
-     */
-    public void setAccountIncomeGuidelineText(String accountIncomeGuidelineText) {
-        this.accountIncomeGuidelineText = accountIncomeGuidelineText;
-    }
-
-    /**
-     * Gets the accountPurposeText attribute. 
-     * @return Returns the accountPurposeText.
-     */
-    public String getAccountPurposeText() {
-        return accountPurposeText;
-    }
-
-    /**
-     * Sets the accountPurposeText attribute value.
-     * @param accountPurposeText The accountPurposeText to set.
-     */
-    public void setAccountPurposeText(String accountPurposeText) {
-        this.accountPurposeText = accountPurposeText;
-    }
-
-    /**
      * Gets the accountDescriptionCampusCode attribute. 
      * @return Returns the accountDescriptionCampusCode.
      */
@@ -1081,54 +943,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      */
     public void setAccountDescriptionBuildingCode(String accountDescriptionBuildingCode) {
         this.accountDescriptionBuildingCode = accountDescriptionBuildingCode;
-    }
-
-    /**
-     * Gets the contractControlFinCoaCode attribute. 
-     * @return Returns the contractControlFinCoaCode.
-     */
-    public String getContractControlFinCoaCode() {
-        return contractControlFinCoaCode;
-    }
-
-    /**
-     * Sets the contractControlFinCoaCode attribute value.
-     * @param contractControlFinCoaCode The contractControlFinCoaCode to set.
-     */
-    public void setContractControlFinCoaCode(String contractControlFinCoaCode) {
-        this.contractControlFinCoaCode = contractControlFinCoaCode;
-    }
-
-    /**
-     * Gets the contractControlAccountNumber attribute. 
-     * @return Returns the contractControlAccountNumber.
-     */
-    public String getContractControlAccountNumber() {
-        return contractControlAccountNumber;
-    }
-
-    /**
-     * Sets the contractControlAccountNumber attribute value.
-     * @param contractControlAccountNumber The contractControlAccountNumber to set.
-     */
-    public void setContractControlAccountNumber(String contractControlAccountNumber) {
-        this.contractControlAccountNumber = contractControlAccountNumber;
-    }
-
-    /**
-     * Gets the financialIcrSeriesIdentifier attribute. 
-     * @return Returns the financialIcrSeriesIdentifier.
-     */
-    public String getFinancialIcrSeriesIdentifier() {
-        return financialIcrSeriesIdentifier;
-    }
-
-    /**
-     * Sets the financialIcrSeriesIdentifier attribute value.
-     * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
-     */
-    public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
-        this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
     }
 
     /**

@@ -52,17 +52,27 @@
 		</property>
     <property name="collections">
       <list>
-        <bean parent="CollectionDefinition" p:name="a21SubAccount.a21IndirectCostRecoveryAccounts" p:label="ICR Accounts"
+         <bean parent="CollectionDefinition" p:name="a21SubAccount.a21IndirectCostRecoveryAccounts" p:label="ICR Accounts"
           p:shortLabel="ICR Account" />
       </list>
     </property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="reportingCode" />
-			</list>
-		</property>
-	</bean>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportingCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="SubAccount-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="SubAccount-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="SubAccount-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="SubAccount-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="SubAccount-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="SubAccount-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="SubAccount-account.organizationCode"/></bean>
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -125,18 +135,21 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="SubAccount-a21SubAccount.subAccountTypeCode" parent="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" />
-	<bean id="SubAccount-a21SubAccount.subAccountTypeCode-parentBean"
-		abstract="true" parent="A21SubAccount-subAccountTypeCode">
-		<property name="name" value="a21SubAccount.subAccountTypeCode" />
-		<property name="required" value="false" />
-		<property name="attributeSecurity" ref="ReadOnlyAttributeSecurity" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubAccountTypeValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
+    <bean id="SubAccount-account.organizationCode" parent="SubAccount-account.organizationCode-parentBean"/>
+    <bean id="SubAccount-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean> 
+    
+
+  <bean id="SubAccount-a21SubAccount.subAccountTypeCode" parent="SubAccount-a21SubAccount.subAccountTypeCode-parentBean"/>
+  <bean id="SubAccount-a21SubAccount.subAccountTypeCode-parentBean" abstract="true" parent="A21SubAccount-subAccountTypeCode">
+    <property name="name" value="a21SubAccount.subAccountTypeCode"/>
+    <property name="required" value="false"/>
+    <property name="attributeSecurity" ref="ReadOnlyAttributeSecurity" />
+    <property name="control">
+       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.SubAccountTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
 
 	<bean id="SubAccount-a21SubAccount.costShareChartOfAccountCode"
 		parent="SubAccount-a21SubAccount.costShareChartOfAccountCode-parentBean" />
@@ -325,7 +338,7 @@
       </list>
     </property>
   </bean>
-  
+
   <bean 
     id="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts" 
     parent="SubAccount-inquiryCollectionDefinition-icr-a21IndirectCostRecoveryAccounts-parentBean" />
@@ -349,25 +362,25 @@
       </list>
     </property>
   </bean>
-	<!-- Business Object Lookup Definition -->
+
+<!-- Business Object Lookup Definition -->
 
 
-	<bean id="SubAccount-lookupDefinition" parent="SubAccount-lookupDefinition-parentBean" />
-
-	<bean id="SubAccount-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Sub-Account Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>subAccountNumber</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="lookupFields">
+  <bean id="SubAccount-lookupDefinition" parent="SubAccount-lookupDefinition-parentBean"/>
+  <bean id="SubAccount-lookupDefinition-parentBean" abstract="true" parent="SubAccount-lookupDefinition-base-parentBean" />
+  <bean id="SubAccount-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Sub-Account Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>subAccountNumber</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />

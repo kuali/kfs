@@ -55,6 +55,13 @@ public interface SecurityService {
     public Security updateInterestRate(Security theSecurity, BigDecimal interestRate);
 
     /**
+     * Updates incomeChangeDate to currentDate
+     * 
+     * @param id
+     */
+    public Security updateIncomeChangeDate(Security security);
+    
+    /**
      * Gets a Security by primary key.
      * 
      * @param id

@@ -62,10 +62,6 @@ public class AccountCreationServiceTest extends KualiTestBase {
         accountParameters.setAdminContactAddressStateCode("MD");
         accountParameters.setAdminContactAddressZipCode("20090");
         
-        accountParameters.setPaymentAddressStreetAddress("");
-        accountParameters.setPaymentAddressCityName("");
-        accountParameters.setPaymentAddressStateCode("");
-        accountParameters.setPaymentAddressZipCode("");
         
         Calendar cal = Calendar.getInstance();
         cal.set( Calendar.YEAR, 2012 );

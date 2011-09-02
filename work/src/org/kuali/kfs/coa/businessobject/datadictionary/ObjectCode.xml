@@ -17,57 +17,57 @@
 	-->
 	<bean id="ObjectCode" parent="ObjectCode-parentBean" />
 
-	<bean id="ObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCode" />
-		<property name="inquiryDefinition">
-			<ref bean="ObjectCode-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="ObjectCode-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="financialObjectCode" />
-		<property name="objectLabel" value="Object Code" />
-		<property name="attributes">
-			<list>
-				<ref bean="ObjectCode-universityFiscalYear" />
-				<ref bean="ObjectCode-chartOfAccountsCode" />
-				<ref bean="ObjectCode-financialObjectCode" />
-				<ref bean="ObjectCode-financialObjectCodeName" />
-				<ref bean="ObjectCode-financialObjectCodeShortName" />
-				<ref bean="ObjectCode-financialObjectLevelCode" />
-				<ref bean="ObjectCode-reportsToChartOfAccountsCode" />
-				<ref bean="ObjectCode-reportsToFinancialObjectCode" />
-				<ref bean="ObjectCode-financialObjectTypeCode" />
-				<ref bean="ObjectCode-financialObjectSubTypeCode" />
-				<ref bean="ObjectCode-historicalFinancialObjectCode" />
-				<ref bean="ObjectCode-active" />
-				<ref bean="ObjectCode-financialBudgetAggregationCd" />
-				<ref bean="ObjectCode-finObjMandatoryTrnfrelimCd" />
-				<ref bean="ObjectCode-financialFederalFundedCode" />
-				<ref bean="ObjectCode-nextYearFinancialObjectCode" />
-			</list>
-		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialFederalFunded" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialObjectLevel" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="reportsToFinancialObject" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialBudgetAggregation" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="finObjMandatoryTrnfrelim" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialObjectSubType" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialObjectType" />
-			</list>
-		</property>
-	</bean>
-
-	<!-- Attribute Definitions -->
+  <bean id="ObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="ObjectCode-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ObjectCode-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="financialObjectCode"/>
+    <property name="objectLabel" value="Object Code"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ObjectCode-universityFiscalYear"/>
+        <ref bean="ObjectCode-chartOfAccountsCode"/>
+        <ref bean="ObjectCode-financialObjectCode"/>
+        <ref bean="ObjectCode-financialObjectCodeName"/>
+        <ref bean="ObjectCode-financialObjectCodeShortName"/>
+        <ref bean="ObjectCode-financialObjectLevelCode"/>
+        <ref bean="ObjectCode-reportsToChartOfAccountsCode"/>
+        <ref bean="ObjectCode-reportsToFinancialObjectCode"/>
+        <ref bean="ObjectCode-financialObjectTypeCode"/>
+        <ref bean="ObjectCode-financialObjectSubTypeCode"/>
+        <ref bean="ObjectCode-historicalFinancialObjectCode"/>
+        <ref bean="ObjectCode-active"/>
+        <ref bean="ObjectCode-financialBudgetAggregationCd"/>
+        <ref bean="ObjectCode-finObjMandatoryTrnfrelimCd"/>
+        <ref bean="ObjectCode-financialFederalFundedCode"/>
+        <ref bean="ObjectCode-nextYearFinancialObjectCode"/>
+        <ref bean="ObjectCode-financialObjectLevel.financialConsolidationObjectCode" />
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialFederalFunded"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialObjectLevel"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="reportsToFinancialObject"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialBudgetAggregation"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="finObjMandatoryTrnfrelim"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialObjectSubType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialObjectType"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectCode-chartOfAccountsCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="ObjectCode-financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="ObjectCode-financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
+    </property>
+  </bean>
 
 	<bean id="ObjectCode-universityFiscalYear" parent="ObjectCode-universityFiscalYear-parentBean" />
 	<bean id="ObjectCode-universityFiscalYear-parentBean" abstract="true"
@@ -207,8 +207,13 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
+    <bean id="ObjectCode-financialObjectLevel.financialConsolidationObjectCode" parent="ObjectCode-financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="ObjectCode-financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+    
 
+	<!-- Business Object Inquiry Definition -->
 
 	<bean id="ObjectCode-inquiryDefinition" parent="ObjectCode-inquiryDefinition-parentBean" />
 
@@ -253,48 +258,44 @@
 
 
 	<bean id="ObjectCode-lookupDefinition" parent="ObjectCode-lookupDefinition-parentBean" />
-
-	<bean id="ObjectCode-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Object Code Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>financialObjectCode</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:required="true"
-					p:attributeName="universityFiscalYear"
-					p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectCodeName" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectCodeShortName" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="historicalFinancialObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialBudgetAggregationCd" />
-				<bean parent="FieldDefinition" p:defaultValue="Y"
-					p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectCodeName" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-	</bean>
+  <bean id="ObjectCode-lookupDefinition-parentBean" abstract="true" parent="ObjectCode-lookupDefinition-base-parentBean" />
+  <bean id="ObjectCode-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Object Code Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>financialObjectCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCodeName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCodeShortName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectSubTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="historicalFinancialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialBudgetAggregationCd"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="universityFiscalYear"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCodeName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
 </beans>

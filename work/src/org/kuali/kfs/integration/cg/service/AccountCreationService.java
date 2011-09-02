@@ -32,4 +32,15 @@ public interface AccountCreationService {
     public AccountCreationStatusDTO createAccount(
             @WebParam(name="accountParametersDTO")AccountParametersDTO accountParametersDTO);
     
+    public boolean isValidAccount(
+            @WebParam(name="accountNumber")  String accountNumber);
+    
+    public boolean isValidChartAccount(
+            @WebParam(name="chartOfAccountCode") String chartOfAccountsCode, @WebParam(name="accountNumber")  String accountNumber);
+    
+    public boolean isValidChartCode(
+            @WebParam(name="chartOfAccountsCode")  String chartOfAccountsCode);
+    
+    public boolean accountsCanCrossCharts(); 
+
 }

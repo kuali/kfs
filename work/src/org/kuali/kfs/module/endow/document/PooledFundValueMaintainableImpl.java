@@ -33,6 +33,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
@@ -74,6 +75,8 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                 BigDecimal oldDistributionPerUnit = null;
                 BigDecimal newUnitValue = newPooledFundValue.getUnitValue();
                 BigDecimal newDistributionPerUnit = newPooledFundValue.getIncomeDistributionPerUnit();
+                BigDecimal oldIncomeDistributionPerUnit = oldPooledFundValue.getIncomeDistributionPerUnit();
+                BigDecimal newIncomeDistributionPerUnit = newPooledFundValue.getIncomeDistributionPerUnit();
                 Date newValueDate = newPooledFundValue.getValueEffectiveDate();
                 String newUnitValueSource = EndowParameterKeyConstants.POOLED_FUND_VALUE;
                 String pooledSecurityID = newPooledFundValue.getPooledSecurityID();
@@ -102,12 +105,16 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
                     }
                     if (newDistributionPerUnit.compareTo(oldDistributionPerUnit) != 0) {
                         updateInterestRate(theSecurity, interestRate);
+                    }                    
+                    if (newIncomeDistributionPerUnit.compareTo(oldIncomeDistributionPerUnit) != 0) {
+                        updateIncomeChangeDate(theSecurity);    
                     }
                 }
                 else if (KNSConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction()) || KNSConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction())) {
                     oldUnitValue = theSecurity.getUnitValue();
                     compareAndUpdateUnitValue(oldUnitValue, newUnitValue, theSecurity, newValueDate, newUnitValueSource);
                     updateInterestRate(theSecurity, interestRate);
+                    updateIncomeChangeDate(theSecurity);                    
                 }
             }
         }
@@ -130,7 +137,17 @@ public class PooledFundValueMaintainableImpl extends KualiMaintainableImpl {
         SecurityService securityService = SpringContext.getBean(SecurityService.class);
         Security security = securityService.updateInterestRate(theSecurity, interestRate);
         SpringContext.getBean(BusinessObjectService.class).save(security);
-
+    }
+    
+    /**
+     * Changes IncomeChangeDate in Security to the current date
+     * 
+     * @param theSecurity
+     */
+    private void updateIncomeChangeDate(Security theSecurity) {
+        SecurityService securityService = SpringContext.getBean(SecurityService.class);
+        Security security = securityService.updateIncomeChangeDate(theSecurity);
+        SpringContext.getBean(BusinessObjectService.class).save(security);
     }
 
     /**

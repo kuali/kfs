@@ -62,7 +62,7 @@ public class SecConstants {
         SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.ORGANIZATION, new SecurityAttributeMetadata(Organization.class, KFSPropertyConstants.ORGANIZATION_CODE));
         SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.ORGANIZATION_DESCEND_HIERARCHY, new SecurityAttributeMetadata(Organization.class, KFSPropertyConstants.ORGANIZATION_CODE));
         SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.PRINCIPAL_INVESTIGATOR, new SecurityAttributeMetadata(Account.class, KFSPropertyConstants.ACCOUNT_NUMBER));
-        SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.PROJECT_CODE, new SecurityAttributeMetadata(ProjectCode.class, KFSPropertyConstants.PROJECT_CODE));
+        SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.PROJECT_CODE, new SecurityAttributeMetadata(ProjectCode.class, KFSPropertyConstants.CODE));
         SECURITY_ATTRIBUTE_METADATA_MAP.put(SecurityAttributeNames.SUB_ACCOUNT, new SecurityAttributeMetadata(SubAccount.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER));
     }
 
@@ -120,15 +120,14 @@ public class SecConstants {
         public static final String ALWAYS_ALLOW_PRINCIPAL_INVESTIGATOR_LINE_ACCESS_IND = "ALWAYS_ALLOW_PRINCIPAL_INVESTIGATOR_LINE_ACCESS_IND";
     }
 
-    @Deprecated // These need to be retrieved in another way.  KIM Identifiers should *NEVER* be hard-coded
-    public class SecurityTemplateIds {
-        public static final String VIEW_DOCUMENT_FIELD_VALUE = "KFSSEC1001";
-        public static final String VIEW_ACCOUNTING_LINE_FIELD_VALUE = "KFSSEC1002";
-        public static final String VIEW_NOTES_ATTACHMENTS_FIELD_VALUE = "KFSSEC1003";
-        public static final String EDIT_DOCUMENT_FIELD_VALUE = "KFSSEC1004";
-        public static final String EDIT_ACCOUNTING_LINE_FIELD_VALUE = "KFSSEC1005";
-        public static final String LOOKUP_FIELD_VALUE = "KFSSEC1006";
-        public static final String INQUIRY_FIELD_VALUE = "KFSSEC1007";
+    public class SecurityTemplateNames {
+        public static final String VIEW_DOCUMENT_FIELD_VALUE = "View Document with Field Value";
+        public static final String VIEW_ACCOUNTING_LINE_FIELD_VALUE = "View Accounting Line with Field Value";
+        public static final String VIEW_NOTES_ATTACHMENTS_FIELD_VALUE = "View Notes/Attachments with Field Value";
+        public static final String EDIT_DOCUMENT_FIELD_VALUE = "Edit Document with Field Value";
+        public static final String EDIT_ACCOUNTING_LINE_FIELD_VALUE = "Edit Accounting Line with Field Value";
+        public static final String LOOKUP_FIELD_VALUE = "Lookup with Field Value";
+        public static final String INQUIRY_FIELD_VALUE = "Balance Inquiry with Field Value";
     }
 
     public class SecurityTypes {

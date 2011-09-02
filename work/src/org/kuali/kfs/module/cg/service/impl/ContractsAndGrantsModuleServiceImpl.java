@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -191,6 +192,25 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     
     public List<String> getParentUnits(String unitNumber) {
         return null;
+    }
+
+    public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId) {
+        String proposalNumber = null;
+        
+        Map<String, Object> awardAccountMap = new HashMap<String, Object>();
+        awardAccountMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        awardAccountMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+
+        Collection<AwardAccount> proposals = getBusinessObjectService().findMatchingOrderBy(AwardAccount.class, awardAccountMap, KFSPropertyConstants.PROPOSAL_NUMBER, false);
+        if (proposals != null && !proposals.isEmpty()) {
+            AwardAccount proposalWithMaxProposalNumber = proposals.iterator().next();
+
+            if( StringUtils.equalsIgnoreCase(proposalWithMaxProposalNumber.getProjectDirector().getPrincipalId(), projectDirectorId) ){
+                proposalNumber = proposalWithMaxProposalNumber.getProposalNumber().toString();
+            }
+        }
+        
+        return proposalNumber;
     }
 }
 

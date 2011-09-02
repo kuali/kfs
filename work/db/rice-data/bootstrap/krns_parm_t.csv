@@ -116,7 +116,8 @@ KFS-CAM,Batch,NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES,KFS99,1,CONFG,N;O,A
 KFS-CG,All,MAXIMUM_ACCOUNT_RESPONSIBILITY_ID,KFS101,1,CONFG,17,Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. The minimum is 1.,A,KFS
 KFS-CG,CfdaBatchStep,RESULT_SUMMARY_TO_EMAIL_ADDRESSES,KFS102,1,CONFG,knoreceipt-l@indiana.edu,Listserv for recipients of CFDA batch process results.,A,KFS
 KFS-CG,CfdaBatchStep,SOURCE_URL,KFS103,1,CONFG,ftp://ftp.cfda.gov/programs,CFDA url,A,KFS
-KFS-COA,Account,ACCOUNT_ADDRESS_TYPE,KFS606,1,CONFG,ADMIN;PAYMENT;DEFAULT,Defines the cascading order for extracting the addresses,A,KFS
+KFS-COA,Account,ACCOUNT_ADDRESS_TYPE,KFS606,1,CONFG,ADMIN;PI,Defines the cascading order for extracting the addresses,A,KFS
+KFS-COA,Account,KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND,KFSCOA124,1,CONFG,Y,"When this indicator is Y, the values from KC will override the values in the CGAD table.",A,KFS
 KFS-COA,Account,CAPITAL_SUB_FUND_GROUPS,KFS117,1,CONFG,PFCMR,Indicates the SubFundGroup for this Kuali implementation that is used for CAMS/Capital purposes for capitalization of expenses related to building construction or remodeling.,A,KFS
 KFS-COA,Account,CG_DENOTING_VALUE,KFS118,1,CONFG,CG,This is the value of the fund group or sub-fund group that the institution uses for contracts and grants accounts. Used in conjunction with FUND_GROUP_DENOTES_CG_IND.,A,KFS
 KFS-COA,Account,DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES,KFS119,1,CONFG,knoreceipt-l@indiana.edu,"The e-mail address to send a notification to when a member of an account derived role - Fiscal Officer, Account Supervisor, Fiscal Officer Primary Delegate, or Fiscal Officer Secondary Delegate - is inactivated.",A,KFS
@@ -227,6 +228,7 @@ KFS-FP,BudgetAdjustment,GLPE_INCOME_TRANSFER_OBJECT_CODE,KFS180,1,CONFG,,Object 
 KFS-FP,BudgetAdjustment,OBJECT_CODES,KFS181,1,VALID,,Object Code(s) restricted from use on a Budget Adjustment document.,D,KFS
 KFS-FP,BudgetAdjustment,OBJECT_SUB_TYPES,KFS182,1,VALID,CR;AR,Object Sub-Type(s) restricted from use on the Budget Adjustment document.,D,KFS
 KFS-FP,BudgetAdjustment,RESEARCH_ADMIN_BA_DOCUMENT_ROUTE_ACTION,KFS613,1,CONFG,save,If KFS is integrated with a Research Admin System that has the ability to generate KFS budget adjustment documents this is the routing action that will take place on the generated document.,A,KFS
+KFS-FP,BudgetAdjustment,RESEARCH_ADMIN_INCOME_OBJECT_CODE_BY_SPONSOR_TYPE,KFS619,1,CONFG,,Identifies the object code that will represent Income on an auto-generated budget adjustment document when KFS is integrated with a research admin system such as Kuali Coeus.. The format should be Sponsor Type=Object Code,A,KFS
 KFS-FP,CashReceipt,OBJECT_CONSOLIDATIONS,KFS183,1,VALID,,Object Consolidation(s) restricted from use on the Cash Receipt document.,D,KFS
 KFS-FP,CashReceipt,OBJECT_SUB_TYPES,KFS184,1,VALID,BU;CA;CE;FB;FR;HW;MT;PL;RE;SA;VA,Object Sub-Type(s) restricted from use on the Cash Receipt document.,D,KFS
 KFS-FP,CashReceipt,OBJECT_TYPES,KFS185,1,VALID,ES;IC,Object Type(s) restricted from use on the Cash Receipt document.,D,KFS

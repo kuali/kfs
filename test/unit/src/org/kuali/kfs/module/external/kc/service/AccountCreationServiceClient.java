@@ -65,12 +65,7 @@ public class AccountCreationServiceClient extends TestCase
         accountParameters.setAdminContactAddressCityName("Silver Spring");
         accountParameters.setAdminContactAddressStateCode("MD");
         accountParameters.setAdminContactAddressZipCode("20090");
-        
-        accountParameters.setPaymentAddressStreetAddress("");
-        accountParameters.setPaymentAddressCityName("");
-        accountParameters.setPaymentAddressStateCode("");
-        accountParameters.setPaymentAddressZipCode("");
-        
+                
         Calendar cal = Calendar.getInstance();
         cal.set( Calendar.YEAR, 2012 );
         cal.set( Calendar.MONTH, Calendar.DECEMBER);

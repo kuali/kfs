@@ -18,73 +18,87 @@
 
 	<bean id="Entry" parent="Entry-parentBean" />
 
-	<bean id="Entry-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry" />
-		<property name="inquiryDefinition">
-			<ref bean="Entry-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Entry-lookupDefinition" />
-		</property>
-		<property name="objectLabel" value="Entry" />
-		<property name="attributes">
-			<list>
-				<ref bean="Entry-universityFiscalYear" />
-				<ref bean="Entry-chartOfAccountsCode" />
-				<ref bean="Entry-accountNumber" />
-				<ref bean="Entry-subAccountNumber" />
-				<ref bean="Entry-financialObjectCode" />
-				<ref bean="Entry-financialSubObjectCode" />
-				<ref bean="Entry-financialObjectTypeCode" />
-				<ref bean="Entry-financialBalanceTypeCode" />
-				<ref bean="Entry-universityFiscalPeriodCode" />
-				<ref bean="Entry-financialDocumentTypeCode" />
-				<ref bean="Entry-financialSystemOriginationCode" />
-				<ref bean="Entry-documentNumber" />
-				<ref bean="Entry-transactionLedgerEntrySequenceNumber" />
-				<ref bean="Entry-transactionLedgerEntryDescription" />
-				<ref bean="Entry-transactionLedgerEntryAmount" />
-				<ref bean="Entry-transactionDebitCreditCode" />
-				<ref bean="Entry-transactionDate" />
-				<ref bean="Entry-organizationDocumentNumber" />
-				<ref bean="Entry-projectCode" />
-				<ref bean="Entry-organizationReferenceId" />
-				<ref bean="Entry-referenceFinancialDocumentTypeCode" />
-				<ref bean="Entry-referenceFinancialSystemOriginationCode" />
-				<ref bean="Entry-referenceFinancialDocumentNumber" />
-				<ref bean="Entry-financialDocumentReversalDate" />
-				<ref bean="Entry-transactionEncumbranceUpdateCode" />
-				<ref bean="Entry-transactionPostingDate" />
-				<ref bean="Entry-transactionDateTimeStamp" />
-				<ref bean="Entry-dummyBusinessObject.pendingEntryOption" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+  <bean id="Entry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Entry"/>
+    <property name="inquiryDefinition">
+      <ref bean="Entry-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Entry-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Entry"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Entry-universityFiscalYear"/>
+        <ref bean="Entry-chartOfAccountsCode"/>
+        <ref bean="Entry-accountNumber"/>
+        <ref bean="Entry-subAccountNumber"/>
+        <ref bean="Entry-financialObjectCode"/>
+        <ref bean="Entry-financialSubObjectCode"/>
+        <ref bean="Entry-financialObjectTypeCode"/>
+        <ref bean="Entry-financialBalanceTypeCode"/>
+        <ref bean="Entry-universityFiscalPeriodCode"/>
+        <ref bean="Entry-financialDocumentTypeCode"/>
+        <ref bean="Entry-financialSystemOriginationCode"/>
+        <ref bean="Entry-documentNumber"/>
+        <ref bean="Entry-transactionLedgerEntrySequenceNumber"/>
+        <ref bean="Entry-transactionLedgerEntryDescription"/>
+        <ref bean="Entry-transactionLedgerEntryAmount"/>
+        <ref bean="Entry-transactionDebitCreditCode"/>
+        <ref bean="Entry-transactionDate"/>
+        <ref bean="Entry-organizationDocumentNumber"/>
+        <ref bean="Entry-projectCode"/>
+        <ref bean="Entry-organizationReferenceId"/>
+        <ref bean="Entry-referenceFinancialDocumentTypeCode"/>
+        <ref bean="Entry-referenceFinancialSystemOriginationCode"/>
+        <ref bean="Entry-referenceFinancialDocumentNumber"/>
+        <ref bean="Entry-financialDocumentReversalDate"/>
+        <ref bean="Entry-transactionEncumbranceUpdateCode"/>
+        <ref bean="Entry-transactionPostingDate"/>
+        <ref bean="Entry-transactionDateTimeStamp"/>
+        <ref bean="Entry-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="Entry-objectCode.financialObjectLevelCode"/>
+        <ref bean="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="Entry-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="Entry-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Entry-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="Entry-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Entry-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="Entry-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="Entry-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Entry-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Entry-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           <bean parent="ProjectCodeRestriction"><property name="attribute" ref="Entry-projectCode"/></bean> 
+       </list>
+    </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="Entry-universityFiscalYear" parent="Entry-universityFiscalYear-parentBean" />
 
@@ -324,6 +338,21 @@
 		<property name="label" value="Pending Entry Approved Indicator" />
 		<property name="shortLabel" value="Pending Entry Approved Indicator" />
 	</bean>
+
+    <bean id="Entry-objectCode.financialObjectLevelCode" parent="Entry-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Entry-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Entry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Entry-account.organizationCode" parent="Entry-account.organizationCode-parentBean"/>
+    <bean id="Entry-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean> 
 
 	<!-- Business Object Inquiry Definition -->
 

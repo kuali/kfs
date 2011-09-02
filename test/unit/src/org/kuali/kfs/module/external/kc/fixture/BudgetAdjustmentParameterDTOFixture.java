@@ -24,37 +24,39 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 
 public enum BudgetAdjustmentParameterDTOFixture {
     
-    CONTROL_1(UserNameFixture.khuntley,"10","1234","1.0","Mock BudgetAdjustment test data");
+    CONTROL_1(UserNameFixture.khuntley,"Award ID 0"," Auto Mock BudgetAdjustment test data","TEST","odn"),
+    CONTROL_2(UserNameFixture.khuntley,"Award ID 1","Auto Mock BudgetAdjustment test data","TEST","odn"),
+    CONTROL_3(UserNameFixture.khuntley,"Award ID 1","Auto Mock BudgetAdjustment test data","TEST","odn");   
     
     private UserNameFixture initiator;
-    private String postingPeriodCode;
-    private Integer postingYear;
-    private String awardDocumentNumber;
-    private String budgetVersionNumber;
-    private String comment;
-    
-    private BudgetAdjustmentParameterDTOFixture(UserNameFixture initiator, String postingPeriodCode, String awardDocumentNumber, String budgetVersionNumber, String comment) {
+    private String description;
+    private String explanation;
+    private String sponsorTypeCode;
+    private String orgDocNumber;
+     
+    private BudgetAdjustmentParameterDTOFixture(UserNameFixture initiator, String description, String explanation,String sponsorType, String odm) {
         this.initiator = initiator;
-        this.postingPeriodCode = postingPeriodCode;
-        this.postingYear = TestUtils.getFiscalYearForTesting();
-        this.awardDocumentNumber = awardDocumentNumber;
-        this.budgetVersionNumber = budgetVersionNumber;
-        this.comment = comment;
-    }
+        this.description = description;
+        this.explanation = explanation;
+        this.sponsorTypeCode = sponsorType;
+        this.orgDocNumber = odm;
+     }
 
     public BudgetAdjustmentParametersDTO createBudgetAdjustmentParameters() {
         
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = new BudgetAdjustmentParametersDTO();
         budgetAdjustmentParametersDTO.setPrincipalId(initiator.getPerson().getPrincipalId());
-        budgetAdjustmentParametersDTO.setPostingPeriodCode(postingPeriodCode);
-        budgetAdjustmentParametersDTO.setPostingYear(postingYear.toString());
-        budgetAdjustmentParametersDTO.setAwardDocumentNumber(awardDocumentNumber);
-        budgetAdjustmentParametersDTO.setBudgetVersionNumber(budgetVersionNumber);
-        budgetAdjustmentParametersDTO.setComment(comment);
+        budgetAdjustmentParametersDTO.setDescription(description);
+        budgetAdjustmentParametersDTO.setExplanation(explanation);
+        budgetAdjustmentParametersDTO.setSponsorType(sponsorTypeCode);
+        budgetAdjustmentParametersDTO.setOrgDocNumber(orgDocNumber);
         List<BudgetAdjustmentParametersDTO.Details> details = new ArrayList<BudgetAdjustmentParametersDTO.Details>();
         budgetAdjustmentParametersDTO.setDetails(details);
-        details.add( BudgetAdjustmentParameterDTOLineFixture.DETAIL_F_LINE1.createBudgetAdjustmentParameterDTO());
-        details.add( BudgetAdjustmentParameterDTOLineFixture.DETAIL_T_LINE1.createBudgetAdjustmentParameterDTO());
         return budgetAdjustmentParametersDTO;
+    }
+    
+    public String getSystemParameterResearchSponsorType() {
+        return "TEST=1133;1=1133;2=1133;";
+        //return "0=0896;1=0896";
     }
 }

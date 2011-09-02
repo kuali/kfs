@@ -1,0 +1,87 @@
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="AccountRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Account"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean>   
+    
+    <bean id="PrincipalInvestigatorRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Principal Investigator"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.PrincipalInvestigatorAccessPermissionEvaluatorImpl"/>
+       <property name="otherKeyFields">
+     	   <map>
+    		  <entry>
+    			  <key><value>chartOfAccountsCode</value></key>
+	    		  <ref bean="Chart-chartOfAccountsCode"/>
+	    	  </entry>
+    	   </map>      
+       </property>
+    </bean>   
+    
+    <bean id="ChartRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Chart"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean> 
+    
+    <bean id="ChartHierarchyRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Chart-Descend Hierarchy"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.DescendChartAccessPermissionEvaluatorImpl"/>
+    </bean>     
+       
+    <bean id="ObjectConsolidationRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Object Consolidation"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean> 
+        
+    <bean id="ObjectLevelRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true"> 
+       <property name="securityAttributeName" value="Object Level"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean> 
+       
+    <bean id="OrganizationRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Organization"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean>
+    
+    <bean id="OrganizationHierarchyRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Organization-Descend Hierarchy"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.DescendOrganizationAccessPermissionEvaluatorImpl"/>
+       <property name="otherKeyFields">
+     	   <map>
+    		  <entry>
+    			  <key><value>chartOfAccountsCode</value></key>
+	    		  <ref bean="Chart-chartOfAccountsCode"/>
+	    	  </entry>
+    	   </map>      
+       </property>
+    </bean>      
+       
+    <bean id="ProjectCodeRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Project Code"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean> 
+       
+    <bean id="SubAccountRestriction" class="org.kuali.kfs.sec.datadictionary.AccessSecurityAttributeRestrictionEntry" abstract="true">
+       <property name="securityAttributeName" value="Sub Account"/>
+       <property name="accessPermissionEvaluatorClass" value="org.kuali.kfs.sec.service.impl.AccessPermissionEvaluatorImpl"/>
+    </bean>         
+</beans>        

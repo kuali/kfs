@@ -53,5 +53,14 @@ public interface ContractsAndGrantsModuleService {
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
     
     public List<String> getParentUnits(String unitNumber);
+    
+    /**
+     * Returns the proposal number for an award associated with an account and project director 
+     * 
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return
+     */
+    public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId);
 }
 

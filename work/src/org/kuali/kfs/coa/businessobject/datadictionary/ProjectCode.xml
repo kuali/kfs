@@ -16,55 +16,59 @@
 	-->
 	<bean id="ProjectCode" parent="ProjectCode-parentBean" />
 
-	<bean id="ProjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode" />
-		<property name="inquiryDefinition">
-			<ref bean="ProjectCode-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="ProjectCode-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="code" />
-		<property name="objectLabel" value="Project Code" />
-		<property name="attributes">
-			<list>
-				<ref bean="ProjectCode-active" />
-				<ref bean="ProjectCode-chartOfAccountsCode" />
-				<ref bean="ProjectCode-organizationCode" />
-				<ref bean="ProjectCode-projectManagerUniversalId" />
-				<ref bean="ProjectCode-projectManagerUniversal.principalName" />
-				<ref bean="ProjectCode-projectManagerUniversal.name" />
-				<ref bean="ProjectCode-code" />
-				<ref bean="ProjectCode-projectDescription" />
-				<ref bean="ProjectCode-name" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="projectManagerUniversal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="projectManagerUniversalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="projectManagerUniversal.principalName"
-								p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="projectManagerUniversal.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+  <bean id="ProjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ProjectCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="ProjectCode-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ProjectCode-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="code"/>
+    <property name="objectLabel" value="Project Code"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ProjectCode-active"/>
+        <ref bean="ProjectCode-chartOfAccountsCode"/>
+        <ref bean="ProjectCode-organizationCode"/>
+        <ref bean="ProjectCode-projectManagerUniversalId"/>
+        <ref bean="ProjectCode-projectManagerUniversal.principalName"/>
+        <ref bean="ProjectCode-projectManagerUniversal.name"/>
+        <ref bean="ProjectCode-code"/>
+        <ref bean="ProjectCode-projectDescription"/>
+        <ref bean="ProjectCode-name"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="ProjectCode-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ProjectCode-chartOfAccountsCode"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="ProjectCode-organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="ProjectCode-organizationCode"/></bean>
+           <bean parent="ProjectCodeRestriction"><property name="attribute" ref="ProjectCode-code"/></bean> 
+       </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="projectManagerUniversal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="projectManagerUniversalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="projectManagerUniversal.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="projectManagerUniversal.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="ProjectCode-active" parent="ProjectCode-active-parentBean" />
 	<bean id="ProjectCode-active-parentBean" abstract="true"
@@ -183,43 +187,40 @@
 
 	<!-- Business Object Lookup Definition -->
 
-
-	<bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean" />
-
-	<bean id="ProjectCode-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Project Code Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>code</value>
-					</list>
-				</property>
-				<property name="sortAscending" value="false" />
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="code" />
-				<bean parent="FieldDefinition" p:attributeName="name" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="code" />
-				<bean parent="FieldDefinition" p:attributeName="name" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName"
-					p:forceInquiry="true" />
-			</list>
-		</property>
-	</bean>
+  <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean" />
+  <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="ProjectCode-lookupDefinition-base-parentBean" />
+  <bean id="ProjectCode-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Project Code Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="projectManagerUniversal.principalName" p:forceInquiry="true"/>
+      </list>
+    </property>
+  </bean>
 </beans>

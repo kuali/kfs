@@ -46,7 +46,23 @@
         <ref bean="AccountBalanceByConsolidation-financialObject.financialObjectType.financialReportingSortCode"/>
         <ref bean="AccountBalanceByConsolidation-financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode"/>
         <ref bean="AccountBalanceByConsolidation-dummyBusinessObject.linkButtonOption"/>
+        <ref bean="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode"/>
+        <ref bean="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="AccountBalanceByConsolidation-account.organizationCode"/>
       </list>
+	</property>
+	<property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
     </property>
   </bean>
 
@@ -158,6 +174,16 @@
     <property name="label" value="Lookup By Level"/>
     <property name="shortLabel" value="Lookup By Level"/>
   </bean>
+
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode" parent="AccountBalanceByLevel-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="AccountBalance-objectCode.financialObjectLevelCode" />
+        
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalanceByLevel-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode" />
+   
+    <bean id="AccountBalanceByConsolidation-account.organizationCode" parent="AccountBalanceByLevel-account.organizationCode-parentBean"/>
+    <bean id="AccountBalanceByConsolidation-account.organizationCode-parentBean" abstract="true" parent="AccountBalance-account.organizationCode" />
+    
 
 <!-- Business Object Inquiry Definition -->
 

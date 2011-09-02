@@ -1,6 +1,6 @@
 DIRNAME=$1_$2
 
-SOURCE_DIR=4.0
+SOURCE_DIR=4.0_4.1
 
 svn mkdir $DIRNAME
 svn mkdir $DIRNAME/db

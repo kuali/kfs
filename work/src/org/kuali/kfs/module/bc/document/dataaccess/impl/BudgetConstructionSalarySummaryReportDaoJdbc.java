@@ -130,10 +130,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         updateReportsSalarySummaryThreshold.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
 
-        /*
-         * for each emplid, find the CSF from the previous year with the largest salary (break ties by taking the row with the
-         * smallest position number
-         */
+        /* for each emplid, find the CSF from the previous year with the largest salary (break ties by taking the row with the smallest position number */
         sqlText.append("INSERT INTO LD_BCN_BUILD_SALSUMM03_MT\n");
         sqlText.append("(SESID, EMPLID, CSF_MTHS, CSF_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, p.iu_norm_work_months, p.iu_pay_months \n");
@@ -168,10 +165,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
         sqlText.delete(0, sqlText.length());
 
         /* restate the csf for all records, adjusting it so that it reflects changes in months appointment and percent time. */
-        /*
-         * the adjustment factor is (req pct time/base pct time)(req mnths appt/req position mnths appt)/(base mnths appt)/(base
-         * position mnths appt)
-         */
+        /* the adjustment factor is (req pct time/base pct time)(req mnths appt/req position mnths appt)/(base mnths appt)/(base position mnths appt)*/
         sqlText.append("UPDATE LD_BCN_BUILD_SALSUMM04_MT \n");
         sqlText.append("SET res_csf_amt = ROUND(COALESCE(((pos_csf_amt * sal_pct * sal_mths * csf_pmths) \n");
         sqlText.append(" / (pos_csf_tm_pct * csf_mths * sal_pmths)), 0.00),0) \n");

@@ -16,141 +16,137 @@
 	-->
 	<bean id="OrgReviewRole" parent="OrgReviewRole-parentBean" />
 
-	<bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry"
-		p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole"
-		p:titleAttribute="orgReviewRoleInquiryTitle" p:objectLabel="Organization Review"
-		p:lookupDefinition-ref="OrgReviewRole-lookupDefinition"
-		p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition">
-		<property name="primaryKeys">
-			<list>
-				<value>orgReviewRoleMemberId</value>
-				<value>delegate</value>
-			</list>
-		</property>
-		<property name="attributes">
-			<list>
-				<ref bean="OrgReviewRole-financialSystemDocumentTypeCode" />
-				<ref bean="OrgReviewRole-roleId" />
-				<ref bean="OrgReviewRole-roleName" />
-				<ref bean="OrgReviewRole-namespaceCode" />
-				<ref bean="OrgReviewRole-reviewRolesIndicator" />
-				<ref bean="OrgReviewRole-orgReviewRoleMemberId" />
-				<ref bean="OrgReviewRole-roleMemberId" />
-				<ref bean="OrgReviewRole-delegationMemberId" />
-				<ref bean="OrgReviewRole-chart.chartOfAccountsCode" />
-				<ref bean="OrgReviewRole-organization.organizationCode" />
-				<ref bean="OrgReviewRole-person.principalName" />
-				<ref bean="OrgReviewRole-person.name" />
-				<ref bean="OrgReviewRole-memberPrincipal.principalId" />
-				<ref bean="OrgReviewRole-memberPrincipal.principalName" />
-				<ref bean="OrgReviewRole-role.namespaceCode" />
-				<ref bean="OrgReviewRole-role.roleId" />
-				<ref bean="OrgReviewRole-role.roleName" />
-				<ref bean="OrgReviewRole-memberRole.memberId" />
-				<ref bean="OrgReviewRole-memberRole.namespaceCode" />
-				<ref bean="OrgReviewRole-memberRole.memberName" />
-				<ref bean="OrgReviewRole-group.namespaceCode" />
-				<ref bean="OrgReviewRole-group.groupName" />
-				<ref bean="OrgReviewRole-memberGroup.memberId" />
-				<ref bean="OrgReviewRole-memberGroup.memberNamespaceCode" />
-				<ref bean="OrgReviewRole-memberGroup.memberName" />
-				<ref bean="OrgReviewRole-memberNamespaceCode" />
-				<ref bean="OrgReviewRole-memberName" />
-				<ref bean="OrgReviewRole-delegate" />
-				<ref bean="OrgReviewRole-delegationTypeCode" />
-				<ref bean="OrgReviewRole-delegationTypeCodeDescription" />
-				<ref bean="OrgReviewRole-memberTypeCode" />
-				<ref bean="OrgReviewRole-memberTypeCodeDescription" />
-				<ref bean="OrgReviewRole-actionTypeCode" />
-				<ref bean="OrgReviewRole-actionTypeCodeDescription" />
-				<ref bean="OrgReviewRole-priorityNumber" />
-				<ref bean="OrgReviewRole-priorityNumberToDisplay" />
-				<ref bean="OrgReviewRole-actionPolicyCode" />
-				<ref bean="OrgReviewRole-forceAction" />
-				<ref bean="OrgReviewRole-chartOfAccountsCode" />
-				<ref bean="OrgReviewRole-organizationCode" />
-				<ref bean="OrgReviewRole-fromAmount" />
-				<ref bean="OrgReviewRole-toAmount" />
-				<ref bean="OrgReviewRole-overrideCode" />
-				<ref bean="OrgReviewRole-activeFromDate" />
-				<ref bean="OrgReviewRole-activeToDate" />
-				<ref bean="OrgReviewRole-active" />
-				<ref bean="OrgReviewRole-orgReviewRoleInquiryTitle" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="chart" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="organization" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode"
-								p:targetName="chartOfAccountsCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationCode"
-								p:targetName="organizationCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="financialSystemDocumentType" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialSystemDocumentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="role" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="roleMemberRoleId"
-								p:targetName="roleId" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleNamespaceCode"
-								p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleName"
-								p:targetName="roleName" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="group" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupMemberGroupId"
-								p:targetName="groupId" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupNamespaceCode"
-								p:targetName="namespaceCode" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupName"
-								p:targetName="groupName" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="person" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalMemberPrincipalId"
-								p:targetName="principalId" />
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="principalMemberPrincipalName" p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="person.principalName"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+  <bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry" 
+  			p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" 
+  			p:titleAttribute="orgReviewRoleInquiryTitle" 
+  			p:objectLabel="Organization Review" 
+  			p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" 
+  			p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition">
+	<property name="primaryKeys">
+	  <list>
+	    <value>orgReviewRoleMemberId</value>
+	    <value>delegate</value>
+	  </list>
+	</property> 
+    <property name="attributes">
+      <list>
+        <ref bean="OrgReviewRole-financialSystemDocumentTypeCode"/>
+        <ref bean="OrgReviewRole-roleId"/>
+        <ref bean="OrgReviewRole-roleName"/>
+        <ref bean="OrgReviewRole-namespaceCode"/>
+        <ref bean="OrgReviewRole-reviewRolesIndicator"/>
+        <ref bean="OrgReviewRole-orgReviewRoleMemberId"/>
+        <ref bean="OrgReviewRole-roleMemberId"/>
+        <ref bean="OrgReviewRole-delegationMemberId"/>
+        <ref bean="OrgReviewRole-chart.chartOfAccountsCode"/>
+        <ref bean="OrgReviewRole-organization.organizationCode"/>
+        <ref bean="OrgReviewRole-person.principalName"/>
+        <ref bean="OrgReviewRole-person.name"/>
+        <ref bean="OrgReviewRole-memberPrincipal.principalId"/>        
+        <ref bean="OrgReviewRole-memberPrincipal.principalName"/>
+        <ref bean="OrgReviewRole-role.namespaceCode"/>
+        <ref bean="OrgReviewRole-role.roleId"/>
+        <ref bean="OrgReviewRole-role.roleName"/>
+        <ref bean="OrgReviewRole-memberRole.memberId"/>
+        <ref bean="OrgReviewRole-memberRole.namespaceCode"/>
+        <ref bean="OrgReviewRole-memberRole.memberName"/>
+        <ref bean="OrgReviewRole-group.namespaceCode"/>
+        <ref bean="OrgReviewRole-group.groupName"/>
+        <ref bean="OrgReviewRole-memberGroup.memberId"/>
+        <ref bean="OrgReviewRole-memberGroup.memberNamespaceCode"/>
+        <ref bean="OrgReviewRole-memberGroup.memberName"/>
+        <ref bean="OrgReviewRole-memberNamespaceCode"/>
+        <ref bean="OrgReviewRole-memberName"/>
+        <ref bean="OrgReviewRole-delegate"/>
+        <ref bean="OrgReviewRole-delegationTypeCode"/>
+        <ref bean="OrgReviewRole-delegationTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-memberTypeCode"/>
+        <ref bean="OrgReviewRole-memberTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-actionTypeCode"/>
+        <ref bean="OrgReviewRole-actionTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-priorityNumber"/>
+        <ref bean="OrgReviewRole-priorityNumberToDisplay"/>
+        <ref bean="OrgReviewRole-actionPolicyCode"/>
+        <ref bean="OrgReviewRole-forceAction"/>
+        <ref bean="OrgReviewRole-chartOfAccountsCode"/>
+        <ref bean="OrgReviewRole-organizationCode"/>
+        <ref bean="OrgReviewRole-fromAmount"/>
+        <ref bean="OrgReviewRole-toAmount"/>
+        <ref bean="OrgReviewRole-overrideCode"/>
+        <ref bean="OrgReviewRole-activeFromDate"/>
+        <ref bean="OrgReviewRole-activeToDate"/>
+        <ref bean="OrgReviewRole-active"/>
+        <ref bean="OrgReviewRole-orgReviewRoleInquiryTitle"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="OrgReviewRole-chart.chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-chart.chartOfAccountsCode"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="OrgReviewRole-organization.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-organization.organizationCode"/></bean>
+       </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="chart"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="organization"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationCode" p:targetName="organizationCode"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="financialSystemDocumentType"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialSystemDocumentTypeCode" p:targetName="name"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="role"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="roleMemberRoleId" p:targetName="roleId"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleNamespaceCode" p:targetName="namespaceCode"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleName" p:targetName="roleName"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="group"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupMemberGroupId" p:targetName="groupId"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupNamespaceCode" p:targetName="namespaceCode"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupName" p:targetName="groupName"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="person"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalMemberPrincipalId" p:targetName="principalId"/>
+	            	<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principalMemberPrincipalName" p:targetName="principalName"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="person.principalName" p:targetName="name"/>
+	            </list>
+	        </property>
+   		</bean>
+   	  </list>
+    </property>    
+  </bean>
 
 	<bean id="OrgReviewRole-financialSystemDocumentTypeCode"
 		parent="OrgReviewRole-financialSystemDocumentTypeCode-parentBean" />
@@ -406,69 +402,64 @@
 		</property>
 	</bean>
 
-	<bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean" />
-	<bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition" p:title="Organization Review Lookup">
-		<property name="lookupableID" value="orgReviewRoleLookupable" />
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>chartOfAccountsCode</value>
-						<value>organizationCode</value>
-						<value>financialSystemDocumentTypeCode</value>
-					</list>
-				</property>
-				<property name="sortAscending" value="true" />
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"
-					p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode"
-					p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalId" />
-				<bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalName" />
-				<bean parent="FieldDefinition" p:attributeName="person.principalName"
-					p:hidden="true" />
-				<bean parent="FieldDefinition" p:attributeName="roleMemberRoleId" />
-				<bean parent="FieldDefinition" p:attributeName="roleMemberRoleNamespaceCode" />
-				<bean parent="FieldDefinition" p:attributeName="roleMemberRoleName"
-					p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="groupMemberGroupId" />
-				<bean parent="FieldDefinition" p:attributeName="groupMemberGroupNamespaceCode" />
-				<bean parent="FieldDefinition" p:attributeName="groupMemberGroupName"
-					p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="delegate" />
-				<bean parent="FieldDefinition" p:attributeName="active"
-					p:defaultValue="Y" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="orgReviewRoleInquiryTitle" />
-				<bean parent="FieldDefinition" p:attributeName="namespaceCode" />
-				<bean parent="FieldDefinition" p:attributeName="roleName" />
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription" />
-				<bean parent="FieldDefinition" p:attributeName="memberNamespaceCode" />
-				<bean parent="FieldDefinition" p:attributeName="memberName" />
-				<bean parent="FieldDefinition" p:attributeName="actionTypeCodeDescription" />
-				<bean parent="FieldDefinition" p:attributeName="priorityNumberToDisplay" />
-				<bean parent="FieldDefinition" p:attributeName="fromAmount" />
-				<bean parent="FieldDefinition" p:attributeName="toAmount" />
-				<bean parent="FieldDefinition" p:attributeName="overrideCode" />
-				<bean parent="FieldDefinition" p:attributeName="delegationTypeCodeDescription" />
-				<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
-				<bean parent="FieldDefinition" p:attributeName="activeToDate" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-	</bean>
+  <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean"/>
+  <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-base-parentBean" />
+  <bean id="OrgReviewRole-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition" 
+  		p:title="Organization Review Lookup">
+    <property name="lookupableID" value="orgReviewRoleLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>chartOfAccountsCode</value>
+            <value>organizationCode</value>
+            <value>financialSystemDocumentTypeCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalId"/>
+       	  <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalName"/>
+  	      <bean parent="FieldDefinition" p:attributeName="person.principalName" p:hidden="true"/>
+          <bean parent="FieldDefinition" p:attributeName="roleMemberRoleId"/>
+          <bean parent="FieldDefinition" p:attributeName="roleMemberRoleNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="roleMemberRoleName" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="groupMemberGroupId"/>
+          <bean parent="FieldDefinition" p:attributeName="groupMemberGroupNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="groupMemberGroupName" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="delegate"/>
+          <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="orgReviewRoleInquiryTitle"/>
+          <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+          <bean parent="FieldDefinition" p:attributeName="roleName"/>
+          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+          <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+          <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription"/>
+       	  <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="memberName"/>
+       	  <bean parent="FieldDefinition" p:attributeName="actionTypeCodeDescription"/>
+          <bean parent="FieldDefinition" p:attributeName="priorityNumberToDisplay"/>
+       	  <bean parent="FieldDefinition" p:attributeName="fromAmount"/>
+          <bean parent="FieldDefinition" p:attributeName="toAmount"/>
+          <bean parent="FieldDefinition" p:attributeName="overrideCode"/>
+          <bean parent="FieldDefinition" p:attributeName="delegationTypeCodeDescription"/>
+          <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+          <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+          <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
 
 	<bean id="OrgReviewRole-inquiryDefinition" parent="OrgReviewRole-inquiryDefinition-parentBean" />
 

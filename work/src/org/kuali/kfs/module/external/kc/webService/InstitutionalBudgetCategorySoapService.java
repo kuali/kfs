@@ -49,14 +49,6 @@ public class InstitutionalBudgetCategorySoapService extends KfsService {
          }
     }
 
-    public InstitutionalBudgetCategorySoapService(URL wsdlLocation) {
-        super(wsdlLocation, KcConstants.BudgetCategory.SERVICE);
-    }
-
-    public InstitutionalBudgetCategorySoapService(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
-
     public InstitutionalBudgetCategorySoapService() throws MalformedURLException {
         super(getWsdl(KcConstants.BudgetCategory.SERVICE), KcConstants.BudgetCategory.SERVICE);
     }
@@ -82,6 +74,10 @@ public class InstitutionalBudgetCategorySoapService extends KfsService {
     @WebEndpoint(name = KcConstants.BudgetCategory.SERVICE_PORT)
     public InstitutionalBudgetCategoryService getBudgetCategoryServicePort(WebServiceFeature... features) {
         return super.getPort(BudgetCategoryServicePort, InstitutionalBudgetCategoryService.class, features);
+    }
+
+    public URL getWsdl() throws MalformedURLException {
+        return super.getWsdl(KcConstants.BudgetCategory.SERVICE);
     }
 
 }

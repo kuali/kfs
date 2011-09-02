@@ -22,9 +22,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.ws.WebServiceException;
+
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.module.external.kc.service.KfsService;
+import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
@@ -55,6 +59,7 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
 
     public Collection findMatching(Map fieldValues) {
         List<HashMapElement> hashMapList = new ArrayList<HashMapElement>();
+        List budgetCategoryDTOs = new ArrayList();
         
         for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
             Map.Entry e = (Map.Entry) i.next();
@@ -71,8 +76,11 @@ public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectSe
         }
         if (hashMapList.size() == 0) hashMapList = null;
    
-    
-        List budgetCategoryDTOs = this.getWebService().lookupBudgetCategories(hashMapList);     
+        try {
+            budgetCategoryDTOs = this.getWebService().lookupBudgetCategories(hashMapList);     
+        } catch (WebServiceException ex) {
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+        }
         return budgetCategoryDTOs;
     }
     

@@ -113,6 +113,17 @@ public class SecurityServiceImpl implements SecurityService {
         }
 
     }
+    
+    /**
+     * @see org.kuali.kfs.module.endow.document.service.SecurityService#updateIncomeChangeDate(java.lang.String)
+     */
+    public Security updateIncomeChangeDate(Security security) {
+        java.sql.Date currentDate = kemService.getCurrentDate();
+        if (ObjectUtils.isNotNull(security)) {
+            security.setIncomeChangeDate(currentDate);
+        }
+        return security;
+    }
 
     /**
      * Computes the market value.

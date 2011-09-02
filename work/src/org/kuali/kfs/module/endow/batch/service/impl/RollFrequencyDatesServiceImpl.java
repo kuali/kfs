@@ -333,10 +333,9 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
     protected void generateExceptionReport(String tableName, String errorMessage) {
 
         try {
-            rollFrequencyDatesExceptionReportWriterService.writeFormattedMessageLine(tableName + ": %s", errorMessage);
-        }
-        catch (Exception e) {
-            LOG.error("Failed to generate the exception report.", e);
+            rollFrequencyDatesExceptionReportWriterService.writeFormattedMessageLine(tableName + ": %s", errorMessage);            
+        } catch (Exception e) {
+            LOG.error("Failed to generate the exception report.",e);
         }
     }
 
@@ -359,8 +358,7 @@ public class RollFrequencyDatesServiceImpl implements RollFrequencyDatesService 
         boolean result = true;
         try {
             businessObjectService.save(businessObject);
-        }
-        catch (Exception e) { // such as IllegalArgumentException
+        } catch (Exception e) { // such as IllegalArgumentException
             LOG.error("Unable to save " + businessObject, e);
             result = false;
         }

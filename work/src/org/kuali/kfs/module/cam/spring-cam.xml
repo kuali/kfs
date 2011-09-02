@@ -180,7 +180,7 @@
     <bean id="assetStatusLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     </bean>
        
-    <bean id="assetStatusLookupable" parent="kualiLookupable">
+    <bean id="assetStatusLookupable" parent="kualiLookupable" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="assetStatusLookupableHelperService" />
         </property>
@@ -191,7 +191,7 @@
     	<property name="assetService" ref="assetService"/>
     </bean>
        
-    <bean id="assetLookupable" parent="kualiLookupable">
+    <bean id="assetLookupable" parent="kualiLookupable" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="assetLookupableHelperService" />
         </property>

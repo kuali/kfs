@@ -17,10 +17,11 @@ package org.kuali.kfs.module.external.kc.document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.kfs.coa.service.OrganizationReversionService;
+import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.KcConstants;
-import org.kuali.kfs.module.external.kc.service.KcAccountService;
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -32,7 +33,8 @@ import org.kuali.rice.kns.web.ui.Section;
 public class AccountAutoCreateDefaultsMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      org.kuali.rice.kns.maintenance.Maintainable)
      * 
      * KRAD Conversion: Performs customization of the adding fields to the section.
      * 
@@ -41,26 +43,49 @@ public class AccountAutoCreateDefaultsMaintainableImpl extends FinancialSystemMa
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
-        
-           for (Section section : sections) {
+        boolean isNew = document.isNew();
+
+        for (Section section : sections) {
             for (Row row : section.getRows()) {
                 List<Field> updatedFields = new ArrayList<Field>();
                 for (Field field : row.getFields()) {
+                    if (isReadOnly(field, isNew)) 
+                        field.setReadOnly(true);
                     if (shouldIncludeField(field)) {
                         updatedFields.add(field);
                     }
+                    
                 }
+
                 row.setFields(updatedFields);
             }
         }
         return sections;
     }
 
+    private boolean isReadOnly(Field field, boolean isNew) {
+        if (KcConstants.AccountCreationDefaults.KcUnit.equals(field.getPropertyName())) {
+            if (!isNew)
+                return true;
+        }
+        return false;
+    }
+
     private boolean shouldIncludeField(Field field) {
-        if (KcConstants.AccountCreationDefaults.CHART_OF_ACCOUNT_CODE.equals(field.getPropertyName())) {
-             KcAccountService kcAccountService = SpringContext.getBean(KcAccountService.class);
-            if (kcAccountService.accountsCanCrossCharts()) return false;
-         }
         return true;
     }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        // clear the pre-tag details when coyping pre-tag information
+        AccountAutoCreateDefaults newAcctAuto = (AccountAutoCreateDefaults) document.getNewMaintainableObject().getBusinessObject();
+        newAcctAuto.setKcUnit("");
+        newAcctAuto.setKcUnitName("");
+    }
+
 }

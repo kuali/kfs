@@ -56,4 +56,10 @@ public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsMo
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
+
+    @Override
+    public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return null;
+    }
 }

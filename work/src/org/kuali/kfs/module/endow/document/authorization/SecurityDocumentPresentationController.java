@@ -46,6 +46,17 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
             FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
             security.setIncomeNextPayDate(frequencyCodeServiceImpl.calculateProcessDate(incomePayFrequencyCode));
         }
+        //KFSMI-6674
+        //If SEC_INC_PAY_FREQ entered then the SEC_INC_NEXT_PAY_DT is 
+        //automatically calculated.
+        //if class code type is stocks and SEC_DIV_PAY_DT is entered then 
+        //copy the date value to SEC_INC_NEXT_PAY_DT.
+        //We do not want to overwrite the date if it already exists.
+        if (EndowConstants.ClassCodeTypes.STOCKS.equalsIgnoreCase(security.getClassCode().getClassCodeType())) {
+            if (security.getDividendPayDate() != null) {
+                security.setIncomeNextPayDate(security.getDividendPayDate());
+            }
+        }
 
         // when we create or copy a new Security, only certain fields are displayed; the following code is used to hide the unwanted
         // fields

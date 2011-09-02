@@ -38,14 +38,6 @@ public class InstitutionalUnitSoapService extends KfsService {
          }
     }
 
-    public InstitutionalUnitSoapService(URL wsdlLocation) {
-        super(wsdlLocation, KcConstants.Unit.SERVICE);
-    }
-
-    public InstitutionalUnitSoapService(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
-
     public InstitutionalUnitSoapService() throws MalformedURLException {
         super(getWsdl(KcConstants.Unit.SERVICE), KcConstants.Unit.SERVICE);
     }
@@ -71,6 +63,10 @@ public class InstitutionalUnitSoapService extends KfsService {
     @WebEndpoint(name = KcConstants.Unit.SERVICE_PORT)
     public InstitutionalUnitService getInstitutionalUnitServicePort(WebServiceFeature... features) {
         return super.getPort(InstitutionalUnitServicePort, InstitutionalUnitService.class, features);
+    }
+
+    public URL getWsdl() throws MalformedURLException {
+        return super.getWsdl(KcConstants.Unit.SERVICE);
     }
 
 }

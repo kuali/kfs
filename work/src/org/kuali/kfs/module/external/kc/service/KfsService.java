@@ -31,15 +31,18 @@ import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
 
 public abstract class KfsService extends Service {
     protected static final Logger LOG = Logger.getLogger(KfsService.class);
-    public static URL WSDL_LOCATION;
     
     protected KfsService(URL wsdlDocumentLocation, QName serviceName) {
         super(wsdlDocumentLocation, serviceName);
     }
  
+    public static String getWebServiceServerName() {
+       return  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+    }
+    
     protected static URL getWsdl(QName qname) throws MalformedURLException {
         URL url = null;
-        String webServiceServer =  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+        String webServiceServer =  getWebServiceServerName();
 
         //FIXME KC needs to get the services exposed and working on the KSB for this to work
         if (webServiceServer == null) {
@@ -50,12 +53,12 @@ public abstract class KfsService extends Service {
                 ServiceInfo serviceInfo = wsdlServices.get(0);
                 String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
                 url = new URL(wsdlName);
-                WSDL_LOCATION = url;
             }
         } else {
             url  = new URL(webServiceServer + "/remoting/" +  qname.getLocalPart() + "?wsdl");
-            WSDL_LOCATION = url;
         }  
         return url;
     }
+    
+    public abstract URL getWsdl() throws MalformedURLException;
 }

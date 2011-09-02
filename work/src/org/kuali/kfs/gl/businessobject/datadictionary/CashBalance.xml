@@ -18,48 +18,64 @@
 
 	<bean id="CashBalance" parent="CashBalance-parentBean" />
 
-	<bean id="CashBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.CashBalance" />
-		<property name="inquiryDefinition">
-			<ref bean="CashBalance-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="CashBalance-lookupDefinition" />
-		</property>
-		<property name="objectLabel" value="Cash Balance" />
-		<property name="attributes">
-			<list>
-				<ref bean="CashBalance-universityFiscalYear" />
-				<ref bean="CashBalance-chartOfAccountsCode" />
-				<ref bean="CashBalance-accountNumber" />
-				<ref bean="CashBalance-subAccountNumber" />
-				<ref bean="CashBalance-objectCode" />
-				<ref bean="CashBalance-subObjectCode" />
-				<ref bean="CashBalance-objectTypeCode" />
-				<ref bean="CashBalance-balanceTypeCode" />
-				<ref bean="CashBalance-accountLineAnnualBalanceAmount" />
-				<ref bean="CashBalance-beginningBalanceLineAmount" />
-				<ref bean="CashBalance-contractsGrantsBeginningBalanceAmount" />
-				<ref bean="CashBalance-month1Amount" />
-				<ref bean="CashBalance-month2Amount" />
-				<ref bean="CashBalance-month3Amount" />
-				<ref bean="CashBalance-month4Amount" />
-				<ref bean="CashBalance-month5Amount" />
-				<ref bean="CashBalance-month6Amount" />
-				<ref bean="CashBalance-month7Amount" />
-				<ref bean="CashBalance-month8Amount" />
-				<ref bean="CashBalance-month9Amount" />
-				<ref bean="CashBalance-month10Amount" />
-				<ref bean="CashBalance-month11Amount" />
-				<ref bean="CashBalance-month12Amount" />
-				<ref bean="CashBalance-month13Amount" />
-				<ref bean="CashBalance-timestamp" />
-				<ref bean="CashBalance-dummyBusinessObject.consolidationOption" />
-				<ref bean="CashBalance-dummyBusinessObject.pendingEntryOption" />
-				<ref bean="CashBalance-dummyBusinessObject.genericAmount" />
-			</list>
-		</property>
-	</bean>
+  <bean id="CashBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.CashBalance"/>
+    <property name="inquiryDefinition">
+      <ref bean="CashBalance-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="CashBalance-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Cash Balance"/>
+    <property name="attributes">
+      <list>
+        <ref bean="CashBalance-universityFiscalYear"/>
+        <ref bean="CashBalance-chartOfAccountsCode"/>
+        <ref bean="CashBalance-accountNumber"/>
+        <ref bean="CashBalance-subAccountNumber"/>
+        <ref bean="CashBalance-objectCode"/>
+        <ref bean="CashBalance-subObjectCode"/>
+        <ref bean="CashBalance-objectTypeCode"/>
+        <ref bean="CashBalance-balanceTypeCode"/>
+        <ref bean="CashBalance-accountLineAnnualBalanceAmount"/>
+        <ref bean="CashBalance-beginningBalanceLineAmount"/>
+        <ref bean="CashBalance-contractsGrantsBeginningBalanceAmount"/>
+        <ref bean="CashBalance-month1Amount"/>
+        <ref bean="CashBalance-month2Amount"/>
+        <ref bean="CashBalance-month3Amount"/>
+        <ref bean="CashBalance-month4Amount"/>
+        <ref bean="CashBalance-month5Amount"/>
+        <ref bean="CashBalance-month6Amount"/>
+        <ref bean="CashBalance-month7Amount"/>
+        <ref bean="CashBalance-month8Amount"/>
+        <ref bean="CashBalance-month9Amount"/>
+        <ref bean="CashBalance-month10Amount"/>
+        <ref bean="CashBalance-month11Amount"/>
+        <ref bean="CashBalance-month12Amount"/>
+        <ref bean="CashBalance-month13Amount"/>
+        <ref bean="CashBalance-timestamp"/>
+        <ref bean="CashBalance-dummyBusinessObject.consolidationOption"/>
+        <ref bean="CashBalance-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="CashBalance-dummyBusinessObject.genericAmount"/>
+        <ref bean="CashBalance-objectCode.financialObjectLevelCode"/>
+        <ref bean="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="CashBalance-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="CashBalance-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="CashBalance-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="CashBalance-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="CashBalance-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="CashBalance-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="CashBalance-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="CashBalance-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="CashBalance-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -292,8 +308,22 @@
 			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
 	</bean>
 
+    <bean id="CashBalance-objectCode.financialObjectLevelCode" parent="CashBalance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="CashBalance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="CashBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="CashBalance-account.organizationCode" parent="CashBalance-account.organizationCode-parentBean"/>
+    <bean id="CashBalance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>               
+ 
 	<!-- Business Object Inquiry Definition -->
-
 
 	<bean id="CashBalance-inquiryDefinition" parent="CashBalance-inquiryDefinition-parentBean" />
 

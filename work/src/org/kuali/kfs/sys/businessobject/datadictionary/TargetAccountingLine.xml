@@ -51,8 +51,25 @@
         <ref bean="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
         <ref bean="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
         <ref bean="TargetAccountingLine-salesTax.financialDocumentSaleDate"/>
+        <ref bean="TargetAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="TargetAccountingLine-account.organizationCode"/>
       </list>
     </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="TargetAccountingLine-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           <bean parent="ProjectCodeRestriction"><property name="attribute" ref="TargetAccountingLine-projectCode"/></bean>               
+       </list>
+    </property>    
     <property name="relationships">
     	<list>
     		<bean parent="RelationshipDefinition">
@@ -376,6 +393,22 @@
   <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
     <property name="name" value="salesTax.financialDocumentSaleDate"/>
     <property name="label" value="Sale Date"/>
-    
   </bean>
+
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode" parent="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="objectCode.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="TargetAccountingLine-account.organizationCode" parent="TargetAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="TargetAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>    
+    
+
 </beans>

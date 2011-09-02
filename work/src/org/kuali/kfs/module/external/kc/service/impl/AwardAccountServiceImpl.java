@@ -23,18 +23,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cxf.common.util.StringUtils;
+import javax.xml.ws.WebServiceException;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountSoapService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AwardAccountServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccountServiceImpl.class);
@@ -76,41 +75,31 @@ public class AwardAccountServiceImpl implements ExternalizableBusinessObjectServ
             }
         }
         
-        List awardAccounts = new ArrayList();             
         String accountNumber = (String)hashMapList.get("accountNumber");
         String chartOfAccountsCode = (String)hashMapList.get("chartOfAccountsCode");
         
+        List awardAccounts = new ArrayList();             
+        List<AwardAccountDTO> awardAccountDTOs = null;
+        
         //get award account DTO
-        AwardAccountDTO awardAccountDTO = getWebService().getAwardAccount(accountNumber);
+        try{
+            awardAccountDTOs = getWebService().getAwardAccounts(accountNumber, chartOfAccountsCode);
+        } catch (WebServiceException ex) {
+            LOG.error("Could not retrieve award accounts: "+ ex.getMessage());
+        }
         
-        if (awardAccountDTO != null && StringUtils.isEmpty(awardAccountDTO.getErrorMessage())) {
-            //now get CFDA Number
-            String cfdaNumber = getCfdaNumber(accountNumber);
+        if (awardAccountDTOs != null && !awardAccountDTOs.isEmpty()) {            
+            ContractsAndGrantsAccountAwardInformation awardAccountInfo = null; 
             
-            ContractsAndGrantsAccountAwardInformation awardAccount = new AwardAccount(awardAccountDTO, accountNumber, chartOfAccountsCode, cfdaNumber);
-            awardAccounts.add(awardAccount);
+            for(AwardAccountDTO awardAccount : (List<AwardAccountDTO>)awardAccountDTOs){
+                //create if no error messages
+                if(StringUtils.isEmpty(awardAccount.getErrorMessage())){                    
+                    awardAccountInfo = new AwardAccount(awardAccount, accountNumber, chartOfAccountsCode, "");
+                    awardAccounts.add(awardAccountInfo);
+                }
+            }
         }
-        
+                
         return awardAccounts;
-    }
-
-    protected String getCfdaNumber(String accountNumber){
-        
-        String cfdaNumber = "";
-        
-        //Now try and get CFDA Number
-        ExternalizableBusinessObjectService eboService = null;
-        eboService = (ExternalizableBusinessObjectService)SpringContext.getService("cfdaService");
-        
-        Map hashMapList = new HashMap();
-        hashMapList.put("cfdaNumber", accountNumber);
-        
-        ContractsAndGrantsCfda cfda = (ContractsAndGrantsCfda)eboService.findByPrimaryKey(hashMapList);
-        
-        if(ObjectUtils.isNotNull(cfda)){
-            cfdaNumber = cfda.getCfdaNumber();
-        }
-        
-        return cfdaNumber;
     }
 }

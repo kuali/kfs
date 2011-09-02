@@ -18,54 +18,70 @@
 
 	<bean id="Balance" parent="Balance-parentBean" />
 
-	<bean id="Balance-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance" />
-		<property name="inquiryDefinition">
-			<ref bean="Balance-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Balance-lookupDefinition" />
-		</property>
-		<property name="objectLabel" value="Balance" />
-		<property name="attributes">
-			<list>
-				<ref bean="Balance-universityFiscalYear" />
-				<ref bean="Balance-chartOfAccountsCode" />
-				<ref bean="Balance-accountNumber" />
-				<ref bean="Balance-subAccountNumber" />
-				<ref bean="Balance-objectCode" />
-				<ref bean="Balance-subObjectCode" />
-				<ref bean="Balance-objectTypeCode" />
-				<ref bean="Balance-balanceTypeCode" />
-				<ref bean="Balance-accountLineAnnualBalanceAmount" />
-				<ref bean="Balance-beginningBalanceLineAmount" />
-				<ref bean="Balance-combinedBeginningBalanceAmount" />
-				<ref bean="Balance-contractsGrantsBeginningBalanceAmount" />
-				<ref bean="Balance-month1Amount" />
-				<ref bean="Balance-month2Amount" />
-				<ref bean="Balance-month3Amount" />
-				<ref bean="Balance-month4Amount" />
-				<ref bean="Balance-month5Amount" />
-				<ref bean="Balance-month6Amount" />
-				<ref bean="Balance-month7Amount" />
-				<ref bean="Balance-month8Amount" />
-				<ref bean="Balance-month9Amount" />
-				<ref bean="Balance-month10Amount" />
-				<ref bean="Balance-month11Amount" />
-				<ref bean="Balance-month12Amount" />
-				<ref bean="Balance-month13Amount" />
-				<ref bean="Balance-timestamp" />
-
-				<ref bean="Balance-fundGroup" />
-				<ref bean="Balance-yearBalance" />
-				<ref bean="Balance-yearToDayBalance" />
-				<ref bean="Balance-dummyBusinessObject.consolidationOption" />
-				<ref bean="Balance-dummyBusinessObject.pendingEntryOption" />
-				<ref bean="Balance-dummyBusinessObject.amountViewOption" />
-				<ref bean="Balance-dummyBusinessObject.genericAmount" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Balance-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Balance"/>
+    <property name="inquiryDefinition">
+      <ref bean="Balance-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Balance-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Balance"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Balance-universityFiscalYear"/>
+        <ref bean="Balance-chartOfAccountsCode"/>
+        <ref bean="Balance-accountNumber"/>
+        <ref bean="Balance-subAccountNumber"/>
+        <ref bean="Balance-objectCode"/>
+        <ref bean="Balance-subObjectCode"/>
+        <ref bean="Balance-objectTypeCode"/>
+        <ref bean="Balance-balanceTypeCode"/>
+        <ref bean="Balance-accountLineAnnualBalanceAmount"/>
+        <ref bean="Balance-beginningBalanceLineAmount"/>
+        <ref bean="Balance-combinedBeginningBalanceAmount"/>
+        <ref bean="Balance-contractsGrantsBeginningBalanceAmount"/>
+        <ref bean="Balance-month1Amount"/>
+        <ref bean="Balance-month2Amount"/>
+        <ref bean="Balance-month3Amount"/>
+        <ref bean="Balance-month4Amount"/>
+        <ref bean="Balance-month5Amount"/>
+        <ref bean="Balance-month6Amount"/>
+        <ref bean="Balance-month7Amount"/>
+        <ref bean="Balance-month8Amount"/>
+        <ref bean="Balance-month9Amount"/>
+        <ref bean="Balance-month10Amount"/>
+        <ref bean="Balance-month11Amount"/>
+        <ref bean="Balance-month12Amount"/>
+        <ref bean="Balance-month13Amount"/>
+        <ref bean="Balance-timestamp"/>
+        
+        <ref bean="Balance-fundGroup"/>
+        <ref bean="Balance-yearBalance"/>
+        <ref bean="Balance-yearToDayBalance"/>
+        <ref bean="Balance-dummyBusinessObject.consolidationOption"/>
+        <ref bean="Balance-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="Balance-dummyBusinessObject.amountViewOption"/>
+        <ref bean="Balance-dummyBusinessObject.genericAmount"/>
+        <ref bean="Balance-objectCode.financialObjectLevelCode"/>
+        <ref bean="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="Balance-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="Balance-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Balance-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="Balance-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Balance-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="Balance-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="Balance-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Balance-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Balance-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -311,6 +327,7 @@
 		<property name="label" value="Transaction Entry Processed" />
 		<property name="shortLabel" value="Entry Processed" />
 	</bean>
+
 	<bean id="Balance-dummyBusinessObject.consolidationOption"
 		parent="Balance-dummyBusinessObject.consolidationOption-parentBean" />
 
@@ -348,8 +365,22 @@
 		<property name="name" value="fundGroup" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
-
+    <bean id="Balance-objectCode.financialObjectLevelCode" parent="Balance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Balance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Balance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Balance-account.organizationCode" parent="Balance-account.organizationCode-parentBean"/>
+    <bean id="Balance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>    
+    
+<!-- Business Object Inquiry Definition -->
 
 	<bean id="Balance-inquiryDefinition" parent="Balance-inquiryDefinition-parentBean" />
 

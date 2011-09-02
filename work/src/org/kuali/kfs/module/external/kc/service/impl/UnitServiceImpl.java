@@ -14,10 +14,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.ws.WebServiceException;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
+import org.kuali.kfs.module.external.kc.service.KfsService;
+import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
 import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
@@ -52,6 +56,7 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
 
     public Collection findMatching(Map fieldValues) {
         java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
+        List lookupUnitsReturn = null;
 
         for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
             Map.Entry e = (Map.Entry) i.next();
@@ -66,7 +71,13 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
                 hashMapList.add(hashMapElement);
             }
         }
-        List lookupUnitsReturn  = this.getWebService().lookupUnits( hashMapList);
+        try {
+          lookupUnitsReturn  = this.getWebService().lookupUnits( hashMapList);
+        } catch (WebServiceException ex) {
+            GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
+        }
+       
+        if (lookupUnitsReturn == null) lookupUnitsReturn = new ArrayList();
         return lookupUnitsReturn;
     }
 

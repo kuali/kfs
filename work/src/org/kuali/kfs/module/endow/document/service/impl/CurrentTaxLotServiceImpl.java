@@ -367,18 +367,16 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime(fiscalYearEndDate);
-        int fiscalMonths = calendar.get(Calendar.MONTH);
-
+        int fiscalMonths = calendar.get(Calendar.MONTH) + 1;
+        int fiscalYear = calendar.get(Calendar.YEAR);
+        
         calendar.setTime(nextIncomeDueDate);
-        int nextIncomeMonths = calendar.get(Calendar.MONTH);
-
-        if (fiscalYearEndDate.before(nextIncomeDueDate)) {
-            numberOfMonths = nextIncomeMonths - fiscalMonths;
-        }
-        else {
-            numberOfMonths = fiscalMonths - nextIncomeMonths;
-        }
-
+        int nextIncomeMonths = calendar.get(Calendar.MONTH) + 1;
+        int nextIncomeYear = calendar.get(Calendar.YEAR);
+        
+        numberOfMonths = ((fiscalYear-nextIncomeYear) * 12);
+        numberOfMonths += fiscalMonths - nextIncomeMonths;
+        
         return numberOfMonths;
     }
 
@@ -654,9 +652,9 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param month month to set the calendar, currentDate currentDate
      * @return calendar calendar is set to the month selected
      */
-    protected Calendar setCaledarWithMonth(String month, Date currentDate) {
+    protected Calendar setCaledarWithMonth(String month, Date lastPaymentDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
+        calendar.setTime(lastPaymentDate);
 
         int calendarMonth = 1;
 
@@ -838,28 +836,28 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.MONTHLY)) {
             String dayOfMonth = incomePayFrequency.substring(1, 3);
-            return getNumberOfPaymentsRemainingForMonthlyFrequency(currentDate, fiscalYearEndDate, dayOfMonth);
+            return getNumberOfPaymentsRemainingForMonthlyFrequency(nextIncomeDueDate, lastPaymentDate, dayOfMonth);
         }
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.QUARTERLY)) {
             String month = incomePayFrequency.substring(1, 2);
             String dayOfMonth = incomePayFrequency.substring(2, 4);
 
-            return getNumberOfPaymentsRemainingForQuarterlyFrequency(currentDate, fiscalYearEndDate, dayOfMonth, month);
+            return getNumberOfPaymentsRemainingForQuarterlyFrequency(nextIncomeDueDate, lastPaymentDate, dayOfMonth, month);
         }
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.SEMI_ANNUALLY)) {
             String month = incomePayFrequency.substring(1, 2);
             String dayOfMonth = incomePayFrequency.substring(2, 4);
 
-            return getNumberOfPaymentsRemainingForSemiAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+            return getNumberOfPaymentsRemainingForSemiAnnuallyDate(nextIncomeDueDate, lastPaymentDate, dayOfMonth, month);
         }
 
         if (frequencyType.equalsIgnoreCase(EndowConstants.FrequencyTypes.ANNUALLY)) {
             String month = incomePayFrequency.substring(1, 2);
             String dayOfMonth = incomePayFrequency.substring(2, 4);
 
-            return getNumberOfPaymentsRemainingForAnnuallyDate(currentDate, fiscalYearEndDate, dayOfMonth, month);
+            return getNumberOfPaymentsRemainingForAnnuallyDate(nextIncomeDueDate, lastPaymentDate, dayOfMonth, month);
         }
 
         return totalPaymentsRemaining;
@@ -871,21 +869,25 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param currentDate, fiscalYearEndDate, dayOfMonth
      * @return totalPayments
      */
-    protected long getNumberOfPaymentsRemainingForMonthlyFrequency(Date currentDate, Date fiscalYearEndDate, String dayOfMonth) {
+    protected long getNumberOfPaymentsRemainingForMonthlyFrequency(Date nextIncomeDueDate, Date lastPaymentDate, String dayOfMonth) {
         long totalPayments = 0;
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
+        calendar.setTime(nextIncomeDueDate);
 
         int dayOfMonthToSet = Integer.parseInt(dayOfMonth);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthToSet);
 
-        while (calendar.getTime().before(fiscalYearEndDate)) {
+        if (calendar.getTime().before(lastPaymentDate)) {
+            totalPayments = totalPayments + 1; 
+        }
+        else {
+            return totalPayments;
+        }
+        
+        while (calendar.getTime().before(lastPaymentDate)) {
             calendar.add(Calendar.MONTH, 1);
-
-            if (calendar.getTime().before(fiscalYearEndDate)) {
-                totalPayments = +1;
-            }
+            totalPayments = totalPayments + 1;
         }
 
         return totalPayments;
@@ -897,20 +899,24 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param currentDate, fiscalYearEndDate, dayOfMonth
      * @return lastPaymentDate
      */
-    protected long getNumberOfPaymentsRemainingForQuarterlyFrequency(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+    protected long getNumberOfPaymentsRemainingForQuarterlyFrequency(Date nextIncomeDueDate, Date lastPaymentDate, String dayOfMonth, String month) {
         long totalPayments = 0;
 
-        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        Calendar calendar = setCaledarWithMonth(month, nextIncomeDueDate);
         setCalendarWithDays(calendar, dayOfMonth);
 
-        while (calendar.getTime().before(fiscalYearEndDate)) {
-            calendar.add(Calendar.MONTH, 3);
-
-            if (calendar.getTime().before(fiscalYearEndDate)) {
-                totalPayments = +1;
-            }
+        if (calendar.getTime().before(lastPaymentDate)) {
+            totalPayments = totalPayments + 1; 
         }
-
+        else {
+            return totalPayments;
+        }
+        
+        while (calendar.getTime().before(lastPaymentDate)) {
+            calendar.add(Calendar.MONTH, 3); 
+            totalPayments = totalPayments + 1;            
+        }
+        
         return totalPayments;
     }
 
@@ -920,20 +926,24 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param currentDate, fiscalYearEndDate, dayOfMonth
      * @return lastPaymentDate
      */
-    protected long getNumberOfPaymentsRemainingForSemiAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+    protected long getNumberOfPaymentsRemainingForSemiAnnuallyDate(Date nextIncomeDueDate, Date lastPaymentDate, String dayOfMonth, String month) {
         long totalPayments = 0;
 
-        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        Calendar calendar = setCaledarWithMonth(month, nextIncomeDueDate);
         setCalendarWithDays(calendar, dayOfMonth);
 
-        while (calendar.getTime().before(fiscalYearEndDate)) {
-            calendar.add(Calendar.MONTH, 6);
-
-            if (calendar.getTime().before(fiscalYearEndDate)) {
-                totalPayments = +1;
-            }
+        if (calendar.getTime().before(lastPaymentDate)) {
+            totalPayments = totalPayments + 1; 
         }
-
+        else {
+            return totalPayments;
+        }
+        
+        while (calendar.getTime().before(lastPaymentDate)) {
+            calendar.add(Calendar.MONTH, 6);    
+            totalPayments = totalPayments + 1;            
+        }
+        
         return totalPayments;
     }
 
@@ -943,18 +953,22 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param currentDate, fiscalYearEndDate, dayOfMonth
      * @return lastPaymentDate
      */
-    protected long getNumberOfPaymentsRemainingForAnnuallyDate(Date currentDate, Date fiscalYearEndDate, String dayOfMonth, String month) {
+    protected long getNumberOfPaymentsRemainingForAnnuallyDate(Date nextIncomeDueDate, Date lastPaymentDate, String dayOfMonth, String month) {
         long totalPayments = 0;
 
-        Calendar calendar = setCaledarWithMonth(month, currentDate);
+        Calendar calendar = setCaledarWithMonth(month, nextIncomeDueDate);
         setCalendarWithDays(calendar, dayOfMonth);
 
-        while (calendar.getTime().before(fiscalYearEndDate)) {
-            calendar.add(Calendar.YEAR, 1);
-
-            if (calendar.getTime().before(fiscalYearEndDate)) {
-                totalPayments = +1;
-            }
+        if (calendar.getTime().before(lastPaymentDate)) {
+            totalPayments = totalPayments + 1; 
+        }
+        else {
+            return totalPayments;
+        }
+        
+        while (calendar.getTime().before(lastPaymentDate)) {
+            calendar.add(Calendar.YEAR, 1);  
+            totalPayments = totalPayments + 1;
         }
 
         return totalPayments;
@@ -977,7 +991,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         String incomePayFrequency = security.getIncomePayFrequency();
         Date nextIncomeDueDate = security.getIncomeNextPayDate();
 
-        if (ObjectUtils.isNull(incomePayFrequency) || ObjectUtils.isNull(nextIncomeDueDate)) {
+        if (ObjectUtils.isNull(nextIncomeDueDate)) {
             return amount;
         }
 
@@ -988,45 +1002,22 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
             return BigDecimal.ZERO;
         }
 
-
         int numberOfMonthsRemaing = getNumberOfMonthsRemaining(fiscalYearEndDate, nextIncomeDueDate);
 
         if (nextIncomeDueDate.before(fiscalYearEndDate) && numberOfMonthsRemaing < 4) {
             return BigDecimal.ZERO;
         }
-
-        // rule 4.b
-        if (nextIncomeDueDate.before(fiscalYearEndDate)) {
-            Date lastPaymentDate = getLastPaymentDate(incomePayFrequency, fiscalYearEndDate);
-            long quarterOfFiscalYear = getQuarterOfFiscalYear(nextIncomeDueDate);
-
-            long totalNumberOfPayments = kEMService.getTotalNumberOfPaymentsForFiscalYear();
-
-            amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-
-            if (quarterOfFiscalYear == 1) {
-                return amount;
-            }
-
-            if (quarterOfFiscalYear == 2) {
-                amount = KEMCalculationRoundingHelper.multiply(amount, BigDecimal.valueOf(3), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-
-                return amount;
-            }
-
-            if (quarterOfFiscalYear == 3) {
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(2), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-
-                return amount;
-            }
-
-            if (quarterOfFiscalYear == 4) {
-                KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_MARKET_VALUE);
-
-                return amount;
-            }
-        }
+        
+        long quartersLeftToFiscalYear = getQuartersLeftToFiscalYear(fiscalYearEndDate);
+        
+        //calculate holding units times security rate....
+        amount = KEMCalculationRoundingHelper.multiply(holdingTaxLot.getUnits(), security.getIncomeRate(), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+        
+        // now multiply the above amount by 4 to get amount for 4 quarters or for the year...
+        amount = KEMCalculationRoundingHelper.divide(amount, BigDecimal.valueOf(4), EndowConstants.Scale.SECURITY_MARKET_VALUE);
+        
+        //now compute the amount for the quarters remaining in the fiscal year....
+        amount = KEMCalculationRoundingHelper.multiply(amount, BigDecimal.valueOf(quartersLeftToFiscalYear), EndowConstants.Scale.SECURITY_MARKET_VALUE);
 
         return amount;
     }
@@ -1037,30 +1028,9 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
      * @param nextIncomeDueDate
      * @return quarterOfFiscalYear
      */
-    protected int getQuarterOfFiscalYear(Date nextIncomeDueDate) {
-        int quarterOfFiscalYear = 0;
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(nextIncomeDueDate);
-        int quarterMonth = calendar.get(Calendar.MONTH);
-
-        if (quarterMonth >= 0 && quarterMonth <= 2) {
-            return 1; // first quarter
-        }
-
-        if (quarterMonth >= 3 && quarterMonth <= 5) {
-            return 2; // second quarter
-        }
-
-        if (quarterMonth >= 6 && quarterMonth <= 8) {
-            return 3; // third quarter
-        }
-
-        if (quarterMonth >= 9 && quarterMonth <= 11) {
-            return 4; // fourth quarter
-        }
-
-        return quarterOfFiscalYear;
+    protected int getQuartersLeftToFiscalYear(Date fiscalYearEndDate) {
+        int numberOfMonthsRemaing = getNumberOfMonthsRemaining(fiscalYearEndDate, kEMService.getCurrentDate());
+        return Math.round(numberOfMonthsRemaing / 3); 
     }
 
     /**
@@ -1179,16 +1149,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
 
         return totalHoldingUnits;
     }
-
-    /**
-     * Gets the businessObjectService.
-     * 
-     * @return businessObjectService
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
     /**
      * Sets the businessObjectService.
      * 
@@ -1199,30 +1159,12 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     }
 
     /**
-     * Gets the securityService.
-     * 
-     * @return securityService
-     */
-    protected SecurityService getSecurityService() {
-        return securityService;
-    }
-
-    /**
      * Sets the securityService.
      * 
      * @param securityService
      */
     public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
-    }
-
-    /**
-     * gets the kEMService.
-     * 
-     * @param kEMService
-     */
-    protected KEMService getkEMService() {
-        return kEMService;
     }
 
     /**
@@ -1238,16 +1180,6 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         this.currentTaxLotBalanceDao = currentTaxLotBalanceDao;
     }
 
-
-    /**
-     * Gets the transactionArchiveDao attribute.
-     * 
-     * @return Returns the transactionArchiveDao.
-     */
-    protected TransactionArchiveDao getTransactionArchiveDao() {
-        return transactionArchiveDao;
-    }
-
     /**
      * Sets the transactionArchiveDao attribute value.
      * 
@@ -1257,13 +1189,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         this.transactionArchiveDao = transactionArchiveDao;
     }
 
-    /**
-     * Sets the dataDictionaryService.
-     * 
-     * @param dataDictionaryService
-     */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
 }

@@ -18,36 +18,50 @@
 
 	<bean id="AccountBalance" parent="AccountBalance-parentBean" />
 
-	<bean id="AccountBalance-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.gl.businessobject.AccountBalance" />
-		<property name="inquiryDefinition">
-			<ref bean="AccountBalance-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="AccountBalance-lookupDefinition" />
-		</property>
-		<property name="objectLabel" value="Account Balance" />
-		<property name="attributes">
-			<list>
-				<ref bean="AccountBalance-universityFiscalYear" />
-				<ref bean="AccountBalance-chartOfAccountsCode" />
-				<ref bean="AccountBalance-accountNumber" />
-				<ref bean="AccountBalance-subAccountNumber" />
-				<ref bean="AccountBalance-objectCode" />
-				<ref bean="AccountBalance-subObjectCode" />
-				<ref bean="AccountBalance-currentBudgetLineBalanceAmount" />
-				<ref bean="AccountBalance-accountLineActualsBalanceAmount" />
-				<ref bean="AccountBalance-accountLineEncumbranceBalanceAmount" />
-				<ref bean="AccountBalance-timestamp" />
-				<ref bean="AccountBalance-dummyBusinessObject.pendingEntryOption" />
-				<ref bean="AccountBalance-dummyBusinessObject.consolidationOption" />
-				<ref bean="AccountBalance-dummyBusinessObject.genericAmount" />
-				<ref bean="AccountBalance-dummyBusinessObject.linkButtonOption" />
-			</list>
-		</property>
-	</bean>
+  <bean id="AccountBalance-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.AccountBalance"/>
+    <property name="inquiryDefinition">
+      <ref bean="AccountBalance-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="AccountBalance-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Account Balance"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AccountBalance-universityFiscalYear"/>
+        <ref bean="AccountBalance-chartOfAccountsCode"/>
+        <ref bean="AccountBalance-accountNumber"/>
+        <ref bean="AccountBalance-subAccountNumber"/>
+        <ref bean="AccountBalance-objectCode"/>
+        <ref bean="AccountBalance-subObjectCode"/>
+        <ref bean="AccountBalance-currentBudgetLineBalanceAmount"/>
+        <ref bean="AccountBalance-accountLineActualsBalanceAmount"/>
+        <ref bean="AccountBalance-accountLineEncumbranceBalanceAmount"/>
+        <ref bean="AccountBalance-timestamp"/>
+        <ref bean="AccountBalance-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="AccountBalance-dummyBusinessObject.consolidationOption"/>
+        <ref bean="AccountBalance-dummyBusinessObject.genericAmount"/>
+        <ref bean="AccountBalance-dummyBusinessObject.linkButtonOption"/>
+        <ref bean="AccountBalance-objectCode.financialObjectLevelCode"/>
+        <ref bean="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="AccountBalance-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="AccountBalance-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountBalance-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="AccountBalance-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="AccountBalance-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="AccountBalance-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountBalance-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountBalance-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="AccountBalance-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -171,8 +185,22 @@
 		<property name="shortLabel" value="Drill Down" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
+    <bean id="AccountBalance-objectCode.financialObjectLevelCode" parent="AccountBalance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="AccountBalance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="AccountBalance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="AccountBalance-account.organizationCode" parent="AccountBalance-account.organizationCode-parentBean"/>
+    <bean id="AccountBalance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>  
 
+	<!-- Business Object Inquiry Definition -->
 
 	<bean id="AccountBalance-inquiryDefinition" parent="AccountBalance-inquiryDefinition-parentBean" />
 

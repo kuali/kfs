@@ -22,17 +22,14 @@ public class AccountParametersDTO implements Serializable {
     
     private static final long serialVersionUID = 8417796622708399543L;
     
-    protected String unit;
-    protected String accountNumber;
-    protected String accountName;
+    protected String unit;    
+    protected String principalId;
+    
+    //Values that can override
     protected String higherEdFunctionCode;
     protected String indirectCostTypeCode;
     protected String indirectCostRate;
-    protected String expenseGuidelineText;
-    protected String incomeGuidelineText;
-    protected String purposeText;
-    protected String cfdaNumber;
-    
+                
     protected String defaultAddressCityName;
     protected String defaultAddressStateCode;
     protected String defaultAddressStreetAddress;
@@ -42,18 +39,18 @@ public class AccountParametersDTO implements Serializable {
     protected String adminContactAddressStateCode;
     protected String adminContactAddressStreetAddress;
     protected String adminContactAddressZipCode;
-    
-    protected String paymentAddressCityName;
-    protected String paymentAddressStateCode;
-    protected String paymentAddressStreetAddress;
-    protected String paymentAddressZipCode;
-    
+        
+    //Mapped directly from Award
+    protected String accountName;
+    protected String accountNumber;
+    protected String cfdaNumber;
     protected Date expirationDate;
-    protected Date effectiveDate;
-    
-    protected boolean offCampusIndicator;
-    
-    protected String principalId;
+    protected Date effectiveDate;    
+    protected boolean offCampusIndicator;        
+    protected String expenseGuidelineText;
+    protected String incomeGuidelineText;
+    protected String purposeText;
+
     
     public AccountParametersDTO() {}
 
@@ -329,38 +326,7 @@ public class AccountParametersDTO implements Serializable {
         this.adminContactAddressZipCode = adminContactAddressZipCode;
     }
 
-    public String getPaymentAddressCityName() {
-        return paymentAddressCityName;
-    }
-
-    public void setPaymentAddressCityName(String paymentAddressCityName) {
-        this.paymentAddressCityName = paymentAddressCityName;
-    }
-
-    public String getPaymentAddressStateCode() {
-        return paymentAddressStateCode;
-    }
-
-    public void setPaymentAddressStateCode(String paymentAddressStateCode) {
-        this.paymentAddressStateCode = paymentAddressStateCode;
-    }
-
-    public String getPaymentAddressStreetAddress() {
-        return paymentAddressStreetAddress;
-    }
-
-    public void setPaymentAddressStreetAddress(String paymentAddressStreetAddress) {
-        this.paymentAddressStreetAddress = paymentAddressStreetAddress;
-    }
-
-    public String getPaymentAddressZipCode() {
-        return paymentAddressZipCode;
-    }
-
-    public void setPaymentAddressZipCode(String paymentAddressZipCode) {
-        this.paymentAddressZipCode = paymentAddressZipCode;
-    }
-
+ 
     public String getPrincipalId() {
         return principalId;
     }

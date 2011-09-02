@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author='KFS41' id='NEW KFS/KC_PARAMETER'>
+		<comment>KFSMI-56662 Identifies the object code that will represent Income on an auto-generated budget adjustment document when KFS is integrated with a research admin system such as Kuali Coeus.</comment>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-FP' />
+			<column name='PARM_DTL_TYP_CD' value='BudgetAdjustment' />
+			<column name='PARM_NM'
+				value='RESEARCH_ADMIN_INCOME_OBJECT_CODE_BY_SPONSOR_TYPE' />
+			<column name='OBJ_ID' valueNumeric='KFS619' />
+			<column name='VER_NBR' valueNumeric='1' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='PARM_DESC_TXT'
+				value='IDENTIFIES THE OBJECT CODE THAT WILL REPRESENT INCOME ON AN AUTO-GENERATED BUDGET ADJUSTMENT DOCUMENT WHEN KFS IS INTEGRATED WITH A RESEARCH ADMIN SYSTEM SUCH AS KUALI COEUS THE FORMAT SHOULD BE SPONSOR TYPE=OBJECT CODE' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<insert tableName='KRNS_PARM_T'>
+			<column name='NMSPC_CD' value='KFS-COA' />
+			<column name='PARM_DTL_TYP_CD' value='Account' />
+			<column name='PARM_NM' value='KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND' />
+			<column name='OBJ_ID' valueNumeric='KFSCOA124' />
+			<column name='VER_NBR' value='Y' />
+			<column name='PARM_TYP_CD' value='CONFG' />
+			<column name='PARM_DESC_TXT'
+				value='When this indicator is Y, the values from KC will override the values in the CGAD table.' />
+			<column name='CONS_CD' value='A' />
+			<column name='APPL_NMSPC_CD' value='KFS' />
+		</insert>
+		<update tableName="KRNS_PARM_T">
+			<column name="TXT" value="ADMIN;PI" />
+			<where>NMSPC_CD='KFS-COA' and PARM_DTL_TYP_CD='Account' and
+				PARM_NM='ACCOUNT_ADDRESS_TYPE'
+			</where>
+		</update>
+	</changeSet>
+</databaseChangeLog>   
+      

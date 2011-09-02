@@ -35,6 +35,7 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.springframework.util.StringUtils;
 
 public class SecurityMaintainableImpl extends KualiMaintainableImpl {
 
@@ -96,8 +97,19 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
                 newSecurity.setIncomeChangeDate(currentDate);
 
             }
+            
+            //KFSMI-6674
+            //If SEC_INC_PAY_FREQ entered then the SEC_INC_NEXT_PAY_DT is 
+            //automatically calculated.
+            //if class code type is stocks and SEC_DIV_PAY_DT is entered then 
+            //copy the date value to SEC_INC_NEXT_PAY_DT. 
+            //We do not want to overwrite the date if it already exists.
+            if (EndowConstants.ClassCodeTypes.STOCKS.equalsIgnoreCase(newSecurity.getClassCode().getClassCodeType())) {
+                if (newSecurity.getDividendPayDate() != null) {
+                    newSecurity.setIncomeNextPayDate(newSecurity.getDividendPayDate());
+                }
+            }
         }
-
     }
 
     /**

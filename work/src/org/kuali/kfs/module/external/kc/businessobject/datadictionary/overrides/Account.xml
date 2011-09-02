@@ -35,7 +35,8 @@
 			              <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
 			              <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
 			              <bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode"/>
-			              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>			              
+			              <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr"/>
+			              <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>			              			             
 			              <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
 			            </list>
 			          </property>
@@ -52,8 +53,7 @@
 			                    <bean parent="FieldDefinition" p:attributeName="projectDirectorName"/>
 			                    <bean parent="FieldDefinition" p:attributeName="award.primeAgency.reportingName"/>
 			                    <bean parent="FieldDefinition" p:attributeName="award.grantNumber"/>
-			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>			                    			                    
-			                    <bean parent="FieldDefinition" p:attributeName="award.cfdaNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>			                    
 			                  </list>
 			                </property>
 			              </bean>			              

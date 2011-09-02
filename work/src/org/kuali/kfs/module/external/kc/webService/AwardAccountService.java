@@ -29,11 +29,13 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
 public interface AwardAccountService {
 
     @WebResult(name = "return", targetNamespace = "")
-    @RequestWrapper(localName = "getAwardAccount", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetAwardAccount")
+    @RequestWrapper(localName = "getAwardAccounts", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetAwardAccounts")
     @WebMethod
-    @ResponseWrapper(localName = "getAwardAccountResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetAwardAccountResponse")
-    public AwardAccountDTO getAwardAccount(
-        @WebParam(name = "financialAccountNumber", targetNamespace = "")
-        java.lang.String financialAccountNumber
+    @ResponseWrapper(localName = "getAwardAccountsResponse", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.GetAwardAccountsResponse")
+    public java.util.List<AwardAccountDTO> getAwardAccounts(
+        @WebParam(name = "financialAccountNumber", targetNamespace = "")                
+        java.lang.String financialAccountNumber,
+        @WebParam(name = "chartOfAccounts", targetNamespace = "")
+        java.lang.String chartOfAccounts
     );
 }

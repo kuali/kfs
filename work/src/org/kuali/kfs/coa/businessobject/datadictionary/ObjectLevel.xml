@@ -16,37 +16,43 @@
 	-->
 	<bean id="ObjectLevel" parent="ObjectLevel-parentBean" />
 
-	<bean id="ObjectLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectLevel" />
-		<property name="inquiryDefinition">
-			<ref bean="ObjectLevel-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="ObjectLevel-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="financialObjectLevelCode" />
-		<property name="objectLabel" value="Object Level" />
-		<property name="attributes">
-			<list>
-				<ref bean="ObjectLevel-chartOfAccountsCode" />
-				<ref bean="ObjectLevel-financialObjectLevelCode" />
-				<ref bean="ObjectLevel-financialObjectLevelName" />
-				<ref bean="ObjectLevel-financialObjectLevelShortNm" />
-				<ref bean="ObjectLevel-financialConsolidationObjectCode" />
-				<ref bean="ObjectLevel-active" />
-				<ref bean="ObjectLevel-financialReportingSortCode" />
-			</list>
-		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="financialConsolidationObject" />
-			</list>
-		</property>
-	</bean>
+  <bean id="ObjectLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.ObjectLevel"/>
+    <property name="inquiryDefinition">
+      <ref bean="ObjectLevel-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ObjectLevel-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="financialObjectLevelCode"/>
+    <property name="objectLabel" value="Object Level"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ObjectLevel-chartOfAccountsCode"/>
+        <ref bean="ObjectLevel-financialObjectLevelCode"/>
+        <ref bean="ObjectLevel-financialObjectLevelName"/>
+        <ref bean="ObjectLevel-financialObjectLevelShortNm"/>
+        <ref bean="ObjectLevel-financialConsolidationObjectCode"/>
+        <ref bean="ObjectLevel-active"/>
+        <ref bean="ObjectLevel-financialReportingSortCode"/>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialConsolidationObject"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="ObjectLevel-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="ObjectLevel-chartOfAccountsCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="ObjectLevel-financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="ObjectLevel-financialConsolidationObjectCode"/></bean>
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="ObjectLevel-chartOfAccountsCode" parent="ObjectLevel-chartOfAccountsCode-parentBean" />
 	<bean id="ObjectLevel-chartOfAccountsCode-parentBean" abstract="true"
@@ -169,43 +175,40 @@
 
 	<!-- Business Object Lookup Definition -->
 
-
 	<bean id="ObjectLevel-lookupDefinition" parent="ObjectLevel-lookupDefinition-parentBean" />
-
-	<bean id="ObjectLevel-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Object Level Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>financialObjectLevelCode</value>
-					</list>
-				</property>
-				<property name="sortAscending" value="false" />
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelName" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelShortNm" />
-				<bean parent="FieldDefinition" p:attributeName="financialConsolidationObjectCode" />
-				<bean parent="FieldDefinition" p:defaultValue="Y"
-					p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelName" />
-				<bean parent="FieldDefinition" p:attributeName="financialObjectLevelShortNm" />
-				<bean parent="FieldDefinition" p:attributeName="financialConsolidationObjectCode" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-	</bean>
+  <bean id="ObjectLevel-lookupDefinition-parentBean" abstract="true" parent="ObjectLevel-lookupDefinition-base-parentBean" />
+  <bean id="ObjectLevel-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Object Level Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>financialObjectLevelCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelShortNm"/>
+        <bean parent="FieldDefinition" p:attributeName="financialConsolidationObjectCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelName"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectLevelShortNm"/>
+        <bean parent="FieldDefinition" p:attributeName="financialConsolidationObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
 </beans>

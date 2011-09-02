@@ -18,50 +18,65 @@
 
 	<bean id="Encumbrance" parent="Encumbrance-parentBean" />
 
-	<bean id="Encumbrance-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Encumbrance" />
-		<property name="inquiryDefinition">
-			<ref bean="Encumbrance-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Encumbrance-lookupDefinition" />
-		</property>
-		<property name="objectLabel" value="Encumbrance" />
-		<property name="attributes">
-			<list>
-				<ref bean="Encumbrance-universityFiscalYear" />
-				<ref bean="Encumbrance-chartOfAccountsCode" />
-				<ref bean="Encumbrance-accountNumber" />
-				<ref bean="Encumbrance-subAccountNumber" />
-				<ref bean="Encumbrance-objectCode" />
-				<ref bean="Encumbrance-subObjectCode" />
-				<ref bean="Encumbrance-balanceTypeCode" />
-				<ref bean="Encumbrance-accountLineEncumbranceAmount" />
-				<ref bean="Encumbrance-accountLineEncumbranceClosedAmount" />
-				<ref bean="Encumbrance-accountLineEncumbranceOutstandingAmount" />
-				<ref bean="Encumbrance-transactionEncumbranceDescription" />
-				<ref bean="Encumbrance-documentTypeCode" />
-				<ref bean="Encumbrance-documentNumber" />
-				<ref bean="Encumbrance-originCode" />
-				<ref bean="Encumbrance-transactionEncumbranceDate" />
-				<ref bean="Encumbrance-timestamp" />
-				<ref bean="Encumbrance-dummyBusinessObject.pendingEntryOption" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+  <bean id="Encumbrance-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.Encumbrance"/>
+    <property name="inquiryDefinition">
+      <ref bean="Encumbrance-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Encumbrance-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Encumbrance"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Encumbrance-universityFiscalYear"/>
+        <ref bean="Encumbrance-chartOfAccountsCode"/>
+        <ref bean="Encumbrance-accountNumber"/>
+        <ref bean="Encumbrance-subAccountNumber"/>
+        <ref bean="Encumbrance-objectCode"/>
+        <ref bean="Encumbrance-subObjectCode"/>
+        <ref bean="Encumbrance-balanceTypeCode"/>
+        <ref bean="Encumbrance-accountLineEncumbranceAmount"/>
+        <ref bean="Encumbrance-accountLineEncumbranceClosedAmount"/>
+        <ref bean="Encumbrance-accountLineEncumbranceOutstandingAmount"/>
+        <ref bean="Encumbrance-transactionEncumbranceDescription"/>
+        <ref bean="Encumbrance-documentTypeCode"/>
+        <ref bean="Encumbrance-documentNumber"/>
+        <ref bean="Encumbrance-originCode"/>
+        <ref bean="Encumbrance-transactionEncumbranceDate"/>
+        <ref bean="Encumbrance-timestamp"/>
+        <ref bean="Encumbrance-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="Encumbrance-objectCode.financialObjectLevelCode"/>
+        <ref bean="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="Encumbrance-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="Encumbrance-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Encumbrance-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="Encumbrance-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="Encumbrance-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="Encumbrance-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="Encumbrance-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Encumbrance-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="Encumbrance-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+       </list>
+    </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -221,6 +236,21 @@
 		<property name="name" value="dummyBusinessObject.pendingEntryOption" />
 	</bean>
 
+    <bean id="Encumbrance-objectCode.financialObjectLevelCode" parent="Encumbrance-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="Encumbrance-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="Encumbrance-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="Encumbrance-account.organizationCode" parent="Encumbrance-account.organizationCode-parentBean"/>
+    <bean id="Encumbrance-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>   
+    
 	<!-- Business Object Inquiry Definition -->
 
 

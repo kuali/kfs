@@ -18,6 +18,10 @@ package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 
 
@@ -25,12 +29,20 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "cfdaDTO", propOrder = {
+    "awardId",
+    "cfdaMaintenanceTypeId",
+    "cfdaNumber",
+    "cfdaProgramTitleName"    
+})
 public class Cfda implements ContractsAndGrantsCfda, Serializable {
-
+    
     private String cfdaNumber;
     private String cfdaProgramTitleName;
     private String cfdaMaintenanceTypeId;
-    private boolean active;
+    private String awardId;
+    
     /**
      * Default constructor.
      */
@@ -38,6 +50,9 @@ public class Cfda implements ContractsAndGrantsCfda, Serializable {
         this.cfdaNumber = cfdaNumber;
     }
 
+    public Cfda(){        
+    }
+    
     /**
      * Gets the cfdaNumber attribute.
      * 
@@ -93,25 +108,16 @@ public class Cfda implements ContractsAndGrantsCfda, Serializable {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
     
-    /**
-     * This method gets the active value.
-     * 
-     * @return The value of the active attribute.
-     */
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * This method sets the active for this object.
-     * 
-     * @param active The value to be assigned to the active attribute.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
     public void prepareForWorkflow() {}
 
     public void refresh() {}
+
+    public String getAwardId() {
+        return awardId;
+    }
+
+    public void setAwardId(String awardId) {
+        this.awardId = awardId;
+    }
 
 }

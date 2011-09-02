@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ec.document.web.struts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,28 +28,34 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
+import org.kuali.kfs.module.ec.document.authorization.EffortCertificationDocumentAuthorizer;
 import org.kuali.kfs.module.ec.document.validation.event.AddDetailLineEvent;
 import org.kuali.kfs.module.ec.document.validation.event.CheckDetailLineAmountEvent;
 import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
 import org.kuali.kfs.module.ec.util.DetailLineGroup;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -342,8 +349,9 @@ public class CertificationReportAction extends EffortCertificationAction {
      * @return true if the summarized detail lines need to be rendered; otherwise, false
      */
     protected boolean isSummarizeDetailLinesRendered(CertificationReportForm certificationReportForm) {
-        super.populateAuthorizationFields(certificationReportForm);
-
+        populateAuthorizationFields(certificationReportForm);
+        //super.populateAuthorizationFields(certificationReportForm);
+        
         return certificationReportForm.getEditingMode().containsKey(EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
     }
 
@@ -549,6 +557,116 @@ public class CertificationReportAction extends EffortCertificationAction {
         
         return super.insertBONote(mapping, form, request, response);
     }
+
+    /**
+     * Do one additional check on Use Transactional for Summary Tab
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {        
+        
+        //call super for authorization fields
+        super.populateAuthorizationFields(formBase);
+
+        CertificationReportForm certificationReportForm = (CertificationReportForm) formBase;
+        
+        //get document authorizer
+        EffortCertificationDocumentAuthorizer certReportDocAuthorizer = (EffortCertificationDocumentAuthorizer)SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT);
+
+        //grab document
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) formBase;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) kualiDocumentFormBase.getDocument();                               
+                
+        //get principal id
+        String currentPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        
+        //set additional details for summary tab 
+        Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
+        additionalPermissionDetails.put(KimAttributes.EDIT_MODE, EffortCertificationEditMode.SUMMARY_TAB_ENTRY);
+
+        //get list of chart/account numbers
+        List<EffortCertificationDetail> summarizedDetailLines = createSummarizedDetailLines(certificationReportForm);
+        
+        //set additional role qualifiers
+        Map<String, String> additionalRoleQualifiers = new HashMap<String, String>();
+        String proposalNumber = getPropsalNumberForProjectDirector(currentPrincipalId, summarizedDetailLines);
+        
+        //set proposal number if found
+        if (StringUtils.isNotBlank(proposalNumber)){
+            additionalRoleQualifiers.put(KFSPropertyConstants.PROPOSAL, proposalNumber);
+                                        
+            //re-check summary permission
+            if (certReportDocAuthorizer.doPermissionExistsByTemplate(
+                    effortDocument,
+                    KNSConstants.KNS_NAMESPACE,
+                    KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
+                    additionalPermissionDetails)
+                    && !certReportDocAuthorizer.isAuthorizedByTemplate(
+                            effortDocument,
+                            KNSConstants.KNS_NAMESPACE,
+                            KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
+                            currentPrincipalId, 
+                            additionalPermissionDetails,
+                            additionalRoleQualifiers)) {
+                
+                formBase.getEditingMode().put(EffortCertificationEditMode.SUMMARY_TAB_ENTRY, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            }
+        }
+    }
     
+    /**
+     * Retrieves a proposal number for a project director from a list of awards pulled by chart/account number. 
+     * 
+     * @param projectDirectorId
+     * @return
+     */
+    protected String getPropsalNumberForProjectDirector(String projectDirectorId, List<EffortCertificationDetail> summarizedDetailLines){
+        
+        String proposalNumber = null;
+        String chartOfAccountsCode = null;
+        String accountNumber = null;
+
+        for (EffortCertificationDetail line : summarizedDetailLines) {
+            proposalNumber = SpringContext.getBean(ContractsAndGrantsModuleService.class).getProposalNumberForAccountAndProjectDirector(line.getChartOfAccountsCode(), line.getAccountNumber(), projectDirectorId);
+            
+            //if found a proposal number, break and return
+            if( StringUtils.isNotEmpty(proposalNumber)) break;
+        }
+                
+        return proposalNumber;
+    }
+
+    protected List<EffortCertificationDetail> createSummarizedDetailLines(CertificationReportForm certificationReportForm){
+
+        List<EffortCertificationDetail> summarizedDetailLines = new ArrayList<EffortCertificationDetail>();
+        Map<String, DetailLineGroup> detailLineGroupMap = null; 
+            
+        summarizedDetailLines = certificationReportForm.getSummarizedDetailLines();
+        
+        if(ObjectUtils.isNull(summarizedDetailLines) || summarizedDetailLines.isEmpty()){
+            if(ObjectUtils.isNotNull(certificationReportForm.getDetailLines()) && !certificationReportForm.getDetailLines().isEmpty()){
+                summarizedDetailLines = certificationReportForm.getDetailLines();                
+            }
+        }        
+        
+        return summarizedDetailLines;
+
+    }
     
+    /**
+     * Transforms the summarized effort detail lines into a chart/account number map
+     * 
+     * @param summaryDetail
+     * @return
+     */
+    protected Map<String,String> convertSummarizedDetailToChartAccountMap(List<EffortCertificationDetail> summaryDetail){
+        
+        Map<String,String> chartAccountMap = new HashMap<String,String>();
+        
+        for(EffortCertificationDetail line: summaryDetail){
+            chartAccountMap.put(line.getChartOfAccountsCode(), line.getAccountNumber());            
+        }
+        
+        return chartAccountMap;
+    }
 }

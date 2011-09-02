@@ -24,9 +24,6 @@
 <%-- first try to check if they are focusing in --%>
 <c:choose>
   <c:when test='${!empty channelTitle && !empty channelUrl}'>
-	  <c:if test="${!empty param.backdoorId}">
-	  	<c:set var="channelUrl" value="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login=1"/>
-	  </c:if>
 	  <div id="iframe_portlet_container_div">
 	  	<portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
 	  </div>

@@ -19,148 +19,130 @@
 
 	<bean id="Organization" parent="Organization-parentBean" />
 
-	<bean id="Organization-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.coa.businessobject.Organization" />
-		<property name="inquiryDefinition">
-			<ref bean="Organization-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Organization-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="organizationCode" />
-		<property name="objectLabel" value="Organization" />
-		<property name="attributes">
-			<list>
-				<ref bean="Organization-chartOfAccountsCode" />
-				<ref bean="Organization-organizationCode" />
-				<ref bean="Organization-organizationName" />
-				<ref bean="Organization-codeAndDescription" />
-				<ref bean="Organization-organizationManagerUniversalId" />
-				<ref bean="Organization-organizationManagerUniversal.principalName" />
-				<ref bean="Organization-organizationManagerUniversal.name" />
-				<ref bean="Organization-responsibilityCenterCode" />
-				<ref bean="Organization-organizationPhysicalCampusCode" />
-				<ref bean="Organization-organizationTypeCode" />
-				<ref bean="Organization-organizationDefaultAccountNumber" />
-				<ref bean="Organization-organizationPlantAccountNumber" />
-				<ref bean="Organization-organizationPlantChartCode" />
-				<ref bean="Organization-organizationZipCode" />
-				<ref bean="Organization-organizationStateCode" />
-				<ref bean="Organization-organizationCountryCode" />
-				<ref bean="Organization-organizationLine1Address" />
-				<ref bean="Organization-organizationLine2Address" />
-				<ref bean="Organization-organizationCityName" />
-				<ref bean="Organization-reportsToChartOfAccountsCode" />
-				<ref bean="Organization-reportsToOrganizationCode" />
-				<ref bean="Organization-organizationBeginDate" />
-				<ref bean="Organization-organizationEndDate" />
-				<ref bean="Organization-campusPlantAccountNumber" />
-				<ref bean="Organization-campusPlantChartCode" />
-				<ref bean="Organization-organizationInFinancialProcessingIndicator" />
-				<ref bean="Organization-editPlantAccountsSection" />
-				<ref bean="Organization-active" />
-				<ref bean="Organization-editHrmsUnitSection" />
-				<ref bean="Organization-organizationExtension.hrmsCompany" />
-				<ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress2" />
-				<ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress3" />
-				<ref bean="Organization-organizationExtension.hrmsIuCampusCode" />
-				<ref bean="Organization-organizationExtension.hrmsIuCampusBuilding" />
-				<ref bean="Organization-organizationExtension.hrmsIuCampusRoom" />
-				<ref
-					bean="Organization-organizationExtension.hrmsPersonnelApproverUniversalId" />
-				<ref
-					bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName" />
-				<ref
-					bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name" />
-				<ref bean="Organization-organizationExtension.fiscalApproverUniversalId" />
-				<ref
-					bean="Organization-organizationExtension.fiscalApproverUniversal.principalName" />
-				<ref
-					bean="Organization-organizationExtension.fiscalApproverUniversal.name" />
-				<ref bean="Organization-organizationExtension.hrmsIuPositionAllowedFlag" />
-				<ref bean="Organization-organizationExtension.hrmsIuTenureAllowedFlag" />
-				<ref bean="Organization-organizationExtension.hrmsIuTitleAllowedFlag" />
-				<ref
-					bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag" />
-				<ref bean="Organization-organizationExtension.hrmsLastUpdateDate" />
-				<ref bean="Organization-organizationPhysicalCampusCodeForReport" />
-				<ref bean="Organization-organizationCodeForReport" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="organizationManagerUniversal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationManagerUniversalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="organizationManagerUniversal.principalName"
-								p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="organizationManagerUniversal.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="organizationExtension.hrmsPersonnelApproverUniversal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName"
-						value="organizationExtension.fiscalApproverUniversal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition"
-								p:sourceName="organizationExtension.fiscalApproverUniversalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-
-				</bean>
-				<dd:relationship objectAttribute="postalZip">
-					<dd:primitiveAttribute source="organizationCountryCode"
-						target="postalCountryCode" />
-					<dd:primitiveAttribute source="organizationZipCode"
-						target="postalCode" />
-				</dd:relationship>
-				<dd:relationship objectAttribute="organizationCountry">
-					<dd:primitiveAttribute source="organizationCountryCode"
-						target="postalCountryCode" />
-				</dd:relationship>
-				<dd:relationship objectAttribute="organizationPhysicalCampus">
-					<dd:primitiveAttribute source="organizationPhysicalCampusCode"
-						target="campusCode" />
-				</dd:relationship>
-			</list>
-		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="postalZip" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="organizationType" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="organizationCountry" />
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="responsibilityCenter" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Organization-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    <property name="inquiryDefinition">
+      <ref bean="Organization-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Organization-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="organizationCode"/>
+    <property name="objectLabel" value="Organization"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Organization-chartOfAccountsCode"/>
+        <ref bean="Organization-organizationCode"/>
+        <ref bean="Organization-organizationName"/>
+        <ref bean="Organization-codeAndDescription"/>
+        <ref bean="Organization-organizationManagerUniversalId"/>
+        <ref bean="Organization-organizationManagerUniversal.principalName"/>
+        <ref bean="Organization-organizationManagerUniversal.name"/>
+        <ref bean="Organization-responsibilityCenterCode"/>
+        <ref bean="Organization-organizationPhysicalCampusCode"/>
+        <ref bean="Organization-organizationTypeCode"/>
+        <ref bean="Organization-organizationDefaultAccountNumber"/>
+        <ref bean="Organization-organizationPlantAccountNumber"/>
+        <ref bean="Organization-organizationPlantChartCode"/>
+        <ref bean="Organization-organizationZipCode"/>
+        <ref bean="Organization-organizationStateCode"/>
+        <ref bean="Organization-organizationCountryCode"/>
+        <ref bean="Organization-organizationLine1Address"/>
+        <ref bean="Organization-organizationLine2Address"/>
+        <ref bean="Organization-organizationCityName"/>
+        <ref bean="Organization-reportsToChartOfAccountsCode"/>
+        <ref bean="Organization-reportsToOrganizationCode"/>
+        <ref bean="Organization-organizationBeginDate"/>
+        <ref bean="Organization-organizationEndDate"/>
+        <ref bean="Organization-campusPlantAccountNumber"/>
+        <ref bean="Organization-campusPlantChartCode"/>
+        <ref bean="Organization-organizationInFinancialProcessingIndicator"/>
+        <ref bean="Organization-editPlantAccountsSection"/>
+        <ref bean="Organization-active"/>
+        <ref bean="Organization-editHrmsUnitSection"/>
+        <ref bean="Organization-organizationExtension.hrmsCompany"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress2"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOrganizationAddress3"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusCode"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusBuilding"/>
+        <ref bean="Organization-organizationExtension.hrmsIuCampusRoom"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversalId"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+        <ref bean="Organization-organizationExtension.hrmsPersonnelApproverUniversal.name"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversalId"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.principalName"/>
+        <ref bean="Organization-organizationExtension.fiscalApproverUniversal.name"/>
+        <ref bean="Organization-organizationExtension.hrmsIuPositionAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuTenureAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuTitleAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+        <ref bean="Organization-organizationExtension.hrmsLastUpdateDate"/>
+		<ref bean="Organization-organizationPhysicalCampusCodeForReport"/>   
+		<ref bean="Organization-organizationCodeForReport"/>     
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="Organization-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Organization-chartOfAccountsCode"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="Organization-organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="Organization-organizationCode"/></bean>
+       </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationManagerUniversal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationManagerUniversalId" p:targetName="principalId"/>
+            </list>
+          </property>
+           <property name="supportAttributes">
+            <list>
+              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="organizationManagerUniversal.principalName" p:targetName="principalName"/>
+              <bean parent="SupportAttributeDefinition" p:sourceName="organizationManagerUniversal.name" p:targetName="name"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationExtension.hrmsPersonnelApproverUniversal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.hrmsPersonnelApproverUniversalId" p:targetName="principalId"/>
+            </list>
+          </property>          
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationExtension.fiscalApproverUniversal"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationExtension.fiscalApproverUniversalId" p:targetName="principalId"/>
+            </list>
+          </property>
+          
+        </bean>
+        <dd:relationship objectAttribute="postalZip">
+        	<dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="organizationZipCode" target="postalCode"/>
+        </dd:relationship>
+        <dd:relationship objectAttribute="organizationCountry">
+            <dd:primitiveAttribute source="organizationCountryCode" target="postalCountryCode"/>
+        </dd:relationship>       
+        <dd:relationship objectAttribute="organizationPhysicalCampus">
+            <dd:primitiveAttribute source="organizationPhysicalCampusCode" target="campusCode"/>
+        </dd:relationship>        
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZip"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationType"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="organizationCountry"/>
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="responsibilityCenter"/>
+      </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -780,49 +762,45 @@
 
 	<!-- Business Object Lookup Definition -->
 
-
 	<bean id="Organization-lookupDefinition" parent="Organization-lookupDefinition-parentBean" />
-
-	<bean id="Organization-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="title" value="Organization Lookup" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>chartOfAccountsCode</value>
-					</list>
-				</property>
-				<property name="sortAscending" value="false" />
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode"
-					p:forceLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="organizationName" />
-				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode" />
-				<bean parent="FieldDefinition" p:defaultValue="Y"
-					p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationName" />
-				<bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="organizationManagerUniversal.principalName" />
-			</list>
-		</property>
-	</bean>
+  <bean id="Organization-lookupDefinition-parentBean" abstract="true" parent="Organization-lookupDefinition-base-parentBean" />
+  <bean id="Organization-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>chartOfAccountsCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationName"/>
+        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationName"/>
+        <bean parent="FieldDefinition" p:attributeName="responsibilityCenterCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="reportsToOrganizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationManagerUniversal.principalName"/>
+      </list>
+    </property>
+  </bean>
 </beans>

@@ -16,30 +16,35 @@
 	-->
 	<bean id="AccountDelegateModel" parent="AccountDelegateModel-parentBean" />
 
-	<bean id="AccountDelegateModel-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.coa.businessobject.AccountDelegateModel" />
-		<property name="inquiryDefinition">
-			<ref bean="AccountDelegateModel-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="AccountDelegateModel-lookupDefinition" />
-		</property>
-		<property name="titleAttribute" value="accountDelegateModelName" />
-		<property name="objectLabel" value="Account Delegate Model" />
-		<property name="attributes">
-			<list>
-				<ref bean="AccountDelegateModel-chartOfAccountsCode" />
-				<ref bean="AccountDelegateModel-organizationCode" />
-				<ref bean="AccountDelegateModel-accountDelegateModelName" />
-				<ref bean="AccountDelegateModel-active" />
-			</list>
-		</property>
-	</bean>
+  <bean id="AccountDelegateModel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.AccountDelegateModel"/>
+    <property name="inquiryDefinition">
+      <ref bean="AccountDelegateModel-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="AccountDelegateModel-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="accountDelegateModelName"/>
+    <property name="objectLabel" value="Account Delegate Model"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AccountDelegateModel-chartOfAccountsCode"/>
+        <ref bean="AccountDelegateModel-organizationCode"/>
+        <ref bean="AccountDelegateModel-accountDelegateModelName"/>
+        <ref bean="AccountDelegateModel-active"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="AccountDelegateModel-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="AccountDelegateModel-chartOfAccountsCode"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="AccountDelegateModel-organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="AccountDelegateModel-organizationCode"/></bean>
+       </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
-
 
 	<bean id="AccountDelegateModel-chartOfAccountsCode" parent="AccountDelegateModel-chartOfAccountsCode-parentBean" />
 	<bean id="AccountDelegateModel-chartOfAccountsCode-parentBean"
@@ -147,38 +152,36 @@
 	<!-- Business Object Lookup Definition -->
 
 	<bean id="AccountDelegateModel-lookupDefinition" parent="AccountDelegateModel-lookupDefinition-parentBean" />
-
-	<bean id="AccountDelegateModel-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="title" value="Account Delegate Model Lookup" />
-		<property name="lookupableID" value="organizationRoutingModelLookupable" />
-
-		<property name="defaultSort">
-			<bean parent="SortDefinition">
-				<property name="attributeNames">
-					<list>
-						<value>accountDelegateModelName</value>
-					</list>
-				</property>
-				<property name="sortAscending" value="false" />
-			</bean>
-		</property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="accountDelegateModelName" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
-				<bean parent="FieldDefinition" p:attributeName="accountDelegateModelName"
-					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-	</bean>
+  <bean id="AccountDelegateModel-lookupDefinition-parentBean" abstract="true" parent="AccountDelegateModel-lookupDefinition-base-parentBean" />
+  <bean id="AccountDelegateModel-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Account Delegate Model Lookup"/>
+    <property name="lookupableID" value="organizationRoutingModelLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>accountDelegateModelName</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="false"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateModelName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountDelegateModelName" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
 </beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+  <changeSet author='KFS411' id='DropColumn_CA_ACCT_AUTO_CREATE_DFLT_T'>
+    <comment>Remove guideline and Purpose fields</comment>
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_EXPNS_GUIDE_TXT' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_INCM_GUIDE_TXT' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_PRPS_GUIDE_TXT' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_OFF_CMP_IND' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='FIN_HGH_ED_FUNC_CD' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='ACCT_ICR_TYP_CD' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='CONTR_CTRL_FCOA_CD' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='CONTR_CTRLACCT_NBR' />
+    <dropColumn tableName='CA_ACCT_AUTO_CREATE_DFLT_T' columnName='FIN_SERIES_ID' />
+  </changeSet>
+</databaseChangeLog>

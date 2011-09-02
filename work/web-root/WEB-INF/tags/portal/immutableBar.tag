@@ -15,12 +15,32 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<%-- JSTLConstants magic doesn't work for nested class KNSConstants.DetailTypes, hence the following uglyness: --%>
+<c:set var="backdoorDetailType" value="<%=org.kuali.rice.kns.util.KNSConstants.DetailTypes.BACKDOOR_DETAIL_TYPE%>"/>
+<c:if test="${kfunc:getKNSParameterValue(KEWConstants.KEW_NAMESPACE, backdoorDetailType, KEWConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
+	<c:choose> 
+		<c:when test="${empty UserSession.loggedInUserPrincipalName}" > 
+			<c:set var="backdoorIdUrl" value=""/> 			
+		</c:when> 
+		<c:otherwise> 			
+			<c:choose>
+				<c:when test="${UserSession.backdoorInUse}" >
+					<c:set var="backdoorIdUrl" value="backdoorId=${UserSession.principalName}"/> 					
+				</c:when>
+				<c:otherwise>
+					<c:set var="backdoorIdUrl" value="backdoorId=${UserSession.loggedInUserPrincipalName}"/>
+				</c:otherwise>
+			</c:choose>				 			
+		</c:otherwise> 
+	</c:choose>
+</c:if>
+
 <div class="header2">
   <div class="header2-left-focus">
     <div class="breadcrumb-focus"><a href="asdf.html"> 
-    	<portal:portalLink displayTitle="false" title='Action List' url='${ConfigProperties.workflow.url}/ActionList.do'>
+    	<portal:portalLink displayTitle="false" title='Action List' url='${ConfigProperties.workflow.url}/ActionList.do${empty backdoorIdUrl ? "" : "?"}${backdoorIdUrl}'>
    		<img src="images-portal/icon-port-actionlist.gif" alt="action list" width="91" height="19" border="0"></portal:portalLink>
-    	<portal:portalLink displayTitle="false" title='Document Search' url='${ConfigProperties.workflow.documentsearch.base.url}'>
+    	<portal:portalLink displayTitle="false" title='Document Search' url='${ConfigProperties.workflow.documentsearch.base.url}${empty backdoorIdUrl ? "" : "&"}${backdoorIdUrl}'>
     	<img src="images-portal/icon-port-docsearch.gif" alt="doc search" width="96" height="19" border="0"></portal:portalLink>
      </div>
   </div>
@@ -37,8 +57,6 @@
       	  </html:form>
     </c:when>
     <c:otherwise> 
-      <%-- JSTLConstants magic doesn't work for nested class KNSConstants.DetailTypes, hence the following uglyness: --%>
-      <c:set var="backdoorDetailType" value="<%=org.kuali.rice.kns.util.KNSConstants.DetailTypes.BACKDOOR_DETAIL_TYPE%>"/>
       <c:if test="${kfunc:getKNSParameterValue(KEWConstants.KEW_NAMESPACE, backdoorDetailType, KEWConstants.SHOW_BACK_DOOR_LOGIN_IND) == 'Y'}">
         <html:form action="/backdoorlogin.do" method="post" style="margin:0; display:inline">
           <input name="backdoorId" type="text" class="searchbox" size="10" title="Enter your backdoor ID here.">

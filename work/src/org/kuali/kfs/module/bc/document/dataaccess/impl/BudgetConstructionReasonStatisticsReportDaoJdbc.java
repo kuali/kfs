@@ -62,8 +62,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         reportReasonStatisticsWithThreshold.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-
-        /* get emplids with at least one reason rec for the selections if we are doing the report without a threshold */
+        
+        /* get emplids with at least one reason rec for the selections if we are doing the report without a threshold*/
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT01_MT (SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid \n");
         sqlText.append("FROM LD_BCN_CTRL_LIST_T ctrl, LD_PNDBC_APPTFND_T bcaf, LD_BCN_OBJ_PICK_T pick, LD_BCN_AF_REASON_T reas, LD_BCN_RSN_CD_PK_T rpk \n");
@@ -177,11 +177,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         updateReportsReasonStatisticsTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-
-        /*
-         * take the request appointment attributes (months and position months) from the row for each person with the largest
-         * request amount
-         */
+        
+        /* take the request appointment attributes (months and position months) from the row for each person with the largest request amount */
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT03_MT (SESID, EMPLID, SAL_MTHS, SAL_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, sd.sal_mths, sd.sal_pmths \n");
         sqlText.append("FROM LD_BCN_BUILD_EXSALTOT02_MT sd \n");
@@ -295,12 +292,9 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" AND pick.select_flag > 0 \n");
 
         updateReportsReasonStatisticsTable.add(new SQLForStep(sqlText));
-        sqlText.delete(0, sqlText.length());
-
-        /*
-         * create copy of detail rows by organization for new people (who do not get a raise and therefore satisfy any threshold
-         * tests)
-         */
+        sqlText.delete(0, sqlText.length()); 
+        
+        /* create copy of detail rows by organization for new people (who do not get a raise and therefore satisfy any threshold tests) */
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT06_MT \n");
         sqlText.append("(SESID, ORG_FIN_COA_CD, ORG_CD, EMPLID, POS_CSF_AMT, \n");
         sqlText.append("  APPT_RQST_AMT, APPT_RQST_FTE_QTY, INIT_RQST_AMT, INIT_RQST_FTE) \n");

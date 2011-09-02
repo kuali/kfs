@@ -162,7 +162,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
             // Set non-persistent values in the result from asset lookup. So the screen can show them when return from single asset
             // lookup.
             String referencesToRefresh = (String) fieldValues.get(KNSConstants.REFERENCES_TO_REFRESH);
-            if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && referencesToRefresh.equals(CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET)) {
+            if (getAssetRetirementService().isAssetRetiredByMerged(assetRetirementGlobal) && CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET.equals(referencesToRefresh)) {
                 assetRetirementGlobal.setMergedTargetCapitalAssetDescription(assetRetirementGlobal.getMergedTargetCapitalAsset().getCapitalAssetDescription());
             }
             AssetRetirementGlobalDetail newDetail = (AssetRetirementGlobalDetail) newCollectionLines.get(CamsPropertyConstants.AssetRetirementGlobal.ASSET_RETIREMENT_GLOBAL_DETAILS);

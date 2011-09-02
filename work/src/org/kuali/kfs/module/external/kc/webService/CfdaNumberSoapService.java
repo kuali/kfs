@@ -51,14 +51,6 @@ public class CfdaNumberSoapService extends KfsService {
           }
      }
 
-    public CfdaNumberSoapService(URL wsdlLocation) {
-        super(wsdlLocation, KcConstants.Cfda.SERVICE);
-    }
-
-    public CfdaNumberSoapService(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
-
     public CfdaNumberSoapService() throws MalformedURLException {
         super(getWsdl(KcConstants.Cfda.SERVICE), KcConstants.Cfda.SERVICE);
     }
@@ -84,6 +76,10 @@ public class CfdaNumberSoapService extends KfsService {
     @WebEndpoint(name =  KcConstants.Cfda.SERVICE_PORT)
     public CfdaNumberService getCfdaNumberServicePort(WebServiceFeature... features) {
         return super.getPort(CfdaNumberServicePort, CfdaNumberService.class, features);
+    }
+
+    public URL getWsdl() throws MalformedURLException {
+        return super.getWsdl(KcConstants.Cfda.SERVICE);
     }
 
 }

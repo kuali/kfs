@@ -57,7 +57,24 @@
         <ref bean="GeneralLedgerPendingEntry-projectCode"/>
         <ref bean="GeneralLedgerPendingEntry-transactionEntryProcessedTs"/>
         <ref bean="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode"/>
+        <ref bean="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode"/>
+        <ref bean="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="GeneralLedgerPendingEntry-account.organizationCode"/>
       </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           <bean parent="ProjectCodeRestriction"><property name="attribute" ref="GeneralLedgerPendingEntry-projectCode"/></bean> 
+       </list>
     </property>
     <property name="relationships">
     	<list>
@@ -345,6 +362,22 @@
     
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
+
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode" parent="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
+         <property name="name" value="financialObject.financialObjectLevelCode"/>
+    </bean>
+        
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="GeneralLedgerPendingEntry-account.organizationCode" parent="GeneralLedgerPendingEntry-account.organizationCode-parentBean"/>
+    <bean id="GeneralLedgerPendingEntry-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>      
+    
 
 <!-- Business Object Inquiry Definition -->
 

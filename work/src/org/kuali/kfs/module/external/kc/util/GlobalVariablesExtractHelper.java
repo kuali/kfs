@@ -18,9 +18,14 @@ package org.kuali.kfs.module.external.kc.util;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.ErrorMessage;
@@ -28,22 +33,27 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 
 /**
- * This class will help extract the error messages from GlobalVariables object 
- * and creates a list of string.
+ * This class will help extract the error messages from GlobalVariables object and creates a list of string.
  */
 public class GlobalVariablesExtractHelper {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlobalVariablesExtractHelper.class);
+
     /**
      * Extracts errors for error report writing.
      * 
      * @return a list of error messages
      */
+    public static void insertError(String message, String param) {
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CUSTOM, message + param);
+    }
+
     public static List<String> extractGlobalVariableErrors() {
         List<String> result = new ArrayList<String>();
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        //Set<String> errorKeys = errorMap.keySet();  // deprecated
+        // Set<String> errorKeys = errorMap.keySet(); // deprecated
         Set<String> errorKeys = errorMap.getAllPropertiesWithErrors();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
@@ -51,7 +61,7 @@ public class GlobalVariablesExtractHelper {
         String errorString;
 
         for (String errorProperty : errorKeys) {
-            //errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);  // deprecated
+            // errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty); // deprecated
             errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
 
             for (ErrorMessage errorMessage : errorMessages) {
@@ -78,4 +88,14 @@ public class GlobalVariablesExtractHelper {
         GlobalVariables.clear();
         return result;
     }
+
+    public static String replaceTokens(String line, String ... replacements) {
+        int i = 0;
+        for (String err : replacements) {
+            String repl = "{" + String.valueOf(i++) + "}";
+            line = StringUtils.replaceOnce(line, repl, err);
+        }
+        return line;
+    }
+
 }

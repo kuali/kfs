@@ -24,6 +24,8 @@ import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.ClassCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.document.service.KEMService;
+import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -72,6 +74,8 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
             isValid &= checkUnitValue();
             isValid &= checkValuesBasedOnValuationMethod();
             isValid &= checkIncomeFrequencyCodeWhenPooledFundClassCodeUsed();
+            isValid &= checkSecurityDividendPayDate();
+            isValid &= checkDividendAmountChanged();
         }
 
         return isValid;
@@ -250,5 +254,38 @@ public class SecurityRule extends MaintenanceDocumentRuleBase {
         }
 
         return isValid;
+    }
+    
+    protected boolean checkSecurityDividendPayDate() {
+        newSecurity.refreshReferenceObject(EndowPropertyConstants.SECURITY_CLASS_CODE_REF);
+
+        //KFSMI-6674
+        //If SEC_INC_PAY_FREQ entered then the SEC_INC_NEXT_PAY_DT is 
+        //automatically calculated.
+        //if class code type is stocks and SEC_DIV_PAY_DT is entered then 
+        //copy the date value to SEC_INC_NEXT_PAY_DT.
+        //We do not want to overwrite the date if it already exists.
+        
+        if (EndowConstants.ClassCodeTypes.STOCKS.equalsIgnoreCase(newSecurity.getClassCode().getClassCodeType())) {
+            if (newSecurity.getDividendPayDate() != null) {
+                newSecurity.setIncomeNextPayDate(newSecurity.getDividendPayDate());
+            }
+        }
+        
+        return true;
+    }
+    
+    protected boolean checkDividendAmountChanged() {
+        //KFSMI-6706: rule #17 is implemented.
+        //If SEC_DVDND_AMT is changed then this value should be multiplied by 4 
+        //rounded to 5 decimal places and put the value in SEC_RT field.  Also
+        //SEC_INC_CHG_DT should be updated with PROC_DT value 
+        if (oldSecurity.getDividendAmount().compareTo(newSecurity.getDividendAmount()) != 0) {
+            newSecurity.setIncomeRate(KEMCalculationRoundingHelper.multiply(newSecurity.getDividendAmount(), new BigDecimal(4), EndowConstants.Scale.SECURITY_INCOME_RATE));
+            //setup process date into income change date...
+            newSecurity.setIncomeChangeDate(SpringContext.getBean(KEMService.class).getCurrentDate());
+        }
+        
+        return true;
     }
 }

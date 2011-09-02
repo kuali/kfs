@@ -157,7 +157,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("              WHERE (sesid = ?)\n");
         sqlBuilder.append("                AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd))\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.fin_obj_typ_cd IN ");
-        // expenditure object types
+        // expenditure object types 
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append(")");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
@@ -204,7 +204,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("')\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_obj_typ_cd IN ");
-        // expenditure object types
+        //  expenditure object types
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("))))");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder, insertionPoints));
@@ -334,7 +334,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_benefit_typ_cd = LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd\n");
         sqlBuilder.append("GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd");
-        sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
+        sqlMonthlySteps.add(new SQLForStep(sqlBuilder,insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
 

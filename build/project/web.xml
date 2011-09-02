@@ -111,19 +111,20 @@
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
 		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classes/ksb-locale-config.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>threadContextInheritable</param-name>
-			<param-value>true</param-value>
-		</init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>ksb/WEB-INF/remoting-servlet.xml</param-value>
+        </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>export</servlet-name>
 		<servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>exportsecurity</servlet-name>
+		<servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -165,6 +166,11 @@
 	<servlet-mapping>
 		<servlet-name>export</servlet-name>
 		<url-pattern>/export/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>exportsecurity</servlet-name>
+		<url-pattern>/exportsecurity/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

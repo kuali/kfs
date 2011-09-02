@@ -102,7 +102,7 @@
  	<bean id="availableCashUpdatesJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="avilableCashUpdateStep" />
+				<ref bean="availableCashUpdateStep" />
 			</list>
 		</property>
 		<property name="dependencies">
@@ -111,7 +111,7 @@
             </map>
         </property>
 	</bean>
-	<bean id="avilableCashUpdateStep" class="org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep" parent="step">
+	<bean id="availableCashUpdateStep" class="org.kuali.kfs.module.endow.batch.AvailableCashUpdateStep" parent="step">
 		<property name="availableCashUpdateService">
 			<ref bean="availableCashUpdateService" />
 		</property>

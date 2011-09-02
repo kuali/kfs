@@ -24,6 +24,7 @@ import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.businessobject.SecurityDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityDefinitionDocumentType;
 import org.kuali.kfs.sec.identity.SecKimAttributes;
+import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -162,7 +163,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         String permissionId = "";
         if (!newMaintenanceAction) {
             // find old Lookup permission
-            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), SecConstants.SecurityTemplateIds.LOOKUP_FIELD_VALUE);
+            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId());
             if (permissions != null && !permissions.isEmpty()) {
                 KimPermissionInfo oldPermission = permissions.get(0);
                 permissionId = oldPermission.getPermissionId();
@@ -171,7 +172,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
 
         // need to save lookup permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
         if (newSecurityDefinition.isRestrictLookup() || StringUtils.isNotBlank(permissionId)) {
-            savePermission(newSecurityDefinition, permissionId, SecConstants.SecurityTemplateIds.LOOKUP_FIELD_VALUE, newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLookup(), permissionDetails);
+            savePermission(newSecurityDefinition, permissionId, SpringContext.getBean(AccessSecurityService.class).getLookupWithFieldValueTemplateId(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLookup(), permissionDetails);
         }
     }
 
@@ -190,7 +191,7 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         String ldPermissionId = "";
         if (!newMaintenanceAction) {
             // find old inquiry permissions
-            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(), SecConstants.SecurityTemplateIds.INQUIRY_FIELD_VALUE);
+            List<KimPermissionInfo> permissions = findSecurityPermissionsByNameAndTemplate(oldSecurityDefinition.getName(),SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId());
             if (permissions != null) {
                 for (KimPermissionInfo permissionInfo : permissions) {
                     String namespaceCode = permissionInfo.getDetails().get(SecKimAttributes.NAMESPACE_CODE);
@@ -207,13 +208,13 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         // need to save gl inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
         if (newSecurityDefinition.isRestrictGLInquiry() || StringUtils.isNotBlank(glPermissionId)) {
             AttributeSet permissionDetails = populateInquiryPermissionDetails(KFSConstants.ParameterNamespaces.GL, newSecurityDefinition);
-            savePermission(newSecurityDefinition, glPermissionId, SecConstants.SecurityTemplateIds.INQUIRY_FIELD_VALUE, newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictGLInquiry(), permissionDetails);
+            savePermission(newSecurityDefinition, glPermissionId, SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictGLInquiry(), permissionDetails);
         }
 
         // need to save ld inquiry permission if new side indicator is true or already has a permission in which case we need to update details and active indicator
         if (newSecurityDefinition.isRestrictLaborInquiry() || StringUtils.isNotBlank(ldPermissionId)) {
             AttributeSet permissionDetails = populateInquiryPermissionDetails(SecConstants.LABOR_MODULE_NAMESPACE_CODE, newSecurityDefinition);
-            savePermission(newSecurityDefinition, ldPermissionId, SecConstants.SecurityTemplateIds.INQUIRY_FIELD_VALUE, newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLaborInquiry(), permissionDetails);
+            savePermission(newSecurityDefinition, ldPermissionId, SpringContext.getBean(AccessSecurityService.class).getInquiryWithFieldValueTemplateId(), newSecurityDefinition.isActive() && newSecurityDefinition.isRestrictLaborInquiry(), permissionDetails);
         }
     }
 
@@ -228,23 +229,23 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
         AttributeSet permissionDetails = populateDocumentTypePermissionDetails(documentType, newSecurityDefinition);
 
         if (newSecurityDefinition.isRestrictViewDocument()) {
-            savePermission(newSecurityDefinition, "", SecConstants.SecurityTemplateIds.VIEW_DOCUMENT_FIELD_VALUE, active, permissionDetails);
+            savePermission(newSecurityDefinition, "", SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId(), active, permissionDetails);
         }
 
         if (newSecurityDefinition.isRestrictViewAccountingLine()) {
-            savePermission(newSecurityDefinition, "", SecConstants.SecurityTemplateIds.VIEW_ACCOUNTING_LINE_FIELD_VALUE, active, permissionDetails);
+            savePermission(newSecurityDefinition, "", SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplateId(), active, permissionDetails);
         }
 
         if (newSecurityDefinition.isRestrictViewNotesAndAttachments()) {
-            savePermission(newSecurityDefinition, "", SecConstants.SecurityTemplateIds.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE, active, permissionDetails);
+            savePermission(newSecurityDefinition, "", SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplateId(), active, permissionDetails);
         }
 
         if (newSecurityDefinition.isRestrictEditAccountingLine()) {
-            savePermission(newSecurityDefinition, "", SecConstants.SecurityTemplateIds.EDIT_ACCOUNTING_LINE_FIELD_VALUE, active, permissionDetails);
+            savePermission(newSecurityDefinition, "",SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplateId(), active, permissionDetails);
         }
 
         if (newSecurityDefinition.isRestrictEditDocument()) {
-            savePermission(newSecurityDefinition, "", SecConstants.SecurityTemplateIds.EDIT_DOCUMENT_FIELD_VALUE, active, permissionDetails);
+            savePermission(newSecurityDefinition, "", SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplateId(), active, permissionDetails);
         }
     }
 
@@ -258,19 +259,19 @@ public class SecurityDefinitionMaintainableImpl extends FinancialSystemMaintaina
      */
     protected void createOrUpdateDocumentTypePermissions(String documentType, boolean active, SecurityDefinition oldSecurityDefinition, SecurityDefinition newSecurityDefinition) {
         // view document
-        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewDocument(), oldSecurityDefinition, newSecurityDefinition, SecConstants.SecurityTemplateIds.VIEW_DOCUMENT_FIELD_VALUE);
+        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewDocument(), oldSecurityDefinition, newSecurityDefinition, SpringContext.getBean(AccessSecurityService.class).getViewDocumentWithFieldValueTemplateId());
 
         // view accounting line
-        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewAccountingLine(), oldSecurityDefinition, newSecurityDefinition, SecConstants.SecurityTemplateIds.VIEW_ACCOUNTING_LINE_FIELD_VALUE);
+        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewAccountingLine(), oldSecurityDefinition, newSecurityDefinition, SpringContext.getBean(AccessSecurityService.class).getViewAccountingLineWithFieldValueTemplateId());
 
         // view notes/attachments
-        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewNotesAndAttachments(), oldSecurityDefinition, newSecurityDefinition, SecConstants.SecurityTemplateIds.VIEW_NOTES_ATTACHMENTS_FIELD_VALUE);
+        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictViewNotesAndAttachments(), oldSecurityDefinition, newSecurityDefinition, SpringContext.getBean(AccessSecurityService.class).getViewNotesAttachmentsWithFieldValueTemplateId());
 
         // edit accounting line
-        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictEditAccountingLine(), oldSecurityDefinition, newSecurityDefinition, SecConstants.SecurityTemplateIds.EDIT_ACCOUNTING_LINE_FIELD_VALUE);
+        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictEditAccountingLine(), oldSecurityDefinition, newSecurityDefinition, SpringContext.getBean(AccessSecurityService.class).getEditAccountingLineWithFieldValueTemplateId());
 
         // edit document
-        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictEditDocument(), oldSecurityDefinition, newSecurityDefinition, SecConstants.SecurityTemplateIds.EDIT_DOCUMENT_FIELD_VALUE);
+        createOrUpdateDocumentTypePermission(documentType, active && newSecurityDefinition.isRestrictEditDocument(), oldSecurityDefinition, newSecurityDefinition, SpringContext.getBean(AccessSecurityService.class).getEditDocumentWithFieldValueTemplateId());
     }
 
     /**

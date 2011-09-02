@@ -64,11 +64,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAwardAccount;
     "institutionalproposalId",
     "primeSponsorCode",
     "primeSponsorName",
+    "primeSponsorTypeCode",
     "projectDirector",
     "proposalFederalPassThroughAgencyNumber",
     "proposalNumber",
     "sponsorCode",
-    "sponsorName"
+    "sponsorName",
+    "sponsorTypeCode"
 })
 
 public class AwardAccountDTO implements ContractsAndGrantsAwardAccount, Serializable {
@@ -81,11 +83,13 @@ public class AwardAccountDTO implements ContractsAndGrantsAwardAccount, Serializ
     private long institutionalproposalId;
     private String primeSponsorCode;
     private String primeSponsorName;
+    private String primeSponsorTypeCode;
     private String projectDirector;
     private String proposalFederalPassThroughAgencyNumber;
     private String proposalNumber;
     private String sponsorCode;
     private String sponsorName;
+    private String sponsorTypeCode;
         
     public long getAwardId() {
         return awardId;
@@ -173,6 +177,22 @@ public class AwardAccountDTO implements ContractsAndGrantsAwardAccount, Serializ
      */
     public void setPrimeSponsorName(String primeSponsorName) {
         this.primeSponsorName = primeSponsorName;
+    }
+
+    public String getPrimeSponsorTypeCode() {
+        return primeSponsorTypeCode;
+    }
+
+    public void setPrimeSponsorTypeCode(String primeSponsorTypeCode) {
+        this.primeSponsorTypeCode = primeSponsorTypeCode;
+    }
+
+    public String getSponsorTypeCode() {
+        return sponsorTypeCode;
+    }
+
+    public void setSponsorTypeCode(String sponsorTypeCode) {
+        this.sponsorTypeCode = sponsorTypeCode;
     }
 
 }

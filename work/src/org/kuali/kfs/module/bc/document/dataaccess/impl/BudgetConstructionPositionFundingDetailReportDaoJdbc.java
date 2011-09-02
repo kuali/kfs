@@ -87,8 +87,8 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
 
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-
-        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */
+        
+        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */        
         sqlText.append("INSERT INTO LD_BCN_POS_FND_T \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
@@ -158,7 +158,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         Number thresholdValue = thresholdPercent.floatValue();
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(1).getSQL(), principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT","SESID",idForSession);
     }
 
     /**
@@ -181,7 +181,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         Number thresholdValue = thresholdPercent.floatValue();
         getSimpleJdbcTemplate().update(updateReportsPositionFundingDetailTable.get(2).getSQL(), principalName, principalName, thresholdValue, idForSession);
         // remove the data for this user's session from the temporary table for total amounts and FTE
-        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT", "SESID", idForSession);
+        this.clearTempTableBySesId("LD_BCN_BUILD_POSLIST01_MT","SESID",idForSession);
     }
 
     /**

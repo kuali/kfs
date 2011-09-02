@@ -40,14 +40,6 @@ public class AwardAccountSoapService extends KfsService {
          }
     }
 
-    public AwardAccountSoapService(URL wsdlLocation) {
-        super(wsdlLocation, KcConstants.AwardAccount.SERVICE);
-    }
-
-    public AwardAccountSoapService(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
-
     public AwardAccountSoapService() throws MalformedURLException {
         super(getWsdl(KcConstants.AwardAccount.SERVICE), KcConstants.AwardAccount.SERVICE);
     }
@@ -73,6 +65,10 @@ public class AwardAccountSoapService extends KfsService {
     @WebEndpoint(name = "awardAccountServicePort")
     public AwardAccountService getAwardAccountServicePort(WebServiceFeature... features) {
         return super.getPort(awardAccountServicePort, AwardAccountService.class, features);
+    }
+
+    public URL getWsdl() throws MalformedURLException {
+        return super.getWsdl(KcConstants.AwardAccount.SERVICE);
     }
 
 }

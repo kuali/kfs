@@ -21,7 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
+import org.kuali.kfs.integration.cg.service.AccountCreationService;
+import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -30,15 +34,18 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 @ConfigureContext(session = khuntley)
 public class AccountCreationServiceImplTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountCreationServiceImplTest.class);    
-    
-    private AccountCreationServiceImpl accountCreationServiceImpl;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountCreationServiceImplTest.class);
+
+    private AccountCreationService accountCreationService;
     private DateTimeService dateTimeService;
 
     /**
@@ -49,40 +56,46 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
         super.setUp();
 
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        accountCreationServiceImpl = (AccountCreationServiceImpl) ProxyUtils.getTargetIfProxied( SpringContext.getService("kcMockAccountCreationService") );
-    }
+        accountCreationService = SpringContext.getBean(AccountCreationService.class);
+        changeCurrentUser(UserNameFixture.khuntley);
+     }
     
+    protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
+        GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
+    }
+
     /**
-     * 
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
-    protected void tearDown() throws Exception 
-    {
+    protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     public void testDummyTest() {
         // just here to keep jUnit from complaining
     }
-    
+
     /**
-     * This method will create a CgDocument for the document type ACCT.  Successful if there are no error messages
+     * This method will create a CgDocument for the document type ACCT. Successful if there are no error messages
      */
-//    public void testCreateCGAccountMaintenanceDocument() {
-//        List<String> errorMessages = new ArrayList();
-//        
-//        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
-//        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
-//    }
+    // public void testCreateCGAccountMaintenanceDocument() {
+    // List<String> errorMessages = new ArrayList();
+    //
+    // MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument)
+    // accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
+    // assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
+    // }
 
     /**
      * This method will create AccountsParameters with test values...
+     * 
      * @return accountParameters
      */
     public AccountParametersDTO getAccountParameters() {
-        
+
         AccountParametersDTO accountParameters = new AccountParametersDTO();
+        accountParameters.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         accountParameters.setAccountName("Test Account Name");
         accountParameters.setAccountNumber("1031400");
         accountParameters.setCfdaNumber("123456");
@@ -98,52 +111,26 @@ public class AccountCreationServiceImplTest extends KualiTestBase {
 
     /**
      * This method will construct AccountAutoCreateDefaults object with default values
+     * 
      * @return accountAutoCreateDefaults
      */
     public AccountAutoCreateDefaults getAccountAutoCreateDefaults() {
-        
         AccountAutoCreateDefaults defaults = new AccountAutoCreateDefaults();
+        
         defaults.setKcUnit("testUnit");
 
         return defaults;
     }
-    
+
     /**
      * This method will test the creation of a CgDocument and try to route it based on system parameter value...
      */
-//    public void NoRun_testCreateRouteAutomaticCGAccountDocument() {
-//        List<String> errorMessages = new ArrayList();
-//        
-//        MaintenanceDocument maintenanceAccountDocument = (MaintenanceDocument) accountCreationServiceImpl.createCGAccountMaintenanceDocument(errorMessages);
-//        assertTrue(ObjectUtils.isNotNull(maintenanceAccountDocument));
-//
-//        maintenanceAccountDocument.getDocumentHeader().setDocumentDescription("Automatic CG Account Document Creation");
-//        
-//        //create accountparameters and defaults and then use these two to create account object
-//        AccountParametersDTO accountParameters = this.getAccountParameters();
-//        AccountAutoCreateDefaults defaults = this.getAccountAutoCreateDefaults();
-//        Account account = accountCreationServiceImpl.createAccountObject(accountParameters, defaults, errorMessages);
-//        
-//        maintenanceAccountDocument.getNewMaintainableObject().setBusinessObject(account);
-//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
-//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
-//        // the document should be saved....
-//        boolean saved = accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages);
-//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-//        
-//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
-//        // the document should be submitted....
-//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-//        
-//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
-//        // the document should be blanket approved....
-//        assertTrue(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));
-//
-//        //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-//        TestUtils.setSystemParameter(Account.class, KFSParameterKeyConstants.RESEARCH_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, "I");
-//        //we want to test for failure of the routing by using routing value not defined for the system parameter...
-//        assertFalse(accountCreationServiceImpl.createRouteAutomaticCGAccountDocument(maintenanceAccountDocument, errorMessages));        
-//    }
+    public void norun_testCreateRouteAutomaticCGAccountDocument() {
+        AccountParametersDTO accountParametersDTO = this.getAccountParameters();
+        // set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
+        TestUtils.setSystemParameter(Account.class, ContractsAndGrantsConstants.AccountCreationService.PARAMETER_KC_ACCOUNT_ADMIN_AUTO_CREATE_ACCOUNT_WORKFLOW_ACTION, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
+
+        AccountCreationStatusDTO accountCreationStatusDTO = accountCreationService.createAccount(accountParametersDTO);
+        assertTrue(ObjectUtils.isNotNull(accountCreationStatusDTO.getErrorMessages()));
+    }
 }

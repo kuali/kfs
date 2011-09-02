@@ -16,248 +16,166 @@
 package org.kuali.kfs.integration.cg.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO.Details;
+
 public class BudgetAdjustmentParametersDTO implements Serializable {
-    
+
     // goes into document header
-    protected String awardDocumentNumber;
-    protected String budgetVersionNumber;
-    protected String comment;
-    protected String postingPeriodCode;
-    protected String postingYear;
-    
+    protected String description;
+    protected String explanation;
+    protected String orgDocNumber;
+    protected String sponsorType;
+
     protected String principalId;
-    
+
     // inner class implements BA details
     static public class Details {
-        protected String lineType;
         protected String chart;
         protected String account;
+        protected String subAccount;
         protected String objectCode;
         protected String projectCode;
-        protected String amount;
-        protected String currentBudgetAdjustAmount;
-        protected String baseBudgetAdjustAmount;
-        
-        /**
-         * Gets the budgetAmount attribute. 
-         * @return Returns the budgetAmount.
-         */
-        public String getBaseBudgetAdjustAmount() {
-            return baseBudgetAdjustAmount;
-        }
-        /**
-         * Sets the budgetAmount attribute value.
-         * @param budgetAmount The budgetAmount to set.
-         */
-        public void setBaseBudgetAdjustAmount(String budgetAmount) {
-            this.baseBudgetAdjustAmount = budgetAmount;
-        }
-       
-        /**
-         * Gets the currentBudgetAdjustAmount attribute. 
-         * @return Returns the currentBudgetAdjustAmount.
-         */
-        public String getCurrentBudgetAdjustAmount() {
-            return currentBudgetAdjustAmount;
-        }
-        /**
-         * Sets the currentBudgetAdjustAmount attribute value.
-         * @param currentBudgetAdjustAmount The currentBudgetAdjustAmount to set.
-         */
-        public void setCurrentBudgetAdjustAmount(String currentBudgetAdjustAmount) {
-            this.currentBudgetAdjustAmount = currentBudgetAdjustAmount;
-        }
+        protected String currentAmount;
 
-        /**
-         * Gets the lineType attribute. 
-         * @return Returns the lineType.
-         */
-        public String getLineType() {
-            return lineType;
-        }
-        /**
-         * Sets the lineType attribute value.
-         * @param lineType The lineType to set.
-         */
-        public void setLineType(String lneType) {
-            this.lineType = lneType;
-        }
-        /**
-         * Gets the chart attribute. 
+         /**
+         * Gets the chart attribute.
+         * 
          * @return Returns the chart.
          */
         public String getChart() {
             return chart;
         }
+
         /**
          * Sets the chart attribute value.
+         * 
          * @param chart The chart to set.
          */
         public void setChart(String chrt) {
             this.chart = chrt;
         }
+
         /**
-         * Gets the account attribute. 
+         * Gets the account attribute.
+         * 
          * @return Returns the account.
          */
         public String getAccount() {
             return account;
         }
+
         /**
          * Sets the account attribute value.
+         * 
          * @param account The account to set.
          */
         public void setAccount(String account) {
             this.account = account;
         }
+        
+        public String getSubAccount() {
+            return subAccount;
+        }
+        public void setSubAccount(String subAccount) {
+            this.subAccount = subAccount;
+        }
+
         /**
-         * Gets the objectCode attribute. 
-         * @return Returns the objectCode.
+         * Gets the objectCode attribute.
          */
+   
         public String getObjectCode() {
             return objectCode;
         }
+
         /**
          * Sets the objectCode attribute value.
+         * 
          * @param objectCode The objectCode to set.
          */
         public void setObjectCode(String objectCode) {
             this.objectCode = objectCode;
         }
+
         /**
-         * Gets the projectCode attribute. 
+         * Gets the projectCode attribute.
+         * 
          * @return Returns the projectCode.
          */
         public String getProjectCode() {
             return projectCode;
         }
+
         /**
          * Sets the projectCode attribute value.
+         * 
          * @param projectCode The projectCode to set.
          */
         public void setProjectCode(String projectCode) {
             this.projectCode = projectCode;
         }
+
         /**
-         * Gets the amount attribute. 
+         * Gets the amount attribute.
+         * 
          * @return Returns the amount.
          */
-        public String getAmount() {
-            return amount;
+        public String getCurrentAmount() {
+            return currentAmount;
         }
+
         /**
          * Sets the amount attribute value.
+         * 
          * @param amount The amount to set.
          */
-        public void setAmount(String amount) {
-            this.amount = amount;
+        public void setCurrentAmount(String amount) {
+            this.currentAmount = amount;
         }
     }
-    protected List <Details> details;
-    
-    public BudgetAdjustmentParametersDTO() {}
+
+    protected List<Details> details;
+
+    public BudgetAdjustmentParametersDTO() {
+    }
 
 
-    /**
-     * Gets the awardDocumentNumber attribute. 
-     * @return Returns the awardDocumentNumber.
-     */
-    public String getAwardDocumentNumber() {
-        return awardDocumentNumber;
+     public String getDescription() {
+        return description;
+    }
+
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
 
 
     /**
-     * Sets the awardDocumentNumber attribute value.
-     * @param awardDocumentNumber The awardDocumentNumber to set.
-     */
-    public void setAwardDocumentNumber(String awardDocumentNumber) {
-        this.awardDocumentNumber = awardDocumentNumber;
-    }
-
-
-    /**
-     * Gets the budgetVersionNumber attribute. 
-     * @return Returns the budgetVersionNumber.
-     */
-    public String getBudgetVersionNumber() {
-        return budgetVersionNumber;
-    }
-
-
-    /**
-     * Sets the budgetVersionNumber attribute value.
-     * @param budgetVersionNumber The budgetVersionNumber to set.
-     */
-    public void setBudgetVersionNumber(String budgetVersionNumber) {
-        this.budgetVersionNumber = budgetVersionNumber;
-    }
-
-
-    /**
-     * Gets the comment attribute. 
-     * @return Returns the comment.
-     */
-    public String getComment() {
-        return comment;
-    }
-
-
-    /**
-     * Sets the comment attribute value.
-     * @param comment The comment to set.
-     */
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    /**
-     * Gets the postingPeriodCode attribute. 
-     * @return Returns the postingPeriodCode.
-     */
-    public String getPostingPeriodCode() {
-        return postingPeriodCode;
-    }
-
-
-    /**
-     * Sets the postingPeriodCode attribute value.
-     * @param postingPeriodCode The postingPeriodCode to set.
-     */
-    public void setPostingPeriodCode(String postingPeriodCode) {
-        this.postingPeriodCode = postingPeriodCode;
-    }
-
-    /**
-     * Gets the postingYear attribute. 
-     * @return Returns the postingYear.
-     */
-    public String getPostingYear() {
-        return postingYear;
-    }
-
-
-    /**
-     * Sets the postingYear attribute value.
-     * @param postingYear The postingYear to set.
-     */
-    public void setPostingYear(String postingYear) {
-        this.postingYear = postingYear;
-    }
-
-    /**
-     * Gets the principalId attribute. 
+     * Gets the principalId attribute.
+     * 
      * @return Returns the principalId.
      */
     public String getPrincipalId() {
         return principalId;
     }
 
-    
+
     /**
      * Sets the principalId attribute value.
+     * 
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -266,6 +184,7 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
 
 
     public List<Details> getDetails() {
+        if (details == null)  details = new ArrayList<Details>();
         return details;
     }
 
@@ -273,5 +192,36 @@ public class BudgetAdjustmentParametersDTO implements Serializable {
     public void setDetails(List<Details> details) {
         this.details = details;
     }
-    
+
+
+    /**
+     * 
+     */
+    public String getOrgDocNumber() {
+        return orgDocNumber;
+    }
+
+
+    /**
+     * 
+     */
+    public void setOrgDocNumber(String orgDocNumber) {
+        this.orgDocNumber = orgDocNumber;
+    }
+
+
+    /**
+     * 
+     */
+    public String getSponsorType() {
+        return sponsorType;
+    }
+
+
+    /**
+     * 
+     */
+    public void setSponsorType(String sponsorType) {
+        this.sponsorType = sponsorType;
+    }
 }

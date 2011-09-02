@@ -16,7 +16,6 @@
 package org.kuali.kfs.sec.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.sec.businessobject.AccessSecurityRestrictionInfo;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -27,13 +26,14 @@ import org.kuali.rice.kns.bo.BusinessObject;
 
 
 /**
- * Exposes methods to apply access security restrictions to business objects from the various framework points (lookups, inquiries, document accounting lines)
+ * Exposes methods to apply access security restrictions to business objects from the various framework points (lookups, inquiries,
+ * document accounting lines)
  */
 public interface AccessSecurityService {
 
     /**
-     * Retrieves any setup security permissions (with lookup template) for the given person and evaluates against List of business objects. Any instances not passing validation are
-     * removed from given list.
+     * Retrieves any setup security permissions (with lookup template) for the given person and evaluates against List of business
+     * objects. Any instances not passing validation are removed from given list.
      * 
      * @param results List of business object instances with data to check
      * @param person Person to apply security for
@@ -41,8 +41,8 @@ public interface AccessSecurityService {
     public void applySecurityRestrictionsForLookup(List<? extends BusinessObject> results, Person person);
 
     /**
-     * Retrieves any setup security permissions (with gl inquiry template) for the given person and evaluates against List of business objects. Any instances not passing validation
-     * are removed from given list.
+     * Retrieves any setup security permissions (with gl inquiry template) for the given person and evaluates against List of
+     * business objects. Any instances not passing validation are removed from given list.
      * 
      * @param results List of business object instances with data to check
      * @param person Person to apply security for
@@ -50,17 +50,17 @@ public interface AccessSecurityService {
     public void applySecurityRestrictionsForGLInquiry(List<? extends BusinessObject> results, Person person);
 
     /**
-     * Retrieves any setup security permissions (with ld inquiry template) for the given person and evaluates against List of business objects. Any instances not passing validation
-     * are removed from given list.
+     * Retrieves any setup security permissions (with ld inquiry template) for the given person and evaluates against List of
+     * business objects. Any instances not passing validation are removed from given list.
      * 
      * @param results List of business object instances with data to check
      * @param person Person to apply security for
      */
     public void applySecurityRestrictionsForLaborInquiry(List<? extends BusinessObject> results, Person person);
-    
+
     /**
-     * Retrieves any setup security permissions for the given person and evaluates against List of business objects. Any instances not passing validation are removed from given
-     * list.
+     * Retrieves any setup security permissions for the given person and evaluates against List of business objects. Any instances
+     * not passing validation are removed from given list.
      * 
      * @param results List of business object instances with data to check
      * @param person Person to apply security for
@@ -70,8 +70,8 @@ public interface AccessSecurityService {
     public void applySecurityRestrictions(List<? extends BusinessObject> results, Person person, String templateId, AttributeSet additionalPermissionDetails);
 
     /**
-     * Retrieves any access security permissions that are assigned to the user and applicable for the given business object, then evaluates permissions against the business object
-     * instance
+     * Retrieves any access security permissions that are assigned to the user and applicable for the given business object, then
+     * evaluates permissions against the business object instance
      * 
      * @param businessObject BusinessObject instance to check access permissions against
      * @param person Person to retrieve access permissions for
@@ -83,7 +83,8 @@ public interface AccessSecurityService {
     /**
      * Checks any view access security permissions setup for the user and for accounting lines of the given document type
      * 
-     * @param document AccountingDocument that contains the line to be validated, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument that contains the line to be validated, doc type of instance is used for retrieving
+     *        permissions
      * @param accountingLine AccountingLine instance with values to check
      * @param person the user who we are checking access for
      * @return boolean true if user has view access for the accounting line, false otherwise
@@ -93,7 +94,8 @@ public interface AccessSecurityService {
     /**
      * Checks any edit access security permissions setup for the user and for accounting lines of the given document type
      * 
-     * @param document AccountingDocument instance that contains the line to be validated, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument instance that contains the line to be validated, doc type of instance is used for
+     *        retrieving permissions
      * @param accountingLine AccountingLine instance with values to check
      * @param person the user who we are checking access for
      * @return boolean true if user has edit access for the accounting line, false otherwise
@@ -103,7 +105,8 @@ public interface AccessSecurityService {
     /**
      * Checks any edit access security permissions setup for the user and for accounting lines of the given document type
      * 
-     * @param document AccountingDocument instance that contains the line to be validated, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument instance that contains the line to be validated, doc type of instance is used for
+     *        retrieving permissions
      * @param accountingLine AccountingLine instance with values to check
      * @param person the user who we are checking access for
      * @param restrictionInfo Object providing information on a restriction if one is found
@@ -114,29 +117,84 @@ public interface AccessSecurityService {
     /**
      * Checks view access on all accounting lines contained on the document for given user
      * 
-     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
+     *        permissions
      * @param person the user who we are checking access for
      * @param restrictionInfo Object providing information on a restriction if one is found
-     * @return boolean true if the user has view access for all accounting lines on the document, false if access is denied on one or more lines
+     * @return boolean true if the user has view access for all accounting lines on the document, false if access is denied on one
+     *         or more lines
      */
     public boolean canViewDocument(AccountingDocument document, Person person, AccessSecurityRestrictionInfo restrictionInfo);
 
     /**
      * Checks edit access on all accounting lines contained on the document for given user
      * 
-     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
+     *        permissions
      * @param person the user who we are checking access for
-     * @return boolean true if the user has edit access for all accounting lines on the document, false if access is denied on one or more lines
+     * @return boolean true if the user has edit access for all accounting lines on the document, false if access is denied on one
+     *         or more lines
      */
     public boolean canEditDocument(AccountingDocument document, Person person);
 
     /**
      * Checks access is allowed to view document notes based on the document's accounting lines
      * 
-     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving permissions
+     * @param document AccountingDocument instance with accounting lines to check, doc type of instance is used for retrieving
+     *        permissions
      * @param person the user who we are checking access for
      * @return boolean true if the user has permission to view the notes/attachments, false otherwise
      */
     public boolean canViewDocumentNotesAttachments(AccountingDocument document, Person person);
+
+    /**
+     * Gets the View Document With Field Values template ID.
+     * 
+     * @return the View Document With Field Values template ID
+     */
+    public String getViewDocumentWithFieldValueTemplateId();
+
+    /**
+     * Gets the View Accounting Line With Field Value Template Id.
+     * 
+     * @return the View Accounting Line With Field Value Template Id
+     */
+    public String getViewAccountingLineWithFieldValueTemplateId();
+
+    /**
+     * Gets the View Notes Attachments With Field Value Template Id.
+     * 
+     * @return the View Notes Attachments With Field Value Template Id
+     */
+    public String getViewNotesAttachmentsWithFieldValueTemplateId();
+
+    /**
+     * Gets the Edit Document With Field Value Template Id.
+     * 
+     * @return the Edit Document With Field Value Template Id
+     */
+    public String getEditDocumentWithFieldValueTemplateId();
+
+    /**
+     * Gets the Edit Accounting Line With Field Value Template Id.
+     * 
+     * @return the Edit Accounting Line With Field Value Template Id
+     */
+    public String getEditAccountingLineWithFieldValueTemplateId();
+
+    /**
+     * Gets the Lookup With Field Value Template Id.
+     * 
+     * @return the Lookup With Field Value Template Id
+     */
+    public String getLookupWithFieldValueTemplateId();
+
+    /**
+     * Gets the Inquiry With Field Value Template Id.
+     * 
+     * @return the InquiryWithFieldValueTemplateId
+     */
+    public String getInquiryWithFieldValueTemplateId();
+
 
 }

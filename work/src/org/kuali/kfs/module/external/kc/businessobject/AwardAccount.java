@@ -39,6 +39,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     private String principalId;
     private boolean active = true;
     private boolean newCollectionRecord;
+    private boolean federalSponsor;
     
     private Account account;
     private Chart chartOfAccounts;
@@ -73,6 +74,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.setPrincipalId(awardAccountDTO.getProjectDirector());
         this.setProposalNumber(awardAccountDTO.getAwardId());
         this.setActive(true);
+        this.setFederalSponsor(awardAccountDTO.getFederalSponsor());
         
         award.setAwardNumber(awardAccountDTO.getProposalNumber());                       
         award.setProposalNumber(awardAccountDTO.getAwardId());
@@ -277,6 +279,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
 
     public void setNewCollectionRecord(boolean newCollectionRecord) {
         this.newCollectionRecord = newCollectionRecord;
+    }
+
+    public boolean isFederalSponsor() {
+        return federalSponsor;
+    }
+
+    public void setFederalSponsor(boolean federalSponsor) {
+        this.federalSponsor = federalSponsor;
     }
 }
 

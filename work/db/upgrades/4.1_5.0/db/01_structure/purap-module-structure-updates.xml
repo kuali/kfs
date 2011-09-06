@@ -27,4 +27,70 @@
 			<replace replace='VARCHAR2' with='VARCHAR' />
 		</modifySql>
 	</changeSet>
+
+	<changeSet author='KFS50' id='addCol_PUR_REQS_T'>
+		<comment>KFSMI-6951 Need to add new columns to the existing tables</comment>
+		<addColumn tableName='PUR_REQS_T'>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
+				defaultValue='P'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<modifyColumn tableName='PUR_REQS_ACCT_T'>
+			<column name='ACLN_PCT' type='NUMBER(35,20)'>
+				<constraints nullable='false' />
+			</column>
+		</modifyColumn>
+		<addColumn tableName='PUR_REQS_ACCT_T'>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<addColumn tableName='PUR_PO_T'>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
+				defaultValue='P'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<modifyColumn tableName='PUR_PO_ACCT_T'>
+			<column name='ACLN_PCT' type='NUMBER(35,20)'>
+				<constraints nullable='false' />
+			</column>
+		</modifyColumn>
+		<addColumn tableName='PUR_PO_ACCT_T'>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<addColumn tableName='AP_PMT_RQST_T'>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
+				defaultValue='P'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+
+		<addColumn tableName='AP_PMT_RQST_ACCT_T'>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<addColumn tableName='AP_CRDT_MEMO_T'>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
+				defaultValue='P'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<addColumn tableName='AP_CRDT_MEMO_ACCT_T'>
+			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)'>
+				<constraints nullable='false' />
+			</column>
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+		<modifySql dbms='mysql'>
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+	</changeSet>
+
 </databaseChangeLog>

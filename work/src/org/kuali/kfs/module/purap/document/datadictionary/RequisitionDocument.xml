@@ -157,6 +157,7 @@
         <ref bean="RequisitionDocument-deliveryCampusCodeForSearch"/>
         <ref bean="RequisitionDocument-createDateForResult"/>
         <ref bean="RequisitionDocument-sensitive"/>
+        <ref bean="RequisitionDocument-accountDistributionMethod"/>
       </list>
     </property>
     <property name="validationMap" ref="RequisitionDocument-validations"/>
@@ -1012,6 +1013,19 @@
 		<property name="valuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.RequisitionStatusValuesFinder"/>
 	  </bean>
     </property> 
+  </bean>
+  <bean id="RequisitionDocument-accountDistributionMethod" parent="RequisitionDocument-accountDistributionMethod-parentBean"/>
+
+  <bean id="RequisitionDocument-accountDistributionMethod-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountDistributionMethod"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Account Distribution Method"/>
+    <property name="shortLabel" value="Acct Dist. Typ"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AccountDistributionMethodValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
   </bean>
   
   <!-- Requisition accountingInformation -->

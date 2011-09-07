@@ -89,6 +89,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
     protected boolean useTaxIndicator;
     protected String vendorAttentionName;
+    protected String accountDistributionMethod;
     
     // NOT PERSISTED IN DB
     protected String vendorNumber;
@@ -117,6 +118,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Default constructor to be overridden.
      */
     public PurchasingAccountsPayableDocumentBase() {
+        accountDistributionMethod = "P";
         items = new TypedArrayList(getItemClass());
     }
 
@@ -983,6 +985,25 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorAttentionName = vendorAttentionName;
     }
     
+    /**
+     * Gets the accountDistributionMethod attribute.
+     * 
+     * @return Returns the accountDistributionMethod
+     */
+    
+    public String getAccountDistributionMethod() {
+        return accountDistributionMethod;
+    }
+
+    /** 
+     * Sets the accountDistributionMethod attribute.
+     * 
+     * @param accountDistributionMethod The accountDistributionMethod to set.
+     */
+    public void setAccountDistributionMethod(String accountDistributionMethod) {
+        this.accountDistributionMethod = accountDistributionMethod;
+    }
+
     /**
      * Determines whether the account is debit. It always returns false.
      * 

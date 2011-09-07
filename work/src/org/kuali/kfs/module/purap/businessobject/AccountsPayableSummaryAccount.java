@@ -49,6 +49,7 @@ public class AccountsPayableSummaryAccount extends PaymentRequestAccount {
         this.setProjectCode(account.getProjectCode());
         this.setOrganizationReferenceId(account.getOrganizationReferenceId());
         this.setAmount(account.getAmount());
+        this.setSequenceNumber(account.getSequenceNumber());
         this.setUpdateTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
     }
 

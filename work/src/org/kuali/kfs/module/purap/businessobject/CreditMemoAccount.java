@@ -46,6 +46,7 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
         setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
         setAmount(accountingLine.getAmount());
         setAccountLinePercent(accountingLine.getAccountLinePercent());
+        this.setSequenceNumber(accountingLine.getSequenceNumber());
     }
 
     public CreditMemoItem getCreditMemoItem() {

@@ -76,6 +76,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     public PurApAccountingLine createBlankAmountsCopy() {
         PurApAccountingLine newAccount = (PurApAccountingLine) ObjectUtils.deepCopy(this);
         newAccount.setAccountLinePercent(BigDecimal.ZERO);
+        newAccount.setSequenceNumber(0);
         newAccount.setAmount(KualiDecimal.ZERO);
         return newAccount;
     }
@@ -111,6 +112,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         sourceLine.setProjectCode(getProjectCode());
         sourceLine.setOrganizationReferenceId(getOrganizationReferenceId());
         sourceLine.setAmount(getAmount());
+        sourceLine.setSequenceNumber(getSequenceNumber());
         return sourceLine;
     }
 

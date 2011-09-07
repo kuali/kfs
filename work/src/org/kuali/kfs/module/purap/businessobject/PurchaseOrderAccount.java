@@ -47,6 +47,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setOrganizationReferenceId(ra.getOrganizationReferenceId());
         this.setProjectCode(ra.getProjectCode());
         this.setSubAccountNumber(ra.getSubAccountNumber());
+        this.setSequenceNumber(ra.getSequenceNumber());
     }
 
     /**

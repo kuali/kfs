@@ -1029,6 +1029,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CORRECTION_RECEIVING = "RCVC";
         public static final String VENDOR_CREDIT_MEMO = "CM";
         public static final String BULK_RECEIVING = "RCVB";
+        public static final String ELECTRONIC_INVOICE_REJECT = "EIRT";
     }
     
     // financial document type names

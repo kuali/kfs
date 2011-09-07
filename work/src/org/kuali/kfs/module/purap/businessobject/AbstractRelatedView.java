@@ -98,9 +98,13 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
      * @throws WorkflowException
      */
     public String getDocumentLabel() throws WorkflowException{
-        Class documentClass = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentNumber()).getClass();
-        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(documentClass);      
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(getDocumentTypeName());      
     }
+    
+    /**
+     * @return the document type name for the documents pulled back by this RelatedView
+     */
+    public abstract String getDocumentTypeName();
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.util.TypedArrayList;
@@ -151,5 +152,13 @@ public class PurchaseOrderView extends AbstractRelatedView {
      */
     public boolean getNeedWarning() {
         return getPurchaseOrderInitialOpenTimestamp() == null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER;
     }
 }

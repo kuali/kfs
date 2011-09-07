@@ -174,4 +174,13 @@ public class CreditMemoView extends AbstractRelatedView {
     public String getUrl() {
         return super.getUrl();
     }
+
+    /**
+     * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getDocumentTypeName()
+     */
+    @Override
+    public String getDocumentTypeName() {
+        return KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO;
+    }
+    
 }

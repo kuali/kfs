@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * Value Finder for Purchase Order Transmission Methods.
@@ -36,14 +36,17 @@ public class PurchaseOrderTransmissionMethodValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyLabelPair> getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
-        List labels = new ArrayList();
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            PurchaseOrderTransmissionMethod PurchaseOrderTransmissionMethod = (PurchaseOrderTransmissionMethod) iter.next();
-            labels.add(new KeyLabelPair(PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), PurchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
+        Collection<PurchaseOrderTransmissionMethod> codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        for (Iterator<PurchaseOrderTransmissionMethod> iter = codes.iterator(); iter.hasNext();) {
+            PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod = (PurchaseOrderTransmissionMethod) iter.next();
+            if (purchaseOrderTransmissionMethod.isDisplayToUser()) {
+                labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
+            }
         }
         return labels;
     }
+             
 }

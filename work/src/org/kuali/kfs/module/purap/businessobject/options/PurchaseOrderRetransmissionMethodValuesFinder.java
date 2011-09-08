@@ -39,15 +39,15 @@ public class PurchaseOrderRetransmissionMethodValuesFinder extends KeyValuesBase
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyLabelPair> getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<PurchaseOrderTransmissionMethod> codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
         String retransmitTypes = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class,PurapParameterConstants.PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES);
-        List labels = new ArrayList();
+        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         if (retransmitTypes != null){
             for (PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod : codes) {
-                if (StringUtils.contains(retransmitTypes,
-                                         StringUtils.left(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(),4))){
+                if (StringUtils.contains(retransmitTypes, StringUtils.left(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(),4)) &&
+                        purchaseOrderTransmissionMethod.isDisplayToUser()) {
                     labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
                 }
             }

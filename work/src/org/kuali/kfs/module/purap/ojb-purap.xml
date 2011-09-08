@@ -404,6 +404,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="purchaseOrderTransmissionMethodDescription" column="PO_TRNS_MTHD_DESC" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="displayToUser" column="DISPLAY_TO_USER_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RecurringPaymentType" table="PUR_AP_RECUR_PMT_TYP_T">

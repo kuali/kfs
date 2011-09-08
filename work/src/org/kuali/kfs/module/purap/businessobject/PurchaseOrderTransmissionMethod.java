@@ -29,6 +29,7 @@ public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBa
     private String purchaseOrderTransmissionMethodCode;
     private String purchaseOrderTransmissionMethodDescription;
     private boolean active;
+    private boolean displayToUser;
 
     /**
      * Default constructor.
@@ -56,11 +57,25 @@ public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBa
     public boolean isActive() {
         return active;
     }
-
+    
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * @return the displayToUser
+     */
+    public boolean isDisplayToUser() {
+        return displayToUser;
+    }
+
+    /**
+     * @param displayToUser the displayToUser to set
+     */
+    public void setDisplayToUser(boolean displayToUser) {
+        this.displayToUser = displayToUser;
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

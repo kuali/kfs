@@ -361,13 +361,13 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Account Line Percent"/>
     <property name="shortLabel" value="Percent"/>
-    <property name="maxLength" value="340"/>
+    <property name="maxLength" value="36"/>
     <property name="validationPattern">
       <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="5"/>
+      <bean parent="TextControlDefinition" p:size="12"/>
     </property>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
   </bean>

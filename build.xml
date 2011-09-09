@@ -1045,7 +1045,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
         
     </target>
 
-	<target name="extract-rice-libraries" depends="init-properties,init-additional-properties">
+	<target name="extract-rice-libraries" depends="init-properties">
 		<delete verbose="true" failonerror="false">
 			<fileset dir="${build.rice.lib.directory}">
 			    <include name="*.jar"/>

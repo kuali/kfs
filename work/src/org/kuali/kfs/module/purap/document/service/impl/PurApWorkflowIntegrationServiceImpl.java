@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -199,7 +200,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
         try {
             String activeNode = null;
-            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+            String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
             if (nodeNames.length == 1) {
                 activeNode = nodeNames[0];
             }

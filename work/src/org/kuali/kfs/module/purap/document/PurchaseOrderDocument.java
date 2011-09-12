@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -94,6 +95,7 @@ import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.ReportCriteriaDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimPrincipal;
@@ -239,44 +241,39 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @return - Customized document title text dependent upon route level.
      */
     protected String getCustomDocumentTitle() {
-        try {
-            String poNumber = getPurapDocumentIdentifier().toString();
-            String cmCode = getContractManagerCode().toString();
-            String vendorName = StringUtils.trimToEmpty(getVendorName());
-            String totalAmount = getTotalDollarAmount().toString();
-            PurApAccountingLine accountingLine = getFirstAccount();
-            String chartAcctCode = accountingLine != null ? accountingLine.getChartOfAccountsCode() : "";
-            String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
-            String chartCode = getChartOfAccountsCode();
-            String orgCode = getOrganizationCode();
-            String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getCampusShortName() : "";
-            String documentTitle = "";
-         
-            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-            String routeLevel = "";
-            if (nodeNames.length == 1)
-                routeLevel = nodeNames[0];
-            
-            if (getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
-                documentTitle = super.getDocumentTitle();
-            }
-            else if (routeLevel.equals(NodeDetailEnum.BUDGET_OFFICE_REVIEW.getName()) || routeLevel.equals(NodeDetailEnum.CONTRACTS_AND_GRANTS_REVIEW.getName())) {
-                // Budget & C&G approval levels
-                documentTitle = "PO: " + poNumber + " Account Number: " + chartAcctCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
-            }
-            else if (routeLevel.equals(NodeDetailEnum.VENDOR_TAX_REVIEW.getName())) {
-                // Tax approval level
-                documentTitle = "Vendor: " + vendorName + " PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
-            }
-            else 
-                documentTitle += "PO: " + poNumber + " Contract Manager: " + cmCode + " Vendor: " + vendorName + " Amount: " + totalAmount;
-                        
-            return documentTitle;
+        String poNumber = getPurapDocumentIdentifier().toString();
+        String cmCode = getContractManagerCode().toString();
+        String vendorName = StringUtils.trimToEmpty(getVendorName());
+        String totalAmount = getTotalDollarAmount().toString();
+        PurApAccountingLine accountingLine = getFirstAccount();
+        String chartAcctCode = accountingLine != null ? accountingLine.getChartOfAccountsCode() : "";
+        String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
+        String chartCode = getChartOfAccountsCode();
+        String orgCode = getOrganizationCode();
+        String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getCampusShortName() : "";
+        String documentTitle = "";
+
+        String[] nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+
+        String routeLevel = "";
+        if (nodeNames.length == 1)
+            routeLevel = nodeNames[0];
+
+        if (getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
+            documentTitle = super.getDocumentTitle();
         }
-        catch (WorkflowException e) {
-            LOG.error("Error updating Purchase Order document: " + e.getMessage());
-            throw new RuntimeException("Error updating Purchase Order document: " + e.getMessage());
+        else if (routeLevel.equals(NodeDetailEnum.BUDGET_OFFICE_REVIEW.getName()) || routeLevel.equals(NodeDetailEnum.CONTRACTS_AND_GRANTS_REVIEW.getName())) {
+            // Budget & C&G approval levels
+            documentTitle = "PO: " + poNumber + " Account Number: " + chartAcctCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
         }
+        else if (routeLevel.equals(NodeDetailEnum.VENDOR_TAX_REVIEW.getName())) {
+            // Tax approval level
+            documentTitle = "Vendor: " + vendorName + " PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
+        }
+        else
+            documentTitle += "PO: " + poNumber + " Contract Manager: " + cmCode + " Vendor: " + vendorName + " Amount: " + totalAmount;
+
+        return documentTitle;
     }
 
     /**
@@ -720,7 +717,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @throws WorkflowException
      */
     protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getNodeNames();
+        String[] nodeNames= wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
         }

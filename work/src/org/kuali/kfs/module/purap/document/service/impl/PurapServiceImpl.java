@@ -79,6 +79,7 @@ import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
@@ -777,19 +778,18 @@ public class PurapServiceImpl implements PurapService {
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isDocumentStoppedInRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
+     */
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
-        try {
-            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-            currentRouteLevels = Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
-            if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
-                return true;
-            }
-            return false;
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        currentRouteLevels = Arrays.asList(names);
+        if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
+            return true;
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 
     /**

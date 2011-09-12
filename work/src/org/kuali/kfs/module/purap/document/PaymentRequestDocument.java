@@ -70,6 +70,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.dto.ActionTakenEventDTO;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -619,36 +620,31 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @return - Customized document title text dependent upon route level.
      */
     protected String getCustomDocumentTitle() {
-       
-        try {
-            // set the workflow document title
-            String poNumber = getPurchaseOrderIdentifier().toString();
-            String vendorName = StringUtils.trimToEmpty(getVendorName());
-            String preqAmount = getGrandTotal().toString();
 
-            String documentTitle = "";
-            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
-       
-            // if this doc is final or will be final
-            if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
-            }
-            else {
-                PurApAccountingLine theAccount = getFirstAccount();                
-                String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
-                String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
-                String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
-                String indicator = getTitleIndicator();
- 
-                //set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
-                documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
-            }
-            return documentTitle;
+        // set the workflow document title
+        String poNumber = getPurchaseOrderIdentifier().toString();
+        String vendorName = StringUtils.trimToEmpty(getVendorName());
+        String preqAmount = getGrandTotal().toString();
+
+        String documentTitle = "";
+        String[] nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+
+
+        // if this doc is final or will be final
+        if (nodeNames.length == 0 || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
         }
-        catch (WorkflowException e) {
-            LOG.error("Error updating Payment Request document: " + e.getMessage());
-            throw new RuntimeException("Error updating Payment Request document: " + e.getMessage());
+        else {
+            PurApAccountingLine theAccount = getFirstAccount();
+            String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
+            String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
+            String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getPaymentRequestPayDate());
+            String indicator = getTitleIndicator();
+
+            // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
+            documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Account: ").append(accountChart).append(" ").append(accountNumber).append(" Amount: ").append(preqAmount).append(" Pay Date: ").append(payDate).append(" ").append(indicator).toString();
         }
+        return documentTitle;
     }
 
     /**
@@ -760,21 +756,17 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void doActionTaken(ActionTakenEventDTO event) {
         super.doActionTaken(event);
         KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        try {
-            String currentNode = null;
-            if (workflowDocument.getNodeNames().length > 0) {
-                currentNode = workflowDocument.getNodeNames()[0];
-            }
-
-            // everything in the below list requires correcting entries to be written to the GL
-            if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
-                if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(currentNode)) {
-                    SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
-                }
-            }
+        String currentNode = null;
+        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        if (names.length > 0) {
+            currentNode = names[0];
         }
-        catch (WorkflowException e) {
-            logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
+
+        // everything in the below list requires correcting entries to be written to the GL
+        if (NodeDetailEnum.getNodesRequiringCorrectingGeneralLedgerEntries().contains(currentNode)) {
+            if (NodeDetailEnum.ACCOUNT_REVIEW.getName().equals(currentNode) || NodeDetailEnum.VENDOR_TAX_REVIEW.getName().equals(currentNode)) {
+                SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesModifyPaymentRequest(this);
+            }
         }
     }
 
@@ -1009,13 +1001,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @param workflowDocument - work flow document
      * @return List - list of route levels
      */
-    protected List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        return Arrays.asList(names);
     }
 
     /**

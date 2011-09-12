@@ -35,6 +35,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -199,18 +200,20 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         return super.canSave(document);
     }
 
+    /**
+     * 
+     * @param document
+     * @param nodeDetails
+     * @return
+     */
     protected boolean isDocInRouteNodeNotForCurrentUser(Document document, NodeDetails nodeDetails) {
         List<String> currentRouteLevels = new ArrayList<String>();
-            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-            try {
-                currentRouteLevels = Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException(e);
-            }
-            if (currentRouteLevels.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
-                return true;
-            }
-            return false;
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        currentRouteLevels = Arrays.asList(names);
+        if (currentRouteLevels.contains(nodeDetails.getName()) && !workflowDoc.isApprovalRequested()) {
+            return true;
+        }
+        return false;
     }
 }

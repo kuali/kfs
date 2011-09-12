@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -50,15 +51,9 @@ public class ProcurementCardAccountAccessibilityValidation extends GenericValida
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) getAccountingDocumentForValidation();
 
         KualiWorkflowDocument workflowDocument = pcDocument.getDocumentHeader().getWorkflowDocument();
-        List activeNodes = null;
-        try {
-            activeNodes = Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            LOG.error("Error getting active nodes " + e.getMessage());
-            throw new RuntimeException("Error getting active nodes " + e.getMessage());
-        }
-
+        List<String> activeNodes = null;
+        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        activeNodes = Arrays.asList(names);
         if (workflowDocument.stateIsEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
             isValid = true;
         }

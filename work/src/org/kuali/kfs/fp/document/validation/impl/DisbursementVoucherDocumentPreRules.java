@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.KualiConfigurationService;
@@ -87,13 +88,9 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @return true if special handling can be automatically turned on, false otherwise
      */
     protected boolean allowTurningOnOfSpecialHandling(DisbursementVoucherDocument dvDocument) {
-        try {
-            List<String> currentNodes = Arrays.asList(dvDocument.getDocumentHeader().getWorkflowDocument().getNodeNames());
-            return !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
-        }
+        String[] names = dvDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        List<String> currentNodes = Arrays.asList(names);
+        return !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
     }
 
     /**

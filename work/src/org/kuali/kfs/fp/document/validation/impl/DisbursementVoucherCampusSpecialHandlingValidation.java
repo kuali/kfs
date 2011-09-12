@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.service.DocumentService;
@@ -64,13 +65,9 @@ public class DisbursementVoucherCampusSpecialHandlingValidation extends GenericV
      * @return true if the document is at the campus route node, false otherwise
      */
     protected boolean isAtNodeToCheck() {
-        try {
-            List<String> currentNodes = Arrays.asList(getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getNodeNames());
-            return (!currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING));
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
-        }
+        String[] names= getDisbursementVoucherDocumentForValidation().getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        List<String> currentNodes = Arrays.asList(names);
+        return (!currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING));
     }
     
     /**

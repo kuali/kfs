@@ -54,6 +54,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
@@ -256,21 +257,19 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails nodeDetails)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#isDocumentStoppedInRouteNode(NodeDetails
+     *      nodeDetails)
      */
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails) {
         List<String> currentRouteLevels = new ArrayList<String>();
-        try {
-            KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
-            currentRouteLevels = Arrays.asList(getDocumentHeader().getWorkflowDocument().getNodeNames());
-            if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
-                return true;
-            }
-            return false;
+
+        KualiWorkflowDocument workflowDoc = getDocumentHeader().getWorkflowDocument();
+        String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        currentRouteLevels = Arrays.asList(names);
+        if (currentRouteLevels.contains(nodeDetails.getName()) && workflowDoc.isApprovalRequested()) {
+            return true;
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 
     /**

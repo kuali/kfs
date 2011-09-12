@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.dto.NetworkIdDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -137,8 +138,14 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
         LOG.debug("doRouteStatusChange() Leaving method.");
     }
 
+    /**
+     * 
+     * @param wd
+     * @return
+     * @throws WorkflowException
+     */
     protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getNodeNames();
+        String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         if ((nodeNames == null) || (nodeNames.length == 0)) {
             return null;
         }

@@ -71,6 +71,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimEntityAddress;
 import org.kuali.rice.kim.bo.entity.KimEntityEntityType;
@@ -1121,13 +1122,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean shouldClearSpecialHandling() {
         if (!isDisbVchrSpecialHandlingCode()) {
             // are we at the campus route node?
-            try {
-                List<String> currentNodes = Arrays.asList(getDocumentHeader().getWorkflowDocument().getNodeNames());
-                return (currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
-            }
-            catch (WorkflowException we) {
-                throw new RuntimeException("Workflow Exception while attempting to check route levels", we);
-            }
+            String[] names = getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+            List<String> currentNodes = Arrays.asList(names);
+            return (currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
         }
         return false;
     }

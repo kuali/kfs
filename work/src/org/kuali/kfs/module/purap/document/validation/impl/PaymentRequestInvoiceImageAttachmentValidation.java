@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -72,18 +73,20 @@ public class PaymentRequestInvoiceImageAttachmentValidation extends GenericValid
         return valid;
     }
 
+    /**
+     * 
+     * @param document
+     * @param nodeName
+     * @return
+     */
     protected boolean isDocumentStoppedInRouteNode(PaymentRequestDocument document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
-        try {
-            KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-            currentRouteLevels = Arrays.asList(document.getDocumentHeader().getWorkflowDocument().getNodeNames());
-            if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
-                return true;
-            }
-            return false;
+        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        String[] names = workflowDoc.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        currentRouteLevels = Arrays.asList(names);
+        if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
+            return true;
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+        return false;
     }
 }

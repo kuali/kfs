@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -34,13 +35,9 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
      * @param workflowDocument The workflow document from which the current route levels are to be obtained.
      * @return List The List of current route levels of the given document.
      */
-    protected static List getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
-        try {
-            return Arrays.asList(workflowDocument.getNodeNames());
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+    protected static List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
+        return Arrays.asList(names);
     }
 
     @Override

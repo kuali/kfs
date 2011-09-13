@@ -20,8 +20,9 @@
 			<column name='NMSPC_CD' value='KFS-COA' />
 			<column name='PARM_DTL_TYP_CD' value='Account' />
 			<column name='PARM_NM' value='KC_OVERRIDES_KFS_DEFAULT_ACCOUNT_IND' />
+			<column name='TXT' value='Y' />
 			<column name='OBJ_ID' valueNumeric='KFSCOA124' />
-			<column name='VER_NBR' value='Y' />
+			<column name='VER_NBR' valueNumeric='1' />
 			<column name='PARM_TYP_CD' value='CONFG' />
 			<column name='PARM_DESC_TXT'
 				value='When this indicator is Y, the values from KC will override the values in the CGAD table.' />

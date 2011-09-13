@@ -137,6 +137,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
             }
             LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Depreciation run date: " + depreciationDateParameter);
+
             UniversityDate universityDate = (UniversityDate) businessObjectService.findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date(depreciationDate.getTimeInMillis()));
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));

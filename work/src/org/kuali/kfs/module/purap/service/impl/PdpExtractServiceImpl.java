@@ -513,8 +513,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         paymentDetail.setInvoiceNbr(invoiceNumber);
         paymentDetail.setCustPaymentDocNbr(creditMemoDocument.getDocumentNumber());
 
-        if (creditMemoDocument.getPurapDocumentIdentifier() != null) {
-            paymentDetail.setPurchaseOrderNbr(creditMemoDocument.getPurapDocumentIdentifier().toString());
+        if (creditMemoDocument.getPurchaseOrderIdentifier() != null) {
+            paymentDetail.setPurchaseOrderNbr(creditMemoDocument.getPurchaseOrderIdentifier().toString());
         }
 
         if (creditMemoDocument.getPurchaseOrderDocument() != null) {
@@ -600,7 +600,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         }
         paymentDetail.setInvoiceNbr(invoiceNumber);
 
-        if (paymentRequestDocument.getPurapDocumentIdentifier() != null) {
+        if (paymentRequestDocument.getPurchaseOrderIdentifier() != null) {
             paymentDetail.setPurchaseOrderNbr(paymentRequestDocument.getPurchaseOrderIdentifier().toString());
         }
 

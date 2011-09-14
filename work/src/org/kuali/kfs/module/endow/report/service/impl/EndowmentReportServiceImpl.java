@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,12 +43,14 @@ import org.kuali.kfs.module.endow.dataaccess.KemidReportGroupDao;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.report.service.EndowmentReportService;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder;
+import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.BenefittingForFooter;
 import org.kuali.kfs.module.endow.report.util.EndowmentReportHeaderDataHolder;
 import org.kuali.kfs.module.endow.report.util.KemidsWithMultipleBenefittingOrganizationsDataHolder;
-import org.kuali.kfs.module.endow.report.util.EndowmentReportFooterDataHolder.BenefittingForFooter;
-import org.kuali.rice.kns.bo.CampusImpl;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.bo.Campus;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -410,18 +413,6 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
     }
     
     /**
-     * Gets a campus object
-     * 
-     * @param campusCode
-     * @return
-     */
-    protected CampusImpl getCampus(String campusCode) {
-        Map<String,Object> primaryKeys = new HashMap<String,Object>();
-        primaryKeys.put(EndowPropertyConstants.CAMPUS_CODE, campusCode);
-        return (CampusImpl) businessObjectService.findByPrimaryKey(CampusImpl.class, primaryKeys);
-    }
-    
-    /**
      * Gets an organization object
      * 
      * @param chartCode
@@ -461,8 +452,10 @@ public abstract class EndowmentReportServiceImpl implements EndowmentReportServi
                 // some organizations and campuses may not exist 
                 if (ObjectUtils.isNotNull(organization)) {
                     benefitting.setOrganizationName(organization.getOrganizationName());
-                    CampusImpl campus = getCampus(organization.getOrganizationPhysicalCampusCode());
-                    if (ObjectUtils.isNotNull(campus)) {
+                    Campus campus = SpringContext.getBean(KualiModuleService.class)
+                            .getResponsibleModuleService(Campus.class)
+                            .getExternalizableBusinessObject(Campus.class, Collections.singletonMap("campusCode", (Object)organization.getOrganizationPhysicalCampusCode()) );
+                    if (campus != null) {
                         benefitting.setCampusName(campus.getCampusName());
                     } else {
                         benefitting.setCampusName("");

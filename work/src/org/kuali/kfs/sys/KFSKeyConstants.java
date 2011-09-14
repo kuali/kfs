@@ -645,10 +645,10 @@ public class KFSKeyConstants {
         public static final String MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED = "message.document.cashReceipt.cashDrawerClosedVerificationNotAllowed";
         public static final String ERROR_NEGATIVE_CHECK_AMOUNT = "error.document.cashReceipt.negativeCheckAmount";
         public static final String ERROR_ZERO_CHECK_AMOUNT = "error.document.cashReceipt.zeroCheckAmount";
-
         public static final String ERROR_EXCESSIVE_TOTAL = "error.document.cashReceipt.invalidTotal";
         public static final String ERROR_NEGATIVE_TOTAL = "error.document.cashReceipt.negativeTotal";
         public static final String ERROR_ZERO_TOTAL = "error.document.cashReceipt.zeroTotal";
+        public static final String ERROR_CASH_DRAWER_DOES_NOT_EXIST = "error.document.cashReceipt.cashDrawerDoesNotExist";
     }
 
     public static final class CreditCardReceipt {

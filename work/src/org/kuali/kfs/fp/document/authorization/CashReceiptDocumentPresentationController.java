@@ -18,9 +18,12 @@ package org.kuali.kfs.fp.document.authorization;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
@@ -50,12 +53,9 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             String campusCode = cashReceiptDocument.getCampusLocationCode();
             CashDrawer cashDrawer = SpringContext.getBean(CashDrawerService.class).getByCampusCode(campusCode);
             if (cashDrawer == null) {
-                throw new RuntimeException("No cash drawer exists for campus code "+campusCode+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashReceiptDocument for campus "+campusCode);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CASH_DRAWER_DOES_NOT_EXIST, campusCode);
+                return false;
             }
-            if (cashDrawer == null) {
-                throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + cashReceiptDocument.getDocumentNumber());
-            }
-
             if (cashDrawer.isClosed()) {
                 return false;
             }

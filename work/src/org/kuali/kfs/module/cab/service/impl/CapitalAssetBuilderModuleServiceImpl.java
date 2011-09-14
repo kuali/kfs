@@ -1361,7 +1361,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean isNewAssetBlank(CapitalAssetInformation capitalAssetInformation) {
         boolean isBlank = true;
 
-        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription())) {
+        boolean createAsset = (capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR) ? true :  false);
+
+        if (createAsset && (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetTypeCode()) || ObjectUtils.isNotNull(capitalAssetInformation.getVendorName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetQuantity()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerName()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetManufacturerModelNumber()) || ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetDescription()))) {
             isBlank = false;
         }
         return isBlank;
@@ -1376,7 +1378,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean isUpdateAssetBlank(CapitalAssetInformation capitalAssetInformation) {
         boolean isBlank = true;
 
-        if (ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
+        boolean updateAsset = (capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR) ? true :  false);
+        
+        if (updateAsset && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
             isBlank = false;
         }
         return isBlank;

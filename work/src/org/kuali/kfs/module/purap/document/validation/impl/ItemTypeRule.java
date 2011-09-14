@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -28,11 +28,10 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 
 /* 
@@ -64,31 +63,31 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> cmAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        List<String> preqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        List<String> poAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        List<String> reqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
-        List<String> defaultNonQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE);
-        List<String> defaultQuantityItemTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE);
-        List<String> cmAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        List<String> preqAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        List<String> poAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        List<String> reqAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
-        List<String> cmAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        List<String> preqAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        List<String> poAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        List<String> reqAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
-        List<String> cmAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
-        List<String> preqAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
-        List<String> poAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
-        List<String> reqAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
-        List<String> cmRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
-        List<String> preqRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
-        List<String> poRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
-        List<String> reqRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
-        List<String> preqRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
-        List<String> poRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
-        List<String> reqRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        Collection<String> cmAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        Collection<String> preqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        Collection<String> poAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        Collection<String> reqAdditionalCharges = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        Collection<String> defaultNonQuantityItemTypes = SpringContext.getBean(ParameterService.class).getParameterValues( KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE);
+        Collection<String> defaultQuantityItemTypes = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE);
+        Collection<String> cmAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        Collection<String> preqAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        Collection<String> poAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        Collection<String> reqAllowNegative = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_NEGATIVE);
+        Collection<String> cmAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        Collection<String> preqAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        Collection<String> poAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        Collection<String> reqAllowPositive = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_POSITIVE);
+        Collection<String> cmAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
+        Collection<String> preqAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
+        Collection<String> poAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
+        Collection<String> reqAllowZero = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_ALLOWS_ZERO);
+        Collection<String> cmRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(VendorCreditMemoDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        Collection<String> preqRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        Collection<String> poRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        Collection<String> reqRequireDescription = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapConstants.ITEM_REQUIRES_USER_ENTERED_DESCRIPTION);
+        Collection<String> preqRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(PaymentRequestDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        Collection<String> poRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        Collection<String> reqRestrictingAccountEdit = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
         
         ItemType newBo = (ItemType)getNewBo();
         ItemType oldBo= (ItemType)getOldBo();

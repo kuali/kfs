@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -76,7 +77,6 @@ import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -1352,9 +1352,9 @@ public class PurapServiceImpl implements PurapService {
 
             //Before generating the summary, lets replace the object code in a cloned accounts collection sothat we can 
             //consolidate all the modified object codes during summary generation.
-            List clonedTradeInItems = new ArrayList();
-            List objectSubTypesRequiringQty = SpringContext.getBean(KualiConfigurationService.class).getParameterValues(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY);
-            List purchasingObjectSubTypes = SpringContext.getBean(KualiConfigurationService.class).getParameterValues("KFS-CAB", "Document", PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES);
+            List<PurApItem> clonedTradeInItems = new ArrayList<PurApItem>();
+            Collection<String> objectSubTypesRequiringQty = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY);
+            Collection<String> purchasingObjectSubTypes = SpringContext.getBean(ParameterService.class).getParameterValues( KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES);
 
              String tradeInCapitalObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET");
              String tradeInCapitalLeaseObjCd = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE");

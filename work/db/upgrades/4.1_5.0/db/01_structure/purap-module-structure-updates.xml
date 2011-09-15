@@ -38,7 +38,7 @@
 		</addColumn>
 		<modifyColumn tableName='PUR_REQS_ACCT_T'>
 			<column name='ACLN_PCT' type='NUMBER(35,20)'>
-				<constraints nullable='false' />
+				<constraints nullable='true' />
 			</column>
 		</modifyColumn>
 		<addColumn tableName='PUR_REQS_ACCT_T'>
@@ -54,7 +54,7 @@
 		</addColumn>
 		<modifyColumn tableName='PUR_PO_ACCT_T'>
 			<column name='ACLN_PCT' type='NUMBER(35,20)'>
-				<constraints nullable='false' />
+				<constraints nullable='true' />
 			</column>
 		</modifyColumn>
 		<addColumn tableName='PUR_PO_ACCT_T'>

@@ -86,4 +86,26 @@
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
 			newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
 	</changeSet>
+	
+	 <changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle' dbms="oracle">
+    <comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+    <dropTable tableName='FP_REVOLVFND_DTL_T' />
+    <dropPrimaryKey tableName="FP_ADV_DPST_DTL_T"/>
+    <dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+    <addPrimaryKey tableName='FP_ADV_DPST_DTL_T' constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+    <dropPrimaryKey tableName="FP_CR_CARD_DTL_T"/>
+    <dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+    <addPrimaryKey tableName='FP_CR_CARD_DTL_T' constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+  </changeSet>
+  
+   <changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql' dbms="mysql">
+    <comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+    <dropTable tableName='FP_REVOLVFND_DTL_T' />
+    <sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY (FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
+    </sql>
+    <dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+    <sql>ALTER TABLE FP_CR_CARD_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY (FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
+    </sql>
+    <dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+  </changeSet>
 </databaseChangeLog>

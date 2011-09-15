@@ -17,15 +17,19 @@
 		<createTable tableName='FP_CPTL_AST_INFO_T'>
 			<column name='FDOC_NBR' type='VARCHAR2(14)' nullable='false' />
 			<column name='OBJ_ID' type='VARCHAR2(36)' nullable='false' />
-			<column name='VER_NBR' type='NUMBER(8)' defaultValueNumeric="1" nullable='false' />
+			<column name='VER_NBR' type='NUMBER(8)' defaultValueNumeric="1"
+				nullable='false' />
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' nullable='false' />
 			<column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)' nullable='false' />
 			<column name='FIN_COA_CD' type='VARCHAR2(2)' nullable='false' />
 			<column name='ACCOUNT_NBR' type='VARCHAR2(7)' nullable='false' />
 			<column name='FIN_OBJECT_CD' type='VARCHAR2(4)' nullable='false' />
-			<column name='CPTLAST_ACTION_IND' type='VARCHAR2(1)' nullable='false' defaultValue='C' />
-			<column name='CPTLAST_PROCESSED_IND' type='VARCHAR2(1)' nullable='false' defaultValue='N' />
-			<column name='CPTLAST_LINE_NBR' type='NUMBER(7,0)' defaultValueNumeric="1" nullable='false' />
+			<column name='CPTLAST_ACTION_IND' type='VARCHAR2(1)' nullable='false'
+				defaultValue='C' />
+			<column name='CPTLAST_PROCESSED_IND' type='VARCHAR2(1)'
+				nullable='false' defaultValue='N' />
+			<column name='CPTLAST_LINE_NBR' type='NUMBER(7,0)'
+				defaultValueNumeric="1" nullable='false' />
 			<column name='VNDR_HDR_GNRTD_ID' type='NUMBER(10,0)' nullable='true' />
 			<column name='VNDR_DTL_ASND_ID' type='NUMBER(10,0)' nullable='true' />
 			<column name='CPTLAST_NBR' type='NUMBER(12)' nullable='true' />
@@ -35,17 +39,20 @@
 			<column name='CPTLAST_MFRMDL_NBR' type='VARCHAR2(25)'
 				nullable='true' />
 			<column name='FDOC_LINE_AMT' type='NUMBER(19,2)' nullable='true' />
-			<column name='CPTLAST_LINE_QTY' type='number(7,0)' nullable='true' defaultValueNumeric="0" />
+			<column name='CPTLAST_LINE_QTY' type='number(7,0)' nullable='true'
+				defaultValueNumeric="0" />
 		</createTable>
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T "
-				columnNames="FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR"
+			columnNames="FDOC_NBR, FDOC_LINE_NBR, FDOC_LN_TYP_CD, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, CPTLAST_LINE_NBR"
 			constraintName="SYS_C005400612" />
 
 		<createTable tableName='FP_CPTL_AST_INFO_DTL_T'>
 			<column name='FDOC_NBR' type='VARCHAR2(14)' nullable='false' />
-			<column name='ITM_LN_NBR' type='NUMBER(7,0)' defaultValueNumeric="1" nullable='false' />
+			<column name='ITM_LN_NBR' type='NUMBER(7,0)'
+				defaultValueNumeric="1" nullable='false' />
 			<column name='OBJ_ID' type='VARCHAR2(36)' nullable='false' />
-			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric="1" nullable='false' />
+			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric="1"
+				nullable='false' />
 			<column name='FDOC_LINE_NBR' type='NUMBER(8,0)' nullable='false' />
 			<column name='FDOC_LN_TYP_CD' type='VARCHAR2(1)' nullable='false' />
 			<column name='FIN_COA_CD' type='VARCHAR2(2)' nullable='false' />
@@ -86,26 +93,226 @@
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ"
 			newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />
 	</changeSet>
-	
-	 <changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle' dbms="oracle">
-    <comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
-    <dropTable tableName='FP_REVOLVFND_DTL_T' />
-    <dropPrimaryKey tableName="FP_ADV_DPST_DTL_T"/>
-    <dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-    <addPrimaryKey tableName='FP_ADV_DPST_DTL_T' constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
-    <dropPrimaryKey tableName="FP_CR_CARD_DTL_T"/>
-    <dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-    <addPrimaryKey tableName='FP_CR_CARD_DTL_T' constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
-  </changeSet>
-  
-   <changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql' dbms="mysql">
-    <comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
-    <dropTable tableName='FP_REVOLVFND_DTL_T' />
-    <sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY (FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-    </sql>
-    <dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-    <sql>ALTER TABLE FP_CR_CARD_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY (FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
-    </sql>
-    <dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-  </changeSet>
+
+	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_Oracle'
+		dbms="oracle">
+		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+		<dropTable tableName='FP_REVOLVFND_DTL_T' />
+		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />
+		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+		<addPrimaryKey tableName='FP_ADV_DPST_DTL_T'
+			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
+		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
+			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+	</changeSet>
+
+	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T_mysql'
+		dbms="mysql">
+		<comment>KFSMI-KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
+		<dropTable tableName='FP_REVOLVFND_DTL_T' />
+		<sql>ALTER TABLE FP_ADV_DPST_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
+			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
+		</sql>
+		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+		<sql>ALTER TABLE FP_CR_CARD_DTL_T DROP PRIMARY KEY, ADD PRIMARY KEY
+			(FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR);
+		</sql>
+		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
+	</changeSet>
+
+	<changeSet author='KFS50' id='KFS_50_FP_DEPOSIT_HDR_T'>
+		<comment>KFSMI-KFSMI-6966 Need the ability to recategorize checks/currency/coins from CRs</comment>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_100_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_50_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_20_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_10_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_5_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_2_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_1_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_OTHR_DLR_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_100_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_50_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_25_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_10_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_5_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_1_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_DEPOSIT_HDR_T'>
+			<column name='FDOC_MSTR_OTHR_CENT_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' type='VARCHAR2(1)' />
+		</addColumn>
+		<addColumn tableName='FP_CHECK_DTL_T'>
+			<column name='CSHR_STAT_CD' type='VARCHAR2(1)' />
+		</addColumn>
+		<addColumn tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' type='VARCHAR2(1)' />
+		</addColumn>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='X' />
+			<where>FDOC_TYP_CD = 'CD' or FDOC_TYP_CD = 'BCS' or FDOC_TYP_CD =
+				'CH'
+			</where>
+		</update>
+
+		<update tableName='FP_CHECK_DTL_T'>
+			<column name='CSHR_STAT_CD' value='X' />
+			<where>FDOC_TYP_CD = 'CD' or FDOC_TYP_CD = 'BCS' or FDOC_TYP_CD =
+				'CH'
+			</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='X' />
+			<where>FDOC_TYP_CD = 'CD' or FDOC_TYP_CD = 'BCS' or FDOC_TYP_CD =
+				'CH'
+			</where>
+		</update>
+		<delete tableName='FP_CURRENCY_DTL_T'>
+			<where>FDOC_TYP_CD = 'BCS'</where>
+		</delete>
+		<delete tableName='FP_CURRENCY_DTL_T'>
+			<where>FDOC_TYP_CD = 'CH'</where>
+		</delete>
+		<delete tableName='FP_COIN_DTL_T'>
+			<where>FDOC_TYP_CD = 'BCS'</where>
+		</delete>
+		<delete tableName='FP_COIN_DTL_T'>
+			<where>FDOC_TYP_CD = 'CH'</where>
+		</delete>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='C' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C' </where>
+		</update>
+		<update tableName='FP_CHECK_DTL_T'>
+			<column name='CSHR_STAT_CD' value='C' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C' </where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='C' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'C' </where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R' </where>
+		</update>
+		<update tableName='FP_CHECK_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R' </where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CR' and FDOC_COLUMN_TYP_CD = 'R' </where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='FDOC_TYP_CD' value='CMD' />
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName='FP_CHECK_DTL_T'>
+			<column name='FDOC_TYP_CD' value='CMD' />
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='FDOC_TYP_CD' value='CMD' />
+			<where>FDOC_TYP_CD = 'CM'</where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='D' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'D'</where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='O' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'O'</where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='M' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'M'</where>
+		</update>
+		<update tableName='FP_CURRENCY_DTL_T'>
+			<column name='CSHR_STAT_CD' value='C' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'R'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='D' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'D'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='O' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'O'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='M' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'M'</where>
+		</update>
+		<update tableName='FP_COIN_DTL_T'>
+			<column name='CSHR_STAT_CD' value='C' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'C'</where>
+		</update>
+		<update tableName='FP_CHECK_DTL_T'>
+			<column name='CSHR_STAT_CD' value='R' />
+			<where>FDOC_TYP_CD = 'CMD' and FDOC_COLUMN_TYP_CD = 'I'</where>
+		</update>
+		<dropPrimaryKey tableName="FP_CURRENCY_DTL_T" />
+		<addPrimaryKey tableName='FP_CURRENCY_DTL_T'
+			constraintName='FP_CURRENCY_DTL_T_TP1' columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
+		<dropPrimaryKey tableName="FP_CHECK_DTL_T" />
+		<addPrimaryKey tableName='FP_CHECK_DTL_T'
+			constraintName='FP_CHECK_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, CSHR_STAT_CD, FDOC_LINE_NBR' />
+		<dropPrimaryKey tableName="FP_COIN_DTL_T" />
+		<addPrimaryKey tableName='FP_COIN_DTL_T' constraintName='FP_COIN_DTL_T_TP1'
+			columnNames=' FDOC_NBR,  FDOC_TYP_CD, CSHR_STAT_CD ' />
+		<dropColumn tableName='FP_DEPOSIT_HDR_T' columnName='FDOC_REF_NBR' />
+		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
+			<column name='FDOC_CNFRMD_CASH_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
+			<column name='FDOC_CNFRMD_CHCK_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+		<addColumn tableName='FP_CASH_RCPT_DOC_T'>
+			<column name='FDOC_CNFRMD_COIN_AMT' type='NUMBER(19,2)' />
+		</addColumn>
+				<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+		<modifySql dbms='mysql'>
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+	</changeSet>
 </databaseChangeLog>

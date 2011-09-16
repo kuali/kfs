@@ -24,7 +24,7 @@
       <list>
         <ref bean="CoinDetail-documentNumber"/>
         <ref bean="CoinDetail-financialDocumentTypeCode"/>
-        <ref bean="CoinDetail-cashieringRecordSource"/>
+        <ref bean="CoinDetail-cashieringStatus"/>
         <ref bean="CoinDetail-financialDocumentHundredCentAmount"/>
         <ref bean="CoinDetail-hundredCentCount"/>
         <ref bean="CoinDetail-financialDocumentFiftyCentAmount"/>
@@ -63,10 +63,10 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
-  <bean id="CoinDetail-cashieringRecordSource" parent="CoinDetail-cashieringRecordSource-parentBean"/>
+  <bean id="CoinDetail-cashieringStatus" parent="CoinDetail-cashieringStatus-parentBean"/>
 
-  <bean id="CoinDetail-cashieringRecordSource-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cashieringRecordSource"/>
+  <bean id="CoinDetail-cashieringStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cashieringStatus"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Cashiering Record Source"/>
     <property name="shortLabel" value="CshrgRcdSrc"/>

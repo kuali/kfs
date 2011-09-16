@@ -26,7 +26,7 @@
         <ref bean="CheckBase-checkDate"/>
         <ref bean="CheckBase-description"/>
         <ref bean="CheckBase-financialDocumentTypeCode"/>
-        <ref bean="CheckBase-cashieringRecordSource"/>
+        <ref bean="CheckBase-cashieringStatus"/>
         <ref bean="CheckBase-financialDocumentDepositLineNumber"/>
         <ref bean="CheckBase-amount"/>
         <ref bean="CheckBase-sequenceId"/>
@@ -85,10 +85,10 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
-  <bean id="CheckBase-cashieringRecordSource" parent="CheckBase-cashieringRecordSource-parentBean"/>
+  <bean id="CheckBase-cashieringStatus" parent="CheckBase-cashieringStatus-parentBean"/>
 
-  <bean id="CheckBase-cashieringRecordSource-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cashieringRecordSource"/>
+  <bean id="CheckBase-cashieringStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cashieringStatus"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Cashiering Record Source"/>
     <property name="shortLabel" value="CshrgRcdSrc"/>

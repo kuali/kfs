@@ -30,7 +30,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String financialDocumentTypeCode;
-    private String cashieringRecordSource;
+    private String cashieringStatus;
     private KualiDecimal financialDocumentHundredDollarAmount;
     private KualiDecimal financialDocumentFiftyDollarAmount;
     private KualiDecimal financialDocumentTwentyDollarAmount;
@@ -86,21 +86,21 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the cashieringRecordSource attribute.
+     * Gets the cashieringStatus attribute.
      * 
-     * @return Returns the cashieringRecordSource
+     * @return Returns the cashieringStatus
      */
-    public String getCashieringRecordSource() {
-        return cashieringRecordSource;
+    public String getCashieringStatus() {
+        return cashieringStatus;
     }
 
     /**
-     * Sets the cashieringRecordSource attribute.
+     * Sets the cashieringStatus attribute.
      * 
-     * @param cashieringRecordSource The cashieringRecordSource to set.
+     * @param cashieringStatus The cashieringStatus to set.
      */
-    public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
-        this.cashieringRecordSource = financialDocumentColumnTypeCode;
+    public void setCashieringStatus(String financialDocumentColumnTypeCode) {
+        this.cashieringStatus = financialDocumentColumnTypeCode;
     }
 
 
@@ -626,7 +626,7 @@ public class CurrencyDetail extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("cashieringRecordSource", this.cashieringRecordSource);
+        m.put("cashieringStatus", this.cashieringStatus);
         return m;
     }
 }

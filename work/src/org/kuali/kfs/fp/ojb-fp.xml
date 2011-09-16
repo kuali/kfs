@@ -755,6 +755,9 @@
     <field-descriptor name="totalCashAmount" column="FDOC_CASH_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalCheckAmount" column="FDOC_TOTL_CHCK_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="totalCoinAmount" column="FDOC_TOTL_COIN_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalConfirmedCashAmount" column="FDOC_CNFRMD_CASH_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalConfirmedCheckAmount" column="FDOC_CNFRMD_CHCK_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalConfirmedCoinAmount" column="FDOC_CNFRMD_COIN_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <!--
         <field-descriptor name="totalChangeRequestOutAmount" column="FDOC_CHANGEOUT_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
         <field-descriptor name="totalNonCashAmount" column="FDOC_NONCASH_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
@@ -794,6 +797,17 @@
     <collection-descriptor name="checks" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CheckBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="sequenceId" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
+        	<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+					<attribute attribute-name="cashieringStatus" attribute-value="C" />
+			</query-customizer>
+    </collection-descriptor>
+    
+    <collection-descriptor name="confirmedChecks" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.CheckBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="sequenceId" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+        	<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
+					<attribute attribute-name="cashieringStatus" attribute-value="R" />
+			</query-customizer>
     </collection-descriptor>
     
     <collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.kfs.fp.businessobject.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -810,7 +824,8 @@
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CheckBase" table="FP_CHECK_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <!-- field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" /-->
+    <field-descriptor name="cashieringStatus" column="CSHR_STAT_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="sequenceId" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
     <field-descriptor name="amount" column="FDOC_CHCK_AMT" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="description" column="FDOC_CHCK_DESC" jdbc-type="VARCHAR" />
@@ -1004,7 +1019,21 @@
 
     <!-- CashManagement-specific attributes -->
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialDocumentHundredDollarAmount" column="FDOC_MSTR_100_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentFiftyDollarAmount" column="FDOC_MSTR_50_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentTwentyDollarAmount" column="FDOC_MSTR_20_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentTenDollarAmount" column="FDOC_MSTR_10_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentFiveDollarAmount" column="FDOC_MSTR_5_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentTwoDollarAmount" column="FDOC_MSTR_2_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentOneDollarAmount" column="FDOC_MSTR_1_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentOtherDollarAmount" column="FDOC_MSTR_OTHR_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentHundredCentAmount" column="FDOC_MSTR_100_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentFiftyCentAmount" column="FDOC_MSTR_50_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentTwentyFiveCentAmount" column="FDOC_MSTR_25_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentTenCentAmount" column="FDOC_MSTR_10_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentFiveCentAmount" column="FDOC_MSTR_5_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentOneCentAmount" column="FDOC_MSTR_1_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="financialDocumentOtherCentAmount" column="FDOC_MSTR_OTHR_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
 
     <!-- object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
@@ -2149,7 +2178,8 @@
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CurrencyDetail" table="FP_CURRENCY_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <!-- field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" /-->
+    <field-descriptor name="cashieringStatus" column="CSHR_STAT_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialDocumentHundredDollarAmount" column="FDOC_100_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
@@ -2220,7 +2250,8 @@
 <class-descriptor class="org.kuali.kfs.fp.businessobject.CoinDetail" table="FP_COIN_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <!-- field-descriptor name="cashieringRecordSource" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" /-->
+    <field-descriptor name="cashieringStatus" column="CSHR_STAT_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialDocumentFiftyCentAmount" column="FDOC_50_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />

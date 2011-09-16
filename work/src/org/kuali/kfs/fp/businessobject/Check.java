@@ -147,14 +147,14 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
      * 
      * @return the cashiering record source
      */
-    public String getCashieringRecordSource();
+    public String getCashieringStatus();
 
     /**
      * Sets the source of this cashiering record.
      * 
-     * @param cashieringRecordSource
+     * @param cashieringStatus
      */
-    public void setCashieringRecordSource(String cashieringRecordSource);
+    public void setCashieringStatus(String cashieringStatus);
 
     /**
      * Returns true if this check has the same primitive field values as the given one

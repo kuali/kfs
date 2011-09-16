@@ -62,10 +62,10 @@ function checkCheckAllOrNone() {
 	<html:hidden property="cashManagementDocId" />
 	<html:hidden property="depositTypeCode" />
 	<html:hidden property="currencyDetail.documentNumber" />
-	<html:hidden property="currencyDetail.cashieringRecordSource" />
+	<html:hidden property="currencyDetail.cashieringStatus" />
 	<html:hidden property="currencyDetail.financialDocumentTypeCode" />
 	<html:hidden property="coinDetail.documentNumber" />
-	<html:hidden property="coinDetail.cashieringRecordSource" />
+	<html:hidden property="coinDetail.cashieringStatus" />
 	<html:hidden property="coinDetail.financialDocumentTypeCode" />
 
 	<c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.depositableCashieringChecks || !empty KualiForm.checkFreeCashReceipts}">
@@ -206,15 +206,15 @@ function checkCheckAllOrNone() {
 						</td>
 						<td>
 						<div align="center">
-						$&nbsp;<c:out value="${cashReceipt.currencyFormattedTotalCheckAmount}" /> <html:hidden
-							property="depositableCashReceipt[${ctr}].totalCheckAmount" /></div>
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedTotalConfirmedCheckAmount}" /> <html:hidden
+							property="depositableCashReceipt[${ctr}].totalConfirmedCheckAmount" /></div>
 						</td>
 						
 					</tr>
 
-					<c:if test="${cashReceipt.checkCount > 0}">
+					<c:if test="${cashReceipt.confirmedCheckCount > 0}">
 						<tr>
-							<td class="infoline" rowspan="${cashReceipt.checkCount + 1}"
+							<td class="infoline" rowspan="${cashReceipt.confirmedCheckCount + 1}"
 								colspan="2">&nbsp;</td>
 							<td class="infoline"><kul:htmlAttributeLabel
 								attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
@@ -230,23 +230,23 @@ function checkCheckAllOrNone() {
 							
 						</tr>
 
-						<logic:iterate name="cashReceipt" property="checks" id="check"
+						<logic:iterate name="cashReceipt" property="confirmedChecks" id="confirmedCheck"
 							indexId="checkIndex">
 							<tr>
 								<td><kul:htmlControlAttribute
-									property="depositableCashReceipt[${ctr}].check[${checkIndex}].checkNumber"
+									property="depositableCashReceipt[${ctr}].confirmedCheck[${checkIndex}].checkNumber"
 									attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
 								</td>
 								<td><kul:htmlControlAttribute
-									property="depositableCashReceipt[${ctr}].check[${checkIndex}].checkDate"
+									property="depositableCashReceipt[${ctr}].confirmedCheck[${checkIndex}].checkDate"
 									attributeEntry="${checkAttributes.checkDate}" readOnly="true" />
 								</td>
 								<td><kul:htmlControlAttribute
-									property="depositableCashReceipt[${ctr}].check[${checkIndex}].description"
+									property="depositableCashReceipt[${ctr}].confirmedCheck[${checkIndex}].description"
 									attributeEntry="${checkAttributes.description}" readOnly="true" />
 								</td>
 								<td>$<kul:htmlControlAttribute
-									property="depositableCashReceipt[${ctr}].check[${checkIndex}].amount"
+									property="depositableCashReceipt[${ctr}].confirmedCheck[${checkIndex}].amount"
 									attributeEntry="${checkAttributes.amount}" readOnly="true" />
 								</td>
 							</tr>
@@ -298,7 +298,7 @@ function checkCheckAllOrNone() {
 						<td>&nbsp;</td>
 						<td>
 						<div align="center">
-						$&nbsp;<c:out value="${cashReceipt.currencyFormattedSumTotalAmount}" /></div>
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedConfirmedSumTotalAmount}" /></div>
 						</td>
 					</tr>
 				</logic:iterate>

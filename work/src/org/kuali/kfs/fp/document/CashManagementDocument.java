@@ -67,7 +67,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     protected static Logger LOG = Logger.getLogger(CashManagementDocument.class);
 
     protected String campusCode;
-    protected String referenceFinancialDocumentNumber;
 
     protected List<Deposit> deposits;
 
@@ -76,6 +75,23 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     protected CashieringTransaction currentTransaction;
     protected CashDrawer cashDrawer;
     protected Campus campus;
+    
+    private KualiDecimal financialDocumentHundredDollarAmount;
+    private KualiDecimal financialDocumentFiftyDollarAmount;
+    private KualiDecimal financialDocumentTwentyDollarAmount;
+    private KualiDecimal financialDocumentTenDollarAmount;
+    private KualiDecimal financialDocumentFiveDollarAmount;
+    private KualiDecimal financialDocumentTwoDollarAmount;
+    private KualiDecimal financialDocumentOneDollarAmount;
+    private KualiDecimal financialDocumentOtherDollarAmount;
+    private KualiDecimal financialDocumentHundredCentAmount;
+    private KualiDecimal financialDocumentFiftyCentAmount;
+    private KualiDecimal financialDocumentTwentyFiveCentAmount;
+    private KualiDecimal financialDocumentTenCentAmount;
+    private KualiDecimal financialDocumentFiveCentAmount;
+    private KualiDecimal financialDocumentOneCentAmount;
+    private KualiDecimal financialDocumentOtherCentAmount;
+    
 
     /**
      * Default constructor.
@@ -85,23 +101,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         deposits = new ArrayList<Deposit>();
         checks = new ArrayList<Check>();
         this.resetCurrentTransaction();
-    }
-
-
-    /**
-     * @return current value of referenceFinancialDocumentNumber.
-     */
-    public String getReferenceFinancialDocumentNumber() {
-        return referenceFinancialDocumentNumber;
-    }
-
-    /**
-     * Sets the referenceFinancialDocumentNumber attribute value.
-     * 
-     * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
-     */
-    public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
-        this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
 
@@ -380,7 +379,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         if (this.currentTransaction != null) {
             this.currentTransaction.setTransactionEnded(SpringContext.getBean(DateTimeService.class).getCurrentDate());
         }
-        currentTransaction = new CashieringTransaction(campusCode, referenceFinancialDocumentNumber);
+        currentTransaction = new CashieringTransaction(campusCode, documentNumber);
         if (this.getCampusCode() != null) {
             List<CashieringItemInProcess> openItemsInProcess = SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(this);
             if (openItemsInProcess != null) {
@@ -552,5 +551,275 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
         return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+    }
+
+
+    /**
+     * Gets the financialDocumentHundredDollarAmount attribute. 
+     * @return Returns the financialDocumentHundredDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentHundredDollarAmount() {
+        return financialDocumentHundredDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentHundredDollarAmount attribute value.
+     * @param financialDocumentHundredDollarAmount The financialDocumentHundredDollarAmount to set.
+     */
+    public void setFinancialDocumentHundredDollarAmount(KualiDecimal financialDocumentHundredDollarAmount) {
+        this.financialDocumentHundredDollarAmount = financialDocumentHundredDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentFiftyDollarAmount attribute. 
+     * @return Returns the financialDocumentFiftyDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentFiftyDollarAmount() {
+        return financialDocumentFiftyDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentFiftyDollarAmount attribute value.
+     * @param financialDocumentFiftyDollarAmount The financialDocumentFiftyDollarAmount to set.
+     */
+    public void setFinancialDocumentFiftyDollarAmount(KualiDecimal financialDocumentFiftyDollarAmount) {
+        this.financialDocumentFiftyDollarAmount = financialDocumentFiftyDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentTwentyDollarAmount attribute. 
+     * @return Returns the financialDocumentTwentyDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentTwentyDollarAmount() {
+        return financialDocumentTwentyDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentTwentyDollarAmount attribute value.
+     * @param financialDocumentTwentyDollarAmount The financialDocumentTwentyDollarAmount to set.
+     */
+    public void setFinancialDocumentTwentyDollarAmount(KualiDecimal financialDocumentTwentyDollarAmount) {
+        this.financialDocumentTwentyDollarAmount = financialDocumentTwentyDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentTenDollarAmount attribute. 
+     * @return Returns the financialDocumentTenDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentTenDollarAmount() {
+        return financialDocumentTenDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentTenDollarAmount attribute value.
+     * @param financialDocumentTenDollarAmount The financialDocumentTenDollarAmount to set.
+     */
+    public void setFinancialDocumentTenDollarAmount(KualiDecimal financialDocumentTenDollarAmount) {
+        this.financialDocumentTenDollarAmount = financialDocumentTenDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentFiveDollarAmount attribute. 
+     * @return Returns the financialDocumentFiveDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentFiveDollarAmount() {
+        return financialDocumentFiveDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentFiveDollarAmount attribute value.
+     * @param financialDocumentFiveDollarAmount The financialDocumentFiveDollarAmount to set.
+     */
+    public void setFinancialDocumentFiveDollarAmount(KualiDecimal financialDocumentFiveDollarAmount) {
+        this.financialDocumentFiveDollarAmount = financialDocumentFiveDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentTwoDollarAmount attribute. 
+     * @return Returns the financialDocumentTwoDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentTwoDollarAmount() {
+        return financialDocumentTwoDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentTwoDollarAmount attribute value.
+     * @param financialDocumentTwoDollarAmount The financialDocumentTwoDollarAmount to set.
+     */
+    public void setFinancialDocumentTwoDollarAmount(KualiDecimal financialDocumentTwoDollarAmount) {
+        this.financialDocumentTwoDollarAmount = financialDocumentTwoDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOneDollarAmount attribute. 
+     * @return Returns the financialDocumentOneDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentOneDollarAmount() {
+        return financialDocumentOneDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentOneDollarAmount attribute value.
+     * @param financialDocumentOneDollarAmount The financialDocumentOneDollarAmount to set.
+     */
+    public void setFinancialDocumentOneDollarAmount(KualiDecimal financialDocumentOneDollarAmount) {
+        this.financialDocumentOneDollarAmount = financialDocumentOneDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOtherDollarAmount attribute. 
+     * @return Returns the financialDocumentOtherDollarAmount.
+     */
+    public KualiDecimal getFinancialDocumentOtherDollarAmount() {
+        return financialDocumentOtherDollarAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentOtherDollarAmount attribute value.
+     * @param financialDocumentOtherDollarAmount The financialDocumentOtherDollarAmount to set.
+     */
+    public void setFinancialDocumentOtherDollarAmount(KualiDecimal financialDocumentOtherDollarAmount) {
+        this.financialDocumentOtherDollarAmount = financialDocumentOtherDollarAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentHundredCentAmount attribute. 
+     * @return Returns the financialDocumentHundredCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentHundredCentAmount() {
+        return financialDocumentHundredCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentHundredCentAmount attribute value.
+     * @param financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
+     */
+    public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {
+        this.financialDocumentHundredCentAmount = financialDocumentHundredCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentFiftyCentAmount attribute. 
+     * @return Returns the financialDocumentFiftyCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentFiftyCentAmount() {
+        return financialDocumentFiftyCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentFiftyCentAmount attribute value.
+     * @param financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
+     */
+    public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
+        this.financialDocumentFiftyCentAmount = financialDocumentFiftyCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentTwentyFiveCentAmount attribute. 
+     * @return Returns the financialDocumentTwentyFiveCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
+        return financialDocumentTwentyFiveCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentTwentyFiveCentAmount attribute value.
+     * @param financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
+     */
+    public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
+        this.financialDocumentTwentyFiveCentAmount = financialDocumentTwentyFiveCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentTenCentAmount attribute. 
+     * @return Returns the financialDocumentTenCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentTenCentAmount() {
+        return financialDocumentTenCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentTenCentAmount attribute value.
+     * @param financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
+     */
+    public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
+        this.financialDocumentTenCentAmount = financialDocumentTenCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentFiveCentAmount attribute. 
+     * @return Returns the financialDocumentFiveCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentFiveCentAmount() {
+        return financialDocumentFiveCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentFiveCentAmount attribute value.
+     * @param financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
+     */
+    public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
+        this.financialDocumentFiveCentAmount = financialDocumentFiveCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOneCentAmount attribute. 
+     * @return Returns the financialDocumentOneCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentOneCentAmount() {
+        return financialDocumentOneCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentOneCentAmount attribute value.
+     * @param financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
+     */
+    public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
+        this.financialDocumentOneCentAmount = financialDocumentOneCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOtherCentAmount attribute. 
+     * @return Returns the financialDocumentOtherCentAmount.
+     */
+    public KualiDecimal getFinancialDocumentOtherCentAmount() {
+        return financialDocumentOtherCentAmount;
+    }
+
+
+    /**
+     * Sets the financialDocumentOtherCentAmount attribute value.
+     * @param financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
+     */
+    public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
+        this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
     }
 }

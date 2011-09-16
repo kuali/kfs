@@ -243,18 +243,18 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         CashDrawer drawer = retrieveCashDrawer(crDoc);
         // we need to to add the currency and coin to the cash management doc's cumulative CR as well
         if (crDoc.getCurrencyDetail() != null && !crDoc.getCurrencyDetail().isEmpty()) {
-            CurrencyDetail cumulativeCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+            CurrencyDetail cumulativeCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCurrencyDetail.add(crDoc.getCurrencyDetail());
             businessObjectService.save(cumulativeCurrencyDetail);
             
-            drawer.addCurrency(crDoc.getCurrencyDetail());
+            drawer.addCurrency(crDoc.getConfirmedCurrencyDetail());
         }
         if (crDoc.getCoinDetail() != null && !crDoc.getCoinDetail().isEmpty()) {
-            CoinDetail cumulativeCoinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+            CoinDetail cumulativeCoinDetail = cashManagementDao.findCoinDetailByCashieringStatus(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCoinDetail.add(crDoc.getCoinDetail());
             businessObjectService.save(cumulativeCoinDetail);
             
-            drawer.addCoin(crDoc.getCoinDetail());
+            drawer.addCoin(crDoc.getConfirmedCoinDetail());
         }
         SpringContext.getBean(BusinessObjectService.class).save(drawer);
     }

@@ -48,6 +48,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     protected static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
 
     protected Check newCheck;
+    protected Check newConfirmedCheck;
 
     protected KualiDecimal checkTotal;
 
@@ -65,6 +66,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         super();
         setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
         setNewCheck(getCashReceiptDocument().createNewCheck());
+        setNewConfirmedCheck(getCashReceiptDocument().createNewConfirmedCheck());
 
         checkEntryModes = new ArrayList();
         checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_DETAIL));
@@ -106,6 +108,20 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
      */
     public void setNewCheck(Check newCheck) {
         this.newCheck = newCheck;
+    }
+    
+    /**
+     * @return Confirmed Check
+     */
+    public Check getNewConfirmedCheck() {
+        return newConfirmedCheck;
+    }
+
+    /**
+     * @param newConfirmedCheck
+     */
+    public void setNewConfirmedCheck(Check newConfirmedCheck) {
+        this.newConfirmedCheck = newConfirmedCheck;
     }
 
     /**

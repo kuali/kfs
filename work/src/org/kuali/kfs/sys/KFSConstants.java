@@ -539,8 +539,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     // Why, I ask you in return, is the sky blue? That's right, because of
     // the effect of Rayleigh scattering on atmospheric particles. That's why.
     public static class CheckSources {
-        public static final String CASH_RECEIPTS = "R";
-        public static final String CASH_MANAGEMENT = "I";
+        public static final String CASH_RECEIPTS = "C";
+        public static final String CASH_MANAGEMENT = "R";
     }
 
     public static final String CASHIERING_TRANSACTION_OPEN_ITEM_IN_PROCESS_PROPERTY = "document.currentTransaction.openItemInProcess";

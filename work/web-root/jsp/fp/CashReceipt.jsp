@@ -17,6 +17,7 @@
 
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
+<c:set var="confirmMode" value="${KualiForm.editingMode['cmConfirm']}" />
 <c:set var="cashReceiptAttributes"
 	value="${DataDictionary['CashReceiptDocument'].attributes}" />
 <c:set var="readOnly"
@@ -54,6 +55,13 @@
 		<h3>Cash Reconciliation</h3>
 		<table>
 			<tbody>
+				<c:if test="${confirmMode}">
+					<tr>
+						<th>&nbsp;</th>
+						<th>Original</th>
+						<th>Cash Manager</th>
+					</tr>
+				</c:if>
 				<tr>
 					<th width="35%">
 					<div align="right"><kul:htmlAttributeLabel
@@ -77,6 +85,16 @@
 							styleClass="tinybutton" alt="change check entry mode" title="change check entry mode" /></noscript>
 						</td>
 					</c:if>
+					<c:if test="${confirmMode}">
+						<c:if test="${!checkDetailMode}">
+						<td>
+							<kul:htmlControlAttribute property="document.totalConfirmedCheckAmount"
+								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" /></td>
+						</c:if>
+						<c:if test="${checkDetailMode}">
+							<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
+						</c:if>
+					</c:if>
 				</tr>
 				<tr>
 					<th>
@@ -85,6 +103,9 @@
 						useShortLabel="false" /></strong></div>
 					</th>
 					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCashAmount}" /></td>
+					<c:if test="${confirmMode}">
+						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalConfirmedCashAmount}" /></td>
+					</c:if>
 				</tr>
 				<tr>
 					<th>
@@ -93,6 +114,9 @@
 						useShortLabel="false" /></strong></div>
 					</th>
 					<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalCoinAmount}" /></td>
+					<c:if test="${confirmMode}">
+						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedTotalConfirmedCoinAmount}" /></td>
+					</c:if>
 				</tr>
 				<tr>
 					<th>
@@ -104,7 +128,12 @@
 					<c:if test="${!readOnly}">
 						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
 							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
-					</c:if> <c:if test="${readOnly}"> &nbsp; </c:if></td>
+					</c:if> <c:if test="${confirmMode}"> &nbsp; 
+						<td width="35%" align="left" valign="middle"><c:out value="${KualiForm.document.currencyFormattedConfirmedSumTotalAmount}" />
+						&nbsp;&nbsp;&nbsp;
+						<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif"
+							styleClass="tinybutton" alt="recalculate total" title="recalculate total" />
+					</c:if></td>
 				</tr>
 			</tbody>
 		</table>
@@ -112,15 +141,24 @@
 	</kul:tab>
   <kul:tab tabTitle="Currency and Coin Detail" defaultOpen="true" tabErrorKey="${KFSConstants.EDIT_CASH_RECEIPT_CURRENCY_COIN_ERRORS}">
     <div class="tab-container" align="center">
+  	  <c:if test="${confirmMode}">
+  	    <div>
+	  	  <html:image align="left" property="methodToCall.copyAllCurrencyAndCoin" src="${ConfigProperties.externalizable.images.url}tinybutton-copyall.gif" title="Copy all original currency and coin" alt="Copy all currency and coin" styleClass="tinybutton"/>
+	    </div>
+	  </c:if>
+    </div>
+    <div class="tab-container" align="center">
         <h3>Currency and Coin Detail</h3>
-      <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" />
+      <fp:currencyCoinLine currencyProperty="document.currencyDetail" coinProperty="document.coinDetail" confirmedCurrencyProperty="document.confirmedCurrencyDetail" confirmedCoinProperty="document.confirmedCoinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}"/>
     </div>
   </kul:tab>
 	
 	<fp:crCheckLines checkDetailMode="${checkDetailMode}"
 		editingMode="${KualiForm.editingMode}"
 		totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}"
-		displayHidden="${displayHidden}" />
+		totalConfirmedAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalConfirmedCheckAmount}"
+		displayHidden="${displayHidden}" 
+		confirmMode="${confirmMode}"/>
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 		<sys-java:accountingLines>

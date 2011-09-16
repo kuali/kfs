@@ -340,19 +340,19 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     public void prepareForSave() {
         moneyInCoin.setDocumentNumber(this.referenceFinancialDocumentNumber);
         moneyInCoin.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
-        moneyInCoin.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        moneyInCoin.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
 
         moneyInCurrency.setDocumentNumber(this.referenceFinancialDocumentNumber);
         moneyInCurrency.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
-        moneyInCurrency.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        moneyInCurrency.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
 
         moneyOutCoin.setDocumentNumber(this.referenceFinancialDocumentNumber);
         moneyOutCoin.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
-        moneyOutCoin.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        moneyOutCoin.setCashieringStatus(KFSConstants.CurrencyCoinSources.DEPOSITS);
 
         moneyOutCurrency.setDocumentNumber(this.referenceFinancialDocumentNumber);
         moneyOutCurrency.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
-        moneyOutCurrency.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        moneyOutCurrency.setCashieringStatus(KFSConstants.CurrencyCoinSources.DEPOSITS);
 
         newItemInProcess.setCampusCode(this.campusCode);
     }
@@ -497,7 +497,7 @@ public class CashieringTransaction extends TransientBusinessObjectBase {
     public Check createNewCheck() {
         Check newCheck = new CheckBase();
         newCheck.setFinancialDocumentTypeCode(DETAIL_DOCUMENT_TYPE);
-        newCheck.setCashieringRecordSource(KFSConstants.CheckSources.CASH_MANAGEMENT);
+        newCheck.setCashieringStatus(KFSConstants.CheckSources.CASH_MANAGEMENT);
         return newCheck;
     }
 

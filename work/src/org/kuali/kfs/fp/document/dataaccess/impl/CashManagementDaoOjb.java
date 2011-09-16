@@ -82,19 +82,19 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCoinDetailByCashieringRecordSource(java.lang.String,
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCoinDetailByCashieringStatus(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public CoinDetail findCoinDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
-        return (CoinDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CoinDetail.class);
+    public CoinDetail findCoinDetailByCashieringStatus(String documentNumber, String documentTypeCode, String cashieringStatus) {
+        return (CoinDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringStatus, CoinDetail.class);
     }
 
     /**
-     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCurrencyDetailByCashieringRecordSource(java.lang.String,
+     * @see org.kuali.kfs.fp.document.dataaccess.CashManagementDao#findCurrencyDetailByCashieringStatus(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public CurrencyDetail findCurrencyDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
-        return (CurrencyDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CurrencyDetail.class);
+    public CurrencyDetail findCurrencyDetailByCashieringStatus(String documentNumber, String documentTypeCode, String cashieringStatus) {
+        return (CurrencyDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringStatus, CurrencyDetail.class);
     }
 
     /**
@@ -102,14 +102,14 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * 
      * @param documentNumber document number to retrieve
      * @param documentTypeCode type code of the document
-     * @param cashieringRecordSource the cashiering record source
+     * @param cashieringStatus the cashiering status
      * @return a criteria, based on all of the given information
      */
-    protected Criteria getCashDetailCriteria(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
+    protected Criteria getCashDetailCriteria(String documentNumber, String documentTypeCode, String cashieringStatus) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentNumber", documentNumber);
         criteria.addEqualTo("financialDocumentTypeCode", documentTypeCode);
-        criteria.addEqualTo("cashieringRecordSource", cashieringRecordSource);
+        criteria.addEqualTo("cashieringStatus", cashieringStatus);
         return criteria;
     }
 
@@ -118,12 +118,12 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      * 
      * @param documentNumber the document number to retrieve from
      * @param documentTypeCode the document type of the document the cash detail to look up is associated with
-     * @param cashieringRecordSource the cashiering record source to look up from
+     * @param cashieringStatus the cashiering status to look up from
      * @param detailType the class of the cash detail type we want
      * @return the cash detail type record
      */
-    protected Object retrieveCashDetail(String documentNumber, String documentTypeCode, String cashieringRecordSource, Class detailType) {
-        QueryByCriteria cashDetailQuery = QueryFactory.newQuery(detailType, getCashDetailCriteria(documentNumber, documentTypeCode, cashieringRecordSource));
+    protected Object retrieveCashDetail(String documentNumber, String documentTypeCode, String cashieringStatus, Class detailType) {
+        QueryByCriteria cashDetailQuery = QueryFactory.newQuery(detailType, getCashDetailCriteria(documentNumber, documentTypeCode, cashieringStatus));
         Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(cashDetailQuery);
         return (iter.hasNext() ? iter.next() : null);
     }
@@ -254,7 +254,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
             // select all cashiering checks associated with document
             Criteria criteria = new Criteria();
             criteria.addEqualTo("documentNumber", documentNumber);
-            criteria.addEqualTo("cashieringRecordSource", KFSConstants.CheckSources.CASH_MANAGEMENT);
+            criteria.addEqualTo("cashieringStatus", KFSConstants.CheckSources.CASH_MANAGEMENT);
             criteria.addEqualTo("financialDocumentTypeCode", CashieringTransaction.DETAIL_DOCUMENT_TYPE);
 
             QueryByCriteria cmChecksQuery = QueryFactory.newQuery(CheckBase.class, criteria);

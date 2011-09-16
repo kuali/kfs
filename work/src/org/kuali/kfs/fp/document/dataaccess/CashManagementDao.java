@@ -45,20 +45,20 @@ public interface CashManagementDao {
      * 
      * @param documentNumber the document number this currency detail was associated with
      * @param documentTypeCode the type code of that document
-     * @param cashieringRecordSource the cashiering record source
+     * @param cashieringStatus the cashiering status
      * @return a list of currency details matching that criteria
      */
-    public CurrencyDetail findCurrencyDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource);
+    public CurrencyDetail findCurrencyDetailByCashieringStatus(String documentNumber, String documentTypeCode, String cashieringStatus);
 
     /**
      * Retrieves all coin detail records with the given document number, document type code, and cashiering record source
      * 
      * @param documentNumber the document the coin details were associated with
      * @param documentTypeCode the type of that document
-     * @param cashieringRecordSource the cashiering record source
+     * @param cashieringStatus the cashiering status
      * @return a list of coin details meeting those criteria
      */
-    public CoinDetail findCoinDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource);
+    public CoinDetail findCoinDetailByCashieringStatus(String documentNumber, String documentTypeCode, String cashieringStatus);
 
     /**
      * Retrieves from the database any undeposited cashiering transaction checks associated with the given cash management document

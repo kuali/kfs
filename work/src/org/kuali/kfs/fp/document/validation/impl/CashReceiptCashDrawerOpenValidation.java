@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
@@ -45,6 +46,12 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
         }
         else if (cd.isClosed() && !getCashReceiptDocumentForValidation().getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getCampusCode());
+            return false;
+        }
+        //check whether cash manager confirmed amount equals to the old amount
+        CashReceiptDocument crDoc = (CashReceiptDocument) getCashReceiptDocumentForValidation();
+        if ((crDoc.getTotalDollarAmount().compareTo(crDoc.getTotalConfirmedCashAmount().add(crDoc.getTotalConfirmedCheckAmount()).add(crDoc.getTotalConfirmedCoinAmount()))) != 0) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CONFIRMED_TOTAL, crDoc.getTotalDollarAmount().toString());
             return false;
         }
         return true;

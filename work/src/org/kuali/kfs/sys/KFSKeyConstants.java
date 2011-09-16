@@ -648,6 +648,7 @@ public class KFSKeyConstants {
         public static final String ERROR_EXCESSIVE_TOTAL = "error.document.cashReceipt.invalidTotal";
         public static final String ERROR_NEGATIVE_TOTAL = "error.document.cashReceipt.negativeTotal";
         public static final String ERROR_ZERO_TOTAL = "error.document.cashReceipt.zeroTotal";
+		public static final String ERROR_CONFIRMED_TOTAL = "error.document.cashReceipt.incorrectConfirmedTotal";
         public static final String ERROR_CASH_DRAWER_DOES_NOT_EXIST = "error.document.cashReceipt.cashDrawerDoesNotExist";
     }
 
@@ -887,6 +888,7 @@ public class KFSKeyConstants {
         public static final String MESSAGE_BATCH_BALANCING_RECORD_BEFORE_FISCAL_YEAR = "message.batch.balancing.record.before.fiscal.year";
         public static final String MESSAGE_BATCH_BALANCING_RECORD_FAILED_BALANCING = "message.batch.balancing.record.failed.balancing";
         public static final String MESSAGE_BATCH_BALANCING_HISTORY_PURGED = "message.batch.balancing.history.purged";
+        public static final String MESSAGE_BATCH_BALANCING_FILE_LISTING = "message.batch.balancing.file.listing";
         
         public static final String REPORT_UNKNOWN_LABEL = "message.batch.balancing.report.unknown.label";
         
@@ -971,4 +973,13 @@ public class KFSKeyConstants {
     
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT = "error.collector.emailSend.notification.subject";
     public static final String ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY = "error.collector.emailSend.notification.body";
+    
+    /**
+     * This class stores message keys for the SemaphoreInputFileType upload page
+     */
+    public static final class Semaphore {
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_PREFIX = "message.sys.batch.semaphore.upload.title";
+        public static final String ERROR_BATCH_UPLOAD_INVALID_STEP = "error.sys.batch.semaphore.upload.invalidStep";
+        public static final String ERROR_BATCH_UPLOAD_DELETE_DONE_FILE = "error.sys.batch.semaphore.upload.deleteDoneFile";
+    }
 }

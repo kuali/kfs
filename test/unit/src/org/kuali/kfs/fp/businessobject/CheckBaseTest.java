@@ -40,7 +40,7 @@ public class CheckBaseTest extends KualiTestBase {
     private static final Integer SEQ_ID = new Integer(1);
     private static final Integer DEPOSIT_LINE_NUMBER = new Integer(1);
     private static final String GENERAL_LEDGER_INPUT_TYPE = "CR";
-    private static final String CASHIERING_SOURCE = "R";
+    private static final String CASHIERING_STATUS = "C";
 
     @Override
     protected void setUp() throws Exception {
@@ -56,7 +56,7 @@ public class CheckBaseTest extends KualiTestBase {
         crchk.setObjectId(GUID);
         crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
-        crchk.setCashieringRecordSource(CASHIERING_SOURCE);
+        crchk.setCashieringStatus(CASHIERING_STATUS);
         crchk.setFinancialDocumentTypeCode(GENERAL_LEDGER_INPUT_TYPE);
     }
 
@@ -71,6 +71,6 @@ public class CheckBaseTest extends KualiTestBase {
         assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());
         assertEquals(GENERAL_LEDGER_INPUT_TYPE, crchk.getFinancialDocumentTypeCode());
-        assertEquals(CASHIERING_SOURCE, crchk.getCashieringRecordSource());
+        assertEquals(CASHIERING_STATUS, crchk.getCashieringStatus());
     }
 }

@@ -149,13 +149,13 @@ public class DepositWizardAction extends KualiAction {
             // hey, we're the magical final deposit. We get currency and coin details!
             CurrencyDetail currencyDetail = new CurrencyDetail();
             currencyDetail.setDocumentNumber(cmDoc.getDocumentNumber());
-            currencyDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.DEPOSITS);
+            currencyDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.DEPOSITS);
             currencyDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
             dform.setCurrencyDetail(currencyDetail);
 
             CoinDetail coinDetail = new CoinDetail();
             coinDetail.setDocumentNumber(cmDoc.getDocumentNumber());
-            coinDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.DEPOSITS);
+            coinDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.DEPOSITS);
             coinDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
             dform.setCoinDetail(coinDetail);
         }
@@ -179,7 +179,7 @@ public class DepositWizardAction extends KualiAction {
         int index = 0;
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
-            if (receipt.getCheckCount() == 0 && receipt.getTotalCheckAmount().equals(KualiDecimal.ZERO)) {
+            if (receipt.getCheckCount() == 0 && receipt.getTotalConfirmedCheckAmount().equals(KualiDecimal.ZERO)) {
                 dform.getCheckFreeCashReceipts().add(receipt);
             }
             else {

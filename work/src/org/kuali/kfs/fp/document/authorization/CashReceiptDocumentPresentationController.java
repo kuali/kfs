@@ -15,13 +15,19 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -72,6 +78,37 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     protected boolean canEdit(Document document) {
         if (document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) return false;
         return super.canEdit(document);
+    }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     */
+    @Override
+    public Set<String> getEditModes(Document document) {
+        Set<String> editModes = super.getEditModes(document);
+        addFullEntryEntryMode(document, editModes);
+        
+        return editModes;
+    }
+    
+    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.stateIsEnroute()) {
+            List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
+            if(currentRouteLevels.contains("CashManagement")) {
+                editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
+            }
+        }
+    }
+    
+    protected List<String> getCurrentRouteLevels(KualiWorkflowDocument workflowDocument) {
+        try {
+            return Arrays.asList(workflowDocument.getNodeNames());
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

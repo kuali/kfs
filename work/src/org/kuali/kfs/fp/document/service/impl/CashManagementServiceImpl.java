@@ -216,19 +216,19 @@ public class CashManagementServiceImpl implements CashManagementService {
      * This method creates new cumulative currency and coin details for the document given.
      * 
      * @param cmDoc The cash management document the cumulative details will be associated with.
-     * @param cashieringSource The cashiering record source for the new details.
+     * @param cashieringStatus The cashiering status for the new details.
      */
-    public void createNewCashDetails(CashManagementDocument cmDoc, String cashieringSource) {
+    public void createNewCashDetails(CashManagementDocument cmDoc, String cashieringStatus) {
         CoinDetail coinDetail = new CoinDetail();
         coinDetail.setDocumentNumber(cmDoc.getDocumentNumber());
         coinDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-        coinDetail.setCashieringRecordSource(cashieringSource);
+        coinDetail.setCashieringStatus(cashieringStatus);
         businessObjectService.save(coinDetail);
         
         CurrencyDetail currencyDetail = new CurrencyDetail();
         currencyDetail.setDocumentNumber(cmDoc.getDocumentNumber());
         currencyDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-        currencyDetail.setCashieringRecordSource(cashieringSource);
+        currencyDetail.setCashieringStatus(cashieringStatus);
         businessObjectService.save(currencyDetail);
     }
 
@@ -393,7 +393,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            total = total.add(crDoc.getTotalCheckAmount());
+            total = total.add(crDoc.getTotalConfirmedCheckAmount());
         }
         Check currCheck;
         for (Object checkObj: selectedCashieringChecks) {
@@ -462,11 +462,11 @@ public class CashManagementServiceImpl implements CashManagementService {
         // kill off cumulative currency/coin detail records for this document (canceling the deposits kills the deposit records)
         String[] cashieringSourcesToDelete = { KFSConstants.CurrencyCoinSources.CASH_RECEIPTS, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT };
         for (String cashieringSourceToDelete : cashieringSourcesToDelete) {
-            CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, cashieringSourceToDelete);
+            CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, cashieringSourceToDelete);
             if (currencyDetail != null) {
                 businessObjectService.delete(currencyDetail);
             }
-            CoinDetail coinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, cashieringSourceToDelete);
+            CoinDetail coinDetail = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, cashieringSourceToDelete);
             if (coinDetail != null) {
                 businessObjectService.delete(coinDetail);
             }
@@ -527,12 +527,12 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
         if (deposit.getDepositTypeCode().equals(KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL)) {
             CashDrawer drawer = cashDrawerService.getByCampusCode(deposit.getCashManagementDocument().getCampusCode());
-            CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+            CurrencyDetail currencyDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (currencyDetail != null) {
                 drawer.addCurrency(currencyDetail);
                 businessObjectService.delete(currencyDetail);
             }
-            CoinDetail coinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+            CoinDetail coinDetail = cashManagementDao.findCoinDetailByCashieringStatus(deposit.getCashManagementDocument().getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
             if (coinDetail != null) {
                 drawer.addCoin(coinDetail);
                 businessObjectService.delete(coinDetail);
@@ -593,10 +593,10 @@ public class CashManagementServiceImpl implements CashManagementService {
         
         // generate the master currency and coin details; save those
         CurrencyDetail masterCurrencyDetail = this.generateMasterCurrencyDetail(cmDoc);
-        businessObjectService.save(masterCurrencyDetail);
+        //businessObjectService.save(masterCurrencyDetail);
         CoinDetail masterCoinDetail = this.generateMasterCoinDetail(cmDoc);
-        businessObjectService.save(masterCoinDetail);
-
+        //businessObjectService.save(masterCoinDetail);
+        generateMasterRecord(cmDoc, masterCurrencyDetail, masterCoinDetail);
         // finalize the CMDoc, but let the postprocessor save it
         cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(DocumentStatusCodes.APPROVED);
     }
@@ -796,7 +796,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             for (Check check: cmDoc.getChecks()) {
                 check.setDocumentNumber(cmDoc.getDocumentNumber());
                 check.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-                check.setCashieringRecordSource(KFSConstants.CheckSources.CASH_MANAGEMENT);
+                check.setCashieringStatus(KFSConstants.CheckSources.CASH_MANAGEMENT);
                 businessObjectService.save(check);
             }
         }
@@ -812,7 +812,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     protected void transferChecksToCashManagementDocument(CashManagementDocument cmDoc, CashieringTransaction trans) {
         for (Check check: trans.getMoneyInChecks()) {
             check.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-            check.setCashieringRecordSource(KFSConstants.CheckSources.CASH_MANAGEMENT);
+            check.setCashieringStatus(KFSConstants.CheckSources.CASH_MANAGEMENT);
             check.setDocumentNumber(cmDoc.getDocumentNumber());
             cmDoc.addCheck(check);
         }
@@ -882,13 +882,13 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     protected void saveMoneyInCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
         // get the cumulative money in coin for this doc
-        CoinDetail cumulativeMoneyInCoin = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        CoinDetail cumulativeMoneyInCoin = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         // add the new money in coin
         cumulativeMoneyInCoin.add(trans.getMoneyInCoin());
         // save the cumulative
         businessObjectService.save(cumulativeMoneyInCoin);
         
-        CurrencyDetail cumulativeMoneyInCurrency = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        CurrencyDetail cumulativeMoneyInCurrency = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         cumulativeMoneyInCurrency.add(trans.getMoneyInCurrency());
         businessObjectService.save(cumulativeMoneyInCurrency);
     }
@@ -902,11 +902,11 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @param trans The cashiering transaction the cash is currently associated with.
      */
     protected void saveMoneyOutCash(CashManagementDocument cmDoc, CashieringTransaction trans) {
-        CoinDetail cumulativeMoneyOutCoin = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        CoinDetail cumulativeMoneyOutCoin = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         cumulativeMoneyOutCoin.add(trans.getMoneyOutCoin());
         businessObjectService.save(cumulativeMoneyOutCoin);
 
-        CurrencyDetail cumulativeMoneyOutCurrency = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        CurrencyDetail cumulativeMoneyOutCurrency = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         cumulativeMoneyOutCurrency.add(trans.getMoneyOutCurrency());
         businessObjectService.save(cumulativeMoneyOutCurrency);
     }
@@ -957,26 +957,26 @@ public class CashManagementServiceImpl implements CashManagementService {
         CoinDetail masterDetail = new CoinDetail();
         masterDetail.setDocumentNumber(cmDoc.getDocumentNumber());
         masterDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-        masterDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_MASTER);
+        masterDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_MASTER);
         
         masterDetail.zeroOutAmounts();
 
-        CoinDetail cashReceiptDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        CoinDetail cashReceiptDetail = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         if (cashReceiptDetail != null) {
             masterDetail.add(cashReceiptDetail);
         }
 
-        CoinDetail depositDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        CoinDetail depositDetail = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
         if (depositDetail != null) {
             masterDetail.subtract(depositDetail);
         }
         
-        CoinDetail moneyInDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        CoinDetail moneyInDetail = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         if (moneyInDetail != null) {
             masterDetail.add(moneyInDetail);
         }
         
-        CoinDetail moneyOutDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        CoinDetail moneyOutDetail = cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         if (moneyOutDetail != null) {
             masterDetail.subtract(moneyOutDetail);
         }
@@ -1004,26 +1004,26 @@ public class CashManagementServiceImpl implements CashManagementService {
         CurrencyDetail masterDetail = new CurrencyDetail();
         masterDetail.setDocumentNumber(cmDoc.getDocumentNumber());
         masterDetail.setFinancialDocumentTypeCode(CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-        masterDetail.setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_MASTER);
+        masterDetail.setCashieringStatus(KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_MASTER);
         
         masterDetail.zeroOutAmounts();
         
-        CurrencyDetail cashReceiptDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
+        CurrencyDetail cashReceiptDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         if (cashReceiptDetail != null) {
             masterDetail.add(cashReceiptDetail);
         }
 
-        CurrencyDetail depositDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        CurrencyDetail depositDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
         if (depositDetail != null) {
             masterDetail.subtract(depositDetail);
         }
         
-        CurrencyDetail moneyInDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
+        CurrencyDetail moneyInDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         if (moneyInDetail != null) {
             masterDetail.add(moneyInDetail);
         }
         
-        CurrencyDetail moneyOutDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
+        CurrencyDetail moneyOutDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
         if (moneyOutDetail != null) {
             masterDetail.subtract(moneyOutDetail);
         }
@@ -1043,10 +1043,10 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Deposit d: cmDoc.getDeposits()) {
             if (d.getDepositTypeCode().equals(DepositConstants.DEPOSIT_TYPE_FINAL)) {
                 if (d.getDepositedCurrency() == null) {
-                    d.setDepositedCurrency(cashManagementDao.findCurrencyDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, CurrencyCoinSources.DEPOSITS));
+                    d.setDepositedCurrency(cashManagementDao.findCurrencyDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, CurrencyCoinSources.DEPOSITS));
                 }
                 if (d.getDepositedCoin() == null) {
-                    d.setDepositedCoin(cashManagementDao.findCoinDetailByCashieringRecordSource(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, CurrencyCoinSources.DEPOSITS));
+                    d.setDepositedCoin(cashManagementDao.findCoinDetailByCashieringStatus(cmDoc.getDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, CurrencyCoinSources.DEPOSITS));
                 }
             }
         }
@@ -1212,8 +1212,8 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.kfs.fp.document.service.CashManagementService#getCashDetailsForFinalDeposit(java.lang.String)
      */
     public Map<Class, Object> getCashDetailsForFinalDeposit(String documentNumber) {
-        CurrencyDetail finalDepositCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
-        CoinDetail finalDepositCoinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        CurrencyDetail finalDepositCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringStatus(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
+        CoinDetail finalDepositCoinDetail = cashManagementDao.findCoinDetailByCashieringStatus(documentNumber, CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.DEPOSITS);
         Map<Class, Object> result = new HashMap<Class, Object>();
         if (finalDepositCurrencyDetail != null) {
             result.put(CurrencyDetail.class, finalDepositCurrencyDetail);
@@ -1222,6 +1222,31 @@ public class CashManagementServiceImpl implements CashManagementService {
             result.put(CoinDetail.class, finalDepositCoinDetail);
         }
         return result;
+    }
+    
+    /**
+     * This method pulls out the master currency and coin details and sets them to the cashManagementDocument
+     * @param cmDoc
+     * @param masterCurrencyDetail
+     * @param masterCoinDetail
+     */
+    public void generateMasterRecord(CashManagementDocument cmDoc, CurrencyDetail masterCurrencyDetail, CoinDetail masterCoinDetail) {
+        cmDoc.setFinancialDocumentHundredDollarAmount(masterCurrencyDetail.getFinancialDocumentHundredDollarAmount());
+        cmDoc.setFinancialDocumentFiftyDollarAmount(masterCurrencyDetail.getFinancialDocumentFiftyDollarAmount());
+        cmDoc.setFinancialDocumentTwentyDollarAmount(masterCurrencyDetail.getFinancialDocumentTwentyDollarAmount());
+        cmDoc.setFinancialDocumentTenDollarAmount(masterCurrencyDetail.getFinancialDocumentTenDollarAmount());
+        cmDoc.setFinancialDocumentFiveDollarAmount(masterCurrencyDetail.getFinancialDocumentFiveDollarAmount());
+        cmDoc.setFinancialDocumentTwoDollarAmount(masterCurrencyDetail.getFinancialDocumentTwoDollarAmount());
+        cmDoc.setFinancialDocumentOneDollarAmount(masterCurrencyDetail.getFinancialDocumentOneDollarAmount());
+        cmDoc.setFinancialDocumentOtherDollarAmount(masterCurrencyDetail.getFinancialDocumentOtherDollarAmount());
+        
+        cmDoc.setFinancialDocumentHundredCentAmount(masterCoinDetail.getFinancialDocumentHundredCentAmount());
+        cmDoc.setFinancialDocumentFiftyCentAmount(masterCoinDetail.getFinancialDocumentFiftyCentAmount());
+        cmDoc.setFinancialDocumentTwentyFiveCentAmount(masterCoinDetail.getFinancialDocumentTwentyFiveCentAmount());
+        cmDoc.setFinancialDocumentTenCentAmount(masterCoinDetail.getFinancialDocumentTenCentAmount());
+        cmDoc.setFinancialDocumentFiveCentAmount(masterCoinDetail.getFinancialDocumentFiveCentAmount());
+        cmDoc.setFinancialDocumentOneCentAmount(masterCoinDetail.getFinancialDocumentOneCentAmount());
+        cmDoc.setFinancialDocumentOtherCentAmount(masterCoinDetail.getFinancialDocumentOtherCentAmount());
     }
 
     // injected dependencies

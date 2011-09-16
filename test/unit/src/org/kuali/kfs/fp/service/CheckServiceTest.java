@@ -57,7 +57,7 @@ public class CheckServiceTest extends KualiTestBase {
         check.setFinancialDocumentDepositLineNumber(new Integer(2001));
         check.setSequenceId(new Integer(2001));
         check.setFinancialDocumentTypeCode("CR");
-        check.setCashieringRecordSource("R");
+        check.setCashieringStatus("C");//change
 
         // clean up remnants of earlier tests
         clearTestData();

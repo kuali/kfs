@@ -37,7 +37,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private KualiDecimal amount;
     private String documentNumber;
     private String financialDocumentTypeCode;
-    private String cashieringRecordSource;
+    private String cashieringStatus;
     private Integer financialDocumentDepositLineNumber;
 
     /**
@@ -159,21 +159,21 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * Gets the cashieringRecordSource attribute.
+     * Gets the cashieringStatus attribute.
      * 
-     * @return Returns the cashieringRecordSource.
+     * @return Returns the cashieringStatus.
      */
-    public String getCashieringRecordSource() {
-        return cashieringRecordSource;
+    public String getCashieringStatus() {
+        return cashieringStatus;
     }
 
     /**
-     * Sets the cashieringRecordSource attribute value.
+     * Sets the cashieringStatus attribute value.
      * 
-     * @param cashieringRecordSource The cashieringRecordSource to set.
+     * @param cashieringStatus The cashieringStatus to set.
      */
-    public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
-        this.cashieringRecordSource = financialDocumentColumnTypeCode;
+    public void setCashieringStatus(String financialDocumentColumnTypeCode) {
+        this.cashieringStatus = financialDocumentColumnTypeCode;
     }
 
     /**
@@ -226,7 +226,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
         m.put("description", this.description);
         m.put("documentHeaderId", this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("cashieringRecordSource", this.cashieringRecordSource);
+        m.put("cashieringStatus", this.cashieringStatus);
 
         return m;
     }
@@ -240,7 +240,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
         if (StringUtils.equals(checkNumber, other.getCheckNumber())) {
             if (StringUtils.equals(description, other.getDescription())) {
-                if (StringUtils.equals(financialDocumentTypeCode, other.getFinancialDocumentTypeCode()) && StringUtils.equals(cashieringRecordSource, other.getCashieringRecordSource())) {
+                if (StringUtils.equals(financialDocumentTypeCode, other.getFinancialDocumentTypeCode()) && StringUtils.equals(cashieringStatus, other.getCashieringStatus())) {
                     if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
                         if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
                             if (NumberUtils.equals(financialDocumentDepositLineNumber, other.getFinancialDocumentDepositLineNumber())) {

@@ -32,7 +32,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * This class represents a cashiering-related transaction used in the cash management document
  */
 public class CashieringTransaction extends TransientBusinessObjectBase {
-    public static final String DETAIL_DOCUMENT_TYPE = "CM";
+    public static final String DETAIL_DOCUMENT_TYPE = "CMD";
 
     private String campusCode;
     private String referenceFinancialDocumentNumber;

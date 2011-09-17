@@ -83,7 +83,7 @@
     </property>
      <property name="attributeSecurity">
 		<bean parent="AttributeSecurity">
-  			<property name="mask" value="true" /> 
+  			<property name="mask" value="false" /> 
 			<property name="maskFormatter">
   			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
   			</property>

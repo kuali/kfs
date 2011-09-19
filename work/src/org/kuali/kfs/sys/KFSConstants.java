@@ -593,10 +593,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         }
     }
 
-    public static class AdvanceDepositConstants {
-        public static final String CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE = "R";
-    }
-
     public static class AuxiliaryVoucher {
         public static final String ADJUSTMENT_DOC_TYPE = "AVAD";
         public static final String ADJUSTMENT_DOC_TYPE_NAME = "Adjustment";
@@ -627,10 +623,6 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
 
         public static final String DEPOSIT_WIZARD_CASHRECEIPT_ERROR = "cashReceiptErrors";
         public static final String DEPOSIT_WIZARD_DEPOSITHEADER_ERROR = "depositHeaderErrors";
-    }
-
-    public static class CreditCardReceiptConstants {
-        public static final String CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE = "R";
     }
 
     public static class BudgetAdjustmentDocumentConstants {

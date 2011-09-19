@@ -30,7 +30,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class CreditCardDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String financialDocumentTypeCode;
-    private String financialDocumentColumnTypeCode;
     private Integer financialDocumentLineNumber;
     private String financialDocumentCreditCardTypeCode;
     private String financialDocumentCreditCardVendorNumber;
@@ -86,26 +85,6 @@ public class CreditCardDetail extends PersistableBusinessObjectBase {
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
-
-
-    /**
-     * Gets the financialDocumentColumnTypeCode attribute.
-     * 
-     * @return Returns the financialDocumentColumnTypeCode
-     */
-    public String getFinancialDocumentColumnTypeCode() {
-        return financialDocumentColumnTypeCode;
-    }
-
-    /**
-     * Sets the financialDocumentColumnTypeCode attribute.
-     * 
-     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-     */
-    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
-    }
-
 
     /**
      * Gets the financialDocumentLineNumber attribute.
@@ -256,7 +235,6 @@ public class CreditCardDetail extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
         if (this.financialDocumentLineNumber != null) {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }

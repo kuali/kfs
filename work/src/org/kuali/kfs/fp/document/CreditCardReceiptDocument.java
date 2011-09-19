@@ -143,7 +143,6 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      */
     public final void prepareNewCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
         creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
-        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(KFSConstants.CreditCardReceiptConstants.CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
         creditCardReceiptDetail.setDocumentNumber(this.getDocumentNumber());
         creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass()));
     }

@@ -135,7 +135,6 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      */
     public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
-        advanceDepositDetail.setFinancialDocumentColumnTypeCode(KFSConstants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setDocumentNumber(this.getDocumentNumber());
         advanceDepositDetail.setFinancialDocumentTypeCode(SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass()));
     }

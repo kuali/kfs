@@ -24,7 +24,6 @@
       <list>
         <ref bean="AdvanceDepositDetail-documentNumber"/>
         <ref bean="AdvanceDepositDetail-financialDocumentTypeCode"/>
-        <ref bean="AdvanceDepositDetail-financialDocumentColumnTypeCode"/>
         <ref bean="AdvanceDepositDetail-financialDocumentLineNumber"/>
         <ref bean="AdvanceDepositDetail-financialDocumentAdvanceDepositAmount"/>
         <ref bean="AdvanceDepositDetail-financialDocumentAdvanceDepositDate"/>
@@ -48,22 +47,6 @@
   <bean id="AdvanceDepositDetail-financialDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="name" value="financialDocumentTypeCode"/>
     <property name="forceUppercase" value="true"/>
-  </bean>
-  <bean id="AdvanceDepositDetail-financialDocumentColumnTypeCode" parent="AdvanceDepositDetail-financialDocumentColumnTypeCode-parentBean"/>
-
-  <bean id="AdvanceDepositDetail-financialDocumentColumnTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentColumnTypeCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Column Type Code"/>
-    <property name="shortLabel" value="Column Type Code"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AlphaValidationPattern"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
   </bean>
   <bean id="AdvanceDepositDetail-financialDocumentLineNumber" parent="AdvanceDepositDetail-financialDocumentLineNumber-parentBean"/>
 

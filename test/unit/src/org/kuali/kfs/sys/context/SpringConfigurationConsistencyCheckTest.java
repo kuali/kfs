@@ -38,7 +38,7 @@ import org.kuali.rice.kns.service.ModuleService;
 import org.springframework.beans.factory.config.BeanDefinition;
 
 @ConfigureContext
-public class SpringConfigurationConsistencyCheck extends KualiTestBase {
+public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
 
     
     public void testAllLookupablesArePrototypes() throws Exception {

@@ -369,7 +369,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             description = crd.getDocumentHeader().getDocumentDescription();
             createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
             checkAmount = crd.getTotalConfirmedCheckAmount();
-            totalAmount = crd.getTotalConfirmedDollarAmount();
+            totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
         }
 
         /**
@@ -1008,8 +1008,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
                 receipt.refreshCashDetails();
                 receiptCount++;
                 checkTotal = checkTotal.add(receipt.getTotalConfirmedCheckAmount());
-                currencyTotal = currencyTotal.add(receipt.getTotalConfirmedCashAmount());
-                coinTotal = coinTotal.add(receipt.getTotalConfirmedCoinAmount());
+                currencyTotal = currencyTotal.add(receipt.getTotalConfirmedCashAmount()).subtract(receipt.getTotalChangeCashAmount());
+                coinTotal = coinTotal.add(receipt.getTotalConfirmedCoinAmount()).subtract(receipt.getTotalChangeCoinAmount());
             }
 
             /**

@@ -179,6 +179,7 @@ public class DepositWizardAction extends KualiAction {
         int index = 0;
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
+            receipt.processAfterRetrieve(); //To populate Currency and Coin details
             if (receipt.getCheckCount() == 0 && receipt.getTotalConfirmedCheckAmount().equals(KualiDecimal.ZERO)) {
                 dform.getCheckFreeCashReceipts().add(receipt);
             }

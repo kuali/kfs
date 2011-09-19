@@ -18,6 +18,7 @@
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 <c:set var="confirmMode" value="${KualiForm.editingMode['cmConfirm']}" />
+<c:set var="changeRequestMode" value="${KualiForm.editingMode['changeRequestOn']}" />
 <c:set var="cashReceiptAttributes"
 	value="${DataDictionary['CashReceiptDocument'].attributes}" />
 <c:set var="readOnly"
@@ -159,6 +160,15 @@
 		totalConfirmedAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalConfirmedCheckAmount}"
 		displayHidden="${displayHidden}" 
 		confirmMode="${confirmMode}"/>
+		
+	<c:if test="${changeRequestMode}">	
+	<kul:tab tabTitle="Change Request" defaultOpen="false">
+		<div class="tab-container" align="center">
+			<h3>Requesting</h3>
+      		<fp:currencyCoinLine currencyProperty="document.changeCurrencyDetail" coinProperty="document.changeCoinDetail" readOnly="${readOnly}" editingMode="${KualiForm.editingMode}" confirmMode="${confirmMode}" totalChangeAmount="${KualiForm.document.currencyFormattedChangeTotalAmount}"/>
+      	</div>
+	</kul:tab>	
+	</c:if>
 		
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 		<sys-java:accountingLines>

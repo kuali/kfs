@@ -42,6 +42,7 @@ public class KfsAuthorizationConstants extends JSTLConstants {
     
     public static class CashReceiptEditMode extends EditMode {
         public static final String CASH_MANAGER_CONFIRM_MODE = "cmConfirm";
+        public static final String CHANGE_REQUEST_MODE = "changeRequestOn";
     }
     
     public static class CashManagementEditMode extends EditMode {

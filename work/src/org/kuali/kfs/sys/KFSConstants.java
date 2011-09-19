@@ -532,6 +532,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         public static final String CASH_RECEIPTS = "C"; // money coming in through cash receipts
         public static final String CASH_MANAGEMENT_OUT = "O"; // money going out through cashiering activity
         public static final String CASH_MANAGEMENT_MASTER = "M"; // an amalgamation of a cashiering transaction
+        public static final String CASH_CHANGE_REQUEST = "Q"; // requesting some change money back
+        public static final String CASH_CHANGE_GRANTED = "G"; // verified change request
     }
 
     // Constants for check sources

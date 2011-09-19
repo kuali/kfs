@@ -650,6 +650,7 @@ public class KFSKeyConstants {
         public static final String ERROR_ZERO_TOTAL = "error.document.cashReceipt.zeroTotal";
 		public static final String ERROR_CONFIRMED_TOTAL = "error.document.cashReceipt.incorrectConfirmedTotal";
         public static final String ERROR_CASH_DRAWER_DOES_NOT_EXIST = "error.document.cashReceipt.cashDrawerDoesNotExist";
+        public static final String ERROR_CHANGE_REQUEST = "error.document.cashReceipt.invalidChangeRequest";
     }
 
     public static final class CreditCardReceipt {

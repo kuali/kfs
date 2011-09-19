@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -87,6 +88,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEntryMode(document, editModes);
+        addChangeRequestMode(document, editModes);
         
         return editModes;
     }
@@ -99,6 +101,13 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             if(currentRouteLevels.contains("CashManagement")) {
                 editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
             }
+        }
+    }
+    
+    protected void addChangeRequestMode(Document document, Set<String> editModes) {
+        boolean IndValue = SpringContext.getBean(ParameterService.class).getIndicatorParameter(CashReceiptDocument.class, "CHANGE_REQUEST_ENABLED_IND");
+        if(IndValue) {
+            editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
         }
     }
     

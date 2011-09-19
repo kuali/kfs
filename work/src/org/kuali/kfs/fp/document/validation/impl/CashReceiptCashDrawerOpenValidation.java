@@ -16,6 +16,8 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
+import org.kuali.kfs.fp.businessobject.CoinDetail;
+import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
@@ -54,6 +56,44 @@ public class CashReceiptCashDrawerOpenValidation extends GenericValidation {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CONFIRMED_TOTAL, crDoc.getTotalDollarAmount().toString());
             return false;
         }
+        //check whether the change request is valid
+        if (crDoc.getChangeCurrencyDetail() != null && crDoc.getChangeCoinDetail() != null) {
+            return checkChangeRequestIsValid();
+        }
+        return true;
+    }
+    
+    /**
+     * 
+     * This method checks whether the change request is valid by comparing the currency/coin counts in the request with the 
+     * counts in the cash drawer + currency/coin counts sent with the cash receipt itself. 
+     * @return Returns true if the request is valid. 
+     */
+    public boolean checkChangeRequestIsValid() {
+        CashDrawer cd = getCashDrawerService().getByCampusCode(getCashReceiptDocumentForValidation().getCampusLocationCode());
+        CurrencyDetail changeCurrency = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getChangeCurrencyDetail();
+        CoinDetail changeCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getChangeCoinDetail();
+        CurrencyDetail confirmedCurrency = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCurrencyDetail();
+        CoinDetail confirmedCoin = ((CashReceiptDocument) getCashReceiptDocumentForValidation()).getConfirmedCoinDetail();
+        
+        if(changeCurrency.getHundredDollarCount() > cd.getHundredDollarCount() + confirmedCurrency.getHundredDollarCount() ||
+                changeCurrency.getFiftyDollarCount() > cd.getFiftyDollarCount() + confirmedCurrency.getFiftyDollarCount() ||
+                changeCurrency.getTwentyDollarCount() > cd.getTwentyDollarCount() + confirmedCurrency.getTwentyDollarCount() ||
+                changeCurrency.getTenDollarCount() > cd.getTenDollarCount() + confirmedCurrency.getTenDollarCount() ||
+                changeCurrency.getFiveDollarCount() > cd.getFiveDollarCount() + confirmedCurrency.getFiveDollarCount() ||
+                changeCurrency.getTwoDollarCount() > cd.getTwoDollarCount() + confirmedCurrency.getTwoDollarCount() ||
+                changeCurrency.getOneDollarCount() > cd.getOneDollarCount() + confirmedCurrency.getOneDollarCount() ||
+                changeCoin.getHundredCentCount() > cd.getHundredCentCount() + confirmedCoin.getHundredCentCount() ||
+                changeCoin.getFiftyCentCount() > cd.getFiftyCentCount() + confirmedCoin.getFiftyCentCount() ||
+                changeCoin.getTwentyFiveCentCount() > cd.getTwentyFiveCentCount() + confirmedCoin.getTwentyFiveCentCount() ||
+                changeCoin.getTenCentCount() > cd.getTenCentCount() + confirmedCoin.getTenCentCount() ||
+                changeCoin.getFiveCentCount() > cd.getFiveCentCount() + confirmedCoin.getFiveCentCount() ||
+                changeCoin.getOneCentCount() > cd.getOneCentCount() + confirmedCoin.getOneCentCount()) {
+                 
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.ERROR_CHANGE_REQUEST, "");
+            return false;
+        }
+        
         return true;
     }
 

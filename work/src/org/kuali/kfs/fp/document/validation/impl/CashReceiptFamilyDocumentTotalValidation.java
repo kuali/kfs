@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
+import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -46,7 +47,8 @@ public class CashReceiptFamilyDocumentTotalValidation extends GenericValidation 
 
         if (isValid) {
             // make sure the document is in balance
-            isValid = getCashReceiptFamilyDocumentForValidation().getSourceTotal().compareTo(getCashReceiptFamilyDocumentForValidation().getTotalDollarAmount()) == 0;
+            isValid = getCashReceiptFamilyDocumentForValidation().getSourceTotal().compareTo(getCashReceiptFamilyDocumentForValidation().getTotalDollarAmount().subtract( 
+                    ((CashReceiptDocument)getCashReceiptFamilyDocumentForValidation()).getTotalChangeAmount())) == 0;
 
             if (!isValid) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);

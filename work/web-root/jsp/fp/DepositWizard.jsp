@@ -298,7 +298,7 @@ function checkCheckAllOrNone() {
 						<td>&nbsp;</td>
 						<td>
 						<div align="center">
-						$&nbsp;<c:out value="${cashReceipt.currencyFormattedConfirmedSumTotalAmount}" /></div>
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedFinalSumTotalAmount}" /></div>
 						</td>
 					</tr>
 				</logic:iterate>

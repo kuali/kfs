@@ -22,16 +22,20 @@
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="editingMode" required="false" type="java.util.Map" %>
 <%@ attribute name="confirmMode" required="false" %>
+<%@ attribute name="totalChangeAmount" required="false" %>
 
 <c:if test="${!readOnly && !empty editingMode}">
   <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 </c:if>
 
+<c:if test="${!empty totalChangeAmount}">
+	<c:set var="changeMode" value="True" />
+</c:if>
 <c:set var="currencyAttributes" value="${DataDictionary.CurrencyDetail.attributes}" />
 <c:set var="coinAttributes" value="${DataDictionary.CoinDetail.attributes}" />
 
       <table border="0" cellspacing="0" cellpadding="0" class="datatable" width="100%">
-        <c:if test="${confirmMode}">
+        <c:if test="${confirmMode && !changeMode}">
           <tr>
           	<th>&nbsp;</th>
           	<th colspan="2">Original</th>
@@ -45,14 +49,14 @@
           <th>&nbsp;</th>
           <th>Count</th>
           <th>Amount</th>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode }">
           	<th>Count</th>
           	<th>Amount</th>
           </c:if>
           <th>&nbsp;</th>
           <th>Count</th>
           <th>Amount</th>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           	<th>Count</th>
           	<th>Amount</th>
           </c:if>
@@ -65,7 +69,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.hundredDollarCount" attributeEntry="${currencyAttributes.hundredDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentHundredDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentHundredDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.hundredDollarCount" attributeEntry="${currencyAttributes.hundredDollarCount}" />
           </td>
@@ -78,7 +82,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.hundredCentCount" attributeEntry="${coinAttributes.hundredCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentHundredCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentHundredCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.hundredCentCount" attributeEntry="${coinAttributes.hundredCentCount}" />
           </td>
@@ -93,7 +97,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.fiftyDollarCount" attributeEntry="${currencyAttributes.fiftyDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentFiftyDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentFiftyDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.fiftyDollarCount" attributeEntry="${currencyAttributes.fiftyDollarCount}" />
           </td>
@@ -106,7 +110,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.fiftyCentCount" attributeEntry="${coinAttributes.fiftyCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentFiftyCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentFiftyCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.fiftyCentCount" attributeEntry="${coinAttributes.fiftyCentCount}" />
           </td>
@@ -121,7 +125,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.twentyDollarCount" attributeEntry="${currencyAttributes.twentyDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentTwentyDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentTwentyDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.twentyDollarCount" attributeEntry="${currencyAttributes.twentyDollarCount}" />
           </td>
@@ -134,7 +138,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.twentyFiveCentCount" attributeEntry="${coinAttributes.twentyFiveCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentTwentyFiveCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentTwentyFiveCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.twentyFiveCentCount" attributeEntry="${coinAttributes.twentyFiveCentCount}" />
           </td>
@@ -149,7 +153,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.tenDollarCount" attributeEntry="${currencyAttributes.tenDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentTenDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentTenDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.tenDollarCount" attributeEntry="${currencyAttributes.tenDollarCount}" />
           </td>
@@ -162,7 +166,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.tenCentCount" attributeEntry="${coinAttributes.tenCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentTenCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentTenCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.tenCentCount" attributeEntry="${coinAttributes.tenCentCount}" />
           </td>
@@ -177,7 +181,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.fiveDollarCount" attributeEntry="${currencyAttributes.fiveDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentFiveDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentFiveDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.fiveDollarCount" attributeEntry="${currencyAttributes.fiveDollarCount}" />
           </td>
@@ -190,7 +194,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.fiveCentCount" attributeEntry="${coinAttributes.fiveCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentFiveCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentFiveCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.fiveCentCount" attributeEntry="${coinAttributes.fiveCentCount}" />
           </td>
@@ -205,7 +209,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.twoDollarCount" attributeEntry="${currencyAttributes.twoDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentTwoDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentTwoDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.twoDollarCount" attributeEntry="${currencyAttributes.twoDollarCount}" />
           </td>
@@ -218,7 +222,7 @@
             <kul:htmlControlAttribute property="${coinProperty}.oneCentCount" attributeEntry="${coinAttributes.oneCentCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${coinProperty}.financialDocumentOneCentAmount.span">$<bean:write name="KualiForm" property="${coinProperty}.financialDocumentOneCentAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCoinProperty}.oneCentCount" attributeEntry="${coinAttributes.oneCentCount}" />
           </td>
@@ -233,7 +237,7 @@
             <kul:htmlControlAttribute property="${currencyProperty}.oneDollarCount" attributeEntry="${currencyAttributes.oneDollarCount}" readOnly="${readOnly}" />
           </td>
           <td><span id="${currencyProperty}.financialDocumentOneDollarAmount.span">$<bean:write name="KualiForm" property="${currencyProperty}.financialDocumentOneDollarAmount" /></span></td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>
             <kul:htmlControlAttribute property="${confirmedCurrencyProperty}.oneDollarCount" attributeEntry="${currencyAttributes.oneDollarCount}" />
           </td>
@@ -246,7 +250,7 @@
           <td>
             $<kul:htmlControlAttribute property="${coinProperty}.financialDocumentOtherCentAmount" attributeEntry="${coinAttributes.financialDocumentOtherCentAmount}" readOnly="${readOnly}" />
           </td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>&nbsp;</td>
           <td>
             $<kul:htmlControlAttribute property="${confirmedCoinProperty}.financialDocumentOtherCentAmount" attributeEntry="${coinAttributes.financialDocumentOtherCentAmount}" />
@@ -261,7 +265,7 @@
           <td>
             $<kul:htmlControlAttribute property="${currencyProperty}.financialDocumentOtherDollarAmount" attributeEntry="${currencyAttributes.financialDocumentOtherDollarAmount}" readOnly="${readOnly}" />
           </td>
-          <c:if test="${confirmMode}">
+          <c:if test="${confirmMode && !changeMode}">
           <td>&nbsp;</td>
           <td>
             $<kul:htmlControlAttribute property="${confirmedCurrencyProperty}.financialDocumentOtherDollarAmount" attributeEntry="${currencyAttributes.financialDocumentOtherDollarAmount}" />
@@ -269,4 +273,10 @@
           </c:if>
           <td colspan="5">&nbsp;</td>
         </tr>
+        <c:if test="${changeMode}">
+        <tr>
+        	<td class="total-line" colspan="5">&nbsp;</td>
+            <td class="total-line"><strong>Total: <c:out value="${totalChangeAmount}" /></strong></td>
+        </tr>
+        </c:if>
       </table>

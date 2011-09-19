@@ -570,7 +570,7 @@
 	</bean>
     <bean id="bankChangeHistoryLookupable" parent="bankChangeHistoryLookupable-parentBean"/>
 	
-	<bean id="bankChangeHistoryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="bankChangeHistoryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="bankChangeHistoryLookupableHelperService" />
 		</property>
@@ -588,7 +588,7 @@
 	</bean>	
     <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
 
-    <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl"/>
+    <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 	    <bean parent="kfsService"

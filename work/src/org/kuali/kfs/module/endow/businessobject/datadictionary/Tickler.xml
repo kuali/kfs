@@ -201,11 +201,11 @@
 	</bean>
 
 	<!-- Tickler Lookup KemID -->
-	<bean id="Tickler-kemid" parent="Tickler-kemid-parentBean">
-		<property name="name" value="kemId" />
-	</bean>
+	<bean id="Tickler-kemid" parent="Tickler-kemid-parentBean" />
 
-	<bean id="Tickler-kemid-parentBean" parent="KEMID-kemid-parentBean" />
+	<bean id="Tickler-kemid-parentBean" parent="KEMID-kemid-parentBean" abstract="true">
+		<property name="name" value="kemId" />
+	</bean>	
 
 	<!-- Tickler Active -->
 	<bean id="Tickler-active" parent="Tickler-active-parentBean" />

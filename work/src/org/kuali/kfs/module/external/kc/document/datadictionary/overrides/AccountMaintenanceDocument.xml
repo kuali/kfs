@@ -21,7 +21,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-<bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean"
+<bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean" abstract="true"
 	p:maintainableClass="org.kuali.kfs.module.external.kc.document.KualiAccountMaintainableImpl">
 	    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.external.kc.validation.impl.AccountPreRules"/>
   	<property name="maintainableSections">

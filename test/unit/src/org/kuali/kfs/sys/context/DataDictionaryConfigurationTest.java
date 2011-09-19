@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.net.URL;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,17 +27,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javassist.tools.reflect.Reflection;
-
 import javax.sql.DataSource;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
@@ -53,7 +42,8 @@ import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.xml.sax.InputSource;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -215,6 +205,22 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             }
         }
         assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
+    }
+    
+    public void testAllParentBeansAreAbstract() throws Exception {
+        
+        Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
+        f.setAccessible(true);
+        DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
+        List<String> failingBeanNames = new ArrayList<String>();
+        for ( String beanName : ddBeans.getBeanDefinitionNames() ) {
+            BeanDefinition beanDef = ddBeans.getBeanDefinition(beanName);
+            if ( (beanName.endsWith("-parentBean") || beanName.endsWith("-baseBean"))
+                    && !beanDef.isAbstract() ) {
+                failingBeanNames.add(beanName+"\n");
+            }
+        }
+        assertEquals( "The following parent beans are not defined as abstract:\n" + failingBeanNames, 0, failingBeanNames.size() );
     }
     
     private void reportErrorAttribute(Map<String, Set<String>> reports, AttributeDefinition attributeDefinition, String boClassName) {

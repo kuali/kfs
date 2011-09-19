@@ -19,7 +19,6 @@
     xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-    
 
 	<bean id="Requisition-routeDocumentValidation" parent="Requisition-routeDocumentValidation-parentBean" scope="prototype" />
   
@@ -123,12 +122,26 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>  		
-				
 				<bean parent="Requisition-addAccountingLineDefaultValidation-parentBean" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>
-				
+				<bean parent="PurchasingAccountsPayable-accountingLineAmountAndPercentNullsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
 				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
+				<bean parent="PurchasingAccountsPayable-accountingLineAmountValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
 							<property name="sourceEventProperty" value="accountingLine" />
@@ -226,7 +239,24 @@
 							<bean parent="updatedAccountingLineFieldConversion" />
 						</list>
 					</property>
-				</bean>				
+				</bean>	
+				<bean parent="PurchasingAccountsPayable-accountingLineAmountAndPercentNullsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
+				<bean parent="PurchasingAccountsPayable-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
+							
 			</list>
   		</property>
 	</bean>

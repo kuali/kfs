@@ -22,21 +22,20 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingAccountingLinePercentValidation extends GenericValidation {
+public class PurchasingAccountingLineAmountAndPercentNullsValidation extends GenericValidation {
 
     private AccountingLine updatedAccountingLine;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-     //   PurApAccountingLine purapAccountingLine = (PurApAccountingLine)updatedAccountingLine;
-        
-        // make sure it's a whole number
-      //  if (purapAccountingLine.getAccountLinePercent().stripTrailingZeros().scale() > 0) {
-      //      GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_PERCENT_NOT_WHOLE, purapAccountingLine.getAccountLinePercent().toPlainString());
-//
-       //     valid &= false;
-      //  }
+        PurApAccountingLine purapAccountingLine = (PurApAccountingLine)updatedAccountingLine;
+
+        if (ObjectUtils.isNull(purapAccountingLine.getAmount()) && ObjectUtils.isNull(purapAccountingLine.getAccountLinePercent())) {
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_AMOUNT_AND_PERCENT_MISSING);
+            valid &= false;                
+        }
 
         return valid;
     }

@@ -53,7 +53,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
@@ -90,7 +89,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
     protected boolean useTaxIndicator;
     protected String vendorAttentionName;
-    protected String accountDistributionMethod;
+    protected String accountDistributionMethod;  //code for account distribution method
     
     // NOT PERSISTED IN DB
     protected String vendorNumber;
@@ -113,7 +112,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = true;
-    
 
     /**
      * Default constructor to be overridden.
@@ -123,6 +121,32 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         items = new TypedArrayList(getItemClass());
     }
 
+    /**
+     * retrieves the system parameter value for account distribution method and determines
+     * if the drop-down box on the form should be read only or not.  Sets the default 
+     * value for account distribution method property on the document.
+     */
+    protected void setupAccountDistributionMethod() {
+        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
+        String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
+        
+        if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+            defaultDistributionMethodCode = defaultDistributionMethod;
+        }
+        else {
+            if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
+            }
+            else if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)){
+                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE;
+                }
+                else {
+                    new RuntimeException("Error in reading system parameter values for DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES");
+                }
+        }
+        setAccountDistributionMethod(defaultDistributionMethodCode);
+    }
+    
     protected GeneralLedgerPendingEntry getFirstPendingGLEntry() {
         if (ObjectUtils.isNotNull(getGeneralLedgerPendingEntries()) && !getGeneralLedgerPendingEntries().isEmpty()) {
             return (GeneralLedgerPendingEntry)getGeneralLedgerPendingEntries().get(0);
@@ -201,7 +225,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         Integer currentFY = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         return (getPostingYear().compareTo(currentFY) < 0);
     }
-    
     
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getPostingYearNextOrCurrent()
@@ -1249,5 +1272,4 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return currentSourceLines;
     }
-
 }

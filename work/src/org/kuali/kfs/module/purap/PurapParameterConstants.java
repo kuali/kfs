@@ -27,7 +27,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
     public static final String AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT = "AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT";
     public static final String LINE_ITEM_IMPORT = "LINE_ITEM_IMPORT";
-    
+    public static final String DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES = "DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES";
+
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_CM_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_EIRT_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
@@ -80,8 +81,6 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
     public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";
-    
-   
     
     public static final String OBJECT_SUB_TYPES_REQUIRING_QUANTITY = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
     public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";

@@ -15,28 +15,32 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
-public class PurchasingAccountingLinePercentValidation extends GenericValidation {
+public class PurchasingAccountingLineAmountValidation extends GenericValidation {
 
     private AccountingLine updatedAccountingLine;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-     //   PurApAccountingLine purapAccountingLine = (PurApAccountingLine)updatedAccountingLine;
-        
-        // make sure it's a whole number
-      //  if (purapAccountingLine.getAccountLinePercent().stripTrailingZeros().scale() > 0) {
-      //      GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_PERCENT_NOT_WHOLE, purapAccountingLine.getAccountLinePercent().toPlainString());
-//
-       //     valid &= false;
-      //  }
+        PurApAccountingLine purapAccountingLine = (PurApAccountingLine)updatedAccountingLine;
+        PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
+
+        if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
+            if (ObjectUtils.isNull(purapAccountingLine.getAmount())) {
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ACCOUNTS, PurapKeyConstants.ERROR_PURCHASING_AMOUNT_MISSING);
+                valid &= false;                
+            }
+        }
 
         return valid;
     }

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
@@ -31,8 +32,8 @@ public class AccountDistributionMethodValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("P", "Proportional"));
-        keyValues.add(new KeyLabelPair("S", "Sequential"));
+        keyValues.add(new KeyLabelPair(PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE, PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_DESCRIPTION));
+        keyValues.add(new KeyLabelPair(PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE, PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_DESCRIPTION));
 
         return keyValues;
     }

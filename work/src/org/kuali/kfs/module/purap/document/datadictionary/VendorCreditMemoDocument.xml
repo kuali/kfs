@@ -656,8 +656,8 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="true" p:useShortLabel="true"/>
-				<bean parent="AccountingLineView-field" p:name="amount" p:required="true" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="false" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="false"/>
 				<bean parent="AccountingLineView-actions"/>
 			</list>
 		</property>

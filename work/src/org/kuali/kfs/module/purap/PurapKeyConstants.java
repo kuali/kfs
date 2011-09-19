@@ -234,6 +234,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_INVALID = "errors.item.accounting.amount.invalid";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL_AMOUNT = "errors.item.accounting.total.amount";
+    public static final String ERROR_ITEM_ACCOUNTING_LINE_ATLEAST_ONE_PERCENT_MISSING = "errors.item.accounting.atleast.one.percent.missing";
     public static final String ERROR_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT = "errors.purchaseorder.exceedingTotalLimit";
     public static final String ERROR_ITEM_REQUIRED = "errors.item.required";
     public static final String ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE = "errors.purchaseOrderItems.TradeInAndDiscountCoexistence";
@@ -250,6 +251,8 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_DOLLAR_TOTAL = "errors.item.accounting.dollar.total";
     public static final String ERROR_ITEM_BELOW_THE_LINE_NO_UNIT_COST = "errors.item.belowTheLine.noUnitCost";
     public static final String ERROR_PURCHASING_PERCENT_NOT_WHOLE = "errors.purchasing.percent.not.whole";
+    public static final String ERROR_PURCHASING_AMOUNT_MISSING = "errors.purchasing.amount.missing";
+    public static final String ERROR_PURCHASING_AMOUNT_AND_PERCENT_MISSING = "errors.purchasing.amount.and.percent.missing";
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_TOTAL = "errors.item.accounting.amount.total";
     public static final String ERROR_ACCOUNT_AMOUNT_TOTAL = "errors.accountString.totalAmount.negative";
     public static final String ERROR_ITEM_ACCOUNT_EXPIRED = "errors.item.accounting.expired";

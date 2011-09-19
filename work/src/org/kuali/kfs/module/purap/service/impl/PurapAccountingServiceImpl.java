@@ -67,7 +67,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     protected static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
     protected static final int SCALE = 340;
     protected static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
-
+    protected static final int BIG_DECIMAL_SCALE = 6;
+    
     // local constants
     protected static final Boolean ITEM_TYPES_INCLUDED_VALUE = Boolean.TRUE;;
     protected static final Boolean ITEM_TYPES_EXCLUDED_VALUE = Boolean.FALSE;
@@ -714,18 +715,27 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
 
             KualiDecimal accountTotal = KualiDecimal.ZERO;
+            BigDecimal accountTotalPercent = BigDecimal.ZERO;
             T lastAccount = null;
 
-
             for (T account : sourceAccountingLines) {
-                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                    BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                    account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
-                }
-                else {
-                    account.setAmount(KualiDecimal.ZERO);
+                boolean amountSet = false;
+                
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+                    if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                        BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                        account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
+                        amountSet = true;
+                    }
+                    if (ObjectUtils.isNotNull(account.getAmount()) && !amountSet) {
+                        KualiDecimal amt = account.getAmount();
+                        KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
+                        calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
+                        account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
+                    }
                 }
                 accountTotal = accountTotal.add(account.getAmount());
+                accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
                 lastAccount = account;
             }
 
@@ -733,12 +743,19 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (lastAccount != null) {
                 KualiDecimal difference = totalAmount.subtract(accountTotal);
                 lastAccount.setAmount(lastAccount.getAmount().add(difference));
+                BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
+                lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
             }
         }
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-                account.setAmount(KualiDecimal.ZERO);
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    account.setAccountLinePercent(BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BIG_DECIMAL_ROUNDING_MODE));
+                }
+                if (ObjectUtils.isNotNull(account.getAmount())) {
+                    account.setAmount(KualiDecimal.ZERO);
+                }
             }
         }
     }

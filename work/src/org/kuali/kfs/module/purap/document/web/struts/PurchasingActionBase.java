@@ -59,6 +59,7 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedCommodityC
 import org.kuali.kfs.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedUpdateCamsViewPurapEvent;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -1237,10 +1238,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc);
         SpringContext.getBean(PurapService.class).updateUseTaxIndicator(purDoc, defaultUseTaxIndicatorValue);
         SpringContext.getBean(PurapService.class).calculateTax(purDoc);
-
+        
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
 
+        //recalculate the amounts and percents on the accounting line.
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(purDoc);
+        
         customCalculate(purDoc);
 
         PurchasingFormBase formBase = (PurchasingFormBase) form;

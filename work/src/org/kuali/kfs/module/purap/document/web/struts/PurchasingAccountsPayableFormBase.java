@@ -22,9 +22,12 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -36,7 +39,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -51,15 +53,39 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 
     protected transient List<SummaryAccount> summaryAccounts;
-
+    protected boolean readOnlyAccountDistributionMethod;
+    
     /**
      * Constructs a PurchasingAccountsPayableFormBase instance and initializes summary accounts.
      */
     public PurchasingAccountsPayableFormBase() {
         super();
         clearSummaryAccounts();
+        setupAccountDistributionMethod();
     }
 
+    /**
+     * retrieves the system parameter value for account distribution method and determines
+     * if the drop-down box on the form should be read only or not.
+     */
+    protected void setupAccountDistributionMethod() {
+        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
+        
+        if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+            this.setReadOnlyAccountDistributionMethod(true);
+        }
+        else {
+            this.setReadOnlyAccountDistributionMethod(false);
+            if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+            }
+            else if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)){
+                }
+                else {
+                    new RuntimeException("Error in reading system parameter values for DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES");
+                }
+        }
+    }
+    
     /**
      * Updates the summaryAccounts that are contained in the form. Currently we are only calling this on load and when
      * refreshAccountSummary is called.
@@ -183,5 +209,24 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
                sourceLineCount += 1;
            }
        }
+    }
+    
+    /**
+     * Gets the readOnlyAccountDistributionMethod attribute.
+     * 
+     * @return Returns the readOnlyAccountDistributionMethod
+     */
+    
+    public boolean isReadOnlyAccountDistributionMethod() {
+        return readOnlyAccountDistributionMethod;
+    }
+
+    /** 
+     * Sets the readOnlyAccountDistributionMethod attribute.
+     * 
+     * @param readOnlyAccountDistributionMethod The readOnlyAccountDistributionMethod to set.
+     */
+    public void setReadOnlyAccountDistributionMethod(boolean readOnlyAccountDistributionMethod) {
+        this.readOnlyAccountDistributionMethod = readOnlyAccountDistributionMethod;
     }
 }

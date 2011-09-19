@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.impl.PurapServiceImpl;
@@ -24,29 +25,41 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
 public class PaymentRequestProcessAccountValidation extends GenericValidation {
 
-
     private PurchasingAccountsPayableHasAccountsValidation hasAccountsValidation;
     private PurchasingAccountsPayableAccountTotalValidation accountTotalValidation;
     private PurchasingAccountsPayableUniqueAccountingStringsValidation accountingStringsValidation;          
     private PurApItem itemForValidation;
+    private PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation accountHasAtleastOnePercentValidation;
+    private PurchasingAccountingLineAmountValidation accountLineAmountValidation;
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-       
 
         hasAccountsValidation.setItemForValidation(itemForValidation);
         valid &= hasAccountsValidation.validate(event);
         
         if(valid){
-
                 accountTotalValidation.setItemForValidation(itemForValidation);
-                
                 valid &= accountTotalValidation.validate(event);
-
         }
         
         accountingStringsValidation.setItemForValidation(itemForValidation);
         valid &= accountingStringsValidation.validate(event);
+        
+        if (valid) {
+            getAccountHasAtlestOnePercentValidation().setItemForValidation(itemForValidation);
+            valid &= getAccountHasAtlestOnePercentValidation().validate(event);
+        }
+        
+        if(valid){
+            for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
+                getAccountLineAmountValidation().setUpdatedAccountingLine(account);
+                valid &= getAccountLineAmountValidation().validate(event);
+                if (!valid) {
+                    break;
+                }
+            }
+        }
         
         return valid;
     }
@@ -84,5 +97,40 @@ public class PaymentRequestProcessAccountValidation extends GenericValidation {
     public void setItemForValidation(PurApItem itemForValidation) {
         this.itemForValidation = itemForValidation;
     }
+    
+    /**
+     * @return Returns the accountHasAtleastOnePercentValidation
+     */
+    
+    public PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation getAccountHasAtlestOnePercentValidation() {
+        return accountHasAtleastOnePercentValidation;
+    }
 
+    /** 
+     * Sets the accountHasAtleastOnePercentValidation attribute.
+     * 
+     * @param accountHasAtleastOnePercentValidation The accountHasAtleastOnePercentValidation to set.
+     */
+    public void setAccountHasAtleastOnePercentValidation(PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation accountHasAtleastOnePercentValidation) {
+        this.accountHasAtleastOnePercentValidation = accountHasAtleastOnePercentValidation;
+    }
+    
+    /**
+     * Gets the accountLineAmountValidation attribute.
+     * 
+     * @return Returns the accountLineAmountValidation
+     */
+    
+    public PurchasingAccountingLineAmountValidation getAccountLineAmountValidation() {
+        return accountLineAmountValidation;
+    }
+
+    /** 
+     * Sets the accountLineAmountValidation attribute.
+     * 
+     * @param accountLineAmountValidation The accountLineAmountValidation to set.
+     */
+    public void setAccountLineAmountValidation(PurchasingAccountingLineAmountValidation accountLineAmountValidation) {
+        this.accountLineAmountValidation = accountLineAmountValidation;
+    }
 }

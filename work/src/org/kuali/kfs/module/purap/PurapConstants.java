@@ -1152,5 +1152,15 @@ public class PurapConstants extends JSTLConstants {
         public static final String ATTACHMENT_TYPE_TAX_DOCUMENTS = "Tax Documents";
     }
     
-    
+    public static final class AccountDistributionMethodCodes {
+        public static final String PROPORTIONAL_CODE = "P";
+        public static final String SEQUENTIAL_CODE = "S";
+        public static final String BOTH_WITH_DEFAULT_PROPORTIONAL_CODE = "P;S";
+        public static final String BOTH_WITH_DEFAULT_SEQUENTIAL_CODE = "S;P";
+        
+        public static final String PROPORTIONAL_DESCRIPTION = "Proportional";
+        public static final String SEQUENTIAL_DESCRIPTION = "Sequential";
+        public static final String BOTH_WITH_DEFAULT_PROPORTIONAL_DESCRIPTION = "Both, with Proportional as default";
+        public static final String BOTH_WITH_DEFAULT_SEQUENTIAL_DESCRIPTION = "Both, with Sequential as default";
+    }
 }

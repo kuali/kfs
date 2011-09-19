@@ -186,7 +186,7 @@
 
   <bean id="PurchaseOrderAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-subAccountNumber" parent="PurchaseOrderAccount-subAccountNumber-parentBean"/>
@@ -366,7 +366,7 @@
     <property name="validationPattern">
       <ref bean="FloatingPointValidation" />
     </property>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="12"/>
     </property>

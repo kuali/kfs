@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.batch.JobDescriptor;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.ModuleService;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 
 @ConfigureContext
@@ -147,12 +149,41 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         for ( String beanName : SpringContext.applicationContext.getBeanDefinitionNames() ) {
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
             if ( beanName.endsWith("-parentBean") && !beanDef.isAbstract() ) {
-                failingBeanNames.add(beanName+"\n");
+                failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription()+"\n");
             }
         }
         assertEquals( "The following parent beans are not defined as abstract:\n" + failingBeanNames, 0, failingBeanNames.size() );
     }
 
+    public void testServicesShouldHaveParentBeans() {
+        List<String> failingBeanNames = new ArrayList<String>();
+        for ( String beanName : SpringContext.applicationContext.getBeanDefinitionNames() ) {
+            // skip testing mock beans
+            if ( StringUtils.containsIgnoreCase(beanName, "mock") ) {
+                continue;
+            }
+            BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            if ( beanName.endsWith("Service") && !beanDef.isAbstract() ) {
+                String serviceClass = beanDef.getBeanClassName();
+                // skip Rice classes
+                if ( serviceClass != null && serviceClass.startsWith("org.kuali.rice") ) {
+                    continue;
+                }
+                try {
+                    BeanDefinition parentBean = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName + "-parentBean");
+                    String parentClass = parentBean.getBeanClassName();
+                    // skip Rice classes
+                    if ( parentClass != null && parentClass.startsWith("org.kuali.rice") ) {
+                        continue;
+                    }
+                } catch ( NoSuchBeanDefinitionException ex ) {
+                    failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription()+"\n");
+                }
+            }
+        }
+        assertEquals( "The following service beans do not have \"-parentBean\"s:\n" + failingBeanNames, 0, failingBeanNames.size() );
+    }
+    
     // DAOs should extend from the xxxx class
     public void testDAOsShouldBeDAOs() throws Exception {
         List<String> failingBeanNames = new ArrayList<String>();
@@ -164,11 +195,11 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
                         && !service.getClass().getName().endsWith( "Proxy" )
                         && !service.getClass().getName().startsWith( "org.kuali.rice" ) ) {
                     if ( !(service instanceof PlatformAwareDao) ) {
-                        failingBeanNames.add( " *** FAIL: " + beanName + " does not implement PlatformAwareDao (is " + service.getClass().getName() +  ")\n" );
+                        failingBeanNames.add( " *** FAIL: " + beanName + " does not implement PlatformAwareDao (is " + service.getClass().getName() +  ")\n"  + " : " + beanDef.getResourceDescription() + "\n" );
                     }
                     if ( !(service instanceof PlatformAwareDaoBaseOjb)
                             && !(service instanceof PlatformAwareDaoBaseJdbc)) {
-                        failingBeanNames.add( " *** FAIL: " + beanName + " does not extend PlatformAwareDaoBaseOjb/Jdbc (is " + service.getClass().getName() +  ")\n" );
+                        failingBeanNames.add( " *** FAIL: " + beanName + " does not extend PlatformAwareDaoBaseOjb/Jdbc (is " + service.getClass().getName() +  ")\n" + " : " + beanDef.getResourceDescription() + "\n" );
                     }
                 }
             }

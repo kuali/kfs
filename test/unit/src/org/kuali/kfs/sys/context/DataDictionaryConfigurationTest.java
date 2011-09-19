@@ -40,8 +40,12 @@ import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kns.datadictionary.InquiryDefinition;
+import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -207,20 +211,110 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
     }
     
-    public void testAllParentBeansAreAbstract() throws Exception {
-        
+    public void testAllParentBeansAreAbstract() throws Exception {        
         Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
         f.setAccessible(true);
         DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
         List<String> failingBeanNames = new ArrayList<String>();
         for ( String beanName : ddBeans.getBeanDefinitionNames() ) {
-            BeanDefinition beanDef = ddBeans.getBeanDefinition(beanName);
+            BeanDefinition beanDef = ddBeans.getMergedBeanDefinition(beanName);
+            String beanClass = beanDef.getBeanClassName();
+            // skip Rice classes
+            if ( beanClass != null && beanClass.startsWith("org.kuali.rice") ) {
+                continue;
+            }
             if ( (beanName.endsWith("-parentBean") || beanName.endsWith("-baseBean"))
                     && !beanDef.isAbstract() ) {
-                failingBeanNames.add(beanName+"\n");
+                failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription()+"\n");
             }
         }
         assertEquals( "The following parent beans are not defined as abstract:\n" + failingBeanNames, 0, failingBeanNames.size() );
+    }
+
+    public void testBusinessObjectEntriesShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(BusinessObjectEntry.class, new ArrayList<String>());
+    }
+
+    public void testDocumentEntriesShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(DocumentEntry.class, new ArrayList<String>());
+    }
+    
+    protected static final List<String> EXCLUDED_ATTRIBUTE_DEFINITIONS = new ArrayList<String>();
+    static {
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "Country-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "County-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "State-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PostalCode-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PersonImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RoleMemberImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimAttributes-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimDocRoleMember-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "DocRoleMember-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimResponsibilityImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimPermissionImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ResponsibilityImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PermissionImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ReviewResponsibility-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "GenericPermission-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RuleTemplateAttribute-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "-versionNumber" );
+    }
+    
+    public void testAttributeDefinitionsShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(AttributeDefinition.class, EXCLUDED_ATTRIBUTE_DEFINITIONS);
+    }
+
+    public void testMaintenanceSectionsShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(MaintainableSectionDefinition.class, new ArrayList<String>());
+    }
+
+    public void testInquirySectionsShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(InquirySectionDefinition.class, new ArrayList<String>());
+    }
+
+    public void testLookupDefinitionsShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(LookupDefinition.class, new ArrayList<String>());
+    }
+
+    public void testInquiryDefinitionsShouldHaveParentBeans() throws Exception {
+        somethingShouldHaveParentBeans(InquiryDefinition.class, new ArrayList<String>() );
+    }
+    
+    protected boolean doesBeanNameMatchList( String beanName, List<String> exclusions ) {
+        for ( String excl : exclusions ) {
+            if ( beanName.contains(excl) ) {
+                return true;
+            }                
+        }
+        return false;
+    }
+    
+    protected void somethingShouldHaveParentBeans( Class<?> baseClass, List<String> exclusions ) throws Exception {
+        Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
+        f.setAccessible(true);
+        DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
+        List<String> failingBeanNames = new ArrayList<String>();
+
+        for ( String beanName : ddBeans.getBeanDefinitionNames() ) {
+            if ( doesBeanNameMatchList(beanName, exclusions)) {
+                continue ;
+            }
+            BeanDefinition beanDef = ddBeans.getMergedBeanDefinition(beanName);
+            String beanClass = beanDef.getBeanClassName();
+            if ( beanClass == null ) {
+                System.err.println( "ERROR: Bean " + beanName + " has a null class." );
+            }
+            if ( !beanDef.isAbstract() 
+                    && beanClass != null
+                    && baseClass.isAssignableFrom(Class.forName(beanClass) ) ) {
+                try {
+                    BeanDefinition parentBean = ddBeans.getBeanDefinition(beanName + "-parentBean");
+                } catch ( NoSuchBeanDefinitionException ex ) {
+                    failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription() +"\n");
+                }
+            }
+        }
+        assertEquals( "The following " + baseClass.getSimpleName() + " beans do not have \"-parentBean\"s:\n" + failingBeanNames, 0, failingBeanNames.size() );
     }
     
     private void reportErrorAttribute(Map<String, Set<String>> reports, AttributeDefinition attributeDefinition, String boClassName) {

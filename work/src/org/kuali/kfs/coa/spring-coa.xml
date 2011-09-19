@@ -149,9 +149,6 @@
 
 	<bean id="organizationService"  parent="organizationService-parentBean"/>
 	<bean id="organizationService-parentBean" class="org.kuali.kfs.coa.service.impl.OrganizationServiceImpl" abstract="true">
-		<property name="organizationDao">
-			<ref bean="organizationDao" />
-		</property>
         <property name="parameterService" ref="parameterService" />
         <property name="chartService" ref="chartService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -249,9 +246,6 @@
 
 	<bean id="chartDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb"/>
-
-	<bean id="organizationDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationDaoOjb" />
 
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />

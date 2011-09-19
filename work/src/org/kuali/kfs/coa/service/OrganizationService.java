@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.service;
 
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 
 /**
@@ -47,7 +48,7 @@ public interface OrganizationService {
      * @param organizationCode - orgCode for the Org you want Accounts for
      * @return A List of Accounts that are active, and tied to this Org
      */
-    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
+    public List<Account> getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
 
     /**
      * Retrieves a List of Orgs that are active, and that ReportTo this Org If there are no Orgs that meet this criteria, an empty
@@ -57,7 +58,7 @@ public interface OrganizationService {
      * @param organizationCode - orgCode for the Org you want Child Orgs for
      * @return A List of Orgs that are active, and report to this Org
      */
-    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
+    public List<Organization> getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
     
     /**
      * Returns a list of active organizations with the given organization type code.
@@ -91,4 +92,12 @@ public interface OrganizationService {
      * @return boolean indicating whether the organization represented by the first two parameters reports to one represented by the last two parameters
      */
     public boolean isParentOrganization(String potentialChildChartCode, String potentialChildOrganizationCode, String potentialParentChartCode, String potentialParentOrganizationCode);
+    
+    /**
+     * Flushes an internal cache used to resolve parent organizations.
+     * 
+     * Called from the KualiOrgMaintainable when an org is saved via the document.
+     * 
+     */
+    public void flushParentOrgCache();
 }

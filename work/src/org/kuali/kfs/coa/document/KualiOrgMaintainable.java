@@ -20,7 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -108,6 +110,15 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
         }
 
         return sections;
+    }
+
+    /**
+     * Override to purge the parent org cache when an organization is saved.
+     */
+    @Override
+    public void saveBusinessObject() {
+        super.saveBusinessObject();
+        SpringContext.getBean(OrganizationService.class).flushParentOrgCache();
     }
 }
 

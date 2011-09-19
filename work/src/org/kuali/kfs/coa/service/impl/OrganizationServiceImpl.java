@@ -15,18 +15,21 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.dataaccess.OrganizationDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -38,10 +41,13 @@ import org.kuali.rice.kns.util.spring.Cached;
 
 @NonTransactional
 public class OrganizationServiceImpl implements OrganizationService {
-    private OrganizationDao organizationDao;
-    private ParameterService parameterService;
-    private ChartService chartService;
-    private BusinessObjectService boService;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationServiceImpl.class);
+    
+    protected ParameterService parameterService;
+    protected ChartService chartService;
+    protected BusinessObjectService boService;
+
+    protected Map<ChartOrgHolderImpl,ChartOrgHolderImpl> parentOrgCache = null;
 
     /**
      * 
@@ -71,7 +77,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     /**
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
      */
-    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
+    public List<Account> getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
 
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
@@ -79,14 +85,18 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (StringUtils.isBlank(organizationCode)) {
             throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
         }
-
-        return organizationDao.getActiveAccountsByOrg(chartOfAccountsCode, organizationCode);
+        
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.FALSE);
+        return new ArrayList<Account>( boService.findMatching(Account.class, criteria) );
     }
 
     /**
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
      */
-    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+    public List<Organization> getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
         }
@@ -94,51 +104,92 @@ public class OrganizationServiceImpl implements OrganizationService {
             throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
         }
 
-        return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.put(KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE, organizationCode);
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        return new ArrayList<Organization>( boService.findMatching(Organization.class, criteria) );
     }
 
-    @Cached
-    public boolean isParentOrganization( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
-        if (StringUtils.isBlank(childChartOfAccountsCode)) {
-            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
-        }
-        if (StringUtils.isBlank(childOrganizationCode)) {
-            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
-        }
-        if (StringUtils.isBlank(parentChartOfAccountsCode)) {
-            throw new IllegalArgumentException("String parameter parentChartOfAccountsCode was null or blank.");
-        }
-        if (StringUtils.isBlank(parentOrganizationCode)) {
-            throw new IllegalArgumentException("String parameter parentOrganizationCode was null or blank.");
-        }
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, childChartOfAccountsCode);
-        keys.put(KFSPropertyConstants.ORGANIZATION_CODE, childOrganizationCode);
-        Organization currOrg = (Organization)boService.findByPrimaryKey(Organization.class, keys);
-
-        while ( currOrg != null ) {
-            if ( currOrg.getReportsToChartOfAccountsCode().equals(parentChartOfAccountsCode)
-                    && currOrg.getReportsToOrganizationCode().equals(parentOrganizationCode) ) {
-                return true;
+    protected void loadParentOrgCache() {
+        LOG.debug( "START - Initializing parent organization cache" );
+        Map<ChartOrgHolderImpl,ChartOrgHolderImpl> temp = new HashMap<ChartOrgHolderImpl, ChartOrgHolderImpl>();
+        
+        Collection<Organization> orgs = boService.findMatching(Organization.class, Collections.singletonMap(KFSPropertyConstants.ACTIVE, true));
+        for ( Organization org : orgs ) {
+            ChartOrgHolderImpl keyOrg = new ChartOrgHolderImpl(org);
+            if ( StringUtils.isNotBlank( org.getReportsToChartOfAccountsCode() ) 
+                    && StringUtils.isNotBlank( org.getReportsToOrganizationCode() ) ) {
+                ChartOrgHolderImpl parentorg = new ChartOrgHolderImpl( org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
+                temp.put(keyOrg, parentorg);
             }
-            // if no parent, we've reached the top - stop and return false
-            if ( StringUtils.isBlank(currOrg.getReportsToChartOfAccountsCode())
-                    || StringUtils.isBlank(currOrg.getReportsToOrganizationCode())
-                    || (currOrg.getReportsToChartOfAccountsCode().equals(currOrg.getChartOfAccountsCode())
-                            && currOrg.getReportsToOrganizationCode().equals(currOrg.getOrganizationCode()))
-                    ) {
-                return false;
-            }
-            keys.clear();
-            keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, currOrg.getReportsToChartOfAccountsCode());
-            keys.put(KFSPropertyConstants.ORGANIZATION_CODE, currOrg.getReportsToOrganizationCode());
-            currOrg = (Organization)boService.findByPrimaryKey(Organization.class, keys);
         }
         
-        
-        return false;
+        parentOrgCache = temp;
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "COMPLETE - Initializing parent organization cache - " + temp.size() + " organizations loaded" );
+        }
     }
     
+    public void flushParentOrgCache() {
+        LOG.debug( "Flushing parent organization cache" );
+        parentOrgCache = null;
+    }
+
+    public boolean isParentOrganization( String childChartOfAccountsCode, String childOrganizationCode, String parentChartOfAccountsCode, String parentOrganizationCode ) {
+        if (StringUtils.isBlank(childChartOfAccountsCode)
+                || StringUtils.isBlank(childOrganizationCode)
+                || StringUtils.isBlank(parentChartOfAccountsCode)
+                || StringUtils.isBlank(parentOrganizationCode) ) {
+            return false;
+        }
+
+        if ( parentOrgCache == null ) {
+            loadParentOrgCache();
+        }
+        
+        ChartOrgHolderImpl currOrg = new ChartOrgHolderImpl( childChartOfAccountsCode, childOrganizationCode );
+        ChartOrgHolderImpl desiredParentOrg = new ChartOrgHolderImpl( parentChartOfAccountsCode, parentOrganizationCode );
+        
+        // the the orgs are the same, we can short circuit the search right now
+        if ( currOrg.equals( desiredParentOrg ) ) {
+            return true;
+        }
+        
+        return isParentOrganization_Internal(currOrg, desiredParentOrg, new ArrayList<ChartOrgHolderImpl>() );
+    }
+
+    /**
+     * This helper method handles the case where there might be cycles in the data.
+     * 
+     */
+    protected boolean isParentOrganization_Internal( ChartOrgHolderImpl currOrg, ChartOrgHolderImpl desiredParentOrg, List<ChartOrgHolderImpl> traversedOrgs ) {
+        
+        if ( traversedOrgs.contains(currOrg) ) {
+            LOG.error( "THERE IS A LOOP IN THE ORG DATA: " + currOrg + " found a second time after traversing the following orgs: " + traversedOrgs );
+            return false;
+        }
+        
+        ChartOrgHolderImpl parentOrg = parentOrgCache.get(currOrg);
+        
+        // we could not find it in the table, return false
+        if ( parentOrg == null ) {
+            return false;
+        }
+        // it is its own parent, then false (we reached the top and did not find a match)
+        if ( parentOrg.equals(currOrg) ) {
+            return false;
+        }
+        // check parent org against desired parent organization
+        if ( parentOrg.equals( desiredParentOrg ) ) {
+            return true;
+        }
+        // otherwise, we don't know yet - so re-call this method moving up to the next parent org 
+        traversedOrgs.add( currOrg );
+        return isParentOrganization_Internal(parentOrg, desiredParentOrg, traversedOrgs);
+    }
+        
     /**
      * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveOrgsByType(java.lang.String)
@@ -147,8 +198,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (StringUtils.isBlank(organizationTypeCode)) {
             throw new IllegalArgumentException("String parameter organizationTypeCode was null or blank.");
         }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ORGANIZATION_TYPE_CODE, organizationTypeCode);
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
-        return organizationDao.getActiveOrgsByType(organizationTypeCode);
+        return new ArrayList<Organization>( boService.findMatching(Organization.class, criteria) );
     }
 
     /**
@@ -156,54 +210,46 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kfs.coa.service.OrganizationService#getActiveFinancialOrgs()
      */
     public List<Organization> getActiveFinancialOrgs() {
-        Map<String, Object> criteriaMap = new HashMap<String, Object>();
-        criteriaMap.put("organizationInFinancialProcessingIndicator", Boolean.TRUE);
-        criteriaMap.put("active", Boolean.TRUE);
-        return (List<Organization>)boService.findMatching(Organization.class, criteriaMap);
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.ORGANIZATION_IN_FINANCIAL_PROCESSING_INDICATOR, Boolean.TRUE);
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        return new ArrayList<Organization>( boService.findMatching(Organization.class, criteria) );
     }
     
     /**
      * 
+     * TODO: refactor me to a ChartOrgHolder
+     * 
      * @see org.kuali.kfs.coa.service.OrganizationService#getRootOrganizationCode()
      */
     public String[] getRootOrganizationCode() {
-        String rootChart = getChartService().getUniversityChart().getChartOfAccountsCode();
-        String selfReportsOrgType = SpringContext.getBean(ParameterService.class).getParameterValue(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-        return (organizationDao.getRootOrganizationCode(rootChart, selfReportsOrgType));
+        String rootChart = chartService.getUniversityChart().getChartOfAccountsCode();
+        String selfReportsOrgType = parameterService.getParameterValue(Organization.class, ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        String[] returnValues = { null, null };
+        
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, rootChart);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_TYPE_CODE, selfReportsOrgType);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR, Boolean.TRUE);
+        
+        Collection<Organization> results = boService.findMatching(Organization.class, criteria);
+        if (results != null && !results.isEmpty()) {
+            Organization org = results.iterator().next();
+            returnValues[0] = org.getChartOfAccountsCode();
+            returnValues[1] = org.getOrganizationCode();       
+        }
+        
+        return returnValues;
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
-    public ChartService getChartService() {
-        return chartService;
-    }
-
-    public void setChartService(ChartService chartService) {
-        this.chartService = chartService;
-    }
-
-    /**
-     * @return Returns the organizationDao.
-     */
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    /**
-     * @param organizationDao The organizationDao to set.
-     */
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
-    }
-
-    /**
-     * Sets the boService attribute value.
-     * @param boService The boService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.boService = boService;
+    }
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
     }
 
 }

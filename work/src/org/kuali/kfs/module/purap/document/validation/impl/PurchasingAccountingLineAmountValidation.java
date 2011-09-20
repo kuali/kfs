@@ -19,6 +19,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -33,7 +34,8 @@ public class PurchasingAccountingLineAmountValidation extends GenericValidation 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurApAccountingLine purapAccountingLine = (PurApAccountingLine)updatedAccountingLine;
-        PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
+      //  PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
+        PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) event.getDocument();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
             if (ObjectUtils.isNull(purapAccountingLine.getAmount())) {

@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -38,8 +39,8 @@ public class PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation 
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         boolean accountLinePercentNull = false;
-        
-        PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
+        PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) event.getDocument();
+     //   PurchasingDocumentBase purapDoc = (PurchasingDocumentBase) event.getDocument();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(purapDoc.getAccountDistributionMethod())) {
             for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {

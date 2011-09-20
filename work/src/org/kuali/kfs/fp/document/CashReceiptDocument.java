@@ -1113,21 +1113,23 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     public void initializeCampusLocationCode(){
         
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
-        
-        // Does a valid campus code exist for this person?  If so, simply grab
-        // the campus code via the business object service.  
-        if (chartOrg != null && chartOrg.getOrganization() != null) {
-            setCampusLocationCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
+        if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null) {        
+         
+            Person currentUser = GlobalVariables.getUserSession().getPerson();
+            ChartOrgHolder chartOrg = SpringContext.getBean(org.kuali.kfs.sys.service.FinancialSystemUserService.class).getPrimaryOrganization(currentUser, KFSConstants.ParameterNamespaces.FINANCIAL);
+            
+            // Does a valid campus code exist for this person?  If so, simply grab
+            // the campus code via the business object service.  
+            if (chartOrg != null && chartOrg.getOrganization() != null) {
+                setCampusLocationCode(chartOrg.getOrganization().getOrganizationPhysicalCampusCode());
+            }
+            // A valid campus code was not found; therefore, use the default affiliated
+            // campus code.
+            else {
+                String affiliatedCampusCode = currentUser.getCampusCode();
+                setCampusLocationCode(affiliatedCampusCode);
+            }
         }
-        // A valid campus code was not found; therefore, use the default affiliated
-        // campus code.
-        else {
-            String affiliatedCampusCode = currentUser.getCampusCode();
-            setCampusLocationCode(affiliatedCampusCode);
-        }
-        
     }
 }
 

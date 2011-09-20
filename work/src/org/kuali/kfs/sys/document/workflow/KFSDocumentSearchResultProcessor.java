@@ -50,6 +50,11 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
     public DocumentSearchResult generateSearchResult(DocSearchDTO docCriteriaDTO, List<Column> columns) {
         DocumentSearchResult docSearchResult = super.generateSearchResult(docCriteriaDTO, columns);
         
+        //do not mask the purapDocumentIdentifier field if the document is not PO..
+        if (!KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equalsIgnoreCase(docCriteriaDTO.getDocTypeName())) {
+            return docSearchResult;
+        }
+        
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
             if (keyValueSort.getkey().equalsIgnoreCase("purapDocumentIdentifier")) {
                 //KFSMI-4576 masking PO number...

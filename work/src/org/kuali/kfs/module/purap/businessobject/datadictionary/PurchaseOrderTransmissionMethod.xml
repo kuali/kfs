@@ -32,6 +32,7 @@
         <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode"/>
         <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription"/>
         <ref bean="PurchaseOrderTransmissionMethod-active"/>
+        <ref bean="PurchaseOrderTransmissionMethod-displayToUser"/>
       </list>
     </property>
   </bean>
@@ -76,6 +77,13 @@
     <property name="name" value="active"/>
   </bean>
 
+  <bean id="PurchaseOrderTransmissionMethod-displayToUser" parent="PurchaseOrderTransmissionMethod-displayToUser-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-displayToUser-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="displayToUser"/>
+    <property name="label" value="Display To User Indicator"/>
+  </bean>
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -99,6 +107,7 @@
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
       </list>
     </property>
   </bean>
@@ -120,6 +129,7 @@
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
       </list>
     </property>
     <property name="resultFields">
@@ -127,6 +137,7 @@
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
         <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
       </list>
     </property>
   </bean>

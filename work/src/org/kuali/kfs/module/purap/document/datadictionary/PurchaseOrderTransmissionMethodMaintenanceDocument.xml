@@ -53,6 +53,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderTransmissionMethodCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderTransmissionMethodDescription" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="displayToUser" p:defaultValue="true"/>
       </list>
     </property>
   </bean>

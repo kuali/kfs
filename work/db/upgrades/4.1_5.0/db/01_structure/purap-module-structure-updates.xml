@@ -21,8 +21,9 @@
 	<changeSet author='KFS50' id='KFS_50_AddColumn_DISPLAY_TO_USER_IND'>
 		<comment>KFSMI-KFSMI-6486 Add a new column to PUR_PO_TRNS_MTHD_T</comment>
 		<addColumn tableName='pur_po_trns_mthd_t'>
-			<column name='DISPLAY_TO_USER_IND' type='VARCHAR2(1)' />
+			<column name='DISPLAY_TO_USER_IND' type='VARCHAR2(1)' defaultValue='Y'/>
 		</addColumn>
+		<sql>update pur_po_trns_mthd_t set DISPLAY_TO_USER_IND = DOBJ_MAINT_CD_ACTV_IND;</sql>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 		</modifySql>

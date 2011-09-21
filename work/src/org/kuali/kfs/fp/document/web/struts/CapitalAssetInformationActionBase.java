@@ -113,7 +113,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             //where capital accounting line is "selected" and its amount is greater than already allocated.
             if (rawValues != null) {
                 for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-                    if (capitalAccountingLine.isSelectLine() && capitalAccountingLine.getAmount().isGreaterThan(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
+                    if (capitalAccountingLine.isSelectLine() && capitalAccountingLine.getAmount().compareTo(getCapitalAssetsAmountAllocated(capitalAssetInformation, capitalAccountingLine)) != 0) {
                         for (PersistableBusinessObject bo : rawValues) {
                             Asset asset = (Asset) bo;
                             
@@ -231,12 +231,12 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();
         
-        String distributinCode = calfb.getCapitalAccountingLine().getDistributionCode();
+        String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
         
         List<SourceAccountingLine> sourceAccountingLines = caldb.getSourceAccountingLines();
         List<TargetAccountingLine> targetAccountingLines = caldb.getTargetAccountingLines();
 
-        if (distributinCode.equalsIgnoreCase(AMOUNT_EQUAL_DISTRIBUTION_CODE)) {
+        if (distributionCode.equalsIgnoreCase(AMOUNT_EQUAL_DISTRIBUTION_CODE)) {
             KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
             List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
 
@@ -261,7 +261,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         int lastAssetIndex = 0;
         CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
         
-        if (equalModifyAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
+        if (equalModifyAssetAmount.compareTo(KualiDecimal.ZERO) != 0) {
             for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
                 if (KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
                         ObjectUtils.isNotNull(capitalAsset.getCapitalAssetNumber()) &&
@@ -324,7 +324,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         int lastAssetIndex = 0;
         CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
         
-        if (equalCreateAssetAmount.isGreaterThan(KualiDecimal.ZERO)) {
+        if (equalCreateAssetAmount.compareTo(KualiDecimal.ZERO) != 0) {
             for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
                 if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
                         capitalAsset.getSequenceNumber().compareTo(accountingLine.getSequenceNumber()) == 0 &&

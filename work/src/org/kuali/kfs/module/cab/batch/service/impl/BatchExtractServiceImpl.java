@@ -628,7 +628,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         itemAsset.setDocumentNumber(cabPurapDoc.getDocumentNumber());
         itemAsset.setAccountsPayableLineItemIdentifier(apItem.getItemIdentifier());
         // KFSMI-5337
-        // itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
+        itemAsset.setCapitalAssetBuilderLineNumber(purchasingAccountsPayableItemAssetDao.findMaxCabLineNumber(cabPurapDoc.getDocumentNumber(), apItem.getItemIdentifier()) + 1);
         // replacing the above line by following code which can populate item description from PO for normal line item
         if (ObjectUtils.isNotNull(cabPurapDoc) && ObjectUtils.isNotNull(apItem.getItemType()) && apItem.getItemType().isLineItemIndicator()) {
             PurchaseOrderDocument poDoc = purApInfoService.getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
@@ -641,7 +641,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             }
         }
         
-        itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
+        //itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
         itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity() == null ? new KualiDecimal(1) : apItem.getItemQuantity());
         itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
         itemAsset.setVersionNumber(0L);

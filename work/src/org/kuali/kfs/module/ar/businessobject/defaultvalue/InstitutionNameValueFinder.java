@@ -25,10 +25,10 @@ import org.kuali.rice.kns.service.ParameterService;
 /**
  * A value finder that returns the institution name from the INSTITUTION_NAME for Org Options Maint. Doc 
  */
-public class InstitutionNameValueFinder implements ValueFinder {
+public class InstitutionNameValueFinder extends SystemInformationValueFinderBase implements ValueFinder {
     
     public String getValue() {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
+        return (systemInformation != null)? systemInformation.getOrganizationCheckPayableToName() : "";
     }
 
 }

@@ -22,7 +22,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.ExceptionUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -30,8 +29,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This class...
  */
 public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
-    private AccountingLine accountingLineForValidation;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentAccountValidation.class);
+    protected AccountingLine accountingLineForValidation;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentAccountValidation.class);
+    
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
@@ -39,14 +39,17 @@ public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
         AccountingLine accountingLine = getAccountingLineForValidation();
         boolean isValid = true;
         if (accountingLine.isSourceAccountingLine()) {
-            accountingLine.refreshReferenceObject("account");
+            accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
             if (ObjectUtils.isNotNull(accountingLine.getAccount())) {
                 for (IndirectCostRecoveryAccount icrAccount : accountingLine.getAccount().getIndirectCostRecoveryAccounts()){
                     isValid &= StringUtils.isNotBlank(icrAccount.getIndirectCostRecoveryAccountNumber());
                 }
                 //not valid if ICR collection is empty or any of the account number is blank
                 if (!isValid) {
-                    reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("rule failure: " + KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT + " / " + accountingLine.getAccountNumber() );
+                    }
                 }
             }
         }
@@ -67,22 +70,6 @@ public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
      */
     public void setAccountingLineForValidation(AccountingLine accountingLineForValidation) {
         this.accountingLineForValidation = accountingLineForValidation;
-    }
-
-    /**
-     * Wrapper around global errorMap.put call, to allow better logging
-     * 
-     * @param propertyName
-     * @param errorKey
-     * @param errorParams
-     */
-    protected void reportError(String propertyName, String errorKey, String... errorParams) {
-        LOG.debug("reportError(String, String, String) - start");
-
-        GlobalVariables.getMessageMap().putError(propertyName, errorKey, errorParams);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
-        }
     }
     
 }

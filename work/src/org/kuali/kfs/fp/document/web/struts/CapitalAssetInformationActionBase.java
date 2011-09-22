@@ -122,23 +122,26 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                             
                             // If it doesn't already exist in the list add it.
                             if (addIt) {
-                                    CapitalAssetInformation capitalAsset = new CapitalAssetInformation();
-                                    capitalAsset.setSequenceNumber(capitalAccountingLine.getSequenceNumber());
-                                    capitalAsset.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
-                                    capitalAsset.setChartOfAccountsCode(capitalAccountingLine.getChartOfAccountsCode());
-                                    capitalAsset.setAccountNumber(capitalAccountingLine.getAccountNumber());
-                                    capitalAsset.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
-                                    capitalAsset.setAmount(KualiDecimal.ZERO);
-                                    capitalAsset.setDocumentNumber(calfb.getDocument().getDocumentNumber());
-                                    capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kualiAccountingDocumentFormBase));
-                                    capitalAsset.setCapitalAssetActionIndicator(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
-                                    capitalAsset.setCapitalAssetNumber(asset.getCapitalAssetNumber());
-                                    capitalAsset.setCapitalAssetProcessedIndicator(false);
-                                    capitalAssetInformation.add(capitalAsset);
+                                CapitalAssetInformation capitalAsset = new CapitalAssetInformation();
+                                capitalAsset.setSequenceNumber(capitalAccountingLine.getSequenceNumber());
+                                capitalAsset.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+                                capitalAsset.setChartOfAccountsCode(capitalAccountingLine.getChartOfAccountsCode());
+                                capitalAsset.setAccountNumber(capitalAccountingLine.getAccountNumber());
+                                capitalAsset.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
+                                capitalAsset.setAmount(KualiDecimal.ZERO);
+                                capitalAsset.setDocumentNumber(calfb.getDocument().getDocumentNumber());
+                                capitalAsset.setCapitalAssetLineNumber(getNextCapitalAssetLineNumber(kualiAccountingDocumentFormBase));
+                                capitalAsset.setCapitalAssetActionIndicator(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+                                capitalAsset.setCapitalAssetNumber(asset.getCapitalAssetNumber());
+                                capitalAsset.setCapitalAssetProcessedIndicator(false);
+                                capitalAssetInformation.add(capitalAsset);
                             }
                         }
                     }
                 }
+                
+                // remove the blank capital asset modify records now...
+                removeEmptyCapitalAssetModify(capitalAssetInformation);
                 
                 //now redistribute the amount for all assets if needed....
                 redistributeCostEquallyForModifiedAssets(form);
@@ -147,6 +150,24 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
+    }
+    
+    /**
+     * Remove if and any blank capital asset modify lines.
+     * @param capitalAssetInformation
+     */
+    protected void removeEmptyCapitalAssetModify(List<CapitalAssetInformation> capitalAssetInformation) {
+        List<CapitalAssetInformation> removeCapitalAssetModify = new ArrayList<CapitalAssetInformation>();
+        
+        for (CapitalAssetInformation capitalAssetRecord : capitalAssetInformation) {
+            if (ObjectUtils.isNull(capitalAssetRecord.getCapitalAssetNumber()) && KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR.equalsIgnoreCase(capitalAssetRecord.getCapitalAssetActionIndicator())) {
+                removeCapitalAssetModify.add(capitalAssetRecord);
+            }
+        }
+        
+        if (!removeCapitalAssetModify.isEmpty()) {
+            capitalAssetInformation.removeAll(removeCapitalAssetModify);
+        }
     }
     
     /**

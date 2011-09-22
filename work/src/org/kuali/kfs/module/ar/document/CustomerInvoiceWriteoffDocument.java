@@ -37,6 +37,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.TaxDetail;
@@ -79,6 +80,17 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     protected CustomerInvoiceDocument customerInvoiceDocument;
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     protected KualiDecimal invoiceWriteoffAmount;
+
+    // GLPEs from invoice to be written off - used for collecting tax amounts that should be written off
+    protected class WriteOffGlpes {
+        GeneralLedgerPendingEntry glpe;
+        boolean isWriteOffDetail;
+
+        public WriteOffGlpes(GeneralLedgerPendingEntry pe, boolean writeOff) {
+            this.glpe = pe;
+            this.isWriteOffDetail = writeOff;
+        }
+    }
 
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
         return accountsReceivableDocumentHeader;
@@ -234,8 +246,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return
      */
     public KualiDecimal getInvoiceWriteoffAmount() {
-        // only pull the invoice open amount as the invoice writeoff amount while the doc 
-        // is in play.  once its been approved, rely on the amount stored in the db.
+        // only pull the invoice open amount as the invoice writeoff amount while the doc
+        // is in play. once its been approved, rely on the amount stored in the db.
         if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
             invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
         }
@@ -276,7 +288,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
             return documentIds;
         }
         return null;
-        
+
     }
 
     /**
@@ -311,14 +323,6 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         return true;
     }
 
-    protected KualiDecimal getCustomerInvoiceDetailOpenPretaxAmount(CustomerInvoiceDetail customerInvoiceDetail) {
-        String postalCode = SpringContext.getBean(AccountsReceivableTaxService.class).getPostalCodeForTaxation(getCustomerInvoiceDocument());
-        Date dateOfTransaction = getCustomerInvoiceDocument().getBillingDate();
-        KualiDecimal pretaxAmount = SpringContext.getBean(TaxService.class).getPretaxAmount(dateOfTransaction, postalCode, customerInvoiceDetail.getAmountOpen());
-
-        return pretaxAmount;
-    }
-
     /**
      * This method creates the following GLPE's for the customer invoice writeoff 1. C Receivable object code with remaining amount
      * 2. D Writeoff object code (or Writeoff FAU) with remaining amount 3. C Receivable object code for tax on state tax account 4.
@@ -346,17 +350,18 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
-        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals( writeoffTaxGenerationOption );
+        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption);
 
         boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
 
         // if sales tax is enabled generate tax GLPEs
         if (SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(getCustomerInvoiceDocument(), customerInvoiceDetail)) {
-            amount = getCustomerInvoiceDetailOpenPretaxAmount(customerInvoiceDetail);
+            
+            amount = customerInvoiceDetail.getInvoiceItemPreTaxAmount();
             addReceivableGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
             sequenceHelper.increment();
             addWriteoffGLPEs(sequenceHelper, glpeSourceDetail, hasClaimOnCashOffset, amount);
-            addSalesTaxGLPEs( sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
+            addSalesTaxGLPEs(sequenceHelper, glpeSourceDetail, hasWriteoffTaxClaimOnCashOffset, amount);
         }
         else {
             amount = customerInvoiceDetail.getAmountOpen();
@@ -403,7 +408,8 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffCustomerInvoiceDetail, sequenceHelper, isDebit, hasClaimOnCashOffset, amount);
     }
 
-    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount){
+    protected void addSalesTaxGLPEs(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, boolean hasWriteoffTaxClaimOnCashOffset, KualiDecimal amount) {
+        List<GeneralLedgerPendingEntry> invGlpes = getCustomerInvoiceDocument().getGeneralLedgerPendingEntries();
         CustomerInvoiceDetail customerInvoiceDetail = (CustomerInvoiceDetail) glpeSourceDetail;
         WriteoffCustomerInvoiceDetail writeoffCustomerInvoiceDetail = new WriteoffCustomerInvoiceDetail(customerInvoiceDetail, this);
 
@@ -418,22 +424,51 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         SalesTaxCustomerInvoiceDetail salesTaxCustomerInvoiceDetail;
         ReceivableCustomerInvoiceDetail receivableCustomerInvoiceDetail;
         WriteoffTaxCustomerInvoiceDetail writeoffTaxCustomerInvoiceDetail;
-        for (TaxDetail salesTaxDetail : salesTaxDetails) {
 
+        for (TaxDetail salesTaxDetail : salesTaxDetails) {
             salesTaxCustomerInvoiceDetail = new SalesTaxCustomerInvoiceDetail(salesTaxDetail, customerInvoiceDetail);
             receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, getCustomerInvoiceDocument());
             writeoffTaxCustomerInvoiceDetail = new WriteoffTaxCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, this);
 
-            sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, hasWriteoffTaxClaimOnCashOffset, salesTaxDetail.getTaxAmount());
-
-            sequenceHelper.increment();
-            service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffTaxCustomerInvoiceDetail, sequenceHelper, isDebit, hasWriteoffTaxClaimOnCashOffset, salesTaxDetail.getTaxAmount());
+            List<WriteOffGlpes> newGlpes = findGeneralLedgerPendingEntryForDetail(invGlpes, receivableCustomerInvoiceDetail, salesTaxCustomerInvoiceDetail);
+            for (WriteOffGlpes writeOffGlpe : newGlpes) {
+                sequenceHelper.increment();
+                if (writeOffGlpe.isWriteOffDetail) {
+                    service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffTaxCustomerInvoiceDetail, sequenceHelper, isDebit, hasWriteoffTaxClaimOnCashOffset, writeOffGlpe.glpe.getTransactionLedgerEntryAmount());
+                }
+                else {
+                    service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, hasWriteoffTaxClaimOnCashOffset, writeOffGlpe.glpe.getTransactionLedgerEntryAmount());
+                }
+                invGlpes.remove(writeOffGlpe.glpe);
+            }
         }
     }
 
+
+    /** find all glpes that match this sales tax entry
+     * 
+     * 
+     * @param glpes
+     * @param glpeSourceDetail
+     * @param glpeWriteOffDetail
+     * @return array returned of all matches glpes
+     */
+    protected List<WriteOffGlpes> findGeneralLedgerPendingEntryForDetail(List<GeneralLedgerPendingEntry> glpes, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySourceDetail glpeWriteOffDetail) {
+        int counter = 0;
+        ArrayList<WriteOffGlpes> arrGlpeMatches = new ArrayList<WriteOffGlpes>();
+
+        for (GeneralLedgerPendingEntry glpe : glpes) {
+            if ((glpeSourceDetail.getAccountNumber().matches(glpe.getAccountNumber())) && (glpeSourceDetail.getChartOfAccountsCode().matches(glpe.getChartOfAccountsCode())) && (glpeSourceDetail.getObjectCode().getFinancialObjectCode().matches(glpe.getFinancialObjectCode()))) {
+                arrGlpeMatches.add(new WriteOffGlpes(glpe, false));
+            }
+            else if ((glpeWriteOffDetail.getAccountNumber().matches(glpe.getAccountNumber())) && (glpeWriteOffDetail.getChartOfAccountsCode().matches(glpe.getChartOfAccountsCode())) && (glpeWriteOffDetail.getObjectCode().getFinancialObjectCode().matches(glpe.getFinancialObjectCode()))) {
+                arrGlpeMatches.add(new WriteOffGlpes(glpe, true));
+            }
+        }
+        return arrGlpeMatches;
+    }
+
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -493,11 +528,11 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (REQUIRES_APPROVAL_NODE.equals(nodeName)) {
-            
-            //  grab the approval threshold from the param service
-            ParameterService paramService = SpringContext.getBean(ParameterService.class); 
+
+            // grab the approval threshold from the param service
+            ParameterService paramService = SpringContext.getBean(ParameterService.class);
             KualiDecimal approvalThreshold = new KualiDecimal(paramService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.WRITEOFF_APPROVAL_THRESHOLD));
-            
+
             return (approvalThreshold.isLessThan(getInvoiceWriteoffAmount()));
         }
         throw new UnsupportedOperationException("answerSplitNode('" + nodeName + "') called but no handler for this nodeName present.");

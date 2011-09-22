@@ -15,16 +15,17 @@
  */
 package org.kuali.kfs.module.ar;
 
+import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
-public class ArAuthorizationConstants extends AuthorizationConstants {
+public class ArAuthorizationConstants extends JSTLConstants {
 
-    public static class CustomerInvoiceDocumentEditMode extends EditMode {
+    public static class CustomerInvoiceDocumentEditMode {
         public static final String SHOW_RECEIVABLE_FAU = "showReceivableFAU";
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }
 
-    public static class CashControlDocumentEditMode extends EditMode {
+    public static class CashControlDocumentEditMode {
         public static final String EDIT_DETAILS = "editDetails";
         public static final String EDIT_PAYMENT_MEDIUM = "editPaymentMedium";
         public static final String EDIT_REF_DOC_NBR = "editRefDocNbr";
@@ -34,7 +35,7 @@ public class ArAuthorizationConstants extends AuthorizationConstants {
         public static final String SHOW_BANK_CODE = "showBankCode";
     }
 
-    public static class CustomerCreditMemoEditMode extends EditMode {
+    public static class CustomerCreditMemoEditMode {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String DISPLAY_PRINT_BUTTON = "displayPrintButton";
     }

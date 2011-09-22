@@ -16,15 +16,14 @@
 package org.kuali.kfs.sys;
 
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 public class KfsAuthorizationConstants extends JSTLConstants {
 
-    public static class TransactionalEditMode extends EditMode {
+    public static class TransactionalEditMode {
         public static final String EXPENSE_ENTRY = "expenseEntry";
     }
 
-    public static class DisbursementVoucherEditMode extends TransactionalEditMode {
+    public static class DisbursementVoucherEditMode {
         public static final String PAYEE_ENTRY = "payeeEntry";
         public static final String TAX_ENTRY = "taxEntry";
         public static final String FRN_ENTRY = "frnEntry";
@@ -36,21 +35,21 @@ public class KfsAuthorizationConstants extends JSTLConstants {
         public static final String SPECIAL_HANDLING_CHANGING_ENTRY = "specialHandlingChangingEntry";
     }
 
-    public static class DistributionOfIncomeAndExpenseEditMode extends EditMode {
+    public static class DistributionOfIncomeAndExpenseEditMode {
         public static final String SOURCE_LINE_READ_ONLY_MODE = "sourceLinesReadOnlyMode";
     }
     
-    public static class CashReceiptEditMode extends EditMode {
+    public static class CashReceiptEditMode {
         public static final String CASH_MANAGER_CONFIRM_MODE = "cmConfirm";
         public static final String CHANGE_REQUEST_MODE = "changeRequestOn";
     }
     
-    public static class CashManagementEditMode extends EditMode {
+    public static class CashManagementEditMode {
         public static final String ALLOW_ADDITIONAL_DEPOSITS = "allowAdditionalDeposits";
         public static final String ALLOW_CANCEL_DEPOSITS = "allowCancelDeposits";
     }
 
-    public static class BudgetAdjustmentEditMode extends EditMode {
+    public static class BudgetAdjustmentEditMode {
         public static final String BASE_AMT_ENTRY = "baseAmtEntry";
     }
 

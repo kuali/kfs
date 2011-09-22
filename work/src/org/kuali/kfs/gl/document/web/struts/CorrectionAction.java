@@ -61,11 +61,11 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
@@ -1411,7 +1411,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             Map<String, String> documentActions = correctionForm.getDocumentActions();
-            if (documentActions.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+            if (documentActions.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
                 // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
                 updateDocumentSummary(document, null, true);
             }
@@ -1752,7 +1752,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      *         being called if true, this is ususally not a good condition
      */
     protected boolean restoreSystemAndEditMethod(CorrectionForm correctionForm) {
-        boolean readOnly = correctionForm.getEditingMode().get(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) != null;
+        boolean readOnly = correctionForm.getEditingMode().get(AuthorizationConstants.EditMode.FULL_ENTRY) != null;
         if (!"selectSystemEditMethod".equals(correctionForm.getMethodToCall()) && !readOnly) {
             if (!StringUtils.equals(correctionForm.getPreviousEditMethod(), correctionForm.getEditMethod()) || !StringUtils.equals(correctionForm.getPreviousChooseSystem(), correctionForm.getChooseSystem())) {
                 correctionForm.setChooseSystem(correctionForm.getPreviousChooseSystem());

@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.vnd;
 
+import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.
  */
-public class VendorAuthorizationConstants extends AuthorizationConstants {
+public class VendorAuthorizationConstants extends JSTLConstants {
 
-    public static class VendorEditMode extends EditMode {
+    public static class VendorEditMode {
         public static final String TAX_ENTRY = "taxEntry";
     }
 

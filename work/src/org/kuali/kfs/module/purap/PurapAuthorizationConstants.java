@@ -15,14 +15,15 @@
  */
 package org.kuali.kfs.module.purap;
 
+import org.kuali.rice.core.util.JSTLConstants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.
  */
-public class PurapAuthorizationConstants extends AuthorizationConstants {
+public class PurapAuthorizationConstants extends JSTLConstants {
 
-    public static class RequisitionEditMode extends EditMode {
+    public static class RequisitionEditMode {
         public static final String ALLOW_POSTING_YEAR_ENTRY = "allowPostingYearEntry";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_CONTENT_ENTRY = "lockContentEntry";
@@ -37,7 +38,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
     }
 
-    public static class PurchaseOrderEditMode extends EditMode {
+    public static class PurchaseOrderEditMode {
         public static final String ALLOW_POSTING_YEAR_ENTRY = "allowPostingYearEntry";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_INTERNAL_PURCHASING_ENTRY = "lockInternalPurchasingEntry";
@@ -57,7 +58,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
     }
 
-    public static class PaymentRequestEditMode extends EditMode {
+    public static class PaymentRequestEditMode {
         public static final String PURAP_TAX_ENABLED = "purapTaxEnabled"; 
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
@@ -78,7 +79,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String FULL_DOCUMENT_ENTRY_COMPLETED = "fullDocumentEntryCompleted";
     }
 
-    public static class CreditMemoEditMode extends EditMode {
+    public static class CreditMemoEditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String EDIT_PRE_EXTRACT = "editPreExtract";
@@ -92,15 +93,15 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String FULL_DOCUMENT_ENTRY_COMPLETED = "fullDocumentEntryCompleted";
     }
 
-    public static class LineItemReceivingEditMode extends EditMode {
+    public static class LineItemReceivingEditMode {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
     }
 
-    public static class CorrectionReceivingEditMode extends EditMode {
+    public static class CorrectionReceivingEditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
     }
     
-    public static class BulkReceivingEditMode extends EditMode {
+    public static class BulkReceivingEditMode {
         public static final String DISPLAY_INIT_TAB = "displayInitTab";
         public static final String LOCK_PO_DETAILS = "lockPODetails";
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";

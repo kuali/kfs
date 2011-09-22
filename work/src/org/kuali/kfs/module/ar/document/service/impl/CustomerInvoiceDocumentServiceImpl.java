@@ -422,7 +422,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // filter only the ones initiated by the correct user
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         for (CustomerInvoiceDocument superSetDocument : customerInvoiceDocumentsSuperSet) {
-            if (superSetDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(initiator)) {
+            if ( StringUtils.equalsIgnoreCase(superSetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), initiator.getPrincipalId())) {
                 customerInvoiceDocuments.add(superSetDocument);
             }
         }

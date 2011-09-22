@@ -49,9 +49,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  * The default implementation of AccountingLineAuthorizer
  */
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
-    private KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+    private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
     private static String riceImagePath;
     private static String kfsImagePath;
 
@@ -110,7 +110,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
         KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            return workflowDocument.userIsInitiator(currentUser);
+            return StringUtils.equalsIgnoreCase( workflowDocument.getInitiatorPrincipalId(), currentUser.getPrincipalId() );
         }
         
         for (AccountingLineRenderingContext renderingContext : accountingLineRenderingContexts) {
@@ -214,9 +214,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given accounting line; otherwsie, false
      */
     public final boolean hasEditPermissionOnAccountingLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, Person currentUser, boolean pageIsEditable) {        
-        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser), pageIsEditable)) {
+        if (determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, StringUtils.equalsIgnoreCase( accountingDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), currentUser.getPrincipalId() ), pageIsEditable)) {
             
-            if (approvedForUnqualifiedEditing(accountingDocument, accountingLine, accountingLineCollectionProperty, accountingDocument.getDocumentHeader().getWorkflowDocument().userIsInitiator(currentUser))) {
+            if (approvedForUnqualifiedEditing(accountingDocument, accountingLine, accountingLineCollectionProperty, StringUtils.equalsIgnoreCase( accountingDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), currentUser.getPrincipalId() ))) {
                 return true;  // don't do the KIM check, we're good
             }
             
@@ -277,7 +277,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param currentUser the current user
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */    
-    private boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
+    protected boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
         final AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
         final String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
         final AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
@@ -294,7 +294,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param roleQualifiers the given role qualifications
      * @return true if the user has edit permission on an accounting line with the given qualifications; otherwise, false
      */
-    private boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
+    protected boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
         String pricipalId = currentUser.getPrincipalId();
         DocumentAuthorizer accountingDocumentAuthorizer = this.getDocumentAuthorizer(accountingDocument);
         
@@ -308,7 +308,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param fieldName the given field name
      * @return all the information for a permission detail attribute set
      */
-    private AttributeSet getPermissionDetails(String documentTypeName, String fieldName) {
+    protected AttributeSet getPermissionDetails(String documentTypeName, String fieldName) {
         AttributeSet permissionDetails = new AttributeSet();
 
         if (StringUtils.isNotBlank(documentTypeName)) {
@@ -328,7 +328,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingLine the accounting line to get role qualifiers from
      * @return the gathered AttributeSet of role qualifiers
      */
-    private final AttributeSet getRoleQualifiers(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    protected final AttributeSet getRoleQualifiers(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         AttributeSet roleQualifiers = new AttributeSet();
 
         if (accountingLine != null) {
@@ -538,7 +538,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingDocument the given accounting document
      * @return the document authorizer of the given accounting document
      */
-    private DocumentAuthorizer getDocumentAuthorizer(AccountingDocument accountingDocument) {
+    protected DocumentAuthorizer getDocumentAuthorizer(AccountingDocument accountingDocument) {
         return SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(accountingDocument);
     }
     

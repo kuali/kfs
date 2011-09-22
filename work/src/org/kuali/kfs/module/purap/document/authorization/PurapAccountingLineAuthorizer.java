@@ -158,7 +158,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
      * @param accountingDocument
      * @return
      */
-    private FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument accountingDocument) {
+    protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument accountingDocument) {
         final Class<? extends DocumentAuthorizer> documentAuthorizerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentAuthorizerClass();
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
         try {

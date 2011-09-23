@@ -42,7 +42,6 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.util.RiceConstants;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.cache.MethodCacheInterceptor;
 import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -212,12 +211,6 @@ public class SpringContext {
             }
         }
         return false;
-    }
-
-    public static List<MethodCacheInterceptor> getMethodCacheInterceptors() {
-        List<MethodCacheInterceptor> methodCacheInterceptors = new ArrayList<MethodCacheInterceptor>();
-        methodCacheInterceptors.add(getBean(MethodCacheInterceptor.class));
-        return methodCacheInterceptors;
     }
 
     protected static Object getBean(String beanName) {

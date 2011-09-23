@@ -15,30 +15,37 @@
  */
 package org.kuali.kfs.sys.context;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.util.RiceConstants;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kns.ConfigProperties;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
 import org.kuali.rice.ksb.messaging.MessageFetcher;
 import org.kuali.rice.ksb.messaging.threadpool.KSBThreadPool;
 
-public class WebApplicationInitListener extends JstlConstantsInitListener implements ServletContextListener {
+public class WebApplicationInitListener implements ServletContextListener {
     private static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
     private static final String JSTL_CONSTANTS_MAIN_CLASS = "jstl.constants.main.class";
     private static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
     private static Logger LOG;
 
-    @SuppressWarnings("unchecked")
     public void contextInitialized(ServletContextEvent sce) {
         Log4jConfigurer.configureLogging(true);
         LOG = Logger.getLogger(WebApplicationInitListener.class);
         SpringContext.initializeApplicationContext();
-        MessageFetcher messageFetcher = new MessageFetcher((Integer)null); 
-        SpringContext.getBean(KSBThreadPool.class).execute(messageFetcher); 
+        MessageFetcher messageFetcher = new MessageFetcher((Integer) null);
+        SpringContext.getBean(KSBThreadPool.class).execute(messageFetcher);
         for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
             try {
-                Class jstlConstantsClass = Class.forName(jstlConstantsClassname);
+                Class<?> jstlConstantsClass = Class.forName(jstlConstantsClassname);
                 Object jstlConstantsObj = jstlConstantsClass.newInstance();
                 sce.getServletContext().setAttribute(jstlConstantsClass.getSimpleName(), jstlConstantsObj);
                 if (jstlConstantsClassname.equals(JSTL_CONSTANTS_MAIN_CLASS)) {
@@ -49,7 +56,29 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
                 LOG.warn("Unable to load jstl constants class: " + jstlConstantsClassname, e);
             }
         }
-        super.contextInitialized(sce);
+        LOG.info("Starting " + getClass().getName() + "...");
+        ServletContext context = sce.getServletContext();
+
+        // publish application constants into JSP app context with name "Constants"
+        context.setAttribute("Constants", new KNSConstants());
+
+        // publish application constants into JSP app context with name "Constants"
+        context.setAttribute("RiceConstants", new RiceConstants());
+
+        // publish application constants into JSP app context with name "Constants"
+        context.setAttribute("KEWConstants", new KEWConstants());
+
+        // publish configuration properties into JSP app context with name "ConfigProperties"
+        context.setAttribute("ConfigProperties", new ConfigProperties());
+
+        // publish dataDictionary property Map into JSP app context with name "DataDictionary"
+        context.setAttribute("DataDictionary", KNSServiceLocator.getDataDictionaryService().getDataDictionaryMap());
+
+        // public AuthorizationConstants property Map into JSP app context with name "AuthorizationConstants"
+        context.setAttribute("AuthorizationConstants", new AuthorizationConstants());
+
+        // publish property constants into JSP app context with name "PropertyConstants"
+        context.setAttribute("PropertyConstants", new KNSPropertyConstants());
         LOG.info("Finished web application context initialization");
     }
 
@@ -57,9 +86,9 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
         LOG.debug("Started web application context destruction");
         try {
             SpringContext.close();
-        } catch ( Exception ex ) {
-            LOG.error( "Unable to close down Spring Context." );
         }
-        super.contextDestroyed(sce);
+        catch (Exception ex) {
+            LOG.error("Unable to close down Spring Context.", ex);
+        }
     }
 }

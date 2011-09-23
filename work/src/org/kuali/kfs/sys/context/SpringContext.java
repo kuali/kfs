@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.RiceConfigurer;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.util.RiceConstants;
@@ -46,6 +45,7 @@ import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -248,12 +248,12 @@ public class SpringContext {
         if ( applicationContext == null ) {
             applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
         }
-        RiceConfigurer riceConfigurer = null;
+        DisposableBean riceConfigurer = null;
         try {
-            riceConfigurer = (RiceConfigurer) applicationContext.getBean( "rice" );
+            riceConfigurer = (DisposableBean) applicationContext.getBean( "rice" );
         } catch ( Exception ex ) {
             LOG.debug( "Unable to get 'rice' bean - attempting to get from the Rice ConfigContext", ex );
-            riceConfigurer = (RiceConfigurer)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
+            riceConfigurer = (DisposableBean)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
         }
         applicationContext = null;
         if ( riceConfigurer != null ) {

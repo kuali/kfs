@@ -368,8 +368,9 @@
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="12"/>
+      <bean parent="TextControlDefinition" p:size="37"/>
     </property>
+    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-accountIdentifier" parent="PurchaseOrderAccount-accountIdentifier-parentBean"/>
 

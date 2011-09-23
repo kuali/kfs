@@ -185,6 +185,7 @@
         <ref bean="PurchaseOrderDocument-deliveryCampusCodeForSearch"/>
         <ref bean="PurchaseOrderDocument-assignedUserPrincipalName"/>
         <ref bean="PurchaseOrderDocument-sensitive"/>
+		<ref bean="PurchaseOrderDocument-accountDistributionMethod"/> 
       </list>
     </property>
     <property name="validationMap" ref="PurchaseOrderDocument-validations"/>
@@ -1087,6 +1088,7 @@
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
+  
   <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator" parent="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean"/>
 
   <bean id="PurchaseOrderDocument-purchaseOrderConfirmedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
@@ -1165,8 +1167,6 @@
   </bean>
 
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode" parent="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean"/>
-
-
   <bean id="PurchaseOrderDocument-purchaseOrderQuoteTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderQuoteTypeCode"/>
     <property name="forceUppercase" value="true"/>
@@ -1506,6 +1506,19 @@
     <bean id="PurchaseOrderDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     	<property name="name" value="sensitive"/>
     </bean>
+	<bean id="PurchaseOrderDocument-accountDistributionMethod" parent="PurchaseOrderDocument-accountDistributionMethod-parentBean"/>
+	
+	<bean id="PurchaseOrderDocument-accountDistributionMethod-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="accountDistributionMethod"/>
+	    <property name="forceUppercase" value="false"/>
+	    <property name="label" value="Account Distribution Method"/>
+	    <property name="shortLabel" value="Acct Dist. Typ"/>
+	    <property name="maxLength" value="1"/>
+	    <property name="required" value="false"/>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AccountDistributionMethodValuesFinder" p:includeKeyInLabel="false"/>
+	    </property>
+	</bean>
     
     <!-- workflow attributes for routing -->
     <bean id="PurchaseOrderDocument-workflowAttributes" parent="PurchaseOrderDocument-workflowAttributes-parentBean"/>

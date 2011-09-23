@@ -56,6 +56,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     public PaymentRequestForm() {
         super();
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
+        //on PO, account distribution should be read only
+        setReadOnlyAccountDistributionMethod(true);
     }
 
     @Override

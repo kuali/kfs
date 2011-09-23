@@ -43,6 +43,7 @@
 	    	<purap:purapDocumentDetail
 	    		documentAttributes="${DataDictionary.PaymentRequestDocument.attributes}"
 	    		detailSectionLabel="Payment Request Detail"
+	    		editableAccountDistributionMethod="${KualiForm.readOnlyAccountDistributionMethod}"
 	    		paymentRequest="true" />
 	    </sys:documentOverview>
 	</c:if>

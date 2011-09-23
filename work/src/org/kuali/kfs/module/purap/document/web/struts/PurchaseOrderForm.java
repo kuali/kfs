@@ -103,6 +103,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         setNewPurchaseOrderVendorQuote(new PurchaseOrderVendorQuote());
         this.accountingLineEditingMode = new HashMap();
+        //on PO, account distribution should be read only
+        setReadOnlyAccountDistributionMethod(true);
     }
 
     @Override

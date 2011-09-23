@@ -137,6 +137,7 @@
         <ref bean="PaymentRequestDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="PaymentRequestDocument-processingCampusCodeForSearch"/>
         <ref bean="PaymentRequestDocument-sensitive"/>
+		<ref bean="PaymentRequestDocument-accountDistributionMethod"/> 
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -1039,7 +1040,7 @@
 	    <property name="accountingLineView" ref="PaymentRequestDocument-accountingLineView"/>
 	    <property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
 	    <property name="groupLabel" value="Source"/>
-	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer"/>
+	    <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PaymentRequestAccountingLineAuthorizer"/>
 	    <property name="importedLinePropertyPrefix" value="source"/>
 	    <property name="errorKey" value="document.item*,*sourceAccountingLines*,newSourceLine*"/> 
 	    <property name="importingAllowed" value="false"/>
@@ -1059,8 +1060,8 @@
 						  </list>
 					  </property>
 				  </bean>
-				  <bean parent="AccountingLineView-field" p:name="amount" p:required="false"/>
-				  <bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="false" p:useShortLabel="true"/>					
+				  <bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="false" p:useShortLabel="true"/>
+				  <bean parent="AccountingLineView-field" p:name="amount" p:required="false" p:useShortLabel="true"/>
 				  <bean parent="AccountingLineView-actions"/>
 			  </list>
 		  </property>
@@ -1149,6 +1150,19 @@
     <bean id="PaymentRequestDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     	<property name="name" value="sensitive"/>
     </bean>
+	<bean id="PaymentRequestDocument-accountDistributionMethod" parent="PaymentRequestDocument-accountDistributionMethod-parentBean"/>
+	
+	<bean id="PaymentRequestDocument-accountDistributionMethod-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="accountDistributionMethod"/>
+	    <property name="forceUppercase" value="false"/>
+	    <property name="label" value="Account Distribution Method"/>
+	    <property name="shortLabel" value="Acct Dist. Typ"/>
+	    <property name="maxLength" value="1"/>
+	    <property name="required" value="false"/>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.AccountDistributionMethodValuesFinder" p:includeKeyInLabel="false"/>
+	    </property>
+	</bean>
       
     <!-- workflow attributes for routing -->
     <bean id="PaymentRequestDocument-workflowAttributes" parent="PaymentRequestDocument-workflowAttributes-parentBean"/>

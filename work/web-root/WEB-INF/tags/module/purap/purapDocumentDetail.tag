@@ -105,9 +105,7 @@
             <kul:htmlControlAttribute
                 property="document.accountDistributionMethod"
                 attributeEntry="${documentAttributes.accountDistributionMethod}"
-                readOnly="${editableAccountDistributionMethod or 
-                not(fullEntryMode or amendmentEntry) and 
-                not (contentReadOnly or internalPurchasingReadOnly)}"
+                readOnly="${editableAccountDistributionMethod}"
                 tabindexOverride="${tabindexOverrideBase + 0}"/>
         </td>
 	</tr>  

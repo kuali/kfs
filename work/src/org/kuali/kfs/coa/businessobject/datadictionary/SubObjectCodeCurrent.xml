@@ -15,7 +15,8 @@
  limitations under the License.
 -->
 
-  <bean id="SubObjectCodeCurrent" parent="SubObjectCode">
+  <bean id="SubObjectCodeCurrent" parent="SubObjectCodeCurrent-parentBean" />
+  <bean id="SubObjectCodeCurrent-parentBean" parent="SubObjectCode" abstract="true">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent"/>
     <property name="inquiryDefinition">
     	<bean parent="SubObjectCode-inquiryDefinition" />

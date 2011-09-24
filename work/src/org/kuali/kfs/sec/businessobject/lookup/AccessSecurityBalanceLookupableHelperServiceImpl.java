@@ -482,7 +482,7 @@ public class AccessSecurityBalanceLookupableHelperServiceImpl implements Lookupa
                 String dateValue = (String) lookupFormFields.get(dateFieldName);
                 String newPropValue = dateValue;// maybe clean above with ObjectUtils.clean(propertyValue)
                 if (StringUtils.isNotEmpty(fromDateValue) && StringUtils.isNotEmpty(dateValue)) {
-                    newPropValue = fromDateValue + KNSConstants.BETWEEN_OPERATOR + dateValue;
+                    newPropValue = fromDateValue + ".." + dateValue;
                 }
                 else if (StringUtils.isNotEmpty(fromDateValue) && StringUtils.isEmpty(dateValue)) {
                     newPropValue = ">=" + fromDateValue;

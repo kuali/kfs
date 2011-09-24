@@ -24,14 +24,13 @@ import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.rice.kim.bo.Group;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.GroupImpl;
-import org.kuali.rice.kim.bo.impl.RoleImpl;
+import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 
@@ -57,12 +56,12 @@ public class SecurityModelMemberInquirable extends KfsInquirableImpl {
 
             if (StringUtils.isNotBlank(memberId) && StringUtils.isNotBlank(memberTypeCode)) {
                 if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
-                    parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, RoleImpl.class.getName());
+                    parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Role.class.getName());
                     parameters.put(KimConstants.PrimaryKeyConstants.ROLE_ID, memberId);
                     fieldList.put(KimConstants.PrimaryKeyConstants.ROLE_ID, memberId.toString());
                 }
                 else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
-                    parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, GroupImpl.class.getName());
+                    parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Group.class.getName());
                     parameters.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberId);
                     fieldList.put(KimConstants.PrimaryKeyConstants.GROUP_ID, memberId.toString());
                 }

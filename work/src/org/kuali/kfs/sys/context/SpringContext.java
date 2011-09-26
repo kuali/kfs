@@ -267,17 +267,17 @@ public class SpringContext {
 
     private static void verifyProperInitialization() {
         if (applicationContext == null) {
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( new IllegalStateException( "Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized." ) );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
-            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized.", new IllegalStateException() );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
+//            LOG.fatal( "*****************************************************************" );
             throw new IllegalStateException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized.");
         }
     }

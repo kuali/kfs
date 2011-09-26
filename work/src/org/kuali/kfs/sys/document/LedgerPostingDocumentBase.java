@@ -43,7 +43,9 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      */
     public LedgerPostingDocumentBase() {
         super();
-        createInitialAccountingPeriod();
+        if ( SpringContext.isInitialized() ) {
+            createInitialAccountingPeriod();
+        }
     }
 
     /**
@@ -64,13 +66,8 @@ public class LedgerPostingDocumentBase extends FinancialSystemTransactionalDocum
      * @return the current accounting period
      */
     public AccountingPeriod retrieveCurrentAccountingPeriod() {
-        try {
-            Date date = getDateTimeService().getCurrentSqlDate();
-            return getAccountingPeriodService().getByDate(date);
-        } catch ( RuntimeException ex ) {
-            // catch and ignore - prevent blowup when called before services initialized
-            return null;
-        }
+        Date date = getDateTimeService().getCurrentSqlDate();
+        return getAccountingPeriodService().getByDate(date);
     }
 
     /**

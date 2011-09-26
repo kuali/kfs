@@ -217,7 +217,11 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * @return Returns the employee.
      */
     public Person getEmployee() {
-        return (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
+        if ( StringUtils.isNotBlank( getEmplid() ) ) {
+            return (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -235,7 +239,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * @return Returns the Person
      */
     public Person getLedgerPerson() {
-        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) {
+        if( (ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) && StringUtils.isNotBlank( emplid )) {
             ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
         

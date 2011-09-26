@@ -35,8 +35,8 @@ public class PositionFunding extends LaborCalculatedSalaryFoundationTracker {
      * @return Returns the ledgerPerson.
      */
     public Person getLedgerPerson() {
-        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), this.getEmplid())) {
-            ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(this.getEmplid());
+        if( (ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), getEmplid())) && StringUtils.isNotBlank(getEmplid())) {
+            ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
         }
         
         return ledgerPerson;

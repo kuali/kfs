@@ -498,7 +498,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * @return Returns the Person
      */
     public Person getLedgerPerson() {
-        if(ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) {
+        if( (ledgerPerson == null || !StringUtils.equals(ledgerPerson.getEmployeeId(), emplid)) && StringUtils.isNotBlank(emplid) ) {
             ledgerPerson = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(emplid);
         }
         

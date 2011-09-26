@@ -91,10 +91,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public EffortCertificationDetail() {
         super();
 
-        try {
+        if ( SpringContext.isInitialized() ) {
             subAccountNumber = KFSConstants.getDashSubAccountNumber();
-        } catch ( RuntimeException ex ) {
-            // skip errors caused by calling this prior to spring startup
         }
 
         effortCertificationPayrollAmount = KualiDecimal.ZERO;

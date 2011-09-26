@@ -183,7 +183,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
     private boolean checkIndirectCostRecoveryAccountDistributions() {
         
         boolean result = true;
-        if (ObjectUtils.isNull(indirectCostRecoveryAccountList)) {
+        if (ObjectUtils.isNull(indirectCostRecoveryAccountList) || (indirectCostRecoveryAccountList.size() == 0)) {
             return result;
         }
         
@@ -191,7 +191,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         
         int i=0;
         BigDecimal totalDistribution = BigDecimal.ZERO;
-        
+       
         for (IndirectCostRecoveryAccount icra : indirectCostRecoveryAccountList){
             String errorPath = MAINTAINABLE_ERROR_PREFIX + boFieldPath + "[" + i++ + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);

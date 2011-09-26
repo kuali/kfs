@@ -455,10 +455,10 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * @return the errorMessage
+     * @return the no verified cash error message
      */
     public String getNoVerifiedCashErrorMessage() {
-        String errorMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashManagement.ERROR_NO_VERIFIED_CASH);
+        String errorMessage = WebUtils.getKualiConfigurationService().getPropertyString(KFSKeyConstants.CashManagement.ERROR_NO_VERIFIED_CASH);
         errorMessage = errorMessage.replace("{0}", getCashDrawerCampusCode());
         errorMessage = errorMessage.replace("{1}", getCashManagementDocId());
         return WebUtils.filterHtmlAndReplaceRiceMarkup(errorMessage);

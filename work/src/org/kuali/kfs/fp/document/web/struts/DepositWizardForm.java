@@ -26,13 +26,15 @@ import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.businessobject.DepositWizardCashieringCheckHelper;
 import org.kuali.kfs.fp.businessobject.DepositWizardHelper;
 import org.kuali.kfs.fp.businessobject.format.CashReceiptDepositTypeFormatter;
-import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -62,6 +64,8 @@ public class DepositWizardForm extends KualiForm {
     // carried over editing modes and document actions to make the bank tags happy
     protected Map editingMode;
     protected Map documentActions;
+    
+    protected String noVerifiedCashErrorMessage = "";
 
     /**
      * Constructs a DepositWizardForm class instance.
@@ -423,7 +427,7 @@ public class DepositWizardForm extends KualiForm {
      * @return Returns the documentActions.
      */
     public Map getDocumentActions() {
-        return documentActions;
+        return documentActions; 
     }
 
     /**
@@ -449,4 +453,23 @@ public class DepositWizardForm extends KualiForm {
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
     }
+
+    /**
+     * @return the errorMessage
+     */
+    public String getNoVerifiedCashErrorMessage() {
+        String errorMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashManagement.ERROR_NO_VERIFIED_CASH);
+        errorMessage = errorMessage.replace("{0}", getCashDrawerCampusCode());
+        errorMessage = errorMessage.replace("{1}", getCashManagementDocId());
+        return WebUtils.filterHtmlAndReplaceRiceMarkup(errorMessage);
+    }
+
+    /**
+     * @param noVerifiedCashErrorMessage the noVerifiedCashErrorMessage to set
+     */
+    public void setNoVerifiedCashErrorMessage(String noVerifiedCashErrorMessage) {
+        this.noVerifiedCashErrorMessage = noVerifiedCashErrorMessage;
+    }
+    
+    
 }

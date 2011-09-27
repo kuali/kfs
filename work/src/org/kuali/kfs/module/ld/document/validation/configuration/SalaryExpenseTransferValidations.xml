@@ -105,7 +105,16 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>			
+				</bean>		
+				<bean parent="SalaryExpenseTransferDocument-accountingLinesNoSalaryWagesValidation"
+					scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>	
 			</list>
 		</property>	
 	</bean>
@@ -159,7 +168,16 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>				
+				</bean>			
+				<bean parent="SalaryExpenseTransferDocument-accountingLinesNoSalaryWagesValidation"
+					scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>	
 			</list>
 		</property>	
 	</bean>

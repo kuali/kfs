@@ -46,6 +46,7 @@ public class LaborKeyConstants {
     public static final String INVALID_PAY_PERIOD_CODE = "error.labor.invalidPayPeriodCodeError";
     public static final String INVALID_PAY_YEAR = "error.labor.invalidPayYearError";
     public static final String INVALID_SALARY_OBJECT_CODE_ERROR = "error.labor.invalidSalaryObjectCode";
+    public static final String INVALID_SALARY_ACCOUNT_SUB_FUND_ERROR = "error.labor.invalidSalaryAccountSubFund";
     public static final String LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR = "error.labor.missingObjectCode";
     public static final String LLCP_UPLOAD_FILE_INVALID_RECORD_SIZE_ERROR = "error.labor.llcpInvalidRecordSize";
     public static final String MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON = "message.labor.yearEndTransactionDescription";

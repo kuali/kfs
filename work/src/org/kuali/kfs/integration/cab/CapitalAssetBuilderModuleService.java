@@ -17,6 +17,7 @@ package org.kuali.kfs.integration.cab;
 
 import java.util.List;
 
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -47,7 +48,7 @@ public interface CapitalAssetBuilderModuleService {
      * @param capitalAssetManagementAsset data to be validated
      * @return validation succeeded or errors present
      */
-    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation);
+    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation, int index);
 
 
     public boolean validatePurchasingData(AccountingDocument accountingDocument);
@@ -131,5 +132,5 @@ public interface CapitalAssetBuilderModuleService {
      * @param documentNumber
      * @return true if gl entry line marked as processed else return false.
      */
-    public boolean markProcessedGLEntryLine(String documentNumber);    
+    public boolean markProcessedGLEntryLine(String documentNumber);   
 }

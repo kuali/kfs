@@ -47,5 +47,8 @@ public class KFSParameterKeyConstants implements ParameterKeyConstants {
         public static final String DEMERGE_DOCUMENT_TYPES = "DEMERGE_DOCUMENT_TYPES";
     }
     
+    public static class CamParameterConstants {
+        public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
+    }
  
 }

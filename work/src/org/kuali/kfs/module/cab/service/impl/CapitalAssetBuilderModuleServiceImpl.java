@@ -107,6 +107,7 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -121,6 +122,8 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
     private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
+    
+    private boolean duplicateTagLineChecked = false;
     
     protected static enum AccountCapitalObjectCode {
         BOTH_NONCAP {
@@ -1266,7 +1269,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument and capitalAssetInformation
      * @return True if the FinancialProcessingData is valid.
      */
-    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation) {
+    public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation, int index) {
         boolean valid = true;
 
         // Check if we need to collect cams data
@@ -1291,11 +1294,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     // Validate New Asset information
                     valid &= checkNewCapitalAssetFieldsExist(capitalAssetInformation, accountingDocument);
                     if (valid) {
-                        valid = validateNewCapitalAssetFields(capitalAssetInformation);
+                        valid = validateNewCapitalAssetFields(capitalAssetInformation, index, accountingDocument);
                     }
                 }
             }
         }
+        
         return valid;
     }
 
@@ -1523,11 +1527,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * To validate new asset information
      * 
      * @param capitalAssetInformation the information of add asset to be validated
+     * @param index index of the capital asset line
      * @return boolean false if data is incorrect
      */
-    protected boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation) {
+    protected boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation, int index, AccountingDocument accountingDocument) {
         boolean valid = true;
-
+        
         if (!isAssetTypeExisting(capitalAssetInformation.getCapitalAssetTypeCode().toString())) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
@@ -1536,13 +1541,41 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
 
+        if (valid) {
+            valid &= validateAssetTagLocationLines(capitalAssetInformation, index, accountingDocument);
+        }
+        
+
+        return valid;
+    }
+
+    /**
+     * validates asset tag location lines for existence of any duplicate tag/location details.
+     * Collects all the detail lines for all the capital assets and then checks if there 
+     * are any duplicates.
+     * 
+     * @param capitalAssetInformation
+     * @param capitalAssets
+     * @param capitalAssetIndex index of the capital asset line
+     * @return true if duplicate else false
+     */
+    protected boolean validateAssetTagLocationLines(CapitalAssetInformation capitalAssetInformation, int capitalAssetIndex, AccountingDocument accountingDocument) {
+        boolean valid = true;
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
+        List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
+        
+        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            capitalAssetInformationDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());
+        }
+        
         int index = 0;
-        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
+      //  List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-            // We have to explicitly call this DD service to uppercase each field. This may not be the best place and maybe form
+            // We have to explicitly call this DD service to upper case each field. This may not be the best place and maybe form
             // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
-            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+            String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + capitalAssetIndex + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
             if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                 if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)) {
@@ -1582,10 +1615,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             index++;
         }
-
+        
         return valid;
     }
-
+    
     /**
      * Check assetTypeCode existence.
      * 

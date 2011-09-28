@@ -30,6 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.options.CapitalAccountingLinesComparator;
 import org.kuali.kfs.fp.document.CapitalAccountingLinesDocumentBase;
+import org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -40,6 +41,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -435,13 +440,25 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             calfb.setEditCreateOrModify(false);
         }
             
-        createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
-        checkCapitalAccountingLinesSelected(calfb);
+        Document document = calfb.getFinancialDocument();
         
-        KualiForm kualiForm = (KualiForm) form;
-        setTabStatesForCapitalAssets(kualiForm);
+        //if same object subtypes then continue creating capital assets....
+        if (checkObjecSubTypeCrossingCapitalAccountingLines(document)) {
+            //question the user if to continue....
+            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+            if (forward != null) {
+                return forward;
+            }
+        }
+        else {
+            createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR);
+            checkCapitalAccountingLinesSelected(calfb);
+            
+            KualiForm kualiForm = (KualiForm) form;
+            setTabStatesForCapitalAssets(kualiForm);
+        }
         
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
     /**
@@ -457,7 +474,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     public ActionForward modifyAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         String distributionCode = calfb.getCapitalAccountingLine().getDistributionCode();
-
+        
         if (AMOUNT_EQUAL_DISTRIBUTION_CODE.equals(distributionCode)) {
             calfb.setDistributeEqualAmount(true);
          }
@@ -473,11 +490,23 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             calfb.setEditCreateOrModify(false);
         }
         
-        createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
-        checkCapitalAccountingLinesSelected(calfb);
+        Document document = calfb.getFinancialDocument();
         
-        KualiForm kualiForm = (KualiForm) form;
-        setTabStatesForCapitalAssets(kualiForm);
+        //if same object subtypes then continue creating capital assets....
+        if (checkObjecSubTypeCrossingCapitalAccountingLines(document)) {
+            //question the user if to continue....
+            ActionForward forward = performQuestionPrompt(mapping, form, request, response, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+            if (forward != null) {
+                return forward;
+            }
+        }
+        else {
+            createCapitalAssetInformation(calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+            checkCapitalAccountingLinesSelected(calfb);
+            
+            KualiForm kualiForm = (KualiForm) form;
+            setTabStatesForCapitalAssets(kualiForm);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -499,5 +528,68 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         }
         
         return selected;
+    }
+    
+   /**
+    * runs the validation to check if object subtypes crosses groups on
+    * selected capital accounting lines.
+    * 
+    * @param form
+    * @return true if rule passed else false
+    */
+    protected boolean checkObjecSubTypeCrossingCapitalAccountingLines(Document document) {
+        boolean differentObjecSubtypes = true;
+        differentObjecSubtypes &= getRuleService().applyRules(new CapitalAccountingLinesSameObjectCodeSubTypeEvent(document));
+
+        return differentObjecSubtypes;
+    }
+    
+    /**
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    protected ActionForward performQuestionPrompt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String actionTypeCode) throws Exception {
+        ActionForward forward = null;
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        
+        if (question == null) {
+            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES);
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            // If the user replies 'Yes' the question, proceed..
+            if (KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
+                createCapitalAssetInformation(calfb, actionTypeCode);
+                checkCapitalAccountingLinesSelected(calfb);
+                
+                KualiForm kualiForm = (KualiForm) form;
+                setTabStatesForCapitalAssets(kualiForm);
+                
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                
+            }
+            // If the user replies 'No' to either of the questions
+            else {
+                forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+        }
+
+        return forward;
+    }
+    
+    /**
+     * Get the rule service
+     * 
+     * @return ruleService
+     */
+    protected KualiRuleService getRuleService() {
+        return SpringContext.getBean(KualiRuleService.class);
     }
 }

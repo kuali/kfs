@@ -421,5 +421,6 @@
     <bean id="DisbursementVoucher-campusSpecialHandlingValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherCampusSpecialHandlingValidation" abstract="true">
     	<property name="documentService" ref="documentService" />
     </bean>
-			
+		
+	<bean id="CapitalAccountingLines-debitsAndCreditsBalanceValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesObjectSubtypeValidations" abstract="true" />		
 </beans>

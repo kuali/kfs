@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * validate the capital asset information associated with the accounting document for validation
@@ -49,7 +50,8 @@ public class CapitalAssetInformationValidation extends GenericValidation {
     // determine whehter the given document has valid capital asset information if any
     protected boolean hasValidCapitalAssetInformation(AccountingDocument accountingDocument) {
         LOG.debug("hasValidCapitalAssetInformation(Document) - start");
-
+        boolean isValid = true;
+        
         if (accountingDocument instanceof CapitalAssetEditable == false) {
             return true;
         }
@@ -57,6 +59,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
+        int index = 0;
         for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
             if (ObjectUtils.isNotNull(capitalAssetInformation)) {
                 MessageMap errors = GlobalVariables.getMessageMap();
@@ -64,15 +67,15 @@ public class CapitalAssetInformationValidation extends GenericValidation {
                 String parentName = (capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR) ? KFSPropertyConstants.CAPITAL_ASSET_INFORMATION :  KFSPropertyConstants.CAPITAL_ASSET_MODIFY_INFORMATION);
                 errors.addToErrorPath(parentName);
                 
-                boolean isValid = capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation);
+                isValid &= capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation, index);
                 
                 errors.removeFromErrorPath(parentName);
                 errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-                return isValid;
+                index++;
             }
         }
-
-        return true;
+        
+        return isValid;
     }
 
     /**

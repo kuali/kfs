@@ -24,7 +24,6 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController"/>
-    
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
     <property name="workflowAttributes">
@@ -85,6 +84,11 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>DistributionOfIncomeAndExpense-reviewAccountingLineValidation</value>
+			</entry>
+			<!-- capital accounting lines subtype check prerules. -->		
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>DistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations</value>
 			</entry>
     	</map>
     </property>

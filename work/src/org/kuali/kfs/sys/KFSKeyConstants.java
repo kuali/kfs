@@ -20,6 +20,8 @@ package org.kuali.kfs.sys;
  * Holds error key constants.
  */
 public class KFSKeyConstants {
+    public static final String CONTINUE_QUESTION = "document.question.continue.text";
+    public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.capital.object.subtype.not.the.same";
     public static final String ERROR_EXISTENCE = "error.existence";
     public static final String ERROR_EXPIRED = "error.expired";
     public static final String ERROR_INACTIVE = "error.inactive";

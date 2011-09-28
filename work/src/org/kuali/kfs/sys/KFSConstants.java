@@ -143,6 +143,8 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     public static final String CONVERSION_FIELDS_PARAMETER = "conversionFields";
     public static final String LOOKUP_READ_ONLY_FIELDS = "readOnlyFields";
     public static final String LOOKUP_AUTO_SEARCH = "autoSearch";
+    public static final String OBJECT_SUB_TYPES_DIFFERENT_QUESTION = "Object Subtypes different Question";
+    
     @Deprecated
     public static final String CREDIT_AMOUNT_PROPERTY_NAME = "newSourceLineCredit";
     @Deprecated
@@ -1003,6 +1005,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
         
         // capital asset
         public static final String ASSET_PAYMENT = "MPAY";
+        public static final String ASSET_DIFFERENT_OBJECT_SUB_TYPE_CONFIRMATION_QUESTION = "AssetDifferentObjectSubTypeQuestion";
 
         // labor
         public static final String SALARY_EXPENSE_TRANSFER = "ST";

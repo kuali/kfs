@@ -45,9 +45,8 @@
         <value>../scripts/pdp/objectInfo.js</value>
       </list>
     </property>
-    <property name="workflowProperties">
-      <ref bean="PayeeACHAccountMaintenanceDocument-workflowProperties"/>
-    </property>
+    
+    <property name="workflowAttributes" ref="PayeeACHAccountMaintenanceDocument-workflowAttributes"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -82,11 +81,54 @@
     </property>
   </bean>
 
-<!-- Exported Workflow Properties -->
-
-
-  <bean id="PayeeACHAccountMaintenanceDocument-workflowProperties" parent="PayeeACHAccountMaintenanceDocument-workflowProperties-parentBean"/>
-
-  <bean id="PayeeACHAccountMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+  <!-- Exported Workflow Properties -->
+  <bean id="PayeeACHAccountMaintenanceDocument-workflowAttributes" parent="PayeeACHAccountMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="PayeeACHAccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    
+    <property name="searchingTypeDefinitions">
+        <list>
+          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+            <property name="searchingAttribute">
+              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
+                <property name="attributeName" value="payeeIdentifierTypeCode"/>
+              </bean>
+            </property>
+            <property name="documentValues">
+              <list>
+                <value>newMaintainableObject.businessObject.payeeIdentifierTypeCode</value>
+              </list>
+            </property>
+          </bean>
+          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+            <property name="searchingAttribute">
+              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
+                <property name="attributeName" value="payeeIdNumber"/>
+              </bean>
+            </property>
+            <property name="documentValues">
+              <list>
+                <value>newMaintainableObject.businessObject.payeeIdNumber</value>
+              </list>
+            </property>
+          </bean>
+          <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+            <property name="searchingAttribute">
+              <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
+                <property name="attributeName" value="payeeName"/>
+              </bean>
+            </property>
+            <property name="documentValues">
+              <list>
+                <value>newMaintainableObject.businessObject.payeeName</value>
+              </list>
+            </property>
+          </bean>
+        </list>
+      </property>
   </bean>
+  
 </beans>

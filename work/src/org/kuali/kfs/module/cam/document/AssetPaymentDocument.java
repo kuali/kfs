@@ -46,6 +46,7 @@ import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -216,8 +217,15 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	 */
 	@Override
 	public void prepareForSave(KualiDocumentEvent event) {
-		// This is an empty method in order to prevent kuali from generating a
+		// This method  prevents kuali from generating a
 		// gl pending entry record.
+        for (AssetPaymentAssetDetail assetDetail : this.getAssetPaymentAssetDetail()) {
+            assetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
+            if (ObjectUtils.isNotNull(assetDetail.getAsset()) && assetDetail.getAsset().getTotalCostAmount() != null) {
+                assetDetail.setPreviousTotalCostAmount(assetDetail.getAsset().getTotalCostAmount());
+            }
+        }
+
 	}
 
 	public List<AssetPaymentAssetDetail> getAssetPaymentAssetDetail() {

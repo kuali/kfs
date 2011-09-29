@@ -213,7 +213,7 @@
         Purchase Order
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${application.url}/portal.do?channelTitle=PO&amp;channelUrl=purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorder.htm

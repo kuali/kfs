@@ -556,6 +556,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
     protected ActionForward performQuestionPrompt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String actionTypeCode) throws Exception {
         ActionForward forward = null;
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         
         if (question == null) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES);
@@ -565,7 +566,6 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             // If the user replies 'Yes' the question, proceed..
             if (KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
                 createCapitalAssetInformation(calfb, actionTypeCode);
                 checkCapitalAccountingLinesSelected(calfb);
                 
@@ -577,6 +577,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             }
             // If the user replies 'No' to either of the questions
             else {
+                uncheckCapitalAccountingLinesSelected(calfb);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }

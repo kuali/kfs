@@ -1289,4 +1289,25 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             detailLines.add(detailLine);
         }
     }
+    
+    /**
+     * unchecks the capital accounting lines select when there are no capital assets created yet.
+     * 
+     * @param calfb
+     */
+    protected void uncheckCapitalAccountingLinesSelected(CapitalAccountingLinesFormBase calfb) {
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getDocument();
+        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) calfb;
+
+        List<CapitalAssetInformation> currentCapitalAssetInformation =  this.getCurrentCapitalAssetInformationObject(kadfb);
+        
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            CapitalAssetInformation existingCapitalAsset = capitalAssetCreated(capitalAccountingLine, currentCapitalAssetInformation);
+            if (ObjectUtils.isNull(existingCapitalAsset)) {
+                capitalAccountingLine.setSelectLine(false);
+            }
+        }
+    }
 }

@@ -708,8 +708,8 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
 
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
-        crDoc.setTotalCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
-        crDoc.setTotalCheckAmount(checkAmount);
+        crDoc.setTotalConfirmedCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
+        crDoc.setTotalConfirmedCheckAmount(checkAmount);
 
         crDoc.setCampusLocationCode(campusCode);
 
@@ -720,6 +720,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         return persistedDoc;
     }
 
+    
     private void saveDocument(Document doc) throws WorkflowException {
         try {
             SpringContext.getBean(DocumentService.class).saveDocument(doc);

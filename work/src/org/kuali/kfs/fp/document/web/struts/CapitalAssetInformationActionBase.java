@@ -972,8 +972,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     protected boolean accountingLineAmountDistributed(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> currentCapitalAssetInformation, CapitalAssetInformation existingCapitalAsset) {
         boolean distributed = true;
         
-        KualiDecimal accountingLineAmount = capitalAccountingLine.getAmount();
-        KualiDecimal capitalAssetsAmount = getCapitalAssetsAmount(currentCapitalAssetInformation, existingCapitalAsset);
+        KualiDecimal accountingLineAmount = capitalAccountingLine.getAmount().abs();
+        KualiDecimal capitalAssetsAmount = getCapitalAssetsAmount(currentCapitalAssetInformation, existingCapitalAsset).abs();
         
         if (accountingLineAmount.isGreaterThan(capitalAssetsAmount)) {
             distributed = false;

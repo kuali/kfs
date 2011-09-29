@@ -52,4 +52,7 @@
   
 	<bean id="YearEndDistributionOfIncomeAndExpense-reviewAccountingLineValidation-parentBean" parent="DistributionOfIncomeAndExpense-reviewAccountingLineValidation" abstract="true"/>
 
+	<bean id="YearEndDistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations" parent="YearEndDistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+	<bean id="YearEndDistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="GeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations" abstract="true"/>
+
 </beans>

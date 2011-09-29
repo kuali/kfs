@@ -84,6 +84,10 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>InternalBilling-reviewAccountingLineValidation</value>
 			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>InternalBilling-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
     	</map>
     </property>
   </bean>

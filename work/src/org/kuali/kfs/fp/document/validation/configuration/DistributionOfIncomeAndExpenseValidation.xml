@@ -120,7 +120,7 @@
 	<bean id="DistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="CapitalAccountingLines-debitsAndCreditsBalanceValidation" scope="prototype">
+  				<bean parent="CapitalAccountingLines-objectCodeSubTypeValidation" scope="prototype">
         			<property name="parameterProperties">
            				<list>
              				<bean parent="accountingDocumentFieldConversion" />

@@ -86,7 +86,12 @@
             <entry>
                 <key><value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
                 <value>AdvanceDeposit-blanketApproveDocumentValidation</value>
-            </entry>            
+            </entry>
+            <!-- capital accounting lines object sub type check -->		
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>AdvanceDeposit-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
     	</map>
     </property>
   </bean>

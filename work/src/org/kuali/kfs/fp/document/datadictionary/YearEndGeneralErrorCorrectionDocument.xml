@@ -83,6 +83,11 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>YearEndGeneralErrorCorrection-reviewAccountingLineValidation</value>
 			</entry>
+			<!-- capital accounting lines object sub type check. -->		
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
     	</map>
     </property>
   </bean>

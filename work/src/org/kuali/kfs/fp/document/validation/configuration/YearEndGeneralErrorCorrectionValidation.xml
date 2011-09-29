@@ -51,5 +51,7 @@
 	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation" parent="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" scope="prototype" />
   
 	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-reviewAccountingLineValidation" abstract="true" />
-  		
+
+	<bean id="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations" parent="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+	<bean id="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="DistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations" abstract="true"/>
 </beans>

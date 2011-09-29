@@ -85,7 +85,7 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
 				<value>DistributionOfIncomeAndExpense-reviewAccountingLineValidation</value>
 			</entry>
-			<!-- capital accounting lines subtype check prerules. -->		
+			<!-- capital accounting lines object sub type check. -->		
 			<entry>
 				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
 				<value>DistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations</value>

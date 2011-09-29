@@ -422,5 +422,5 @@
     	<property name="documentService" ref="documentService" />
     </bean>
 		
-	<bean id="CapitalAccountingLines-debitsAndCreditsBalanceValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesObjectSubtypeValidations" abstract="true" />		
+	<bean id="CapitalAccountingLines-objectCodeSubTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesObjectSubtypeValidations" abstract="true" />		
 </beans>

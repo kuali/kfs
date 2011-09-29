@@ -266,5 +266,21 @@
             <bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
 		</property>
 	</bean> 
+<!-- object sub type check Event  -->
+	<bean id="ProcurementCard-capitalAccountingLinesObjectSubtypeValidations" parent="ProcurementCard-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+  
+	<bean id="ProcurementCard-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="CapitalAccountingLines-objectCodeSubTypeValidation" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="accountingDocumentFieldConversion" />
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
 
 </beans>

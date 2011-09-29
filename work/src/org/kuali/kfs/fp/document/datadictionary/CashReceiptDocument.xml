@@ -155,6 +155,11 @@
 				<key><value>org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent</value></key>
 				<value>CashReceipt-updateCheckValidation</value>
 			</entry>
+            <!-- capital accounting lines object sub type check -->		
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>CashReceipt-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
     	</map>
     </property>
   </bean>

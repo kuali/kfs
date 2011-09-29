@@ -217,5 +217,21 @@
 			</list>
   		</property>
 	</bean>
+      <!-- object sub type check Event  -->
+	<bean id="InternalBilling-capitalAccountingLinesObjectSubtypeValidations" parent="InternalBilling-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+  
+	<bean id="InternalBilling-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="CapitalAccountingLines-objectCodeSubTypeValidation" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="accountingDocumentFieldConversion" />
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
 
 </beans>

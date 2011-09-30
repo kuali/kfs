@@ -1030,10 +1030,6 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                 
-                // KFSMI-5337
-                // Adding the following code to populate item description from PreAsset tagging
-                updateAssetDescriptionFromPreTag(item, purApDoc);
-                
                 // set item non-persistent fields from PurAp PREQ/CM item tables
                 purApInfoService.setAccountsPayableItemsFromPurAp(item, purApDoc.getDocumentTypeCode());
 
@@ -1042,6 +1038,10 @@ public class PurApLineServiceImpl implements PurApLineService {
 
                 // set financial object code
                 setFirstFinancialObjectCode(item);
+                
+                // KFSMI-5337
+                // Adding the following code to populate item description from PreAsset tagging
+                updateAssetDescriptionFromPreTag(item, purApDoc);
             }
             // For display purpose, move additional charges including trade-in below item lines.
             Collections.sort(purApDoc.getPurchasingAccountsPayableItemAssets());

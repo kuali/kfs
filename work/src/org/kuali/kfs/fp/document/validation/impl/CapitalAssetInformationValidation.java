@@ -47,7 +47,7 @@ public class CapitalAssetInformationValidation extends GenericValidation {
         return this.hasValidCapitalAssetInformation(accountingDocumentForValidation);
     }
 
-    // determine whehter the given document has valid capital asset information if any
+    // determine whether the given document has valid capital asset information if any
     protected boolean hasValidCapitalAssetInformation(AccountingDocument accountingDocument) {
         LOG.debug("hasValidCapitalAssetInformation(Document) - start");
         boolean isValid = true;

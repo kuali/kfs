@@ -1542,6 +1542,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
 
         if (valid) {
+            valid &= validateAssetTags(accountingDocument);
+        }
+        
+        if (valid) {
             valid &= validateAssetTagLocationLines(capitalAssetInformation, index, accountingDocument);
         }
         
@@ -1549,6 +1553,171 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    protected boolean validateAssetTags(AccountingDocument accountingDocument) {
+        boolean valid = true;
+        
+        List<TagRecord> allTags = new ArrayList<TagRecord>();
+        
+        CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
+        List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
+
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
+            for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
+                allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
+            }
+        }
+        
+        for (TagRecord tagRecord : allTags) {
+            if (StringUtils.isNotBlank(tagRecord.getTagNumber())) {
+                if (isTagDuplicated(allTags, tagRecord)) {
+                   // tagRecord.setDuplicate(true);
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
+                 //   String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + tagRecord.getAssetLineNumber() + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+                 //   GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + tagRecord.getAssetDetailLineNumber() + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
+                    valid &=  false;
+                }
+            }
+        }
+
+      //  for (TagRecord tagRecord : allTags) {
+       //     if (tagRecord.isDuplicate()) {
+       //     //    String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + tagRecord.getAssetLineNumber() + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+      //          GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
+      //          valid &=  false;
+     //       }
+      //  }
+
+        return valid;
+    }
+    
+    protected boolean isTagDuplicated(List<TagRecord> allTags, TagRecord tagRecord) {
+        boolean duplicate = false;
+        
+        for (TagRecord checkTagRecord : allTags) {
+            if (checkTagRecord.getTagNumber().equals(tagRecord.getTagNumber()) &&
+                    checkTagRecord.getAssetItemLineNumber() != tagRecord.getAssetItemLineNumber() &&
+                    checkTagRecord.getAssetDetailLineNumber() != tagRecord.getAssetDetailLineNumber() &&
+                    checkTagRecord.getAssetLineNumber() != tagRecord.getAssetLineNumber()) {
+                //found duplicate...
+                checkTagRecord.setDuplicate(true);
+                return true;
+            }
+        }
+        
+        return duplicate;
+    }
+    
+    public final class TagRecord {
+        protected String tagNumber;
+        protected int assetLineNumber;
+        protected int assetDetailLineNumber;
+        protected int assetItemLineNumber;
+        protected boolean duplicate;
+        
+        public TagRecord(String tagNumber, int assetLineNumber, int assetDetailLineNumber, int itemLineNumber) {
+            this.tagNumber = tagNumber;
+            this.assetLineNumber = assetLineNumber;
+            this.assetDetailLineNumber = assetDetailLineNumber;
+            this.assetItemLineNumber = itemLineNumber;
+            this.duplicate = false;
+        }
+        
+        /**
+         * Gets the tagNumber attribute.
+         * 
+         * @return Returns the tagNumber
+         */
+        
+        public String getTagNumber() {
+            return tagNumber;
+        }
+
+        /**
+         * Gets the assetLineNumber attribute.
+         * 
+         * @return Returns the assetLineNumber
+         */
+        
+        public int getAssetLineNumber() {
+            return assetLineNumber;
+        }
+
+        /**
+         * Gets the assetDetailLineNumber attribute.
+         * 
+         * @return Returns the assetDetailLineNumber
+         */
+        
+        public int getAssetDetailLineNumber() {
+            return assetDetailLineNumber;
+        }
+
+        /**	
+         * Sets the tagNumber attribute.
+         * 
+         * @param tagNumber The tagNumber to set.
+         */
+        public void setTagNumber(String tagNumber) {
+            this.tagNumber = tagNumber;
+        }
+
+        /**	
+         * Sets the assetLineNumeber attribute.
+         * 
+         * @param assetLineNumber The assetLineNumber to set.
+         */
+        public void setAssetLineNumber(int assetLineNumber) {
+            this.assetLineNumber = assetLineNumber;
+        }
+
+        /**	
+         * Sets the assetDetailLineNumber attribute.
+         * 
+         * @param assetDetailLineNumber The assetDetailLineNumber to set.
+         */
+        public void setAssetDetailLineNumber(int assetDetailLineNumber) {
+            this.assetDetailLineNumber = assetDetailLineNumber;
+        }
+        /**
+         * Gets the assetItemLineNumber attribute.
+         * 
+         * @return Returns the assetItemLineNumber
+         */
+        
+        public int getAssetItemLineNumber() {
+            return assetItemLineNumber;
+        }
+
+        /** 
+         * Sets the assetItemLineNumber attribute.
+         * 
+         * @param assetItemLineNumber The assetItemLineNumber to set.
+         */
+        public void setAssetItemLineNumber(int assetItemLineNumber) {
+            this.assetItemLineNumber = assetItemLineNumber;
+        }
+        
+        /**
+         * Gets the duplicate attribute.
+         * 
+         * @return Returns the duplicate
+         */
+        
+        public boolean isDuplicate() {
+            return duplicate;
+        }
+
+        /** 
+         * Sets the duplicate attribute.
+         * 
+         * @param duplicate The duplicate to set.
+         */
+        public void setDuplicate(boolean duplicate) {
+            this.duplicate = duplicate;
+        }
+    }
+    
     /**
      * validates asset tag location lines for existence of any duplicate tag/location details.
      * Collects all the detail lines for all the capital assets and then checks if there 
@@ -1564,25 +1733,27 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
         
-        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
-        for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            capitalAssetInformationDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());
-        }
+    //    List<CapitalAssetInformationDetail> capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
+    //    for (CapitalAssetInformation capitalAsset : capitalAssets) {
+   //         capitalAssetInformationDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());
+   //     }
+        
+        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         
         int index = 0;
-      //  List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
+        
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             // We have to explicitly call this DD service to upper case each field. This may not be the best place and maybe form
             // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + capitalAssetIndex + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
-            if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
-                if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)) {
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
-                    valid = false;
-                }
-            }
+        //    if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
+        //        if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)) {
+        //            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
+        //            valid = false;
+        //        }
+        //    }
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());

@@ -75,6 +75,8 @@ public class CapitalAssetInformationValidation extends GenericValidation {
             }
         }
         
+        isValid &= capitalAssetBuilderModuleService.validateAssetTags(accountingDocument);
+        
         return isValid;
     }
 

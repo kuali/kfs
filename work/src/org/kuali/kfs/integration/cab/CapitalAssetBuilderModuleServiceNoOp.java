@@ -146,4 +146,9 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;
     }
+    
+    public boolean validateAssetTags(AccountingDocument accountingDocumen) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return true;
+    }
 }

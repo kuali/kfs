@@ -95,6 +95,8 @@ public interface CapitalAssetBuilderModuleService {
 
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine);
     
+    public boolean validateAssetTags(AccountingDocument accountingDocument);
+    
     /**
      * validates all capital accounting lines that have been processed.
      * 

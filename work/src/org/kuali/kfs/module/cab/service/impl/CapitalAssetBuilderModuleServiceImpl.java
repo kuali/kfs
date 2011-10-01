@@ -63,7 +63,6 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
@@ -91,9 +90,7 @@ import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
@@ -107,7 +104,6 @@ import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.datadictionary.AttributeDefinition;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -1541,9 +1537,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
 
-        if (valid) {
-            valid &= validateAssetTags(accountingDocument);
-        }
+     //   if (valid) {
+     //       valid &= validateAssetTags(accountingDocument);
+     //   }
         
         if (valid) {
             valid &= validateAssetTagLocationLines(capitalAssetInformation, index, accountingDocument);
@@ -1553,7 +1549,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
-    protected boolean validateAssetTags(AccountingDocument accountingDocument) {
+    /**
+     * validates only the tag numbers because we need to check all the tags within
+     * the document for duplicates.
+     * 
+     * @see 
+     * @param accountingDocument
+     * @return true if duplicate tags else return false.
+     */
+    public boolean validateAssetTags(AccountingDocument accountingDocument) {
         boolean valid = true;
         
         List<TagRecord> allTags = new ArrayList<TagRecord>();
@@ -1562,52 +1566,77 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
-            List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
-            for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-                allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
+                List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
+                for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
+                    SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
+                    allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
+                }
             }
         }
         
         for (TagRecord tagRecord : allTags) {
-            if (StringUtils.isNotBlank(tagRecord.getTagNumber())) {
-                if (isTagDuplicated(allTags, tagRecord)) {
-                   // tagRecord.setDuplicate(true);
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
-                 //   String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + tagRecord.getAssetLineNumber() + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
-                 //   GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + tagRecord.getAssetDetailLineNumber() + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
-                    valid &=  false;
+            if (isTagDuplicated(allTags, tagRecord)) {
+                tagRecord.setDuplicate(true);
+                valid &=  false;
+            }
+        }
+
+        for (TagRecord tagRecord : allTags) {
+            if (tagRecord.isDuplicate()) {
+                int indexAsset = 0;
+                for (CapitalAssetInformation capitalAsset : capitalAssets) {
+                    if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
+                        List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
+                        int index = 0;
+                        for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
+                            if (dtl.getCapitalAssetTagNumber().equals(tagRecord.getTagNumber())) {
+                                String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexAsset + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+                                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
+                            }
+                            index++;                        
+                        }
+                    }
+                    
+                    indexAsset++;
                 }
             }
         }
 
-      //  for (TagRecord tagRecord : allTags) {
-       //     if (tagRecord.isDuplicate()) {
-       //     //    String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + tagRecord.getAssetLineNumber() + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
-      //          GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
-      //          valid &=  false;
-     //       }
-      //  }
-
         return valid;
     }
     
+    /**
+     * checks the tag records for a given asset number and sets duplicate flag to
+     * true if found.
+     * @param allTags
+     * @param tagRecord
+     * @return true if duplicate else false
+     */
     protected boolean isTagDuplicated(List<TagRecord> allTags, TagRecord tagRecord) {
         boolean duplicate = false;
         
+        int duplicateCount = 0;
+        
         for (TagRecord checkTagRecord : allTags) {
-            if (checkTagRecord.getTagNumber().equals(tagRecord.getTagNumber()) &&
-                    checkTagRecord.getAssetItemLineNumber() != tagRecord.getAssetItemLineNumber() &&
-                    checkTagRecord.getAssetDetailLineNumber() != tagRecord.getAssetDetailLineNumber() &&
-                    checkTagRecord.getAssetLineNumber() != tagRecord.getAssetLineNumber()) {
+            if (checkTagRecord.getTagNumber().equals(tagRecord.getTagNumber())) {
                 //found duplicate...
-                checkTagRecord.setDuplicate(true);
-                return true;
+                duplicateCount++;
             }
+        }
+        
+        if (duplicateCount > 1) {
+            tagRecord.setDuplicate(true);
+            return true;            
         }
         
         return duplicate;
     }
     
+    /**
+     * public class to hold the the records representing the capital asset
+     * detail lines containing tag information
+     */
     public final class TagRecord {
         protected String tagNumber;
         protected int assetLineNumber;
@@ -1733,13 +1762,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
         
-    //    List<CapitalAssetInformationDetail> capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
-    //    for (CapitalAssetInformation capitalAsset : capitalAssets) {
-   //         capitalAssetInformationDetails.addAll(capitalAsset.getCapitalAssetInformationDetails());
-   //     }
-        
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
-        
         int index = 0;
         
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {

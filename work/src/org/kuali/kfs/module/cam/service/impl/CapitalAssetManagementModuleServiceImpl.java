@@ -81,15 +81,26 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     public void generateCapitalAssetLock(Document document, String documentTypeName) {
         List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
         
+        String capitalAssetToBeLocked = "";
+        ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
+        
         for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
             if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
-                ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
                 capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
+                if (capitalAssetToBeLocked.isEmpty()) {
+                    capitalAssetToBeLocked.concat(capitalAssetInformation.getCapitalAssetNumber().toString());
+                }
+                else {
+                    capitalAssetToBeLocked.concat(",").concat(capitalAssetInformation.getCapitalAssetNumber().toString());
+                }
 
-                if (document instanceof AccountingDocument) {
-                    if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
-                        throw new ValidationException("Asset " + capitalAssetNumbers.toString() + " is being locked by other documents.");
-                    }
+            }
+        }
+        
+        if (capitalAssetNumbers.size() > 1) {
+            if (document instanceof AccountingDocument) {
+                if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
+                    throw new ValidationException("Asset " + capitalAssetToBeLocked.toString() + " is being locked by other documents.");
                 }
             }
         }

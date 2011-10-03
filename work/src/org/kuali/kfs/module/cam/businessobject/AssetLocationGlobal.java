@@ -21,6 +21,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService;
+import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.validation.impl.AssetLocationGlobalRule;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -148,6 +152,9 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
                     asset.setOldTagNumber(asset.getCampusTagNumber());
                     asset.setCampusTagNumber(detail.getCampusTagNumber());
                 }
+                
+                updateOffCampusWithOnCampusValues(asset);
+                
                 asset.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
                 persistables.add(asset);
@@ -156,6 +163,40 @@ public class AssetLocationGlobal extends PersistableBusinessObjectBase implement
 
         return persistables;
     }
+ 
+    
+    /**
+     * KFSMI-6695 Location Global allows update to building, room when asest has off campus location fields poplulated, after update
+     * assets has both on campus and off campus. An asset should not have both an on campus address ( buidling, and room) and an off
+     * campus addresses. If the building and room are updated from location global then the following fields should be set to null
+     * WHERE the ast_loc_typ_cd = 'O' cm_ast_loc_t.ast_loc_cntnt_nm cm_ast_loc_t.ast_loc_strt_addr cm_ast_loc_t.ast_loc_city_nm
+     * cm_ast_loc_t.ast_loc_state_cd cm_ast_loc_t.ast_loc_cntry_cd cm_ast_loc_t.ast_loc_zip_cd
+     * 
+     * @param asset
+     */
+    private void updateOffCampusWithOnCampusValues(Asset asset) {
+        List<AssetLocation> toDelete = new ArrayList<AssetLocation>();
+        if (asset.getAssetLocations() != null) {
+            for (AssetLocation location : asset.getAssetLocations()) {
+                boolean offCampus = CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equals(location.getAssetLocationTypeCode());
+                boolean buildingOrRoom = StringUtils.isNotBlank(asset.getBuildingCode()) || StringUtils.isNotBlank(asset.getBuildingRoomNumber());
+                if (offCampus && buildingOrRoom) {
+                  location.setAssetLocationContactName(null); // cm_ast_loc_t.ast_loc_cntnt_nm
+                  location.setAssetLocationStreetAddress(null); // cm_ast_loc_t.ast_loc_strt_addr
+                  location.setAssetLocationCityName(null); // cm_ast_loc_t.ast_loc_city_nm
+                  location.setAssetLocationStateCode(null); // cm_ast_loc_t.ast_loc_state_cd
+                  location.setAssetLocationCountryCode(null); // cm_ast_loc_t.ast_loc_cntry_cd
+                  location.setAssetLocationZipCode(null); // cm_ast_loc_t.ast_loc_zip_cd
+                  
+                  // this didn't work
+                  //toDelete.add(location);
+                }
+            }
+        }
+        
+        // this didn't work
+        //asset.getAssetLocations().removeAll(toDelete);        
+     }
     
     public boolean isPersistable() {
         return true;

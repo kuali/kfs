@@ -1570,7 +1570,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
                 for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
                     SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
-                    allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
+                    if (ObjectUtils.isNotNull(dtl.getCapitalAssetTagNumber())) {
+                        allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
+                    }
                 }
             }
         }

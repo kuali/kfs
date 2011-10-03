@@ -706,10 +706,23 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         return this.indirectCostRecoveryAccounts;
     }
     
-    public void setIndirectCostRecoveryAccounts(List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
-        this. indirectCostRecoveryAccounts =  indirectCostRecoveryAccounts;
+    public List<IndirectCostRecoveryAccount> getActiveIndirectCostRecoveryAccounts() {
+        List<IndirectCostRecoveryAccount> activeList = new ArrayList<IndirectCostRecoveryAccount>();
+        for (IndirectCostRecoveryAccount icr : getIndirectCostRecoveryAccounts()){
+            if (icr.isActive()){
+                activeList.add(IndirectCostRecoveryAccount.copyICRAccount(icr));
+            }
+        }
+        return activeList;
     }
-
+    
+    public void setIndirectCostRecoveryAccounts(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
+        List<IndirectCostRecoveryAccount> accountIcrList = new ArrayList<IndirectCostRecoveryAccount>();
+        for (IndirectCostRecoveryAccount icr : indirectCostRecoveryAccounts){
+            accountIcrList.add(new IndirectCostRecoveryAccount(icr));
+        }
+        this.indirectCostRecoveryAccounts = accountIcrList;
+    }
     
     /**
      * Gets the accountOffCampusIndicator attribute.

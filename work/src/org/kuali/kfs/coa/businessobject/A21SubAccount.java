@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.coa.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -432,12 +433,20 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
-
-
     public List<A21IndirectCostRecoveryAccount> getA21IndirectCostRecoveryAccounts() {
         return a21IndirectCostRecoveryAccounts;
     }
 
+    public List<A21IndirectCostRecoveryAccount> getA21ActiveIndirectCostRecoveryAccounts() {
+        List<A21IndirectCostRecoveryAccount> activeList = new ArrayList<A21IndirectCostRecoveryAccount>();
+        for (A21IndirectCostRecoveryAccount icr : getA21ActiveIndirectCostRecoveryAccounts()){
+            if (icr.isActive()){
+                activeList.add(A21IndirectCostRecoveryAccount.copyICRAccount(icr));
+            }
+        }
+        return activeList;
+    }
+    
     public void setA21IndirectCostRecoveryAccounts(List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts) {
         this.a21IndirectCostRecoveryAccounts = a21IndirectCostRecoveryAccounts;
     }

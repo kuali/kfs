@@ -27,6 +27,9 @@
       <column name='ACLN_PCT' type='VARCHAR2(45)' >
       	<constraints nullable='true' />
       </column>
+      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' >
+      	<constraints nullable='false' />
+      </column>
     </createTable>
     
     <modifySql dbms='mysql'>
@@ -79,6 +82,9 @@
       </column>
       <column name='ACLN_PCT' type='VARCHAR2(45)' >
       	<constraints nullable='true' />
+      </column>
+      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' >
+      	<constraints nullable='false' />
       </column>
     </createTable>
     <modifySql dbms='mysql'>

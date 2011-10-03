@@ -85,6 +85,7 @@ public enum PurApAccountingLineFixture {
         catch (IllegalAccessException e) {
             throw new RuntimeException("item creation failed. class = " + clazz);
         }
+        line.setSequenceNumber(0);
         line.setAccountIdentifier(this.accountIdentifier);
         line.setItemIdentifier(this.itemIdentifier);
         line.setAccountLinePercent(this.accountLinePercent);

@@ -147,16 +147,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
             }
         }
 
-        //TODO: replaced the pre-rule check on ICR account to look up the collection list
-//        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAcctNbr())) {
-//            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(), newAccount.getIndirectCostRecoveryAcctNbr(), "");
-//            if (ObjectUtils.isNotNull(account)) { // override old user inputs
-//                newAccount.setIndirectCostRecoveryAcctNbr(account.getAccountNumber());
-//                newAccount.setIndirectCostRcvyFinCoaCode(account.getChartOfAccountsCode());
-//            }
-//        }
-        
-        for (IndirectCostRecoveryAccount icra : newAccount.getIndirectCostRecoveryAccounts()){
+        for (IndirectCostRecoveryAccount icra : newAccount.getActiveIndirectCostRecoveryAccounts()){
             if (StringUtils.isNotBlank(icra.getIndirectCostRecoveryAccountNumber())) {
                 Account account = checkForContinuationAccount("Indirect Cost Recovery Account", icra.getIndirectCostRecoveryAccountNumber(), icra.getIndirectCostRecoveryFinCoaCode(), "");
                 if (ObjectUtils.isNotNull(account)) { // override old user inputs

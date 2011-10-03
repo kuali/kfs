@@ -143,7 +143,7 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
         //icr rule checking setup
         if (newSubAccount.getA21SubAccount() != null){
             List<IndirectCostRecoveryAccount> icrAccountList = new ArrayList<IndirectCostRecoveryAccount>(
-                    newSubAccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts());
+                    newSubAccount.getA21SubAccount().getA21ActiveIndirectCostRecoveryAccounts());
             setIndirectCostRecoveryAccountList(icrAccountList);
             setBoFieldPath(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS);
         }
@@ -404,7 +404,7 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
         }
 
         // existence check for ICR Account
-        for (A21IndirectCostRecoveryAccount account : a21.getA21IndirectCostRecoveryAccounts()){
+        for (A21IndirectCostRecoveryAccount account : a21.getA21ActiveIndirectCostRecoveryAccounts()){
             if (StringUtils.isNotBlank(account.getIndirectCostRecoveryAccountNumber())
                 && StringUtils.isNotBlank(account.getIndirectCostRecoveryFinCoaCode())){
                 if(ObjectUtils.isNull(account.getIndirectCostRecoveryAccount())){                                

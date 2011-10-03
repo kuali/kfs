@@ -41,7 +41,7 @@ public class IndirectCostAdjustmentAccountValidation extends GenericValidation {
         if (accountingLine.isSourceAccountingLine()) {
             accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
             if (ObjectUtils.isNotNull(accountingLine.getAccount())) {
-                for (IndirectCostRecoveryAccount icrAccount : accountingLine.getAccount().getIndirectCostRecoveryAccounts()){
+                for (IndirectCostRecoveryAccount icrAccount : accountingLine.getAccount().getActiveIndirectCostRecoveryAccounts()){
                     isValid &= StringUtils.isNotBlank(icrAccount.getIndirectCostRecoveryAccountNumber());
                 }
                 //not valid if ICR collection is empty or any of the account number is blank

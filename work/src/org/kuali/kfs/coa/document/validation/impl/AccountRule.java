@@ -109,7 +109,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         newAccount = (Account) super.getNewBo();
         refreshSubObjects(newAccount);
         
-        setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        setIndirectCostRecoveryAccountList(newAccount.getActiveIndirectCostRecoveryAccounts());
         setBoFieldPath(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS);
     }
     
@@ -184,7 +184,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * This method checks the basic rules for empty values in an account and associated objects with this account If guidelines are
      * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
      * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
-     * contractControlAccount indirectCostRecoveryAcct
+     * contractControlAccount
      * 
      * @param maintenanceDocument
      * @return false if any of these are empty
@@ -208,12 +208,11 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
         // this set confirms that all fields which are grouped (ie, foreign keys of a reference
         // object), must either be none filled out, or all filled out.
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("endowmentIncomeAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
-        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.CONTINUATION_ACCOUNT);
+        success &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.INCOME_STREAM_ACCOUNT);
+        success &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.ENDOWMENT_INCOME_ACCOUNT);
+        success &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.REPORTS_TO_ACCOUNT);
+        success &= checkForPartiallyFilledOutReferenceForeignKeys(KFSPropertyConstants.CONTRACT_CONTROL_ACCOUNT);
 
         return success;
     }
@@ -770,7 +769,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
 
               //check the ICR collection NOT exists
-                result &= checkICRCollectionExistWithErrorMessage(false, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, newAccount.getSubFundGroupCode());
+                result &= checkICRCollectionExistWithErrorMessage(false, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_ICR_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, newAccount.getSubFundGroupCode());
                 
             }
         }

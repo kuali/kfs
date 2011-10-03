@@ -31,16 +31,16 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.beans.BeanUtils;
 
 /**
  * IndrectCostRecoveryAccount
  */
-public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase {
+public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase implements Inactivateable{
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;
     
-    //all fields are protected in order to be accessed by child class
     //foreign keys to Account
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -48,7 +48,8 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase {
     private String indirectCostRecoveryFinCoaCode;
     private String indirectCostRecoveryAccountNumber;
     private BigDecimal accountLinePercent;
-        
+    private boolean active;
+    
     //BO Reference
     private Account indirectCostRecoveryAccount;
     private Chart indirectCostRecoveryChartOfAccounts;
@@ -58,7 +59,26 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase {
      */
     public IndirectCostRecoveryAccount() {
     }
-
+    
+    public IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
+        BeanUtils.copyProperties(this, icr);
+    }
+    
+    /**
+     * static instantiate an ICRAccount from an ICRAccount
+     *
+     * @param icrAccount
+     * @return
+     */
+    public static IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
+        IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
+        icr.setAccountLinePercent(icrAccount.getAccountLinePercent());
+        icr.setIndirectCostRecoveryFinCoaCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
+        icr.setIndirectCostRecoveryAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
+        icr.setActive(icrAccount.isActive());
+        return icr;
+    }
+    
     public Integer getIndirectCostRecoveryAccountGeneratedIdentifier() {
         return indirectCostRecoveryAccountGeneratedIdentifier;
     }
@@ -142,6 +162,14 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase {
         this.indirectCostRecoveryChartOfAccounts = indirectCostRecoveryChartOfAccounts;
     }
     
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */

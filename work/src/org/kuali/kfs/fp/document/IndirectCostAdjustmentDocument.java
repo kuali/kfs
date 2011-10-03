@@ -77,7 +77,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
         // add source
         super.addSourceAccountingLine(line);
         
-        for (IndirectCostRecoveryAccount icrAccount : line.getAccount().getIndirectCostRecoveryAccounts()){
+        for (IndirectCostRecoveryAccount icrAccount : line.getAccount().getActiveIndirectCostRecoveryAccounts()){
             
             KualiDecimal percentDecimal = new KualiDecimal(icrAccount.getAccountLinePercent().divide(new BigDecimal(100)));
             

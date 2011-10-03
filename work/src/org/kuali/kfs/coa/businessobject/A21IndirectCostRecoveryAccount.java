@@ -31,6 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.springframework.beans.BeanUtils;
 
 /**
  * IndirectCostRecoveryAccount for A21SubAccount
@@ -49,6 +50,10 @@ public class A21IndirectCostRecoveryAccount extends IndirectCostRecoveryAccount 
     public A21IndirectCostRecoveryAccount() {
     }
     
+    public A21IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
+        BeanUtils.copyProperties(this, icr);
+    }
+    
     /**
      * static instantiate an A21ICRAccount from an ICRAccount
      *
@@ -56,11 +61,7 @@ public class A21IndirectCostRecoveryAccount extends IndirectCostRecoveryAccount 
      * @return
      */
     public static A21IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
-        A21IndirectCostRecoveryAccount a21icrAccount = new A21IndirectCostRecoveryAccount();
-        a21icrAccount.setAccountLinePercent(icrAccount.getAccountLinePercent());
-        a21icrAccount.setIndirectCostRecoveryFinCoaCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
-        a21icrAccount.setIndirectCostRecoveryAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
-        return a21icrAccount;
+        return (A21IndirectCostRecoveryAccount)copyICRAccount(icrAccount); 
     }
 
     public Integer getA21IndirectCostRecoveryAccountGeneratedIdentifier() {

@@ -84,11 +84,15 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
             a21SubAccount.setAccountNumber(account.getAccountNumber());
             a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
 
-            for (IndirectCostRecoveryAccount icrAccount : account.getIndirectCostRecoveryAccounts()){
+            //deactivate old ICR lists
+            for (A21IndirectCostRecoveryAccount a21Icr : a21SubAccount.getA21IndirectCostRecoveryAccounts()){
+                a21Icr.setActive(false);
+            }
+            //add new lists from account
+            for (IndirectCostRecoveryAccount icrAccount : account.getActiveIndirectCostRecoveryAccounts()){
                 a21SubAccount.getA21IndirectCostRecoveryAccounts().add(A21IndirectCostRecoveryAccount.copyICRAccount(icrAccount));
             }
             a21SubAccount.setIndirectCostRecoveryTypeCode(account.getAcctIndirectCostRcvyTypeCd());
-
             a21SubAccount.setOffCampusCode(account.isAccountOffCampusIndicator());
         }
     }

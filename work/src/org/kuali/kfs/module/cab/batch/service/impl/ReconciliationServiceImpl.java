@@ -32,6 +32,7 @@ import org.kuali.kfs.module.cab.businessobject.AccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GlAccountLineGroup;
 import org.kuali.kfs.module.cab.businessobject.PurApAccountLineGroup;
+import org.kuali.kfs.module.cab.dataaccess.ReconciliationDao;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -44,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReconciliationServiceImpl implements ReconciliationService {
     private static final Logger LOG = Logger.getLogger(ReconciliationServiceImpl.class);
     protected BusinessObjectService businessObjectService;
+    protected ReconciliationDao reconciliationDao;
     protected List<Entry> ignoredEntries = new ArrayList<Entry>();
     protected List<Entry> duplicateEntries = new ArrayList<Entry>();
     protected Collection<GlAccountLineGroup> matchedGroups = new HashSet<GlAccountLineGroup>();
@@ -203,29 +205,9 @@ public class ReconciliationServiceImpl implements ReconciliationService {
      * @see org.kuali.kfs.module.cab.batch.service.ReconciliationService#isDuplicateEntry(org.kuali.kfs.gl.businessobject.Entry)
      */
     public boolean isDuplicateEntry(Entry glEntry) {
+        
         // find matching entry from CB_GL_ENTRY_T
-        Map<String, Object> glKeys = new LinkedHashMap<String, Object>();
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_YEAR, glEntry.getUniversityFiscalYear());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.CHART_OF_ACCOUNTS_CODE, glEntry.getChartOfAccountsCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.ACCOUNT_NUMBER, glEntry.getAccountNumber());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.SUB_ACCOUNT_NUMBER, glEntry.getSubAccountNumber());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT_CODE, glEntry.getFinancialObjectCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_SUB_OBJECT_CODE, glEntry.getFinancialSubObjectCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_BALANCE_TYPE_CODE, glEntry.getFinancialBalanceTypeCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT_TYPE_CODE, glEntry.getFinancialObjectTypeCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.UNIVERSITY_FISCAL_PERIOD_CODE, glEntry.getUniversityFiscalPeriodCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_DOCUMENT_TYPE_CODE, glEntry.getFinancialDocumentTypeCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_SYSTEM_ORIGINATION_CODE, glEntry.getFinancialSystemOriginationCode());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, glEntry.getDocumentNumber());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, glEntry.getTransactionLedgerEntrySequenceNumber());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.ORGNIZATION_REFERENCE_ID, glEntry.getOrganizationReferenceId());
-        glKeys.put(CabPropertyConstants.GeneralLedgerEntry.PROJECT_CD, glEntry.getProjectCode());
-        Collection<GeneralLedgerEntry> matchingEntries = businessObjectService.findMatching(GeneralLedgerEntry.class, glKeys);
-        // if not found, return false
-        if (matchingEntries == null || matchingEntries.isEmpty()) {
-            return false;
-        }
-        return true;
+        return reconciliationDao.isDuplicateEntry(glEntry);        
     }
 
     /**
@@ -248,6 +230,9 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         this.businessObjectService = businessObjectService;
     }
 
+    public void setReconciliationDao( ReconciliationDao reconDao) {
+        this.reconciliationDao = reconDao;
+    }
     /**
      * Gets the ignoredEntries attribute.
      * 

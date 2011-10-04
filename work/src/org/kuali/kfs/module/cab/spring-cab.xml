@@ -101,10 +101,14 @@
 		<property name="cabBatchMismatchReportInfo" ref="cabBatchMismatchReportInfo" />
 		<property name="reportGenerationService" ref="reportGenerationService" />
 	</bean>
+
+    <bean id="reconciliationDao" parent="platformAwareDao"
+        class="org.kuali.kfs.module.cab.dataaccess.impl.ReconciliationDaoOjb" />
 	
 	<bean id="reconciliationService"  parent="reconciliationService-parentBean" singleton="false"/>
 	<bean id="reconciliationService-parentBean" class="org.kuali.kfs.module.cab.batch.service.impl.ReconciliationServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="reconciliationDao" ref="reconciliationDao" />
 	</bean>
 	
 	 <bean id="cabExtractStep" class="org.kuali.kfs.module.cab.batch.ExtractStep" parent="step">

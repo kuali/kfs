@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.sys.fixture;
 
+import java.math.BigDecimal;
+
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 
@@ -111,8 +114,13 @@ public enum SubAccountFixture {
         a21.setSubAccountTypeCode(subAccountTypeCode);
         a21.setIndirectCostRecoveryTypeCode(icrTypeCode);
         a21.setFinancialIcrSeriesIdentifier(finSeriesId);
-        a21.setIndirectCostRcvyFinCoaCode(icrChartCode);
-        a21.setIndirectCostRecoveryAcctNbr(icrAccountNumber);
+        
+        A21IndirectCostRecoveryAccount icr = new A21IndirectCostRecoveryAccount();
+        icr.setIndirectCostRecoveryAccountNumber(icrAccountNumber);
+        icr.setIndirectCostRecoveryFinCoaCode(icrChartCode);
+        icr.setAccountLinePercent(new BigDecimal(100));
+        a21.getA21IndirectCostRecoveryAccounts().add(icr);
+        
         a21.setOffCampusCode(offCampusCode);
         a21.setCostShareChartOfAccountCode(costShareChartCode);
         a21.setCostShareSourceAccountNumber(costShareSourceAccountNumber);

@@ -946,7 +946,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
+        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
+        
         assertGlobalErrorMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
     }
@@ -962,7 +964,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         icr.setIndirectCostRecoveryFinCoaCode(Accounts.ChartCode.GOOD1);
         newAccount.getIndirectCostRecoveryAccounts().add(icr);
     }
-
+    
     /**
      * @RelatesTo KULRNE-4662 This test makes sure that if the account has a non-CG subfund group, no fields are allowed to be
      *            filled in. (The contrary test--that if we have an account with a CG fund group, all fields are now required--
@@ -993,13 +995,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
+        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         
         System.out.println(GlobalVariables.getMessageMap());
         
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_ICR_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false", result);
     }
 
@@ -1038,6 +1041,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
+        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         assertGlobalErrorMapEmpty();
         assertTrue("Rule should allow new account to be the contract control account.", result);
@@ -1070,11 +1074,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContractControlAccountNumber(Accounts.AccountNumber.BAD1);
         newAccount.setAcctIndirectCostRcvyTypeCd("10");
         newAccount.setFinancialIcrSeriesIdentifier("001");
-        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
-        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        addIndirectCostRecoveryAccount(newAccount);
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
+        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertFalse("Rule should require contract account to be real.", result);

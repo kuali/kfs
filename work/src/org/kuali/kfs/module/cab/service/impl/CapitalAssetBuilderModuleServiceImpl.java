@@ -63,6 +63,7 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsse
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
+import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
@@ -113,6 +114,7 @@ import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -1284,7 +1286,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             else {
                 if (!isUpdateAssetBlank) {
                     // Validate update Asset information
-                    valid &= validateUpdateCapitalAssetField(capitalAssetInformation, accountingDocument);
+                    valid &= validateUpdateCapitalAssetField(capitalAssetInformation, accountingDocument, index);
                 }
                 else {
                     // Validate New Asset information
@@ -1392,7 +1394,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
-    protected boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument) {
+    protected boolean validateUpdateCapitalAssetField(CapitalAssetInformation capitalAssetInformation, AccountingDocument accountingDocument, int index) {
         boolean valid = true;
 
         Map<String, String> params = new HashMap<String, String>();
@@ -1537,15 +1539,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         valid &= validateTotalNumberOfAssetTagLines(capitalAssetInformation);
 
-     //   if (valid) {
-     //       valid &= validateAssetTags(accountingDocument);
-     //   }
-        
         if (valid) {
             valid &= validateAssetTagLocationLines(capitalAssetInformation, index, accountingDocument);
         }
         
-
         return valid;
     }
 
@@ -1570,7 +1567,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
                 for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
                     SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
-                    if (ObjectUtils.isNotNull(dtl.getCapitalAssetTagNumber())) {
+                    if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                         allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
                     }
                 }
@@ -1617,6 +1614,11 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean isTagDuplicated(List<TagRecord> allTags, TagRecord tagRecord) {
         boolean duplicate = false;
+        
+        if (!this.getAssetService().findActiveAssetsMatchingTagNumber(tagRecord.getTagNumber()).isEmpty()) {
+            // Tag number is already in use
+            return true;
+        }
         
         int duplicateCount = 0;
         
@@ -1772,13 +1774,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + capitalAssetIndex + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
-
-        //    if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
-        //        if (isTagNumberDuplicate(capitalAssetInformationDetails, dtl)) {
-        //            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, dtl.getCapitalAssetTagNumber());
-        //            valid = false;
-        //        }
-        //    }
 
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());

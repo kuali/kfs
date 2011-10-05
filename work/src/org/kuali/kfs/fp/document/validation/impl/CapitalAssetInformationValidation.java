@@ -66,9 +66,12 @@ public class CapitalAssetInformationValidation extends GenericValidation {
                 errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
                 String parentName = (capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR) ? KFSPropertyConstants.CAPITAL_ASSET_INFORMATION :  KFSPropertyConstants.CAPITAL_ASSET_MODIFY_INFORMATION);
                 errors.addToErrorPath(parentName);
+                String errorPathPrefix = KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + index + "].";
+                errors.addToErrorPath(errorPathPrefix);
                 
                 isValid &= capitalAssetBuilderModuleService.validateFinancialProcessingData(accountingDocument, capitalAssetInformation, index);
                 
+                errors.removeFromErrorPath(errorPathPrefix);
                 errors.removeFromErrorPath(parentName);
                 errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
                 index++;

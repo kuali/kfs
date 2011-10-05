@@ -18,16 +18,21 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 /**
  * Base class for Related View Business Objects.
@@ -80,7 +85,19 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     }
 
     public String getUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
+        String documentTypeName = this.getDocumentTypeName();
+        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
+        try {
+            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(documentTypeName);
+            String docHandlerUrl = docType.getDocTypeHandlerUrl();
+            int endSubString = docHandlerUrl.lastIndexOf("/");
+            String serverName = docHandlerUrl.substring(0, endSubString);
+            String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));           
+            return serverName + "/portal.do?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?methodToCall=docHandler&" + KNSConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
+        }
     }
 
     public String getDocumentIdentifierString() {
@@ -91,6 +108,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         }
     }
     
+
     /**
      * Returns the document label according to the label specified in the data dictionary.
      * 

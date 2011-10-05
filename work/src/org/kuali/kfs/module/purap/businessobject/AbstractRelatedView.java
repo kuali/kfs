@@ -93,7 +93,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
             int endSubString = docHandlerUrl.lastIndexOf("/");
             String serverName = docHandlerUrl.substring(0, endSubString);
             String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));           
-            return serverName + "/portal.do?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?methodToCall=docHandler&" + KNSConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
+            return serverName + "/" + KNSConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KNSConstants.DISPATCH_REQUEST_PARAMETER + "=" + KNSConstants.DOC_HANDLER_METHOD +"&" + KNSConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);

@@ -17,6 +17,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -88,8 +90,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private String contractControlAccountNumber;
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
-    private String indirectCostRcvyFinCoaCode;
-    private String indirectCostRecoveryAcctNbr;
 
     private Chart chartOfAccounts;
     private Organization organization;
@@ -104,14 +104,12 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Account endowmentIncomeAccount;
     private Account contractControlAccount;
     private Account incomeStreamAccount;
-    private Account indirectCostRecoveryAcct;
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
     private PostalCode postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
-
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -129,11 +127,14 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
     private List subAccounts;
     private Boolean forContractsAndGrants;
+    
+    private List<PriorYearIndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
 
     /**
      * Default no-arg constructor.
      */
     public PriorYearAccount() {
+        indirectCostRecoveryAccounts = new TypedArrayList(PriorYearIndirectCostRecoveryAccount.class);
     }
 
     /**
@@ -894,25 +895,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         this.incomeStreamAccount = incomeStreamAccount;
     }
 
-    /**
-     * Gets the indirectCostRecoveryAcct attribute.
-     * 
-     * @return Returns the indirectCostRecoveryAcct
-     */
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcct attribute.
-     * 
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
-     * @deprecated
-     */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
-    }
-
     public Person getAccountFiscalOfficerUser() {
         accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
@@ -1250,34 +1232,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     /**
-     * @return Returns the indirectCostRcvyFinCoaCode.
-     */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
-     */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
-    }
-
-    /**
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -1582,6 +1536,20 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      */
     public boolean isClosed() {
         return !active;
+    }
+
+    @Override
+    public List<PriorYearIndirectCostRecoveryAccount> getIndirectCostRecoveryAccounts() {
+        return indirectCostRecoveryAccounts;
+    }
+
+    @Override
+    public void setIndirectCostRecoveryAccounts(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
+        List<PriorYearIndirectCostRecoveryAccount> priorYearAccountIcrList = new ArrayList<PriorYearIndirectCostRecoveryAccount>();
+        for (IndirectCostRecoveryAccount icr : indirectCostRecoveryAccounts){
+            priorYearAccountIcrList.add(new PriorYearIndirectCostRecoveryAccount(icr));
+        }
+        this.indirectCostRecoveryAccounts = priorYearAccountIcrList;
     }
     
 }

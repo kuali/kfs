@@ -599,21 +599,6 @@ public interface AccountIntf {
     public void setIncomeStreamAccount(Account incomeStreamAccount);
 
     /**
-     * Gets the indirectCostRecoveryAcct attribute.
-     * 
-     * @return Returns the indirectCostRecoveryAcct
-     */
-    public Account getIndirectCostRecoveryAcct();
-
-    /**
-     * Sets the indirectCostRecoveryAcct attribute.
-     * 
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
-     * @deprecated
-     */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct);
-
-    /**
      * @return Returns the accountFiscalOfficerUser.
      */
     public Person getAccountFiscalOfficerUser();
@@ -854,25 +839,15 @@ public interface AccountIntf {
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode);
 
     /**
-     * @return Returns the indirectCostRcvyFinCoaCode.
+     * @return
      */
-    public String getIndirectCostRcvyFinCoaCode();
-
+    public List<? extends IndirectCostRecoveryAccount> getIndirectCostRecoveryAccounts();
+    
     /**
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
+     * @param indirectCostRecoveryAccounts The indirectCostRecoveryAccounts to set.
      */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode);
-
-    /**
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr();
-
-    /**
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr);
-
+    public void setIndirectCostRecoveryAccounts(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccounts);
+    
     /**
      * @return Returns the organizationCode.
      */

@@ -71,8 +71,6 @@
 				<ref bean="PriorYearAccount-forContractsAndGrants" />
 				<ref bean="PriorYearAccount-incomeStreamAccountNumber" />
 				<ref bean="PriorYearAccount-incomeStreamFinancialCoaCode" />
-				<ref bean="PriorYearAccount-indirectCostRcvyFinCoaCode" />
-				<ref bean="PriorYearAccount-indirectCostRecoveryAcctNbr" />
 				<ref bean="PriorYearAccount-intrnlFinEncumSufficntFndIndicator" />
 				<ref bean="PriorYearAccount-organizationCode" />
 				<ref bean="PriorYearAccount-pendingAcctSufficientFundsIndicator" />
@@ -438,18 +436,6 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="PriorYearAccount-indirectCostRcvyFinCoaCode" parent="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean" />
-	<bean id="PriorYearAccount-indirectCostRcvyFinCoaCode-parentBean"
-		abstract="true" parent="Account-indirectCostRcvyFinCoaCode">
-		<property name="required" value="false" />
-	</bean>
-
-	<bean id="PriorYearAccount-indirectCostRecoveryAcctNbr" parent="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean" />
-	<bean id="PriorYearAccount-indirectCostRecoveryAcctNbr-parentBean"
-		abstract="true" parent="Account-indirectCostRecoveryAcctNbr">
-		<property name="required" value="false" />
-	</bean>
-
 	<bean id="PriorYearAccount-intrnlFinEncumSufficntFndIndicator"
 		parent="PriorYearAccount-intrnlFinEncumSufficntFndIndicator-parentBean" />
 	<bean id="PriorYearAccount-intrnlFinEncumSufficntFndIndicator-parentBean"
@@ -554,8 +540,6 @@
 				<bean parent="FieldDefinition" p:attributeName="forContractsAndGrants" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr" />
 				<bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator" />
@@ -624,8 +608,6 @@
 				<bean parent="FieldDefinition" p:attributeName="forContractsAndGrants" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr" />
 				<bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator" />
@@ -680,8 +662,6 @@
 				<bean parent="FieldDefinition" p:attributeName="forContractsAndGrants" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="incomeStreamFinancialCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRcvyFinCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAcctNbr" />
 				<bean parent="FieldDefinition" p:attributeName="intrnlFinEncumSufficntFndIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="pendingAcctSufficientFundsIndicator" />

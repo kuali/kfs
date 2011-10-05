@@ -1538,12 +1538,10 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         return !active;
     }
 
-    @Override
     public List<PriorYearIndirectCostRecoveryAccount> getIndirectCostRecoveryAccounts() {
         return indirectCostRecoveryAccounts;
     }
 
-    @Override
     public void setIndirectCostRecoveryAccounts(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
         List<PriorYearIndirectCostRecoveryAccount> priorYearAccountIcrList = new ArrayList<PriorYearIndirectCostRecoveryAccount>();
         for (IndirectCostRecoveryAccount icr : indirectCostRecoveryAccounts){

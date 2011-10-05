@@ -283,6 +283,7 @@ If this parameter is left blank, then the program will assume the current system
 KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_ROYALTIES,KFSFP298,1,CONFG,R,Non Taxable Payment Reason Code - Royalties,A,KFS
 KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_RENTAL_PAYMENT,KFSFP299,1,CONFG,T,Non Taxable Payment Reason Code - Rental Payment,A,KFS
 KFS-FP,DisbursementVoucher,PAYMENT_REASON_CODE_TRAVEL_HONORARIUM,KFSFP300,1,CONFG,X,Non Taxable Payment Reason Code - Travel Honorarium,A,KFS
+KFS-FP,DisbursementVoucher,ENABLE_SEPARATION_OF_DUTIES_IND,KFSFP4643,1,CONFG,Y,Indicates whether separation of duties should take place when the payee is the only approver on a DV value: Y,A,KFS
 "KFS-FP","TransferOfFunds","FUND_GROUP_BALANCING_SET","KFS298","1","CONFG","AF;CL","The Transfer of Funds document relies on a balancing check that transfers of funds from agency and clearing funds must balance between the To and From sections. This rule may be updated by configuring the parameter values to hold other Fund Group codes.","A","KFS"
 "KFS-GL","BalanceForwardStep","BALANCE_TYPES_TO_ROLL_FORWARD_FOR_BALANCE_SHEET","KFS299","1","CONFG","AC;NB","The balance type(s) that will be considered when bringing assets, liabilities, and fund balance forward to the new fiscal year.","A","KFS"
 "KFS-GL","BalanceForwardStep","BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE","KFS300","1","CONFG","AC;CB","The balance type(s) that will be considered when bringing income and expenses forward to the new fiscal year for inception to date reporting.","A","KFS"

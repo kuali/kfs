@@ -21,7 +21,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
+import org.kuali.kfs.coa.businessobject.PriorYearIndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
 import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
@@ -70,6 +72,20 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year accounts copied to prior year : " + copiedCount);
         }
+        
+        //copy prior year ICR accounts
+        final String priorYrIcrAcctTableName = persistenceStructureService.getTableName(PriorYearIndirectCostRecoveryAccount.class);
+        purgedCount = priorYearAccountDaoJdbc.purgePriorYearAccounts(priorYrIcrAcctTableName);
+        if (LOG.isInfoEnabled()) {
+            LOG.info("number of prior year indirect cost recovery accounts purged : " + purgedCount);
+        }
+
+        final String icrAcctTableName = persistenceStructureService.getTableName(IndirectCostRecoveryAccount.class);
+        copiedCount = priorYearAccountDaoJdbc.copyCurrentICRAccountsToPriorYearTable(priorYrIcrAcctTableName, icrAcctTableName);
+        if (LOG.isInfoEnabled()) {
+            LOG.info("number of current year indirect cost recovery accounts copied to prior year : " + copiedCount);
+        }
+
     }
 
     /**

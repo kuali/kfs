@@ -39,6 +39,8 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     
     private PurApItem purapItem;
 
+    protected static final int BIG_DECIMAL_SCALE = 6;
+
     public Integer getAccountIdentifier() {
         return accountIdentifier;
     }
@@ -56,7 +58,12 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     }
 
     public BigDecimal getAccountLinePercent() {
-        return accountLinePercent;
+        if (accountLinePercent != null) {
+            return accountLinePercent.setScale(BIG_DECIMAL_SCALE);
+        }
+        else {
+            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE);
+        }
     }
 
     public void setAccountLinePercent(BigDecimal accountLinePercent) {

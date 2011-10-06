@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -44,6 +45,10 @@ import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -102,10 +107,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static final String PURCHASE_ORDER_VENDOR_TYPE = "PO";
     protected static final String DOCUMENT_REQUIRES_TAX_REVIEW_SPLIT = "RequiresTaxReview";
     protected static final String DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT = "RequiresTravelReview";
+    protected static final String DOCUMENT_REQUIRES_SEPARATION_OF_DUTIES = "RequiresSeparationOfDutiesReview";
+    protected static final String DISBURSEMENT_VOUCHER_TYPE = "DisbursementVoucher";
     
     protected static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARAMETER_NAME = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
     protected static final String USE_DEFAULT_EMPLOYEE_ADDRESS_PARAMETER_NAME = "USE_DEFAULT_EMPLOYEE_ADDRESS_IND";
     protected static final String DEFAULT_EMPLOYEE_ADDRESS_TYPE_PARAMETER_NAME = "DEFAULT_EMPLOYEE_ADDRESS_TYPE";
+    protected static final String SEPARATION_OF_DUTIES_PARAMETER_NAME = "ENABLE_SEPARATION_OF_DUTIES_IND";
 
     protected static final String TAX_CONTROL_BACKUP_HOLDING = "B";
     protected static final String TAX_CONTROL_HOLD_PAYMENTS = "H";
@@ -1701,7 +1709,39 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return isTaxReviewRequired();
         if (nodeName.equals(DisbursementVoucherDocument.DOCUMENT_REQUIRES_TRAVEL_REVIEW_SPLIT))
             return isTravelReviewRequired();
+        if (nodeName.equals(DOCUMENT_REQUIRES_SEPARATION_OF_DUTIES)) 
+            return isSeparationOfDutiesReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
+    
+    
+    protected boolean isSeparationOfDutiesReviewRequired() {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        boolean sepOfDutiesRequired = parameterService.getIndicatorParameter(KFSConstants.CoreModuleNamespaces.FINANCIAL, DISBURSEMENT_VOUCHER_TYPE, SEPARATION_OF_DUTIES_PARAMETER_NAME);
+        
+        if (sepOfDutiesRequired) {
+            try {    
+                Set<Person> priorApprovers = getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();               
+                // The payee cannot be the only approver
+                String payeeEmployeeId = this.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
+                Person payee = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeEmployeeId);
+                // If there is only one approver, and that approver is also the payee, then Separation of Duties is required.
+                boolean priorApproverIsPayee = priorApprovers.contains(payee);
+                boolean onlyOneApprover = (priorApprovers.size() == 1);
+                if ( priorApproverIsPayee && onlyOneApprover) {
+                    return true;
+                }
+                
+                // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
+                // then no need for separation of duties
+                if (priorApprovers.size() > 0) {
+                    return false;
+                }
+            }catch (WorkflowException we) {
+                LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);
+            }
+        }
+            return false;
     }
     
     /**

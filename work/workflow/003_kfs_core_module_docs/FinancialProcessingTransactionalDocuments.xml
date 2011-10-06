@@ -956,7 +956,16 @@
             <join name="JoinRequiresTravelReview"/>
           </split>
           <role name="Campus" nextNode="PaymentMethod"/>
-          <role name="PaymentMethod"/>
+          <role name="PaymentMethod" nextNode="RequiresSeparationOfDutiesReview"/>
+          <split name="RequiresSeparationOfDutiesReview">
+            <branch name="True">
+              <role name="SeparationOfDuties" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -1058,6 +1067,22 @@
             P
           </activationType>
         </role>
+        <split name="RequiresSeparationOfDutiesReview">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="Join"/>
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
       </routeNodes>
     </documentType>
     <documentType>

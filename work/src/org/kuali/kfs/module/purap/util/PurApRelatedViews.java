@@ -117,7 +117,6 @@ public class PurApRelatedViews {
                 String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
                 String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
     
-    
                 IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                 Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
                 if (!isAuthorized) {
@@ -146,7 +145,7 @@ public class PurApRelatedViews {
             document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         }
         catch (WorkflowException ex) {
-        } catch ( UnknownDocumentTypeException ex ) {
+        } catch (UnknownDocumentTypeException ex) {
             // don't blow up just because a document type is not installed (but don't return it either)
         }
         

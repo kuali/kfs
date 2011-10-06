@@ -18,8 +18,6 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -27,8 +25,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.NoteService;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.TypedArrayList;

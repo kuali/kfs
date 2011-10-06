@@ -5,39 +5,42 @@ elog/dbchangelog-1.9.xsd'>
   <changeSet author='kfs50' id='KFS_50_CreateTable_AST_PMT_DST_CD' failOnError='true'>
     <comment>KFSMI-KFSMI-5998 </comment>
     <createTable tableName='CM_AST_PMT_DST_CD_T'>
-      <column name='AST_PMT_DST_CD' type='varchar2(1)'>
+      <column name='AST_PMT_DST_CD' type='VARCHAR2(1)'>
       <constraints  primaryKey='true' nullable='false'/>
       </column>
-      <column name='OBJ_ID' type='varchar2(36)'>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
       <constraints nullable='false' />
       </column>
-      <column name='ver_nbr' type='number(8)'>
+      <column name='ver_nbr' type='NUMBER(8)'>
       <constraints nullable='false' />
       </column>
-      <column name='AST_PMT_DST_NM' type='varchar2(40)'>
+      <column name='AST_PMT_DST_NM' type='VARCHAR2(40)'>
       <constraints nullable='false' />
       </column>
-      <column name='AST_PMT_DST_COL_NM' type='varchar2(40)'>
+      <column name='AST_PMT_DST_COL_NM' type='VARCHAR2(40)'>
       <constraints nullable='false' />
       </column>
-      <column name='AST_PMT_DST_EDT' type='varchar2(1)' >
+      <column name='AST_PMT_DST_EDT' type='VARCHAR2(1)' >
       <constraints nullable='false' />
       </column>
-      <column name='ROW_ACTV_IND' type='varchar2(1)' >
+      <column name='ROW_ACTV_IND' type='VARCHAR2(1)' >
       <constraints nullable='false' />
       </column>
     </createTable>
 
    <addColumn tableName='cm_ast_pmt_ast_dtl_t'>
-      <column name='CPTLAST_ALLOC_AMT' type='number(19,2)' defaultValueNumeric='0'>
+      <column name='CPTLAST_ALLOC_AMT' type='NUMBER(19,2)' defaultValueNumeric='0'>
         <constraints nullable='false' />
-	<column name='CPTLAST_ALLOC_VAL' type='number(19,2)'>
+	<column name='CPTLAST_ALLOC_VAL' type='NUMBER(19,2)'>
         <constraints nullable='false' />
       </column>
+	<column name='CPTLAST_ALLOC_VAL_PCT' type='NUMBER(19,6)'>
+      </column>
+
     </addColumn>
 
     <addColumn tableName='cm_ast_pmt_doc_t'>
-      <column name='AST_PMT_DST_CD' type='varchar2(2)' defaultValue='2'>
+      <column name='AST_PMT_DST_CD' type='VARCHAR2(2)' defaultValue='2'>
         <constraints nullable='false' />
       </column>
     </addColumn>

@@ -39,8 +39,7 @@ public class AssetDistributionEvenly extends AssetDistribution {
 	 * @param totalHistoricalCost
 	 */
 	public AssetDistributionEvenly(AssetPaymentDocument doc) {
-		super(doc);
-		precalculate();
+		super(doc);		
 	}
 
 	/**
@@ -51,25 +50,26 @@ public class AssetDistributionEvenly extends AssetDistribution {
 
 		KualiDecimal total = ZERO;
 		KualiDecimal distributionAmount = ZERO;
-		int size = assetPaymentAssetDetails.size();
+		int size = doc.getAssetPaymentAssetDetail().size();
 		KualiDecimal assetDetailSize = new KualiDecimal(size);
-
-		for (AssetPaymentDetail sourceLine : assetPaymentDetailLines) {
-			total = sourceLine.getAmount();
-			distributionAmount = total.divide(assetDetailSize);
-
-			Map<AssetPaymentAssetDetail, KualiDecimal> assetDetailMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
-			for (int i = 0; i < size; i++) {
-				AssetPaymentAssetDetail assetDetail = assetPaymentAssetDetails.get(i);
-				if (i < size - 1) {
-					assetDetailMap.put(assetDetail, distributionAmount);
-					total = total.subtract(distributionAmount);
-				} else {
-					assetDetailMap.put(assetDetail, total);
-				}
-
-			}
-			distributionResult.put(sourceLine.getAssetPaymentDetailKey(), assetDetailMap);
+		if (assetDetailSize.isNonZero()) {
+    		for (AssetPaymentDetail sourceLine : getAssetPaymentDetailLines()) {
+    			total = sourceLine.getAmount();
+    			distributionAmount = total.divide(assetDetailSize);
+    
+    			Map<AssetPaymentAssetDetail, KualiDecimal> assetDetailMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
+    			for (int i = 0; i < size; i++) {
+    				AssetPaymentAssetDetail assetDetail = doc.getAssetPaymentAssetDetail().get(i);
+    				if (i < size - 1) {
+    					assetDetailMap.put(assetDetail, distributionAmount);
+    					total = total.subtract(distributionAmount);
+    				} else {
+    					assetDetailMap.put(assetDetail, total);
+    				}
+    
+    			}
+    			distributionResult.put(sourceLine.getAssetPaymentDetailKey(), assetDetailMap);
+    		}
 		}
 	}
 
@@ -77,6 +77,7 @@ public class AssetDistributionEvenly extends AssetDistribution {
 	 * @see org.kuali.kfs.module.cam.util.distribution.AssetDistribution#getAssetPaymentDistributions()
 	 */
 	public Map<String, Map<AssetPaymentAssetDetail, KualiDecimal>> getAssetPaymentDistributions() {
+	    precalculate();
 		return distributionResult;
 	}
 

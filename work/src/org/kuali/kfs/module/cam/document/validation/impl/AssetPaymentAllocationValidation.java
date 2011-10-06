@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
+import java.math.BigDecimal;
+
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
@@ -97,8 +99,13 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 	 * @return true if the percentage is correct
 	 */
 	private boolean validatePercentSum(AssetPaymentDocument assetPaymentDocument) {
-		KualiDecimal total = getAllocatedTotal(assetPaymentDocument);
-		if (!total.equals(new KualiDecimal(100))) {
+        BigDecimal total = new BigDecimal(0d);
+        for (AssetPaymentAssetDetail apad : assetPaymentDocument.getAssetPaymentAssetDetail()) {
+            BigDecimal buggyFix = new BigDecimal("" + apad.getAllocatedUserValuePct().doubleValue());
+            total = total.add(buggyFix);
+        }
+
+		if (total.doubleValue() != 100.00d) {
 			GlobalVariables.getMessageMap().putErrorForSectionId(CamsPropertyConstants.COMMON_ERROR_SECTION_ID, CamsKeyConstants.AssetPaymentAllocation.ERROR_PERCENT_NOT_100);
 			return false;
 		}

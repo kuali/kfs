@@ -47,14 +47,18 @@ public class AssetDistributionManual extends AssetDistribution {
 		distributionResult = new HashMap<String, Map<AssetPaymentAssetDetail, KualiDecimal>>();
 
 		KualiDecimal totalLineAmount = getTotalLineAmount();
-		for (AssetPaymentDetail line : assetPaymentDetailLines) {
+		for (AssetPaymentDetail line : getAssetPaymentDetailLines()) {
 			KualiDecimal lineAmount = line.getAmount();
 			KualiDecimal remainingAmount = lineAmount;
 			Map<AssetPaymentAssetDetail, KualiDecimal> apadMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
-			for (int i = 0; i < assetPaymentAssetDetails.size(); i++) {
-				AssetPaymentAssetDetail apad = assetPaymentAssetDetails.get(i);
-				if (i < assetPaymentAssetDetails.size() - 1) {
-					KualiDecimal allocationPercentage = apad.getAllocatedUserValue().divide(totalLineAmount);
+			int size = doc.getAssetPaymentAssetDetail().size();
+            for (int i = 0; i < size; i++) {
+				AssetPaymentAssetDetail apad = doc.getAssetPaymentAssetDetail().get(i);
+				if (i < size - 1) {
+				    KualiDecimal allocationPercentage = KualiDecimal.ZERO;
+				    if (totalLineAmount.isNonZero()) {
+				        allocationPercentage = apad.getAllocatedUserValue().divide(totalLineAmount);
+				    }
 					KualiDecimal amount = allocationPercentage.multiply(lineAmount);
 					apadMap.put(apad, amount);
 					remainingAmount = remainingAmount.subtract(amount);
@@ -75,7 +79,7 @@ public class AssetDistributionManual extends AssetDistribution {
 	 */
 	private KualiDecimal getTotalLineAmount() {
 		KualiDecimal result = KualiDecimal.ZERO;
-		for (AssetPaymentDetail sourceLine : assetPaymentDetailLines) {
+		for (AssetPaymentDetail sourceLine : getAssetPaymentDetailLines()) {
 			result = result.add(sourceLine.getAmount());
 		}
 		return result;
@@ -88,7 +92,7 @@ public class AssetDistributionManual extends AssetDistribution {
 		Map<AssetPaymentAssetDetail, KualiDecimal> assetTotalAllocationMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
 		KualiDecimal allocation, total;
 
-		for (AssetPaymentAssetDetail apad : assetPaymentAssetDetails) {
+		for (AssetPaymentAssetDetail apad : doc.getAssetPaymentAssetDetail()) {
 			assetTotalAllocationMap.put(apad, apad.getAllocatedAmount());
 		}
 

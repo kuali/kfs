@@ -15,12 +15,14 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiPercent;
 import org.kuali.rice.kns.util.TypedArrayList;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
@@ -29,6 +31,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private KualiDecimal previousTotalCostAmount;
     private KualiDecimal allocatedAmount = KualiDecimal.ZERO;
     private KualiDecimal allocatedUserValue = KualiDecimal.ZERO;
+    private BigDecimal allocatedUserValuePct = BigDecimal.ZERO;  
 
     private Asset asset;
     private List<AssetPaymentDetail> assetPaymentDetails;
@@ -134,4 +137,18 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 	public KualiDecimal getNewTotal() {
 		return getAllocatedAmount().add(getPreviousTotalCostAmount());
 	}
+
+    /**
+     * Return the percent invariant value if percentages are used 
+     */
+    public BigDecimal getAllocatedUserValuePct() {
+        return allocatedUserValuePct;
+    }
+
+    /**
+     * Sets the percent invariant value if percentages are used
+     */
+    public void setAllocatedUserValuePct(BigDecimal allocatedUserValuePct) {
+        this.allocatedUserValuePct = allocatedUserValuePct;
+    }
 }

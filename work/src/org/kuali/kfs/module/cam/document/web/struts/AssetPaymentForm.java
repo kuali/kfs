@@ -225,6 +225,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 		return allocationEditable;
 	}
 
+	public boolean isAllocationEditablePct() {
+	    AssetPaymentAllocationType assetPaymentAllocationType = getAssetPaymentDocument().getAssetPaymentAllocationType();
+	    return isAllocationEditable() & (assetPaymentAllocationType.getAllocationCode().equals(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_PERCENTAGE_CODE));
+	}
+	
 	/**
 	 * Returns the number of source lines in the document
 	 */

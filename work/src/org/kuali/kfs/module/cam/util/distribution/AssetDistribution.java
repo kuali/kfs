@@ -31,18 +31,28 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public abstract class AssetDistribution {
 
-	protected List<AssetPaymentDetail> assetPaymentDetailLines;
-	protected List<AssetPaymentAssetDetail> assetPaymentAssetDetails;
+//	protected List<AssetPaymentDetail> assetPaymentDetailLines;
+//	protected List<AssetPaymentAssetDetail> assetPaymentAssetDetails;
+    protected AssetPaymentDocument doc;
 
 	/**
 	 * @param doc
 	 */
 	public AssetDistribution(AssetPaymentDocument doc) {
 		super();
-		this.assetPaymentDetailLines = doc.getSourceAccountingLines();
-		this.assetPaymentAssetDetails = doc.getAssetPaymentAssetDetail();
+		this.doc = doc;
+//		this.assetPaymentDetailLines = doc.getSourceAccountingLines();
+//		this.assetPaymentAssetDetails = doc.getAssetPaymentAssetDetail();
 	}
 
+	/**
+	 * Return list of payment details
+	 * @return
+	 */
+	protected List<AssetPaymentDetail> getAssetPaymentDetailLines() {
+	    return doc.getSourceAccountingLines();
+	}
+	
 	/**
 	 * Retrieve the asset payment distribution hierarchy <code>
 	 *  
@@ -68,7 +78,7 @@ public abstract class AssetDistribution {
 	public void applyDistributionsToDocument() {
 		
 		// Reset the allocated amounts so we are populating fresh
-		for (AssetPaymentAssetDetail apad : assetPaymentAssetDetails) {
+		for (AssetPaymentAssetDetail apad : doc.getAssetPaymentAssetDetail()) {
 			apad.setAllocatedAmount(ZERO);
 		}
 		

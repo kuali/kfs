@@ -25,6 +25,7 @@
 
 <c:set var="assetAllocationLabel" value="${KualiForm.allocationLabel}"/>
 <c:set var="isAllocationEditable" value="${KualiForm.allocationEditable}"/>
+<c:set var="isAllocationEditablePct" value="${KualiForm.allocationEditablePct}"/>
 <c:set var="sourceLineCount" value="${KualiForm.sourceLineCount}"/>
 
 
@@ -86,12 +87,21 @@
 					<%-- Allocated Amount  --%>
 					<td class="grid" width="10%">
 						<div align="right">
-							<c:if test="${isAllocationEditable}">							
-								<kul:htmlControlAttribute 
-									property="document.assetPaymentAssetDetail[${ctr}].allocatedUserValue" 
-									attributeEntry="${assetPaymentAssetDetailAttributes.allocatedUserValue}" 
-									styleClass="amount"  
-									readOnly="${viewOnly && (sourceLineCount > 0)}"/>
+							<c:if test="${isAllocationEditable}">
+								<c:if test="${isAllocationEditablePct}">
+									<kul:htmlControlAttribute 
+										property="document.assetPaymentAssetDetail[${ctr}].allocatedUserValuePct" 
+										attributeEntry="${assetPaymentAssetDetailAttributes.allocatedUserValuePct}" 
+										styleClass="amount"  
+										readOnly="${viewOnly && (sourceLineCount > 0)}"/>
+								</c:if>
+								<c:if test="${!isAllocationEditablePct}">
+									<kul:htmlControlAttribute 
+										property="document.assetPaymentAssetDetail[${ctr}].allocatedUserValue" 
+										attributeEntry="${assetPaymentAssetDetailAttributes.allocatedUserValue}" 
+										styleClass="amount"  
+										readOnly="${viewOnly && (sourceLineCount > 0)}"/>	
+								</c:if>
 							</c:if>
 							<c:if test="${!isAllocationEditable}">
 								<kul:htmlControlAttribute property="document.assetPaymentAssetDetail[${ctr}].allocatedAmount" attributeEntry="${assetPaymentAssetDetailAttributes.allocatedAmount}" readOnly="true"/>

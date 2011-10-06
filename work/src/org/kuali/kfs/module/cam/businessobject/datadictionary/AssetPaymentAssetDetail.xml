@@ -14,6 +14,7 @@
         <ref bean="AssetPaymentAssetDetail-previousTotalCostAmount"/>
         <ref bean="AssetPaymentAssetDetail-allocatedAmount"/>
         <ref bean="AssetPaymentAssetDetail-allocatedUserValue"/>
+        <ref bean="AssetPaymentAssetDetail-allocatedUserValuePct"/>
       </list>
     </property>
   </bean>
@@ -55,8 +56,21 @@
 	    <property name="shortLabel" value="Allocated Value"/>
 	    <property name="control">
 	      	<bean parent="TextControlDefinition"  p:size="15"/>
-	    </property>
+	    </property>	    
 	</bean>    
 
+ 	<bean id="AssetPaymentAssetDetail-allocatedUserValuePct" parent="AssetPaymentAssetDetail-allocatedUserValuePct-parentBean"/>
+ 	<bean id="AssetPaymentAssetDetail-allocatedUserValuePct-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="allocatedUserValuePct"/>
+	    <property name="label" value="Allocated User Value"/>
+	    <property name="shortLabel" value="Allocated Value"/>
+   		<property name="maxLength" value="23" />
+		<property name="validationPattern">
+			<ref bean="FloatingPointValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="24" />
+		</property>
+	</bean>
 </beans>
 

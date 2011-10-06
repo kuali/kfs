@@ -74,25 +74,25 @@ public class AssetPaymentDistributionByTotalCost extends AssetDistribution {
         Map<String, Map<AssetPaymentAssetDetail, KualiDecimal>> assetPaymentAssetDetailMap = new HashMap<String, Map<AssetPaymentAssetDetail, KualiDecimal>>();
 
         // calculate the asset payment percentage and store into a map
-        Map<AssetPaymentAssetDetail, Double> assetPaymentsPercentage = new HashMap<AssetPaymentAssetDetail, Double>(assetPaymentAssetDetails.size());
+        Map<AssetPaymentAssetDetail, Double> assetPaymentsPercentage = new HashMap<AssetPaymentAssetDetail, Double>(doc.getAssetPaymentAssetDetail().size());
         
-        for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+        for (AssetPaymentAssetDetail assetPaymentAssetDetail : doc.getAssetPaymentAssetDetail()) {
             // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total previous cost of the assets.
             // store the result in a temporary map 
-            assetPaymentsPercentage.put(assetPaymentAssetDetail, getAssetDetailPercentage(assetPaymentAssetDetails.size(), new Double(totalHistoricalCost.toString()), assetPaymentAssetDetail));
+            assetPaymentsPercentage.put(assetPaymentAssetDetail, getAssetDetailPercentage(doc.getAssetPaymentAssetDetail().size(), new Double(totalHistoricalCost.toString()), assetPaymentAssetDetail));
         }
 
         // Start the iteration base from the AssetPaymentDetail - accountingSouceLines
-        for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
+        for (AssetPaymentDetail assetPaymentDetail : getAssetPaymentDetailLines()) {
 
-            int paymentCount = assetPaymentAssetDetails.size();
+            int paymentCount = doc.getAssetPaymentAssetDetail().size();
             KualiDecimal amount = KualiDecimal.ZERO;
 
             // Keep unallocated amount so it could be used for last payment amount for the asset (to avoid rounding issue)
             KualiDecimal unallocatedAmount = assetPaymentDetail.getAmount();
 
             Map<AssetPaymentAssetDetail, KualiDecimal> assetDetailMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
-            for (AssetPaymentAssetDetail assetPaymentAssetDetail : assetPaymentAssetDetails) {
+            for (AssetPaymentAssetDetail assetPaymentAssetDetail : doc.getAssetPaymentAssetDetail()) {
                 // Doing the re-distribution of the cost based on the previous total cost of each asset compared with the total
                 // previous cost of the assets.
                 Double percentage = assetPaymentsPercentage.get(assetPaymentAssetDetail);
@@ -113,8 +113,6 @@ public class AssetPaymentDistributionByTotalCost extends AssetDistribution {
         }
         
         paymentDistributionMap = assetPaymentAssetDetailMap;
-        
-        System.out.println(paymentDistributionMap);
     }
     
     /**

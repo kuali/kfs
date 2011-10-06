@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.util.distribution;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,17 +46,21 @@ public class AssetDistributionPercent extends AssetDistribution {
 		distributionResult = new HashMap<String, Map<AssetPaymentAssetDetail, KualiDecimal>>();
 
 		KualiDecimal totalLineAmount = getTotalLineAmount();
-		for (AssetPaymentDetail line : assetPaymentDetailLines) {
+		for (AssetPaymentDetail line : getAssetPaymentDetailLines()) {
 			KualiDecimal lineAmount = line.getAmount();
 			KualiDecimal remainingAmount = lineAmount;
 			Map<AssetPaymentAssetDetail, KualiDecimal> apadMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
-			for (int i = 0; i < assetPaymentAssetDetails.size(); i++) {
-				AssetPaymentAssetDetail apad = assetPaymentAssetDetails.get(i);
-				if (i < assetPaymentAssetDetails.size() - 1) {
-					KualiDecimal allocationPercentage = apad.getAllocatedUserValue();
-					KualiDecimal amount = allocationPercentage.divide(new KualiDecimal(100)).multiply(lineAmount);
-					apadMap.put(apad, amount);
-					remainingAmount = remainingAmount.subtract(amount);
+			int size = doc.getAssetPaymentAssetDetail().size();
+            for (int i = 0; i < size; i++) {
+				AssetPaymentAssetDetail apad = doc.getAssetPaymentAssetDetail().get(i);
+				if (i < size - 1) {
+					BigDecimal allocationPercentage = apad.getAllocatedUserValuePct();
+					BigDecimal amount = BigDecimal.ZERO;
+					if (lineAmount.isNonZero()) {
+					    amount = allocationPercentage.divide(new BigDecimal(100)).multiply(lineAmount.bigDecimalValue());
+					}
+					apadMap.put(apad, new KualiDecimal(amount));
+					remainingAmount = remainingAmount.subtract(new KualiDecimal(amount));
 				} else {
 					apadMap.put(apad, remainingAmount);
 				}
@@ -73,7 +78,7 @@ public class AssetDistributionPercent extends AssetDistribution {
 	 */
 	private KualiDecimal getTotalLineAmount() {
 		KualiDecimal result = KualiDecimal.ZERO;
-		for (AssetPaymentDetail sourceLine : assetPaymentDetailLines) {
+		for (AssetPaymentDetail sourceLine : getAssetPaymentDetailLines()) {
 			result = result.add(sourceLine.getAmount());
 		}
 		return result;
@@ -86,7 +91,7 @@ public class AssetDistributionPercent extends AssetDistribution {
 		Map<AssetPaymentAssetDetail, KualiDecimal> assetTotalAllocationMap = new HashMap<AssetPaymentAssetDetail, KualiDecimal>();
 		KualiDecimal allocation, total;
 
-		for (AssetPaymentAssetDetail apad : assetPaymentAssetDetails) {
+		for (AssetPaymentAssetDetail apad : doc.getAssetPaymentAssetDetail()) {
 			assetTotalAllocationMap.put(apad, apad.getAllocatedAmount());
 		}
 

@@ -28,10 +28,20 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectView;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingView;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
+import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.RequisitionView;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PurApRelatedViews {
     private String documentNumber;
@@ -79,6 +89,7 @@ public class PurApRelatedViews {
             relatedList = SpringContext.getBean(PurapService.class).getRelatedViews(clazz, accountsPayablePurchasingDocumentLinkIdentifier);
             if (removeCurrentDocument) {
                 for (AbstractRelatedView view : relatedList) {
+                    maskPONumberIfUnapproved(view);
                     if (documentNumber.equals(view.getDocumentNumber())) {
                         relatedList.remove(view);
                         break;
@@ -86,9 +97,62 @@ public class PurApRelatedViews {
                 }
             }
         }
+        
         return relatedList;
     }
 
+    /**
+     * masks the po number if the po is unappoved yet.
+     * 
+     * @param view
+     */
+    protected void maskPONumberIfUnapproved(AbstractRelatedView view) {
+        Document document = findDocument(view.getDocumentNumber());
+
+        String poIDstr = view.getPurapDocumentIdentifier().toString();
+        
+        if (document != null) {
+            if (!document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
+                String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
+    
+    
+                IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+                Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+                if (!isAuthorized) {
+                    //not authorized to see... so mask the po number string
+                    poIDstr = "";
+                    int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+                    for (int i = 0; i < strLength; i++) {
+                        poIDstr = poIDstr.concat("*");
+                    }
+                }
+            }
+        }
+        
+        view.setPoNumberMasked(poIDstr);
+    }
+    
+    /**
+     * This method finds the document for the given document header id
+     * @param documentHeaderId
+     * @return document The document in the workflow that matches the document header id.
+     */
+    protected Document findDocument(String documentHeaderId) {
+        Document document = null;
+        
+        try {
+            document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
+        }
+        catch (WorkflowException ex) {
+        } catch ( UnknownDocumentTypeException ex ) {
+            // don't blow up just because a document type is not installed (but don't return it either)
+        }
+        
+        return document;
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */

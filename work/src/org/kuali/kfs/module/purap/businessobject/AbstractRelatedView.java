@@ -42,7 +42,8 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private Integer purapDocumentIdentifier;
     private String documentNumber;
-
+    private String poNumberMasked;
+    
     private List<Note> notes;
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
@@ -133,5 +134,24 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
             m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
         }
         return m;
+    }
+    
+    /**
+     * Gets the poNumberMasked attribute.
+     * 
+     * @return Returns the poNumberMasked
+     */
+    
+    public String getPoNumberMasked() {
+        return poNumberMasked;
+    }
+
+    /** 
+     * Sets the poNumberMasked attribute.
+     * 
+     * @param poNumberMasked The poNumberMasked to set.
+     */
+    public void setPoNumberMasked(String poNumberMasked) {
+        this.poNumberMasked = poNumberMasked;
     }
 }

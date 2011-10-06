@@ -53,7 +53,7 @@
 			    	<%--This is done only once when this PO doc itself is not the current PO, thus there's one and only one related current PO, and all other related POs are noncurrent --%>			    			
 			        <c:when test="${view.purchaseOrderCurrentIndicator}">
 						<h3> ${view.documentLabel} - 
-        	            	<a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.purapDocumentIdentifier}" /></a>
+        	            	<a href="<c:out value="${view.url}" />" style="color: #FFF" target="_BLANK"><c:out value="${view.poNumberMasked}" /></a>
         	            	<c:if test="${view.needWarning}" >
         	            		&nbsp;<font color="white">UNAPPROVED</font>
         	            	</c:if>

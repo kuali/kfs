@@ -22,6 +22,7 @@
 	<field-descriptor name="previousTotalCostAmount" column="CPTLAST_PREV_TOT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="allocatedAmount" column="CPTLAST_ALLOC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="allocatedUserValue" column="CPTLAST_ALLOC_VAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="allocatedUserValuePct" column="CPTLAST_ALLOC_VAL_PCT" jdbc-type="DECIMAL" />
 	<reference-descriptor name="asset" class-ref="org.kuali.kfs.module.cam.businessobject.Asset" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
@@ -450,7 +451,7 @@
 	<field-descriptor 			name="versionNumber" 						column="VER_NBR" 				jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor 			name="nextSourceLineNumber" 				column="NXT_AST_PMT_LN_NBR" 	jdbc-type="INTEGER"/>
 	<field-descriptor 			name="capitalAssetBuilderOriginIndicator" 	column="CB_ORIGIN_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
-	<field-descriptor 			name="assetPaymentAllocationTypeCode" 		column="AST_PMT_DST_CD" 		jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor 			name="assetPaymentAllocationTypeCode" 		column="AST_PMT_DST_CD" 		jdbc-type="VARCHAR" index="true"/>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>	

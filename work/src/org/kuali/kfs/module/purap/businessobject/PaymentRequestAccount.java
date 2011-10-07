@@ -31,7 +31,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
      * Default constructor.
      */
     public PaymentRequestAccount() {
-
+        this.setSequenceNumber(0);
     }
 
     /**
@@ -44,6 +44,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         // copy base attributes
         PurApObjectUtils.populateFromBaseClass(AccountingLineBase.class, poa, this);
         // copy percent
+        this.setSequenceNumber(poa.getSequenceNumber());
         this.setAccountLinePercent(poa.getAccountLinePercent());
         setItemIdentifier(item.getItemIdentifier());
         setPaymentRequestItem(item);

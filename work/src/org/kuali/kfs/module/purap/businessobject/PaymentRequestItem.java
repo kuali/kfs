@@ -334,6 +334,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     @Override
     public void resetAccount() {
         super.resetAccount();
+   //     this.getNewSourceLine().setAmount(KualiDecimal.ZERO);
         this.getNewSourceLine().setAccountLinePercent(new BigDecimal(0));
     }
 

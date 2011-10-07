@@ -173,7 +173,8 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         
         super.copyFrom(other);
 
-        setAccountLinePercent(other.getAccountLinePercent());      
+        setAccountLinePercent(other.getAccountLinePercent());
+        setAmount(other.getAmount());
         setAlternateAmountForGLEntryCreation(other.getAlternateAmountForGLEntryCreation());            
  
     }
@@ -225,5 +226,4 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
         valuesMap.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
         return valuesMap;
     }
-
 }

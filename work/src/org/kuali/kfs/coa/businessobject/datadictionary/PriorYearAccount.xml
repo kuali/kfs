@@ -576,6 +576,7 @@
         <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
         <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
         <bean parent="FieldDefinition" p:attributeName="accountLinePercent" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="summaryFields">

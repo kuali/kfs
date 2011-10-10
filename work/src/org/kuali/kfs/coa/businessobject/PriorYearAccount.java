@@ -90,8 +90,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private String contractControlAccountNumber;
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
-    private String indirectCostRcvyFinCoaCode;
-    private String indirectCostRecoveryAcctNbr;
 
     private Chart chartOfAccounts;
     private Organization organization;
@@ -106,7 +104,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Account endowmentIncomeAccount;
     private Account contractControlAccount;
     private Account incomeStreamAccount;
-    private Account indirectCostRecoveryAcct;
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
@@ -1232,34 +1229,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      */
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
         this.incomeStreamFinancialCoaCode = incomeStreamFinancialCoaCode;
-    }
-
-    /**
-     * @return Returns the indirectCostRcvyFinCoaCode.
-     */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
-     */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
     }
 
     /**

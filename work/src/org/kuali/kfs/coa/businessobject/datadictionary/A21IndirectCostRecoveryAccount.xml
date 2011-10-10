@@ -30,6 +30,7 @@
         <ref bean="A21IndirectCostRecoveryAccount-indirectCostRecoveryAccountNumber"/>
         <ref bean="A21IndirectCostRecoveryAccount-accountLinePercent"/>
         <ref bean="A21IndirectCostRecoveryAccount-newCollectionRecord"/>
+        <ref bean="A21IndirectCostRecoveryAccount-active" />
       </list>
     </property>
   </bean>
@@ -95,6 +96,11 @@
   <bean id="A21IndirectCostRecoveryAccount-newCollectionRecord" parent="A21IndirectCostRecoveryAccount-newCollectionRecord-parentBean" />
   <bean id="A21IndirectCostRecoveryAccount-newCollectionRecord-parentBean" abstract="true"
     parent="GenericAttributes-newCollectionRecord">
+  </bean>
+  
+  <bean id="A21IndirectCostRecoveryAccount-active" parent="A21IndirectCostRecoveryAccount-active-parentBean" />
+  <bean id="A21IndirectCostRecoveryAccount-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active" />
   </bean>
 
 </beans>

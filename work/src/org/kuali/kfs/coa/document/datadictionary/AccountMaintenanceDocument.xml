@@ -41,7 +41,6 @@
 	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="endowmentIncomeAccount" p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" /> 
-	      	<bean parent="ReferenceDefinition" p:attributeName="indirectCostRecoveryAcct" p:attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
 	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 

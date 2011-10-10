@@ -485,6 +485,7 @@
 		<property name="inquirySections">
 			<list>
 				<ref bean="PriorYearAccount-inquirySectionDefinition" />
+    		<ref bean="PriorYearAccount-inquirySectionDefinition-icr" />
 			</list>
 		</property>
 	</bean>
@@ -549,8 +550,42 @@
 			</list>
 		</property>
 	</bean>
-	<!-- Business Object Lookup Definition -->
 
+  <bean id="PriorYearAccount-inquirySectionDefinition-icr" parent="PriorYearAccount-inquirySectionDefinition-icr-parentBean" />
+  <bean id="PriorYearAccount-inquirySectionDefinition-icr-parentBean" parent="InquirySectionDefinition"
+    abstract="true">
+    <property name="title" value="Indirect Cost Recovery Accounts" />
+    <property name="inquiryFields">
+      <list>
+        <ref bean="PriorYearAccount-inquiryCollectionDefinition-icr-indirectCostRecoveryAccounts"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean 
+    id="PriorYearAccount-inquiryCollectionDefinition-icr-indirectCostRecoveryAccounts" 
+    parent="PriorYearAccount-inquiryCollectionDefinition-icr-indirectCostRecoveryAccounts-parentBean" />
+  <bean 
+    id="PriorYearAccount-inquiryCollectionDefinition-icr-indirectCostRecoveryAccounts-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="indirectCostRecoveryAccounts" />
+    <property name="businessObjectClass"
+      value="org.kuali.kfs.coa.businessobject.PriorYearIndirectCostRecoveryAccount" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+        <bean parent="FieldDefinition" p:attributeName="accountLinePercent" />
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+      </list>
+    </property>
+  </bean>
+	<!-- Business Object Lookup Definition -->
 
 	<bean id="PriorYearAccount-lookupDefinition" parent="PriorYearAccount-lookupDefinition-parentBean" />
 

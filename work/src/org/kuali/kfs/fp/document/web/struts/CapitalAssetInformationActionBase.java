@@ -276,8 +276,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetInformation
      */
     protected void redistributeAmountsForAccountingLineForModifyAssets(AccountingLine accountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
-        KualiDecimal equalModifyAssetAmount = accountingLine.getAmount();
-        equalModifyAssetAmount = equalModifyAssetAmount.divide(new KualiDecimal(numberOfModifiedAssetsExist(accountingLine, capitalAssetInformation)), true);
+        KualiDecimal remainingAmountToDistribute = accountingLine.getAmount().subtract(getEqualDistributedAmount(capitalAssetInformation, accountingLine, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR));
+        KualiDecimal equalModifyAssetAmount = remainingAmountToDistribute.divide(new KualiDecimal(numberOfModifiedAssetsExist(accountingLine, capitalAssetInformation)), true);
         
         int lastAssetIndex = 0;
         CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
@@ -301,7 +301,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         }
         
         //apply any variance left to the last 
-        KualiDecimal varianceForAssets = accountingLine.getAmount().subtract(equalModifyAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
+        KualiDecimal varianceForAssets = remainingAmountToDistribute.subtract(equalModifyAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
         if (varianceForAssets.isNonZero()) {
             lastCapitalAsset.setAmount(lastCapitalAsset.getAmount().add(varianceForAssets));
         }
@@ -340,8 +340,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetInformation
      */
     protected void redistributeAmountsForAccountingLineForCreateAssets(AccountingLine accountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
-        KualiDecimal equalCreateAssetAmount = accountingLine.getAmount();
-        equalCreateAssetAmount = equalCreateAssetAmount.divide(new KualiDecimal(numberOfCreateAssetsExist(accountingLine, capitalAssetInformation)), true);
+        KualiDecimal remainingAmountToDistribute = accountingLine.getAmount().subtract(getEqualDistributedAmount(capitalAssetInformation, accountingLine, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR));
+        
+        KualiDecimal equalCreateAssetAmount = remainingAmountToDistribute.divide(new KualiDecimal(numberOfCreateAssetsExist(accountingLine, capitalAssetInformation)), true);
         int lastAssetIndex = 0;
         CapitalAssetInformation lastCapitalAsset = new CapitalAssetInformation();
         
@@ -362,23 +363,31 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         }
         
         //apply any variance left to the last 
-        KualiDecimal varianceForAssets = accountingLine.getAmount().subtract(equalCreateAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
+        KualiDecimal varianceForAssets = remainingAmountToDistribute.subtract(equalCreateAssetAmount.multiply(new KualiDecimal(lastAssetIndex)));
         if (varianceForAssets.isNonZero()) {
             lastCapitalAsset.setAmount(lastCapitalAsset.getAmount().add(varianceForAssets));
         }
     }
     
     /**
+     * Checks capital assets records for the matching account line details and sums of the
+     * amounts distributed so far.
      * 
      * @param capitalAssetInformation
-     * @param assetActionType
-     * @return distributedAmount
+     * @param accountingLine
+     * @param assetActionType type of capital asset record (create or modify)
+     * @return distributedAmount the amount that has been distributed so far
      */
-    protected KualiDecimal getEqualDistributedAmount(List<CapitalAssetInformation> capitalAssetInformation, String assetActionType) {
+    protected KualiDecimal getEqualDistributedAmount(List<CapitalAssetInformation> capitalAssetInformation, AccountingLine accountingLine, String assetActionType) {
         KualiDecimal distributedAmount = KualiDecimal.ZERO;
         
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
-            if (capitalAsset.getCapitalAssetActionIndicator().equals(assetActionType)) {
+            if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator()) &&
+                    capitalAsset.getSequenceNumber().compareTo(accountingLine.getSequenceNumber()) == 0 &&
+                    capitalAsset.getFinancialDocumentLineTypeCode().equals(accountingLine.getFinancialDocumentLineTypeCode()) && 
+                    capitalAsset.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) && 
+                    capitalAsset.getAccountNumber().equals(accountingLine.getAccountNumber()) && 
+                    capitalAsset.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
                 distributedAmount = distributedAmount.add(capitalAsset.getAmount());
             }
         }

@@ -44,11 +44,9 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
     // account fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.
     public static final String[] COA_CODE_NAMES = {        
         KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE, 
-        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
     };
     public static final String[] ACCOUNT_NUMBER_NAMES = {        
         KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_ACCOUNT_NUMBER, 
-        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER,
     };
 
     /**
@@ -87,7 +85,7 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
      * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
      * 
      * Special treatment is needed to populate chart code fields from account number fields 
-     * in nested reference accounts a21SubAccount.costShareAccount and a21SubAccount.indirectCostRecoveryAcct
+     * in nested reference accounts a21SubAccount.costShareAccount 
      * when accounts can't cross charts.
      */
     @Override

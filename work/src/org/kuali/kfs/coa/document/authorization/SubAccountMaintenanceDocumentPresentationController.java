@@ -33,7 +33,6 @@ public class SubAccountMaintenanceDocumentPresentationController extends Financi
     // COA code fields that are PKs of nested reference accounts but don't exist in the Sub-Account BO as FKs.
     public static final String[] COA_CODE_NAMES = {        
         KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.COST_SHARE_SOURCE_CHART_OF_ACCOUNTS_CODE, 
-        KFSPropertyConstants.A21_SUB_ACCOUNT + "." + KFSPropertyConstants.INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE,
     };
 
     /**

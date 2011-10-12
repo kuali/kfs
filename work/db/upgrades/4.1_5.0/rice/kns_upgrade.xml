@@ -151,6 +151,19 @@
 			<column name="CONS_CD" value="A" />
 			<column name="APPL_NMSPC_CD" value="KFS" />
 		</insert>
+		<insert tableName="KRNS_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="PARM_DTL_TYP_CD" value="Document" />
+			<column name="PARM_NM" value="COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND" />
+			<column name="OBJ_ID" value="KFSPURAP7033" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="TXT" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value='Indicates if an accounting line with zero dollar amount from Purchase Order document can be copied to Payment Request document.' />
+			<column name="CONS_CD" value="A" />
+			<column name="APPL_NMSPC_CD" value="KFS" />
+		</insert>
 
 	</changeSet>
 </databaseChangeLog>   

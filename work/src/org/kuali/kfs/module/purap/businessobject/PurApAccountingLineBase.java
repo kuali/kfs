@@ -59,10 +59,10 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
     public BigDecimal getAccountLinePercent() {
         if (accountLinePercent != null) {
-            return accountLinePercent.setScale(BIG_DECIMAL_SCALE);
+            return accountLinePercent = accountLinePercent.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
         }
         else {
-            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE);
+            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
         }
     }
 

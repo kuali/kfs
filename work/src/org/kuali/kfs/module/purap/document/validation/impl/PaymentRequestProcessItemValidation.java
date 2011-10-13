@@ -20,21 +20,24 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.Validation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAmountPositiveValidation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineDataDictionaryValidation;
-import org.kuali.kfs.sys.document.validation.impl.AccountingLineValueAllowedValidation;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch;
 import org.kuali.kfs.sys.document.validation.impl.BusinessObjectDataDictionaryValidation;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -175,7 +178,13 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
         KualiDecimal itemTotal = item.getTotalAmount();
         KualiDecimal accountTotal = KualiDecimal.ZERO;
-        for (PurApAccountingLine accountingLine : accountingLines) {                        
+        for (PurApAccountingLine accountingLine : accountingLines) {
+            if (accountingLine.getAmount().isZero()) {
+                if (!canApproveAccountingLinesWithZeroAmount()) {
+                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_AMOUNT_INVALID, itemForValidation.getItemIdentifierString());
+                    valid &= false;
+                }
+            }
             valid &= reviewAccountingLineValidation(paymentRequestDocument, accountingLine);            
             accountTotal = accountTotal.add(accountingLine.getAmount());
         }
@@ -246,6 +255,26 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         }
     }
 
+    /**
+     * checks if an accounting line with zero dollar amount can be approved.  This will check
+     * the system parameter APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND and determines if the
+     * line can be approved or not.
+     * 
+     * @return true if the system parameter value is Y else returns N.
+     */
+    public boolean canApproveAccountingLinesWithZeroAmount() {
+        boolean canApproveLine = false;
+        
+        // get parameter to see if accounting line with zero dollar amount can be approved.
+        String approveZeroAmountLine = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND);
+        
+        if ("Y".equalsIgnoreCase(approveZeroAmountLine)) {
+            return true;
+        }
+        
+        return canApproveLine;
+    }
+    
     protected void addParametersToValidation(BusinessObjectDataDictionaryValidation validation) {
         validation.setBusinessObjectForValidation(this.preqAccountingLine);
     }
@@ -311,5 +340,4 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
     protected void setPreqAccountingLine(PurApAccountingLine preqAccountingLine) {
         this.preqAccountingLine = preqAccountingLine;
     }
-
 }

@@ -27,7 +27,6 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.SummaryAccount;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -76,13 +75,6 @@ public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFo
         }
         else {
             this.setReadOnlyAccountDistributionMethod(false);
-            if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
-            }
-            else if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)){
-                }
-                else {
-                    new RuntimeException("Error in reading system parameter values for DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES");
-                }
         }
     }
     

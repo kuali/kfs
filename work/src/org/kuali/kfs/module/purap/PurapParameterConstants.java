@@ -78,6 +78,10 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String CG_ROUTE_OBJECT_CODES_BY_CHART = "CG_ROUTE_OBJECT_CODES_BY_CHART";
     public static final String NO_CG_ROUTE_OBJECT_CODES_BY_CHART = "NO_CG_ROUTE_OBJECT_CODES_BY_CHART";
     
+    //copy zero dollar amount accounting lines
+    public static final String COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND = "COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND";
+    public static final String APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND = "APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND";
+    
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
     public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";

@@ -110,4 +110,12 @@ public interface AccountsPayableService {
     
     public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po);
     
+    /**
+     * checks if an accounting line with zero dollar amount can be copied from PO to PREQ.  This will check
+     * the system parameter COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND and determines if the
+     * line can be copied or not.
+     * 
+     * @return true if the system parameter value is Y else returns N.
+     */
+    public boolean canCopyAccountingLinesWithZeroAmount();
 }

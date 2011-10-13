@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -733,5 +734,21 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#canCopyAccountingLinesWithZeroAmount()
+     */
+    public boolean canCopyAccountingLinesWithZeroAmount() {
+        boolean canCopyLine = false;
+        
+        // get parameter to see if accounting line with zero dollar amount can be copied from PO to PREQ.
+        String copyZeroAmountLine = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND);
+        
+        if ("Y".equalsIgnoreCase(copyZeroAmountLine)) {
+            return true;
+        }
+        
+        return canCopyLine;
+    }
+
 }
 

@@ -86,9 +86,17 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
             // check if this account is expired/closed and replace as needed
             SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(poa, expiredOrClosedAccountList);
-
-            accounts.add(new PaymentRequestAccount(this, poa));
+            
+            //KFSMI-4522 copy an accounting line with zero dollar amount if system parameter allows
+            if (poa.getAmount().isZero()) {
+                if (SpringContext.getBean(AccountsPayableService.class).canCopyAccountingLinesWithZeroAmount()) {
+                    accounts.add(new PaymentRequestAccount(this, poa));    
+                }
+            } else {
+                accounts.add(new PaymentRequestAccount(this, poa));
+            }
         }
+        
         this.setSourceAccountingLines(accounts);
         this.getUseTaxItems().clear();
         //List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>(); 
@@ -121,7 +129,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Retreives a purchase order item by inspecting the item type to see if its above the line or below the line and returns the
+     * Retrieves a purchase order item by inspecting the item type to see if its above the line or below the line and returns the
      * appropriate type.
      * 
      * @return - purchase order item

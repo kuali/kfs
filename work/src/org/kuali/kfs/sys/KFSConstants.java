@@ -620,6 +620,7 @@ public class KFSConstants extends JSTLConstants implements ParameterKeyConstants
     }
 
     public static class DepositConstants {
+        public static final String DEPOSIT_TYPE_VERIFIED = "V";
         public static final String DEPOSIT_TYPE_INTERIM = "I";
         public static final String DEPOSIT_TYPE_FINAL = "F";
 

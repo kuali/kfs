@@ -314,7 +314,8 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // create CashReceipt
             changeCurrentUser(UserNameFixture.ineff);
-            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
+            //CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("75.00"));
+            CashReceiptDocument cr = buildCashReceiptDoc(CMST_CAMPUS_CODE, "CMST nonverified CR", KFSConstants.DocumentStatusCodes.CashReceipt.FINAL, new KualiDecimal("75.00"));
             changeCurrentUser(twatson);
 
             List crList = new ArrayList();

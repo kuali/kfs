@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.util.distribution;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +55,17 @@ public class AssetDistributionManual extends AssetDistribution {
 			int size = doc.getAssetPaymentAssetDetail().size();
             for (int i = 0; i < size; i++) {
 				AssetPaymentAssetDetail apad = doc.getAssetPaymentAssetDetail().get(i);
+		
 				if (i < size - 1) {
-				    KualiDecimal allocationPercentage = KualiDecimal.ZERO;
+				    double allocationPercentage = 0d;
+//				    KualiDecimal allocationPercentage = new KualiDecimal(new BigDecimal(0), 6);
+				    
 				    if (totalLineAmount.isNonZero()) {
-				        allocationPercentage = apad.getAllocatedUserValue().divide(totalLineAmount);
+				        allocationPercentage = apad.getAllocatedUserValue().doubleValue() / totalLineAmount.doubleValue();
+//				        allocationPercentage = apad.getAllocatedUserValue().divide(totalLineAmount);
 				    }
-					KualiDecimal amount = allocationPercentage.multiply(lineAmount);
+				    KualiDecimal amount = new KualiDecimal(allocationPercentage * lineAmount.doubleValue());
+//					KualiDecimal amount = allocationPercentage.multiply(lineAmount);
 					apadMap.put(apad, amount);
 					remainingAmount = remainingAmount.subtract(amount);
 				} else {

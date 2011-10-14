@@ -186,7 +186,7 @@
 				</table>				
 				<cams:viewPayments defaultTabHide="true" assetPayments="${assetPayments}"	assetValueObj="${assetObject}" assetValue="${assetValue}"/>	
 				
-				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${totalAllocated}"/>
+				<cams:viewPaymentInProcess defaultTabHide="true" assetPaymentDetails="${KualiForm.document.sourceAccountingLines}" assetPaymentAssetDetail="${assetPaymentsAssetDetail}" assetPaymentsTotal="${totalAllocated}" assetPaymentDistribution="${KualiForm.document.assetPaymentDistributor.assetPaymentDistributions}"/>
 			</div>
 		</kul:tab>
 		</td>

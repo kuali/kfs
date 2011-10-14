@@ -170,7 +170,6 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
                 for (AssetPaymentDetail assetPaymentDetail : assetPaymentDetailLines) {
 
                     // Retrieve the asset payment from the distribution map
-boolean yes = assetPaymentDistributionMap.containsKey(assetPaymentDetail.getAssetPaymentDetailKey());
                     KualiDecimal amount = assetPaymentDistributionMap.get(assetPaymentDetail.getAssetPaymentDetailKey()).get(assetPaymentAssetDetail);
                     totalAmount = totalAmount.add(amount);
 

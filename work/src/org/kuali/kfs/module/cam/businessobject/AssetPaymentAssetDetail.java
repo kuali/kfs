@@ -120,6 +120,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 	 */
 	public void setAllocatedUserValue(KualiDecimal allocatedUserValue) {
 		this.allocatedUserValue = allocatedUserValue;
+		setAllocatedAmount(allocatedUserValue);
 	}
 
 	/**

@@ -102,6 +102,71 @@
 			<column name='PERM_ID' value='KFSPURAP6940' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
+    <insert tableName='KRIM_RSP_T'>
+      <column name='RSP_ID' value='126' />
+      <column name='OBJ_ID' value='KFSPURAP7037' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='RSP_TMPL_ID' value='1' />
+      <column name='NMSPC_CD' value='KFS-FP' />
+      <column name='NM' value='Review' />
+      <column name='DESC_TXT' value='' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+    <insert tableName='KRIM_RSP_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSFP7037A' />
+      <column name='OBJ_ID' value='KFSFP7037A' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='RSP_ID' value='126' />
+      <column name='KIM_TYP_ID' value='7' />
+      <column name='KIM_ATTR_DEFN_ID' value='41' />
+      <column name='ATTR_VAL' value='false' />
+    </insert>
+    <insert tableName='KRIM_RSP_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSFP7037B' />
+      <column name='OBJ_ID' value='KFSFP7037B' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='RSP_ID' value='126' />
+      <column name='KIM_TYP_ID' value='7' />
+      <column name='KIM_ATTR_DEFN_ID' value='16' />
+      <column name='ATTR_VAL' value='SeparationOfDuties' />
+    </insert>
+    <insert tableName='KRIM_RSP_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSFP7037C' />
+      <column name='OBJ_ID' value='KFSFP7037C' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='RSP_ID' value='126' />
+      <column name='KIM_TYP_ID' value='7' />
+      <column name='KIM_ATTR_DEFN_ID' value='13' />
+      <column name='ATTR_VAL' value='DV' />
+    </insert>
+    <insert tableName='KRIM_RSP_ATTR_DATA_T'>
+      <column name='ATTR_DATA_ID' value='KFSFP7037D' />
+      <column name='OBJ_ID' value='KFSFP7037D' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='RSP_ID' value='126' />
+      <column name='KIM_TYP_ID' value='7' />
+      <column name='KIM_ATTR_DEFN_ID' value='40' />
+      <column name='ATTR_VAL' value='false' />
+    </insert>
+    <insert tableName='KRIM_ROLE_RSP_T'>
+      <column name='ROLE_RSP_ID' value='KFSFP7037A' />
+      <column name='OBJ_ID' value='KFSFP7037A' />
+      <column name='VER_NBR' valueNumeric='4' />
+      <column name='ROLE_ID' value='55' />
+      <column name='RSP_ID' value='126' />
+      <column name='ACTV_IND' value='Y' />
+    </insert>
+    <insert tableName='KRIM_ROLE_RSP_ACTN_T'>
+      <column name='ROLE_RSP_ACTN_ID' value='KFSFP7037A' />
+      <column name='OBJ_ID' value='KFSFP7037A' />
+      <column name='VER_NBR' valueNumeric='1' />
+      <column name='ACTN_TYP_CD' value='A' />
+      <column name='PRIORITY_NBR' valueNumeric='1' />
+      <column name='ACTN_PLCY_CD' value='F' />
+      <column name='ROLE_MBR_ID' value='*' />
+      <column name='ROLE_RSP_ID' value='KFSFP7037A' />
+      <column name='FRC_ACTN' value='N' />
+    </insert>
 
 	</changeSet>
 </databaseChangeLog>   

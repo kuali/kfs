@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
   <changeSet author='KFS50' id='CreateTable_ca_icr_acct_t' failOnError='true'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
-    <createTable tableName='ca_icr_acct_t'>
+    <createTable tableName='CA_ICR_ACCT_T'>
       <column name='CA_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
         <constraints primaryKey='true' nullable='false' />
       </column>
@@ -41,11 +41,11 @@
   </changeSet>
 
 	<changeSet author="KFS50" id="ca_icr_acct_seq_oracle" dbms="oracle">
-    	<createSequence sequenceName="ca_icr_acct_seq" startValue="10000"/>
+    	<createSequence sequenceName="CA_ICR_ACCT_SEQ" startValue="10000"/>
   	</changeSet>
    
 	<changeSet author="KFS50" id="ca_icr_acct_seq_mysql" dbms="mysql">
-	  	<createTable tableName="ca_icr_acct_seq">
+	  	<createTable tableName="CA_ICR_ACCT_SEQ">
 	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>
@@ -55,7 +55,7 @@
   	
   <changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t' failOnError='true'>
     <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
-    <createTable tableName='ca_a21_icr_acct_t'>
+    <createTable tableName='CA_A21_ICR_ACCT_T'>
       <column name='CA_A21_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
         <constraints primaryKey='true' nullable='false' />
       </column>
@@ -96,15 +96,54 @@
   </changeSet>
   
   	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_oracle" dbms="oracle">
-    	<createSequence sequenceName="ca_a21_icr_acct_seq" startValue="10000"/>
+    	<createSequence sequenceName="CA_A21_ICR_ACCT_SEQ" startValue="10000"/>
   	</changeSet>
    
 	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_mysql" dbms="mysql">
-	  	<createTable tableName="ca_a21_icr_acct_seq">
+	  	<createTable tableName="CA_A21_ICR_ACCT_SEQ">
 	  		<column name="ID" type="BIGINT(19)" autoIncrement="true">
 	  			<constraints nullable="false" primaryKey="true"/>
 	  		</column>
 	  	</createTable>
 	  	<sql>ALTER TABLE ca_a21_icr_acct_seq AUTO_INCREMENT=10000</sql>
   	</changeSet>
+  	
+  	  <changeSet author='KFS50' id='CreateTable_CA_PRIOR_YR_ICR_ACCT_T'>
+    <comment>KFSMI-KFSMI-6963 Data conversion script for ICR accounts and modification on the ICR tables</comment>
+    <createTable tableName='CA_PRIOR_YR_ICR_ACCT_T'>
+      <column name='CA_PRIOR_YR_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
+      	<constraints primaryKey = "true" nullable="false" />
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)' >
+      	<constraints nullable='false' />
+     </column>
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
+      <constraints nullable='false' />
+      </column>
+      <column name='FIN_COA_CD' type='VARCHAR2(2)' defaultValue=''>
+      <constraints nullable='false' />
+      </column>
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)' >
+      <constraints nullable='false' />
+      </column>
+      <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' >
+      <constraints nullable='true' />
+      </column>
+      <column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' >
+      <constraints nullable='true' />
+      </column>
+      <column name='ACLN_PCT' type='VARCHAR2(45)'>
+      <constraints nullable='true' />
+      </column>
+      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)'>
+      <constraints nullable='false' />
+      </column>
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
 </databaseChangeLog>

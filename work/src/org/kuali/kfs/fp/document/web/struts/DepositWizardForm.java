@@ -32,8 +32,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -45,7 +45,7 @@ public class DepositWizardForm extends KualiForm {
     private String cashDrawerCampusCode;
     private String cashManagementDocId;
 
-    private List depositableCashReceipts;
+    private List<CashReceiptDocument> depositableCashReceipts;
     private List depositWizardHelpers;
     private List<Check> depositableCashieringChecks;
     private transient List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers;
@@ -136,7 +136,7 @@ public class DepositWizardForm extends KualiForm {
     /**
      * @return List
      */
-    public List getDepositableCashReceipts() {
+    public List<CashReceiptDocument> getDepositableCashReceipts() {
         return depositableCashReceipts;
     }
 

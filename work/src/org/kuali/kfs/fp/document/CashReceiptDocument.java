@@ -32,6 +32,7 @@ import org.kuali.kfs.fp.document.validation.event.DeleteCheckEvent;
 import org.kuali.kfs.fp.document.validation.event.UpdateCheckEvent;
 import org.kuali.kfs.fp.service.CheckService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -143,6 +144,40 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public KualiDecimal getTotalChangeCashAmount() {
         return (changeCurrencyDetail != null) ? changeCurrencyDetail.getTotalAmount() : KualiDecimal.ZERO;
     }
+    
+    /**
+     * Gets the total amount of depositable checks
+     * @return
+     */
+    public KualiDecimal getTotalDepositableCheckAmount() {
+        KualiDecimal totalDepositableCheckAmount = KualiDecimal.ZERO;
+        List<Check> checks = getConfirmedChecks();
+        if (checks != null && !checks.isEmpty()) {
+            for (Check check : checks) {
+                if(check.getCashieringStatus().equals("C")) {
+                    totalDepositableCheckAmount = totalDepositableCheckAmount.add(check.getAmount());
+                }
+            }
+        }
+        return totalDepositableCheckAmount;        
+    }
+    
+    /**
+     * Checks if there are checks to be deposited
+     * @return
+     */
+    public boolean existDepositableChecks() {        
+        return getTotalDepositableCheckAmount().isGreaterThan(KualiDecimal.ZERO) ? true : false;        
+    }
+
+    /**
+     * This method returns the total depositable check amount as a currency formatted string.
+     * 
+     * @return
+     */
+    public String getCurrencyFormattedTotalDepositableCheckAmount() {
+        return (String) new CurrencyFormatter().format(getTotalDepositableCheckAmount());
+    }
 
     /**
      * This method returns the cash total amount as a currency formatted string.
@@ -161,7 +196,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public String getCurrencyFormattedTotalConfirmedCashAmount() {
         return (String) new CurrencyFormatter().format(getTotalConfirmedCashAmount());
     }
-
+    
     /**
      * Sets the totalCashAmount attribute value.
      * 
@@ -419,6 +454,18 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * Gets the totalConfirmedCheckAmount attribute.
+     * 
+     * @return Returns the totalCheckAmount.
+     */
+    public KualiDecimal getTotalConfirmedCheckAmountForInterim() {
+        if (totalConfirmedCheckAmount == null || getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM)) {
+            setTotalConfirmedCheckAmount(KualiDecimal.ZERO);
+        }
+        return totalConfirmedCheckAmount;
+    }
+    
+    /**
      * This method returns the check total amount as a currency formatted string.
      * 
      * @return String
@@ -433,7 +480,9 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @return String
      */
     public String getCurrencyFormattedTotalConfirmedCheckAmount() {
-        return (String) new CurrencyFormatter().format(getTotalConfirmedCheckAmount());
+        String amountString = (String) new CurrencyFormatter().format(getTotalConfirmedCheckAmount());        
+        return amountString;
+        
     }
 
     /**
@@ -498,7 +547,24 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public String getCurrencyFormattedTotalConfirmedCoinAmount() {
         return (String) new CurrencyFormatter().format(getTotalConfirmedCoinAmount());
     }
+    
+    /**
+     * returns (confirmed currency + confirmed coin - change amount)
+     * 
+     * @return
+     */
+    public KualiDecimal getGrandTotalConfirmedCashAmount() {
+        return getTotalConfirmedCashAmount().add(getTotalConfirmedCoinAmount()).subtract(getTotalChangeAmount());
+    }
 
+    /**
+     * returns (confirmed currency + confirmed coin - change amount) as a currency formatted string
+     * @return
+     */
+    public String getCurrencyFormattedGrandTotalConfirmedCashAmount() {
+        return (String) new CurrencyFormatter().format(getGrandTotalConfirmedCashAmount());
+    }
+    
     /**
      * Sets the totalCoinAmount attribute value.
      * 
@@ -680,6 +746,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public String getCurrencyFormattedFinalSumTotalAmount() {
         return (String) new CurrencyFormatter().format(getTotalConfirmedDollarAmount().subtract(getTotalChangeAmount()));
     }
+    
     
     /**
      * Retrieves the change total amount in a currency format with commas.

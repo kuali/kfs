@@ -351,7 +351,9 @@ public class CashManagementForm extends KualiDocumentFormBase {
         protected String description;
         protected Timestamp createDate;
         protected KualiDecimal totalAmount;
+        protected KualiDecimal cashAmount;
         protected KualiDecimal checkAmount;
+        protected String documentStatusCode;
 
         /**
          * Default constructor used by PojoProcessor.
@@ -368,8 +370,14 @@ public class CashManagementForm extends KualiDocumentFormBase {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getDocumentDescription();
             createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
-            checkAmount = crd.getTotalConfirmedCheckAmount();
+            if (crd.getDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.INTERIM)) { 
+                checkAmount = KualiDecimal.ZERO;
+            } else {
+                checkAmount = crd.getTotalConfirmedCheckAmount();
+            }
+            cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
+            documentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
         }
 
         /**
@@ -459,6 +467,35 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public String toString() {
             return "CRSummary " + getDocumentNumber();
         }
+
+        /**
+         * @return the cashAmount
+         */
+        public KualiDecimal getCashAmount() {
+            return cashAmount;
+        }
+
+        /**
+         * @param cashAmount the cashAmount to set
+         */
+        public void setCashAmount(KualiDecimal cashAmount) {
+            this.cashAmount = cashAmount;
+        }
+
+        /**
+         * @return the documentStatusCode
+         */
+        public String getDocumentStatusCode() {
+            return documentStatusCode;
+        }
+
+        /**
+         * @param documentStatusCode the documentStatusCode to set
+         */
+        public void setDocumentStatusCode(String documentStatusCode) {
+            this.documentStatusCode = documentStatusCode;
+        }
+        
     }
 
     public static final class CashDrawerSummary implements Serializable {
@@ -511,7 +548,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void resummarize(CashManagementDocument cmDoc) {
             //
             // get all interesting CRs
-            String campusCode = cmDoc.getCampusCode();
+            String campusCode = cmDoc.getCampusCode(); 
             List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, INTERESTING_STATII);
 
 

@@ -114,6 +114,10 @@ public class DepositWizardAction extends KualiAction {
             catch (CashDrawerStateException cdse) {
                 dest = new ActionForward(UrlFactory.parameterizeUrl(CASH_MANAGEMENT_STATUS_PAGE, cdse.toProperties()), true);
             }
+        } else { // for recalculation
+            loadCashReceipts(dwForm);
+            loadUndepositedCashieringChecks(dwForm);
+            //loadEditModesAndDocumentActions(dwForm);
         }
 
         return dest;
@@ -129,7 +133,7 @@ public class DepositWizardAction extends KualiAction {
     private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode) {
         CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(cmDoc.getCampusCode());
         if (cd == null) {
-            throw new RuntimeException("No cash drawer exists for campus code "+cmDoc.getCampusCode()+"; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus "+cmDoc.getCampusCode());
+            throw new RuntimeException("No cash drawer exists for campus code " + cmDoc.getCampusCode() + "; please create on via the Cash Drawer Maintenance Document before attemping to create a CashManagementDocument for campus " + cmDoc.getCampusCode());
         }
         if (!cd.isOpen()) {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
@@ -171,7 +175,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
-        List<CashReceiptDocument> verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM});
+        List<CashReceiptDocument> verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM });
         dform.setDepositableCashReceipts(new ArrayList());
         dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
 
@@ -179,20 +183,29 @@ public class DepositWizardAction extends KualiAction {
         int index = 0;
         for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument receipt = (CashReceiptDocument) i.next();
-            receipt.processAfterRetrieve(); //To populate Currency and Coin details
-            if (receipt.getCheckCount() == 0 && receipt.getTotalConfirmedCheckAmount().equals(KualiDecimal.ZERO)) {
-                dform.getCheckFreeCashReceipts().add(receipt);
+            receipt.processAfterRetrieve(); // To populate Currency and Coin details
+            String docStatus = receipt.getDocumentHeader().getFinancialDocumentStatusCode();
+            if (docStatus.equalsIgnoreCase(CashReceipt.VERIFIED)) { // for interim or final deposit
+                if (receipt.getCheckCount() == 0 && receipt.getTotalConfirmedCheckAmount().equals(KualiDecimal.ZERO)) {
+                    dform.getCheckFreeCashReceipts().add(receipt);
+                }
+                else {
+                    dform.getDepositableCashReceipts().add(receipt);
+                    DepositWizardHelper d = dform.getDepositWizardHelper(index++);
+                    // KFSMI-5232 Jira fix. Convert the time stamp to SQL date format
+                    Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getCreateDate();
+                    try {
+                        d.setCashReceiptCreateDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(ts));
+                    }
+                    catch (Exception e) {
+
+                    }
+                }
             }
-            else {
-                dform.getDepositableCashReceipts().add(receipt);
-                DepositWizardHelper d = dform.getDepositWizardHelper(index++);
-                //KFSMI-5232 Jira fix.  Convert the time stamp to SQL date format
-                Timestamp ts = receipt.getDocumentHeader().getWorkflowDocument().getCreateDate();
-                
-                try {
-                    d.setCashReceiptCreateDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(ts));
-                } catch (Exception e) {
-                    
+            else if (docStatus.equalsIgnoreCase(CashReceipt.INTERIM)) { // for final deposit
+                // checks are already deposited but there are cash to be deposited
+                if (receipt.getTotalConfirmedCashAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    dform.getCheckFreeCashReceipts().add(receipt);
                 }
             }
         }
@@ -212,28 +225,29 @@ public class DepositWizardAction extends KualiAction {
         final FinancialSystemTransactionalDocumentEntry ddEntry = getCashManagementDataDictionaryEntry();
         final TransactionalDocumentPresentationController presentationController = getCashManagementPresentationController(ddEntry);
         final TransactionalDocumentAuthorizer docAuthorizer = getCashManagementDocumentAuthorizer(ddEntry);
-        
+
         dform.setEditingMode(retrieveEditingModes(dform.getCashManagementDocId(), presentationController, docAuthorizer));
         dform.setDocumentActions(retrieveDocumentActions(dform.getCashManagementDocId(), presentationController, docAuthorizer));
     }
-    
+
     /**
      * @return the class of the cash management document
      */
     protected String getCashManagementDocumentTypeName() {
         return "CMD";
     }
-    
+
     /**
      * @return the data dictionary entry for the cash management class
      */
     private FinancialSystemTransactionalDocumentEntry getCashManagementDataDictionaryEntry() {
         final DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
-        return (FinancialSystemTransactionalDocumentEntry)ddService.getDataDictionary().getDocumentEntry(getCashManagementDocumentTypeName());
+        return (FinancialSystemTransactionalDocumentEntry) ddService.getDataDictionary().getDocumentEntry(getCashManagementDocumentTypeName());
     }
-    
+
     /**
      * Returns an instance of the document presentation controller for the cash management class
+     * 
      * @param cashManagementEntry the data dictionary entry for the cash management document
      * @return an instance of the proper document presentation controller
      */
@@ -241,19 +255,20 @@ public class DepositWizardAction extends KualiAction {
         final Class presentationControllerClass = cashManagementEntry.getDocumentPresentationControllerClass();
         TransactionalDocumentPresentationController presentationController = null;
         try {
-            presentationController = (TransactionalDocumentPresentationController)presentationControllerClass.newInstance();
+            presentationController = (TransactionalDocumentPresentationController) presentationControllerClass.newInstance();
         }
         catch (InstantiationException ie) {
-            throw new RuntimeException("Could not instantiate cash management presentation controller of class "+presentationControllerClass.getName(), ie);
+            throw new RuntimeException("Could not instantiate cash management presentation controller of class " + presentationControllerClass.getName(), ie);
         }
         catch (IllegalAccessException iae) {
-            throw new RuntimeException("Could not instantiate cash management presentation controller of class "+presentationControllerClass.getName(), iae);
+            throw new RuntimeException("Could not instantiate cash management presentation controller of class " + presentationControllerClass.getName(), iae);
         }
         return presentationController;
     }
-    
+
     /**
      * Returns an instance of the document authorizer for the cash management class
+     * 
      * @param cashManagementEntry the data dictionary entry for the cash management document
      * @return an instance of the proper document authorizer
      */
@@ -261,19 +276,20 @@ public class DepositWizardAction extends KualiAction {
         final Class docAuthorizerClass = cashManagementEntry.getDocumentAuthorizerClass();
         TransactionalDocumentAuthorizer docAuthorizer = null;
         try {
-            docAuthorizer = (TransactionalDocumentAuthorizer)docAuthorizerClass.newInstance();
+            docAuthorizer = (TransactionalDocumentAuthorizer) docAuthorizerClass.newInstance();
         }
         catch (InstantiationException ie) {
-            throw new RuntimeException("Could not instantiate cash management document authorizer of class "+docAuthorizerClass.getName(), ie);
+            throw new RuntimeException("Could not instantiate cash management document authorizer of class " + docAuthorizerClass.getName(), ie);
         }
         catch (IllegalAccessException iae) {
-            throw new RuntimeException("Could not instantiate cash management document authorizer of class "+docAuthorizerClass.getName(), iae);
+            throw new RuntimeException("Could not instantiate cash management document authorizer of class " + docAuthorizerClass.getName(), iae);
         }
         return docAuthorizer;
     }
-    
+
     /**
      * Retrieves the edit modes for the given cash management document
+     * 
      * @param cashManagementDocId the id of the cash management document to check
      * @param presentationController the presentation controller of the cash management document
      * @param docAuthorizer the cash management document authorizer
@@ -282,19 +298,20 @@ public class DepositWizardAction extends KualiAction {
     private Map retrieveEditingModes(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
         Map editModeMap = null;
         try {
-            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            final CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
             Set<String> editModes = presentationController.getEditModes(cmDoc);
             editModes = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), editModes);
             editModeMap = convertSetToMap(editModes);
         }
         catch (WorkflowException we) {
-            throw new RuntimeException("Workflow exception while retrieving document "+cashManagementDocId, we);
+            throw new RuntimeException("Workflow exception while retrieving document " + cashManagementDocId, we);
         }
         return editModeMap;
     }
-    
+
     /**
      * Retrieves the document actions for the given cash management document
+     * 
      * @param cashManagementDocId the id of the cash management document to check
      * @param presentationController the presentation controller of the cash management document
      * @param docAuthorizer the cash management document authorizer
@@ -303,28 +320,30 @@ public class DepositWizardAction extends KualiAction {
     private Map retrieveDocumentActions(String cashManagementDocId, TransactionalDocumentPresentationController presentationController, TransactionalDocumentAuthorizer docAuthorizer) {
         Map documentActionsMap = null;
         try {
-            final CashManagementDocument cmDoc = (CashManagementDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
+            final CashManagementDocument cmDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashManagementDocId);
             Set<String> documentActions = presentationController.getDocumentActions(cmDoc);
             documentActions = docAuthorizer.getEditModes(cmDoc, GlobalVariables.getUserSession().getPerson(), documentActions);
             documentActionsMap = convertSetToMap(documentActions);
         }
         catch (WorkflowException we) {
-            throw new RuntimeException("Workflow exception while retrieving document "+cashManagementDocId, we);
+            throw new RuntimeException("Workflow exception while retrieving document " + cashManagementDocId, we);
         }
         return documentActionsMap;
     }
-    
+
     /**
-     * Converts a set into a map, where each value in the set becomes a key and each value becomes KNSConstants.KUALI_DEFAULT_TRUE_VALUE
+     * Converts a set into a map, where each value in the set becomes a key and each value becomes
+     * KNSConstants.KUALI_DEFAULT_TRUE_VALUE
+     * 
      * @param s a set
      * @return a map
      */
-    protected Map convertSetToMap(Set s){
+    protected Map convertSetToMap(Set s) {
         Map map = new HashMap();
         Iterator i = s.iterator();
-        while(i.hasNext()) {
+        while (i.hasNext()) {
             Object key = i.next();
-           map.put(key,KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
+            map.put(key, KNSConstants.KUALI_DEFAULT_TRUE_VALUE);
         }
         return map;
     }
@@ -375,9 +394,9 @@ public class DepositWizardAction extends KualiAction {
         final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
         final DocumentService documentService = SpringContext.getBean(DocumentService.class);
         final CashManagementService cashManagementService = SpringContext.getBean(CashManagementService.class);
-        
+
         CurrencyFormatter formatter = new CurrencyFormatter();
-        
+
         // reload edit modes - just in case we have to return to the deposit wizard page
         loadEditModesAndDocumentActions(dform);
 
@@ -415,12 +434,22 @@ public class DepositWizardAction extends KualiAction {
         if (depositIsFinal) {
             // add check free cash receipts to the selected receipts so they are automatically deposited
             dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
-            for (Object crDocObj : cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
+            List<CashReceiptDocument> cashReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] {CashReceipt.VERIFIED, CashReceipt.INTERIM});
+            for (Object crDocObj : cashReceipts) {
                 CashReceiptDocument crDoc = (CashReceiptDocument) crDocObj;
-                if (crDoc.getCheckCount() == 0) {
+                crDoc.refreshCashDetails();
+                if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.VERIFIED) && crDoc.getCheckCount() == 0) {
                     // it's check free; it is automatically deposited as part of the final deposit
                     selectedIds.add(crDoc.getDocumentNumber());
                     dform.getCheckFreeCashReceipts().add(crDoc);
+                }
+                else if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equals(CashReceipt.INTERIM) &&
+                        crDoc.getGrandTotalConfirmedCashAmount().isGreaterThan(KualiDecimal.ZERO)) {
+//                        crDoc.setChecks(null);
+//                        crDoc.setConfirmedChecks(new ArrayList<Check>());
+//                        crDoc.setTotalConfirmedCheckAmount(null);
+                        selectedIds.add(crDoc.getDocumentNumber());
+                        dform.getCheckFreeCashReceipts().add(crDoc);
                 }
             }
         }
@@ -449,13 +478,13 @@ public class DepositWizardAction extends KualiAction {
 
                 if (depositIsFinal) {
                     // have all verified CRs been deposited? If not, that's an error
-                    List verifiedReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
-                    for (Object o : verifiedReceipts) {
-                        CashReceiptDocument crDoc = (CashReceiptDocument) o;
-                        if (!selectedReceipts.contains(crDoc)) {
-                            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
-                        }
-                    }
+//                    List verifiedReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] {CashReceipt.VERIFIED, CashReceipt.INTERIM});
+//                    for (Object o : verifiedReceipts) {
+//                        CashReceiptDocument crDoc = (CashReceiptDocument) o;
+//                        if (!selectedReceipts.contains(crDoc)) {
+//                            GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { crDoc.getDocumentNumber() });
+//                        }
+//                    }
                     KualiDecimal toBeDepositedChecksTotal = KualiDecimal.ZERO;
                     // have we selected the rest of the undeposited checks?
                     for (Check check : cashManagementService.selectUndepositedCashieringChecks(dform.getCashManagementDocId())) {
@@ -472,8 +501,10 @@ public class DepositWizardAction extends KualiAction {
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), CashReceipt.VERIFIED);
-                    //List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM });
+                    // List<CashReceiptDocument> interestingReceipts =
+                    // cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED,
+                    // CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
@@ -730,4 +761,3 @@ public class DepositWizardAction extends KualiAction {
         return new ActionForward(cmActionUrl, true);
     }
 }
-

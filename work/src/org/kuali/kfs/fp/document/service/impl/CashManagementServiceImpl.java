@@ -294,9 +294,12 @@ public class CashManagementServiceImpl implements CashManagementService {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
             FinancialSystemDocumentHeader dh = crDoc.getDocumentHeader();
 
+            // change the doc status if it is not interim
             String statusCode = isFinalDeposit ? DocumentStatusCodes.CashReceipt.FINAL : DocumentStatusCodes.CashReceipt.INTERIM;
-            dh.setFinancialDocumentStatusCode(statusCode);
-            documentService.updateDocument(crDoc);
+            if (!dh.getFinancialDocumentStatusCode().equalsIgnoreCase(DocumentStatusCodes.CashReceipt.INTERIM)) {
+                dh.setFinancialDocumentStatusCode(statusCode);
+                documentService.updateDocument(crDoc);
+            }
 
             DepositCashReceiptControl dcc = new DepositCashReceiptControl();
             dcc.setFinancialDocumentCashReceiptNumber(crDoc.getDocumentNumber());
@@ -350,9 +353,9 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             for (CashReceiptDocument cashReceipt : selectedCashReceipts) {
                 String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
-                if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED)) {
-                //if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED) && !StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.INTERIM)) {
-                    throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getDocumentNumber() + " has a status other than 'verified' ");
+                //if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED)) {
+                if (!StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.VERIFIED) && !StringUtils.equals(statusCode, DocumentStatusCodes.CashReceipt.INTERIM)) {
+                    throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getDocumentNumber() + " has a status other than 'verified' or 'interim' ");
                 }
             }
         }
@@ -393,7 +396,9 @@ public class CashManagementServiceImpl implements CashManagementService {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            total = total.add(crDoc.getTotalConfirmedCheckAmount());
+            if (crDoc.getDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.VERIFIED)) {
+                total = total.add(crDoc.getTotalConfirmedCheckAmount());
+            }
         }
         Check currCheck;
         for (Object checkObj: selectedCashieringChecks) {

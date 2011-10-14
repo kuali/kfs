@@ -42,6 +42,14 @@
     <c:set var="depositTitle" value="${depositTitle} ${depositIndex + 1}" />
 </c:if>
 
+<c:choose>
+<c:when test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
+  	<c:set var="columnNumbers" value="5"/>
+  </c:when>
+  <c:otherwise>
+    <c:set var="columnNumbers" value="4"/>
+  </c:otherwise>
+</c:choose>	
 
     <h3>${depositTitle}</h3>
 
@@ -49,7 +57,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
     <%-- deposit --%>
     <tr>
-        <td colspan="4">
+        <td colspan="${columnNumbers}">
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
                     <sys:bankLabel align="left"/>
@@ -93,12 +101,12 @@
     <%-- currency/coin details --%>
     <c:if test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL && !empty deposit.depositedCurrency && !empty deposit.depositedCoin}">
       <tr>
-        <td colspan="4" class="tab-subhead">
+       	<td colspan="${columnNumbers}" class="tab-subhead">
           Currency/Coin Details
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+    	<td colspan="${columnNumbers}">
           <fp:currencyCoinLine currencyProperty="${depositPropertyBase}.depositedCurrency" coinProperty="${depositPropertyBase}.depositedCoin" readOnly="true" />
         </td>
       </tr>
@@ -106,15 +114,18 @@
     
     <%-- cashReceipts header --%>
     <c:if test="${!empty KualiForm.depositHelpers[depositIndex].cashReceiptSummarys}">
-    <tr><td colspan="4" class="tab-subhead">
+    <tr>
+  		<td colspan="${columnNumbers}" class="tab-subhead">
         Cash Receipts
     </td></tr>
     <tr>
         <kul:htmlAttributeHeaderCell attributeEntry="${receiptAttributes.documentNumber}" align="left" />
         <kul:htmlAttributeHeaderCell literalLabel="Description" align="left" />
-
         <kul:htmlAttributeHeaderCell literalLabel="Created on" align="left" />
         <kul:htmlAttributeHeaderCell attributeEntry="${receiptAttributes.totalCheckAmount}" align="left" />
+       	<c:if test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
+       		<kul:htmlAttributeHeaderCell literalLabel="Total Cash Amount" align="left" />
+       	</c:if>
     </tr>
 
     <%-- cashReceipts data --%>
@@ -136,8 +147,13 @@
             </td>
     
             <td align="left">
-                <kul:htmlControlAttribute property="${receiptSummaryBase}.checkAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
+	           	<kul:htmlControlAttribute property="${receiptSummaryBase}.checkAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
             </td>
+            <c:if test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
+            <td>
+            	<kul:htmlControlAttribute property="${receiptSummaryBase}.cashAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
+            </td>
+            </c:if>
         </tr>
     </logic:iterate>
     </c:if>
@@ -174,7 +190,7 @@
     <%-- deposit footer --%>
     <c:if test="${(depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL && allowCancelDeposits) || allowAdditionalDeposits}">
         <tr>
-            <td colspan="4" class="subhead" style="text-align: center">
+            <td colspan="${columnNumbers}" class="subhead" style="text-align: center">
                 <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" style="border: none" property="methodToCall.cancelDeposit.line${depositIndex}" alt="close" title="close"/>
             </td>
         </tr>         

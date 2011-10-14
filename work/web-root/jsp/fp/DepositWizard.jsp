@@ -19,14 +19,10 @@
 <c:set var="docTitle"
 	value="Create a New ${KualiForm.depositTypeString} Deposit" />
 
-<c:set var="depositAttributes"
-	value="${DataDictionary.Deposit.attributes}" />
-<c:set var="cashReceiptAttributes"
-	value="${DataDictionary.CashReceiptDocument.attributes}" />
-<c:set var="checkAttributes"
-	value="${DataDictionary.CheckBase.attributes}" />
-<c:set var="dummyAttributes"
-	value="${DataDictionary.AttributeReferenceDummy.attributes}" />
+<c:set var="depositAttributes" value="${DataDictionary.Deposit.attributes}" />
+<c:set var="cashReceiptAttributes" value="${DataDictionary.CashReceiptDocument.attributes}" />
+<c:set var="checkAttributes" value="${DataDictionary.CheckBase.attributes}" />
+<c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 
 
 <kul:page showDocumentInfo="false" showTabButtons="false"
@@ -137,7 +133,7 @@ function checkCheckAllOrNone() {
 			</kul:tab>
 		</c:if>
 
-		<c:set var="crCounter" value="0" />
+	<c:set var="crCounter" value="0" />
     <c:if test="${!empty KualiForm.depositableCashReceipts || !empty KualiForm.checkFreeCashReceipts}">
 		<kul:tab tabTitle="Cash Receipts" defaultOpen="true"
 			tabErrorKey="cashReceiptErrors">
@@ -160,12 +156,14 @@ function checkCheckAllOrNone() {
 					<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Create Date" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Check Total" scope="col" />
+					<c:if test="${rawDepositTypeCode == 'F'}">
+						<kul:htmlAttributeHeaderCell literalLabel="Cash Total" scope="col" />
+					</c:if>
 					
 				</tr>
 
       <c:if test="${!empty KualiForm.depositableCashReceipts}">
-				<logic:iterate name="KualiForm" id="cashReceipt"
-					property="depositableCashReceipts" indexId="ctr">
+				<logic:iterate name="KualiForm" id="cashReceipt" property="depositableCashReceipts" indexId="ctr">
           <c:set var="crCounter" value="${crCounter + 1}" />
 					<tr>
 						<td colspan="7"
@@ -209,6 +207,13 @@ function checkCheckAllOrNone() {
 						$&nbsp;<c:out value="${cashReceipt.currencyFormattedTotalConfirmedCheckAmount}" /> <html:hidden
 							property="depositableCashReceipt[${ctr}].totalConfirmedCheckAmount" /></div>
 						</td>
+						<c:if test="${rawDepositTypeCode == 'F'}">
+						<td>
+							<div align="center">
+							$&nbsp;<c:out value="${cashReceipt.currencyFormattedGrandTotalConfirmedCashAmount}" /> <html:hidden
+								property="depositableCashReceipt[${ctr}].grandTotalConfirmedCashAmount" /></div> 
+							</td>
+						</c:if>
 						
 					</tr>
 
@@ -298,7 +303,7 @@ function checkCheckAllOrNone() {
 						<td>&nbsp;</td>
 						<td>
 						<div align="center">
-						$&nbsp;<c:out value="${cashReceipt.currencyFormattedFinalSumTotalAmount}" /></div>
+						$&nbsp;<c:out value="${cashReceipt.currencyFormattedGrandTotalConfirmedCashAmount}" /></div>
 						</td>
 					</tr>
 				</logic:iterate>

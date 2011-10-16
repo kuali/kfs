@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -52,8 +53,11 @@ import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.datadictionary.AttributeSecurity;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -310,27 +314,37 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
-        String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-        
         String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
         
         //KFSMI-4576 masking/unmasking PO number...
-        if (!workflowDocument.getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) && !isAuthorized) {
-            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-            AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
-            attributeSecurity.setMask(false);
-            if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
-                poIDstr = "";
-                int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
-                for (int i = 0; i < strLength; i++) {
-                    poIDstr = poIDstr.concat("*");
-                }
-           }
+        //If the document status is not FINAL then check for permissions
+        if (!workflowDocument.getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+            String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+            String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+            
+            AttributeSet roleQualifiers = new AttributeSet();
+            
+            AttributeSet permissionDetails = new AttributeSet();
+            permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+            permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+            
+            IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+            Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+
+            //principalId is not authorized to see the PO number so mask the value.
+            if (!isAuthorized) {
+                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+                AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
+                attributeSecurity.setMask(false);
+                if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
+                    poIDstr = "";
+                    int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
+                    for (int i = 0; i < strLength; i++) {
+                        poIDstr = poIDstr.concat("*");
+                    }
+               }
+            }
         }
         
         if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {

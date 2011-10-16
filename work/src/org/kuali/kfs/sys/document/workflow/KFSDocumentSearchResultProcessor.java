@@ -18,8 +18,12 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
@@ -28,7 +32,9 @@ import org.kuali.rice.kew.docsearch.StandardDocumentSearchResultProcessor;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.SearchingAttribute;
 import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
@@ -56,20 +62,35 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         }
         
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
-            if (keyValueSort.getkey().equalsIgnoreCase("purapDocumentIdentifier")) {
+            if (keyValueSort.getkey().equalsIgnoreCase(PurapPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
                 String docStatus = docCriteriaDTO.getDocRouteStatusCode();
-                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
-                String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
-
-                IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-                Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
-                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-                
-                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD) && !isAuthorized) {
-                    keyValueSort.setvalue("********");
-                    keyValueSort.setSortValue("********");
+                if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+                    //if document status is not FINAL then check for permission to see
+                    //the value needs to be masked....
+                    String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                    String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+                    String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+                    
+                    AttributeSet roleQualifiers = new AttributeSet();
+                    
+                    AttributeSet permissionDetails = new AttributeSet();
+                    permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+                    permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+                    
+                    IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+                    Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+                    //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
+                    if (!isAuthorized) {
+                        //not authorized to see... create a string 
+                        String poIDstr = "";
+                        int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
+                        for (int i = 0; i < strLength; i++) {
+                            poIDstr = poIDstr.concat("*");
+                        }
+                        keyValueSort.setvalue(poIDstr);
+                        keyValueSort.setSortValue(poIDstr);
+                    }
                 }
             }
         }

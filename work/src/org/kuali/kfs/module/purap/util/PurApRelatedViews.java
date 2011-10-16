@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
@@ -31,12 +32,16 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.RequisitionView;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -89,6 +94,7 @@ public class PurApRelatedViews {
             relatedList = SpringContext.getBean(PurapService.class).getRelatedViews(clazz, accountsPayablePurchasingDocumentLinkIdentifier);
             if (removeCurrentDocument) {
                 for (AbstractRelatedView view : relatedList) {
+                    //KFSMI-4576 Mask/Unmask purapDocumentIdentifier field value
                     maskPONumberIfUnapproved(view);
                     if (documentNumber.equals(view.getDocumentNumber())) {
                         relatedList.remove(view);
@@ -102,7 +108,9 @@ public class PurApRelatedViews {
     }
 
     /**
-     * masks the po number if the po is unappoved yet.
+     * masks the po number if the po is unappoved yet.  If the document status is not FINAL then
+     * check for permission for purapDocumentIdentifier field.  If NOT permitted to view the value
+     * then mask the value with * and setting this value in poNumberMasked property.
      * 
      * @param view
      */
@@ -114,15 +122,21 @@ public class PurApRelatedViews {
         if (document != null) {
             if (!document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-                String namespaceCode = KFSConstants.OptionalModuleNamespaces.PURCHASING_ACCOUNTS_PAYABLE;
-                String permissionName = KFSConstants.PermissionNames.FULL_UNMASK_FIELD;
-    
+                String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+                String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+                
+                AttributeSet roleQualifiers = new AttributeSet();
+                
+                AttributeSet permissionDetails = new AttributeSet();
+                permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+                permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+                
                 IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-                Boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName, null);
+                Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
                 if (!isAuthorized) {
                     //not authorized to see... so mask the po number string
                     poIDstr = "";
-                    int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), "purapDocumentIdentifier");
+                    int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
                     for (int i = 0; i < strLength; i++) {
                         poIDstr = poIDstr.concat("*");
                     }

@@ -1245,5 +1245,7 @@ public class KFSPropertyConstants {
     public static final String ELECTRONIC_PAYMENT_CLAIMS = "electronicPaymentClaims";
     public static final String ITEM_UNIT_OF_MEASURE_DESCRIPTION = "itemUnitOfMeasureDescription";
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
+    public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
+    public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
 }
 

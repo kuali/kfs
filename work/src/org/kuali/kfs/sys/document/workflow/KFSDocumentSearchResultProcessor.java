@@ -18,10 +18,8 @@ package org.kuali.kfs.sys.document.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
@@ -62,7 +60,7 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
         }
         
         for (KeyValueSort keyValueSort : docSearchResult.getResultContainers()) {
-            if (keyValueSort.getkey().equalsIgnoreCase(PurapPropertyConstants.PURAP_DOC_ID)) {
+            if (keyValueSort.getkey().equalsIgnoreCase(KFSPropertyConstants.PURAP_DOC_ID)) {
                 //KFSMI-4576 masking PO number...
                 String docStatus = docCriteriaDTO.getDocRouteStatusCode();
                 if (!docStatus.equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
@@ -75,21 +73,16 @@ public class KFSDocumentSearchResultProcessor extends StandardDocumentSearchResu
                     AttributeSet roleQualifiers = new AttributeSet();
                     
                     AttributeSet permissionDetails = new AttributeSet();
-                    permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
-                    permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+                    permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
+                    permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
                     
                     IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                     Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
                     //the principalId is not authorized to view the value in purapDocumentIdentifier field...so mask the value...
                     if (!isAuthorized) {
                         //not authorized to see... create a string 
-                        String poIDstr = "";
-                        int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
-                        for (int i = 0; i < strLength; i++) {
-                            poIDstr = poIDstr.concat("*");
-                        }
-                        keyValueSort.setvalue(poIDstr);
-                        keyValueSort.setSortValue(poIDstr);
+                        keyValueSort.setvalue("********");
+                        keyValueSort.setSortValue("********");
                     }
                 }
             }

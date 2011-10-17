@@ -512,7 +512,10 @@ public class CashManagementServiceImpl implements CashManagementService {
                     crDoc.refreshReferenceObject("documentHeader");
                     FinancialSystemDocumentHeader crdh = crDoc.getDocumentHeader();
                     if (!ObjectUtils.isNull(crdh)) {
-                        crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
+                        if (!(deposit.getDepositTypeCode().equalsIgnoreCase(DocumentStatusCodes.CashReceipt.FINAL) 
+                                && crdh.getFinancialDocumentStatusCode().equalsIgnoreCase(DocumentStatusCodes.CashReceipt.INTERIM))) {
+                            crdh.setFinancialDocumentStatusCode(DocumentStatusCodes.CashReceipt.VERIFIED);
+                        }
                         documentService.updateDocument(crDoc);
                     }
                 }

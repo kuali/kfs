@@ -147,7 +147,14 @@
             </td>
     
             <td align="left">
-	           	<kul:htmlControlAttribute property="${receiptSummaryBase}.checkAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
+            <c:choose>
+            	<c:when test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
+            		0.00
+            	</c:when>
+            	<c:otherwise>
+            		<kul:htmlControlAttribute property="${receiptSummaryBase}.checkAmount" attributeEntry="${dummyAttributes.genericAmount}" readOnly="true" />
+            	</c:otherwise>
+            </c:choose>	           	
             </td>
             <c:if test="${depositType == KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL}">
             <td>

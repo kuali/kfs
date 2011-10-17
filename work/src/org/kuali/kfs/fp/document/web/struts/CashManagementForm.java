@@ -370,11 +370,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getDocumentDescription();
             createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
-            if (crd.getDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(CashReceipt.INTERIM)) { 
-                checkAmount = KualiDecimal.ZERO;
-            } else {
-                checkAmount = crd.getTotalConfirmedCheckAmount();
-            }
+            checkAmount = crd.getTotalConfirmedCheckAmount();
             cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
             documentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();

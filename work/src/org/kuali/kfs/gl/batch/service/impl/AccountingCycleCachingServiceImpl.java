@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactionalCachingService implements AccountingCycleCachingService {
     protected org.kuali.kfs.sys.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao systemReferenceValueDao;
@@ -136,7 +137,9 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
             @Override
             protected A21SubAccount useDao() {
                 A21SubAccount a21 = chartReferenceValueDao.getA21SubAccount(chartOfAccountsCode, accountNumber, subAccountNumber);
-                a21.setA21IndirectCostRecoveryAccounts(chartReferenceValueDao.getA21IndirectCostRecoveryAccounts(chartOfAccountsCode, accountNumber, subAccountNumber));
+                if (ObjectUtils.isNotNull(a21)){
+                    a21.setA21IndirectCostRecoveryAccounts(chartReferenceValueDao.getA21IndirectCostRecoveryAccounts(chartOfAccountsCode, accountNumber, subAccountNumber));
+                }
                 return a21;
             }
             @Override

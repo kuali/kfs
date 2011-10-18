@@ -18,7 +18,7 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -26,15 +26,15 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Value object to carry the system parameters associated with CAB Batch
  */
 public class BatchParameters {
-    private Timestamp lastRunTime;
-    private Date lastRunDate;
-    private List<String> excludedChartCodes;
-    private List<String> excludedSubFundCodes;
-    private List<String> includedFinancialBalanceTypeCodes;
-    private List<String> excludedFiscalPeriods;
-    private List<String> excludedDocTypeCodes;
-    private List<String> includedFinancialObjectSubTypeCodes;
-    private BigDecimal capitalizationLimitAmount;
+    protected Timestamp lastRunTime;
+    protected Date lastRunDate;
+    protected Collection<String> excludedChartCodes;
+    protected Collection<String> excludedSubFundCodes;
+    protected Collection<String> includedFinancialBalanceTypeCodes;
+    protected Collection<String> excludedFiscalPeriods;
+    protected Collection<String> excludedDocTypeCodes;
+    protected Collection<String> includedFinancialObjectSubTypeCodes;
+    protected BigDecimal capitalizationLimitAmount;
 
     /**
      * Gets the lastRunTime attribute.
@@ -62,7 +62,7 @@ public class BatchParameters {
      * @return Returns the excludedChartCodes
      */
 
-    public List<String> getExcludedChartCodes() {
+    public Collection<String> getExcludedChartCodes() {
         return excludedChartCodes;
     }
 
@@ -72,7 +72,7 @@ public class BatchParameters {
      * @param excludedChartCodes The excludedChartCodes to set.
      */
 
-    public void setExcludedChartCodes(List<String> excludedChartCodes) {
+    public void setExcludedChartCodes(Collection<String> excludedChartCodes) {
         this.excludedChartCodes = excludedChartCodes;
     }
 
@@ -82,7 +82,7 @@ public class BatchParameters {
      * @return Returns the excludedSubFundCodes
      */
 
-    public List<String> getExcludedSubFundCodes() {
+    public Collection<String> getExcludedSubFundCodes() {
         return excludedSubFundCodes;
     }
 
@@ -92,7 +92,7 @@ public class BatchParameters {
      * @param excludedSubFundCodes The excludedSubFundCodes to set.
      */
 
-    public void setExcludedSubFundCodes(List<String> excludedSubFundCodes) {
+    public void setExcludedSubFundCodes(Collection<String> excludedSubFundCodes) {
         this.excludedSubFundCodes = excludedSubFundCodes;
     }
 
@@ -102,7 +102,7 @@ public class BatchParameters {
      * @return Returns the includedFinancialBalanceTypeCodes
      */
 
-    public List<String> getIncludedFinancialBalanceTypeCodes() {
+    public Collection<String> getIncludedFinancialBalanceTypeCodes() {
         return includedFinancialBalanceTypeCodes;
     }
 
@@ -112,7 +112,7 @@ public class BatchParameters {
      * @param includedFinancialBalanceTypeCodes The includedFinancialBalanceTypeCodes to set.
      */
 
-    public void setIncludedFinancialBalanceTypeCodes(List<String> includeFinancialBalanceTypeCodes) {
+    public void setIncludedFinancialBalanceTypeCodes(Collection<String> includeFinancialBalanceTypeCodes) {
         this.includedFinancialBalanceTypeCodes = includeFinancialBalanceTypeCodes;
     }
 
@@ -122,7 +122,7 @@ public class BatchParameters {
      * @return Returns the excludedFiscalPeriods
      */
 
-    public List<String> getExcludedFiscalPeriods() {
+    public Collection<String> getExcludedFiscalPeriods() {
         return excludedFiscalPeriods;
     }
 
@@ -132,7 +132,7 @@ public class BatchParameters {
      * @param excludedFiscalPeriods The excludedFiscalPeriods to set.
      */
 
-    public void setExcludedFiscalPeriods(List<String> excludeFiscalPeriods) {
+    public void setExcludedFiscalPeriods(Collection<String> excludeFiscalPeriods) {
         this.excludedFiscalPeriods = excludeFiscalPeriods;
     }
 
@@ -142,7 +142,7 @@ public class BatchParameters {
      * @return Returns the excludedDocTypeCodes
      */
 
-    public List<String> getExcludedDocTypeCodes() {
+    public Collection<String> getExcludedDocTypeCodes() {
         return excludedDocTypeCodes;
     }
 
@@ -152,7 +152,7 @@ public class BatchParameters {
      * @param excludedDocTypeCodes The excludedDocTypeCodes to set.
      */
 
-    public void setExcludedDocTypeCodes(List<String> excludedDocTypeCodes) {
+    public void setExcludedDocTypeCodes(Collection<String> excludedDocTypeCodes) {
         this.excludedDocTypeCodes = excludedDocTypeCodes;
     }
 
@@ -162,7 +162,7 @@ public class BatchParameters {
      * @return Returns the includedFinancialObjectSubTypeCodes
      */
 
-    public List<String> getIncludedFinancialObjectSubTypeCodes() {
+    public Collection<String> getIncludedFinancialObjectSubTypeCodes() {
         return includedFinancialObjectSubTypeCodes;
     }
 
@@ -172,7 +172,7 @@ public class BatchParameters {
      * @param includedFinancialObjectSubTypeCodes The includedFinancialObjectSubTypeCodes to set.
      */
 
-    public void setIncludedFinancialObjectSubTypeCodes(List<String> includedFinancialObjectSubTypeCodes) {
+    public void setIncludedFinancialObjectSubTypeCodes(Collection<String> includedFinancialObjectSubTypeCodes) {
         this.includedFinancialObjectSubTypeCodes = includedFinancialObjectSubTypeCodes;
     }
 

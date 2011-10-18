@@ -64,8 +64,8 @@ function updateCgIcrAccount( chartCodeFieldName, accountNumberFieldName, subAcco
 	
 	if (chartCode == "" || accountNumber == "" || subAccountTypeCode == "") {
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", "" );
-		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
-		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
+//		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
+//		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
 		setElementValue( prefix + ".offCampusCode", "" );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
 	}
@@ -85,15 +85,15 @@ function updateCgIcrAccount_Callback( data ) {
 	
 	if (data != null) {
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", data.indirectCostRcvyFinCoaCode );
-		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", data.indirectCostRecoveryAcctNbr );
+//		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", data.indirectCostRcvyFinCoaCode );
+//		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", data.indirectCostRecoveryAcctNbr );
 		setElementValue( prefix + ".offCampusCode", data.offCampusCode );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", data.indirectCostRecoveryTypeCode );
 	}
 	else{
 		setElementValue( prefix + ".financialIcrSeriesIdentifier", "" );
-		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
-		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
+//		setElementValue( prefix + ".indirectCostRcvyFinCoaCode", "" );
+//		setElementValue( prefix + ".indirectCostRecoveryAcctNbr", "" );
 		setElementValue( prefix + ".offCampusCode", "" );
 		setElementValue( prefix + ".indirectCostRecoveryTypeCode", "" );
 	}

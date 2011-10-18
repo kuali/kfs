@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.monitor;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.service.PersonService;
@@ -27,23 +28,20 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
 
     private Long docHeaderId;
-    private String networkId;
+    private String initiatorPrincipalIdId;
     private String desiredNodeName;
 
     public DocumentWorkflowNodeMonitor(KualiWorkflowDocument document, String desiredNodeName) throws WorkflowException {
         this.docHeaderId = document.getRouteHeaderId();
-        this.networkId = document.getInitiatorNetworkId();
+        this.initiatorPrincipalIdId = document.getInitiatorPrincipalId();
         this.desiredNodeName = desiredNodeName;
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPersonByPrincipalName(networkId));
-        String currentNodeName = null;
-        if (document.getNodeNames().length > 0) {
-            currentNodeName = document.getNodeNames()[0];
-        }
+        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
+        String currentNodeName = document.getCurrentRouteNodeNames();
         // currently in Kuali there is no parallel branching so we can only ever be at one node
-        return desiredNodeName.equals(currentNodeName);
+        return StringUtils.equals( desiredNodeName, currentNodeName);
     }
 
 }

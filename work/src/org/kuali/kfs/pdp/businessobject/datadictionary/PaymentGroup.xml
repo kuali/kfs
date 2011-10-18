@@ -367,12 +367,12 @@
     <property name="name" value="line1Address"/>
     <property name="label" value="Line 1 Address"/>
     <property name="shortLabel" value="Ln 1 Addr"/>
-    <property name="maxLength" value="45"/>
+    <property name="maxLength" value="55"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
+      <bean parent="TextControlDefinition" p:size="35"/>
     </property>
   </bean>
   
@@ -382,12 +382,12 @@
     <property name="name" value="line2Address"/>
     <property name="label" value="Line 2 Address"/>
     <property name="shortLabel" value="Ln 2 Addr"/>
-    <property name="maxLength" value="45"/>
+    <property name="maxLength" value="55"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
+      <bean parent="TextControlDefinition" p:size="35"/>
     </property>
   </bean>
 
@@ -397,12 +397,12 @@
     <property name="name" value="line3Address"/>
     <property name="label" value="Line 3 Address"/>
     <property name="shortLabel" value="Ln 3 Addr"/>
-    <property name="maxLength" value="45"/>
+    <property name="maxLength" value="55"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
+      <bean parent="TextControlDefinition" p:size="35"/>
     </property>
   </bean>
 
@@ -412,12 +412,12 @@
     <property name="name" value="line4Address"/>
     <property name="label" value="Line 4 Address"/>
     <property name="shortLabel" value="Ln 4 Addr"/>
-    <property name="maxLength" value="45"/>
+    <property name="maxLength" value="55"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="30"/>
+      <bean parent="TextControlDefinition" p:size="35"/>
     </property>
   </bean>
       

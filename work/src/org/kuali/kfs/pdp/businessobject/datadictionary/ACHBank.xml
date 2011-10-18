@@ -177,13 +177,13 @@
     <property name="name" value="bankStreetAddress"/>
     <property name="label" value="Bank Street Address"/>
     <property name="shortLabel" value="Bank Street Address"/>
-    <property name="maxLength" value="36"/>
+    <property name="maxLength" value="45"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="38"/>
+      <bean parent="TextControlDefinition" p:size="35"/>
     </property>
   </bean>
   <bean id="ACHBank-bankCityName" parent="ACHBank-bankCityName-parentBean"/>

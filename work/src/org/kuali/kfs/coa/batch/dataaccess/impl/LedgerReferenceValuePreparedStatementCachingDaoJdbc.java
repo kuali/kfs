@@ -19,9 +19,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.batch.dataaccess.LedgerReferenceValuePreparedStatementCachingDao;
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -53,6 +55,7 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
         sql.put(RETRIEVE_PREFIX + SubFundGroup.class, "select fund_grp_cd from CA_SUB_FUND_GRP_T where sub_fund_grp_cd = ?");
         sql.put(RETRIEVE_PREFIX + OffsetDefinition.class, "select fin_object_cd from GL_OFFSET_DEFN_T where univ_fiscal_yr = ? and fin_coa_cd = ? and fdoc_typ_cd = ? and fin_balance_typ_cd = ?");
         sql.put(RETRIEVE_PREFIX + A21SubAccount.class, "select sub_acct_typ_cd, cst_shr_coa_cd, cst_shrsrcacct_nbr, cst_srcsubacct_nbr, icr_typ_cd, fin_series_id, icr_fin_coa_cd, icr_account_nbr from CA_A21_SUB_ACCT_T where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ?");
+        sql.put(RETRIEVE_PREFIX + A21IndirectCostRecoveryAccount.class, "select ICR_FIN_COA_CD, ICR_FIN_ACCT_NBR, ACLN_PCT, DOBJ_MAINT_CD_ACTV_IND from CA_A21_ICR_ACCT_T  where fin_coa_cd = ? and account_nbr = ? and sub_acct_nbr = ? ");
         sql.put(RETRIEVE_PREFIX + ObjectType.class, "select fund_balance_cd, fin_objtyp_dbcr_cd, fin_obj_typ_icr_cd, ROW_ACTV_IND from CA_OBJ_TYPE_T where fin_obj_typ_cd = ?");
         sql.put(RETRIEVE_PREFIX + ObjectLevel.class, "select fin_cons_obj_cd from CA_OBJ_LEVEL_T where fin_coa_cd = ? and fin_obj_level_cd = ?");
         sql.put(RETRIEVE_PREFIX + BalanceType.class, "select fin_offst_gnrtn_cd, fin_baltyp_enc_cd, ROW_ACTV_IND from CA_BALANCE_TYPE_T where fin_balance_typ_cd = ?");
@@ -85,11 +88,34 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
                 a21SubAccount.setCostShareSourceSubAccountNumber(resultSet.getString(4));
                 a21SubAccount.setIndirectCostRecoveryTypeCode(resultSet.getString(5));
                 a21SubAccount.setFinancialIcrSeriesIdentifier(resultSet.getString(6));
-                a21SubAccount.setIndirectCostRcvyFinCoaCode(resultSet.getString(7));
-                a21SubAccount.setIndirectCostRecoveryAcctNbr(resultSet.getString(8));
                 return a21SubAccount;
             }
         }.get(A21SubAccount.class);
+    }
+
+    @Override
+    public List<A21IndirectCostRecoveryAccount> getA21IndirectCostRecoveryAccounts(final String chartOfAccountsCode, final String accountNumber, final String subAccountNumber) {
+        return new RetrievingListJdbcWrapper<A21IndirectCostRecoveryAccount>() {
+            @Override
+            protected void populateStatement(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1, chartOfAccountsCode);
+                preparedStatement.setString(2, accountNumber);
+                preparedStatement.setString(3, subAccountNumber);
+            }
+            @Override
+            protected A21IndirectCostRecoveryAccount extractResult(ResultSet resultSet) throws SQLException {
+                A21IndirectCostRecoveryAccount a21 = new A21IndirectCostRecoveryAccount();
+                a21.setChartOfAccountsCode(chartOfAccountsCode);
+                a21.setAccountNumber(accountNumber);
+                a21.setSubAccountNumber(subAccountNumber);
+                a21.setIndirectCostRecoveryFinCoaCode(resultSet.getString(1));
+                a21.setIndirectCostRecoveryAccountNumber(resultSet.getString(2));
+                a21.setAccountLinePercent(resultSet.getBigDecimal(3));
+                a21.setActive(KFSConstants.ParameterValues.YES.equals(resultSet.getString(4)) ? false : true);
+                return a21;
+            }
+        }.get(A21IndirectCostRecoveryAccount.class);
+
     }
 
     public Account getAccount(final String chartCode, final String accountNumber) {
@@ -368,4 +394,5 @@ public class LedgerReferenceValuePreparedStatementCachingDaoJdbc extends Abstrac
             }
         }.get(SubObjectCode.class);
     }
+
 }

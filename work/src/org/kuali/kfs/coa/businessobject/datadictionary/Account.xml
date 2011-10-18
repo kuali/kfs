@@ -63,8 +63,6 @@
         <ref bean="Account-acctIndirectCostRcvyType.codeAndDescription"/>
         <ref bean="Account-acctCustomIndCstRcvyExclCd"/>
         <ref bean="Account-financialIcrSeriesIdentifier"/>
-        <ref bean="Account-indirectCostRcvyFinCoaCode"/>
-        <ref bean="Account-indirectCostRecoveryAcctNbr"/>
         <ref bean="Account-accountInFinancialProcessingIndicator"/>
         <ref bean="Account-budgetRecordingLevelCode"/>
         <ref bean="Account-accountSufficientFundsCode"/>
@@ -570,26 +568,8 @@
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 	</bean>
-	<bean id="Account-indirectCostRcvyFinCoaCode" parent="Account-indirectCostRcvyFinCoaCode-parentBean" />
-
-	<bean id="Account-indirectCostRcvyFinCoaCode-parentBean" abstract="true"
-		parent="ChartAttribute-SelectControl">
-		<property name="name" value="indirectCostRcvyFinCoaCode" />
-		<property name="label"
-			value="Indirect Cost Recovery Chart Of Accounts Code" />
-		<property name="shortLabel" value="IndCstChart" />
-		<property name="required" value="false" />
-	</bean>
-	<bean id="Account-indirectCostRecoveryAcctNbr" parent="Account-indirectCostRecoveryAcctNbr-parentBean" />
-
-	<bean id="Account-indirectCostRecoveryAcctNbr-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="name" value="indirectCostRecoveryAcctNbr" />
-		<property name="label" value="Indirect Cost Recovery Account Number" />
-		<property name="shortLabel" value="IndCstAcct" />
-		<property name="required" value="false" />
-	</bean>
-	<bean id="Account-accountInFinancialProcessingIndicator"
+	
+  <bean id="Account-accountInFinancialProcessingIndicator"
 		parent="Account-accountInFinancialProcessingIndicator-parentBean" />
 
 	<bean id="Account-accountInFinancialProcessingIndicator-parentBean"

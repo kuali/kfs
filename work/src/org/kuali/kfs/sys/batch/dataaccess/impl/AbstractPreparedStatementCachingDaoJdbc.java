@@ -18,7 +18,9 @@ package org.kuali.kfs.sys.batch.dataaccess.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
@@ -64,6 +66,30 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
                 throw new RuntimeException("AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper encountered exception during getObject method for type: " + type, e);
             }
             return (T) value;
+        }
+    }
+    
+    /**
+     * Retrieve list jdbc objects 
+     */
+    protected abstract class RetrievingListJdbcWrapper<T> extends JdbcWrapper {
+        protected abstract T extractResult(ResultSet resultSet) throws SQLException;
+
+        public List<T> get(Class<T> type) {
+            List<T> resultList = new ArrayList<T>();
+            PreparedStatement statement = preparedStatementCache.get(RETRIEVE_PREFIX + type);
+            try {
+                populateStatement(statement);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    resultList.add(extractResult(resultSet));
+                }
+                resultSet.close();
+            }
+            catch (SQLException e) {
+                throw new RuntimeException("AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingListJdbcWrapper encountered exception during getObject method for type: " + type, e);
+            }
+            return resultList;
         }
     }
 

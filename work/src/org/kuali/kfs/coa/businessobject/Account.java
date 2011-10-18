@@ -102,8 +102,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String contractControlAccountNumber;
     private String incomeStreamFinancialCoaCode;
     private String incomeStreamAccountNumber;
-    private String indirectCostRcvyFinCoaCode;
-    private String indirectCostRecoveryAcctNbr;
     private Integer contractsAndGrantsAccountResponsibilityId;
 
     private Chart chartOfAccounts;
@@ -120,7 +118,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private Account endowmentIncomeAccount;
     private Account contractControlAccount;
     private Account incomeStreamAccount;
-    private Account indirectCostRecoveryAcct;
     private IndirectCostRecoveryType acctIndirectCostRcvyType;
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
@@ -134,7 +131,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected Chart continuationChartOfAccount;
     protected Chart incomeStreamChartOfAccounts;
     protected Chart contractControlChartOfAccounts;
-    protected Chart indirectCostRcvyChartOfAccounts;
     
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -719,7 +715,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setIndirectCostRecoveryAccounts(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccounts) {
         List<IndirectCostRecoveryAccount> accountIcrList = new ArrayList<IndirectCostRecoveryAccount>();
         for (IndirectCostRecoveryAccount icr : indirectCostRecoveryAccounts){
-            accountIcrList.add(new IndirectCostRecoveryAccount(icr));
+            accountIcrList.add(icr);
         }
         this.indirectCostRecoveryAccounts = accountIcrList;
     }
@@ -1007,26 +1003,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setIncomeStreamAccount(Account incomeStreamAccount) {
         this.incomeStreamAccount = incomeStreamAccount;
     }
-
-    /**
-     * Gets the indirectCostRecoveryAcct attribute.
-     * 
-     * @return Returns the indirectCostRecoveryAcct
-     */
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcct attribute.
-     * 
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
-     * @deprecated
-     */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
-    }
-
 
     public Person getAccountFiscalOfficerUser() {
         accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
@@ -1394,34 +1370,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
         this.incomeStreamFinancialCoaCode = incomeStreamFinancialCoaCode;
-    }
-
-    /**
-     * @return Returns the indirectCostRcvyFinCoaCode.
-     */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
-     */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
     }
 
     /**
@@ -1886,25 +1834,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
    public void setContractControlChartOfAccounts(Chart contractControlChartOfAccounts) {
        this.contractControlChartOfAccounts = contractControlChartOfAccounts;
    }    
-   
-   /**
-    * Gets the indirectCostRcvyChartOfAccounts attribute.
-    * 
-    * @return Returns the indirectCostRcvyChartOfAccounts.
-    */
-   public Chart getIndirectCostRcvyChartOfAccounts() {
-       return indirectCostRcvyChartOfAccounts;
-   }
 
-   /**
-    * Sets the indirectCostRcvyChartOfAccounts attribute value.
-    * 
-    * @param indirectCostRcvyChartOfAccounts The indirectCostRcvyChartOfAccounts to set.
-    */
-   public void setIndirectCostRcvyChartOfAccounts(Chart indirectCostRcvyChartOfAccounts) {
-       this.indirectCostRcvyChartOfAccounts = indirectCostRcvyChartOfAccounts;
-   }
-   
    /**
     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
     */

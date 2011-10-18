@@ -135,7 +135,9 @@ public class AccountingCycleCachingServiceImpl extends AbstractBatchTransactiona
         return new ReferenceValueRetriever<A21SubAccount>() {
             @Override
             protected A21SubAccount useDao() {
-                return chartReferenceValueDao.getA21SubAccount(chartOfAccountsCode, accountNumber, subAccountNumber);
+                A21SubAccount a21 = chartReferenceValueDao.getA21SubAccount(chartOfAccountsCode, accountNumber, subAccountNumber);
+                a21.setA21IndirectCostRecoveryAccounts(chartReferenceValueDao.getA21IndirectCostRecoveryAccounts(chartOfAccountsCode, accountNumber, subAccountNumber));
+                return a21;
             }
             @Override
             protected void retrieveReferences(A21SubAccount a21SubAccount) {}

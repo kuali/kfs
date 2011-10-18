@@ -60,8 +60,13 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     public IndirectCostRecoveryAccount() {
     }
     
-    public IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
-        BeanUtils.copyProperties(this, icr);
+    /**
+     * private contructor
+     * 
+     * @param icr
+     */
+    private IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
+        BeanUtils.copyProperties(icr,this);
     }
     
     /**
@@ -71,12 +76,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
      * @return
      */
     public static IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
-        IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
-        icr.setAccountLinePercent(icrAccount.getAccountLinePercent());
-        icr.setIndirectCostRecoveryFinCoaCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
-        icr.setIndirectCostRecoveryAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
-        icr.setActive(icrAccount.isActive());
-        return icr;
+        return new IndirectCostRecoveryAccount(icrAccount);
     }
     
     public Integer getIndirectCostRecoveryAccountGeneratedIdentifier() {

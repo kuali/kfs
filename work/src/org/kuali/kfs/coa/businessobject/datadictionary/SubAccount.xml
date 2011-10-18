@@ -41,8 +41,6 @@
 				<ref bean="SubAccount-a21SubAccount.costShareSourceAccountNumber" />
 				<ref bean="SubAccount-a21SubAccount.costShareSourceSubAccountNumber" />
 				<ref bean="SubAccount-a21SubAccount.financialIcrSeriesIdentifier" />
-				<ref bean="SubAccount-a21SubAccount.indirectCostRcvyFinCoaCode" />
-				<ref bean="SubAccount-a21SubAccount.indirectCostRecoveryAcctNbr" />
 				<ref bean="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode" />
 				<ref bean="SubAccount-a21SubAccount.offCampusCode" />
 				<ref bean="SubAccount-financialReportingCodeSection" />
@@ -196,29 +194,8 @@
 		<property name="required" value="false" />
 		<property name="attributeSecurity" ref="ReadOnlyAttributeSecurity" />
 	</bean>
-
-	<bean id="SubAccount-a21SubAccount.indirectCostRcvyFinCoaCode"
-		parent="SubAccount-a21SubAccount.indirectCostRcvyFinCoaCode-parentBean" />
-	<bean id="SubAccount-a21SubAccount.indirectCostRcvyFinCoaCode-parentBean"
-		abstract="true" parent="ChartAttribute-SelectControl">
-		<property name="name" value="a21SubAccount.indirectCostRcvyFinCoaCode" />
-		<property name="label" value="ICR Chart of Accounts Code" />
-		<property name="shortLabel" value="IcrCoaCd" />
-		<property name="required" value="false" />
-		<property name="attributeSecurity" ref="ReadOnlyAttributeSecurity" />
-	</bean>
-
-	<bean id="SubAccount-a21SubAccount.indirectCostRecoveryAcctNbr"
-		parent="SubAccount-a21SubAccount.indirectCostRecoveryAcctNbr-parentBean" />
-	<bean id="SubAccount-a21SubAccount.indirectCostRecoveryAcctNbr-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="name" value="a21SubAccount.indirectCostRecoveryAcctNbr" />
-		<property name="label" value="ICR Account Number" />
-		<property name="shortLabel" value="ICRAcctNbr" />
-		<property name="required" value="false" />
-		<property name="attributeSecurity" ref="ReadOnlyAttributeSecurity" />
-	</bean>
-	<bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode"
+  
+  <bean id="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode"
 		parent="SubAccount-a21SubAccount.indirectCostRecoveryTypeCode-parentBean" />
 
 	<bean
@@ -319,8 +296,6 @@
 				<bean parent="FieldDefinition" p:attributeName="cgICRSectionBlank" />
 				<bean parent="FieldDefinition" p:attributeName="cgICRSection" />
 				<bean parent="FieldDefinition" p:attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-				<bean parent="FieldDefinition" p:attributeName="a21SubAccount.indirectCostRcvyFinCoaCode" />
-				<bean parent="FieldDefinition" p:attributeName="a21SubAccount.indirectCostRecoveryAcctNbr" />
 				<bean parent="FieldDefinition" p:attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="a21SubAccount.offCampusCode" />
 			</list>
@@ -353,6 +328,7 @@
         <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
         <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
         <bean parent="FieldDefinition" p:attributeName="accountLinePercent" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="summaryFields">

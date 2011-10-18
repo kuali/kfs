@@ -22,7 +22,7 @@
 	</init>
 	<allow>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.Account">
-	   		<param name="include" value="chartOfAccountsCode,chartOfAccounts,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd" />
+	   		<param name="include" value="chartOfAccountsCode,chartOfAccounts,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd" />
 	   	</convert>
 	    <create creator="spring" javascript="AccountService">
 	    	<param name="beanName" value="accountService" />
@@ -93,12 +93,15 @@
 	    	<include method="getByPrimaryIdWithCaching" />
 	    	<include method="getByPrimaryId"/>
 	    </create>
-        <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21SubAccount">
-            <param name="include" value="chartOfAccountsCode,accountNumber,indirectCostRecoveryTypeCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,offCampusCode" />
-        </convert>
-        <create creator="spring" javascript="A21SubAccountService">
-            <param name="beanName" value="a21SubAccountService" />
-            <include method="buildCgIcrAccount" />
-        </create>        
+      <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21SubAccount">
+          <param name="include" value="chartOfAccountsCode,accountNumber,indirectCostRecoveryTypeCode,financialIcrSeriesIdentifier,offCampusCode,a21ActiveIndirectCostRecoveryAccounts" />
+      </convert>
+      <create creator="spring" javascript="A21SubAccountService">
+          <param name="beanName" value="a21SubAccountService" />
+          <include method="buildCgIcrAccount" />
+      </create> 
+      <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount">
+          <param name="include" value="chartOfAccountsCode,accountNumber,indirectCostRecoveryFinCoaCode,indirectCostRecoveryAccountNumber,accountLinePercent,active" />
+      </convert>       
 	</allow>
 </dwr>

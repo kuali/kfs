@@ -50,8 +50,13 @@ public class A21IndirectCostRecoveryAccount extends IndirectCostRecoveryAccount 
     public A21IndirectCostRecoveryAccount() {
     }
     
-    public A21IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
-        BeanUtils.copyProperties(this, icr);
+    /**
+     * private constructor 
+     * 
+     * @param icr
+     */
+    private A21IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
+        BeanUtils.copyProperties(icr,this);
     }
     
     /**
@@ -61,7 +66,7 @@ public class A21IndirectCostRecoveryAccount extends IndirectCostRecoveryAccount 
      * @return
      */
     public static A21IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
-        return (A21IndirectCostRecoveryAccount)copyICRAccount(icrAccount); 
+        return new A21IndirectCostRecoveryAccount(icrAccount); 
     }
 
     public Integer getA21IndirectCostRecoveryAccountGeneratedIdentifier() {

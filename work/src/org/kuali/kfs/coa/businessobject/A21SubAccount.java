@@ -36,15 +36,11 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private String subAccountTypeCode;
     private String indirectCostRecoveryTypeCode;
     private String financialIcrSeriesIdentifier;
-    private String indirectCostRcvyFinCoaCode;
-    private String indirectCostRecoveryAcctNbr;
     private boolean offCampusCode;
     private String costShareChartOfAccountCode;
     private String costShareSourceAccountNumber;
     private String costShareSourceSubAccountNumber;
 
-    private Chart indirectCostRecoveryChartOfAccounts;
-    private Account indirectCostRecoveryAcct;
     private Chart costShareChartOfAccount;
     private Account costShareAccount;
     private SubAccount costShareSourceSubAccount;
@@ -123,60 +119,6 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
      */
     public void setIndirectCostRecoveryType(IndirectCostRecoveryType icrTypeCode) {
         this.indirectCostRecoveryType = icrTypeCode;
-    }
-
-    /**
-     * Gets the indirectCostRecoveryAcct attribute.
-     * 
-     * @return Returns the indirectCostRecoveryAcct.
-     */
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcct attribute value.
-     * 
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
-     */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Gets the indirectCostRecoveryAcctNbr attribute.
-     * 
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcctNbr attribute value.
-     * 
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * Gets the indirectCostRcvyFinCoaCode attribute.
-     * 
-     * @return Returns the indirectCostRcvyFinCoaCode.
-     */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * Sets the indirectCostRcvyFinCoaCode attribute value.
-     * 
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
-     */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
     }
 
     /**
@@ -360,24 +302,6 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the indirectCostRecoveryChartOfAccounts attribute.
-     * 
-     * @return Returns the indirectCostRecoveryChartOfAccounts.
-     */
-    public Chart getIndirectCostRecoveryChartOfAccounts() {
-        return indirectCostRecoveryChartOfAccounts;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryChartOfAccounts attribute value.
-     * 
-     * @param indirectCostRecoveryChartOfAccounts The indirectCostRecoveryChartOfAccounts to set.
-     */
-    public void setIndirectCostRecoveryChartOfAccounts(Chart indirectCostRecoveryChartOfAccounts) {
-        this.indirectCostRecoveryChartOfAccounts = indirectCostRecoveryChartOfAccounts;
-    }
-
-    /**
      * Gets the offCampusCode attribute.
      * 
      * @return Returns the offCampusCode.
@@ -439,7 +363,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
 
     public List<A21IndirectCostRecoveryAccount> getA21ActiveIndirectCostRecoveryAccounts() {
         List<A21IndirectCostRecoveryAccount> activeList = new ArrayList<A21IndirectCostRecoveryAccount>();
-        for (A21IndirectCostRecoveryAccount icr : getA21ActiveIndirectCostRecoveryAccounts()){
+        for (A21IndirectCostRecoveryAccount icr : getA21IndirectCostRecoveryAccounts()){
             if (icr.isActive()){
                 activeList.add(A21IndirectCostRecoveryAccount.copyICRAccount(icr));
             }

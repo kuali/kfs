@@ -159,11 +159,11 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
             if (subaccount.getA21SubAccount() != null) {
                 subaccount.getA21SubAccount().refreshNonUpdateableReferences();
                 // refresh contacts
-                if (subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts() != null) {
-                    for (A21IndirectCostRecoveryAccount icra : subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts()) {
-                        icra.refreshNonUpdateableReferences();
-                    }
-                }
+//                if (subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts() != null) {
+//                    for (A21IndirectCostRecoveryAccount icra : subaccount.getA21SubAccount().getA21IndirectCostRecoveryAccounts()) {
+//                        icra.refreshNonUpdateableReferences();
+//                    }
+//                }
             }
         }
     }
@@ -408,7 +408,7 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
             if (StringUtils.isNotBlank(account.getIndirectCostRecoveryAccountNumber())
                 && StringUtils.isNotBlank(account.getIndirectCostRecoveryFinCoaCode())){
                 if(ObjectUtils.isNull(account.getIndirectCostRecoveryAccount())){                                
-                    putFieldError(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + account.getIndirectCostRecoveryFinCoaCode() + "-" + account.getIndirectCostRecoveryAccountNumber());
+                    putFieldError(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_EXISTENCE, "ICR Account: " + account.getIndirectCostRecoveryFinCoaCode() + "-" + account.getIndirectCostRecoveryAccountNumber());
                     success = false;
                     break;
                 }
@@ -454,8 +454,6 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
         if (ObjectUtils.isNotNull(newA21SubAccount)) {
             success &= StringUtils.isEmpty(newA21SubAccount.getFinancialIcrSeriesIdentifier());
-            //success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRcvyFinCoaCode());
-            //success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryAcctNbr());
             
             success &= checkICRCollectionExist(false);
             success &= StringUtils.isEmpty(newA21SubAccount.getIndirectCostRecoveryTypeCode());

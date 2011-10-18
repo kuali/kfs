@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGuideline;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
@@ -231,8 +233,18 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // * Contract and Grants: not required
         account.setContractControlFinCoaCode(null);
         account.setContractControlAccountNumber(null);        
-        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
-        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
+
+        //TODO: fix kc account auto creation KFSMI-6954
+//        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
+//        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
+        
+        //default single ICR collection with 100% 
+        IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
+        icr.setIndirectCostRecoveryAccountNumber(defaults.getIndirectCostRecoveryAcctNbr());
+        icr.setIndirectCostRecoveryFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
+        icr.setAccountLinePercent(new BigDecimal(100));
+        account.getIndirectCostRecoveryAccounts().add(icr);
+        
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         account.setAccountCfdaNumber(parameters.getCfdaNumber());
 

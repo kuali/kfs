@@ -48,17 +48,7 @@ public class PriorYearIndirectCostRecoveryAccount extends IndirectCostRecoveryAc
     }
     
     public PriorYearIndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
-        BeanUtils.copyProperties(this, icr);
-    }
-    
-    /**
-     * static instantiate an A21ICRAccount from an ICRAccount
-     *
-     * @param icrAccount
-     * @return
-     */
-    public static PriorYearIndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
-        return (PriorYearIndirectCostRecoveryAccount)copyICRAccount(icrAccount); 
+        BeanUtils.copyProperties(icr,this);
     }
 
     public Integer getPriorYearIndirectCostRecoveryAccountGeneratedIdentifier() {

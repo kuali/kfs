@@ -750,10 +750,6 @@ public class KFSPropertyConstants {
     public static final String INDIRECT_AMOUNT = "indirectAmount";
     public static final String INDIRECT_COST = "indirectCost";
     public static final String INDIRECT_COST_RECOVERY_RATE_DETAILS = "indirectCostRecoveryRateDetails";
-    public static final String INDIRECT_COST_RECOVERY_ACCOUNT = "indirectCostRecoveryAcct";
-    public static final String INDIRECT_COST_RECOVERY_ACCOUNT_NUMBER = "indirectCostRecoveryAcctNbr";
-    public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";
-    public static final String INDIRECT_COST_RECOVERY_CHART_OF_ACCOUNTS_CODE = "indirectCostRcvyFinCoaCode";
     public static final String INDIRECT_COST_RECOVERY_TYPE = "indirectCostRecoveryType";
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
     

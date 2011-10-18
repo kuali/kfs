@@ -62,7 +62,7 @@ public class SubAccountMaintainableImpl extends FinancialSystemMaintainable {
         boolean canEdit = !restrictions.isHiddenSectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID) && !restrictions.isReadOnlySectionId(KFSConstants.SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID);
         
         // after account lookup, refresh the CG ICR account fields
-        if (StringUtils.equals(refreshCaller, "accountLookupable") && fieldValues.containsKey("document.newMaintainableObject.accountNumber") && canEdit) {
+        if (refreshCaller != null && (refreshCaller.toUpperCase().endsWith(KFSConstants.LOOKUPABLE_SUFFIX.toUpperCase())) && fieldValues.containsKey("document.newMaintainableObject.accountNumber") && canEdit) {
             SubAccount subAccount = (SubAccount) this.getBusinessObject();
             this.populateCGIcrFields(subAccount);
         }

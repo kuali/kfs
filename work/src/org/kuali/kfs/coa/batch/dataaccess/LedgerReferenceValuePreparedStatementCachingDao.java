@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.coa.batch.dataaccess;
 
+import java.util.List;
+
+import org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -46,6 +49,8 @@ public interface LedgerReferenceValuePreparedStatementCachingDao extends Prepare
     public SubAccount getSubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 
     public A21SubAccount getA21SubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    
+    public List<A21IndirectCostRecoveryAccount> getA21IndirectCostRecoveryAccounts(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 
     public SubObjectCode getSubObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 

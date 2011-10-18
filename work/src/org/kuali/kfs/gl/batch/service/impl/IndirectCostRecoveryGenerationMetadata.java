@@ -15,15 +15,25 @@
  */
 package org.kuali.kfs.gl.batch.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.Account;
 
 public class IndirectCostRecoveryGenerationMetadata {
     private String indirectCostRecoveryTypeCode;
     private String financialIcrSeriesIdentifier;
+    
+    private List<IndirectCostRecoveryAccountDistributionMetadata> accountLists = new ArrayList<IndirectCostRecoveryAccountDistributionMetadata>();
+    
+    //keep these COA and Acct fields for service use
     private String indirectCostRcvyFinCoaCode;
     private String indirectCostRecoveryAcctNbr;
-    private Account indirectCostRecoveryAcct;
-    
+
+    public IndirectCostRecoveryGenerationMetadata(String indirectCostRecoveryTypeCode, String financialIcrSeriesIdentifier) {
+        this.indirectCostRecoveryTypeCode = indirectCostRecoveryTypeCode;
+        this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
+    }
     public String getIndirectCostRecoveryTypeCode() {
         return indirectCostRecoveryTypeCode;
     }
@@ -48,10 +58,11 @@ public class IndirectCostRecoveryGenerationMetadata {
     public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
         this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
     }
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
+
+    public List<IndirectCostRecoveryAccountDistributionMetadata> getAccountLists() {
+        return accountLists;
     }
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
+    public void setAccountLists(List<IndirectCostRecoveryAccountDistributionMetadata> accountLists) {
+        this.accountLists = accountLists;
     }
 }

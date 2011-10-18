@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.fixture.AssetDepreciationServiceFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -163,7 +164,7 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
                 throw new IllegalArgumentException(kualiConfigurationService.getPropertyString(CamsKeyConstants.Depreciation.INVALID_DEPRECIATION_DATE_FORMAT));
             }
         }
-        parameterService.setParameterForTesting(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER, depreciationDateParameter);
+        TestUtils.setSystemParameter(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER, depreciationDateParameter);
     }
 
     /**

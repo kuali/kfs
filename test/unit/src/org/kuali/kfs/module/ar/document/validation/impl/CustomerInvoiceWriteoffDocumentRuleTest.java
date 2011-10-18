@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -70,7 +71,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
      * This method...
      */
     public void testDoesChartCodeHaveCorrespondingWriteoffObjectCode_Valid(){
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, CHART_WRITEOFF_PARM_VALUE);
+        TestUtils.setSystemParameter(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, CHART_WRITEOFF_PARM_VALUE);
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setChartOfAccountsCode(VALID_CHART_OF_ACCOUNTS_CODE_FOR_PARM);
         
@@ -81,7 +82,7 @@ public class CustomerInvoiceWriteoffDocumentRuleTest extends KualiTestBase {
      * This method...
      */
     public void testDoesChartCodeHaveCorrespondingWriteoffObjectCode_Invalid(){
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, CHART_WRITEOFF_PARM_VALUE);
+        TestUtils.setSystemParameter(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, CHART_WRITEOFF_PARM_VALUE);
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setChartOfAccountsCode(INVALID_CHART_OF_ACCOUNTS_CODE_FOR_PARM);
         

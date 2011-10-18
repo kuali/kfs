@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.kim.bo.Person;
@@ -1114,8 +1115,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckIncomeStreamRequired_GFMPRACTException() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1145,8 +1146,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1178,8 +1179,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1212,8 +1213,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        TestUtils.setSystemParameter(Account.class, KFSConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1245,7 +1246,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckUniqueAccountNumber_AccountsCanCrossCharts() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "Y");
+        TestUtils.setSystemParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "Y");
         
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1273,7 +1274,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     @SuppressWarnings("deprecation")
     public void testCheckUniqueAccountNumber_AccountsCantCrossCharts() {
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "N");
+        TestUtils.setSystemParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "N");
         
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);

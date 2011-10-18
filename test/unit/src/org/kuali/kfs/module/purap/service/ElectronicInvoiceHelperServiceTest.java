@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
@@ -59,7 +60,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         electronicInvoiceInputFileType = SpringContext.getBean(ElectronicInvoiceInputFileType.class);
-        SpringContext.getBean(ParameterService.class).setParameterForTesting(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND,"yes");
+        TestUtils.setSystemParameter(ElectronicInvoiceStep.class, PurapParameterConstants.ElectronicInvoiceParameters.FILE_MOVE_AFTER_LOAD_IND,"yes");
         FileUtils.cleanDirectory(new File(electronicInvoiceInputFileType.getDirectoryPath()));
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }

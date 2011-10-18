@@ -22,6 +22,7 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.fixture.TaxFixture.TaxTestCaseFixture;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.fixture.CommodityCodeFixture;
 import org.kuali.rice.kns.service.ParameterService;
@@ -715,7 +716,7 @@ public enum RequisitionDocumentFixture {
         
         if (taxTestCaseFixture.isDeliveryStateTaxable()){
             ParameterService paramSrv = SpringContext.getBean(ParameterService.class);
-            paramSrv.setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, doc.getDeliveryStateCode());
+            TestUtils.setSystemParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, doc.getDeliveryStateCode());
             parameterSuffix = "FOR_TAXABLE_STATES";
         } else {
             SpringContext.getBean(ParameterService.class).setParameterForTesting(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, INVALID_VALUE);

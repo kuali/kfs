@@ -99,10 +99,15 @@ public class TestUtils {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
         
-        Parameter parameter = (Parameter) getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
+        // Rice 1.0.3.3
+        Parameter parameter = getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
         parameter.setParameterValue(parameterText);
         SpringContext.getBean(BusinessObjectService.class).save(parameter);
         getParameterService().clearCache();        
+        // Rice 2.0
+//        Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
+//        parameter.setParameterValue(parameterText);
+//        getParameterService().updateParameter(parameter);
     }
     
     /**

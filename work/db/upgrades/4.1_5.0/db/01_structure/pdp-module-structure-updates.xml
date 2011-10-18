@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+	<changeSet author='KFS50' id='PDP_PMT_GRP_T'>
+		<comment>KFSMI-KFMI-7042 Modify column sizes for PDP address </comment>
+		<modifyColumn tableName='PDP_PMT_GRP_T'>
+			<column name='PMT_LN1_ADDR' type='VARCHAR2(55)' />
+			<column name='PMT_LN2_ADDR' type='VARCHAR2(55)' />
+			<column name='PMT_LN3_ADDR' type='VARCHAR2(55)' />
+			<column name='PMT_LN4_ADDR' type='VARCHAR2(55)' />
+		</modifyColumn>
+		<modifyColumn tableName='PDP_ACH_BNK_T'>
+			<column name='BNK_STR_ADDR' type='VARCHAR2(45))' />
+		</modifyColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+	</changeSet>
+</databaseChangeLog>

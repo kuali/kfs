@@ -947,7 +947,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
-        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         
         assertGlobalErrorMapEmpty();
@@ -996,7 +996,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
-        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         
         System.out.println(GlobalVariables.getMessageMap());
@@ -1042,7 +1042,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
-        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         assertGlobalErrorMapEmpty();
         assertTrue("Rule should allow new account to be the contract control account.", result);
@@ -1079,7 +1079,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountCfdaNumber("001");
 
         // run the rule
-        rule.setIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
+        rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
         assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertFalse("Rule should require contract account to be real.", result);

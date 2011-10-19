@@ -44,7 +44,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryAccountsRule.class);
 
     protected static final BigDecimal BD100 = new BigDecimal(100);
-    private List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccountList;
+    private List<? extends IndirectCostRecoveryAccount> activeIndirectCostRecoveryAccountList;
     private String boFieldPath;
     
     /**
@@ -85,11 +85,11 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
     protected boolean checkICRCollectionExist(boolean expectFilled) {
         boolean success = true;
         
-        success = expectFilled != indirectCostRecoveryAccountList.isEmpty();
+        success = expectFilled != activeIndirectCostRecoveryAccountList.isEmpty();
         
         //double check each of the account/coa codes are not blank
         if (!success && expectFilled){
-            for (IndirectCostRecoveryAccount account : indirectCostRecoveryAccountList){
+            for (IndirectCostRecoveryAccount account : activeIndirectCostRecoveryAccountList){
                 success &= StringUtils.isNotBlank(account.getIndirectCostRecoveryAccountNumber())
                     && StringUtils.isNotBlank(account.getIndirectCostRecoveryFinCoaCode());
             }
@@ -183,7 +183,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
     private boolean checkIndirectCostRecoveryAccountDistributions() {
         
         boolean result = true;
-        if (ObjectUtils.isNull(indirectCostRecoveryAccountList) || (indirectCostRecoveryAccountList.size() == 0)) {
+        if (ObjectUtils.isNull(activeIndirectCostRecoveryAccountList) || (activeIndirectCostRecoveryAccountList.size() == 0)) {
             return result;
         }
         
@@ -192,7 +192,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         int i=0;
         BigDecimal totalDistribution = BigDecimal.ZERO;
        
-        for (IndirectCostRecoveryAccount icra : indirectCostRecoveryAccountList){
+        for (IndirectCostRecoveryAccount icra : activeIndirectCostRecoveryAccountList){
             String errorPath = MAINTAINABLE_ERROR_PREFIX + boFieldPath + "[" + i++ + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             checkIndirectCostRecoveryAccount(icra);
@@ -219,12 +219,12 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         return ddService.getAttributeLabel(IndirectCostRecoveryAccount.class, attribute);
     }
     
-    public List<? extends IndirectCostRecoveryAccount> getIndirectCostRecoveryAccountList() {
-        return indirectCostRecoveryAccountList;
+    public List<? extends IndirectCostRecoveryAccount> getActiveIndirectCostRecoveryAccountList() {
+        return activeIndirectCostRecoveryAccountList;
     }
 
-    public void setIndirectCostRecoveryAccountList(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccountList) {
-        this.indirectCostRecoveryAccountList = indirectCostRecoveryAccountList;
+    public void setActiveIndirectCostRecoveryAccountList(List<? extends IndirectCostRecoveryAccount> indirectCostRecoveryAccountList) {
+        this.activeIndirectCostRecoveryAccountList = indirectCostRecoveryAccountList;
     }
     
     public String getBoFieldPath() {

@@ -144,7 +144,7 @@ public class SubAccountRule extends IndirectCostRecoveryAccountsRule {
         if (newSubAccount.getA21SubAccount() != null){
             List<IndirectCostRecoveryAccount> icrAccountList = new ArrayList<IndirectCostRecoveryAccount>(
                     newSubAccount.getA21SubAccount().getA21ActiveIndirectCostRecoveryAccounts());
-            setIndirectCostRecoveryAccountList(icrAccountList);
+            setActiveIndirectCostRecoveryAccountList(icrAccountList);
             setBoFieldPath(KFSPropertyConstants.A21INDIRECT_COST_RECOVERY_ACCOUNTS);
         }
     }

@@ -409,12 +409,31 @@ public class PaymentDetailAction extends KualiAction {
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findBySinglePrimaryKey(PaymentDetail.class, paymentDetailId);
         PaymentGroup paymentGroup = paymentDetail.getPaymentGroup();
-        int associatedPayments = paymentGroup.getPaymentDetails().size() - 1;
+        int paymentsInGroup = paymentGroup.getPaymentDetails().size() - 1;
+        int paymentsInDisbursement = paymentDetail.getNbrOfPaymentsInDisbursement() - 1 ;
         
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
         confirmationText = kualiConfiguration.getPropertyString(confirmationText);
-        confirmationText = MessageFormat.format(confirmationText, paymentDetailId, paymentGroup.getId().toString(), associatedPayments);
-
+        
+        if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE)) {
+            confirmationText = MessageFormat.format(confirmationText, paymentsInGroup, paymentGroup.getId().toString());
+            if (paymentsInGroup == 0) {
+                int start = confirmationText.indexOf(".")+2;
+                confirmationText = confirmationText.substring(start);
+            }
+        }
+        else if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE)) {
+            confirmationText = MessageFormat.format(confirmationText, paymentsInDisbursement, paymentGroup.getDisbursementNbr().toString());
+            if (paymentsInDisbursement == 0) {
+                int start = confirmationText.indexOf(".")+2;
+                confirmationText = confirmationText.substring(start);
+            }
+            
+        }
+        else {
+            confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
+        }
+        
         if (question == null) {
           
             // ask question if not already asked

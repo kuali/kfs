@@ -45,7 +45,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
 
     protected static final BigDecimal BD100 = new BigDecimal(100);
     private List<? extends IndirectCostRecoveryAccount> activeIndirectCostRecoveryAccountList;
-    private String boFieldPath;
+    protected String boFieldPath;
     
     /**
      * Custom processing for adding collection lines
@@ -122,7 +122,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
      * 
      * @return
      */
-    private boolean checkIndirectCostRecoveryAccount(IndirectCostRecoveryAccount icrAccount) {
+    protected boolean checkIndirectCostRecoveryAccount(IndirectCostRecoveryAccount icrAccount) {
         
         boolean success = true;
         
@@ -131,8 +131,12 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
         // The chart and account  must exist in the database.
         String chartOfAccountsCode = icrAccount.getIndirectCostRecoveryFinCoaCode();
         String accountNumber = icrAccount.getIndirectCostRecoveryAccountNumber();
+        BigDecimal icraAccountLinePercentage = ObjectUtils.isNotNull(icrAccount.getAccountLinePercent()) ? icrAccount.getAccountLinePercent() : BigDecimal.ZERO;
+        return checkIndirectCostRecoveryAccount(chartOfAccountsCode, accountNumber, icraAccountLinePercentage);
+    }
         
-
+    protected boolean checkIndirectCostRecoveryAccount(String chartOfAccountsCode, String accountNumber, BigDecimal icraAccountLinePercentage) {
+        boolean success = true;
         if (StringUtils.isBlank(chartOfAccountsCode)) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ICR_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_REQUIRED, 
                     getDDAttributeLabel(KFSPropertyConstants.ICR_CHART_OF_ACCOUNTS_CODE));
@@ -159,7 +163,6 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
             }
         }
         
-        BigDecimal icraAccountLinePercentage = ObjectUtils.isNotNull(icrAccount.getAccountLinePercent()) ? icrAccount.getAccountLinePercent() : BigDecimal.ZERO;
         
         //check the percent line
         if (icraAccountLinePercentage.compareTo(BigDecimal.ZERO) <= 0 || icraAccountLinePercentage.compareTo(BD100) == 1){
@@ -180,7 +183,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
      * @param document
      * @return
      */
-    private boolean checkIndirectCostRecoveryAccountDistributions() {
+    protected boolean checkIndirectCostRecoveryAccountDistributions() {
         
         boolean result = true;
         if (ObjectUtils.isNull(activeIndirectCostRecoveryAccountList) || (activeIndirectCostRecoveryAccountList.size() == 0)) {
@@ -215,7 +218,7 @@ abstract public class IndirectCostRecoveryAccountsRule extends KfsMaintenanceDoc
      * @param attribute
      * @return
      */
-    private String getDDAttributeLabel(String attribute){
+    protected String getDDAttributeLabel(String attribute){
         return ddService.getAttributeLabel(IndirectCostRecoveryAccount.class, attribute);
     }
     

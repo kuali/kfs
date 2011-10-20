@@ -22,7 +22,8 @@
       <list>
         <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountMaintenance"/>
         <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-AccountResponsibility"/>
-        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants"/>        
+        <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-ContractsAndGrants"/>  
+    	 <ref bean="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts"/> 
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -118,12 +119,51 @@
     <property name="title" value="Contracts And Grants"/>
     <property name="maintainableItems">
       <list>
-        <dd:maintField attributeName="indirectCostRcvyFinCoaCode"/>
-        <dd:maintField attributeName="indirectCostRecoveryAcctNbr"/>
         <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
       </list>
     </property>
   </bean>
+  
+   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts" parent="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
+  
+  <bean id="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="ICRAccounts"/>
+    <property name="title" value="Indirect Cost Recovery Accounts"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="indirectCostRecoveryAutoDefAccounts"/>
+            <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.IndirectCostRecoveryAutoDefAccount"/>
+            <property name="summaryTitle" value="Indirect Cost Recovery Account"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+              <dd:maintField attributeName="indirectCostRecoveryAccountNumber"/>
+              <dd:maintField attributeName="accountLinePercent"/>
+              <dd:maintField attributeName="active"/>
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                  <property name="webUILeaveFieldFunctionParameters">
+                    <list>
+                      <value>indirectCostRecoveryFinCoaCode</value>
+                    </list>
+                  </property> 
+                </bean>      
+                <dd:maintField attributeName="accountLinePercent" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+    
   <!-- workflow attributes -->
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes" parent="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean"/>
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">

@@ -35,6 +35,7 @@ import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
 import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.businessobject.IndirectCostRecoveryAutoDefAccount;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -233,24 +234,32 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         // * Contract and Grants: not required
         account.setContractControlFinCoaCode(null);
         account.setContractControlAccountNumber(null);        
-
-        //TODO: fix kc account auto creation KFSMI-6954
-//        account.setIndirectCostRcvyFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
-//        account.setIndirectCostRecoveryAcctNbr(defaults.getIndirectCostRecoveryAcctNbr());
-        
-        //default single ICR collection with 100% 
-        IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
-        icr.setIndirectCostRecoveryAccountNumber(defaults.getIndirectCostRecoveryAcctNbr());
-        icr.setIndirectCostRecoveryFinCoaCode(defaults.getIndirectCostRcvyFinCoaCode());
-        icr.setAccountLinePercent(new BigDecimal(100));
-        account.getIndirectCostRecoveryAccounts().add(icr);
-        
         account.setContractsAndGrantsAccountResponsibilityId(defaults.getContractsAndGrantsAccountResponsibilityId());
         account.setAccountCfdaNumber(parameters.getCfdaNumber());
 
+        // set up ICR distribution
+        for (IndirectCostRecoveryAutoDefAccount indirectCostRecoveryAutoDefAccount : defaults.getIndirectCostRecoveryAutoDefAccounts()) {
+            account.getIndirectCostRecoveryAccounts().add(createIndirectCostRecoveryAccount(indirectCostRecoveryAutoDefAccount, account.getChartOfAccountsCode(), account.getAccountNumber()));
+        }
         return account;
     }    
   
+    /** create an indirect cost recovery distribution account based on default
+     * 
+     */
+    protected IndirectCostRecoveryAccount createIndirectCostRecoveryAccount(IndirectCostRecoveryAutoDefAccount indirectCostRecoveryAutoDefAccount, String chartCode, String acctNumber) {
+        IndirectCostRecoveryAccount indirectCostRecoveryAccount = new IndirectCostRecoveryAccount();
+        indirectCostRecoveryAccount.setChartOfAccountsCode(chartCode);
+        indirectCostRecoveryAccount.setAccountNumber(acctNumber);
+        indirectCostRecoveryAccount.setIndirectCostRecoveryAccount(indirectCostRecoveryAutoDefAccount.getIndirectCostRecoveryAccount());
+        indirectCostRecoveryAccount.setIndirectCostRecoveryChartOfAccounts(indirectCostRecoveryAutoDefAccount.getIndirectCostRecoveryChartOfAccounts());
+        indirectCostRecoveryAccount.setIndirectCostRecoveryAccountNumber(indirectCostRecoveryAutoDefAccount.getIndirectCostRecoveryAccountNumber());
+        indirectCostRecoveryAccount.setIndirectCostRecoveryFinCoaCode(indirectCostRecoveryAutoDefAccount.getIndirectCostRecoveryFinCoaCode());
+        indirectCostRecoveryAccount.setAccountLinePercent(indirectCostRecoveryAutoDefAccount.getAccountLinePercent());
+        indirectCostRecoveryAccount.setActive(indirectCostRecoveryAutoDefAccount.isActive());
+        return indirectCostRecoveryAccount;
+    }
+    
      protected void setFailStatus(AccountCreationStatusDTO accountCreationStatus, String message) {
         accountCreationStatus.getErrorMessages().add(message);
         accountCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);

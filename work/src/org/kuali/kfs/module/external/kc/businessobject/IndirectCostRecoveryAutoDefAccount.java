@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.coa.businessobject;
+package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.springframework.beans.BeanUtils;
 
 /**
  * IndrectCostRecoveryAccount
  */
-public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase implements Inactivateable{
-    private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAccount.class);
+public class IndirectCostRecoveryAutoDefAccount extends PersistableBusinessObjectBase implements Inactivateable{
+    private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAutoDefAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;
     
@@ -45,6 +38,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     private String chartOfAccountsCode;
     private String accountNumber;
     
+    private Integer accountDefaultId;
     private String indirectCostRecoveryFinCoaCode;
     private String indirectCostRecoveryAccountNumber;
     private BigDecimal accountLinePercent;
@@ -53,16 +47,15 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     //BO Reference
     private Account indirectCostRecoveryAccount;
     private Chart indirectCostRecoveryChartOfAccounts;
-
     /**
      * Default constructor.
      */
-    public IndirectCostRecoveryAccount() {
+    public IndirectCostRecoveryAutoDefAccount() {
+        active = true;
     }
     
-
-    public IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
-        BeanUtils.copyProperties(icr, this);
+    public IndirectCostRecoveryAutoDefAccount(IndirectCostRecoveryAutoDefAccount icr) {
+        BeanUtils.copyProperties(this, icr);
     }
     
     /**
@@ -71,8 +64,13 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
      * @param icrAccount
      * @return
      */
-    public static IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
-        return new IndirectCostRecoveryAccount(icrAccount);
+    public static IndirectCostRecoveryAutoDefAccount copyICRAccount(IndirectCostRecoveryAutoDefAccount icrAccount) {
+        IndirectCostRecoveryAutoDefAccount icr = new IndirectCostRecoveryAutoDefAccount();
+        icr.setAccountLinePercent(icrAccount.getAccountLinePercent());
+        icr.setIndirectCostRecoveryFinCoaCode(icrAccount.getIndirectCostRecoveryFinCoaCode());
+        icr.setIndirectCostRecoveryAccountNumber(icrAccount.getIndirectCostRecoveryAccountNumber());
+        icr.setActive(icrAccount.isActive());
+        return icr;
     }
     
     public Integer getIndirectCostRecoveryAccountGeneratedIdentifier() {
@@ -123,6 +121,40 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
         this.accountLinePercent = accountLinePercent;
     }
 
+  
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
+        if (this.indirectCostRecoveryAccountGeneratedIdentifier != null) {
+            m.put("indirectCostRecoveryAccountGeneratedIdentifier", this.indirectCostRecoveryAccountGeneratedIdentifier.toString());
+        }
+        return m;
+    }
+
+    /**
+     * 
+     */
+    public Integer getAccountDefaultId() {
+        return accountDefaultId;
+    }
+
+    /**
+     * 
+     */
+    public void setAccountDefaultId(Integer accountDefaultId) {
+        this.accountDefaultId = accountDefaultId;
+    }
     public Account getIndirectCostRecoveryAccount() {
         return indirectCostRecoveryAccount;
     }
@@ -158,23 +190,5 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
         this.indirectCostRecoveryChartOfAccounts = indirectCostRecoveryChartOfAccounts;
     }
     
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap<String, String> toStringMapper() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.indirectCostRecoveryAccountGeneratedIdentifier != null) {
-            m.put("indirectCostRecoveryAccountGeneratedIdentifier", this.indirectCostRecoveryAccountGeneratedIdentifier.toString());
-        }
-        return m;
-    }
 
 }

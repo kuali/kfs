@@ -119,7 +119,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * 
      * @param account Account
      */
-    void refreshSubObjects(Account account) {
+    protected void refreshSubObjects(Account account) {
         if (account != null) {
             // refresh contacts
             if (account.getIndirectCostRecoveryAccounts() != null) {

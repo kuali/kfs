@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountType;
@@ -36,6 +38,7 @@ import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.KualiModuleService;
 import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -87,10 +90,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private boolean intrnlFinEncumSufficntFndIndicator;
     private boolean finPreencumSufficientFundIndicator;
     private boolean financialObjectivePrsctrlIndicator;
-    protected Chart indirectCostRcvyChartOfAccounts;
-    private String indirectCostRcvyFinCoaCode;
-    private Account indirectCostRecoveryAcct;
-    private String indirectCostRecoveryAcctNbr;
     private Integer contractsAndGrantsAccountResponsibilityId;
     private String accountDescriptionCampusCode;
     private String accountDescriptionBuildingCode;
@@ -101,12 +100,14 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
     private ContractsAndGrantsUnit unitDTO;
-    
+    private List<IndirectCostRecoveryAutoDefAccount> indirectCostRecoveryAutoDefAccounts;
+  
     /**
      * Default no-arg constructor.
      */
     public AccountAutoCreateDefaults() {
         active = true; // assume active until otherwise set
+        indirectCostRecoveryAutoDefAccounts = new TypedArrayList(IndirectCostRecoveryAutoDefAccount.class);
     }
    
     /**
@@ -833,69 +834,6 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
         this.financialObjectivePrsctrlIndicator = financialObjectivePrsctrlIndicator;
     }
 
-    /**
-     * Gets the indirectCostRcvyChartOfAccounts attribute. 
-     * @return Returns the indirectCostRcvyChartOfAccounts.
-     */
-    public Chart getIndirectCostRcvyChartOfAccounts() {
-        return indirectCostRcvyChartOfAccounts;
-    }
-
-    /**
-     * Sets the indirectCostRcvyChartOfAccounts attribute value.
-     * @param indirectCostRcvyChartOfAccounts The indirectCostRcvyChartOfAccounts to set.
-     */
-    public void setIndirectCostRcvyChartOfAccounts(Chart indirectCostRcvyChartOfAccounts) {
-        this.indirectCostRcvyChartOfAccounts = indirectCostRcvyChartOfAccounts;
-    }
-
-    /**
-     * Gets the indirectCostRcvyFinCoaCode attribute. 
-     * @return Returns the indirectCostRcvyFinCoaCode.
-     */
-    public String getIndirectCostRcvyFinCoaCode() {
-        return indirectCostRcvyFinCoaCode;
-    }
-
-    /**
-     * Sets the indirectCostRcvyFinCoaCode attribute value.
-     * @param indirectCostRcvyFinCoaCode The indirectCostRcvyFinCoaCode to set.
-     */
-    public void setIndirectCostRcvyFinCoaCode(String indirectCostRcvyFinCoaCode) {
-        this.indirectCostRcvyFinCoaCode = indirectCostRcvyFinCoaCode;
-    }
-   
-    /**
-     * Gets the indirectCostRecoveryAcct attribute. 
-     * @return Returns the indirectCostRecoveryAcct.
-     */
-    public Account getIndirectCostRecoveryAcct() {
-        return indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcct attribute value.
-     * @param indirectCostRecoveryAcct The indirectCostRecoveryAcct to set.
-     */
-    public void setIndirectCostRecoveryAcct(Account indirectCostRecoveryAcct) {
-        this.indirectCostRecoveryAcct = indirectCostRecoveryAcct;
-    }
-
-    /**
-     * Gets the indirectCostRecoveryAcctNbr attribute. 
-     * @return Returns the indirectCostRecoveryAcctNbr.
-     */
-    public String getIndirectCostRecoveryAcctNbr() {
-        return indirectCostRecoveryAcctNbr;
-    }
-
-    /**
-     * Sets the indirectCostRecoveryAcctNbr attribute value.
-     * @param indirectCostRecoveryAcctNbr The indirectCostRecoveryAcctNbr to set.
-     */
-    public void setIndirectCostRecoveryAcctNbr(String indirectCostRecoveryAcctNbr) {
-        this.indirectCostRecoveryAcctNbr = indirectCostRecoveryAcctNbr;
-    }
 
     /**
      * Gets the contractsAndGrantsAccountResponsibilityId attribute. 
@@ -1033,5 +971,36 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     public void setAccountDefaultId(Integer accountDefaultId) {
         this.accountDefaultId = accountDefaultId;
     }
+ 
+    public List<IndirectCostRecoveryAutoDefAccount> getIndirectCostRecoveryAutoDefAccounts() {
+        return this.indirectCostRecoveryAutoDefAccounts;
+    }
     
+    public List<IndirectCostRecoveryAutoDefAccount> getActiveIndirectCostRecoveryAccounts() {
+        List<IndirectCostRecoveryAutoDefAccount> activeList = new ArrayList<IndirectCostRecoveryAutoDefAccount>();
+        for (IndirectCostRecoveryAutoDefAccount icr : getIndirectCostRecoveryAutoDefAccounts()){
+            if (icr.isActive()){
+                activeList.add(IndirectCostRecoveryAutoDefAccount.copyICRAccount(icr));
+            }
+        }
+        return activeList;
+    }
+    
+    public void setIndirectCostRecoveryAutoDefAccounts(List<? extends IndirectCostRecoveryAutoDefAccount> indirectCostRecoveryAccounts) {
+        List<IndirectCostRecoveryAutoDefAccount> accountIcrList = new ArrayList<IndirectCostRecoveryAutoDefAccount>();
+        for (IndirectCostRecoveryAutoDefAccount icr : indirectCostRecoveryAccounts){
+            accountIcrList.add(icr);
+        }
+        this.indirectCostRecoveryAutoDefAccounts = accountIcrList;
+    }
+    /**
+     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getIndirectCostRecoveryAutoDefAccounts());
+        return managedLists;
+    }
+
 }

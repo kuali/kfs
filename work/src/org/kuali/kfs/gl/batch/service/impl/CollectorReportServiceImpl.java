@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -136,7 +137,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             StringBuilder buf = new StringBuilder();
 
             OriginEntryTotals batchOriginEntryTotals = batch.getOriginEntryTotals();
-            appendHeaderInformation(buf, batch);
+            appendHeaderInformation(buf, batch, collectorReportData);
             appendTotalsInformation(buf, batch);
 
             List<String> errorMessages = translateErrorsFromErrorMap(batch.getMessageMap());
@@ -196,14 +197,23 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      * @param buf the buffer where the message should go
      * @param batch the data from the Collector file
      */
-    protected void appendHeaderInformation(StringBuilder buf, CollectorBatch batch) {
+    protected void appendHeaderInformation(StringBuilder buf, CollectorBatch batch, CollectorReportData collectorReportData) {
+        
+        String emailBatchStatus = collectorReportData.getEmailSendingStatus().get(batch.getBatchName());
+        
         buf.append("\n        Chart: ").append(batch.getChartOfAccountsCode()).append("\n");
         buf.append("        Org: ").append(batch.getOrganizationCode()).append("\n");
         buf.append("        Campus: ").append(batch.getCampusCode()).append("\n");
         buf.append("        Department: ").append(batch.getDepartmentName()).append("\n");
         buf.append("        Mailing Address: ").append(batch.getMailingAddress()).append("\n");
         buf.append("        Contact: ").append(batch.getPersonUserID()).append("\n");
-        buf.append("        Email: ").append(batch.getEmailAddress()).append("\n");
+        buf.append("        Email: ").append(batch.getEmailAddress());
+        if (StringUtils.isNotEmpty(emailBatchStatus)){
+            String displayStatus = StringUtils.containsIgnoreCase(emailBatchStatus, "ERROR")? "**Email Failure" : "**Email Success";
+            buf.append(" ( " + displayStatus + " )").append("\n");
+        }else{
+            buf.append("\n");
+        }
         buf.append("        Transmission Date: ").append(batch.getTransmissionDate()).append("\n\n");
     }
 
@@ -621,6 +631,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             if (hasEmailSendErrors) {
                 mailService.sendMessage(message);
+                LOG.info("Email failure notice has been sent to : " + message.getToAddresses() );
             }
         }
         catch (InvalidAddressException e) {
@@ -643,7 +654,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         body.append("Header Information:\n\n");
         if (!fileMessageMap.containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
-            appendHeaderInformation(body, batch);
+            appendHeaderInformation(body, batch, collectorReportData);
             appendTotalsInformation(body, batch);
             appendValidationStatus(body, errorMessages, true, 0);
         }
@@ -701,7 +712,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
      */
     protected String createDemergerMessageBody(CollectorBatch batch, CollectorReportData collectorReportData) {
         StringBuilder buf = new StringBuilder();
-        appendHeaderInformation(buf, batch);
+        appendHeaderInformation(buf, batch, collectorReportData);
 
         Map<Transaction, List<Message>> batchOriginEntryScrubberErrors = collectorReportData.getBatchOriginEntryScrubberErrors(batch);
 

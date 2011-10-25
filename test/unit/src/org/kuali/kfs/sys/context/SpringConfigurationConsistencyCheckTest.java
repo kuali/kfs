@@ -207,7 +207,8 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         for ( Map.Entry<String,PlatformAwareDao> dao : SpringContext.getBeansOfType(PlatformAwareDao.class).entrySet() ) {
             Object service = ProxyUtils.getTargetIfProxied(dao.getValue());
             if ( !dao.getKey().endsWith("Dao" )
-                    && !service.getClass().getName().startsWith( "org.kuali.rice" ) ) {
+                    && !service.getClass().getName().startsWith( "org.kuali.rice" )
+                    && !FiscalYearMakerImpl.class.isAssignableFrom(service.getClass())) {
                 failingBeanNames.add( " *** FAIL: Bean " + dao.getKey() + " implements PlatformAwareDao (" + service.getClass().getName() + ") but its name does not end in 'Dao'\n");
             }
         }

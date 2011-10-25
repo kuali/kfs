@@ -29,6 +29,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CustomerInvoiceDueDateValidation extends GenericValidation {
     
@@ -40,8 +41,9 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
         
         Timestamp dueDateTimestamp = new Timestamp(customerInvoiceDocument.getInvoiceDueDate().getTime());
         Timestamp billingDateTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
-        
-        if (dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp)) {
+        // test only for initial state and not for correction
+        if (ObjectUtils.isNull((customerInvoiceDocument.getDocumentHeader().getFinancialDocumentInErrorNumber())) &&
+                (dueDateTimestamp.before(billingDateTimestamp) || dueDateTimestamp.equals(billingDateTimestamp))) {
             GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_BEFORE_OR_EQUAL_TO_BILLING_DATE);
             return false;
         }

@@ -486,9 +486,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             this.activeFromDate = null;
         }
     }
-    public void setActiveFromDate(java.sql.Date activeFromDate) {
-        this.activeFromDate = activeFromDate;
-    }
+
     /**
      * Gets the activeToDate attribute. 
      * @return Returns the activeToDate.
@@ -507,9 +505,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
             this.activeToDate = null;
         }
     }
-    public void setActiveToDate(java.sql.Date activeToDate) {
-        this.activeToDate = activeToDate;
-    }
+
     /**
      * Gets the orgReviewRoleMemberId attribute. 
      * @return Returns the orgReviewRoleMemberId.

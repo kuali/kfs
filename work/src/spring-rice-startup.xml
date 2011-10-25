@@ -27,6 +27,8 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
 >
 
+  <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+
   <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
   <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"

@@ -26,6 +26,8 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
+	<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+
 	<bean id="abstractDataSourceBase" abstract="true">
         <property name="driverClassName" value="${datasource.driver.class}"/>
         <property name="validationQuery" value="${datasource.validating.query}"/>

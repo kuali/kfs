@@ -3,6 +3,7 @@
 	${distributable.tag}
 	
     <!--  FILTER DEFINITIONS -->
+    ${monitoring.filter.definitions}
 	${authentication.filter.definition}
 	<filter>
 		<filter-name>ResponseOverrideFilter</filter-name>

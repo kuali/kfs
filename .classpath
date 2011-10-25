@@ -23,7 +23,7 @@
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-api-1.0.3.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-impl-1.0.3.3.jar" />
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/rice-impl-1.0.3.3.jar" sourcepath="/rice"/>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xml-apis-1.3.02.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/antlr-2.7.6.jar"/>
@@ -57,7 +57,7 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch8.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar"/>

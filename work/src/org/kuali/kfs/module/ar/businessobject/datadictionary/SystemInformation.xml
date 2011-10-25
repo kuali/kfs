@@ -115,15 +115,10 @@
 
 	<bean id="SystemInformation-active" parent="SystemInformation-active-parentBean" />
 	<bean id="SystemInformation-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Active" />
+		<property name="label" value="Active"/>
 		<property name="shortLabel" value="Active" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 	</bean>
 
 	<bean id="SystemInformation-lockboxNumber" parent="SystemInformation-lockboxNumber-parentBean" />
@@ -472,8 +467,7 @@
 				<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode" />
 				<bean parent="FieldDefinition" p:attributeName="processingOrganizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="lockboxNumber" />
-				<bean parent="FieldDefinition" p:attributeName="active"
-					p:defaultValue="Y" p:readOnly="true" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">

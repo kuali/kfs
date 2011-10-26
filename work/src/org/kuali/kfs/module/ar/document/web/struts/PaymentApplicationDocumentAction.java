@@ -293,7 +293,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         int simpleInvoiceDetailApplicationCounter = 0;
 
         // calculate paid applieds for all invoices
-        List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
+        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds();
         for (PaymentApplicationInvoiceApply invoiceApplication : paymentApplicationDocumentForm.getInvoiceApplications()) {
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
 

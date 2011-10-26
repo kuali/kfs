@@ -39,6 +39,7 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
 import org.kuali.rice.kim.service.GroupService;
 import org.kuali.rice.kim.service.KimTypeInfoService;
+import org.kuali.rice.kim.service.RoleManagementService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.UiDocumentService;
 import org.kuali.rice.kim.util.KimConstants;
@@ -214,7 +215,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         valid = validateAmounts(orr);
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = SpringContext.getBean(RoleService.class).getRoleIdByName(
+                roleId = getRoleService().getRoleIdByName(
                         KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 //validate if the newly entered role members are already assigned to the role
                 Map<String, Object> criteria = new HashMap<String, Object>();

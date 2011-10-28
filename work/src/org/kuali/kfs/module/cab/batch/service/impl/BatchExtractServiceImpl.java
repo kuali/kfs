@@ -31,8 +31,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.integration.purap.CapitalAssetSystem;
-import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
@@ -52,26 +50,18 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
-import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.cam.util.KualiDecimalUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
-import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
-import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -218,7 +208,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog) {
         BatchParameters parameters = createCabBatchParameters();
         processLog.setLastExtractTime(parameters.getLastRunTime());
-        return getExtractDao().findMatchingGLEntries(parameters);
+        return extractDao.findMatchingGLEntries(parameters);
     }
 
     /**
@@ -226,7 +216,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      */
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
         BatchParameters parameters = createPreTagBatchParameters();
-        return getExtractDao().findPreTaggablePOAccounts(parameters);
+        return extractDao.findPreTaggablePOAccounts(parameters);
     }
 
 
@@ -476,7 +466,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             purApdocument = poDocMap.get(cabPurapDoc.getPurchaseOrderIdentifier());
         }
         else {
-            purApdocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
+            purApdocument = purApInfoService.getCurrentDocumentForPurchaseOrderIdentifier(cabPurapDoc.getPurchaseOrderIdentifier());
             poDocMap.put(cabPurapDoc.getPurchaseOrderIdentifier(), purApdocument);
         }
         String assetLockKey = cabPurapDoc.getDocumentNumber();
@@ -508,7 +498,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         if (!PurapConstants.CapitalAssetSystemStates.MODIFY.equalsIgnoreCase(purApdocument.getCapitalAssetSystemStateCode())) {
             return null;
         }
-        return getPurApInfoService().retrieveValidAssetNumberForLocking(purApdocument.getPurapDocumentIdentifier(), purApdocument.getCapitalAssetSystemTypeCode(), purapItem);
+        return purApInfoService.retrieveValidAssetNumberForLocking(purApdocument.getPurapDocumentIdentifier(), purApdocument.getCapitalAssetSystemTypeCode(), purapItem);
     }
 
 
@@ -740,16 +730,15 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
     public void updateLastExtractTime(Timestamp time) {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_BATCH);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_TIME);
-        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
+        Parameter parameter = parameterService.retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME);
-            parameter.setParameterValue(format.format(time));
-            businessObjectService.save(parameter);
+            /* RICE_20_DELETE */ parameter.setParameterValue(format.format(time));
+            /* RICE_20_DELETE */ businessObjectService.save(parameter);
+            // RICE_20_INSERT Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
+            // RICE_20_INSERT updatedParameter.setValue(format.format(time));
+            // RICE_20_INSERT parameterService.updateParameter(parameter);
         }
     }
 
@@ -794,26 +783,16 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
      */
     public void updateLastExtractDate(java.sql.Date dt) {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        Parameter parameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, primaryKeys);
+        Parameter parameter = parameterService.retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR);
-            parameter.setParameterValue(format.format(dt));
-            businessObjectService.save(parameter);
+            /* RICE_20_DELETE */ parameter.setParameterValue(format.format(dt));
+            /* RICE_20_DELETE */ businessObjectService.save(parameter);
+            // RICE_20_INSERT Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
+            // RICE_20_INSERT updatedParameter.setValue(format.format(dt));
+            // RICE_20_INSERT parameterService.updateParameter(parameter);
         }
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     /**
@@ -826,30 +805,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     /**
-     * Gets the extractDao attribute.
-     * 
-     * @return Returns the extractDao.
-     */
-    public ExtractDao getExtractDao() {
-        return extractDao;
-    }
-
-    /**
      * Sets the extractDao attribute value.
      * 
      * @param extractDao The extractDao to set.
      */
     public void setExtractDao(ExtractDao extractDao) {
         this.extractDao = extractDao;
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
     }
 
     /**
@@ -862,31 +823,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
      * Sets the parameterService attribute value.
      * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-
-    /**
-     * Gets the purchasingAccountsPayableItemAssetDao attribute.
-     * 
-     * @return Returns the purchasingAccountsPayableItemAssetDao.
-     */
-    public PurchasingAccountsPayableItemAssetDao getPurchasingAccountsPayableItemAssetDao() {
-        return purchasingAccountsPayableItemAssetDao;
     }
 
     /**
@@ -899,30 +841,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     /**
-     * Gets the purApLineService attribute.
-     * 
-     * @return Returns the purApLineService.
-     */
-    public PurApLineService getPurApLineService() {
-        return purApLineService;
-    }
-
-    /**
      * Sets the purApLineService attribute value.
      * 
      * @param purApLineService The purApLineService to set.
      */
     public void setPurApLineService(PurApLineService purApLineService) {
         this.purApLineService = purApLineService;
-    }
-
-    /**
-     * Gets the purApInfoService attribute.
-     * 
-     * @return Returns the purApInfoService.
-     */
-    public PurApInfoService getPurApInfoService() {
-        return purApInfoService;
     }
 
     /**
@@ -933,6 +857,4 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public void setPurApInfoService(PurApInfoService purApInfoService) {
         this.purApInfoService = purApInfoService;
     }
-
-
 }

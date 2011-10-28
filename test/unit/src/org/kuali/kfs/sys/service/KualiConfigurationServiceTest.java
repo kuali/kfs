@@ -27,7 +27,8 @@ public class KualiConfigurationServiceTest extends KualiTestBase {
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         String pw = kualiConfigurationService.getPropertyString( "datasource.password" );
         if ( pw != null ) {
-            kualiConfigurationService.getAllProperties().store( System.out , "" );
+            /* RICE_20_DELETE */ kualiConfigurationService.getAllProperties().store( System.out , "" );
+            System.err.println( kualiConfigurationService.getAllProperties() );
             assertNull( "Datasource information should not be available through the kuali configuration service.", pw );
         }
     }

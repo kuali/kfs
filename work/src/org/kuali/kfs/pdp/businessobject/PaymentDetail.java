@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class PaymentDetail extends TimestampedBusinessObjectBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetail.class);
@@ -544,10 +545,13 @@ public class PaymentDetail extends TimestampedBusinessObjectBase {
      * @return the number of payments in the disbursement
      */
     public int getNbrOfPaymentsInDisbursement() {
-        List<PaymentGroup> paymentGroupList = SpringContext.getBean(PaymentGroupService.class).getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
+        
         int nbrOfPaymentsInDisbursement = 0;
-        for (PaymentGroup paymentGroup : paymentGroupList) {
-            nbrOfPaymentsInDisbursement += paymentGroup.getPaymentDetails().size();
+        if (ObjectUtils.isNotNull((paymentGroup.getDisbursementNbr()))) {
+            List<PaymentGroup> paymentGroupList = SpringContext.getBean(PaymentGroupService.class).getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
+            for (PaymentGroup paymentGroup : paymentGroupList) {
+                nbrOfPaymentsInDisbursement += paymentGroup.getPaymentDetails().size();
+            }
         }
         return nbrOfPaymentsInDisbursement;
     }

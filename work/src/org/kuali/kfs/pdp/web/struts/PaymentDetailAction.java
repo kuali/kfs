@@ -33,6 +33,7 @@ import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService;
 import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.util.PdpPaymentDetailQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
@@ -64,7 +65,7 @@ public class PaymentDetailAction extends KualiAction {
     public PaymentDetailAction() {
         setPaymentMaintenanceService(SpringContext.getBean(PaymentMaintenanceService.class));
         setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
-        
+
     }
 
     /**
@@ -80,13 +81,13 @@ public class PaymentDetailAction extends KualiAction {
 
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performCancel( paymentDetailId, changeText, user);
+                return performCancel(paymentDetailId, changeText, user);
             }
         };
-        
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_CANCELED, "confirmAndCancel", callback);
+
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_CANCELED, "confirmAndCancel", callback);
     }
-    
+
     /**
      * This method cancels a payment.
      * @param paymentDetailId the payment detail id.
@@ -123,10 +124,10 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performHold( paymentDetailId, changeText, user);
+                return performHold(paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_HOLD, "confirmAndHold", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_HOLD, "confirmAndHold", callback);
     }
 
     /**
@@ -168,10 +169,10 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndRemoveHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performRemoveHold( paymentDetailId, changeText, user);
+                return performRemoveHold(paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveHold", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.REMOVE_HOLD_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.HOLD_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveHold", callback);
     }
 
     /**
@@ -210,11 +211,11 @@ public class PaymentDetailAction extends KualiAction {
 
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                 return performSetImmediate(paymentDetailId, changeText, user);
-                 
+                return performSetImmediate(paymentDetailId, changeText, user);
+
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_SET_AS_IMMEDIATE, "confirmAndSetImmediate", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.PAYMENT_SUCCESSFULLY_SET_AS_IMMEDIATE, "confirmAndSetImmediate", callback);
     }
 
     /**
@@ -238,7 +239,7 @@ public class PaymentDetailAction extends KualiAction {
             GlobalVariables.getMessageMap().putError(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, PdpKeyConstants.PaymentDetail.ErrorMessages.ERROR_PAYMENT_NOT_FOUND);
             return false;
         }
-       
+
     }
 
     /**
@@ -253,15 +254,16 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndRemoveImmediate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                 return performSetImmediate(paymentDetailId, changeText, user);
-                 
+                return performSetImmediate(paymentDetailId, changeText, user);
+
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.IMMEDIATE_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveImmediate", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CHANGE_IMMEDIATE_PAYMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.IMMEDIATE_SUCCESSFULLY_REMOVED_ON_PAYMENT, "confirmAndRemoveImmediate", callback);
     }
 
     /**
      * This method confirms and cancels a disbursement.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -272,10 +274,10 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndCancelDisbursement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performCancelDisbursement( paymentDetailId, changeText, user);
+                return performCancelDisbursement(paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_QUESTION,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndRemoveHold", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndRemoveHold", callback);
     }
 
     /**
@@ -312,16 +314,16 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndReIssue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performReIssueWithoutCancelDisbursement( paymentDetailId, changeText, user);
+                return performReIssueWithoutCancelDisbursement(paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_REISSUED, "confirmAndReissue", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_REISSUED, "confirmAndReissue", callback);
     }
 
     /**
      * This method reissue a disbursement
      * @param paymentDetailId the payment detail id
-     * @param changeText the text entered by the user 
+     * @param changeText the text entered by the user
      * @param user the user that canceled the disbursement
      * @return true if disbursement successfully reissued/canceled, false otherwise
      */
@@ -339,7 +341,7 @@ public class PaymentDetailAction extends KualiAction {
             return false;
         }
     }
-    
+
     /**
      * This method confirms an reissues/cancels a disbursement.
      * @param mapping
@@ -352,16 +354,16 @@ public class PaymentDetailAction extends KualiAction {
     public ActionForward confirmAndReIssueCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpPaymentDetailQuestionCallback callback = new PdpPaymentDetailQuestionCallback() {
             public boolean doPostQuestion(int paymentDetailId, String changeText, Person user) {
-                return performReIssueDisbursement( paymentDetailId, changeText, user);
+                return performReIssueDisbursement(paymentDetailId, changeText, user);
             }
         };
-        return askQuestionWithInput(mapping, form, request, response,  PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndReissueCancel", callback);
+        return askQuestionWithInput(mapping, form, request, response, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_QUESTION, PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_REISSUE_DISBURSEMENT_MESSAGE, PdpKeyConstants.PaymentDetail.Messages.DISBURSEMENT_SUCCESSFULLY_CANCELED, "confirmAndReissueCancel", callback);
     }
 
     /**
      * This method reissue/cancels a disbursement
      * @param paymentDetailId the payment detail id
-     * @param changeText the text entered by the user 
+     * @param changeText the text entered by the user
      * @param user the user that canceled the disbursement
      * @return true if disbursement successfully reissued/canceled, false otherwise
      */
@@ -379,7 +381,7 @@ public class PaymentDetailAction extends KualiAction {
             return false;
         }
     }
-    
+
     /**
      * This method prompts for a reason to perform an action on a payment detail.
      * 
@@ -410,32 +412,32 @@ public class PaymentDetailAction extends KualiAction {
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findBySinglePrimaryKey(PaymentDetail.class, paymentDetailId);
         PaymentGroup paymentGroup = paymentDetail.getPaymentGroup();
         int paymentsInGroup = paymentGroup.getPaymentDetails().size() - 1;
-        int paymentsInDisbursement = paymentDetail.getNbrOfPaymentsInDisbursement() - 1 ;
-        
+        int paymentsInDisbursement = paymentDetail.getNbrOfPaymentsInDisbursement() - 1;
+
         KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
         confirmationText = kualiConfiguration.getPropertyString(confirmationText);
-        
+
         if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE)) {
             confirmationText = MessageFormat.format(confirmationText, paymentsInGroup, paymentGroup.getId().toString());
             if (paymentsInGroup == 0) {
-                int start = confirmationText.indexOf(".")+2;
+                int start = confirmationText.indexOf(".") + 2;
                 confirmationText = confirmationText.substring(start);
             }
         }
         else if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE)) {
             confirmationText = MessageFormat.format(confirmationText, paymentsInDisbursement, paymentGroup.getDisbursementNbr().toString());
             if (paymentsInDisbursement == 0) {
-                int start = confirmationText.indexOf(".")+2;
+                int start = confirmationText.indexOf(".") + 2;
                 confirmationText = confirmationText.substring(start);
             }
-            
+
         }
         else {
             confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
         }
-        
+
         if (question == null) {
-          
+
             // ask question if not already asked
             return this.performQuestionWithInput(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, caller, paymentDetailId);
         }
@@ -472,7 +474,7 @@ public class PaymentDetailAction extends KualiAction {
         String returnUrl = buildUrl(paymentDetailId, actionStatus, message, buildErrorMesageKeyList());
         return new ActionForward(returnUrl, true);
     }
-    
+
     /**
      * This method builds the forward url.
      * 
@@ -482,30 +484,49 @@ public class PaymentDetailAction extends KualiAction {
      * @return the build url
      */
     private String buildUrl(String paymentDetailId, boolean success, String message, String errorList) {
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        // build url to return user back to PaymentDetail Search with fields filled in as user inputted
+        String lookupUrl = (String) GlobalVariables.getUserSession().retrieveObject(PaymentDetailLookupableHelperService.PDP_PAYMENTDETAIL_KEY);
+        if (lookupUrl != null) {
+            GlobalVariables.getUserSession().removeObject(PaymentDetailLookupableHelperService.PDP_PAYMENTDETAIL_KEY);
 
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-        parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
-        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-        parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
-        if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
-            parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);
+            Properties parameters = new Properties();
+            parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
+            if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
+                parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);
+            }
+
+            if (StringUtils.isNotEmpty(errorList)) {
+                parameters.put(PdpParameterConstants.ERROR_KEY_LIST_PARAM, errorList);
+            }
+
+            lookupUrl = lookupUrl + UrlFactory.parameterizeUrl("&", parameters);
         }
+        else {
+            // session expired -  resort to alternative plan
+            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
 
-        if (StringUtils.isNotEmpty(errorList)) {
-            parameters.put(PdpParameterConstants.ERROR_KEY_LIST_PARAM, errorList);
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+            parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
+            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+            parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+            parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
+            parameters.put(PdpParameterConstants.ACTION_SUCCESSFUL_PARAM, String.valueOf(success));
+            if (message != null && !message.equalsIgnoreCase(KFSConstants.EMPTY_STRING)) {
+                parameters.put(PdpParameterConstants.MESSAGE_PARAM, message);
+            }
+
+            if (StringUtils.isNotEmpty(errorList)) {
+                parameters.put(PdpParameterConstants.ERROR_KEY_LIST_PARAM, errorList);
+            }
+
+            lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
         }
-
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
-
         return lookupUrl;
     }
-    
+
     /**
      * This method build a string list of error message keys out of the error map in GlobalVariables
      * 
@@ -562,4 +583,3 @@ public class PaymentDetailAction extends KualiAction {
     }
 
 }
-

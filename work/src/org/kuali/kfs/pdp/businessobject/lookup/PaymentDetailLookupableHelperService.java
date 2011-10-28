@@ -32,11 +32,14 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -45,6 +48,7 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.format.BooleanFormatter;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
+    public static final String PDP_PAYMENTDETAIL_KEY = "PDPHOLDKEY";
     private KualiConfigurationService kualiConfigurationService;
     private PdpAuthorizationService pdpAuthorizationService;
 
@@ -167,9 +171,30 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
+        
+        buildAndStoreReturnUrl(fieldValues);     
+     }
 
+    /** 
+     * Create a return URL for hold, cancel,set as and immediate keys to return back.  - the return url is stored and then retreived in PaymentDetailAction buildURL
+     * 
+     * @param fieldValues
+     */
+    protected void buildAndStoreReturnUrl(Map fieldValues) {       
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+        parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.putAll(fieldValues);
+        Object lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
+        GlobalVariables.getUserSession().addObject(PDP_PAYMENTDETAIL_KEY,  lookupUrl);
     }
-
+        
+    
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
      *      java.util.List)
@@ -189,7 +214,6 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             boolean showCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId())) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId())) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(person.getPrincipalId())));
 
             if (showCancel) {
-
                 Properties params = new Properties();
 
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION);
@@ -205,7 +229,6 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
             boolean showHold = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && pdpAuthorizationService.hasHoldPaymentPermission(person.getPrincipalId()));
             if (showHold) {
-
                 Properties params = new Properties();
                 params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION);
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
@@ -315,7 +338,6 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData("&nbsp;", "", "");
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-
             return anchorHtmlDataList;
         }
         return super.getEmptyActionUrls();

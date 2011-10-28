@@ -180,7 +180,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      * 
      * @param fieldValues
      */
-    protected void buildAndStoreReturnUrl(Map fieldValues) {       
+    protected void buildAndStoreReturnUrl(Map<String, String> fieldValues) {       
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);

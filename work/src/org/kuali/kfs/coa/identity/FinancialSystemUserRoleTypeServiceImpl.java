@@ -38,11 +38,11 @@ public class FinancialSystemUserRoleTypeServiceImpl extends KimRoleTypeServiceBa
     public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
     
-    {
-        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        checkRequiredAttributes = false; // can't check - used in too many places where a chart/org is not present
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+/* RICE_20_DELETE */        checkRequiredAttributes = false; // can't check - used in too many places where a chart/org is not present
+/* RICE_20_DELETE */    }
 
     @Override
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {

@@ -32,13 +32,13 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
 
-    {
-        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        checkRequiredAttributes = false;
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE */    }
 
-    private BudgetDocumentService budgetDocumentService;
+    protected BudgetDocumentService budgetDocumentService;
 
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,

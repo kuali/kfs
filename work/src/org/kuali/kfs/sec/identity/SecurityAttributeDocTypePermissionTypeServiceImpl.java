@@ -37,10 +37,10 @@ import org.kuali.rice.kim.util.KimCommonUtils;
 public class SecurityAttributeDocTypePermissionTypeServiceImpl extends SecurityAttributePermissionTypeServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SecurityAttributeDocTypePermissionTypeServiceImpl.class);
 
-    {
-        requiredAttributes.add(SecKimAttributes.DOCUMENT_TYPE_NAME);
-        checkRequiredAttributes = false;
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.DOCUMENT_TYPE_NAME);
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE */    }
 
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)

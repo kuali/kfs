@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
@@ -30,12 +31,23 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.service.DocumentService;
 
 public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
-    private DocumentService documentService;
+    protected DocumentService documentService;
 
+// RICE_20_INSERT    List<String> requiredAttributes = new ArrayList<String>(1);
     {
         requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
-        checkRequiredAttributes = true;
+/* RICE_20_DELETE */        checkRequiredAttributes = true;
     }
+
+// RICE_20_INSERT    @Override
+// RICE_20_INSERT    public boolean isCheckRequiredAttributes() {
+// RICE_20_INSERT        return true;
+// RICE_20_INSERT    }
+    
+// RICE_20_INSERT    @Override
+// RICE_20_INSERT    public List<String> getRequiredAttributes() {
+// RICE_20_INSERT        return Collections.unmodifiableList(requiredAttributes);
+// RICE_20_INSERT    }
     
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {

@@ -24,11 +24,11 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
     
-    {
-        requiredAttributes.add(PurapKimAttributes.SENSITIVE_DATA_CODE);
-        checkRequiredAttributes = false; // role document bombs for this doc if this is set to true
-    }
-    
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(PurapKimAttributes.SENSITIVE_DATA_CODE);
+/* RICE_20_DELETE */        checkRequiredAttributes = false; // role document bombs for this doc if this is set to true
+/* RICE_20_DELETE */    }
+
     protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
         if ( qualification == null ) {
             return false;

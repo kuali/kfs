@@ -23,9 +23,9 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
  */
 public class SecurityAttributeRoleTypeServiceImpl extends KimRoleTypeServiceBase {
 
-    {
-        checkRequiredAttributes = false;
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE */    }
 
     /**
      * Any qualifier is allowed so that later on the qualification can be evaluated in the context of all qualifications for the user across all roles

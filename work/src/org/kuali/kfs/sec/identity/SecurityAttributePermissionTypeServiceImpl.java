@@ -29,10 +29,10 @@ import org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase;
  */
 public class SecurityAttributePermissionTypeServiceImpl extends KimPermissionTypeServiceBase {
 
-    {
-        requiredAttributes.add(SecKimAttributes.PROPERTY_NAME);
-        checkRequiredAttributes = false;
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.PROPERTY_NAME);
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE */    }
 
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,

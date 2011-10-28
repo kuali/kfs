@@ -55,22 +55,22 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 
 public class AccountDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
-    private AccountService accountService;
-    private ContractsAndGrantsModuleService contractsAndGrantsModuleService;
-    private AccountDelegateService accountDelegateService;
-    private KualiConfigurationService configurationService;
-    private IdentityManagementService identityManagementService;
-    private MailService mailService;
-    private ParameterService parameterService;
+    protected AccountService accountService;
+    protected ContractsAndGrantsModuleService contractsAndGrantsModuleService;
+    protected AccountDelegateService accountDelegateService;
+    protected KualiConfigurationService configurationService;
+    protected IdentityManagementService identityManagementService;
+    protected MailService mailService;
+    protected ParameterService parameterService;
     
-    private final static String DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME = "DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES";
+    protected final static String DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES_PARAMETER_NAME = "DERIVED_ROLE_MEMBER_INACTIVATION_NOTIFICATION_EMAIL_ADDRESSES";
     
-    {
-        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
-        checkRequiredAttributes = false;
-//        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ACCOUNT_NUMBER);
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE *///        requiredAttributes.add(KfsKimAttributes.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
+/* RICE_20_DELETE */    }
 
     /**
      * Attributes: Chart Code Account Number Requirements: - KFS-COA Account Supervisor: CA_ACCOUNT_T.ACCT_SPVSR_UNVL_ID - KFS-SYS

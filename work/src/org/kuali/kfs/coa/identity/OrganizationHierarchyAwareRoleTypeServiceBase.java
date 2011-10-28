@@ -34,14 +34,20 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
 
 public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimRoleTypeServiceBase implements KimDelegationTypeService {
     private static final Logger LOG = Logger.getLogger(OrganizationHierarchyAwareRoleTypeServiceBase.class);
-    private ChartService chartService;
-    private OrganizationService organizationService;
+    protected ChartService chartService;
+    protected OrganizationService organizationService;
     protected static final String DOCUMENT_TYPE_NAME = "ORR";
 
+// RICE_20_INSERT    List<String> workflowRoutingAttributes = new ArrayList<String>(2);
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );
         workflowRoutingAttributes.add( KfsKimAttributes.ORGANIZATION_CODE );
     }    
+    
+// RICE_20_INSERT    @Override
+// RICE_20_INSERT    public List<String> getWorkflowRoutingAttributes(String routeLevel) {
+// RICE_20_INSERT        return Collections.unmodifiableList(workflowRoutingAttributes);
+// RICE_20_INSERT    }
     
     @Override
     public String getWorkflowDocumentTypeName() {

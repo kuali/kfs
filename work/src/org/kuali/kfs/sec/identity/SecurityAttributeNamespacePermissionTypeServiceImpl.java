@@ -27,10 +27,10 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
  */
 public class SecurityAttributeNamespacePermissionTypeServiceImpl extends SecurityAttributePermissionTypeServiceImpl {
     
-    {
-        requiredAttributes.add(SecKimAttributes.NAMESPACE_CODE);
-        checkRequiredAttributes = false;
-    }
+/* RICE_20_DELETE */    {
+/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.NAMESPACE_CODE);
+/* RICE_20_DELETE */        checkRequiredAttributes = false;
+/* RICE_20_DELETE */    }
 
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,

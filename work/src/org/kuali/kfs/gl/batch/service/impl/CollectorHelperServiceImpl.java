@@ -124,7 +124,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         
         MessageMap messageMap = batch.getMessageMap();
         // terminate if there were parse errors
-        if (!messageMap.isEmpty()) {
+        if (messageMap.hasErrors()) {
             isValid = false;
         }
 
@@ -519,7 +519,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     protected boolean checkForMixedDocumentTypes(CollectorBatch batch, MessageMap MessageMap) {
         boolean docTypesNotMixed = true;
 
-        Set batchDocumentTypes = new HashSet();
+        Set<String> batchDocumentTypes = new HashSet<String>();
         for (OriginEntryFull entry : batch.getOriginEntries()) {
             batchDocumentTypes.add(entry.getFinancialDocumentTypeCode());
         }
@@ -543,7 +543,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     protected boolean checkForMixedBalanceTypes(CollectorBatch batch, MessageMap MessageMap) {
         boolean balanceTypesNotMixed = true;
 
-        Set balanceTypes = new HashSet();
+        Set<String> balanceTypes = new HashSet<String>();
         for (OriginEntryFull entry : batch.getOriginEntries()) {
             balanceTypes.add(entry.getFinancialBalanceTypeCode());
         }
@@ -648,12 +648,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         }
 
         // retrieve document types that balance by equal debits and credits
-        String[] documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES).toArray(new String[] {});
+        Collection<String> documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
 
         boolean equalDebitCreditTotal = false;
-        for (int i = 0; i < documentTypes.length; i++) {
-            String documentType = StringUtils.remove(documentTypes[i], "*");
-            if (batch.getOriginEntries().get(0).getFinancialDocumentTypeCode().startsWith(documentType.toUpperCase()) && KFSConstants.BALANCE_TYPE_ACTUAL.equals(batch.getOriginEntries().get(0).getFinancialBalanceTypeCode())) {
+        for ( String documentType : documentTypes ) {
+            documentType = StringUtils.remove(documentType, "*").toUpperCase();
+            if (batch.getOriginEntries().get(0).getFinancialDocumentTypeCode().startsWith(documentType) 
+                    && KFSConstants.BALANCE_TYPE_ACTUAL.equals(batch.getOriginEntries().get(0).getFinancialBalanceTypeCode())) {
                 equalDebitCreditTotal = true;
             }
         }

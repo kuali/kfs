@@ -118,7 +118,7 @@ public class PurApObjectUtils {
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug("attempting to copy collection field '" + fieldName + "' using base class '" + baseClassName + "' and property value class '" + propertyValue.getClass() + "'");
                 }
-                copyCollection(fieldName, targetObject, propertyValue, supplementalUncopyable);
+                copyCollection(fieldName, targetObject, (Collection)propertyValue, supplementalUncopyable);
             }
             else {
                 String propertyValueClass = (ObjectUtils.isNotNull(propertyValue)) ? propertyValue.getClass().toString() : "(null)";
@@ -151,8 +151,7 @@ public class PurApObjectUtils {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
-    protected static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Collection sourceList = (Collection) propertyValue;
+    protected static <T extends BusinessObject> void copyCollection(String fieldName, BusinessObject targetObject, Collection<T> sourceList, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection listToSet = null;
 
         // materialize collections
@@ -161,32 +160,30 @@ public class PurApObjectUtils {
         }
 
         // TypedArrayList requires argument so handle differently than below
-        if (sourceList instanceof TypedArrayList) {
-            TypedArrayList typedArray = (TypedArrayList) sourceList;
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");
-            }
-            try {
-                listToSet = new TypedArrayList(typedArray.getListObjectType());
-            }
-            catch (Exception e) {
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("couldn't set class '" + propertyValue.getClass() + "' on collection... using TypedArrayList using ", e);
-                }
-                listToSet = new ArrayList();
-            }
-        }
-        else {
+        /* RICE_20_DELETE */ if (sourceList instanceof TypedArrayList) {
+            /* RICE_20_DELETE */ TypedArrayList typedArray = (TypedArrayList) sourceList;
+            /* RICE_20_DELETE */ if ( LOG.isDebugEnabled() ) {
+                /* RICE_20_DELETE */ LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");
+            /* RICE_20_DELETE */ }
+            /* RICE_20_DELETE */ try {
+                /* RICE_20_DELETE */ listToSet = new TypedArrayList(typedArray.getListObjectType());
+            /* RICE_20_DELETE */ } catch (Exception e) {
+                /* RICE_20_DELETE */ if ( LOG.isDebugEnabled() ) {
+                    /* RICE_20_DELETE */ LOG.debug("couldn't set class '" + sourceList.getClass() + "' on collection... using TypedArrayList using ", e);
+                /* RICE_20_DELETE */ }
+                /* RICE_20_DELETE */ listToSet = new ArrayList<T>();
+            /* RICE_20_DELETE */ }
+        /* RICE_20_DELETE */ } else {
             try {
                 listToSet = sourceList.getClass().newInstance();
             }
             catch (Exception e) {
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("couldn't set class '" + propertyValue.getClass() + "' on collection..." + fieldName + " using " + sourceList.getClass());
+                    LOG.debug("couldn't set class '" + sourceList.getClass() + "' on collection..." + fieldName + " using " + sourceList.getClass());
                 }
-                listToSet = new ArrayList();
+                listToSet = new ArrayList<T>();
             }
-        }
+        /* RICE_20_DELETE */ }
 
 
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {

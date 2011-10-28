@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cab.batch.service;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -48,6 +47,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Parameter;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -55,8 +55,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * This abstract test class will provide the SQL inserts required to perform the testing CAB batch extract related services
  */
 public abstract class BatchTestBase extends KualiTestBase {
-    private static final String SQL_PACKAGE = "org/kuali/kfs/module/cab/sql/";
-    private DateTimeService dateTimeService;
+    protected static final String SQL_PACKAGE = "org/kuali/kfs/module/cab/sql/";
+    protected DateTimeService dateTimeService;
 
     @Override
     protected void setUp() throws Exception {
@@ -71,12 +71,15 @@ public abstract class BatchTestBase extends KualiTestBase {
         updateLastPreTagExtractTime();
     }
 
-    private void updateLastCabExtractTime() {
+    protected void updateLastCabExtractTime() {
         Parameter lastExtractTime = findCabExtractTimeParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
-            SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
+            /* RICE_20_DELETE */lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
+            /* RICE_20_DELETE */SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
+            // RICE_20_INSERT Parameter.Builder updatedParm = Parameter.Builder.create(lastExtractTime);
+            // RICE_20_INSERT updatedParm.setValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
+            // RICE_20_INSERT SpringContext.getBean(ParameterService.class).updateParameter(updatedParm.build());
         }
         else {
             fail("Could not find the parameter LAST_EXTRACT_TIME");
@@ -84,20 +87,20 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findCabExtractTimeParam() {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_BATCH);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_TIME);
-        Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
+        /* RICE_20_DELETE */Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        // RICE_20_INSERT Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_DATE);
         return lastExtractTime;
     }
 
-    private void updateLastPreTagExtractTime() {
+    protected void updateLastPreTagExtractTime() {
         Parameter lastExtractTime = findPretagExtractDateParam();
-        if (ObjectUtils.isNotNull(lastExtractTime)) {
+        if ( lastExtractTime != null ) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-            lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
-            SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
+            /* RICE_20_DELETE */lastExtractTime.setParameterValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
+            /* RICE_20_DELETE */SpringContext.getBean(BusinessObjectService.class).save(lastExtractTime);
+            // RICE_20_INSERT Parameter.Builder updatedParm = Parameter.Builder.create(lastExtractTime);
+            // RICE_20_INSERT updatedParm.setValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
+            // RICE_20_INSERT SpringContext.getBean(ParameterService.class).updateParameter(updatedParm.build());
         }
         else {
             fail("Could not find the parameter LAST_EXTRACT_TIME");
@@ -105,11 +108,8 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findPretagExtractDateParam() {
-        Map<String, String> primaryKeys = new LinkedHashMap<String, String>();
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP);
-        primaryKeys.put(CabPropertyConstants.Parameter.PARAMETER_NAME, CabConstants.Parameters.LAST_EXTRACT_DATE);
-        Parameter lastExtractTime = (Parameter) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Parameter.class, primaryKeys);
+        /* RICE_20_DELETE */Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).retrieveParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        // RICE_20_INSERT Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
         return lastExtractTime;
     }
 

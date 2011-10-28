@@ -172,15 +172,13 @@ public class BudgetCategoryDTO extends BusinessObjectBase implements ContractsAn
         this.description = value;
     }
 
-    public void prepareForWorkflow() {}
     public void refresh() {}
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
-        m.put("BudgetCategoryDTO", this.budgetCategoryCode);
-        return m;
-    }
+    /* RICE_20_DELETE */@Override
+    /* RICE_20_DELETE */protected LinkedHashMap toStringMapper() {
+        /* RICE_20_DELETE */LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
+        /* RICE_20_DELETE */m.put("BudgetCategoryDTO", this.budgetCategoryCode);
+        /* RICE_20_DELETE */return m;
+    /* RICE_20_DELETE */}
 
 }

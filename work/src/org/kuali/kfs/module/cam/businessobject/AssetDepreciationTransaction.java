@@ -21,40 +21,35 @@ import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AssetDepreciationTransaction extends TransientBusinessObjectBase {
-    private Long capitalAssetNumber;
-    private String documentNumber;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String financialObjectTypeCode;
-    private String transactionType;
-    private String projectCode;
-    private KualiDecimal transactionAmount;
-    private String transactionLedgerEntryDescription;
-
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransientBusinessObjectBase.class);
 
+    protected Long capitalAssetNumber;
+    protected String documentNumber;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected String financialObjectCode;
+    protected String financialSubObjectCode;
+    protected String financialObjectTypeCode;
+    protected String transactionType;
+    protected String projectCode;
+    protected KualiDecimal transactionAmount;
+    protected String transactionLedgerEntryDescription;
 
-    public AssetDepreciationTransaction() {
-        super();
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put("AssetNumber", this.capitalAssetNumber);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialSubObjectCode", this.financialSubObjectCode);
-        m.put("financialObjectTypeCode", this.financialObjectTypeCode);
-        m.put(" projectCode", this.projectCode);
-        m.put("transactionType", this.transactionType);
-        m.put("transactionAmount", this.transactionAmount);
-        return m;
-    }
+    /* RICE_20_DELETE */ @Override
+    /* RICE_20_DELETE */ protected LinkedHashMap<String, Object> toStringMapper() {
+        /* RICE_20_DELETE */ LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
+        /* RICE_20_DELETE */ m.put("AssetNumber", this.capitalAssetNumber);
+        /* RICE_20_DELETE */ m.put("accountNumber", this.accountNumber);
+        /* RICE_20_DELETE */ m.put("subAccountNumber", this.subAccountNumber);
+        /* RICE_20_DELETE */ m.put("financialObjectCode", this.financialObjectCode);
+        /* RICE_20_DELETE */ m.put("financialSubObjectCode", this.financialSubObjectCode);
+        /* RICE_20_DELETE */ m.put("financialObjectTypeCode", this.financialObjectTypeCode);
+        /* RICE_20_DELETE */ m.put(" projectCode", this.projectCode);
+        /* RICE_20_DELETE */ m.put("transactionType", this.transactionType);
+        /* RICE_20_DELETE */ m.put("transactionAmount", this.transactionAmount);
+        /* RICE_20_DELETE */ return m;
+    /* RICE_20_DELETE */ }
 
 
     public Long getCapitalAssetNumber() {

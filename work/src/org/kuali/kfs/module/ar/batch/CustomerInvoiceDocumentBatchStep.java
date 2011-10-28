@@ -52,42 +52,42 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements TestingStep {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
     
-    private static final long MAX_SEQ_NBR_OFFSET = 1000;
+    protected static final long MAX_SEQ_NBR_OFFSET = 1000;
     
-    CustomerInvoiceDocumentService customerInvoiceDocumentService; 
-    BusinessObjectService businessObjectService;
-    DocumentService documentService;
-    DateTimeService dateTimeService;
-    Collection<String> createdInvoices = new ArrayList<String>();
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService; 
+    protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
+    protected DateTimeService dateTimeService;
+    protected Collection<String> createdInvoices = new ArrayList<String>();
 
     
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
 
     // parameter constants and logging
-    private static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
-    private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = ArConstants.AR_NAMESPACE_CODE;
-    private static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = KFSConstants.APPLICATION_NAMESPACE_CODE;
-    private static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = "CustomerInvoiceDocumentBatchStep";
-    private static final String RUN_INDICATOR_PARAMETER_VALUE = "N"; // Tells the job framework whether to run this job or not; set to NO because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.
-    private static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
-    private final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.";
-    private static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
-    private static final String INITIATOR_PRINCIPAL_NAME = "khuntley";
+    protected static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
+    protected static final String RUN_INDICATOR_PARAMETER_NAMESPACE_CODE = ArConstants.AR_NAMESPACE_CODE;
+    protected static final String RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE = KFSConstants.APPLICATION_NAMESPACE_CODE;
+    protected static final String RUN_INDICATOR_PARAMETER_NAMESPACE_STEP = CustomerInvoiceDocumentBatchStep.class.getSimpleName();
+    protected static final String RUN_INDICATOR_PARAMETER_VALUE = "N"; // Tells the job framework whether to run this job or not; set to N because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.
+    protected static final String RUN_INDICATOR_PARAMETER_ALLOWED = "A";
+    protected static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.";
+    protected static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
+    protected static final String INITIATOR_PRINCIPAL_NAME = "khuntley";
     
-    private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    protected final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        
-        Parameter runIndicatorParameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
-        if (ObjectUtils.isNull(runIndicatorParameter) || "Y".equals(runIndicatorParameter.getParameterValue())) {
+
+        /* RICE_20_DELETE */ Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        // RICE_20_INSERT Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getParameterValue())) {
 
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
@@ -184,46 +184,33 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
      */
     private void setInitiatedParameter() {
         // first see if we can find an existing Parameter object with this key
-        Parameter runIndicatorParameter = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
-        if (runIndicatorParameter == null)
-        {
-           runIndicatorParameter = new Parameter();
-           runIndicatorParameter.setVersionNumber(new Long(1));
-           runIndicatorParameter.setParameterNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-           runIndicatorParameter.setParameterDetailTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-           runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
-           runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
-           runIndicatorParameter.setParameterConstraintCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
-           runIndicatorParameter.setParameterTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-           runIndicatorParameter.setParameterApplicationNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
-        }
-        runIndicatorParameter.setParameterValue(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
-        businessObjectService.save(runIndicatorParameter);
-    }
-    
-    private Map<String,Object> buildSearchKeyMap()
-    {
-       Map<String,Object> pkMapForParameter = new HashMap<String,Object>();
-       PersistenceStructureService psService = SpringContext.getBean(PersistenceStructureService.class);
-
-       // set up a list of all the  field names and values of the fields in the Parameter object.
-       // the OJB names are nowhere in Kuali properties, apparently.
-       // but, since we use set routines above, we know what the names must be.  if they change at some point, we will have to change the set routines anyway.
-       // we can change the code here also when we do that.
-       Map<String,Object> fieldNamesValuesForParameter = new HashMap<String,Object>();
-       fieldNamesValuesForParameter.put("parameterNamespaceCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-       fieldNamesValuesForParameter.put("parameterDetailTypeCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-       fieldNamesValuesForParameter.put("parameterName",Job.STEP_RUN_PARM_NM);
-       fieldNamesValuesForParameter.put("parameterConstraintCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
-       fieldNamesValuesForParameter.put("parameterTypeCode",CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-
-       // get the primary keys and assign them to values
-       List<String> parameterPKFields = psService.getPrimaryKeys(Parameter.class);
-       for (String pkFieldName: parameterPKFields)
-       {
-           pkMapForParameter.put(pkFieldName,fieldNamesValuesForParameter.get(pkFieldName));
-       }
-       return (pkMapForParameter);
+        /* RICE_20_DELETE */ Parameter runIndicatorParameter = getParameterService().retrieveParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        /* RICE_20_DELETE */ if (runIndicatorParameter == null)
+            /* RICE_20_DELETE */ {
+            /* RICE_20_DELETE */ runIndicatorParameter = new Parameter();
+           /* RICE_20_DELETE */ runIndicatorParameter.setVersionNumber(new Long(1));
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterDetailTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterConstraintCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterTypeCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
+           /* RICE_20_DELETE */ runIndicatorParameter.setParameterApplicationNamespaceCode(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
+       /* RICE_20_DELETE */ }
+        /* RICE_20_DELETE */ runIndicatorParameter.setParameterValue(CustomerInvoiceDocumentBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
+        /* RICE_20_DELETE */ businessObjectService.save(runIndicatorParameter);
+        // RICE_20_INSERT Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+         // RICE_20_INSERT if (runIndicatorParameter == null) {
+             // RICE_20_INSERT Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
+             // RICE_20_INSERT newParm.setEvaluationOperator( EvaluationOperator.ALLOW );
+             // RICE_20_INSERT newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+             // RICE_20_INSERT newParm.setValue("N");
+             // RICE_20_INSERT getParameterService().createParameter(newParm.build());
+         // RICE_20_INSERT } else {
+             // RICE_20_INSERT Parameter.Builder newParm = Parameter.Builder.create(runIndicatorParameter);
+             // RICE_20_INSERT newParm.setValue("N");
+             // RICE_20_INSERT getParameterService().updateParameter(newParm.build());
+         // RICE_20_INSERT }
     }
 
     private Lockbox populateLockbox(String invoiceNumber, Long seqNbr) {

@@ -275,8 +275,6 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         this.serialNumber = serialNumber;
     }
 
-    public void prepareForWorkflow() {}
-
     public void refresh() {}
 
     public Integer getQuantity() {

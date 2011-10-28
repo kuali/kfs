@@ -21,14 +21,14 @@ import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
 
 public class EndowmentProcessedReportHeader extends TransientBusinessObjectBase {
     
-    private String columnHeading1;
-    private String columnHeading2;
-    private String columnHeading3;
-    private String columnHeading4;
-    private String columnHeading5;
-    private String columnHeading6;
-    private String columnHeading7;
-    private String columnHeading8;
+    protected String columnHeading1;
+    protected String columnHeading2;
+    protected String columnHeading3;
+    protected String columnHeading4;
+    protected String columnHeading5;
+    protected String columnHeading6;
+    protected String columnHeading7;
+    protected String columnHeading8;
     
     public EndowmentProcessedReportHeader() {
         columnHeading1 = "";
@@ -173,18 +173,18 @@ public class EndowmentProcessedReportHeader extends TransientBusinessObjectBase 
      * A map of the "keys" of this transient business object
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> pks = new LinkedHashMap<String, Object>();
-        pks.put("columnHeading1",this.getColumnHeading1());
-        pks.put("columnHeading2",this.getColumnHeading2());
-        pks.put("columnHeading3",this.getColumnHeading3());
-        pks.put("columnHeading4",this.getColumnHeading4());
-        pks.put("columnHeading5",this.getColumnHeading5());
-        pks.put("columnHeading6",this.getColumnHeading6());
-        pks.put("columnHeading7",this.getColumnHeading7());
-        pks.put("columnHeading8",this.getColumnHeading8());
-        
-        return pks;
-    }
+    /* RICE_20_DELETE */@Override
+    /* RICE_20_DELETE */protected LinkedHashMap<String, Object> toStringMapper() {
+        /* RICE_20_DELETE */LinkedHashMap<String, Object> pks = new LinkedHashMap<String, Object>();
+        /* RICE_20_DELETE */pks.put("columnHeading1",this.getColumnHeading1());
+        /* RICE_20_DELETE */pks.put("columnHeading2",this.getColumnHeading2());
+        /* RICE_20_DELETE */pks.put("columnHeading3",this.getColumnHeading3());
+        /* RICE_20_DELETE */pks.put("columnHeading4",this.getColumnHeading4());
+        /* RICE_20_DELETE */pks.put("columnHeading5",this.getColumnHeading5());
+        /* RICE_20_DELETE */pks.put("columnHeading6",this.getColumnHeading6());
+        /* RICE_20_DELETE */pks.put("columnHeading7",this.getColumnHeading7());
+        /* RICE_20_DELETE */pks.put("columnHeading8",this.getColumnHeading8());
+        /* RICE_20_DELETE */
+        /* RICE_20_DELETE */return pks;
+    /* RICE_20_DELETE */}
 }

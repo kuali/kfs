@@ -792,6 +792,7 @@ public class KFSPropertyConstants {
     public static final String LEVEL_FINANCIAL_REPORT_SORT_CODE = "levelFinancialReportSortCode";
     public static final String LINE = "line";
     public static final String LINE_NUMBER = "lineNumber";
+    public static final String LINE_TYPE = "lineType";
     public static final String LOCKING_REPRESENTATION = "lockingRepresentation";
     public static final String LOOKUP_DATE = KNSPropertyConstants.LOOKUP_DATE;
     public static final String MAINTENANCE_USER = "maintenanceUser";
@@ -1231,6 +1232,7 @@ public class KFSPropertyConstants {
     public static final String ITEM_LINE_NUMBER = "itemLineNumber";
     public static final String CAPITAL_ASSET_LINE_NUMBER = "capitalAssetLineNumber";
     public static final String CAPITAL_ASSET_ACTION_INDICATOR = "capitalAssetActionIndicator";
+    public static final String CAPITAL_ASSET_ACCOUNT_LINE_NUMBER = "capitalAssetAccountLineNumber";
     public static final String VENDOR_NAME = "vendorName";
     public static final String PAYEE_NAME = "payeeName";
     public static final String VENDOR_ADDRESSES = "vendorAddresses";
@@ -1243,5 +1245,6 @@ public class KFSPropertyConstants {
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
     public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
+    public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
 }
 

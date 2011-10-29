@@ -682,6 +682,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateAccountAmounts(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
+        
+        String accountDistributionMethodString;
+        
         // the percent at fiscal approve
         // don't update if past the AP review level
         if ((document instanceof PaymentRequestDocument) && purapService.isFullDocumentEntryCompleted(document)) {
@@ -719,21 +722,35 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             T lastAccount = null;
 
             for (T account : sourceAccountingLines) {
-                boolean amountSet = false;
-                
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
-                    if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                        BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                        account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
-                        amountSet = true;
-                    }
-                    if (ObjectUtils.isNotNull(account.getAmount()) && !amountSet) {
+                    if (ObjectUtils.isNotNull(account.getAmount())) {
                         KualiDecimal amt = account.getAmount();
                         KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
                         calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
                         account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
                     }
+
+                    if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                        BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+                        if (ObjectUtils.isNull(account.getAmount())) {
+                            account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
+                        }
+                    }
                 }
+                
+             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+             //       if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+             //           BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
+             //           account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
+             //           amountSet = true;
+             //       }
+            //        if (ObjectUtils.isNotNull(account.getAmount()) && !amountSet) {
+            //            KualiDecimal amt = account.getAmount();
+           //             KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
+          //              calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
+          //              account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
+          //          }
+          //      }
                 accountTotal = accountTotal.add(account.getAmount());
                 accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
                 lastAccount = account;

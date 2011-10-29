@@ -196,6 +196,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * Performs logic needed to initiate Requisition Document.
      */
     public void initiateDocument() {
+        this.setupAccountDistributionMethod();
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
@@ -715,6 +716,31 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.isBlanketApproveRequest = isBlanketApproveRequest;
     }
     
+    /**
+     * retrieves the system parameter value for account distribution method and determines
+     * if the drop-down box on the form should be read only or not.  Sets the default 
+     * value for account distribution method property on the document.
+     */
+    protected void setupAccountDistributionMethod() {
+        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
+        String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
+        
+        if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+            defaultDistributionMethodCode = defaultDistributionMethod;
+        }
+        else {
+            if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
+                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
+            }
+            else if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)){
+                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE;
+                }
+                else {
+                    new RuntimeException("Error in reading system parameter values for DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES");
+                }
+        }
+        setAccountDistributionMethod(defaultDistributionMethodCode);
+    }
     
 }
 

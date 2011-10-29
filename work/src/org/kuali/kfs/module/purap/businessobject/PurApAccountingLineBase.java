@@ -41,6 +41,14 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
     protected static final int BIG_DECIMAL_SCALE = 6;
 
+    /**
+     * Default constructor
+     */
+    public PurApAccountingLineBase() {
+        super();
+        setAmount(null);
+    }
+    
     public Integer getAccountIdentifier() {
         return accountIdentifier;
     }
@@ -62,7 +70,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
             return accountLinePercent = accountLinePercent.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
         }
         else {
-            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
+            return null;
         }
     }
 
@@ -82,12 +90,14 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      */
     public PurApAccountingLine createBlankAmountsCopy() {
         PurApAccountingLine newAccount = (PurApAccountingLine) ObjectUtils.deepCopy(this);
-        newAccount.setAccountLinePercent(BigDecimal.ZERO);
+   //     newAccount.setAccountLinePercent(BigDecimal.ZERO);
+   //     newAccount.setAmount(KualiDecimal.ZERO);
         newAccount.setSequenceNumber(0);
-        newAccount.setAmount(KualiDecimal.ZERO);
+        newAccount.setAccountLinePercent(null);
+        newAccount.setAmount(null);
+        
         return newAccount;
     }
-
 
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#accountStringsAreEqual(org.kuali.kfs.sys.businessobject.SourceAccountingLine)

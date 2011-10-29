@@ -117,36 +117,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * Default constructor to be overridden.
      */
     public PurchasingAccountsPayableDocumentBase() {
-        accountDistributionMethod = "P";
         items = new TypedArrayList(getItemClass());
     }
 
-    /**
-     * retrieves the system parameter value for account distribution method and determines
-     * if the drop-down box on the form should be read only or not.  Sets the default 
-     * value for account distribution method property on the document.
-     */
-    protected void setupAccountDistributionMethod() {
-        String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
-        String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
-        
-        if (PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod) || PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
-            defaultDistributionMethodCode = defaultDistributionMethod;
-        }
-        else {
-            if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_PROPORTIONAL_CODE.equalsIgnoreCase(defaultDistributionMethod)) {
-                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
-            }
-            else if (PurapConstants.AccountDistributionMethodCodes.BOTH_WITH_DEFAULT_SEQUENTIAL_CODE.equalsIgnoreCase(defaultDistributionMethod)){
-                defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE;
-                }
-                else {
-                    new RuntimeException("Error in reading system parameter values for DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES");
-                }
-        }
-        setAccountDistributionMethod(defaultDistributionMethodCode);
-    }
-    
     protected GeneralLedgerPendingEntry getFirstPendingGLEntry() {
         if (ObjectUtils.isNotNull(getGeneralLedgerPendingEntries()) && !getGeneralLedgerPendingEntries().isEmpty()) {
             return (GeneralLedgerPendingEntry)getGeneralLedgerPendingEntries().get(0);

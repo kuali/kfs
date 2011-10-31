@@ -366,9 +366,7 @@
       <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="37"/>
-    </property>
+	<property name="control" ref="GenericAmountControl"/>    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
   </bean>
   <bean id="CreditMemoAccount-accountIdentifier" parent="CreditMemoAccount-accountIdentifier-parentBean"/>

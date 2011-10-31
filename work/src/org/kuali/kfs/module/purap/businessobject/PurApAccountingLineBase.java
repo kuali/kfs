@@ -39,7 +39,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     
     private PurApItem purapItem;
 
-    protected static final int BIG_DECIMAL_SCALE = 6;
+    protected static final int BIG_DECIMAL_SCALE = 2;
 
     /**
      * Default constructor

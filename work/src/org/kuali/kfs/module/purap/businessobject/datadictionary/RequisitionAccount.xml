@@ -356,7 +356,7 @@
   </bean>
   <bean id="RequisitionAccount-accountLinePercent" parent="RequisitionAccount-accountLinePercent-parentBean"/>
 
-  <bean id="RequisitionAccount-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RequisitionAccount-accountLinePercent-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="accountLinePercent"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Account Line Percent"/>
@@ -366,9 +366,7 @@
       <ref bean="FloatingPointValidation" />
     </property>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="37"/>
-    </property>
+	<property name="control" ref="GenericAmountControl"/>    
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
   </bean>
   <bean id="RequisitionAccount-accountIdentifier" parent="RequisitionAccount-accountIdentifier-parentBean"/>

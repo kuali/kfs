@@ -67,7 +67,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     protected static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
     protected static final int SCALE = 340;
     protected static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
-    protected static final int BIG_DECIMAL_SCALE = 6;
+    protected static final int BIG_DECIMAL_SCALE = 2;
     
     // local constants
     protected static final Boolean ITEM_TYPES_INCLUDED_VALUE = Boolean.TRUE;;
@@ -738,19 +738,6 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     }
                 }
                 
-             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
-             //       if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-             //           BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-             //           account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
-             //           amountSet = true;
-             //       }
-            //        if (ObjectUtils.isNotNull(account.getAmount()) && !amountSet) {
-            //            KualiDecimal amt = account.getAmount();
-           //             KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
-          //              calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
-          //              account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(BIG_DECIMAL_SCALE));
-          //          }
-          //      }
                 accountTotal = accountTotal.add(account.getAmount());
                 accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
                 lastAccount = account;
@@ -767,9 +754,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-             //       account.setAccountLinePercent(BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BIG_DECIMAL_ROUNDING_MODE));
-             //   }
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    account.setAccountLinePercent(BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BIG_DECIMAL_ROUNDING_MODE));
+                }
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     account.setAmount(KualiDecimal.ZERO);
                 }

@@ -722,8 +722,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             T lastAccount = null;
 
             for (T account : sourceAccountingLines) {
-                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                    if (ObjectUtils.isNotNull(account.getAmount())) {
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+                    if (ObjectUtils.isNotNull(account.getAmount()) && account.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
                         KualiDecimal amt = account.getAmount();
                         KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
                         calculatedPercent = calculatedPercent.multiply(new KualiDecimal(100));
@@ -755,7 +755,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                    account.setAccountLinePercent(BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BIG_DECIMAL_ROUNDING_MODE));
+                    account.setAccountLinePercent(BigDecimal.ZERO);
                 }
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     account.setAmount(KualiDecimal.ZERO);

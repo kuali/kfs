@@ -31,13 +31,14 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     // private String documentNumber;
     private KualiDecimal itemAccountOutstandingEncumbranceAmount;
 
-    protected static final int BIG_DECIMAL_SCALE = 6;
+    protected static final int BIG_DECIMAL_SCALE = 2;
     
     /**
      * Default constructor.
      */
     public PurchaseOrderAccount() {
-
+        this.setAmount(null);
+        this.setAccountLinePercent(null);
     }
 
     public PurchaseOrderAccount(PurApAccountingLine ra) {
@@ -50,6 +51,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setProjectCode(ra.getProjectCode());
         this.setSubAccountNumber(ra.getSubAccountNumber());
         this.setSequenceNumber(ra.getSequenceNumber());
+        this.setAmount(null);
+        this.setAccountLinePercent(null);
     }
 
     /**

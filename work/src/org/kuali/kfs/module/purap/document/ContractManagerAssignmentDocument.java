@@ -98,6 +98,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
         }
   
         for (RequisitionDocument req : requisitionDocumentsFromDocService) {
+            req.setAccountDistributionMethod("S");
             contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, req));
         }
 

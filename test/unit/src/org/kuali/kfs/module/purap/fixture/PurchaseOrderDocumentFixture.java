@@ -418,6 +418,7 @@ public enum PurchaseOrderDocumentFixture {
      */
     public PurchaseOrderDocument createPurchaseOrderDocument() {
         PurchaseOrderDocument doc = purchasingDocumentFixture.createPurchaseOrderDocument(purapDocumentFixture);
+        doc.setAccountDistributionMethod("S"); //account distribution method is sequential
         doc.setPurchaseOrderCreateTimestamp(this.purchaseOrderCreateDate);
         doc.setRequisitionIdentifier(this.requisitionIdentifier);
         doc.setPurchaseOrderVendorChoiceCode(this.purchaseOrderVendorChoiceCode);

@@ -126,6 +126,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         List<ContractManagerAssignmentDetail> details = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID.getContractManagerAssignmentDetails();
         for (ContractManagerAssignmentDetail detail : details) {
             RequisitionDocument routedReq = routeRequisitionUntilAwaitingContractManager(detail.getRequisition());
+            routedReq.setAccountDistributionMethod("S");
             detail.setRequisitionIdentifier(routedReq.getPurapDocumentIdentifier());
             detail.refreshNonUpdateableReferences();
         }

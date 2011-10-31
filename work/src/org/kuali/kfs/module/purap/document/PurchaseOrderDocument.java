@@ -603,7 +603,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setPaymentRequestPositiveApprovalIndicator(requisitionDocument.isPaymentRequestPositiveApprovalIndicator());
 
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-
+        this.setAccountDistributionMethod(requisitionDocument.getAccountDistributionMethod());
         // Copy items from requisition (which will copy the item's accounts and capital assets)
         List<PurchaseOrderItem> items = new ArrayList();
         for (PurApItem reqItem : ((PurchasingAccountsPayableDocument)requisitionDocument).getItems()) {

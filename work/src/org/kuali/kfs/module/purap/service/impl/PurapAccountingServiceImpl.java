@@ -722,7 +722,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             T lastAccount = null;
 
             for (T account : sourceAccountingLines) {
-                if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     if (ObjectUtils.isNotNull(account.getAmount())) {
                         KualiDecimal amt = account.getAmount();
                         KualiDecimal calculatedPercent = new KualiDecimal(amt.divide(totalAmount).toString());
@@ -732,7 +732,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
                     if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                         BigDecimal pct = new BigDecimal(account.getAccountLinePercent().toString()).divide(new BigDecimal(100));
-                        if (ObjectUtils.isNull(account.getAmount())) {
+                        if (ObjectUtils.isNull(account.getAmount()) || account.getAmount().isZero()) {
                             account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
                         }
                     }

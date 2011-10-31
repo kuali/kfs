@@ -132,6 +132,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         }
         acmDocument = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_VALID.createContractManagerAssignmentDocument();
         for (ContractManagerAssignmentDetail detail : details) {
+            detail.getRequisition().setAccountDistributionMethod("S");
             detail.setContractManagerAssignmentDocument(acmDocument);
         }
         acmDocument.setContractManagerAssignmentDetailss(details);

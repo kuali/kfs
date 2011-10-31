@@ -31,6 +31,8 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
      * Default constructor.
      */
     public PaymentRequestAccount() {
+        this.setAmount(null);
+        this.setAccountLinePercent(null);
         this.setSequenceNumber(0);
     }
 

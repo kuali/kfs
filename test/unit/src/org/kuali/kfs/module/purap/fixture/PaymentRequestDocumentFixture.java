@@ -367,6 +367,7 @@ public enum PaymentRequestDocumentFixture {
         doc.setPostingYear(2008);
         //manually set bankCode for now
         doc.setBankCode("TEST");
+        doc.setAccountDistributionMethod("S");
         
         for (PaymentRequestItemFixture paymentRequestItemFixture : paymentRequestItemFixtures) {
             paymentRequestItemFixture.addTo(doc);

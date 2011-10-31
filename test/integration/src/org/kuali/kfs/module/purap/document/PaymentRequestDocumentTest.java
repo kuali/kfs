@@ -116,7 +116,9 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
+        purchaseOrderDocument.setAccountDistributionMethod("S");
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
+        paymentRequestDocument.setAccountDistributionMethod("S");
         AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);
     }
 
@@ -382,7 +384,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
             */
             po = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }
-
+        po.setAccountDistributionMethod("S");
         return po;
     }
 
@@ -518,7 +520,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // retrieve saved payment request
         final String preqDocId = preq.getDocumentNumber();
         preq = (PaymentRequestDocument) documentService.getByDocumentHeaderId(preqDocId);
-
+        preq.setAccountDistributionMethod("S");
         return preq;
     }
 

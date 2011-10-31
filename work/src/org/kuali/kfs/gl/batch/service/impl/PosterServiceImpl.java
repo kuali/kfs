@@ -901,7 +901,7 @@ public class PosterServiceImpl implements PosterService {
                 account.getFinancialIcrSeriesIdentifier());
         
         List<IndirectCostRecoveryAccountDistributionMetadata> icrAccountList = metadata.getAccountLists();
-        for (IndirectCostRecoveryAccount icr : account.getIndirectCostRecoveryAccounts()){
+        for (IndirectCostRecoveryAccount icr : account.getActiveIndirectCostRecoveryAccounts()){
             icrAccountList.add(new IndirectCostRecoveryAccountDistributionMetadata(icr));
         }
 

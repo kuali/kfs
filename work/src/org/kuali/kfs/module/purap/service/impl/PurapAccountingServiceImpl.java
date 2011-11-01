@@ -738,8 +738,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     }
                 }
                 
-                accountTotal = accountTotal.add(account.getAmount());
-                accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
+                if (ObjectUtils.isNotNull(account.getAmount())) {
+                    accountTotal = accountTotal.add(account.getAmount());
+                }
+                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                    accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
+                }
+                
                 lastAccount = account;
             }
 
@@ -754,9 +759,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-                if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
-                    account.setAccountLinePercent(BigDecimal.ZERO);
-                }
+             //   if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+             //       account.setAccountLinePercent(BigDecimal.ZERO);
+             //   }
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     account.setAmount(KualiDecimal.ZERO);
                 }

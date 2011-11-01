@@ -679,6 +679,7 @@ public enum RequisitionDocumentFixture {
             requisitionItemFixture.addTo(doc);
         }
         doc.fixItemReferences();
+        doc.setAccountDistributionMethod("S");
         return doc;
     }
 

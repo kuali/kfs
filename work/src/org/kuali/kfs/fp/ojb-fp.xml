@@ -973,10 +973,16 @@
     <field-descriptor name="financialDocumentAdvanceDepositDescription" column="FDOC_ADV_DPST_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentAdvanceDepositAmount" column="FDOC_ADV_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" />
+    <!-- NOTE
+     * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
+     * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.
+     * Research has been done to confirm that this reference is not currently used anywhere in KFS; and if any institution intends to use it
+     * somehow, they can put it back, and meanwhile, uncomment the overriden method AdvanceDepositAction.copy, which populates the referenced
+     * document properly (or even better, move the logic into AdvanceDepositAction.execute).        
     <reference-descriptor name="advanceDepositDocument" class-ref="org.kuali.kfs.fp.document.AdvanceDepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-
+	-->
     <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="financialDocumentBankCode" />
     </reference-descriptor>

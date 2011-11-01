@@ -59,11 +59,15 @@ public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
         return super.execute(mapping, form, request, response);
     }
 
+    /* NOTE
+     * The following method was originally added to fix the NPE caused by the reference to AdvanceDepositDocument inside AdvanceDepositDetail. 
+     * Now it's commented out as we are fixing the NPE in a better way, by removing the nested reference to AdvanceDepositDocument, 
+     * which is not used anymore.
+     */
     /**
      * Overridden to ensure that the nested AdvanceDepositDocuments in AdvanceDepositDetails are populated.
-     *  
      * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
+     *
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AdvanceDepositForm adForm = (AdvanceDepositForm) form;
@@ -76,12 +80,13 @@ public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
             if (ObjectUtils.isNull(nestAdDoc)) {
                 nestAdDoc = null;
             }
-            */
+            *
             // need to populate the referred document, otherwise there will be NPE when copying
             advanceDeposit.setAdvanceDepositDocument(adDoc);
         }
         return super.copy(mapping, form, request, response);
     }
+    */
     
     /**
      * Adds a AdvanceDepositDetail instance created from the current "new advanceDeposit" line to the document

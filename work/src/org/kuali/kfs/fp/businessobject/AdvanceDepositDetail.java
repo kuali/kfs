@@ -41,7 +41,15 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentAdvanceDepositAmount;
     private String financialDocumentBankCode;
 
-    private AdvanceDepositDocument advanceDepositDocument;
+    /* NOTE
+     * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
+     * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.
+     * Research has been done to confirm that this reference is not currently used anywhere in KFS; and if any institution intends to use it
+     * somehow, they can put it back, and meanwhile, uncomment the overriden method AdvanceDepositAction.copy, which populates the referenced
+     * document properly (or even better, move the logic into AdvanceDepositAction.execute).
+     */
+    //private AdvanceDepositDocument advanceDepositDocument;
+    
     private Bank bank;
 
     /**
@@ -210,20 +218,27 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
         this.financialDocumentBankCode = financialDocumentBankCode;
     }
 
+    /* NOTE
+     * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
+     * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.
+     * Research has been done to confirm that this reference is not currently used anywhere in KFS; and if any institution intends to use it
+     * somehow, they can put it back, and meanwhile, uncomment the overriden method AdvanceDepositAction.copy, which populates the referenced
+     * document properly (or even better, move the logic into AdvanceDepositAction.execute).
+     */
     /**
      * @return AdvanceDepositDocument
-     */
+     *
     public AdvanceDepositDocument getAdvanceDepositDocument() {
         return advanceDepositDocument;
     }
-
     /**
      * @param advanceDepositDocument
-     */
+     *
     public void setAdvanceDepositDocument(AdvanceDepositDocument advanceDepositDocument) {
         this.advanceDepositDocument = advanceDepositDocument;
     }
-
+    */
+    
     /**
      * @return Bank
      */

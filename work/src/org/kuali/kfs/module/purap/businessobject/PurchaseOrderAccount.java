@@ -37,8 +37,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      * Default constructor.
      */
     public PurchaseOrderAccount() {
-        this.setAmount(null);
-        this.setAccountLinePercent(null);
+     //   this.setAmount(null);
+     //   this.setAccountLinePercent(null);
     }
 
     public PurchaseOrderAccount(PurApAccountingLine ra) {
@@ -51,8 +51,8 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.setProjectCode(ra.getProjectCode());
         this.setSubAccountNumber(ra.getSubAccountNumber());
         this.setSequenceNumber(ra.getSequenceNumber());
-        this.setAmount(null);
-        this.setAccountLinePercent(null);
+     //   this.setAmount(null);
+      //  this.setAccountLinePercent(null);
     }
 
     /**

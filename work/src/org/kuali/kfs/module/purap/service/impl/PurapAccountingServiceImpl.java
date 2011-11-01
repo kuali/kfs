@@ -135,10 +135,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         BigDecimal percentTotal = BigDecimal.ZERO;
         BigDecimal totalAmountBigDecimal = totalAmount.bigDecimalValue();
         for (SourceAccountingLine accountingLine : accounts) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + totalAmountBigDecimal);
+            KualiDecimal amt = KualiDecimal.ZERO;
+            if (ObjectUtils.isNotNull(accountingLine.getAmount())) {
+                amt = accountingLine.getAmount();
             }
-            BigDecimal pct = accountingLine.getAmount().bigDecimalValue().divide(totalAmountBigDecimal, percentScale, BIG_DECIMAL_ROUNDING_MODE);
+            
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + amt + "/" + totalAmountBigDecimal);
+            }
+            BigDecimal pct = amt.bigDecimalValue().divide(totalAmountBigDecimal, percentScale, BIG_DECIMAL_ROUNDING_MODE);
             pct = pct.stripTrailingZeros().multiply(ONE_HUNDRED);
 
             if (LOG.isDebugEnabled()) {
@@ -196,10 +201,16 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             int currentNbr = newAccounts.size() - 1;
             while (currentNbr >= 0) {
                 PurApAccountingLine potentialSlushAccount = (PurApAccountingLine) newAccounts.get(currentNbr);
-                if ((difference.compareTo(potentialSlushAccount.getAccountLinePercent())) < 0) {
+
+                BigDecimal linePercent = BigDecimal.ZERO;
+                if (ObjectUtils.isNotNull(potentialSlushAccount.getAccountLinePercent())) {
+                    linePercent = potentialSlushAccount.getAccountLinePercent();
+                }
+                
+                if ((difference.compareTo(linePercent)) < 0) {
                     // the difference amount is less than the current accounts percent... use this account
                     // the 'potentialSlushAccount' technically is now the true 'Slush Account'
-                    potentialSlushAccount.setAccountLinePercent(potentialSlushAccount.getAccountLinePercent().subtract(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
+                    potentialSlushAccount.setAccountLinePercent(linePercent.subtract(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
                     foundAccountToUse = true;
                     break;
                 }
@@ -225,7 +236,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 LOG.debug(methodName + " Rounding down by " + difference);
             }
             PurApAccountingLine slushAccount = (PurApAccountingLine) newAccounts.get(newAccounts.size() - 1);
-            slushAccount.setAccountLinePercent(slushAccount.getAccountLinePercent().add(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
+            
+            BigDecimal slushLinePercent = BigDecimal.ZERO;
+            if (ObjectUtils.isNotNull(slushAccount.getAccountLinePercent())) {
+                slushLinePercent = slushAccount.getAccountLinePercent();
+            }
+
+            slushAccount.setAccountLinePercent(slushLinePercent.add(difference).movePointLeft(2).stripTrailingZeros().movePointRight(2));
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug(methodName + " ended");
@@ -248,7 +265,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         // find the total percent and strip trailing zeros
         BigDecimal totalPercentValue = BigDecimal.ZERO;
         for (PurApAccountingLine accountingLine : accounts) {
-            totalPercentValue = totalPercentValue.add(accountingLine.getAccountLinePercent()).movePointLeft(2).stripTrailingZeros().movePointRight(2);
+            BigDecimal linePercent = BigDecimal.ZERO;
+            if (ObjectUtils.isNotNull(accountingLine.getAccountLinePercent())) {
+                linePercent = accountingLine.getAccountLinePercent();
+            }
+            
+            totalPercentValue = totalPercentValue.add(linePercent).movePointLeft(2).stripTrailingZeros().movePointRight(2);
         }
 
         if ((BigDecimal.ZERO.compareTo(totalPercentValue.remainder(ONE_HUNDRED))) != 0) {
@@ -263,12 +285,22 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         for (PurApAccountingLine accountingLine : accounts) {
             i++;
             BigDecimal percentToUse = BigDecimal.ZERO;
+            KualiDecimal amt = KualiDecimal.ZERO;
+            
+            if (ObjectUtils.isNotNull(accountingLine.getAmount())) {
+                amt = accountingLine.getAmount();   
+            }
+            
             if (LOG.isDebugEnabled()) {
-                LOG.debug(methodName + " " + accountingLine.getChartOfAccountsCode() + "-" + accountingLine.getAccountNumber() + " " + accountingLine.getAmount() + "/" + percentToUse);
+                LOG.debug(methodName + " " + accountingLine.getChartOfAccountsCode() + "-" + accountingLine.getAccountNumber() + " " + amt + "/" + percentToUse);
             }
 
             // if it's the last account make up the leftover percent
-            BigDecimal acctPercent = accountingLine.getAccountLinePercent();
+            BigDecimal acctPercent = BigDecimal.ZERO;
+            if (ObjectUtils.isNotNull(accountingLine.getAccountLinePercent())) {
+                acctPercent = accountingLine.getAccountLinePercent();   
+            }
+            
             if ((i != accountListSize) || (accountListSize == 1)) {
                 // this account is not the last account or there is only one account
                 percentToUse = (acctPercent.divide(totalPercentValue, SCALE, BIG_DECIMAL_ROUNDING_MODE)).multiply(ONE_HUNDRED);
@@ -283,7 +315,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(methodName + " pct = " + percentToUse);
             }
-            newAccountingLine.setAccountLinePercent(percentToUse.setScale(accountingLine.getAccountLinePercent().scale(), BIG_DECIMAL_ROUNDING_MODE));
+            newAccountingLine.setAccountLinePercent(percentToUse.setScale(acctPercent.scale(), BIG_DECIMAL_ROUNDING_MODE));
             if (LOG.isDebugEnabled()) {
                 LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
             }
@@ -380,8 +412,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         // be displayed in the Account Summary tab. If it's not null then
                         // we'll set the estimatedEncumberanceAmount and add the item to the
                         // summaryAccount list to be displayed in the Account Summary tab.
+                        KualiDecimal amt = KualiDecimal.ZERO;
+                        if (ObjectUtils.isNotNull(purApAccountingLine.getAmount())) {
+                            amt = purApAccountingLine.getAmount();
+                        }
                         if (summaryItem != null) {
-                            summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
+                            summaryItem.setEstimatedEncumberanceAmount(amt);
                             summaryAccount.getItems().add(summaryItem);
                             break;
                         }
@@ -561,7 +597,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         total = total.add(account.getAlternateAmountForGLEntryCreation());
                     }
                     else {
-                        total = total.add(account.getAmount());
+                        if (ObjectUtils.isNotNull(account.getAmount())) {
+                            total = total.add(account.getAmount());
+                        }
                     }
 
                     accountMap.put(account, total);
@@ -751,9 +789,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             // put excess on last account
             if (lastAccount != null) {
                 KualiDecimal difference = totalAmount.subtract(accountTotal);
-                lastAccount.setAmount(lastAccount.getAmount().add(difference));
+                if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
+                    lastAccount.setAmount(lastAccount.getAmount().add(difference));
+                }
                 BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
-                lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
+                if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
+                    lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
+                }
             }
         }
         else {
@@ -777,9 +819,19 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     boolean thisAccountAlreadyInSet = false;
                     for (Iterator iter = accounts.iterator(); iter.hasNext();) {
                         PurApAccountingLine alreadyAddedAccount = (PurApAccountingLine) iter.next();
+                        
+                        
                         if (alreadyAddedAccount.accountStringsAreEqual(account)) {
-
-                            alreadyAddedAccount.setAccountLinePercent(alreadyAddedAccount.getAccountLinePercent().add(account.getAccountLinePercent()));
+                            BigDecimal alreadyAddedAccountLinePercent = BigDecimal.ZERO;
+                            if (ObjectUtils.isNotNull(alreadyAddedAccount.getAccountLinePercent())) {
+                                alreadyAddedAccountLinePercent = alreadyAddedAccount.getAccountLinePercent();
+                            }
+                            BigDecimal accountLinePercent = BigDecimal.ZERO;
+                            if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
+                                accountLinePercent = account.getAccountLinePercent();
+                            }
+                                
+                            alreadyAddedAccount.setAccountLinePercent(alreadyAddedAccountLinePercent.add(accountLinePercent));
 
                             thisAccountAlreadyInSet = true;
                             break;
@@ -821,8 +873,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
                     // account.getAmount returns the wrong value for trade in source accounting lines...
                     KualiDecimal accountAmount = KualiDecimal.ZERO;
-
-                    accountAmount = account.getAmount();
+                    if (ObjectUtils.isNotNull(account.getAmount())) {
+                        accountAmount = account.getAmount();
+                    }
 
                     BigDecimal tmpPercent = BigDecimal.ZERO;
                     KualiDecimal extendedPrice = item.getTotalAmount();
@@ -909,11 +962,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     protected KualiDecimal calculateSumTotal(List<SourceAccountingLine> accounts) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (SourceAccountingLine accountingLine : accounts) {
-            total = total.add(accountingLine.getAmount());
+            KualiDecimal amt = KualiDecimal.ZERO;
+            if (ObjectUtils.isNotNull(accountingLine.getAmount())) {
+                amt = accountingLine.getAmount();
+            }
+            total = total.add(amt);
         }
         return total;
     }
-
 
     /**
      * Replaces amount field with prorated tax amount in list
@@ -933,7 +989,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         int last = accounts.size() - 1;
         for (int i = 0; i < last; i++) {
             purApAccountingLine = accounts.get(i);
-            proratedAmtBD = useTax.bigDecimalValue().multiply(purApAccountingLine.getAccountLinePercent());
+            BigDecimal linePercent = BigDecimal.ZERO;
+            if (ObjectUtils.isNotNull(purApAccountingLine.getAccountLinePercent())) {
+                linePercent = purApAccountingLine.getAccountLinePercent();
+            }
+            
+            proratedAmtBD = useTax.bigDecimalValue().multiply(linePercent);
             // last object takes the rest of the amount
             // proratedAmt = (accounts.indexOf(purApAccountingLine) == last) ? useTax.subtract(total) : proratedAmt.divide(HUNDRED);
             proratedAmtBD = proratedAmtBD.divide(HUNDRED);
@@ -1069,12 +1130,21 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         List<SourceAccountingLine> mergedAccountList = new ArrayList();
 
         for (SourceAccountingLine line1 : accountingLines1) {
-
+            KualiDecimal line1Amount = KualiDecimal.ZERO;
+            if (ObjectUtils.isNotNull(line1.getAmount())) {
+                line1Amount = line1.getAmount();
+            }
+            
             for (SourceAccountingLine line2 : accountingLines2) {
+                KualiDecimal line2Amount = KualiDecimal.ZERO;
+                if (ObjectUtils.isNotNull(line2.getAmount())) {
+                    line2Amount = line2.getAmount();
+                }
+                
                 // if we find a match between lists, then merge amounts
                 if (line1.equals(line2)) {
                     // add the two amounts
-                    totalAmount = line1.getAmount().add(line2.getAmount());
+                    totalAmount = line1Amount.add(line2Amount);
                     line1.setAmount(totalAmount);
                 }
             }

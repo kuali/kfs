@@ -143,7 +143,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(requisitionDocument.getDocumentNumber());
         RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
-        
+        account.setAccountLinePercent(new BigDecimal(100.00));
         accounts.remove(0);
         accounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
         

@@ -145,7 +145,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
         
         accounts.remove(0);
-        accounts.get(0).setAccountLinePercent(new BigDecimal("100"));
+        accounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
         
         AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }

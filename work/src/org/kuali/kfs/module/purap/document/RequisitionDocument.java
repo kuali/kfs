@@ -721,7 +721,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * if the drop-down box on the form should be read only or not.  Sets the default 
      * value for account distribution method property on the document.
      */
-    protected void setupAccountDistributionMethod() {
+    public void setupAccountDistributionMethod() {
         String defaultDistributionMethod = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.DISTRIBUTION_METHOD_FOR_ACCOUNTING_LINES);
         String defaultDistributionMethodCode = PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE;
         

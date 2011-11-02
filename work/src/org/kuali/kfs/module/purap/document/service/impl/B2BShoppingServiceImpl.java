@@ -139,6 +139,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             // create requisition
             RequisitionDocument req = (RequisitionDocument) documentService.getNewDocument(PurapConstants.REQUISITION_DOCUMENT_TYPE);
 
+            req.setupAccountDistributionMethod();
             // set b2b contract for vendor
             VendorContract contract = vendorService.getVendorB2BContract(vendor, user.getCampusCode());
             if (ObjectUtils.isNotNull(contract)) {

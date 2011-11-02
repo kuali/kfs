@@ -117,7 +117,6 @@ public class B2BShoppingServiceTest extends KualiTestBase {
             fail(e.getMessage());
         }        
         
-        req.setAccountDistributionMethod("S");
         return req;
     }    
     

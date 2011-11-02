@@ -37,7 +37,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      * Default constructor.
      */
     public PurchaseOrderAccount() {
-     //   this.setAmount(null);
+     //   this.setAmount(KualiDecimal.ZERO);
      //   this.setAccountLinePercent(null);
     }
 

@@ -431,7 +431,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
 
     public List<PurApItem> getItems();
 
-    public void setItems(List<PurApItem> items);
+    public void setItems(List items);
 
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getItem(int)

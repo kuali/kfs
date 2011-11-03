@@ -19,8 +19,10 @@
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<pathelement location="build/ant-contrib-1.0b3.jar" />
-			<pathelement location="build/bcel-5.2.jar" />
+	        <fileset dir="build">
+	            <include name="ant-contrib*.jar" />
+	            <include name="bcel*.jar" />
+	        </fileset>
 		</classpath>
 	</taskdef>    	
 
@@ -30,7 +32,9 @@
         <fileset dir="${cobertura.dir}">
             <include name="*.jar" />
         </fileset>
-        <pathelement location="build/log4j-1.2.16.jar" />
+        <fileset dir="build">
+            <include name="log4j*.jar" />
+        </fileset>
     </path>
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />

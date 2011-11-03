@@ -320,14 +320,14 @@ public class CashReceiptServiceImpl implements CashReceiptService {
                 isInvalid = true;
             }
             else {
-                int precount = GlobalVariables.getMessageMap().size();
+                int precount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
 
                 getDictionaryValidationService().validateDocumentAttribute(cashReceiptDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
                 // replace generic error message, if any, with something more readable
                 GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
-                int postcount = GlobalVariables.getMessageMap().size();
+                int postcount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
                 isInvalid = (postcount > precount);
             }
         }

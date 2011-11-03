@@ -77,7 +77,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         boolean isAuthorized = form.isAllowElectronicFundsTransferAdministration();
         if (isAuthorized) {
             claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
-            if (GlobalVariables.getMessageMap().size() > 0) {
+            if (GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors() > 0) {
                 // if there were any errors, we'll need to redirect to the page again
                 return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
             }

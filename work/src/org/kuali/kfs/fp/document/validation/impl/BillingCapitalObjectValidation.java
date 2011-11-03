@@ -46,7 +46,7 @@ public class BillingCapitalObjectValidation extends GenericValidation {
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(accountingLineForValidation);
         
         // Don't bother running other validations if the accounting line isn't valid
-        if(GlobalVariables.getMessageMap().size() < 1) {
+        if(GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors() < 1) {
             if (accountingLineForValidation.isSourceAccountingLine() && isCapitalObject(accountingLineForValidation)) {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
                 result = false;

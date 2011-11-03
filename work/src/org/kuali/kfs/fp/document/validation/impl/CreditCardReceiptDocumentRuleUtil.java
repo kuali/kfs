@@ -114,7 +114,7 @@ public class CreditCardReceiptDocumentRuleUtil {
             isInvalid = true;
         }
         else {
-            int precount = GlobalVariables.getMessageMap().size();
+            int precount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
 
             DictionaryValidationService dvs = SpringContext.getBean(DictionaryValidationService.class);
             dvs.validateDocumentAttribute(ccrDocument, propertyName, DOCUMENT_ERROR_PREFIX);
@@ -122,7 +122,7 @@ public class CreditCardReceiptDocumentRuleUtil {
             // replace generic error message, if any, with something more readable
             GlobalVariables.getMessageMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
-            int postcount = GlobalVariables.getMessageMap().size();
+            int postcount = GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors();
             isInvalid = (postcount > precount);
         }
 

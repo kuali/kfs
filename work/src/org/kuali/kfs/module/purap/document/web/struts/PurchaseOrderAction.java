@@ -777,7 +777,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 baosPDF.reset();
             }
         }
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = ((PurchaseOrderForm) form).getDocId();
         String methodToCallPrintPurchaseOrderPDF = "printPurchaseOrderPDFOnly";
         String methodToCallDocHandler = "docHandler";
@@ -943,7 +943,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String methodToCallPrintPurchaseOrderPDF = "printPoQuoteListOnly";
         String methodToCallDocHandler = "docHandler";
         String printPOQuoteListPDFUrl = getUrlForPrintPO(basePath, poDocId, methodToCallPrintPurchaseOrderPDF);
@@ -1042,10 +1042,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else if (PurapConstants.QuoteTransmitTypes.FAX.equals(vendorQuote.getPurchaseOrderQuoteTransmitTypeCode())) {
             // call fax service
-            GlobalVariables.getMessageMap().clear();
+            GlobalVariables.getMessageMap().clearErrorMessages();
             FaxService faxService = SpringContext.getBean(FaxService.class);
             faxService.faxPurchaseOrderPdf(po, false);
-            if (GlobalVariables.getMessageMap().size() == 0) {
+            if (GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
             }
@@ -1175,7 +1175,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 baosPDF.reset();
             }
         }
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = ((PurchaseOrderForm) form).getDocId();
         String methodToCallPrintPurchaseOrderPDF = "printPurchaseOrderPDFOnly";
         String methodToCallDocHandler = "docHandler";
@@ -1202,7 +1202,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = ((PurchaseOrderForm) form).getPurchaseOrderDocument().getDocumentNumber();
         String methodToCallPrintRetransmitPurchaseOrderPDF = "printingRetransmitPoOnly";
         String methodToCallDocHandler = "docHandler";
@@ -1948,7 +1948,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();        
         
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String methodToCallDocHandler = "docHandler";
         String methodToCallReceivingLine = "initiate";
                         
@@ -1956,7 +1956,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
         parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "RCVL");        
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, KFSConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING);        
         parameters.put("purchaseOrderId", document.getPurapDocumentIdentifier().toString() );
         
         //create url

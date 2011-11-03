@@ -157,6 +157,7 @@ public class PdpKeyConstants {
             public static final String CANCEL_PAYMENT = "paymentLookup.cancelPayment.text";
             public static final String HOLD_PAYMENT = "paymentLookup.holdPayment.text";
             public static final String REMOVE_PAYMENT_HOLD = "paymentLookup.removePaymentHold.text";
+            public static final String REMOVE_HTXN_HOLD = "paymentLookup.removeHtxnHold.text";
             public static final String REMOVE_IMMEDIATE_PRINT = "paymentLookup.removeImmediatePrint.text";
             public static final String SET_IMMEDIATE_PRINT = "paymentLookup.setImmediatePrint.text";
             public static final String CANCEL_DISBURSEMENT = "paymentLookup.cancelDisbursement.text";

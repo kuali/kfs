@@ -27,13 +27,6 @@ import org.kuali.kfs.gl.businessobject.GlSummary;
  * An interface which declares methods needed for using Balance
  */
 public interface BalanceService {
-    /**
-     * Save. Like. OK. You know. Save a balance? You know? That's what this method should do. Yeah. It should save a balance. In the
-     * DB and stuff.
-     * 
-     * @param b the balance to, like, totally save
-     */
-    public void save(Balance b);
 
     /**
      * This method...

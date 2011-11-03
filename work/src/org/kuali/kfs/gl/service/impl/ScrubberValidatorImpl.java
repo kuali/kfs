@@ -18,7 +18,9 @@ package org.kuali.kfs.gl.service.impl;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,21 +72,22 @@ import org.springframework.util.StringUtils;
 
 @NonTransactional
 public class ScrubberValidatorImpl implements ScrubberValidator {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
 
-    private KualiConfigurationService kualiConfigurationService;
-    private ParameterService parameterService;
-    private PersistenceService persistenceService;
-    private UniversityDateDao universityDateDao;
-    private AccountService accountService;
-    private OriginationCodeService originationCodeService;
-    private PersistenceStructureService persistenceStructureService;
-    private BalanceTypeService balanceTypService;
-    private boolean continuationAccountIndicator;
+    protected KualiConfigurationService kualiConfigurationService;
+    protected ParameterService parameterService;
+    protected PersistenceService persistenceService;
+    protected UniversityDateDao universityDateDao;
+    protected AccountService accountService;
+    protected OriginationCodeService originationCodeService;
+    protected PersistenceStructureService persistenceStructureService;
+    protected BalanceTypeService balanceTypService;
+    protected boolean continuationAccountIndicator;
     
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
-    protected static String[] debitOrCredit = new String[] { KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE };
+    protected static final Collection<String> debitOrCredit = Arrays.asList( KFSConstants.GL_DEBIT_CODE, KFSConstants.GL_CREDIT_CODE );
+    protected static final Collection<String> continuationAccountBypassBalanceTypeCodes = Arrays.asList( "EX","IE","PE" );
 
     private static int count = 0;
 
@@ -100,12 +103,14 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         UniversityDate today = null;
 
         if (entry.getUniversityFiscalYear() == null) {
+            // FIXME! - date service should be injected
             today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
             entry.setUniversityFiscalYear(today.getUniversityFiscalYear());
         }
 
         if (entry.getUniversityFiscalPeriodCode() == null) {
             if (today == null) {
+                // FIXME! - date service should be injected
                 today = SpringContext.getBean(UniversityDateService.class).getCurrentUniversityDate();
             }
             entry.setUniversityFiscalPeriodCode(today.getUniversityFiscalAccountingPeriod());
@@ -317,17 +322,19 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             return null;
         }
 
-        String[] continuationAccountBypassOriginationCodes = parameterService.getParameterValues(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES).toArray(new String[] {});
-
-        String [] continuationAccountBypassBalanceTypeCodes = {"EX","IE","PE"};
-        String[] continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES).toArray(new String[] {});
+        Collection<String> continuationAccountBypassOriginationCodes = parameterService.getParameterValues(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_ORIGINATION_CODES);
+        Collection<String> continuationAccountBypassDocumentTypeCodes = parameterService.getParameterValues(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CONTINUATION_ACCOUNT_BYPASS_DOCUMENT_TYPE_CODES);
 
         // Has an expiration date or is closed
-        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode())) && !originEntryAccount.isActive()) {
+        if ((continuationAccountBypassOriginationCodes.contains( originEntry.getFinancialSystemOriginationCode())) 
+                && !originEntryAccount.isActive()) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT, originEntryAccount.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber(), Message.TYPE_FATAL);
         }
 
-        if ((ArrayUtils.contains(continuationAccountBypassOriginationCodes, originEntry.getFinancialSystemOriginationCode()) || ArrayUtils.contains(continuationAccountBypassBalanceTypeCodes, originEntry.getFinancialBalanceTypeCode()) || ArrayUtils.contains(continuationAccountBypassDocumentTypeCodes, originEntry.getFinancialDocumentTypeCode().trim())) && originEntryAccount.isActive()) {
+        if ((continuationAccountBypassOriginationCodes.contains( originEntry.getFinancialSystemOriginationCode()) 
+                || continuationAccountBypassBalanceTypeCodes.contains( originEntry.getFinancialBalanceTypeCode()) 
+                || continuationAccountBypassDocumentTypeCodes.contains( originEntry.getFinancialDocumentTypeCode().trim())) 
+                && originEntryAccount.isActive()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             return null;
         }
@@ -1087,7 +1094,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if (StringHelper.isEmpty(originEntry.getTransactionDebitCreditCode())) {
                 return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DEBIT_CREDIT_INDICATOR_NEITHER_D_NOR_C, originEntry.getTransactionDebitCreditCode(), Message.TYPE_FATAL);
             }
-            if (ObjectHelper.isOneOf(originEntry.getTransactionDebitCreditCode(), debitOrCredit)) {
+            if ( debitOrCredit.contains(originEntry.getTransactionDebitCreditCode()) ) {
                 workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
             }
             else {

@@ -54,7 +54,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BalanceServiceImpl implements BalanceService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
 
     protected static final String PARAMETER_PREFIX = "SELECTION_";
 
@@ -66,21 +66,11 @@ public class BalanceServiceImpl implements BalanceService {
     protected BalanceTypeService balanceTypService;
     // must have no asset, liability or fund balance balances other than object code 9899
 
-    String[] assetLiabilityFundBalanceObjectTypeCodes = null;
-    String[] encumbranceBaseBudgetBalanceTypeCodes = null;
-    String[] actualBalanceCodes = null;
-    String[] incomeObjectTypeCodes = null;
-    String[] expenseObjectTypeCodes = null;
-
-    /**
-     * Turns an array of Strings into a List of Strings
-     * 
-     * @param s an array of Strings
-     * @return an implementation of Collection (a List) of Strings
-     */
-    protected Collection wrap(String[] s) {
-        return Arrays.asList(s);
-    }
+    Collection<String> assetLiabilityFundBalanceObjectTypeCodes = null;
+    Collection<String> encumbranceBaseBudgetBalanceTypeCodes = null;
+    Collection<String> actualBalanceCodes = null;
+    Collection<String> incomeObjectTypeCodes = null;
+    Collection<String> expenseObjectTypeCodes = null;
 
     /**
      * @param universityFiscalYear the fiscal year to find balances for
@@ -109,8 +99,6 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.kfs.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
-
-
         return (Iterator<Balance>) balanceDao.findBalancesForFiscalYear(fiscalYear);
     }
 
@@ -131,10 +119,11 @@ public class BalanceServiceImpl implements BalanceService {
          * entries (1 pos and 1 neg) from canceling each other out and allowing the acct to be closed when it shouldn't be.
          */
 
+        // FIXME! - date service should be injected
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ArrayList fundBalanceObjectCodes = new ArrayList();
         fundBalanceObjectCodes.add(null == account.getChartOfAccounts() ? null : account.getChartOfAccounts().getFundBalanceObjectCode());
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, wrap(getAssetLiabilityFundBalanceBalanceTypeCodes()), wrap(getActualBalanceCodes()));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, fundBalanceObjectCodes, getAssetLiabilityFundBalanceBalanceTypeCodes(), getActualBalanceCodes());
 
         KualiDecimal begin;
         KualiDecimal annual;
@@ -217,11 +206,12 @@ public class BalanceServiceImpl implements BalanceService {
          * @return
          */
 
+        // FIXME! - date service should be injected
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
         ArrayList fundBalanceObjectCodes = new ArrayList();
         fundBalanceObjectCodes.add(account.getChartOfAccounts().getFundBalanceObjectCode());
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, fundBalanceObjectCodes, null, wrap(getIncomeObjectTypeCodes()), wrap(getActualBalanceCodes()));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, fundBalanceObjectCodes, null, getIncomeObjectTypeCodes(), getActualBalanceCodes());
 
         return sumBalances(balances);
 
@@ -240,8 +230,9 @@ public class BalanceServiceImpl implements BalanceService {
          * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC'; This method...
          */
 
+        // FIXME! - date service should be injected
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(getExpenseObjectTypeCodes()), wrap(getActualBalanceCodes()));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, getExpenseObjectTypeCodes(), getActualBalanceCodes());
 
         return sumBalances(balances);
 
@@ -279,8 +270,9 @@ public class BalanceServiceImpl implements BalanceService {
          * SQL%ROWCOUNT;
          */
 
+        // FIXME! - date service should be injected
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(getEncumbranceBaseBudgetBalanceTypeCodes()));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, getEncumbranceBaseBudgetBalanceTypeCodes());
 
         return sumBalances(balances).isNonZero();
     }
@@ -306,16 +298,6 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public boolean hasAssetLiabilityOrFundBalance(Account account) {
         return hasAssetLiabilityFundBalanceBalances(account) || !fundBalanceWillNetToZero(account) || hasEncumbrancesOrBaseBudgets(account);
-    }
-
-    /**
-     * Saves the balance in a no-nonsense, straight away, three piece suit sort of way
-     * 
-     * @param b the balance to save
-     * @see org.kuali.kfs.gl.service.BalanceService#save(org.kuali.kfs.gl.businessobject.Balance)
-     */
-    public void save(Balance b) {
-        SpringContext.getBean(BusinessObjectService.class).save(b);
     }
 
     public void setBalanceDao(BalanceDao balanceDao) {
@@ -418,30 +400,30 @@ public class BalanceServiceImpl implements BalanceService {
         LOG.debug("loadConstantsFromOptions() started");
         SystemOptions options = optionsService.getCurrentYearOptions();
         // String[] actualBalanceCodes = new String[] { "AC" };
-        actualBalanceCodes = new String[] { options.getActualFinancialBalanceTypeCd() }; // AC
+        actualBalanceCodes = Arrays.asList( options.getActualFinancialBalanceTypeCd() ); // AC
         // String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
-        incomeObjectTypeCodes = new String[] { options.getFinObjTypeIncomeNotCashCd(), // IC
+        incomeObjectTypeCodes = Arrays.asList( options.getFinObjTypeIncomeNotCashCd(), // IC
                 options.getFinObjectTypeIncomecashCode(), // IN
                 options.getFinObjTypeCshNotIncomeCd(), // CH
                 options.getFinancialObjectTypeTransferIncomeCd() // TI
-        };
+        );
         // String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
-        expenseObjectTypeCodes = new String[] { options.getFinObjTypeExpendNotExpCode(), // EE?
+        expenseObjectTypeCodes = Arrays.asList( options.getFinObjTypeExpendNotExpCode(), // EE?
                 options.getFinObjTypeExpenditureexpCd(), // ES
                 options.getFinObjTypeExpNotExpendCode(), // EX?
                 options.getFinancialObjectTypeTransferExpenseCd() // TE
-        };
+        );
         // String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
-        assetLiabilityFundBalanceObjectTypeCodes = new String[] { options.getFinancialObjectTypeAssetsCd(), // AS
+        assetLiabilityFundBalanceObjectTypeCodes = Arrays.asList( options.getFinancialObjectTypeAssetsCd(), // AS
                 options.getFinObjectTypeLiabilitiesCode(), // LI
                 options.getFinObjectTypeFundBalanceCd() // FB
-        };
+        );
         // String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE", "BB" };
-        encumbranceBaseBudgetBalanceTypeCodes = new String[] { options.getExtrnlEncumFinBalanceTypCd(), // EX
+        encumbranceBaseBudgetBalanceTypeCodes = Arrays.asList( options.getExtrnlEncumFinBalanceTypCd(), // EX
                 options.getIntrnlEncumFinBalanceTypCd(), // IE
                 options.getPreencumbranceFinBalTypeCd(), // PE
                 options.getBaseBudgetFinancialBalanceTypeCd() // BB
-        };
+        );
     }
 
     /**
@@ -449,7 +431,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of balance type codes for actual balances
      */
-    protected String[] getActualBalanceCodes() {
+    protected Collection<String> getActualBalanceCodes() {
         if (actualBalanceCodes == null) {
             loadConstantsFromOptions();
         }
@@ -461,7 +443,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of income balance type codes
      */
-    protected String[] getIncomeObjectTypeCodes() {
+    protected Collection<String> getIncomeObjectTypeCodes() {
         if (incomeObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -473,7 +455,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of expense option type codes
      */
-    protected String[] getExpenseObjectTypeCodes() {
+    protected Collection<String> getExpenseObjectTypeCodes() {
         if (expenseObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -485,7 +467,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of asset/liability balance type codes
      */
-    protected String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
+    protected Collection<String> getAssetLiabilityFundBalanceBalanceTypeCodes() {
         if (assetLiabilityFundBalanceObjectTypeCodes == null) {
             loadConstantsFromOptions();
         }
@@ -497,7 +479,7 @@ public class BalanceServiceImpl implements BalanceService {
      * 
      * @return an array of encumbrance balance type codes
      */
-    protected String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
+    protected Collection<String> getEncumbranceBaseBudgetBalanceTypeCodes() {
         if (encumbranceBaseBudgetBalanceTypeCodes == null) {
             loadConstantsFromOptions();
         }

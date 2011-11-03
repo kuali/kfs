@@ -115,7 +115,7 @@
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-6.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-util-6.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/junit-3.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.16.jar"/>
 	<classpathentry exported="false" kind="lib" path="build/kfs-lib/javamelody-1.31.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

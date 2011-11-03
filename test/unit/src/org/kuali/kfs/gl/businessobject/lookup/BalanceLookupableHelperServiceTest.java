@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -325,7 +326,7 @@ public class BalanceLookupableHelperServiceTest extends AbstractGeneralLedgerLoo
      */
     protected void insertNewRecord(Balance balance) {
         try {
-            balanceService.save(balance);
+            SpringContext.getBean(BusinessObjectService.class).save(balance);
         }
         catch (Exception e) {
             e.printStackTrace();

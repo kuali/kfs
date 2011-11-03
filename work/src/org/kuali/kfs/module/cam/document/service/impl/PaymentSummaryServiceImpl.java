@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,8 +103,9 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
             if (ObjectUtils.isNull(payment.getFinancialObject())) {
                 payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             }
-            Object[] fedContrTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES).toArray();
-            if (!ObjectUtils.isNull(payment.getFinancialObject()) && ArrayUtils.contains(fedContrTypes, payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            Collection<String> fedContrTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES);
+            if (!ObjectUtils.isNull(payment.getFinancialObject()) 
+                    && fedContrTypes.contains( payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }

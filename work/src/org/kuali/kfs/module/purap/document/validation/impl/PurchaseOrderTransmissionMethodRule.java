@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderTransmissionMethod;
@@ -57,8 +57,8 @@ public class PurchaseOrderTransmissionMethodRule extends MaintenanceDocumentRule
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> defaultParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
-        List<String> retransmitParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES);
+        Collection<String> defaultParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(RequisitionDocument.class, PurapParameterConstants.PURAP_DEFAULT_PO_TRANSMISSION_CODE);
+        Collection<String> retransmitParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.PURAP_PO_RETRANSMIT_TRANSMISSION_METHOD_TYPES);
         PurchaseOrderTransmissionMethod newBo = (PurchaseOrderTransmissionMethod)getNewBo();
         PurchaseOrderTransmissionMethod oldBo= (PurchaseOrderTransmissionMethod)getOldBo();
 

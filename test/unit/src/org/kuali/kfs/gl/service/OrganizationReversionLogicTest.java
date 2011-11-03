@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -263,8 +264,8 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         Map<String, Integer> organizationReversionCounts = new HashMap<String, Integer>();
         
         for (Balance bal : balancesToTestAgainst) {
-            bal.setUniversityFiscalYear(previousFiscalYear);
-            balanceService.save(bal);
+            bal.setUniversityFiscalYear(previousFiscalYear);            
+            SpringContext.getBean(BusinessObjectService.class).save(bal);
         }
 
         orgRevProcess.setHoldGeneratedOriginEntries(true);

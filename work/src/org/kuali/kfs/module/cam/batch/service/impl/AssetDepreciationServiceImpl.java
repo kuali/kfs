@@ -225,8 +225,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     protected SortedMap<String, AssetDepreciationTransaction> calculateDepreciation(Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate) {
         LOG.debug("calculateDepreciation() - start");
 
-        List<String> organizationPlantFundObjectSubType = new ArrayList<String>();
-        List<String> campusPlantFundObjectSubType = new ArrayList<String>();
+        Collection<String> organizationPlantFundObjectSubType = new ArrayList<String>();
+        Collection<String> campusPlantFundObjectSubType = new ArrayList<String>();
         SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary = new TreeMap<String, AssetDepreciationTransaction>();
         double monthsElapsed = 0d;
         double assetLifeInMonths = 0d;

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -236,7 +237,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
             return true;
         }
         
-        List<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
+        Collection<String> restrictedItemTypesList = SpringContext.getBean(ParameterService.class).getParameterValues(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT);
 
         // This call determines a new special case in which an item marked for trade-in cannot have editable accounting lines
         // once the calculate button image is clicked, even if the accounting line has not been saved yet.

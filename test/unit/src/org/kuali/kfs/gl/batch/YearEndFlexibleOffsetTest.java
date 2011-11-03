@@ -527,7 +527,7 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         persistenceService.clearCache();
         for (Balance bal : balancesToTest) {
             bal.setUniversityFiscalYear(previousFiscalYear);
-            balanceService.save(bal);
+            SpringContext.getBean(BusinessObjectService.class).save(bal);
         }
         //TODO:- commented out
         //OriginEntryGroup outputGroup = organizationReversionProcessService.createOrganizationReversionProcessOriginEntryGroup();

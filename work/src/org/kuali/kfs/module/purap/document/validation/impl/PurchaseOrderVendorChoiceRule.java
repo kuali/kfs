@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorChoice;
@@ -56,8 +56,8 @@ public class PurchaseOrderVendorChoiceRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> apoParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.DEFAULT_APO_VENDOR_CHOICE);
-        List<String> b2bParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.DEFAULT_B2B_VENDOR_CHOICE);
+        Collection<String> apoParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.DEFAULT_APO_VENDOR_CHOICE);
+        Collection<String> b2bParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(PurchaseOrderDocument.class, PurapParameterConstants.DEFAULT_B2B_VENDOR_CHOICE);
         PurchaseOrderVendorChoice newVendorChoice = (PurchaseOrderVendorChoice)getNewBo();
         PurchaseOrderVendorChoice oldVendorChoice= (PurchaseOrderVendorChoice)getOldBo();
         //If the new funding source code matches with the funding source in the DEFAULT_FUNDING_SOURCE 

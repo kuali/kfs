@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,8 +56,8 @@ public class OwnershipTypeRule extends MaintenanceDocumentRuleBase {
     protected boolean checkForSystemParametersExistence() {
         LOG.info("checkForSystemParametersExistence called");
         boolean success = true;
-        List<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES);
-        List<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES);
+        Collection<String> feinParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES);
+        Collection<String> ssnParameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES);
         OwnershipType newBo = (OwnershipType)getNewBo();
         OwnershipType oldBo = (OwnershipType) getOldBo();
 

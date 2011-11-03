@@ -908,8 +908,10 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(BudgetAdjustmentDocument.REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME)) return requiresFullApproval();
-        throw new UnsupportedOperationException("No split node logic defined for split node "+nodeName+" on the Budget Adjustment document");
+        if (nodeName.equals(BudgetAdjustmentDocument.REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME)) {
+            return requiresFullApproval();
+        }
+        return super.answerSplitNodeQuestion(nodeName);
     }
 
     /**

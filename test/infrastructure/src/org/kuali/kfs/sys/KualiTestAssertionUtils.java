@@ -181,7 +181,7 @@ public class KualiTestAssertionUtils {
     public static void assertGlobalErrorMapSize(String message, int expectedSize) {
         String header = message.length() == 0 ? "" : message + ": ";
         MessageMap map = GlobalVariables.getMessageMap();
-        assertEquals(header + "ThreadLocal ErrorMap size: " + map, expectedSize, map.size());
+        assertEquals(header + "ThreadLocal ErrorMap size: " + map, expectedSize, map.getNumberOfPropertiesWithErrors());
     }
 
     /**

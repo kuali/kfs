@@ -16,7 +16,7 @@
 package org.kuali.kfs.sys.document.validation;
 
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -141,7 +141,7 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         rule.setupBaseConvenienceObjects(maintDoc);
 
         // confirm that we're starting with no errors
-        assertEquals(0, GlobalVariables.getMessageMap().size());
+        assertEquals(0, GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors());
 
         return rule;
     }
@@ -240,30 +240,28 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
      */
     protected void showErrorMap() {
 
-        if (GlobalVariables.getMessageMap().isEmpty()) {
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
             return;
         }
 
-        for (Iterator i = GlobalVariables.getMessageMap().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
+        for ( String key : GlobalVariables.getMessageMap().getErrorMessages().keySet() ) {
+            List<ErrorMessage> errorList = GlobalVariables.getMessageMap().getErrorMessages().get(key);
 
-            TypedArrayList errorList = (TypedArrayList) e.getValue();
-            for (Iterator j = errorList.iterator(); j.hasNext();) {
-                ErrorMessage em = (ErrorMessage) j.next();
-
+            for ( ErrorMessage em : errorList ) {
+                StringBuilder message = new StringBuilder();
+                message.append(key).append(" = ").append( em.getErrorKey() );
                 if (em.getMessageParameters() == null) {
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey());
-                }
-                else {
-                    StringBuffer messageParams = new StringBuffer();
+                    System.err.println(message.toString());
+                } else {
+                    message.append( " : " );
                     String delim = "";
-                    for (int k = 0; k < em.getMessageParameters().length; k++) {
-                        messageParams.append(delim + "'" + em.getMessageParameters()[k] + "'");
+                    for ( String parm : em.getMessageParameters() ) {
+                        message.append(delim).append("'").append(parm).append("'");
                         if ("".equals(delim)) {
                             delim = ", ";
-                        }
+                        }                        
                     }
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
+                    System.err.println(message.toString());
                 }
             }
         }

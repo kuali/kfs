@@ -237,13 +237,13 @@ public class PaymentApplicationDocumentTest extends KualiTestBase {
         arDocumentHeader.setProcessingOrganizationCode(organization.getOrganizationCode());
         
         MessageMap e = GlobalVariables.getMessageMap();
-        int errorCount = e.size();
+        int errorCount = e.getNumberOfPropertiesWithErrors();
         try {
             documentService.saveDocument(cashControlDocument);
         } catch(Throwable t) {
             t.printStackTrace();
         } finally {
-            if(e.size() != errorCount) {
+            if(e.getNumberOfPropertiesWithErrors() != errorCount) {
                 boolean breakHere = true;
             }
         }

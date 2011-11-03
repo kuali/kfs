@@ -412,19 +412,21 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         if (!assetService.isTagNumberCheckExclude(newAsset)) {
 
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber().toUpperCase());
+            if (ObjectUtils.isNotNull(newAsset.getCampusTagNumber())) {
+                fieldValues.put(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, newAsset.getCampusTagNumber().toUpperCase());
+                Collection<Asset> results = getBoService().findMatching(Asset.class, fieldValues);
 
-            Collection<Asset> results = getBoService().findMatching(Asset.class, fieldValues);
-
-            for (Asset asset : results) {
-                if (!asset.getCapitalAssetNumber().equals(newAsset.getCapitalAssetNumber())) {
-                    // KFSMI-6149 - do not invalidate if the asset from the database is retired
-                    if (StringUtils.isBlank(asset.getRetirementReasonCode())) {
-                        putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
-                        valid &= false;
-                        LOG.info("The asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number");
-                    } else {
-                        LOG.info("Although the asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number, the old asset has already been retired");
+                for (Asset asset : results) {
+                    if (!asset.getCapitalAssetNumber().equals(newAsset.getCapitalAssetNumber())) {
+                        // KFSMI-6149 - do not invalidate if the asset from the database is retired
+                        if (StringUtils.isBlank(asset.getRetirementReasonCode())) {
+                            putFieldError(CamsPropertyConstants.Asset.CAMPUS_TAG_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_DUPLICATE_TAG_NUMBER_FOUND, new String[] { newAsset.getCampusTagNumber(), asset.getCapitalAssetNumber().toString(), newAsset.getCapitalAssetNumber().toString() });
+                            valid &= false;
+                            LOG.info("The asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number");
+                        }
+                        else {
+                            LOG.info("Although the asset tag number [" + newAsset.getCampusTagNumber().toUpperCase() + "] is a duplicate of asset number [" + asset.getCapitalAssetNumber().toString() + "]'s tag number, the old asset has already been retired");
+                        }
                     }
                 }
             }

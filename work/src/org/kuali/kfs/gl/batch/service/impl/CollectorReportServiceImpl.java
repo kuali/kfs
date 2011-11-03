@@ -60,20 +60,14 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
  * The base implementation of the CollectorReportService
  */
 public class CollectorReportServiceImpl implements CollectorReportService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorReportServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorReportServiceImpl.class);
 
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
-    private MailService mailService;
-    private PreScrubberService preScrubberService;
-    private ReportWriterService collectorReportWriterService;
-
-    /**
-     * Constructs a CollectorReportServiceImpl instance
-     */
-    public CollectorReportServiceImpl() {
-    }
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected KualiConfigurationService configurationService;
+    protected MailService mailService;
+    protected PreScrubberService preScrubberService;
+    protected ReportWriterService collectorReportWriterService;
 
     /**
      * Sends out e-mails about the validation and demerger of the Collector run
@@ -434,15 +428,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     }
 
     /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService.
-     */
-    protected DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
      * Sets the dateTimeService attribute value.
      * 
      * @param dateTimeService The dateTimeService to set.
@@ -541,7 +526,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
-        catch (InvalidAddressException e) {
+        catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
             String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
@@ -747,20 +732,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         return buf.toString();
     }
 
-    /**
-     * Gets the mailService attribute.
-     * 
-     * @return Returns the mailService.
-     */
-    public MailService getMailService() {
-        return mailService;
-    }
-
-    /**
-     * Sets the mailService attribute value.
-     * 
-     * @param mailService The mailService to set.
-     */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
@@ -785,7 +756,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         this.preScrubberService = preScrubberService;
     }
     
-    protected class KualiDecimalFormatter implements Formattable {
+    protected static class KualiDecimalFormatter implements Formattable {
         private KualiDecimal number;
         
         public KualiDecimalFormatter(KualiDecimal numberToFormat) {

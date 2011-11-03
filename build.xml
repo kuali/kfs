@@ -30,7 +30,7 @@
         <fileset dir="${cobertura.dir}">
             <include name="*.jar" />
         </fileset>
-        <pathelement location="build/log4j-1.2.14.jar" />
+        <pathelement location="build/log4j-1.2.16.jar" />
     </path>
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />

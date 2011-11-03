@@ -51,9 +51,9 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
-    private static KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-    private static String riceImagePath;
-    private static String kfsImagePath;
+    private static KualiConfigurationService kualiConfigurationService;
+    protected static String riceImagePath;
+    protected static String kfsImagePath;
 
     /**
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
@@ -62,7 +62,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer, org.kuali.rice.kim.bo.Person,
      *      java.lang.String)
      */
-    public final List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
+    public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
 
         if (accountingLineRenderingContext.isEditableLine() || isErrorMapContainingErrorsOnLine(accountingLinePropertyName)) {
@@ -450,7 +450,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return a label for an action with the specified message key and values
      */
     protected String getActionLabel(String messageKey, Object... values) {
-        String messageBody = kualiConfigurationService.getPropertyString(messageKey);
+        String messageBody = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
 
         return MessageFormat.format(messageBody, values);
     }
@@ -547,7 +547,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected String getRiceImagePath() {
         if (riceImagePath == null) {
-            riceImagePath = kualiConfigurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            riceImagePath = getKualiConfigurationService().getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return riceImagePath;
     }
@@ -557,8 +557,15 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected String getKFSImagePath() {
         if (kfsImagePath == null) {
-            kfsImagePath = kualiConfigurationService.getPropertyString(KNSConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
+            kfsImagePath = getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return kfsImagePath;
+    }
+    
+    protected KualiConfigurationService getKualiConfigurationService() {
+        if ( kualiConfigurationService == null ) {
+            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        }
+        return kualiConfigurationService;
     }
 }

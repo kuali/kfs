@@ -48,13 +48,13 @@ import org.kuali.rice.kns.util.TypedArrayList;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
-    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
 
     protected PendingBudgetConstructionGeneralLedger newRevenueLine;
     protected PendingBudgetConstructionGeneralLedger newExpenditureLine;
     
-    protected static String revenueObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(true);
-    protected static String expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
+    protected static String revenueObjectTypeCodesLookup;
+    protected static String expenditureObjectTypeCodesLookup;
 
     protected boolean closingDocument = false;
 
@@ -949,6 +949,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * @return Returns the revenueObjectTypeCodesLookup.
      */
     public static String getRevenueObjectTypeCodesLookup() {
+        if ( revenueObjectTypeCodesLookup == null ) {
+            revenueObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(true);
+        }
         return revenueObjectTypeCodesLookup;
     }
 
@@ -957,6 +960,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * @return Returns the expenditureObjectTypeCodesLookup.
      */
     public static String getExpenditureObjectTypeCodesLookup() {
+        if ( expenditureObjectTypeCodesLookup == null ) {
+            expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
+        }
         return expenditureObjectTypeCodesLookup;
     }
 }

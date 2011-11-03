@@ -37,15 +37,15 @@ public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUni
 
     private static final long serialVersionUID = 7517946137745989736L;
     
-    private String unitNumber;
-    private String parentUnitNumber;
+    protected String unitNumber;
+    protected String parentUnitNumber;
     
     /* maybe you don't need this? */
-    private String organizationId;
-    private String unitName;
+    protected String organizationId;
+    protected String unitName;
     
     /* List of principal ids */
-    private List<String> unitAdministrators;
+    protected List<String> unitAdministrators;
 
     public String getUnitNumber() {
         return unitNumber;
@@ -87,16 +87,7 @@ public class UnitDTO extends BusinessObjectBase implements ContractsAndGrantsUni
         this.unitAdministrators = unitAdministrators;
     }
 
-
-    public void prepareForWorkflow() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public void refresh() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void refresh() {}
 
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()

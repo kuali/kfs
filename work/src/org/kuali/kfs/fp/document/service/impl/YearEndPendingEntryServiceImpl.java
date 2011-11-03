@@ -36,9 +36,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * The default implementation of the YearEndPendingEntryService
  */
 public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndPendingEntryServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndPendingEntryServiceImpl.class);
     
-    private static final String FINAL_ACCOUNTING_PERIOD = "13";
+    protected static final String FINAL_ACCOUNTING_PERIOD = "13";
     
     protected UniversityDateService universityDateService;
     protected SufficientFundsService sufficientFundsService;
@@ -63,7 +63,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
         if (!(transactionalDocument instanceof YearEndDocument)) {
             throw new IllegalArgumentException("invalid (not a year end document) for class:" + transactionalDocument.getClass());
         }
-        OffsetDefinition offsetDefinition = getOffsetDefinitionService().getByPrimaryId(getPreviousFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(getPreviousFiscalYear(), explicitEntry.getChartOfAccountsCode(), explicitEntry.getFinancialDocumentTypeCode(), explicitEntry.getFinancialBalanceTypeCode());
         if (!ObjectUtils.isNull(offsetDefinition)) {
             String offsetObjectCode = getOffsetFinancialObjectCode(offsetDefinition);
             offsetEntry.setFinancialObjectCode(offsetObjectCode);
@@ -76,10 +76,10 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
                 ObjectCode financialObject = offsetDefinition.getFinancialObject();
                 // The ObjectCode reference may be invalid because a flexible offset account changed its chart code.
                 if (ObjectUtils.isNull(financialObject)) {
-                    throw new ReferentialIntegrityException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
+                    throw new RuntimeException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
                 }
                 offsetEntry.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                offsetEntry.setAcctSufficientFundsFinObjCd(getSufficientFundsService().getSufficientFundsObjectCode(financialObject, offsetEntry.getAccount().getAccountSufficientFundsCode()));
+                offsetEntry.setAcctSufficientFundsFinObjCd(sufficientFundsService.getSufficientFundsObjectCode(financialObject, offsetEntry.getAccount().getAccountSufficientFundsCode()));
             }
 
             offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));
@@ -107,8 +107,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
      * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#getPreviousFiscalYear()
      */
     public Integer getPreviousFiscalYear() {
-        int i = getUniversityDateService().getCurrentFiscalYear().intValue() - 1;
-        return new Integer(i);
+        return universityDateService.getCurrentFiscalYear() - 1;
     }
     
     /**
@@ -153,24 +152,12 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
 
     }
 
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
 
-    public SufficientFundsService getSufficientFundsService() {
-        return sufficientFundsService;
-    }
-
     public void setSufficientFundsService(SufficientFundsService sufficientFundsService) {
         this.sufficientFundsService = sufficientFundsService;
-    }
-
-    public OffsetDefinitionService getOffsetDefinitionService() {
-        return offsetDefinitionService;
     }
 
     public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {

@@ -101,24 +101,21 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * @return the proper class for the Maintainable associated with AccountDelegate maintenance documents
      */
-    protected Class<? extends Maintainable> getAccountDelegateMaintainableClass() {
-        return getDataDictionaryService().getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(AccountDelegate.class).getMaintainableClass();
+    protected Class getAccountDelegateMaintainableClass() {
+        return dataDictionaryService.getDataDictionary().getMaintenanceDocumentEntryForBusinessObjectClass(AccountDelegate.class).getMaintainableClass();
     }
 
     /**
      * @return a new instance of the proper maintainable for AccountDelegate maintenance documents
      */
     protected FinancialSystemMaintainable getAccountDelegateMaintainable() {
-        final Class<? extends Maintainable> maintainableClazz = getAccountDelegateMaintainableClass();
+        final Class maintainableClazz = getAccountDelegateMaintainableClass();
         final FinancialSystemMaintainable maintainable;
         try {
             maintainable = (FinancialSystemMaintainable) maintainableClazz.newInstance();
         }
-        catch (InstantiationException ie) {
+        catch (Exception ie) {
             throw new RuntimeException("Could not instantiate maintainable for AccountDelegate maintenance document", ie);
-        }
-        catch (IllegalAccessException iae) {
-            throw new RuntimeException("Could not instantiate maintainable for AccountDelegate maintenance document", iae);
         }
         return maintainable;
     }
@@ -128,7 +125,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @NonTransactional
     public Iterator<AccountDelegate> retrieveAllActiveDelegationsForPerson(String principalId, boolean primary) {
-        return (Iterator<AccountDelegate>) getAccountDelegateDao().getAccountDelegationsForPerson(principalId, primary);
+        return (Iterator<AccountDelegate>) accountDelegateDao.getAccountDelegationsForPerson(principalId, primary);
     }
 
     /**
@@ -154,7 +151,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveForMaintenanceDocument(AccountDelegate accountDelegate) {
-        getBusinessObjectService().linkAndSave(accountDelegate);
+        businessObjectService.linkAndSave(accountDelegate);
     }
 
     /**
@@ -165,7 +162,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveInactivationsForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToInactivate) {
         if (delegatesToInactivate != null && !delegatesToInactivate.isEmpty()) {
-            getBusinessObjectService().save(delegatesToInactivate);
+            businessObjectService.save(delegatesToInactivate);
         }
     }
 
@@ -177,7 +174,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange) {
         if (delegatesToChange != null && !delegatesToChange.isEmpty()) {
-            getBusinessObjectService().save(delegatesToChange);
+            businessObjectService.save(delegatesToChange);
         }
     }
 
@@ -193,91 +190,26 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
         }
     }
 
-    /**
-     * Gets the accountDelegateDao attribute.
-     * 
-     * @return Returns the accountDelegateDao.
-     */
-    @NonTransactional
-    public AccountDelegateDao getAccountDelegateDao() {
-        return accountDelegateDao;
-    }
-
-    /**
-     * Sets the accountDelegateDao attribute value.
-     * 
-     * @param accountDelegateDao The accountDelegateDao to set.
-     */
     @NonTransactional
     public void setAccountDelegateDao(AccountDelegateDao accountDelegateDao) {
         this.accountDelegateDao = accountDelegateDao;
     }
 
-    /**
-     * Gets the accountDelegateGlobalDao attribute.
-     * 
-     * @return Returns the accountDelegateGlobalDao.
-     */
-    @NonTransactional
-    public AccountDelegateGlobalDao getAccountDelegateGlobalDao() {
-        return accountDelegateGlobalDao;
-    }
-
-    /**
-     * Sets the accountDelegateGlobalDao attribute value.
-     * 
-     * @param accountDelegateGlobalDao The accountDelegateGlobalDao to set.
-     */
     @NonTransactional
     public void setAccountDelegateGlobalDao(AccountDelegateGlobalDao accountDelegateGlobalDao) {
         this.accountDelegateGlobalDao = accountDelegateGlobalDao;
     }
 
-    /**
-     * Gets the dataDictionaryService attribute.
-     * 
-     * @return Returns the dataDictionaryService.
-     */
-    @NonTransactional
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    /**
-     * Sets the dataDictionaryService attribute value.
-     * 
-     * @param dataDictionaryService The dataDictionaryService to set.
-     */
     @NonTransactional
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    @NonTransactional
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
     @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * Sets the dateTimeService.
-     * 
-     * @param dateTimeService
-     */
     @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

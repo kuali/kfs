@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -480,13 +480,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @param activeFromDate The activeFromDate to set.
      */
     public void setActiveFromDate(java.util.Date activeFromDate) {
-        if ( activeFromDate != null ) {
-            this.activeFromDate = new java.sql.Date( activeFromDate.getTime() );
-        } else {
-            this.activeFromDate = null;
-        }
+        this.activeFromDate = activeFromDate;
     }
-
+    
     /**
      * Gets the activeToDate attribute. 
      * @return Returns the activeToDate.
@@ -499,13 +495,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Inac
      * @param activeToDate The activeToDate to set.
      */
     public void setActiveToDate(java.util.Date activeToDate) {
-        if ( activeToDate != null ) {
-            this.activeToDate = new java.sql.Date( activeToDate.getTime() );
-        } else {
-            this.activeToDate = null;
-        }
+        this.activeToDate = activeToDate;
     }
-
+    
     /**
      * Gets the orgReviewRoleMemberId attribute. 
      * @return Returns the orgReviewRoleMemberId.

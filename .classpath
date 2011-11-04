@@ -15,6 +15,7 @@
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/c1searchengine.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-digester-1.7.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-net-ftp-2.0.jar" />
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/db-ojb-1.0.4-patch8.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/dwr-1.1.4.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/fop-0.20.5.jar" />
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/itext-1.4.8.jar" />
@@ -56,7 +57,6 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar" />
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/db-ojb-1.0.4-patch6.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar" />

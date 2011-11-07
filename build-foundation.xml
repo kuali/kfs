@@ -71,18 +71,6 @@ are intended for use only by Kuali Foundation developers.
 		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
   	  
-  <!--
-	<target name="setup-rice" depends="init-property-files,init-additional-properties">
-		<ant dir="${rice.project.directory}" target="retrieve-maven-dependencies" />
-    	<condition property="os.safe.driver.path" value="c:${drivers.directory}/ojdbc6.jar">
-      		<os family="windows"/>
-    	</condition>
-    	<property name="os.safe.driver.path" location="${drivers.directory}/ojdbc6.jar" />
-    	<maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.2.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" dir="${rice.project.directory}" />
-    	<maven goals="clean:clean install source:jar javadoc:jar package" options="-U -Dpackaging=jar" dir="${rice.project.directory}" />
-    	<touch file="${rice.project.directory}/pom.xml" />
-	</target>
-  -->
 	<target name="update-rice-dev" depends="update-rice-basic,extract-rice-libraries,build-eclipse-classpath,dist-local" />
   
 	<target name="update-rice" depends="update-rice-dev,update-rice-extended" />
@@ -94,7 +82,7 @@ are intended for use only by Kuali Foundation developers.
 	</target>
 	
     <target name="update-rice-server-war" depends="init-property-files,init-additional-properties,clean-rice-maven">
-        <maven goals="package" dir="${rice.project.directory}" />
+        <maven goals="install" dir="${rice.project.directory}" />
     	<delete dir="${build.appserver.directory}" includes="${rice.server.war.file.name.prefix}*.war" />
         <copy file="${rice.project.directory}/${rice.web.module.name}/target/${rice.war.file.name}" 
         	  tofile="${build.appserver.directory}/${rice.server.war.file.name}" verbose="true" overwrite="true" failonerror="true"  />
@@ -109,7 +97,7 @@ are intended for use only by Kuali Foundation developers.
       			<include name="rice-*${kfs.rice.version}-*.*" />
       		</fileset>
     	</delete>
-    	<maven goals="source:jar javadoc:jar" dir="${rice.project.directory}" />
+    	<maven goals="source:jar" dir="${rice.project.directory}" />
 		<echo>
 Copying Files from ${rice.project.directory}/**/target/rice*...
 To: ${dependencies.project.directory}
@@ -127,7 +115,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 	<target name="update-rice-licenses" depends="init-property-files,init-additional-properties">
 		<echo>
 	*************************************************
-		NEED TO UPDATE RICE LICENSE FILES
+		NEED TO UPDATE RICE LICENSE FILES???
 	*************************************************
 		</echo>
 		<!--

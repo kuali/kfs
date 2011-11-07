@@ -1096,20 +1096,74 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		<property name="classpath.file" value=".classpath"/>
     	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />
 
+		<!-- Convert paths to unix format for replacement -->
+		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
+			<path location="${basedir}" />
+		</pathconvert>
+
+
+		<!-- Rice Jars -->
+		<path id="rice.library.jars">
+			<fileset dir="${build.rice.lib.directory}"  includes="rice*.jar" excludes="rice*impl*.jar" />
+		</path>		  		
+		<pathconvert property="rice.library.jars.safe" dirsep="/" pathsep=";">
+			<path refid="rice.library.jars" />
+		</pathconvert>
+		<!-- remove the .jar suffix -->
+		<propertyregex property="rice.library.jars.safe.no.suffix"
+		               input="${rice.library.jars.safe}"
+		               regexp=".jar"
+		               replace=""
+		               global="true" />
+		<for list="${rice.library.jars.safe.no.suffix}" param="jarname" delimiter=";">
+			<sequential>
+				<propertyregex property="file" 
+							 	input="@{jarname}" 
+							 	regexp="${basedir.safe}/build/rice-lib/" 
+							 	replace="" 
+							 	override="true" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="build/rice-lib/${file}.jar" sourcepath="build/rice-sources/${file}-sources.jar" /><!-- rice API lib -->
+]]></echo>
+			</sequential>
+		</for>
+		<!-- Rice Impl Jars -->
+		<path id="rice.impl.library.jars">
+			<fileset dir="${build.rice.lib.directory}"  includes="rice*impl*.jar" />
+		</path>		  		
+		<pathconvert property="rice.impl.library.jars.safe" dirsep="/" pathsep=";">
+			<path refid="rice.impl.library.jars" />
+		</pathconvert>
+		<!-- remove the .jar suffix -->
+		<propertyregex property="rice.impl.library.jars.safe.no.suffix"
+		               input="${rice.impl.library.jars.safe}"
+		               regexp=".jar"
+		               replace=""
+		               global="true" />
+		<for list="${rice.impl.library.jars.safe.no.suffix}" param="jarname" delimiter=";">
+			<sequential>
+				<propertyregex property="file" 
+							 	input="@{jarname}" 
+							 	regexp="${basedir.safe}/build/rice-lib/" 
+							 	replace="" 
+							 	override="true" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="build/rice-lib/${file}.jar" sourcepath="build/rice-sources/${file}-sources.jar"><!-- rice IMPL lib -->
+	<accessrules>
+		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
+	</accessrules>
+	</classpathentry>
+]]></echo>
+			</sequential>
+		</for>
+		
 		<!-- KFS Jars -->
 		<path id="kfs.library.jars">
 			<fileset dir="${build.kfs.lib.directory}"  includes="*.jar" excludes="${runtime.only.jars}" />
-			<fileset dir="${build.rice.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
+			<fileset dir="${build.rice.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars},rice*.jar" />
 			<fileset dir="${build.server.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
 			<fileset dir="${build.appserver.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
 			<fileset dir="${test.lib.directory}"  includes="*.jar"  excludes="${runtime.only.jars}" />
 			<fileset dir="${build.directory}"  includes="log4j*.jar" />
 		</path>		  		
-
-		<!-- Convert paths to unix format for replacement -->
-		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
-			<path location="${basedir}" />
-		</pathconvert>
 		<pathconvert property="kfs.library.jars.safe" dirsep="/" pathsep=";">
 			<path refid="kfs.library.jars" />
 		</pathconvert>
@@ -1120,7 +1174,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 							 	regexp="${basedir.safe}/" 
 							 	replace="" 
 							 	override="true" />
-				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}" /><!-- KFS lib -->
 ]]></echo>
 			</sequential>
 		</for>
@@ -1150,7 +1204,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 							 	regexp="${basedir.safe}/" 
 							 	replace="" 
 							 	override="true" />
-				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}">
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

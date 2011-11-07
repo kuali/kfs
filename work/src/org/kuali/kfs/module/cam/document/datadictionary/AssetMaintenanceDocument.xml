@@ -160,8 +160,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="representativeUniversalIdentifier"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetRepresentative.principalName"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetRepresentative.name"/>
-        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationText"/>
-        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationTagNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationText" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationTagNumber" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="assetOrganization.organizationAssetTypeIdentifier" p:noLookup="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="receiveDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="replacementAmount"/>

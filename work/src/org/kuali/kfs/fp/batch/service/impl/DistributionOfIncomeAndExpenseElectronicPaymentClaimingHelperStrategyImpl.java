@@ -22,26 +22,22 @@ import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl implements ElectronicPaymentClaimingDocumentGenerationStrategy {
     private static final Logger LOG = Logger.getLogger(DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl.class);
     
-    protected DataDictionaryService dataDictionaryService;
     protected DocumentService documentService;
     protected ElectronicPaymentClaimingService electronicPaymentClaimingService;
     protected ParameterService parameterService;
-    protected KualiWorkflowInfo workflowInfoService;
 
     /**
      * The name of the parameter to get the description for this document; without a description, we can't save the document, and if
@@ -193,11 +189,11 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public String getDocumentLabel() {
         try {
-            return getWorkflowInfoService().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+            return new WorkflowInfo().getDocType(getClaimingDocumentWorkflowDocumentType()).getDocTypeLabel();
+        } catch (WorkflowException e) {
+            LOG.error("Caught Exception trying to get Workflow Document Type", e);
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
-        }
+        return "DI";
     }
 
     /**
@@ -233,23 +229,6 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
     }
 
     /**
-     * Sets the ddService attribute value.
-     * 
-     * @param ddService The ddService to set.
-     */
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    /**
-     * Gets the dataDictionaryService attribute. 
-     * @return Returns the dataDictionaryService.
-     */
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    /**
      * Sets the documentService attribute value.
      * 
      * @param documentService The documentService to set.
@@ -274,27 +253,6 @@ public class DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrate
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    /**
-     * Sets the setWorkflowInfoService attribute value.
-     * 
-     * @param setWorkflowInfoService 
-     */
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
-    }
-
-    /**
-     * Gets the setWorkflowInfoService attribute value.
-     * 
-     * @return WorkflowInfoService
-     */
-    public KualiWorkflowInfo getWorkflowInfoService() {
-        if (workflowInfoService == null) {
-            workflowInfoService = SpringContext.getBean(KualiWorkflowInfo.class);
-        }
-        return workflowInfoService;
     }
     
     

@@ -417,11 +417,9 @@
 	
 	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper"  parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean"/>
 	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.kfs.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" abstract="true">
-		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
 		<property name="documentService"><ref bean="documentService" /></property>
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="parameterService"><ref bean="parameterService" /></property>
-		<property name="workflowInfoService"><ref bean="workflowInfoService" /></property>
 	</bean>
 	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.fp.batch.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" />
 	

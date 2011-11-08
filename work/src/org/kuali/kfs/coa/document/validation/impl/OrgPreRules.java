@@ -19,11 +19,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PostalCodeService;
+import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.service.PostalCodeService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
@@ -33,10 +33,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class OrgPreRules extends MaintenancePreRulesBase {
     protected Organization newOrg;
     protected PostalCodeService postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
-
-    public OrgPreRules() {
-
-    }
 
     /**
      * This checks to see if a continuation account is necessary and if the HRMS data has changed
@@ -94,8 +90,8 @@ public class OrgPreRules extends MaintenancePreRulesBase {
             OrganizationExtension oldExt = oldData.getOrganizationExtension();
             OrganizationExtension newExt = newData.getOrganizationExtension();
             if (oldExt != null) {
-                if (!ObjectUtils.nullSafeEquals(oldExt.getHrmsCompany(), newExt.getHrmsCompany()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress2(), newExt.getHrmsIuOrganizationAddress2()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress3(), newExt.getHrmsIuOrganizationAddress3()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusCode(), newExt.getHrmsIuCampusCode()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusBuilding(), newExt.getHrmsIuCampusBuilding()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusRoom(), newExt.getHrmsIuCampusRoom()) || oldExt.isHrmsIuPositionAllowedFlag() != newExt.isHrmsIuPositionAllowedFlag() || oldExt.isHrmsIuTenureAllowedFlag() != newExt.isHrmsIuTenureAllowedFlag() || oldExt.isHrmsIuTitleAllowedFlag() != newExt.isHrmsIuTitleAllowedFlag() || oldExt.isHrmsIuOccupationalUnitAllowedFlag() != newExt.isHrmsIuOccupationalUnitAllowedFlag()
-                        || !ObjectUtils.nullSafeEquals(oldExt.getHrmsPersonnelApproverUniversalId(), newExt.getHrmsPersonnelApproverUniversalId()) || !ObjectUtils.nullSafeEquals(oldExt.getFiscalApproverUniversalId(), newExt.getFiscalApproverUniversalId())) {
+                if (!StringUtils.equals(oldExt.getHrmsCompany(), newExt.getHrmsCompany()) || !StringUtils.equals(oldExt.getHrmsIuOrganizationAddress2(), newExt.getHrmsIuOrganizationAddress2()) || !StringUtils.equals(oldExt.getHrmsIuOrganizationAddress3(), newExt.getHrmsIuOrganizationAddress3()) || !StringUtils.equals(oldExt.getHrmsIuCampusCode(), newExt.getHrmsIuCampusCode()) || !StringUtils.equals(oldExt.getHrmsIuCampusBuilding(), newExt.getHrmsIuCampusBuilding()) || !StringUtils.equals(oldExt.getHrmsIuCampusRoom(), newExt.getHrmsIuCampusRoom()) || oldExt.isHrmsIuPositionAllowedFlag() != newExt.isHrmsIuPositionAllowedFlag() || oldExt.isHrmsIuTenureAllowedFlag() != newExt.isHrmsIuTenureAllowedFlag() || oldExt.isHrmsIuTitleAllowedFlag() != newExt.isHrmsIuTitleAllowedFlag() || oldExt.isHrmsIuOccupationalUnitAllowedFlag() != newExt.isHrmsIuOccupationalUnitAllowedFlag()
+                        || !StringUtils.equals(oldExt.getHrmsPersonnelApproverUniversalId(), newExt.getHrmsPersonnelApproverUniversalId()) || !StringUtils.equals(oldExt.getFiscalApproverUniversalId(), newExt.getFiscalApproverUniversalId())) {
                     newExt.setHrmsLastUpdateDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 }
             }
@@ -117,7 +113,7 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
         // organizationStateCode , organizationCityName are populated by looking up
         // the zip code and getting the state and city from that
-        if (!StringUtils.isBlank(newOrg.getOrganizationZipCode()) && !StringUtils.isBlank(newOrg.getOrganizationCountryCode())) {
+        if (StringUtils.isNotBlank(newOrg.getOrganizationZipCode()) && StringUtils.isNotBlank(newOrg.getOrganizationCountryCode())) {
             PostalCode zip = postalZipCodeService.getByPrimaryId(newOrg.getOrganizationCountryCode(), newOrg.getOrganizationZipCode());
 
             // If user enters a valid zip code, override city name and state code entered by user

@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
@@ -27,7 +28,6 @@ import org.kuali.rice.kns.bo.KualiCode;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.impl.PersistenceStructureServiceImpl;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * 
@@ -551,14 +551,23 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
         return m;
     }
 
+    protected static BusinessObjectService businessObjectService;
+    
+    protected BusinessObjectService getBusinessObjectService() {
+        if ( businessObjectService == null ) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+    
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    public void beforeUpdate() {
+        // TODO Auto-generated method stub
+        super.beforeUpdate();
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
-            BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-            ObjectCode originalObjectCode = (ObjectCode) boService.retrieve(this);
+            ObjectCode originalObjectCode = (ObjectCode) getBusinessObjectService().retrieve(this);
 
             if (originalObjectCode != null) {
                 if (!originalObjectCode.getFinancialObjectLevelCode().equals(getFinancialObjectLevelCode())) {
@@ -566,20 +575,19 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
                     sfr.setAccountFinancialObjectTypeCode(SufficientFundRebuild.REBUILD_OBJECT);
                     sfr.setChartOfAccountsCode(originalObjectCode.getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(originalObjectCode.getFinancialObjectLevelCode());
-                    if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                    if (getBusinessObjectService().retrieve(sfr) == null) {
+                        getBusinessObjectService().save(sfr);
                     }
                     sfr = new SufficientFundRebuild();
                     sfr.setAccountFinancialObjectTypeCode(SufficientFundRebuild.REBUILD_OBJECT);
                     sfr.setChartOfAccountsCode(getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(getFinancialObjectLevelCode());
-                    if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                    if (getBusinessObjectService().retrieve(sfr) == null) {
+                        getBusinessObjectService().save(sfr);
                     }
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             LOG.error("Problem updating sufficient funds rebuild table: ", ex);
         }
     }
@@ -613,6 +621,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
      * @return true if the object code reports to itself, false otherwise
      */
     public boolean isReportingToSelf() {
-        return ObjectUtils.nullSafeEquals(this.getChartOfAccountsCode(), this.getReportsToChartOfAccountsCode()) && ObjectUtils.nullSafeEquals(this.getFinancialObjectCode(), this.getReportsToFinancialObjectCode());
+        return StringUtils.equals(this.getChartOfAccountsCode(), this.getReportsToChartOfAccountsCode()) && StringUtils.equals(this.getFinancialObjectCode(), this.getReportsToFinancialObjectCode());
     }
 }

@@ -106,7 +106,8 @@ public class TestUtils {
         /* RICE_20_DELETE */ getParameterService().clearCache();        
         // Rice 2.0
         // RICE_20_INSERT Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
-        // RICE_20_INSERT parameter.setParameterValue(parameterText);
+        // RICE_20_INSERT Parameter.Builder pb = Parameter.Builder.create(parameter);
+        // RICE_20_INSERT pb.setValue(parameterText);
         // RICE_20_INSERT getParameterService().updateParameter(parameter);
     }
     

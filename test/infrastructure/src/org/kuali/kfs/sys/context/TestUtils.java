@@ -100,14 +100,14 @@ public class TestUtils {
         }
         
         // Rice 1.0.3.3
-        Parameter parameter = getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
-        parameter.setParameterValue(parameterText);
-        SpringContext.getBean(BusinessObjectService.class).save(parameter);
-        getParameterService().clearCache();        
+        /* RICE_20_DELETE */ Parameter parameter = getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
+        /* RICE_20_DELETE */ parameter.setParameterValue(parameterText);
+        /* RICE_20_DELETE */ SpringContext.getBean(BusinessObjectService.class).save(parameter);
+        /* RICE_20_DELETE */ getParameterService().clearCache();        
         // Rice 2.0
-//        Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
-//        parameter.setParameterValue(parameterText);
-//        getParameterService().updateParameter(parameter);
+        // RICE_20_INSERT Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
+        // RICE_20_INSERT parameter.setParameterValue(parameterText);
+        // RICE_20_INSERT getParameterService().updateParameter(parameter);
     }
     
     /**

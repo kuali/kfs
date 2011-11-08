@@ -31,7 +31,6 @@ import org.kuali.rice.kns.bo.GlobalBusinessObject;
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.exception.BusinessObjectNotFoundException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -167,7 +166,7 @@ public class AccountDelegateGlobal extends PersistableBusinessObjectBase impleme
                 // if the account doesnt exist, fail fast, as this should never happen,
                 // the busines rules for this document should have caught this.
                 if (account == null) {
-                    throw new BusinessObjectNotFoundException("Account [" + accountDetail.getChartOfAccountsCode() + "-" + accountDetail.getAccountNumber() + "] was not present in the database. " + "This should never happen under normal circumstances, as an invalid account should have " + "been caught by the Business Rules infrastructure.");
+                    throw new RuntimeException("Account [" + accountDetail.getChartOfAccountsCode() + "-" + accountDetail.getAccountNumber() + "] was not present in the database. " + "This should never happen under normal circumstances, as an invalid account should have " + "been caught by the Business Rules infrastructure.");
                 }
 
                 // attempt to load the existing Delegate from the DB, if it exists. we do this to avoid

@@ -17,7 +17,7 @@
  
 		<pattern>
 			<match>org.kuali.rice.kim.util.KimConstants</match>
-			<replacement>org.kuali.rice.kim.api.KimConstants</replacement>
+			<replacement>org.kuali.rice.kim.api.KimApiConstants</replacement>
 		</pattern>
  
 		<pattern>
@@ -213,9 +213,11 @@
 			<replacement addImport="org.kuali.rice.kim.bo.impl.KimAttributes:org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.api.KimConstants">$1KimConstants.AttributeConstants.$2</replacement>
 		</pattern>
-
-
-
+		<pattern>
+			<match>KimApiConstants\.(NAMESPACE_CODE|KimUIConstants|PrimaryKeyConstants)</match>
+			<replacement addImport="org.kuali.rice.kim.api.KimApiConstants:org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants">KimConstants.$1</replacement>
+		</pattern>
 
 		<pattern>
 			<match>new RoleMembershipContract</match>

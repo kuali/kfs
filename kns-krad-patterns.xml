@@ -233,7 +233,12 @@
 
 	<rule name="KNS_moved_classes" alsoRenameClass="true">
 		<!-- moved to KRAD -->
-		
+
+		<pattern>
+			<match>org\.kuali\.rice\.kns\.bo\.Parameter</match>
+			<replacement>org.kuali.rice.core.api.parameter.Parameter</replacement>
+		</pattern>
+					
 		<pattern>
 			<match>org\.kuali\.rice\.kns\.authorization\.AuthorizationConstants</match>
 			<replacement>org.kuali.rice.krad.authorization.AuthorizationConstants</replacement>
@@ -390,15 +395,19 @@
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.service.CountryService</match>
-			<replacement>org.kuali.rice.shareddata.api.country.CountryService</replacement>
+			<replacement>org.kuali.rice.location.api.country.CountryService</replacement>
 		</pattern>		
 		<pattern>
 			<match>org.kuali.rice.kns.service.PostalCodeService</match>
-			<replacement>org.kuali.rice.shareddata.api.postalcode.PostalCodeService</replacement>
+			<replacement>org.kuali.rice.location.api.postalcode.PostalCodeService</replacement>
 		</pattern>		
 		<pattern>
 			<match>org.kuali.rice.kns.service.StateService</match>
-			<replacement>org.kuali.rice.shareddata.api.state.StateService</replacement>
+			<replacement>org.kuali.rice.location.api.state.StateService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kns.service.CampusService</match>
+			<replacement>org.kuali.rice.location.api.campus.CampusService</replacement>
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.document.Document</match>
@@ -437,11 +446,11 @@
 		<!-- 
 		<pattern>
 			<match>org.kuali.rice.kns.bo.CampusImpl</match>
-			<replacement>org.kuali.rice.shareddata.impl.campus.CampusBo</replacement>			
+			<replacement>org.kuali.rice.location.impl.campus.CampusBo</replacement>			
 		</pattern>			
 		<pattern>
 			<match>org.kuali.rice.kns.bo.Campus</match>
-			<replacement>org.kuali.rice.shareddata.api.campus.CampusContract</replacement>			
+			<replacement>org.kuali.rice.location.api.campus.CampusContract</replacement>			
 		</pattern>			
 		 -->
 		 
@@ -537,7 +546,7 @@
 		</pattern>
 		<pattern>
 			<match>org\.kuali\.rice\.kns\.lookup\.keyvalues\.CampusValuesFinder</match>
-			<replacement>org.kuali.rice.shareddata.framework.campus.CampusValuesFinder</replacement>
+			<replacement>org.kuali.rice.location.framework.campus.CampusValuesFinder</replacement>
 		</pattern>
 	
 	</rule>
@@ -624,24 +633,24 @@ import java.util.ArrayList"
 		</pattern>
 		<pattern>
 			<match><![CDATA[([(< ])Campus([)>. ])]]></match>
-			<replacement addImport="org.kuali.rice.krad.bo.Campus:org.kuali.rice.shareddata.api.campus.Campus"><![CDATA[$1Campus$2]]></replacement>			
+			<replacement addImport="org.kuali.rice.krad.bo.Campus:org.kuali.rice.location.api.campus.Campus"><![CDATA[$1Campus$2]]></replacement>			
 		</pattern>			
 		
 		<pattern>
 			<match><![CDATA[([(< ])Country([)>. ])]]></match>
-			<replacement addImport="org.kuali.rice.krad.bo.Country:org.kuali.rice.shareddata.api.country.Country"><![CDATA[$1Country$2]]></replacement>			
+			<replacement addImport="org.kuali.rice.krad.bo.Country:org.kuali.rice.location.api.country.Country"><![CDATA[$1Country$2]]></replacement>			
 		</pattern>			
 		<pattern>
 			<match><![CDATA[([(< ])County([)>. ])]]></match>
-			<replacement addImport="org.kuali.rice.krad.bo.County:org.kuali.rice.shareddata.api.county.County"><![CDATA[$1County$2]]></replacement>			
+			<replacement addImport="org.kuali.rice.krad.bo.County:org.kuali.rice.location.api.county.County"><![CDATA[$1County$2]]></replacement>			
 		</pattern>			
 		<pattern>
 			<match><![CDATA[([(< ])State([)>. ])]]></match>
-			<replacement addImport="org.kuali.rice.krad.bo.State:org.kuali.rice.shareddata.api.state.State"><![CDATA[$1State$2]]></replacement>			
+			<replacement addImport="org.kuali.rice.krad.bo.State:org.kuali.rice.location.api.state.State"><![CDATA[$1State$2]]></replacement>			
 		</pattern>			
 		<pattern>
 			<match><![CDATA[([(< ])PostalCode([)>. ])]]></match>
-			<replacement addImport="org.kuali.rice.krad.bo.PostalCode:org.kuali.rice.shareddata.api.postalcode.PostalCode"><![CDATA[$1PostalCode$2]]></replacement>			
+			<replacement addImport="org.kuali.rice.krad.bo.PostalCode:org.kuali.rice.location.api.postalcode.PostalCode"><![CDATA[$1PostalCode$2]]></replacement>			
 		</pattern>			
 
 

@@ -42,6 +42,14 @@
 			<replacement>org.kuali.rice.core.api.util.xml.XmlException</replacement>
 		</pattern>
 		<pattern>
+			<match>org.kuali.rice.kew.exception.WorkflowException</match>
+			<replacement>org.kuali.rice.kew.api.exception.WorkflowException</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.util\.KEWConstants</match>
+			<replacement>org.kuali.rice.kew.api.KewApiConstants</replacement>
+		</pattern>
+		<pattern>
 			<match>org.kuali.rice.kew.batch.XmlConstants</match>
 			<replacement>org.kuali.rice.kew.xml.XmlConstants</replacement>
 		</pattern>

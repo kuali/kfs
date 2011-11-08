@@ -215,28 +215,28 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             public boolean stateIsEnroute() {
                 return true;
             }
-            public void superUserActionRequestApprove(Long actionRequestId, String annotation) throws WorkflowException {
+            public void superUserActionRequestApprove(Long actionRequestId, String annotation)  {
             }
 
-            public void superUserCancel(String annotation) throws WorkflowException {
+            public void superUserCancel(String annotation)  {
             }
 
-            public void superUserDisapprove(String annotation) throws WorkflowException {
+            public void superUserDisapprove(String annotation)  {
             }
 
             public boolean userIsRoutedByUser(Person user) {
                 return false;
             }
 
-            public Set<Person> getAllPriorApprovers() throws WorkflowException {
+            public Set<Person> getAllPriorApprovers()  {
                 return null;
             }
             
-            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) {
                 
             }
 
-            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) {
                 
             }
             
@@ -300,28 +300,28 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             public boolean stateIsEnroute() {
                 return true;
             }
-            public void superUserActionRequestApprove(Long actionRequestId, String annotation) throws WorkflowException {
+            public void superUserActionRequestApprove(Long actionRequestId, String annotation)  {
             }
 
-            public void superUserCancel(String annotation) throws WorkflowException {
+            public void superUserCancel(String annotation)  {
             }
 
-            public void superUserDisapprove(String annotation) throws WorkflowException {
+            public void superUserDisapprove(String annotation)  {
             }
 
             public boolean userIsRoutedByUser(Person user) {
                 return false;
             }
             
-            public Set<Person> getAllPriorApprovers() throws WorkflowException {
+            public Set<Person> getAllPriorApprovers()  {
                 return null;
             }
             
-            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToPrincipal(String actionRequested, String routeTypeName, String annotation, String principalId, String responsibilityDesc, boolean ignorePreviousActions) {
                 
             }
 
-            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) throws WorkflowException{
+            public void adHocRouteDocumentToGroup(String actionRequested, String routeTypeName, String annotation, String groupId, String responsibilityDesc, boolean ignorePreviousActions) {
                 
             }
         };

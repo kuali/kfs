@@ -179,7 +179,7 @@ public class LineItemReceivingAction extends ReceivingBaseAction {
         if(callback.isQuestionComplete()){
                             
             //set parameters
-            String basePath = getBasePath(request);
+            String basePath = getApplicationBaseUrl();
             String methodToCallDocHandler = "docHandler";
             String methodToCallReceivingCorrection = "initiate";
             

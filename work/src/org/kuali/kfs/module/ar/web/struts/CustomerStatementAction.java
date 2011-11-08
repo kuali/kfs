@@ -70,7 +70,7 @@ public class CustomerStatementAction extends KualiAction {
     }
 
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         CustomerStatementForm csForm = (CustomerStatementForm) form;
         String chartCode = csForm.getChartCode();
         String orgCode = csForm.getOrgCode();

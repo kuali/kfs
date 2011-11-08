@@ -250,7 +250,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = ((CustomerCreditMemoDocumentForm) form).getDocument().getDocumentNumber();
         String methodToCallPrintCreditMemoPDF = "printCreditMemoPDF";
         String methodToCallDocHandler = "docHandler";

@@ -199,7 +199,7 @@ public class CustomerAgingReportAction extends KualiAction {
         CustomerAgingReportForm lookupForm = (CustomerAgingReportForm) form;
 
         //String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
-        String backUrl = getBasePath(request)+"/portal.do?selectedTab=maintenance";
+        String backUrl = getApplicationBaseUrl()+"/portal.do?selectedTab=maintenance";
         return new ActionForward(backUrl, true);
     }
 

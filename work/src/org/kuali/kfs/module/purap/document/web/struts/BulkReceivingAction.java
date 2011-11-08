@@ -177,7 +177,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
         BulkReceivingForm blkRecForm = (BulkReceivingForm) form;
         BulkReceivingDocument blkRecDoc = (BulkReceivingDocument) blkRecForm.getDocument();
 
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = blkRecDoc.getDocumentNumber();
         String methodToCallPrintPurchaseOrderPDF = "printReceivingTicket";
         String methodToCallDocHandler = "docHandler";

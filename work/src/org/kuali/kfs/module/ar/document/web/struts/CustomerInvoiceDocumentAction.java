@@ -462,7 +462,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String docId = ((CustomerInvoiceDocumentForm) form).getCustomerInvoiceDocument().getDocumentNumber();
         String methodToCallPrintInvoicePDF = "printInvoicePDF";
         String methodToCallDocHandler = "docHandler";

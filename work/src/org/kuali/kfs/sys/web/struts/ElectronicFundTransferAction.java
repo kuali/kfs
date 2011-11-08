@@ -55,7 +55,7 @@ public class ElectronicFundTransferAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getActionHelpers().get(ElectronicFundTransferAction.START_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getBasePath(request));
+        return getActionHelpers().get(ElectronicFundTransferAction.START_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getApplicationBaseUrl());
     }
  
     /**
@@ -68,7 +68,7 @@ public class ElectronicFundTransferAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getActionHelpers().get(ElectronicFundTransferAction.REFRESH_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getBasePath(request));
+        return getActionHelpers().get(ElectronicFundTransferAction.REFRESH_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getApplicationBaseUrl());
     }
     
     /**
@@ -81,7 +81,7 @@ public class ElectronicFundTransferAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward claim(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getActionHelpers().get(ElectronicFundTransferAction.CLAIM_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getBasePath(request));
+        return getActionHelpers().get(ElectronicFundTransferAction.CLAIM_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getApplicationBaseUrl());
     }
     
     /**
@@ -94,7 +94,7 @@ public class ElectronicFundTransferAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getActionHelpers().get(ElectronicFundTransferAction.CANCEL_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getBasePath(request));
+        return getActionHelpers().get(ElectronicFundTransferAction.CANCEL_BEAN).performAction((ElectronicFundTransferForm)form, mapping, request.getParameterMap(), getApplicationBaseUrl());
     }
     
     /**

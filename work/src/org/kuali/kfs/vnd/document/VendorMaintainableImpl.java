@@ -176,8 +176,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * @param oldVendorDetail The parent vendor of the current vendor prior to this change.
      * @param documentNumber The document number of the document where we're attempting the parent vendor indicator change.
      */
-    private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String documentNumber) {
-        String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, documentNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
+    private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String docNumber) {
+        String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, docNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
         Note newBONote = new Note();
         newBONote.setNoteText(noteText);
         try {

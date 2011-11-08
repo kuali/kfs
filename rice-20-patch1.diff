@@ -7314,7 +7314,7 @@ Index: build/properties/rice.properties
  # Base Rice version properties
  rice.name=rice
 -kfs.rice.version=1.0.3.3
-+kfs.rice.version=2.0.0
++kfs.rice.version=2.0.0-b1
  rice.output.licenses.suffix=-licenses.zip
  rice.server.war.file.name.prefix=${rice.name}-web-
  rice.server.war.file.name=${rice.server.war.file.name.prefix}${kfs.rice.version}.war
@@ -7327,7 +7327,7 @@ Index: build/properties/build-foundation.properties
  rice.output.src.suffix=-sources.jar
  rice.output.doc.suffix=-javadoc.jar
 -rice.version=1.0.3.3-m2-SNAPSHOT
-+rice.version=2.0.0-m9
++rice.version=2.0.0-b1
  rice.war.file.name=${rice.name}-web-${rice.version}.war
  
  # paths used for pulling in rice changes using the KFS Ant script

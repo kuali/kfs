@@ -144,7 +144,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</if>
 	</target>
 	
-	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-cas,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
 		<if>
 			<isset property="institution.lib.directory" />
@@ -152,17 +152,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 				<copy todir="${lib.directory}" overwrite="true">
 					<fileset dir="${institution.lib.directory}" includes="*.jar" />
 				</copy>
-			</then>
-		</if>
-	</target>
-	
-	<target name="dist-local-cas" if="is.local.build" depends="filter-project">
-		<!-- need to check this way, so that the default can be true -->
-		<if>
-			<equals arg1="${deploy.local.cas.server}" arg2="true" />
-			<then>
-				<echo file="${metainf.directory}/${cas.context.file}" message="${cas.context}" />
-				<copy file="${metainf.directory}/${cas.context.file}" tofile="${appserver.localhost.dir}/${cas.context.name}.xml" overwrite="true" />
 			</then>
 		</if>
 	</target>
@@ -240,8 +229,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<property file="${properties.directory}/email.properties" />
 		<echo message="Reading Properties: ${properties.directory}/url.properties" />
 		<property file="${properties.directory}/url.properties" />
-		<echo message="Reading Properties: ${properties.directory}/cas.properties" />
-		<property file="${properties.directory}/cas.properties" />
 		<echo message="Reading Properties: ${properties.directory}/rice.properties" />
 		<property file="${properties.directory}/rice.properties" />
 		<echo message="Reading Properties: ${properties.directory}/spring.properties" />
@@ -305,9 +292,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-
-		<property name="cas.datasource.url" value="${datasource.url}" />
-		<property name="cas.datasource.driver.class" value="${datasource.driver.class}" />
 	</target>
 
 	<target name="init-spring-properties" depends="init-property-files">
@@ -489,8 +473,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
             </then>
         </if>
 		
-		<loadfile property="cas.context" srcfile="${build.appserver.directory}/${cas.context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		
 	</target>
 
 	<target name="init-make-references" depends="init-properties,check-rice-lib">
@@ -580,7 +562,6 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	<target name="clean-local-work" if="is.local.build" unless="dont.clean.local.work" depends="init-properties">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${appserver.work.dir}" includes="kfs-*/**" />
-			<fileset dir="${appserver.work.dir}" includes="${cas.context.name}/**" />
 		</delete>
 	</target>
 
@@ -610,7 +591,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	    <delete dir="${appserver.deploy.dir}/${rice.application}-${build.environment}" failonerror="false"/>
 	    <delete file="${rice.config.property.file}" failonerror="false" verbose="true" />
 		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml,${cas.context.name}.xml" />
+			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml" />
 		</delete>
 	</target>
 

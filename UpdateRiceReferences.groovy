@@ -1,11 +1,11 @@
-testRules = false;
+testRules = true;
 
 conversionRootDir = "."
 def mappingDir = "."
 def groovy.util.Node root
 patternFileSuffix = "patterns.xml"
 
-excludeDirs = [ "classes", "tomcat", "lib", ".settings", "performance" ]
+excludeDirs = [ "classes", "tomcat", "lib", ".settings", "performance", "jaxb" ]
 excludeFiles = [ patternFileSuffix ];
 
 class ReplacementInfo {

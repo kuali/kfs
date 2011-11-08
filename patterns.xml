@@ -11,6 +11,18 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+		<pattern>
+			<match>\.getBoNotes\(\)</match>
+			<replacement>.getNotes()</replacement>
+		</pattern>
+		<pattern>
+			<match>\.getBoNote\(</match>
+			<replacement>.getNote(</replacement>
+		</pattern>
+		<pattern>
+			<match>RoleManagementService</match>
+			<replacement>RoleService</replacement>
+		</pattern>
  	</rule>
 
 	<rule name="handle_RICE_20_conversion_comments">

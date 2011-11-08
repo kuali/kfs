@@ -9,12 +9,12 @@
 	
 
 	<rule name="KIM_moved_classes" alsoRenameClass="true">
-	
+<!-- 	
 		<pattern>
 			<match>org.kuali.rice.kim.util.KimCommonUtils</match>
 			<replacement>org.kuali.rice.krad.util.KRADUtils</replacement>
 		</pattern>
- 
+  -->
 		<pattern>
 			<match>org.kuali.rice.kim.util.KimConstants</match>
 			<replacement>org.kuali.rice.kim.api.KimApiConstants</replacement>
@@ -45,7 +45,7 @@
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kim.service.RoleManagementService</match>
-			<replacement>org.kuali.rice.kim.api.role.RoleManagementService</replacement>
+			<replacement>org.kuali.rice.kim.api.role.RoleService</replacement>
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kim.service.KimTypeInfoService</match>
@@ -214,7 +214,7 @@
 import org.kuali.rice.kim.api.KimConstants">$1KimConstants.AttributeConstants.$2</replacement>
 		</pattern>
 		<pattern>
-			<match>KimApiConstants\.(NAMESPACE_CODE|KimUIConstants|PrimaryKeyConstants)</match>
+			<match>KimApiConstants\.(NAMESPACE_CODE|KimUIConstants|PrimaryKeyConstants|PermissionTemplateNames)</match>
 			<replacement addImport="org.kuali.rice.kim.api.KimApiConstants:org.kuali.rice.kim.api.KimApiConstants;
 import org.kuali.rice.kim.api.KimConstants">KimConstants.$1</replacement>
 		</pattern>
@@ -294,5 +294,9 @@ import java.util.Map;</replacement>
 			<replacement>kpi.getAttributes</replacement>
 		</pattern>
 		
+		<pattern>
+			<match>RoleManagementService</match>
+			<replacement>RoleService</replacement>
+		</pattern>
 	</rule>	
 </rules>

@@ -680,19 +680,18 @@ import org.kuali.rice.core.framework.parameter.ParameterService">getBean(Paramet
 			<replacement>$1.get$2()</replacement>
 		</pattern>
 
+	<pattern>
+		<match>\.getBoNotes\(\)</match>
+		<replacement>.getNotes()</replacement>
+	</pattern>
+		<pattern>
+			<match>\.getBoNote\(</match>
+			<replacement>.getNote(</replacement>
+		</pattern>
 
 
 		<!-- Exception Classes -->
 
-		<pattern>
-			<match>import org\.kuali\.rice\.kns\.exception\.BusinessObjectNotFoundException;</match>
-			<replacement></replacement>
-		</pattern>
-		<pattern>
-			<match>BusinessObjectNotFoundException</match>
-			<replacement>RuntimeException</replacement>
-		</pattern>
-		
 		
 		<pattern>
 			<match>KNS_NAMESPACE</match>

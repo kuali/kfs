@@ -28,7 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * A login filter which forwards to a login page that allows for the desired
@@ -69,9 +70,9 @@ public class DummyLoginFilter implements Filter {
 	public void destroy() {
 	}
 	public static UserSession getUserSession(HttpServletRequest request) {
-		return (UserSession) request.getSession().getAttribute(KEWConstants.USER_SESSION_KEY);
+		return (UserSession) request.getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
 	}
 	public static boolean isUserSessionEstablished(HttpServletRequest request) {
-		return (request.getSession(false) != null && request.getSession(false).getAttribute(KEWConstants.USER_SESSION_KEY) != null);
+		return (request.getSession(false) != null && request.getSession(false).getAttribute(KRADConstants.USER_SESSION_KEY) != null);
 	}
 }

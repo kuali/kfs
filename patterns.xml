@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentRouteStatusChangeDTO</match>
+			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchCriteriaDTO</match>
+			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchCriteria</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchResultDTO</match>
+			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchResult</replacement>
+		</pattern>
 
 	
 <!-- 		

@@ -1,4 +1,4 @@
-testRules = false;
+testRules = true;
 
 conversionRootDir = "."
 def mappingDir = "."

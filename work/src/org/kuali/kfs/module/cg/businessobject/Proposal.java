@@ -223,7 +223,6 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
-    @Override
     @Override protected void prePersist() {
         super.prePersist();
         proposalTotalAmount = getProposalTotalAmount();
@@ -237,7 +236,6 @@ public class Proposal extends PersistableBusinessObjectBase implements Inactivat
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         proposalTotalAmount = getProposalTotalAmount();

@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -120,7 +121,7 @@ public class PurApRelatedViews {
         String poIDstr = view.getPurapDocumentIdentifier().toString();
         
         if (document != null) {
-            if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+            if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                 String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;

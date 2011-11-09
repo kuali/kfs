@@ -480,7 +480,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if(!(this instanceof BulkReceivingDocument)){
             if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {

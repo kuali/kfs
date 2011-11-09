@@ -18,9 +18,11 @@ package org.kuali.kfs.sys.batch.service.impl;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
@@ -32,10 +34,12 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
@@ -237,12 +241,12 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         
 //        WorkflowInfo workflowInfo = new WorkflowInfo();
         
-        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
-        documentSearchCriteriaDTO.setDocRouteStatus(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-        documentSearchCriteriaDTO.setSaveSearchForUser(false);
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        documentSearchCriteriaDTO.setSaveName(null);
         
         try {
-            DocumentSearchResultDTO documentSearchResultDTO = workflowInfo.performDocumentSearch(principalId, documentSearchCriteriaDTO);
+            DocumentSearchResult documentSearchResultDTO = workflowInfo.performDocumentSearch(principalId, documentSearchCriteriaDTO);
             List<DocumentSearchResultRowDTO> autoDisapproveDocumentsList = documentSearchResultDTO.getSearchResults();
 
             String documentHeaderId = null;
@@ -299,10 +303,10 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      
         String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
      
-        DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().findByName(yearEndAutoDisapproveParentDocumentType);
+        DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().getDocumentTypeByName(yearEndAutoDisapproveParentDocumentType);
         
         String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        DocumentType childDocumentType = (DocumentType) getDocumentTypeService().findByName(documentTypeName);
+        DocumentType childDocumentType = (DocumentType) getDocumentTypeService().getDocumentTypeByName(documentTypeName);
      
         documentEligible = parentDocumentType.isParentOf(childDocumentType);
      
@@ -380,7 +384,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
 
         String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
-        Timestamp documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getDateCreated();
+        DateTime documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getDateCreated();
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(documentCompareDate);

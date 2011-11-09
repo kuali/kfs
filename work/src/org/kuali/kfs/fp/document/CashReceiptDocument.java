@@ -832,7 +832,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);        
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         

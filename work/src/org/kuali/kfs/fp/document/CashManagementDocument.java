@@ -306,7 +306,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         WorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();

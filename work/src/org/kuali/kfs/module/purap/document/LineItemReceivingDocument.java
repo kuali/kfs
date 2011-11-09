@@ -147,7 +147,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 

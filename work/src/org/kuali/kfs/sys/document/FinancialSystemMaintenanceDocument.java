@@ -110,7 +110,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }

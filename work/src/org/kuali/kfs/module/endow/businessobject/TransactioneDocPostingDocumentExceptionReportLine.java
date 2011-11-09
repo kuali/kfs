@@ -107,10 +107,4 @@ public class TransactioneDocPostingDocumentExceptionReportLine extends Transient
         this.reason = reason;
     }
 
-    @Override
-    protected LinkedHashMap<Object, Object> toStringMapper() {
-        return new LinkedHashMap<Object, Object>();
-    }
-    
- 
 }

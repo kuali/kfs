@@ -143,7 +143,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public String getDocumentTypeResults() {
         
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.findByName(typeCode);
+        DocumentType documentType = documentTypeService.getDocumentTypeByName(typeCode);
         
         StringBuilder result = new StringBuilder();
         result.append("[" + typeCode + "," + " ,");

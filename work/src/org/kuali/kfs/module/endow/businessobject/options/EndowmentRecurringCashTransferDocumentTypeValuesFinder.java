@@ -43,11 +43,11 @@ public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyV
 
         String label= null;
         for (String documentTypeName : documentTypeNames) {
-            if(documentTypeService.findByName(documentTypeName)== null){
+            if(documentTypeService.getDocumentTypeByName(documentTypeName)== null){
                 keyValues.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - Can't find it!"));
             }
             else{
-                label = documentTypeService.findByName(documentTypeName).getLabel();
+                label = documentTypeService.getDocumentTypeByName(documentTypeName).getLabel();
                 keyValues.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - "+label));
             }            
         }

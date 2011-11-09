@@ -65,7 +65,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
 
     protected static final String REQUIRES_REVIEW = "RequiresReview";
 
@@ -75,13 +75,13 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getWorkflowEngineDocumentIdsToLock()
      */
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         if (ObjectUtils.isNotNull(assetGlobal) && assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
             String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(getDocumentNumber());
             if (StringUtils.isNotBlank(poDocId)) {
-                List<Long> documentIds = new ArrayList<Long>();
-                documentIds.add(new Long(poDocId));
+                List<String> documentIds = new ArrayList<String>();
+                documentIds.add(poDocId);
                 return documentIds;
             }
         }
@@ -159,11 +159,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @param assetGlobal
      * @return Asset
      */
-    private Asset getAsset(AssetGlobal assetGlobal) {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
-        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
-        return asset;
+    protected Asset getAsset(AssetGlobal assetGlobal) {
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Asset.class, assetGlobal.getSeparateSourceCapitalAssetNumber());
     }
 
     /**
@@ -172,11 +169,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @param assetGlobal
      * @return AssetOrganization
      */
-    private AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
-        AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
-        return assetOrganization;
+    protected AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetOrganization.class, assetGlobal.getSeparateSourceCapitalAssetNumber());
     }
 
     /**
@@ -669,7 +663,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
                     for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
                         if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
-                            HashMap<Object, Object> map = new HashMap<Object, Object>();
+                            HashMap<String, Object> map = new HashMap<String, Object>();
                             map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
                             List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
                             if (ObjectUtils.isNotNull(pretagDetailList)) {

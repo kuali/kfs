@@ -137,9 +137,4 @@ public class TransactioneDocPostingDocumentTotalReportLine extends TransientBusi
         this.totalUnits = totalUnits;
     }
 
-    @Override
-    protected LinkedHashMap<Object, Object> toStringMapper() {
-        return new LinkedHashMap<Object, Object>();
-    }
-    
 }

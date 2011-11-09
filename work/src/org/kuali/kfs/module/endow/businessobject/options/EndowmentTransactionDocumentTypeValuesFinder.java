@@ -49,11 +49,11 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
             parameterService.getParameterValuesAsString(TransactionArchive.class, EndowParameterKeyConstants.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
         String label= null;
         for (String documentTypeName : documentTypeNames) {
-            if(documentTypeService.findByName(documentTypeName)== null){
+            if(documentTypeService.getDocumentTypeByName(documentTypeName)== null){
                 labels.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - Can't find it!"));
             }
             else{
-                label = documentTypeService.findByName(documentTypeName).getLabel();
+                label = documentTypeService.getDocumentTypeByName(documentTypeName).getLabel();
                 labels.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - "+label));
             }
         }

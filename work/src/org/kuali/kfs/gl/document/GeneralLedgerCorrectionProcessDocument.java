@@ -167,7 +167,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
     
     
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             if (LOG.isDebugEnabled()) {

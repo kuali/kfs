@@ -69,7 +69,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
     
     
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         
         if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);

@@ -38,9 +38,9 @@ public class PostProcessor implements PostProcessorRemote {
     }
 
     /**
-     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.kew.clientapp.PostProcessorRemote#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteStatusChange)
      */
-    public boolean doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) throws RemoteException {
+    public boolean doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doRouteStatusChange(statusChangeEvent);
     }
 

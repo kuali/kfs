@@ -48,7 +48,7 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         // NOTE: DO NOT call the super implementation.  It has the GLCP processing logic which should not be run here.
         // The code below is copied from the super.super implementation:
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {

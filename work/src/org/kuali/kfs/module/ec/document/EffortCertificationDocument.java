@@ -316,7 +316,7 @@ public class EffortCertificationDocument extends FinancialSystemTransactionalDoc
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() start...");
 
         super.doRouteStatusChange(statusChangeEvent);

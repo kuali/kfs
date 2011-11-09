@@ -218,7 +218,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         // Updating for rice-1.0.0 api changes. doRouteStatusChange() went away, so

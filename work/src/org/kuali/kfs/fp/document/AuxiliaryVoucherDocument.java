@@ -209,7 +209,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
      * reversal date.
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("In doRouteStatusChange() for AV documents");
         super.doRouteStatusChange(statusChangeEvent);
 

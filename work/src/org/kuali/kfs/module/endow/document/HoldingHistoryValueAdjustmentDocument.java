@@ -178,7 +178,7 @@ public class HoldingHistoryValueAdjustmentDocument extends FinancialSystemTransa
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent){
         //override the action defined in EndowmentTransactionalDocumentBase.
         //since we don't need to post any transaction from this document type to
         //the endowment transaction archive tables

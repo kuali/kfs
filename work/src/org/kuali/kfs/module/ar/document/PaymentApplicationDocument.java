@@ -968,7 +968,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
         if(getDocumentHeader().getWorkflowDocument().isFinal()) {

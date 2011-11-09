@@ -63,7 +63,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
                         if (sourceDocument != null && StringUtils.isNotBlank(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId()) ) {
                             Map<String,String> roleQualifier = new HashMap<String,String>(1);
                             roleQualifier.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
-                            members.add( new RoleMembership(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+                            members.add( new RoleMembership(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
                         }
                     }
                 }
@@ -76,7 +76,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
                     Map<String,String> tempQualification = new HashMap<String,String>(1);
                     tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
                     for ( String principalId : getRoleService().getRoleMemberPrincipalIds(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
-                        members.add( new RoleMembership(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+                        members.add( new RoleMembership(null,null,principalId,KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,tempQualification) );
                     }
                 }
             }

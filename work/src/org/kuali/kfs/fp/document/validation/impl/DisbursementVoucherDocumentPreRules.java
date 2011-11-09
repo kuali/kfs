@@ -17,8 +17,8 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -35,7 +35,6 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.framework.parameter.ParameterService;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -87,8 +86,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @return true if special handling can be automatically turned on, false otherwise
      */
     protected boolean allowTurningOnOfSpecialHandling(DisbursementVoucherDocument dvDocument) {
-        String[] names = dvDocument.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        List<String> currentNodes = Arrays.asList(names);
+        Set<String> currentNodes = dvDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
         return !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
     }
 

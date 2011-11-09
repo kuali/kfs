@@ -207,7 +207,7 @@ public class Job implements StatefulJob, InterruptableJob {
         
         boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
         boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
-        boolean runDateContainsTodaysDate = new ArrayList<String>( (runDateExists ? parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true) );
+        boolean runDateContainsTodaysDate = runDateExists ? parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true;
 
         if (!runInd && !runDateExists) {
             if (LOG.isInfoEnabled()) {

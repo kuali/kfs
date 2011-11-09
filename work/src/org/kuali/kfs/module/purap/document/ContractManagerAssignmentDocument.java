@@ -102,7 +102,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() Entering method.");
 
         super.doRouteStatusChange(statusChangeEvent);

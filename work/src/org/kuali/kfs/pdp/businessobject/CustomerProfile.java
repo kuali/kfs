@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -831,7 +832,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * @return Returns the defaultProcessingCampus.
      */
     public Campus getDefaultProcessingCampus() {
-        return defaultProcessingCampus = StringUtils.isBlank( defaultProcessingCampusCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultProcessingCampusCode))?defaultProcessingCampus:SpringContext.getBean(CampusService.class).getCampus( defaultProcessingCampusCode));
+        return defaultProcessingCampus = StringUtils.isBlank( defaultPhysicalCampusProcessingCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultPhysicalCampusProcessingCode))?defaultProcessingCampus:SpringContext.getBean(CampusService.class).getCampus( defaultPhysicalCampusProcessingCode));
     }
 
     /**

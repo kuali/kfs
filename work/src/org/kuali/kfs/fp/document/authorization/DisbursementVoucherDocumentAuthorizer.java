@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -90,9 +89,8 @@ public class DisbursementVoucherDocumentAuthorizer extends AccountingDocumentAut
      * @param workflowDocument
      * @return List
      */
-    protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        return Arrays.asList(names);
+    protected Set<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
+        return workflowDocument.getCurrentNodeNames();
     }
     
     /**

@@ -138,7 +138,7 @@ public class GeneralErrorCorrectionDocument extends CapitalAccountingLinesDocume
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
     }

@@ -182,10 +182,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
         
-        DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
+        DocumentSearchCriteria criteria = new DocumentSearchCriteria();
         criteria.setDocTypeFullName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
         criteria.setDocRouteStatus(statusCode);
-        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
+        DocumentSearchResult results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
         
         for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
             for (KeyValue field : resultRow.getFieldValues()) {

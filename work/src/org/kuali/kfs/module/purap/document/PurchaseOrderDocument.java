@@ -662,7 +662,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
         String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();

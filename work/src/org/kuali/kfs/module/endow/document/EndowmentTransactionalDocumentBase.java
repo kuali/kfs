@@ -215,7 +215,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent){
         super.doRouteStatusChange(statusChangeEvent);        
           
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {

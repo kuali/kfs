@@ -216,7 +216,6 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
         this.chartOfAccountsCode = chart;
     }
 
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         try {
@@ -232,14 +231,14 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
                     sfr.setChartOfAccountsCode(originalObjLevel.getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(originalObjLevel.getFinancialConsolidationObjectCode());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                     sfr = new SufficientFundRebuild();
                     sfr.setAccountFinancialObjectTypeCode(SufficientFundRebuild.REBUILD_OBJECT);
                     sfr.setChartOfAccountsCode(getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(getFinancialConsolidationObjectCode());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                 }
             }

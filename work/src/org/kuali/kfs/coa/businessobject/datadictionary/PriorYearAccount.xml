@@ -170,7 +170,8 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="PriorYearAccount-active" parent="Account-active" />
+	<bean id="PriorYearAccount-active" parent="PriorYearAccount-active-parentBean" />
+	<bean id="PriorYearAccount-active-parentBean" abstract="true" parent="Account-active" />
 
 	<bean id="PriorYearAccount-accountCreateDate" parent="PriorYearAccount-accountCreateDate-parentBean" />
 	<bean id="PriorYearAccount-accountCreateDate-parentBean" abstract="true"

@@ -244,7 +244,8 @@
 		</property>
 	</bean>
 
-	<bean id="Proposal-userLookupRoleNamespaceCode" parent="AttributeDefinition">
+	<bean id="Proposal-userLookupRoleNamespaceCode" parent="Proposal-userLookupRoleNamespaceCode-parentBean"/>
+	<bean id="Proposal-userLookupRoleNamespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
 		<property name="required" value="false" />
@@ -253,7 +254,8 @@
 		</property>
 	</bean>
 
-	<bean id="Proposal-userLookupRoleName" parent="AttributeDefinition">
+	<bean id="Proposal-userLookupRoleName" parent="Proposal-userLookupRoleName-parentBean"/>
+	<bean id="Proposal-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />

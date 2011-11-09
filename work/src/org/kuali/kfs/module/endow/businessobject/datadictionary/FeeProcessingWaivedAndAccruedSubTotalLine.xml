@@ -44,6 +44,6 @@
 
   <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees" parent="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean"/>    
 
-  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees"/>
+  <bean id="FeeProcessingWaivedAndAccruedSubTotalLine-totalWaivedFees-parentBean" abstract="true" parent="FeeProcessingWaivedAndAccruedGrandTotalLine-totalWaivedFees"/>
 
 </beans>

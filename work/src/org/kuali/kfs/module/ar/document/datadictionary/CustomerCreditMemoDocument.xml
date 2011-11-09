@@ -142,7 +142,7 @@
     
 <!-- Granular Validations -->
   <bean id="CustomerCreditMemoDocument-validations" parent="CustomerCreditMemoDocument-validations-parentBean"/>  
-  <bean id="CustomerCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CustomerCreditMemoDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>

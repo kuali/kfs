@@ -116,8 +116,8 @@
     </property>
   </bean>
 
-  <bean id="PaymentAccountHistory-inquirySectionDefinition" parent="PaymentAccountHistory-inquirySectionDefinition-parenetBean"/>
-  <bean id="PaymentAccountHistory-inquirySectionDefinition-parenetBean" parent="InquirySectionDefinition" abstract="true">
+  <bean id="PaymentAccountHistory-inquirySectionDefinition" parent="PaymentAccountHistory-inquirySectionDefinition-parentBean"/>
+  <bean id="PaymentAccountHistory-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
     <property name="title" value=""/>
     <property name="numberOfColumns" value="1"/>
     <property name="inquiryFields">

@@ -80,15 +80,16 @@
 		</property>
 	</bean>
 
-	<bean id="CommodityContractManager-newCollectionRecord" parent="GenericAttributes-newCollectionRecord" />
+	<bean id="CommodityContractManager-newCollectionRecord" parent="CommodityContractManager-newCollectionRecord-parentBean" />
+	<bean id="CommodityContractManager-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />
 
 	<bean id="CommodityContractManager-purchasingCommodityCode"
 		parent="CommodityContractManager-purchasingCommodityCode-parentBean" />
 	<bean id="CommodityContractManager-purchasingCommodityCode-parentBean"
 		abstract="true" parent="CommodityCode-purchasingCommodityCode" />
 
-	<bean id="CommodityContractManger-active" parent="CommodityContractManager-active-parent" />
-	<bean id="CommodityContractManager-active-parent" abstract="true" parent="GenericAttributes-activeIndicator">
+	<bean id="CommodityContractManger-active" parent="CommodityContractManger-active-parentBean" />
+	<bean id="CommodityContractManger-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 	<property name="name" value="active"/>
 	</bean>
 	

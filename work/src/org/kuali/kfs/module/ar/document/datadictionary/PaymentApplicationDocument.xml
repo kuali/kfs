@@ -58,7 +58,7 @@
 	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
 
 	<bean id="PaymentApplicationDocument-validations" parent="PaymentApplicationDocument-validations-parentBean"/>
-	<bean id="PaymentApplicationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="PaymentApplicationDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
 	  <property name="sourceMap">
 		<map>			
 			<entry>

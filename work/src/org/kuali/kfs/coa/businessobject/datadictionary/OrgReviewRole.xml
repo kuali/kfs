@@ -336,7 +336,8 @@
 	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="KimDelegationImpl-delegationTypeCode"
 		abstract="true" p:name="delegationTypeCode" />
 
-	<bean id="OrgReviewRole-delegationTypeCodeDescription" parent="OrgReviewRole-delegationTypeCode"
+	<bean id="OrgReviewRole-delegationTypeCodeDescription" parent="OrgReviewRole-delegationTypeCodeDescription-parentBean"/>
+	<bean id="OrgReviewRole-delegationTypeCodeDescription-parentBean" abstract="true" parent="OrgReviewRole-delegationTypeCode"
 		p:name="delegationTypeCodeDescription" />
 
 	<bean id="OrgReviewRole-memberName" parent="OrgReviewRole-memberName-parentBean" />
@@ -374,7 +375,8 @@
 	<bean id="OrgReviewRole-priorityNumber-parentBean" parent="DocRoleResponsibilityAction-priorityNumber"
 		abstract="true" p:name="priorityNumber" />
 
-	<bean id="OrgReviewRole-priorityNumberToDisplay" parent="OrgReviewRole-priorityNumber-parentBean"
+	<bean id="OrgReviewRole-priorityNumberToDisplay" parent="OrgReviewRole-priorityNumberToDisplay-parentBean"/>
+	<bean id="OrgReviewRole-priorityNumberToDisplay-parentBean" abstract="true" parent="OrgReviewRole-priorityNumber-parentBean"
 		p:name="priorityNumberToDisplay" />
 
 	<bean id="OrgReviewRole-activeFromDate" parent="OrgReviewRole-activeFromDate-parentBean" />

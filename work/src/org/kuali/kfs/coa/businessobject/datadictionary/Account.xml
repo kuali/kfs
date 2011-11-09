@@ -568,8 +568,8 @@
 			<bean parent="TextControlDefinition" p:size="3" />
 		</property>
 	</bean>
-	
-  <bean id="Account-accountInFinancialProcessingIndicator"
+
+	<bean id="Account-accountInFinancialProcessingIndicator"
 		parent="Account-accountInFinancialProcessingIndicator-parentBean" />
 
 	<bean id="Account-accountInFinancialProcessingIndicator-parentBean"
@@ -975,8 +975,8 @@
 		</property>
 	</bean>
 
-	<bean id="Account-inquirySectionDefinition-accountResponsibility"
-		parent="Account-InquirySection-accountResponsibility-parentBean" />
+	<bean id="Account-inquirySectionDefinition-accountResponsibility" parent="Account-inquirySectionDefinition-accountResponsibility-parentBean" />
+	<bean id="Account-inquirySectionDefinition-accountResponsibility-parentBean" abstract="true" parent="Account-InquirySection-accountResponsibility-parentBean" />
 	<bean id="Account-InquirySection-accountResponsibility-parentBean"
 		parent="InquirySectionDefinition" abstract="true" p:title="Account Responsibility">
 		<property name="inquiryFields">

@@ -144,7 +144,7 @@
 
   <bean id="CashControlDocument-validations" parent="CashControlDocument-validations-parentBean"/>
   
-  <bean id="CashControlDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CashControlDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>

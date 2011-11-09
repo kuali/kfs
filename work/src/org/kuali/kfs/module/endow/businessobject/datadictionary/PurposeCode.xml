@@ -83,7 +83,8 @@
 		<property name="label" value="Active Indicator" />
 	</bean>
 
-	<bean id="PurposeCode-codeForReport" parent="PurposeCode-code-parentBean">
+	<bean id="PurposeCode-codeForReport" parent="PurposeCode-codeForReport-parentBean"/>
+	<bean id="PurposeCode-codeForReport-parentBean" abstract="true" parent="PurposeCode-code-parentBean">
 		<property name="name" value="codeForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

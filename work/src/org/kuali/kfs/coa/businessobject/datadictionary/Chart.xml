@@ -276,7 +276,8 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="Chart-chartCodeForReport" parent="Chart-chartOfAccountsCode-parentBean">
+	<bean id="Chart-chartCodeForReport" parent="Chart-chartCodeForReport-parentBean"/>
+	<bean id="Chart-chartCodeForReport-parentBean" abstract="true" parent="Chart-chartOfAccountsCode-parentBean">
 		<property name="name" value="chartCodeForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

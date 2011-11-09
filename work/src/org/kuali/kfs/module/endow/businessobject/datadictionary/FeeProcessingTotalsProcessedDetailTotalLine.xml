@@ -45,10 +45,10 @@
 
   <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalIncomeAmount" parent="FeeProcessingTotalsProcessedDetailTotalLine-totalIncomeAmount-parentBean"/>    
 
-  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalIncomeAmount-parentBean" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalIncomeAmount"/>
+  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalIncomeAmount-parentBean" abstract="true" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalIncomeAmount"/>
 
   <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalPrincipalAmount" parent="FeeProcessingTotalsProcessedDetailTotalLine-totalPrincipalAmount-parentBean"/>    
 
-  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalPrincipalAmount-parentBean" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount"/>
+  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-totalPrincipalAmount-parentBean" abstract="true" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount"/>
 
 </beans>

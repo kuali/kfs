@@ -524,7 +524,7 @@
 			<ref bean="postalCodeService" />
 		</property>		
 	</bean>	
-	<bean id="taxRegionTypeLookupableHelperService" parent="taxRegionTypeLookupableHelperService-parentBean"/>
+	<bean id="taxRegionTypeLookupableHelperService" parent="taxRegionTypeLookupableHelperService-parentBean" scope="prototype"/>
 	
 	<bean id="taxRegionTypeLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionTypeLookupableServiceImpl" parent="lookupableHelperService" abstract="true" />
 	
@@ -674,7 +674,7 @@
     </bean>
     
     <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferCancelActionHelper" />
-	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"/>
+	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"  scope="prototype"/>
     
     <bean id="electronicPaymentClaimLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
     	<property name="lookupDao"><ref bean="lookupDao" /></property>

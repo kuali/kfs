@@ -49,7 +49,7 @@
   <!-- validations -->
   <bean id="IndirectCostAdjustmentDocument-validations" parent="IndirectCostAdjustmentDocument-validations-parentBean"/>
   
-  <bean id="IndirectCostAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="IndirectCostAdjustmentDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

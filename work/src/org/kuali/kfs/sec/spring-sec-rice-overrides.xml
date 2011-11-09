@@ -28,7 +28,7 @@
  
 	<bean id="documentHelperService" parent="documentHelperService-parentBean"/>
  
- 	<bean id="documentHelperService-parentBean" class="org.kuali.kfs.sec.service.impl.SecDocumentHelperServiceImpl">
+ 	<bean id="documentHelperService-parentBean" abstract="true"  class="org.kuali.kfs.sec.service.impl.SecDocumentHelperServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>

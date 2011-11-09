@@ -14,8 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+  
 
     <bean id="ldModuleConfiguration" parent="ldModuleConfiguration-parentBean" />
 
@@ -394,11 +404,11 @@
     <bean id="laborLedgerPreparedStatementCachingDao" parent="preparedStatementCachingDao"
         class="org.kuali.kfs.module.ld.batch.dataaccess.impl.LedgerPreparedStatementCachingDaoJdbc" />
 
-    <bean id="laborAccountingCycleCachingService" parent="accountingCycleCachingService"
-        class="org.kuali.kfs.module.ld.batch.service.impl.LaborAccountingCycleCachingServiceImpl"
-    >
+	<bean id="laborAccountingCycleCachingService" parent="laborAccountingCycleCachingService-parentBean"/>
+    <bean id="laborAccountingCycleCachingService-parentBean" abstract="true"  parent="accountingCycleCachingService" class="org.kuali.kfs.module.ld.batch.service.impl.LaborAccountingCycleCachingServiceImpl">        
         <property name="laborLedgerDao" ref="laborLedgerPreparedStatementCachingDao" />
     </bean>
+    
     <bean id="laborPosterService" parent="laborPosterService-parentBean" />
 
     <bean id="laborPosterService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterServiceImpl" abstract="true">
@@ -1025,15 +1035,16 @@
     </bean>
 
     <!-- Section 4: Spring Bean for Balance Inquiry -->
-    <bean id="laborPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborPendingEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborPendingEntryLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborPendingEntryLookupableHelperService" parent="laborPendingEntryLookupableHelperService-parentBean" />
+    
+    <bean id="laborPendingEntryLookupableHelperService" scope="prototype" parent="laborPendingEntryLookupableHelperService-parentBean" />
 
-    <bean id="laborPendingEntryLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.LaborPendingEntryLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="laborPendingEntryLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.LaborPendingEntryLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1057,10 +1068,11 @@
             <ref bean="laborInquiryOptionsService" />
         </property>
     </bean>
-    <bean id="laborLedgerBalanceLookupableHelperService" parent="laborLedgerBalanceLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerBalanceLookupableHelperService"  scope="prototype"  parent="laborLedgerBalanceLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="laborLedgerBalanceLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1088,16 +1100,17 @@
         </property>
     </bean>
 
-    <bean id="laborLedgerBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborLedgerBalanceLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborLedgerBalanceLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" parent="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" scope="prototype"  parent="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService-parentBean"
+    <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1124,11 +1137,12 @@
             <ref bean="balanceTypService" />
         </property>        
     </bean>
-    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" parent="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" scope="prototype"  parent="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService-parentBean"
+    <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1155,11 +1169,12 @@
             <ref bean="balanceTypService" />
         </property>
     </bean>
-    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" parent="laborLedgerEntryForExpenseTransferLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService" scope="prototype"  parent="laborLedgerEntryForExpenseTransferLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService-parentBean"
+    <bean id="laborLedgerEntryForExpenseTransferLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerEntryForExpenseTransferLookupableHelperServiceImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1178,15 +1193,16 @@
         </property>
     </bean>
 
-    <bean id="laborLedgerEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborLedgerEntryLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborLedgerEntryLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborLedgerEntryLookupableHelperService" parent="laborLedgerEntryLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerEntryLookupableHelperService" scope="prototype"  parent="laborLedgerEntryLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerEntryLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerEntryLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="laborLedgerEntryLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerEntryLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1209,7 +1225,7 @@
     </bean>
 
     <bean id="laborLedgerEntryForExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="lookupableHelperService">
             <ref bean="laborLedgerEntryForExpenseTransferLookupableHelperService" />
@@ -1217,7 +1233,7 @@
     </bean>
 
     <bean id="laborLedgerBalanceForSalaryExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="lookupableHelperService">
             <ref bean="laborLedgerBalanceForSalaryExpenseTransferLookupableHelperService" />
@@ -1225,7 +1241,7 @@
     </bean>
 
     <bean id="laborLedgerBalanceForBenefitExpenseTransferLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="lookupableHelperService">
             <ref bean="laborLedgerBalanceForBenefitExpenseTransferLookupableHelperService" />
@@ -1233,17 +1249,18 @@
     </bean>
 
     <bean id="laborCalculatedSalaryFoundationTrackerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="lookupableHelperService">
             <ref bean="laborCalculatedSalaryFoundationTrackerLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService" parent="laborCalculatedSalaryFoundationTrackerLookupableHelperService-parentBean" />
+    
+    <bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService" scope="prototype"  parent="laborCalculatedSalaryFoundationTrackerLookupableHelperService-parentBean" />
 
-    <bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService-parentBean"
+    <bean id="laborCalculatedSalaryFoundationTrackerLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LaborCalculatedSalaryFoundationTrackerLookupableHelperServiceImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1264,10 +1281,11 @@
             <ref bean="laborCalculatedSalaryFoundationTrackerService" />
         </property>
     </bean>
-    <bean id="laborPositionDataLookupableHelperService" parent="laborPositionDataLookupableHelperService-parentBean" />
+    
+    <bean id="laborPositionDataLookupableHelperService" scope="prototype"  parent="laborPositionDataLookupableHelperService-parentBean" />
 
-    <bean id="laborPositionDataLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionDataLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="laborPositionDataLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.PositionDataLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1286,7 +1304,7 @@
         </property>
     </bean>
 
-    <bean id="laborPositionDataLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborPositionDataLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborPositionDataLookupableHelperService" />
         </property>
@@ -1302,15 +1320,16 @@
         </property>
     </bean>
 
-    <bean id="CurrentFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="CurrentFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="CurrentFundsLookupableHelperService" />
         </property>
     </bean>
-    <bean id="CurrentFundsLookupableHelperService" parent="CurrentFundsLookupableHelperService-parentBean" />
+    
+    <bean id="CurrentFundsLookupableHelperService" scope="prototype"  parent="CurrentFundsLookupableHelperService-parentBean" />
 
-    <bean id="CurrentFundsLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.CurrentFundsLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="CurrentFundsLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.CurrentFundsLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1341,15 +1360,15 @@
         </property>
     </bean>
 
-    <bean id="BaseFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="BaseFundsLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="BaseFundsLookupableHelperService" />
         </property>
     </bean>
-    <bean id="BaseFundsLookupableHelperService" parent="BaseFundsLookupableHelperService-parentBean" />
+    <bean id="BaseFundsLookupableHelperService" scope="prototype"  parent="BaseFundsLookupableHelperService-parentBean" />
 
-    <bean id="BaseFundsLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.BaseFundsLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="BaseFundsLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.BaseFundsLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1374,15 +1393,15 @@
         </property>
     </bean>
 
-    <bean id="EmployeeFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="EmployeeFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="EmployeeFundingLookupableHelperService" />
         </property>
     </bean>
-    <bean id="EmployeeFundingLookupableHelperService" parent="EmployeeFundingLookupableHelperService-parentBean" />
+    <bean id="EmployeeFundingLookupableHelperService" scope="prototype"  parent="EmployeeFundingLookupableHelperService-parentBean" />
 
-    <bean id="EmployeeFundingLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.EmployeeFundingLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="EmployeeFundingLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.EmployeeFundingLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1457,15 +1476,16 @@
         </property>
     </bean>
 
-    <bean id="july1PositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="july1PositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="july1PositionFundingLookupableHelperService" />
         </property>
     </bean>
-    <bean id="july1PositionFundingLookupableHelperService" parent="july1PositionFundingLookupableHelperService-parentBean" />
+    
+    <bean id="july1PositionFundingLookupableHelperService" scope="prototype"  parent="july1PositionFundingLookupableHelperService-parentBean" />
 
-    <bean id="july1PositionFundingLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.July1PositionFundingLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="july1PositionFundingLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.July1PositionFundingLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1509,20 +1529,22 @@
             <bean parent="platformAwareDao" class="org.kuali.kfs.module.ld.dataaccess.impl.ExpenseTransferAccountingLineDaoOjb" />
         </property>
     </bean>
-    <bean id="positionObjectBenefitLookupableHelperService" parent="positionObjectBenefitLookupableHelperService-parentBean" />
+    
+    <bean id="positionObjectBenefitLookupableHelperService" scope="prototype"  parent="positionObjectBenefitLookupableHelperService-parentBean" />
 
-    <bean id="positionObjectBenefitLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionObjectBenefitLookupableHelperServiceImpl"
-        singleton="false" parent="lookupableHelperService" />
+    <bean id="positionObjectBenefitLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.PositionObjectBenefitLookupableHelperServiceImpl"
+        scope="prototype" parent="lookupableHelperService" />
 
-    <bean id="positionObjectBenefitLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="positionObjectBenefitLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="positionObjectBenefitLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborPositionFundingLookupableHelperService" parent="laborPositionFundingLookupableHelperService-parentBean" />
+    
+    <bean id="laborPositionFundingLookupableHelperService" scope="prototype"  parent="laborPositionFundingLookupableHelperService-parentBean" />
 
-    <bean id="laborPositionFundingLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.PositionFundingLookupableHelperServiceImpl"
-        singleton="false"
+    <bean id="laborPositionFundingLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.PositionFundingLookupableHelperServiceImpl"
+        scope="prototype"
     >
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
@@ -1541,24 +1563,25 @@
         </property>
     </bean>
 
-    <bean id="laborPositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" singleton="false">
+    <bean id="laborPositionFundingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborPositionFundingLookupableHelperService" />
         </property>
     </bean>
 
     <bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        singleton="false"
+        scope="prototype"
     >
         <property name="lookupableHelperService">
             <ref bean="laborLedgerBalanceForEffortCertificationLookupableHelperService" />
         </property>
     </bean>
-    <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" parent="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" />
+    
+    <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" scope="prototype"  parent="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean"
+    <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl"
-        autowire="byName" singleton="false" />
+        autowire="byName" scope="prototype" />
 
     <bean id="benefitsCalculationFiscalYearMaker" parent="FiscalYearMaker">
         <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />

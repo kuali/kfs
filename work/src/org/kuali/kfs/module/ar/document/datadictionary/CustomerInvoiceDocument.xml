@@ -605,7 +605,7 @@
 	  
   <bean id="CustomerInvoiceDocument-validations" parent="CustomerInvoiceDocument-validations-parentBean"/>
   
-  <bean id="CustomerInvoiceDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CustomerInvoiceDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>

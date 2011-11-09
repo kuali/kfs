@@ -169,7 +169,8 @@
 		abstract="true" parent="GenericAttributes-newCollectionRecord">
 	</bean>
 
-	<bean id="KemidBenefittingOrganization-benefittingOrgCodeForReport"
+	<bean id="KemidBenefittingOrganization-benefittingOrgCodeForReport" parent="KemidBenefittingOrganization-benefittingOrgCodeForReport-parentBean"/>
+	<bean id="KemidBenefittingOrganization-benefittingOrgCodeForReport-parentBean" abstract="true"
 		parent="KemidBenefittingOrganization-benefittingOrgCode-parentBean">
 		<property name="name" value="benefittingOrgCodeForReport" />
 		<property name="label" value="Benefitting Organization" />
@@ -180,7 +181,8 @@
 		</property>
 	</bean>
 
-	<bean id="KemidBenefittingOrganization-benefittingChartCodeForReport"
+	<bean id="KemidBenefittingOrganization-benefittingChartCodeForReport" parent="KemidBenefittingOrganization-benefittingChartCodeForReport-parentBean"/>
+	<bean id="KemidBenefittingOrganization-benefittingChartCodeForReport-parentBean" abstract="true"
 		parent="KemidBenefittingOrganization-benefittingChartCode-parentBean">
 		<property name="name" value="benefittingChartCodeForReport" />
 		<property name="label" value="Benefitting Organization Chart" />

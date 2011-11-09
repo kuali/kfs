@@ -319,7 +319,8 @@
     </property>
   </bean>
   
-  <bean id="PaymentRequestDocument-holdIndicatorForSearching" parent="PaymentRequestDocument-holdIndicator-parentBean">
+  <bean id="PaymentRequestDocument-holdIndicatorForSearching" parent="PaymentRequestDocument-holdIndicatorForSearching-parentBean"/>
+  <bean id="PaymentRequestDocument-holdIndicatorForSearching-parentBean" abstract="true" parent="PaymentRequestDocument-holdIndicator-parentBean">
   	<property name="name" value="holdIndicatorForSearching"/>
   	<property name="label" value="Hold"/>
    	<property name="control">
@@ -335,7 +336,8 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
 
-  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
+  <bean id="PaymentRequestDocument-extractedIndicatorForSearching" parent="PaymentRequestDocument-extractedIndicatorForSearching-parentBean"/>
+  <bean id="PaymentRequestDocument-extractedIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
@@ -696,7 +698,8 @@
     </property>
   </bean>
   
-  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="GenericAttributes-activeIndicator">
+  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching" parent="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching-parentBean"/>
+  <bean id="PaymentRequestDocument-paymentRequestedCancelIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="paymentRequestedCancelIndicatorForSearching"/>
   	<property name="label" value="Request Cancel"/>
   	<property name="maxLength" value="1"/>
@@ -902,7 +905,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxCountryCode" parent="PaymentRequestDocument-taxCountryCode-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="PaymentRequestDocument-taxCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
     <property name="name" value="taxCountryCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>
@@ -938,7 +941,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxSpecialW4Amount" parent="PaymentRequestDocument-taxSpecialW4Amount-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxSpecialW4Amount-parentBean" parent="GenericAttributes-genericAmount">
+  <bean id="PaymentRequestDocument-taxSpecialW4Amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="taxSpecialW4Amount"/>
     <property name="label" value="Special W-4 Amount"/>
     <property name="shortLabel" value="W4 Amount"/>
@@ -959,7 +962,7 @@
   </bean>
   <bean id="PaymentRequestDocument-taxNQIId" parent="PaymentRequestDocument-taxNQIId-parentBean"/>
 
-  <bean id="PaymentRequestDocument-taxNQIId-parentBean" parent="AttributeDefinition">
+  <bean id="PaymentRequestDocument-taxNQIId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="taxNQIId"/>
     <property name="label" value="NQI Id"/>
     <property name="shortLabel" value="NQI Id"/>
@@ -1069,7 +1072,7 @@
 
 	<bean id="PaymentRequestDocument-validations" parent="PaymentRequestDocument-validations-parentBean"/>
  
-	<bean id="PaymentRequestDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="PaymentRequestDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
  		<property name="sourceMap">
 		<map>			
 			<entry>

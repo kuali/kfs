@@ -286,7 +286,8 @@
 	<bean id="a21SubAccountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.A21SubAccountDaoOjb" />
 		
-	<bean id="accountLookupableHelperService"
+	<bean id="accountLookupableHelperService" parent="accountLookupableHelperService-parentBean" scope="prototype" />		
+	<bean id="accountLookupableHelperService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
@@ -298,7 +299,8 @@
 		</property>
 	</bean>
 
-	<bean id="organizationRoutingModelLookupableHelperService"
+	<bean id="organizationRoutingModelLookupableHelperService" parent="organizationRoutingModelLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="organizationRoutingModelLookupableHelperService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.businessobject.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
@@ -310,7 +312,8 @@
 		</property>
 	</bean>
 	
-	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService"
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" parent="indirectCostRecoveryExclusionByTypeLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService" />
 
@@ -339,7 +342,8 @@
 		</property>
 	</bean>
 
-	<bean name="subAccountTrickleDownInactivationService"
+	<bean name="subAccountTrickleDownInactivationService" parent="subAccountTrickleDownInactivationService-parentBean" />
+	<bean name="subAccountTrickleDownInactivationService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.SubAccountTrickleDownInactivationServiceImpl">
 		<property name="maintenanceDocumentDictionaryService">
 			<ref bean="maintenanceDocumentDictionaryService" />
@@ -358,7 +362,8 @@
 		</property>
     </bean>
     
-	<bean name="subObjectTrickleDownInactivationService"
+    <bean name="subObjectTrickleDownInactivationService" parent="subObjectTrickleDownInactivationService-parentBean" />
+	<bean name="subObjectTrickleDownInactivationService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.SubObjectTrickleDownInactivationServiceImpl">
     	<property name="businessObjectService">
     		<ref bean="businessObjectService"/>
@@ -383,7 +388,8 @@
     	</property>
     </bean>
     
-    <bean name="organizationReversionDetailTrickleDownInactivationService"
+    <bean name="organizationReversionDetailTrickleDownInactivationService" parent="organizationReversionDetailTrickleDownInactivationService-parentBean"/>
+    <bean name="organizationReversionDetailTrickleDownInactivationService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.OrganizationReversionDetailTrickleDownInactivationServiceImpl">
     	<property name="businessObjectService">
     		<ref bean="businessObjectService"/>
@@ -399,8 +405,9 @@
     	</property>
     </bean>
     
+    <bean name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService" parent="indirectCostRecoveryRateDetailInactivationBlockingDetectionService-parentBean"/>
 	<bean
-		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService"
+		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
@@ -413,7 +420,8 @@
         </property>
     </bean>
     
-	<bean name="objectCodeCurrentInactivationBlockingDetectionService"
+    <bean name="objectCodeCurrentInactivationBlockingDetectionService" parent="objectCodeCurrentInactivationBlockingDetectionService-parentBean"/>
+	<bean name="objectCodeCurrentInactivationBlockingDetectionService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.ObjectCodeCurrentInactivationBlockingDetectionServiceImpl">
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
@@ -426,7 +434,8 @@
 		</property>
     </bean>
     
-    <bean name="offsetDefinitionInactivationBlockingDetectionService"
+    <bean name="offsetDefinitionInactivationBlockingDetectionService" parent="offsetDefinitionInactivationBlockingDetectionService-parentBean"/>
+    <bean name="offsetDefinitionInactivationBlockingDetectionService-parentBean" abstract="true" 
     	class="org.kuali.kfs.coa.service.impl.OffsetDefinitionInactivationBlockingDetectionServiceImpl">
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
@@ -435,7 +444,9 @@
     		<ref bean="businessObjectMetaDataService"/>
     	</property>
     </bean>
-	<bean name="chartRoleTypeService" class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl" />
+    
+    <bean name="chartRoleTypeService" parent="chartRoleTypeService-parentBean"/>
+	<bean name="chartRoleTypeService-parentBean" abstract="true"  class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="chartRoleTypeService"
@@ -443,7 +454,8 @@
 		</property>
 	</bean>
 
-	<bean name="organizationRoleTypeService"
+	<bean name="organizationRoleTypeService" parent="organizationRoleTypeService-parentBean"/>
+	<bean name="organizationRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationRoleTypeServiceImpl" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
@@ -456,8 +468,8 @@
 		<property name="chartService" ref="chartService" />
     	<property name="organizationService" ref="organizationService" />
     </bean>
-
-	<bean id="organizationOptionalHierarchyQualifierRoleTypeService"
+	<bean id="organizationOptionalHierarchyQualifierRoleTypeService" parent="organizationOptionalHierarchyQualifierRoleTypeService-parentBean"/>
+	<bean id="organizationOptionalHierarchyQualifierRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -467,7 +479,8 @@
 		</property>
 	</bean>
 
-	<bean id="organizationHierarchyReviewRoleTypeService"
+	<bean id="organizationHierarchyReviewRoleTypeService" parent="organizationHierarchyReviewRoleTypeService-parentBean"/>
+	<bean id="organizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -477,7 +490,8 @@
     	</property>
     </bean>
     
-	<bean id="accountingOrganizationHierarchyReviewRoleTypeService"
+    <bean id="accountingOrganizationHierarchyReviewRoleTypeService" parent="accountingOrganizationHierarchyReviewRoleTypeService-parentBean"/>
+	<bean id="accountingOrganizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
   <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
@@ -488,7 +502,8 @@
 		</property>
     </bean>
 	
-    <bean id="accountRoleTypeService" class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
+    <bean id="accountRoleTypeService" parent="accountRoleTypeService-parentBean"/>	
+    <bean id="accountRoleTypeService-parentBean" abstract="true"  class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
     <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 	  <property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="accountRoleTypeService"

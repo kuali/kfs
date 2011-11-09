@@ -55,7 +55,7 @@
   
   <bean id="TransferOfFundsDocument-validations" parent="TransferOfFundsDocument-validations-parentBean"/>
   
-  <bean id="TransferOfFundsDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="TransferOfFundsDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

@@ -260,7 +260,8 @@
     </property>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-holdIndicatorForSearching" parent="VendorCreditMemoDocument-holdIndicator-parentBean">
+  <bean id="VendorCreditMemoDocument-holdIndicatorForSearching" parent="VendorCreditMemoDocument-holdIndicatorForSearching-parentBean"/>
+  <bean id="VendorCreditMemoDocument-holdIndicatorForSearching-parentBean" abstract="true" parent="VendorCreditMemoDocument-holdIndicator-parentBean">
   	<property name="name" value="holdIndicatorForSearching"/>
   	<property name="label" value="Hold"/>
    	<property name="control">
@@ -306,7 +307,8 @@
     <property name="shortLabel" value="Extract Date"/>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="GenericAttributes-activeIndicator">
+  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching" parent="VendorCreditMemoDocument-extractedIndicatorForSearching-parentBean"/>
+  <bean id="VendorCreditMemoDocument-extractedIndicatorForSearching-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
   	<property name="name" value="extractedIndicatorForSearching"/>
   	<property name="label" value="Extracted"/>
   	<property name="control">
@@ -665,7 +667,7 @@
 
 	<bean id="VendorCreditMemoDocument-validations" parent="VendorCreditMemoDocument-validations-parentBean"/>
  
-	<bean id="VendorCreditMemoDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="VendorCreditMemoDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
  		<property name="sourceMap">
 		<map>			
 			<entry>

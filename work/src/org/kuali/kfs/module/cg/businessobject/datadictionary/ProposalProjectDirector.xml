@@ -155,7 +155,8 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<bean id="ProposalProjectDirector-userLookupRoleNamespaceCode"
+	<bean id="ProposalProjectDirector-userLookupRoleNamespaceCode" parent="ProposalProjectDirector-userLookupRoleNamespaceCode-parentBean"/>
+	<bean id="ProposalProjectDirector-userLookupRoleNamespaceCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
@@ -165,7 +166,8 @@
 		</property>
 	</bean>
 
-	<bean id="ProposalProjectDirector-userLookupRoleName" parent="AttributeDefinition">
+	<bean id="ProposalProjectDirector-userLookupRoleName" parent="ProposalProjectDirector-userLookupRoleName-parentBean"/>
+	<bean id="ProposalProjectDirector-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />

@@ -103,7 +103,7 @@
   
   <bean id="JournalVoucherDocument-validations" parent="JournalVoucherDocument-validations-parentBean"/>
   
-  <bean id="JournalVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="JournalVoucherDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

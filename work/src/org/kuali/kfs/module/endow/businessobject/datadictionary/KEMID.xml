@@ -126,7 +126,8 @@
 
 	<bean id="KEMID-kemid" parent="KEMID-kemid-parentBean" />
 
-	<bean id="KEMID-kemidForReport" parent="KEMID-kemid-parentBean">
+	<bean id="KEMID-kemidForReport" parent="KEMID-kemidForReport-parentBean"/>
+	<bean id="KEMID-kemidForReport-parentBean" abstract="true" parent="KEMID-kemid-parentBean">
 		<property name="name" value="kemidForReport" />
 		<property name="maxLength" value="150" />
 		<property name="control">

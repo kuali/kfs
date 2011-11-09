@@ -60,7 +60,8 @@
 <!-- Maintenance Section Definitions -->
 
 
-  <bean id="ClassCodeMaintenanceDocument-EditClassCode" parent="ClassCodeMaintenanceDocument-ClassCodeTransaction-parentBean" />
+  <bean id="ClassCodeMaintenanceDocument-EditClassCode" parent="ClassCodeMaintenanceDocument-EditClassCode-parentBean" />
+  <bean id="ClassCodeMaintenanceDocument-EditClassCode-parentBean" abstract="true" parent="ClassCodeMaintenanceDocument-ClassCodeTransaction-parentBean" />
 
   <bean id="ClassCodeMaintenanceDocument-ClassCodeTransaction-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Class Code" />

@@ -50,7 +50,7 @@
   
   <bean id="GeneralErrorCorrectionDocument-validations" parent="GeneralErrorCorrectionDocument-validations-parentBean"/>
   
-  <bean id="GeneralErrorCorrectionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="GeneralErrorCorrectionDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

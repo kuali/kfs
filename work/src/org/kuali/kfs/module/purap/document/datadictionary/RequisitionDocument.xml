@@ -1106,7 +1106,7 @@
 
   <bean id="RequisitionDocument-validations" parent="RequisitionDocument-validations-parentBean"/>
   
-  <bean id="RequisitionDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="RequisitionDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>			
 			<entry>

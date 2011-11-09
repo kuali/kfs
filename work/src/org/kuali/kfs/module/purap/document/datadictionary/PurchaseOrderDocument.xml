@@ -1430,7 +1430,7 @@
   
     <bean id="PurchaseOrderDocument-validations" parent="PurchaseOrderDocument-validations-parentBean"/>
   
-    <bean id="PurchaseOrderDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <bean id="PurchaseOrderDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
     	<property name="sourceMap">
 	    	<map>			
 		    	<entry>

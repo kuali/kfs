@@ -152,7 +152,7 @@
 	
 	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean"/> 
 
-	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
+	<bean id="customerInvoiceDetailService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>		
@@ -316,7 +316,7 @@
 	
 	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean"/>
 	
-	<bean id="customerInvoiceWriteoffDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
+	<bean id="customerInvoiceWriteoffDocumentService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
@@ -653,7 +653,8 @@
 		
 	<!-- Workflow Lookupables -->
 	
-	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="customerLookupHelperService" scope="prototype" parent="customerLookupHelperService-parentBean" />
+	<bean id="customerLookupHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	
     <bean id="customerLookupable"  parent="customerLookupable-parentBean" scope="prototype"/>
     <bean id="customerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
@@ -670,7 +671,8 @@
 	</bean>
 	
 	
-	<bean id="accountsReceivablesDocumentHeaderLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="accountsReceivablesDocumentHeaderLookupHelperService" scope="prototype"  parent="accountsReceivablesDocumentHeaderLookupHelperService-parentBean"/>
+	<bean id="accountsReceivablesDocumentHeaderLookupHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
@@ -834,7 +836,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="arCustomerAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" scope="prototype">
+	<bean id="arCustomerAgingReportLookupableHelperService" parent="arCustomerAgingReportLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="arCustomerAgingReportLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -868,7 +871,7 @@
 		</property>
 	</bean>
 	
-	<bean id="arCustomerOpenItemReportLookupableHelperService"  parent="arCustomerOpenItemReportLookupableHelperService-parentBean"/>
+	<bean id="arCustomerOpenItemReportLookupableHelperService"  parent="arCustomerOpenItemReportLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="arCustomerOpenItemReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLookupableHelperServiceImpl" scope="prototype"
 				abstract="true">
 		<property name="persistenceStructureService">

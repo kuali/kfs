@@ -66,7 +66,7 @@
   
   <bean id="SalaryExpenseTransferDocument-validations" parent="SalaryExpenseTransferDocument-validations-parentBean"/>
   
-  <bean id="SalaryExpenseTransferDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="SalaryExpenseTransferDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

@@ -112,7 +112,7 @@
   
   <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean"/>
   
-  <bean id="CashReceiptDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="CashReceiptDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

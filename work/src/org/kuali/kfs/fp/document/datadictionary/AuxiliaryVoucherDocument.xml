@@ -100,7 +100,7 @@
   
   <bean id="AuxiliaryVoucherDocument-validations" parent="AuxiliaryVoucherDocument-validations-parentBean"/>
   
-  <bean id="AuxiliaryVoucherDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="AuxiliaryVoucherDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

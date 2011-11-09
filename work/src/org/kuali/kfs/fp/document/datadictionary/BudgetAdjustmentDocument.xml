@@ -106,7 +106,7 @@
   
   <bean id="BudgetAdjustmentDocument-validations" parent="BudgetAdjustmentDocument-validations-parentBean"/>
   
-  <bean id="BudgetAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="BudgetAdjustmentDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

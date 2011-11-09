@@ -177,7 +177,8 @@
 	<bean id="camsReportService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.ReportServiceImpl" abstract="true"></bean>
 <!-- ********* end of report service beans ********** -->
 
-    <bean id="assetStatusLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="assetStatusLookupableHelperService" scope="prototype" parent="assetStatusLookupableHelperService-parentBean"/>
+    <bean id="assetStatusLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     </bean>
        
     <bean id="assetStatusLookupable" parent="kualiLookupable" scope="prototype">
@@ -187,7 +188,8 @@
     </bean>
 
 
-    <bean id="assetLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+	<bean id="assetLookupableHelperService" scope="prototype" parent="assetLookupableHelperService-parentBean"/>
+    <bean id="assetLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
     	<property name="assetService" ref="assetService"/>
     </bean>
        
@@ -197,7 +199,8 @@
         </property>
     </bean>
     
-    <bean id="assetPaymentLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+    <bean id="assetPaymentLookupableHelperService" scope="prototype" parent="assetPaymentLookupableHelperService-parentBean"/>
+    <bean id="assetPaymentLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
       	<property name="businessObjectService">
             <ref bean="businessObjectService" />
       	</property>
@@ -214,21 +217,24 @@
     </bean> 
 
     
-    <bean id="assetRetirementReasonLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+    <bean id="assetRetirementReasonLookupableHelperService" scope="prototype" parent="assetRetirementReasonLookupableHelperService-parentBean" />
+    <bean id="assetRetirementReasonLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetRetirementReasonLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	<bean id="assetRetirementReasonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="assetRetirementReasonLookupableHelperService" />
 		</property>
 	</bean>
 
-    <bean id="assetPaymentAllocationTypeLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentAllocationTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetPaymentAllocationTypeLookupableHelperService" scope="prototype" parent="assetPaymentAllocationTypeLookupableHelperService-parentBean" />
+    <bean id="assetPaymentAllocationTypeLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetPaymentAllocationTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	<bean id="assetPaymentAllocationTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="assetPaymentAllocationTypeLookupableHelperService" />
 		</property>
 	</bean>
 
-    <bean id="assetAcquisitionTypeLookupableHelperService" class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+	<bean id="assetAcquisitionTypeLookupableHelperService" scope="prototype" parent="assetAcquisitionTypeLookupableHelperService-parentBean" />
+    <bean id="assetAcquisitionTypeLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.businessobject.lookup.AssetAcquisitionTypeLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
 	<bean id="assetAcquisitionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="assetAcquisitionTypeLookupableHelperService" />
@@ -319,7 +325,8 @@
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
 
-    <bean id="equipmentLoanOrReturnService" class="org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanOrReturnServiceImpl" >
+    <bean id="equipmentLoanOrReturnService" parent="equipmentLoanOrReturnService-parentBean" />
+    <bean id="equipmentLoanOrReturnService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.document.service.impl.EquipmentLoanOrReturnServiceImpl" >
     	<property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
@@ -346,14 +353,14 @@
 	</bean>
 
 	<bean id="assetBarcodeInventoryInputFileType" parent="assetBarcodeInventoryLoadService-parentBean"/>
-	<bean id="assetBarcodeInventoryInputFileType-parentBean" class="org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType"> 
+	<bean id="assetBarcodeInventoryInputFileType-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.batch.AssetBarcodeInventoryInputFileType"> 
 	    <property name="directoryPath">
 	       <value>${staging.directory}/cm/barcode</value>
 	    </property>
 	</bean>
 
     <bean id="assetBarcodeInventoryInputFileService"  parent="assetBarcodeInventoryInputFileService-parentBean"/>
-    <bean id="assetBarcodeInventoryInputFileService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryInputFileServiceImpl">
+    <bean id="assetBarcodeInventoryInputFileService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryInputFileServiceImpl">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 	
@@ -394,7 +401,9 @@
 	<!-- Start Asset Lock beans -->
 	
     <bean id="capitalAssetLockDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.dataaccess.impl.CapitalAssetLockDaoOjb" />
-    <bean id="assetLockService" class="org.kuali.kfs.module.cam.service.impl.AssetLockServiceImpl">
+    
+    <bean id="assetLockService" parent="assetLockService-parentBean"/>
+    <bean id="assetLockService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.service.impl.AssetLockServiceImpl">
     	<property name="capitalAssetLockDao" ref="capitalAssetLockDao" />
     </bean>
     <!-- End Asset Lock beans -->

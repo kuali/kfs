@@ -50,7 +50,7 @@
   
   <bean id="DistributionOfIncomeAndExpenseDocument-validations" parent="DistributionOfIncomeAndExpenseDocument-validations-parentBean"/>
   
-  <bean id="DistributionOfIncomeAndExpenseDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="DistributionOfIncomeAndExpenseDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map>
 			<entry>

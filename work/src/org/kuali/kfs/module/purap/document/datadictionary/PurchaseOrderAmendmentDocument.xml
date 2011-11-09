@@ -92,7 +92,7 @@
 
   <bean id="PurchaseOrderAmendmentDocument-validations" parent="PurchaseOrderAmendmentDocument-validations-parentBean"/>
   
-  <bean id="PurchaseOrderAmendmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="PurchaseOrderAmendmentDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
 	  <map>			
 	    <entry>

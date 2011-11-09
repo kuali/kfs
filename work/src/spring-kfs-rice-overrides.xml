@@ -81,7 +81,8 @@
 		</property>
 	</bean>
   
-  	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
+  	<bean id="postProcessorService" parent="postProcessorService-parentBean"/>
+  	<bean id="postProcessorService-parentBean" abstract="true"  class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>

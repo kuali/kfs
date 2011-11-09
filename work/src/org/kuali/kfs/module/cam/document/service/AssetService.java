@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.document.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -50,7 +51,7 @@ public interface AssetService {
      * @param workflowDocument
      * @return List
      */
-    public List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument);
+    public Set<String> getCurrentRouteLevels(WorkflowDocument workflowDocument);
 
     boolean isAssetMovableCheckByAsset(Asset asset);
 

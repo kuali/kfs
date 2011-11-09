@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -55,7 +54,7 @@ public class EquipmentLoanOrReturnDocumentPresentationController extends Financi
         WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {
-            List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
+            Set<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
 
             if (nodeNames.contains(CamsConstants.RouteLevelNames.BORROWER)) {
                 return false;

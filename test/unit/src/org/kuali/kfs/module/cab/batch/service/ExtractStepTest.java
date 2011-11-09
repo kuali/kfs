@@ -134,7 +134,7 @@ public class ExtractStepTest extends BatchTestBase {
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValueAsString().substring(0, 10));
+        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getValue().substring(0, 10));
     }
  // END NO RUN SETUP     
 }

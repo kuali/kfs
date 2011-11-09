@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 @ConfigureContext

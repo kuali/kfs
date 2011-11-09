@@ -17,7 +17,6 @@ package org.kuali.kfs.module.cam.document.authorization;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -146,7 +145,7 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
         WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {
-            List<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
+            Set<String> nodeNames = SpringContext.getBean(AssetService.class).getCurrentRouteLevels(workflowDocument);
 
             if (nodeNames.contains(CamsConstants.RouteLevelNames.EXTERNAL_TRANSFER) || nodeNames.contains(CamsConstants.RouteLevelNames.PURCHASING)) {
                 return false;

@@ -46,6 +46,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
@@ -496,7 +497,7 @@ public class ObjectUtils {
 		if (formatterClass == null) {
 			try {
 				formatterClass = Formatter.findFormatter(getPropertyType(boClass.newInstance(), boPropertyName,
-						KNSServiceLocator.getPersistenceStructureService()));
+						KRADServiceLocator.getPersistenceStructureService()));
 			} catch (InstantiationException e) {
 				LOG.warn("Unable to find a formater for bo class " + boClass + " and property " + boPropertyName);
 				// just swallow the exception and let formatter be null
@@ -606,7 +607,7 @@ public class ObjectUtils {
                 if (propertyList instanceof PersistentBag) {
                 	try {
 	                	PersistentBag bag = (PersistentBag) propertyList;
-	                	PersistableBusinessObject pbo = (PersistableBusinessObject) KNSServiceLocator.getEntityManagerFactory().createEntityManager().find(bo.getClass(), bag.getKey());
+	                	PersistableBusinessObject pbo = (PersistableBusinessObject) KRADServiceLocator.getEntityManagerFactory().createEntityManager().find(bo.getClass(), bag.getKey());
 	        			Field field1 = pbo.getClass().getDeclaredField(propertyDescriptor.getName());
 	        			Field field2 = bo.getClass().getDeclaredField(propertyDescriptor.getName());
 	        			field1.setAccessible(true);
@@ -642,7 +643,7 @@ public class ObjectUtils {
         if (isNotNull(bo)) {
             PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(bo.getClass());
             for (int i = 0; i < propertyDescriptors.length; i++) {
-                if (KNSServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KNSServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
+                if (KRADServiceLocator.getPersistenceStructureService().hasCollection(bo.getClass(), propertyDescriptors[i].getName()) && KNSServiceLocator.getPersistenceStructureService().isCollectionUpdatable(bo.getClass(), propertyDescriptors[i].getName())) {
                     Collection updateableCollection = (Collection) getPropertyValue(bo, propertyDescriptors[i].getName());
                     if ((updateableCollection != null) && ProxyHelper.isCollectionProxy(updateableCollection)) {
                         materializeObjects(updateableCollection);
@@ -689,8 +690,8 @@ public class ObjectUtils {
             equal = false;
         }
         else {
-            Map bo1Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo1);
-            Map bo2Keys = KNSServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo2);
+            Map bo1Keys = KRADServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo1);
+            Map bo2Keys = KRADServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(bo2);
             for (Iterator iter = bo1Keys.keySet().iterator(); iter.hasNext();) {
                 String keyName = (String) iter.next();
                 if (bo1Keys.get(keyName) != null && bo2Keys.get(keyName) != null) {
@@ -919,8 +920,8 @@ public class ObjectUtils {
         }
 
         // get the list of reference objects hanging off the parent BO
-        if ( KNSServiceLocator.getPersistenceStructureService().isPersistable( bo.getClass() ) ) {
-	        Map<String, Class> references = KNSServiceLocator.getPersistenceStructureService().listReferenceObjectFields(bo);
+        if ( KRADServiceLocator.getPersistenceStructureService().isPersistable( bo.getClass() ) ) {
+	        Map<String, Class> references = KRADServiceLocator.getPersistenceStructureService().listReferenceObjectFields(bo);
 	
 	        // initialize our in-loop objects
 	        String referenceName = "";
@@ -1078,7 +1079,7 @@ public class ObjectUtils {
 		try {
 			if (ExternalizableBusinessObject.class.isAssignableFrom(clazz)) {
 				Class eboInterface = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(clazz);
-				ModuleService moduleService = KNSServiceLocator.getKualiModuleService().getResponsibleModuleService(eboInterface);
+				ModuleService moduleService = KRADServiceLocator.getKualiModuleService().getResponsibleModuleService(eboInterface);
 				return moduleService.createNewObjectFromExternalizableClass(eboInterface);
 			}
 			else {

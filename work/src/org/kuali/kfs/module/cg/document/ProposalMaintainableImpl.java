@@ -136,7 +136,6 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      */
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
-        AssertionUtils.assertThat(risks.isEmpty());
         // no requirement to exclude any risk types (except inactive ones, which the service excludes anyway)
         final String[] riskTypeCodesToExclude = new String[0];
         List<ResearchRiskType> researchRiskTypes = SpringContext.getBean(RoutingFormResearchRiskService.class).getResearchRiskTypes(riskTypeCodesToExclude);

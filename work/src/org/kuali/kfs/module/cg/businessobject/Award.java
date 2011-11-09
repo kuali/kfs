@@ -291,7 +291,6 @@ public class Award extends PersistableBusinessObjectBase implements Inactivatabl
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void prePersist() {
         super.prePersist();
         awardTotalAmount = getAwardTotalAmount();
@@ -305,7 +304,6 @@ public class Award extends PersistableBusinessObjectBase implements Inactivatabl
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         awardTotalAmount = getAwardTotalAmount();
@@ -1081,21 +1079,6 @@ public class Award extends PersistableBusinessObjectBase implements Inactivatabl
         this.primaryAwardOrganization = primaryAwardOrganization;
         this.routingChart = primaryAwardOrganization.getChartOfAccountsCode();
         this.routingOrg = primaryAwardOrganization.getOrganizationCode();
-    }
-
-    /**
-     * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
-     * 
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.proposalNumber != null) {
-            m.put("proposalNumber", this.proposalNumber.toString());
-        }
-        return m;
     }
 
     /**

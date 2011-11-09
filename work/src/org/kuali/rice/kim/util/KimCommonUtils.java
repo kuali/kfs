@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kim.api.KimApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
 
 /**
@@ -121,7 +122,7 @@ public class KimCommonUtils {
      */
     public static QName resolveKimTypeInfoServiceName(String kimTypeServiceName) {
         if (StringUtils.isBlank(kimTypeServiceName)) {
-            return resolveKimTypeInfoServiceName(KimApiConstants.DEFAULT_KIM_TYPE_SERVICE);
+            return resolveKimTypeInfoServiceName(KimConstants.DEFAULT_KIM_TYPE_SERVICE);
         }
         return QName.valueOf(kimTypeServiceName);
     }

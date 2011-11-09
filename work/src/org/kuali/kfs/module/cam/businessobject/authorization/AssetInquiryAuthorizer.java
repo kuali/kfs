@@ -20,7 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.inquiry.InquiryAuthorizerBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -32,7 +32,7 @@ public class AssetInquiryAuthorizer extends InquiryAuthorizerBase{
      * @see org.kuali.rice.kns.document.authorization.BusinessObjectAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
 
         Asset asset = null;
@@ -53,4 +53,6 @@ public class AssetInquiryAuthorizer extends InquiryAuthorizerBase{
             attributes.put(KfsKimAttributes.ORGANIZATION_CODE, org);
         }
     }
+    
+    
 }

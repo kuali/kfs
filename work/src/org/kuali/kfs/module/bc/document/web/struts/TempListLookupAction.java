@@ -285,7 +285,7 @@ public class TempListLookupAction extends KualiLookupAction {
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionPosition.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
@@ -362,7 +362,7 @@ public class TempListLookupAction extends KualiLookupAction {
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getPerson().getPrincipalId());
 
-        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BudgetConstructionIntendedIncumbent.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");

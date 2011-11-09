@@ -502,10 +502,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
                 if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
-                    valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValueAsString());
+                    valid &= validateFieldRequirementByChartForIndividualSystemType(systemState, capitalAssetItems, chartCode, parameter.getName(), parameter.getValue());
                 }
                 else {
-                    valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getParameterName(), parameter.getParameterValueAsString());
+                    valid &= validateFieldRequirementByChartForOneOrMultipleSystemType(systemType, systemState, capitalAssetSystems, capitalAssetItems, chartCode, parameter.getName(), parameter.getValue());
                 }
             }
         }
@@ -746,7 +746,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(offendingClass.getSimpleName());
+                org.kuali.rice.krad.datadictionary.BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(offendingClass.getSimpleName());
                 List<AttributeDefinition> offendingAttributes = boe.getAttributes();
                 AttributeDefinition offendingAttribute = offendingAttributes.get(0);
                 String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeShortLabel(offendingClass, offendingAttribute.getName());
@@ -1785,9 +1785,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + capitalAssetIndex + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
-            Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
-            Campus campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
+            Campus campus = SpringContext.getBean(CampusService.class).getCampus(dtl.getCampusCode());
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);

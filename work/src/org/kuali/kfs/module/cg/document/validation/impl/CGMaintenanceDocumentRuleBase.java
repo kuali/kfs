@@ -30,6 +30,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.CodedAttribute;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -132,7 +134,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         RoleService roleService = SpringContext.getBean(RoleService.class);
         
         List<String> roleId = new ArrayList<String>();
-        roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
+        roleId.add(roleService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
         
         int i = 0;
         for (T pd : projectDirectors) {
@@ -159,15 +161,16 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      */
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsStatuses(List<T> projectDirectors, Class<T> elementClass, String propertyName) {
         boolean success = true;
-        final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for (T pd : projectDirectors) {
             String pdEmplStatusCode = pd.getProjectDirector().getEmployeeStatusCode();
-            HashMap<String, String> criteria = new HashMap<String, String>();
-            criteria.put( "code", pdEmplStatusCode );
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-                EmploymentStatusImpl empStatus = (EmploymentStatusImpl)getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);          
-                String pdEmplStatusName =  (empStatus != null)?empStatus.getName():"INVALID STATUS CODE " + pdEmplStatusCode;                    
+                String pdEmplStatusName = "INVALID STATUS CODE " + pdEmplStatusCode;
+                if ( StringUtils.isNotBlank(pdEmplStatusCode) ) {
+                    CodedAttribute empStatus = SpringContext.getBean(IdentityService.class).getEmploymentStatus(pdEmplStatusCode);
+                    if ( empStatus != null ) {
+                        pdEmplStatusName = empStatus.getName();
+                    }
+                }
                 String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
                 putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;

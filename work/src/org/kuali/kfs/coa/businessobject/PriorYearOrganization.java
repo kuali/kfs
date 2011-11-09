@@ -598,7 +598,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
     public Campus getOrganizationPhysicalCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KRADPropertyConstants.CAMPUS_CODE, organizationPhysicalCampusCode);
-        return organizationPhysicalCampus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
+        return organizationPhysicalCampus = SpringContext.getBean(CampusService.class).getCampus(organizationPhysicalCampusCode);
     }
 
     /**

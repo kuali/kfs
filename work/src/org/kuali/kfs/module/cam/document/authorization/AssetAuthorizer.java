@@ -21,7 +21,6 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -30,7 +29,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AssetAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
 
         Asset asset = null;

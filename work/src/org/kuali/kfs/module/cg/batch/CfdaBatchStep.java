@@ -110,7 +110,7 @@ public class CfdaBatchStep extends AbstractStep {
             LOG.warn("Exception while updating CFDA codes.", ioe);
             return false;
         }
-        catch (InvalidAddressException iae) {
+        catch (Exception iae) {
 
            LOG.warn("The email address for "+CfdaBatchStep.class+":"+CGConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES+" is invalid.", iae);
             return true;

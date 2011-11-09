@@ -24,7 +24,12 @@ import org.kuali.kfs.module.bc.batch.service.GenesisService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.Job;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.EvaluationOperator;
 import org.kuali.rice.core.api.parameter.Parameter;
+import org.kuali.rice.core.api.parameter.Parameter.Builder;
+import org.kuali.rice.core.api.parameter.ParameterType;
+import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 
@@ -56,21 +61,19 @@ public class GenesisBatchStep extends AbstractStep {
      */
     private void setInitiatedParameter() {
         // first see if we can find an existing Parameter object with this key
-        Parameter runIndicatorParameter = (Parameter) boService.findByPrimaryKey(Parameter.class, this.buildSearchKeyMap());
-        if (runIndicatorParameter == null)
-        {
-           runIndicatorParameter = new Parameter();
-           runIndicatorParameter.setVersionNumber(new Long(1));
-           runIndicatorParameter.setParameterNamespaceCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_CODE);
-           runIndicatorParameter.setParameterDetailTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_NAMESPACE_STEP);
-           runIndicatorParameter.setParameterName(Job.STEP_RUN_PARM_NM);
-           runIndicatorParameter.setParameterDescription(GenesisBatchStep.RUN_INDICATOR_PARAMETER_DESCRIPTION);
-           runIndicatorParameter.setParameterConstraintCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_ALLOWED);
-           runIndicatorParameter.setParameterTypeCode(GenesisBatchStep.RUN_INDICATOR_PARAMETER_TYPE);
-           runIndicatorParameter.setParameterApplicationNamespaceCode(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        Parameter runIndicatorParameter = parameterService.getParameter(GenesisBatchStep.class, Job.STEP_RUN_PARM_NM);
+        if (runIndicatorParameter == null) {
+            Parameter.Builder newParameter = Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
+            newParameter.setValue(RUN_INDICATOR_PARAMETER_VALUE);
+            newParameter.setEvaluationOperator( EvaluationOperator.ALLOW );
+            newParameter.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
+            parameterService.createParameter(newParameter.build());
+        } else {
+            Parameter.Builder updatedParameter = Parameter.Builder.create(runIndicatorParameter);
+            updatedParameter.setValue(GenesisBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
+            parameterService.updateParameter(updatedParameter.build());
         }
-        runIndicatorParameter.setParameterValue(GenesisBatchStep.RUN_INDICATOR_PARAMETER_VALUE);
-        boService.save(runIndicatorParameter);
     }
     
     private Map<String,Object> buildSearchKeyMap()

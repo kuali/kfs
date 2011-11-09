@@ -20,7 +20,6 @@ import java.util.Map;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * AssetAuthorizer for Asset edit.
@@ -31,7 +30,7 @@ public class AssetGlobalAuthorizer extends FinancialSystemMaintenanceDocumentAut
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
+    protected void addRoleQualification(Object businessObject, Map<String, String> attributes) {
         super.addRoleQualification(businessObject, attributes);
                 
         //This was added so when the asset lookup page is requested, then it will check for role qualifiers and validate whether the user has access to

@@ -50,6 +50,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -511,11 +512,11 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     }
     
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         // a credit memo wont always update the source invoice, but sometimes it will so we include it here
         if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
-            List<Long> documentIds = new ArrayList<Long>();
-            documentIds.add(new Long(getFinancialDocumentReferenceInvoiceNumber()));
+            List<String> documentIds = new ArrayList<String>();
+            documentIds.add(getFinancialDocumentReferenceInvoiceNumber());
             return documentIds;
         }
         return null;

@@ -90,39 +90,39 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                     case SALSET:
                         orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
                         break;
                     case REPORTS:
                         orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
                         break;
                     case PULLUP:
                         orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Pull Up Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.BOTH.getKey(), OrgSelControlOption.BOTH.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORG.getKey(), OrgSelControlOption.ORG.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.SUBORG.getKey(), OrgSelControlOption.SUBORG.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.BOTH.getKey().toString(), OrgSelControlOption.BOTH.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORG.getKey().toString(), OrgSelControlOption.ORG.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.SUBORG.getKey().toString(), OrgSelControlOption.SUBORG.getLabel()));
                         break;
                     case PUSHDOWN:
                         orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Push Down Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGLEV.getKey(), OrgSelControlOption.ORGLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.MGRLEV.getKey(), OrgSelControlOption.MGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGMGRLEV.getKey(), OrgSelControlOption.ORGMGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVONE.getKey(), OrgSelControlOption.LEVONE.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVZERO.getKey(), OrgSelControlOption.LEVZERO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGLEV.getKey().toString(), OrgSelControlOption.ORGLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.MGRLEV.getKey().toString(), OrgSelControlOption.MGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGMGRLEV.getKey().toString(), OrgSelControlOption.ORGMGRLEV.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVONE.getKey().toString(), OrgSelControlOption.LEVONE.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVZERO.getKey().toString(), OrgSelControlOption.LEVZERO.getLabel()));
                         break;
                     default:
                         // default to ACCOUNT operating mode
                         orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
                         orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey(), OrgSelControlOption.YES.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
                         break;
                 }
             }

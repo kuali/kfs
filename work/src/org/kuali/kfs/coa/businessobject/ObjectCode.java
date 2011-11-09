@@ -558,7 +558,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements KualiCo
         return businessObjectService;
     }
     
-    @Override
     @Override protected void preUpdate() {
         // TODO Auto-generated method stub
         super.preUpdate();

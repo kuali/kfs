@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;

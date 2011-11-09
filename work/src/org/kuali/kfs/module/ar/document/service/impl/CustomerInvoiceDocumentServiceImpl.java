@@ -59,7 +59,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -161,10 +160,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // get all of our docs with full workflow headers
         List<CustomerInvoiceDocument> docs = new ArrayList<CustomerInvoiceDocument>();
         try {
-            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            docs.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
         }
 
         return docs;
@@ -184,10 +183,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         // get all of our docs with full workflow headers
         try {
-            docs = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+            docs.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
         }
         catch (WorkflowException e) {
-            throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+            throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
         }
 
         return docs;
@@ -330,7 +329,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         if (0 < documentHeaderIds.size()) {
             try {
-                invoices = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                invoices.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
                 LOG.error(e.getMessage(), e);
@@ -406,13 +405,13 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
         // get all the documents that might be right, but this set includes documents generated
         // by the wrong user
-        List<CustomerInvoiceDocument> customerInvoiceDocumentsSuperSet;
+        List<CustomerInvoiceDocument> customerInvoiceDocumentsSuperSet = new ArrayList<CustomerInvoiceDocument>();
         if (printableUserQueueDocNumbers.size() > 0) {
             try {
-                customerInvoiceDocumentsSuperSet = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, printableUserQueueDocNumbers);
+                customerInvoiceDocumentsSuperSet.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, printableUserQueueDocNumbers) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         else {
@@ -435,10 +434,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;
@@ -450,10 +449,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;
@@ -469,10 +468,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;
@@ -487,10 +486,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         if (docNumbers.size() != 0) {
             // customerInvoiceDocuments.clear();
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, docNumbers) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;
@@ -502,10 +501,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;
@@ -521,10 +520,10 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         List<CustomerInvoiceDocument> customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
         if (documentHeaderIds != null && !documentHeaderIds.isEmpty()) {
             try {
-                customerInvoiceDocuments = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds);
+                customerInvoiceDocuments.addAll( (Collection<? extends CustomerInvoiceDocument>) documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, documentHeaderIds) );
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("Unable to retrieve Customer Invoice Documents", e);
+                throw new RuntimeException("Unable to retrieve Customer Invoice Documents", e);
             }
         }
         return customerInvoiceDocuments;

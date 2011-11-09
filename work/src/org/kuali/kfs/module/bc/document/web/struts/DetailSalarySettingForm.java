@@ -465,7 +465,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             qualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
             List<String> roleId = new ArrayList<String>();
-            roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+            roleId.add(roleService.getRoleIdByNameAndNamespaceCode(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
 
             Boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
 

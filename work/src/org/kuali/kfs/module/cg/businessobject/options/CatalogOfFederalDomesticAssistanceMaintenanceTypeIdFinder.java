@@ -67,7 +67,7 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
         boolean duplicate = false;
 
         for (KeyValue klp : collection) {
-            String klpLabel = klp.getLabel();
+            String klpLabel = klp.getValue();
             if (klpLabel != null) {
                 duplicate |= klpLabel.trim().equalsIgnoreCase(value.trim());
             }

@@ -1692,7 +1692,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.endowmentIncomeChartOfAccounts = endowmentIncomeChartOfAccounts;
     }
 
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         try {
@@ -1708,7 +1707,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
                     sfr.setChartOfAccountsCode(getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(getAccountNumber());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                 }
             }
@@ -1836,8 +1835,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
     */
    @Override
-   public List buildListOfDeletionAwareLists() {
-       List<List> managedLists = super.buildListOfDeletionAwareLists();
+   public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+       List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
        managedLists.add(getIndirectCostRecoveryAccounts());
        return managedLists;
    }

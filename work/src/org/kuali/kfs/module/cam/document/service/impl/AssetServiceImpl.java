@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -41,7 +42,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -350,9 +350,8 @@ public class AssetServiceImpl implements AssetService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#getCurrentRouteLevels(org.kuali.rice.kew.api.WorkflowDocument)
      */
-    public List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        return Arrays.asList(names);
+    public Set<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
+        return workflowDocument.getCurrentNodeNames();
     }
 
     /**

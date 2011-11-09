@@ -120,7 +120,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      * @return
      */
     protected String buildConfirmationQuestion(String messageKey, String... parameters) {
-        String result = configService.getPropertyString(messageKey);
+        String result = configService.getPropertyValueAsString(messageKey);
         if (null != parameters) {
             for (int i = 0; i < parameters.length; i++) {
                 result = StringUtils.replace(result, "{" + i + "}", parameters[i]);

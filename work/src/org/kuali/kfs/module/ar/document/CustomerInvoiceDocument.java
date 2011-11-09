@@ -63,6 +63,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.UserSession;
@@ -1062,12 +1063,12 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         //  add the invoice number of the Error Corrected doc, if this is an error correction
         if (this.isInvoiceReversal()) {
             if (StringUtils.isNotBlank(getDocumentHeader().getFinancialDocumentInErrorNumber())) {
-                List<Long> documentIds = new ArrayList<Long>();
-                documentIds.add(new Long(getDocumentHeader().getFinancialDocumentInErrorNumber()));
+                List<String> documentIds = new ArrayList<String>();
+                documentIds.add(getDocumentHeader().getFinancialDocumentInErrorNumber());
                 return documentIds;
             }
         }

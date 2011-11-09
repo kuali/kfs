@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.parameter.ParameterService;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
@@ -279,10 +280,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     }
 
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
-            List<Long> documentIds = new ArrayList<Long>();
-            documentIds.add(new Long(getFinancialDocumentReferenceInvoiceNumber()));
+            List<String> documentIds = new ArrayList<String>();
+            documentIds.add(getFinancialDocumentReferenceInvoiceNumber());
             return documentIds;
         }
         return null;

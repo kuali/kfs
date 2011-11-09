@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
 
 @ConfigureContext
 public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {

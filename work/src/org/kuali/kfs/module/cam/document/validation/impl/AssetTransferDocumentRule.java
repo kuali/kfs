@@ -55,8 +55,10 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentHelperService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
     private static final Map<LocationField, String> LOCATION_FIELD_MAP = new HashMap<LocationField, String>();
@@ -457,7 +459,7 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
     /**
      * Convenience method to append the path prefix
      */
-    public ArrayList putError(String propertyName, String errorKey, String... errorParameters) {
+    public AutoPopulatingList<ErrorMessage> putError(String propertyName, String errorKey, String... errorParameters) {
         return GlobalVariables.getMessageMap().putError(CamsConstants.DOCUMENT_PATH + "." + propertyName, errorKey, errorParameters);
     }
 

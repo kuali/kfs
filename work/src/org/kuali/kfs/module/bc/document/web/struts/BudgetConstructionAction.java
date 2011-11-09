@@ -155,7 +155,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
             budgetConstructionForm.setDocument(doc);
             WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-            budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
+            budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentTypeName());
             // KualiDocumentFormBase.populate() needs this updated in the session
             GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
 
@@ -282,11 +282,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm form containing budget document
      */
     protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
-        Role roleInfo = SpringContext.getBean(RoleService.class).getRoleByName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
+        Role roleInfo = SpringContext.getBean(RoleService.class).getRoleByNameAndNamespaceCode(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
         KimType typeInfo = SpringContext.getBean(KimTypeInfoService.class).getKimType(roleInfo.getKimTypeId());
 
-        if (StringUtils.isNotBlank(typeInfo.getKimTypeInfoServiceName())) {
-            RoleTypeService roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getKimTypeInfoServiceName());
+        if (StringUtils.isNotBlank(typeInfo.getServiceName())) {
+            RoleTypeService roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getServiceName());
             if (roleTypeService instanceof BudgetConstructionNoAccessMessageSetting) {
                 ((BudgetConstructionNoAccessMessageSetting) roleTypeService).setNoAccessMessage(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson(), GlobalVariables.getMessageMap());
             }
@@ -620,7 +620,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             tForm.setBalanceInquiryReturnAnchor(((KualiForm) form).getAnchor());
         }
 
-        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, BCConstants.REQUEST_BENEFITS_BO);
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "true");
@@ -686,7 +686,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX);
 
         // now add required parameters
         Properties parameters = new Properties();
@@ -836,7 +836,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         this.setupDocumentExit();
@@ -916,7 +916,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.QUICK_SALARY_SETTING_ACTION, parameters);
         this.setupDocumentExit();
@@ -1697,7 +1697,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.REPORT_RUNNER_ACTION, parameters);
         this.setupDocumentExit();

@@ -156,7 +156,7 @@ public class AssetPresentationController extends FinancialSystemMaintenanceDocum
         if (assetService.isAssetFabrication((MaintenanceDocument) document)) {
             WorkflowDocument workflowDocument = (WorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
             if (workflowDocument.isEnroute()) {
-                List<String> nodeNames = assetService.getCurrentRouteLevels(workflowDocument);
+                Set<String> nodeNames = assetService.getCurrentRouteLevels(workflowDocument);
 
                 if (nodeNames.contains(CamsConstants.RouteLevelNames.MANAGEMENT) && !workflowDocument.isApprovalRequested()) {
                     return false;

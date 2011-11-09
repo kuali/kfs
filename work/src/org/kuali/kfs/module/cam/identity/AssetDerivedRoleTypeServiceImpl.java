@@ -24,6 +24,7 @@ import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.KimConstants.KimGroupMemberTypes;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -31,12 +32,8 @@ import org.kuali.rice.krad.service.DocumentService;
 
 public class AssetDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private DocumentService documentService;
+    protected DocumentService documentService;
     
-    {
-        requiredAttributes.add(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
-    }
-
     /**
      * Context:
      *  the EquipmentLoanOrReturnDocument document can be accessed by clicking "loan" on the Asset lookup results. 
@@ -60,7 +57,7 @@ public class AssetDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase 
             if ( StringUtils.isNotBlank( documentNumber ) ) {
                 EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
                 if(document!=null){
-                    members.add( new RoleMembership(null,null,document.getBorrowerUniversalIdentifier(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                    members.add( new RoleMembership(null,null,document.getBorrowerUniversalIdentifier(),KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null) );
                 }
             }
         }

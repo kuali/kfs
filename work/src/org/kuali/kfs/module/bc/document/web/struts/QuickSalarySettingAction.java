@@ -110,7 +110,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.INTENDED_INCUMBENT, BudgetConstructionIntendedIncumbent.class.getName(), parameters);
 
@@ -149,7 +149,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         String lookupUrl = BudgetUrlUtil.buildTempListLookupUrl(mapping, salarySettingForm, BCConstants.TempListLookupMode.BUDGET_POSITION_LOOKUP, BudgetConstructionPosition.class.getName(), parameters);
 
@@ -391,7 +391,7 @@ public class QuickSalarySettingAction extends SalarySettingBaseAction {
         }
 
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form, BCConstants.FORMKEY_PREFIX));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form, BCConstants.FORMKEY_PREFIX));
 
         return UrlFactory.parameterizeUrl(baseAction, parameters);
     }
